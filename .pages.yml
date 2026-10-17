@@ -1,0 +1,69 @@
+media:
+  input: assets/cms-images
+  output: /assets/cms-images
+  categories: [image]
+  rename: safe
+content:
+  - name: retreatment_images
+    label: 재신경치료 그림 교체
+    type: file
+    path: assets/retreatment-images.json
+    format: json
+    operations:
+      delete: false
+    fields:
+      - name: hero
+        label: "상단 고양이 치과의사"
+        type: image
+        required: false
+      - name: reason1
+        label: "원인 1 · 남아 있는 세균"
+        type: image
+        required: false
+      - name: reason2
+        label: "원인 2 · 미세 누출"
+        type: image
+        required: false
+      - name: reason3
+        label: "원인 3 · 새로운 충치"
+        type: image
+        required: false
+      - name: reason4
+        label: "원인 4 · 뿌리 끝 염증"
+        type: image
+        required: false
+      - name: step1
+        label: "치료 과정 1"
+        type: image
+        required: false
+      - name: step2
+        label: "치료 과정 2"
+        type: image
+        required: false
+      - name: step3
+        label: "치료 과정 3"
+        type: image
+        required: false
+      - name: step4
+        label: "치료 과정 4"
+        type: image
+        required: false
+      - name: closing
+        label: "하단 고양이와 자연치아"
+        type: image
+        required: false
+  - name: posts
+    label: 치과 이야기 글 관리
+    type: collection
+    path: content/posts
+    format: json
+    filename: "{primary}.json"
+    view:
+      fields: [title, date, published]
+      primary: title
+    fields:
+      - { name: title, label: 제목, type: string, required: true }
+      - { name: date, label: 작성일, type: date }
+      - { name: summary, label: 요약, type: text }
+      - { name: body, label: 본문, type: text }
+      - { name: published, label: 게시 여부, type: boolean }
