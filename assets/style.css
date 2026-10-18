@@ -107,10 +107,10 @@
 
 /* Distinguish health reading from the next clinical step in symptom cards. */
 #symptoms .symptom-grid .card>a{max-width:100%;text-underline-offset:3px}
-#symptoms .symptom-grid .card>a:last-of-type{border:1px solid #b9d0be;border-radius:8px;background:#eef5ee;padding:10px 12px;text-decoration:none}
-#symptoms .symptom-grid .card>a:last-of-type:hover{background:#dcecdf}
+#symptoms .symptom-grid .card>a[href^="/gum-treatment.html"],#symptoms .symptom-grid .card>a[href^="/retreatment.html"],#symptoms .symptom-grid .card>a[href^="/cervical-abrasion.html"],#symptoms .symptom-grid .card>a[href^="/insured-care.html"]{border:1px solid #b9d0be;border-radius:8px;background:#eef5ee;padding:10px 12px;text-decoration:none}
+#symptoms .symptom-grid .card>a[href^="/gum-treatment.html"]:hover,#symptoms .symptom-grid .card>a[href^="/retreatment.html"]:hover,#symptoms .symptom-grid .card>a[href^="/cervical-abrasion.html"]:hover,#symptoms .symptom-grid .card>a[href^="/insured-care.html"]:hover{background:#dcecdf}
 #symptoms .symptom-grid .card>a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:6px}
-@media(max-width:600px){#symptoms .symptom-grid .card>a{display:block;margin-top:7px;padding:11px 0;font-size:15px;line-height:1.6}#symptoms .symptom-grid .card>a:last-of-type{margin-top:11px;padding:13px 14px;font-size:15px}#symptoms .symptom-grid .card br{display:none}}
+@media(max-width:600px){#symptoms .symptom-grid .card>a{display:block;margin-top:7px;padding:11px 0;font-size:15px;line-height:1.6}#symptoms .symptom-grid .card>a[href^="/gum-treatment.html"],#symptoms .symptom-grid .card>a[href^="/retreatment.html"],#symptoms .symptom-grid .card>a[href^="/cervical-abrasion.html"],#symptoms .symptom-grid .card>a[href^="/insured-care.html"]{margin-top:11px;padding:13px 14px;font-size:15px}#symptoms .symptom-grid .card br{display:none}}
 
 /* After reading symptom guidance, patients can find clinic contact details. */
 #symptoms .symptom-contact{margin:24px 0 0;padding:20px 22px;border:1px solid #c5d8c9;border-radius:12px;background:#f3f8f3;line-height:1.85;word-break:keep-all}
