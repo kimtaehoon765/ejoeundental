@@ -231,3 +231,9 @@ body{font-family:'DM Sans','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',
 section[aria-label="진료 문의 및 방문 안내"] a[href^="tel:"],section[aria-label="진료 문의 및 방문 안내"] a[href="/#location"]{box-sizing:border-box;max-width:100%;text-align:center;line-height:1.5;overflow-wrap:anywhere}
 section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3px solid #287d60;outline-offset:3px}
 @media(max-width:600px){section[aria-label="진료 문의 및 방문 안내"]>div{padding:0 4px}section[aria-label="진료 문의 및 방문 안내"] a[href^="tel:"],section[aria-label="진료 문의 및 방문 안내"] a[href="/#location"]{width:100%;min-height:52px;padding:14px 16px!important}}
+
+/* First-screen visit note: compact, readable and easy to use on phones. */
+.hero-visit-note{margin:14px 0 0;padding:13px 16px;border-radius:10px;background:#f2f6ef;border:1px solid #d9e5d8;color:#34574a;font-size:14px;line-height:1.8;word-break:keep-all;overflow-wrap:anywhere}
+.hero-visit-note strong{color:#24483f}.hero-visit-note a{color:#245d4b;font-weight:700;text-underline-offset:3px}
+.hero-visit-note a:focus-visible{outline:3px solid #287d60;outline-offset:3px}
+@media(max-width:600px){.hero-visit-note{margin:12px 0 0;padding:13px 14px;font-size:15px;line-height:1.85}.hero-visit-note a{display:inline-block;min-height:44px;padding:7px 2px;vertical-align:middle}}
