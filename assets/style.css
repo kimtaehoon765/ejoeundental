@@ -163,3 +163,9 @@
 #care .care-preservation-feature a{display:inline-block;padding:6px 0;font-weight:700;color:#173e35;text-decoration:underline;text-underline-offset:3px}
 #care .care-preservation-feature a:focus-visible{outline:3px solid #287d60;outline-offset:3px}
 @media(max-width:600px){#care .care-preservation-feature{padding:20px 16px}#care .care-preservation-feature a{display:block;padding:10px 0}}
+
+/* Mobile visit information: keep the confirmed hours and parking readable. */
+#location .hours-box{overflow-wrap:anywhere}
+#location .visit-check a{display:inline-block;min-height:44px;line-height:44px;text-underline-offset:3px}
+#location .location-actions a{min-height:48px;display:inline-flex;align-items:center;justify-content:center;line-height:1.5;text-align:center}
+@media(max-width:600px){#location .hours-box{padding:18px 15px;line-height:1.9}#location .hours-box p{word-break:keep-all}#location .visit-check{padding:16px!important}#location .location-actions{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}#location .location-actions a{width:100%;padding:12px 14px;white-space:normal}}
