@@ -257,4 +257,26 @@ for(const [page,links] of Object.entries(careJourneys)){
 }
 if(brokenLinks.size)throw new Error('Build contains '+brokenLinks.size+' broken local links');
 console.log('Navigation audit passed:',searchDestinations.length,'search destinations and 3 care journeys');
+// Validate sitemap URLs against generated pages and their canonical addresses.
+const sitemapXml=fs.readFileSync(path.join(out,'sitemap.xml'),'utf8');
+const sitemapUrls=[...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
+if(!sitemapUrls.length)throw new Error('Sitemap contains no URLs');
+const uniqueSitemapUrls=new Set();
+for(const url of sitemapUrls){
+ if(uniqueSitemapUrls.has(url))throw new Error('Duplicate sitemap URL: '+url);
+ uniqueSitemapUrls.add(url);
+ const prefix='https://ejoeundental.pages.dev/';
+ if(!url.startsWith(prefix))throw new Error('Sitemap URL outside current Pages host: '+url);
+ const relative=decodeURIComponent(url.slice(prefix.length));
+ if(relative.includes('..')||relative.includes('?')||relative.includes('#'))throw new Error('Unexpected sitemap path: '+url);
+ const page=path.join(out,relative||'index.html');
+ const htmlFile=fs.existsSync(page)&&fs.statSync(page).isFile()?page:path.join(page,'index.html');
+ if(!fs.existsSync(htmlFile))throw new Error('Sitemap page missing: '+url);
+ const html=fs.readFileSync(htmlFile,'utf8');
+ const canonical=html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
+ if(canonical!==url)throw new Error('Sitemap and canonical mismatch: '+url+' vs '+canonical);
+}
+const publishedRobots=fs.readFileSync(path.join(out,'robots.txt'),'utf8');
+if(!publishedRobots.includes('Sitemap: https://ejoeundental.pages.dev/sitemap.xml'))throw new Error('Robots sitemap location mismatch');
+console.log('Sitemap audit passed:',sitemapUrls.length,'canonical-aligned published pages');
 console.log('Build complete:',posts.length,'articles');
