@@ -226,3 +226,8 @@ body{font-family:'DM Sans','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',
 .hero-care-help a{color:#245d4b;font-weight:700;text-underline-offset:3px}
 .hero-care-help a:focus-visible{outline:3px solid #287d60;outline-offset:3px}
 @media(max-width:600px){.hero-care-help{font-size:13px;line-height:1.8;margin:12px 0 16px}}
+
+/* Treatment-page visit panels: keep call and directions usable on narrow phones. */
+section[aria-label="진료 문의 및 방문 안내"] a[href^="tel:"],section[aria-label="진료 문의 및 방문 안내"] a[href="/#location"]{box-sizing:border-box;max-width:100%;text-align:center;line-height:1.5;overflow-wrap:anywhere}
+section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3px solid #287d60;outline-offset:3px}
+@media(max-width:600px){section[aria-label="진료 문의 및 방문 안내"]>div{padding:0 4px}section[aria-label="진료 문의 및 방문 안내"] a[href^="tel:"],section[aria-label="진료 문의 및 방문 안내"] a[href="/#location"]{width:100%;min-height:52px;padding:14px 16px!important}}
