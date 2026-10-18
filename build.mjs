@@ -243,7 +243,7 @@ if(brokenLinks.size){
 const searchDestinations=JSON.parse(fs.readFileSync(path.join(out,'content/search-index-46.json'),'utf8'));
 for(const entry of searchDestinations){
  if(typeof entry.url!=='string'||!entry.url.startsWith('/'))throw new Error('Invalid search destination: '+JSON.stringify(entry.url));
- const target=path.join(out,entry.url.replace(/^\\/+/, '')||'index.html');
+ const target=path.join(out,entry.url.slice(1)||'index.html');
  if(!fs.existsSync(target)&&!fs.existsSync(path.join(target,'index.html')))throw new Error('Missing searchable page: '+entry.url);
 }
 const careJourneys={
