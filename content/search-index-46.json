@@ -334,5 +334,23 @@
     "title": "턱관절 진료 안내",
     "description": "턱관절 통증과 진료",
     "body": "턱관절"
+  },
+  {
+    "url": "/implant.html",
+    "title": "임플란트 진료 안내",
+    "description": "치아 상실, 임플란트 시술 전 검사, 치조골과 교합, 자연치아 보존, 보험 적용",
+    "body": "임플란트 인공치근 식립 뼈이식 건강보험 보철"
+  },
+  {
+    "url": "/pediatric-orthodontics.html",
+    "title": "어린이 교정 · 성장기 치열 상담",
+    "description": "성장기 교합, 반대교합, 덧니, 영구치 맹출, 교정 시기",
+    "body": "어린이 교정 성장기 치열 치아교정"
+  },
+  {
+    "url": "/pediatric-dentistry.html",
+    "title": "어린이 치과진료 · 충치 예방",
+    "description": "어린이 유치 충치 예방, 불소치약, 구강검진",
+    "body": "소아치과 어린이 충치 예방 유치 영구치"
   }
 ]
