@@ -444,6 +444,14 @@ for(const url of sitemapUrls){
  const canonical=html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
  if(canonical!==url)throw new Error('Sitemap and canonical mismatch: '+url+' vs '+canonical);
 }
+// Every published health article must be discoverable through the sitemap.
+const healthSitemapUrls=new Set(sitemapUrls.filter(url=>url.startsWith('https://ejoeundental.pages.dev/health/')));
+const healthHtmlFiles=fs.readdirSync(path.join(out,'health')).filter(name=>name.endsWith('.html'));
+const missingHealthSitemap=healthHtmlFiles.filter(name=>!healthSitemapUrls.has('https://ejoeundental.pages.dev/health/'+name));
+if(missingHealthSitemap.length)throw new Error('Health pages missing from sitemap: '+missingHealthSitemap.join(', '));
+const unexpectedHealthSitemap=[...healthSitemapUrls].filter(url=>!healthHtmlFiles.includes(url.split('/').pop()));
+if(unexpectedHealthSitemap.length)throw new Error('Unexpected health sitemap URLs: '+unexpectedHealthSitemap.join(', '));
+console.log('Health sitemap coverage passed:',healthHtmlFiles.length,'published health pages');
 const publishedRobots=fs.readFileSync(path.join(out,'robots.txt'),'utf8');
 if(!publishedRobots.includes('Sitemap: https://ejoeundental.pages.dev/sitemap.xml'))throw new Error('Robots sitemap location mismatch');
 console.log('Sitemap audit passed:',sitemapUrls.length,'canonical-aligned published pages');
