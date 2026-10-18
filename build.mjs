@@ -137,6 +137,29 @@ for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
  fs.writeFileSync(target,html);
 }
 
+// Offer next-step reading for core patient questions, without duplicating existing links.
+const relatedReading={
+ 'gum-bleeding.html':[['/health/scaling-vs-periodontal.html','스케일링과 잇몸치료의 차이'],['/health/periodontal-pocket.html','치주낭이 깊다는 것은?']],
+ 'gum-pus.html':[['/health/swollen-gums.html','잇몸이 붓고 아픈 이유'],['/health/periodontal-pocket.html','치주낭이 깊다는 것은?']],
+ 'scaling-vs-periodontal.html':[['/health/root-planing.html','치근활택술이란?'],['/health/curette-treatment.html','큐렛을 이용한 잇몸치료']],
+ 'root-canal-after-pain.html':[['/health/root-canal-retreatment.html','재신경치료가 필요한 경우'],['/health/root-canal-retreatment-process.html','재신경치료 과정']],
+ 'root-canal-retreatment.html':[['/health/root-canal-retreatment-process.html','재신경치료 과정'],['/health/root-canal-or-extraction.html','발치와 신경치료 판단']],
+ 'abrasion-sensitive.html':[['/health/abrasion-gi.html','치경부마모증과 GI 수복'],['/health/insurance-cervical.html','GI 치료와 건강보험']],
+ 'abrasion-gi.html':[['/health/abrasion-sensitive.html','찬물에 이가 시린 이유'],['/health/insurance-cervical.html','GI 치료와 건강보험']]
+};
+for(const [filename,related] of Object.entries(relatedReading)){
+ const file=path.join(healthDir,filename);
+ if(!fs.existsSync(file))continue;
+ let html=fs.readFileSync(file,'utf8');
+ const missing=related.filter(([url])=>!html.includes('href="'+url+'"')&&fs.existsSync(path.join(out,url.slice(1))));
+ if(!missing.length)continue;
+ const links=missing.map(([url,title])=>'<li><a href="'+url+'">'+title+' →</a></li>').join('');
+ const section='<section class="note" aria-label="이어 읽을 건강정보"><strong>이어 읽으면 좋은 건강정보</strong><ul>'+links+'</ul></section>';
+ if(html.includes('<div class="bottom">'))html=html.replace('<div class="bottom">',section+'<div class="bottom">');
+ else html=html.replace('</main>',section+'</main>');
+ fs.writeFileSync(file,html);
+}
+
 // Place supplemental clinical explanations and related reading before the article footer.
 for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
  const target=path.join(healthDir,filename);
