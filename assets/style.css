@@ -64,3 +64,14 @@
 #symptoms .symptom-grid h3{word-break:keep-all;line-height:1.45}
 #symptoms .symptom-grid a{display:inline-block;margin-top:10px;font-weight:700;color:#173e35;line-height:1.6;overflow-wrap:anywhere}
 @media(max-width:600px){#symptoms .symptom-grid .card{padding:21px 19px}#symptoms .symptom-grid a{padding:8px 0}}
+
+/* Accessible native-details FAQ, including keyboard focus indication. */
+#faq{scroll-margin-top:24px}
+.faq-list{display:grid;gap:11px;margin:24px 0}
+.faq-list details{border:1px solid #d6e1d6;border-radius:12px;background:#fff;overflow:hidden}
+.faq-list summary{cursor:pointer;font-weight:700;padding:17px 20px;line-height:1.6;color:#173e35}
+.faq-list summary:focus-visible{outline:3px solid #507a60;outline-offset:-3px}
+.faq-list details[open] summary{border-bottom:1px solid #e0e9df}
+.faq-list details p{padding:0 20px 18px;margin:15px 0 0;line-height:1.8}
+.faq-list details a{font-weight:700;overflow-wrap:anywhere}
+@media(max-width:600px){.faq-list summary{padding:15px 16px}.faq-list details p{padding:0 16px 16px}}
