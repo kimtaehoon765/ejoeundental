@@ -196,3 +196,14 @@
  body main.article a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:3px}
  body main.article ul{padding-left:22px}
 }
+
+/* Accessibility: reduced motion and resilient Korean text rendering. */
+body{font-family:'DM Sans','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+@media(max-width:600px){
+ .nav,.navlinks,.mobile-quick{min-width:0}
+ .nav a{overflow-wrap:anywhere}
+}
