@@ -4,7 +4,7 @@ const indexFile=path.join(out,'content/search-index.json');
 if(fs.existsSync(indexFile)){
  const entries=JSON.parse(fs.readFileSync(indexFile,'utf8'));
  for(const entry of entries){
-  const local=entry.url==='/'?'index.html':entry.url.replace(/^\\/+/,'');
+  const local=entry.url==='/'?'index.html':entry.url.replace(/^\/+/, '');
   if(!local||local.includes('..'))continue;
   const htmlFile=path.join(out,local);
   if(fs.existsSync(htmlFile)&&htmlFile.endsWith('.html')){
