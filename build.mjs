@@ -270,6 +270,17 @@ for(const link of ['href="tel:0325132875"','href="#location"']){
 }
 if(!homepageHtml.includes('id="location"'))throw new Error('Homepage location anchor is missing');
 console.log('Homepage symptom journey audit passed:',symptomCards.length,'cards and contact links');
+// Validate in-page menu and hero shortcuts, which otherwise look clickable but may scroll nowhere.
+const homepageAnchors=new Set([...homepageHtml.matchAll(/\bid=["']([^"']+)["']/g)].map(m=>m[1]));
+for(const sectionName of ['navlinks','hero-actions','mobile-quick']){
+ const section=homepageHtml.match(new RegExp('<div class="'+sectionName+'"[^>]*>([\\s\\S]*?)<\\/div>'))?.[1];
+ if(!section)throw new Error('Homepage navigation group missing: '+sectionName);
+ for(const match of section.matchAll(/href=["']#([^"']+)["']/g)){
+  if(!homepageAnchors.has(match[1]))throw new Error('Broken homepage '+sectionName+' anchor: #'+match[1]);
+ }
+}
+console.log('Homepage menu and hero anchor audit passed');
+
 if(brokenLinks.size)throw new Error('Build contains '+brokenLinks.size+' broken local links');
 console.log('Navigation audit passed:',searchDestinations.length,'search destinations and 3 care journeys');
 // Validate sitemap URLs against generated pages and their canonical addresses.
