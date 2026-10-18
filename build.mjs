@@ -190,6 +190,35 @@ for(const filename of localCarePages){
 }
 console.log('Local care navigation generated:',localCarePages.length,'treatment pages');
 
+// Make local treatment-page search snippets specific without misrepresenting the clinic location.
+const localCareMeta={
+ 'gum-treatment.html':{
+  title:'청천동·산곡동 인근 잇몸치료 | 이조은치과',
+  description:'인천 부평구 청천동 이조은치과. 산곡동·산곡역 주변에서 잇몸치료를 알아보신다면 위치를 확인하세요. 원장이 직접 진단하고 치주낭 검사, 치근활택술 등 필요한 치료를 안내합니다.'
+ },
+ 'retreatment.html':{
+  title:'청천동·산곡역 인근 재신경치료 | 이조은치과',
+  description:'인천 부평구 청천동 이조은치과. 산곡동·산곡역 주변에서 재신경치료를 알아보신다면 위치를 확인하세요. 원장이 직접 검사하고 자연치아 보존과 근관 재치료 가능성을 설명합니다.'
+ },
+ 'cervical-abrasion.html':{
+  title:'부평 청천동 치경부마모증·GI 수복 | 이조은치과',
+  description:'인천 부평구 청천동 이조은치과. 산곡동·산곡역 주변에서도 위치를 확인하고 방문하실 수 있습니다. 시린 이와 치경부마모증을 검사하고 GI 수복 등 필요한 치료를 안내합니다.'
+ },
+ 'insured-care.html':{
+  title:'부평 청천동 건강보험 치과진료 | 이조은치과',
+  description:'인천 부평구 청천동 이조은치과. 산곡동·산곡역 주변에서 방문을 고려하신다면 위치를 확인하세요. 건강보험 적용 가능 진료를 설명하며 실제 급여 여부는 기준과 진찰 결과에 따릅니다.'
+ }
+};
+for(const [filename,meta] of Object.entries(localCareMeta)){
+ const target=path.join(out,filename);
+ let html=fs.readFileSync(target,'utf8');
+ if(!/<title>[^<]*<\/title>/i.test(html)||!/<meta\s+name=["']description["']\s+content=["'][^"']*["']/i.test(html))throw new Error('Care SEO metadata missing: '+filename);
+ html=html.replace(/<title>[^<]*<\/title>/i,'<title>'+meta.title+'</title>');
+ html=html.replace(/(<meta\s+name=["']description["']\s+content=["'])[^"']*(["'])/i,(_,start,end)=>start+meta.description+end);
+ fs.writeFileSync(target,html);
+}
+console.log('Local care SEO snippets refreshed:',Object.keys(localCareMeta).length,'pages');
+
 // Give visitors a route back from treatment pages to the corresponding health guides.
 const treatmentGuides=[
  ['gum-treatment.html','/gum-health.html','잇몸 건강정보 10편'],
