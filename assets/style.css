@@ -150,3 +150,9 @@
 .hero-actions .btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;line-height:1.5}
 .hero-actions .btn:focus-visible,.hero-care-summary a:focus-visible{outline:3px solid #287d60;outline-offset:3px}
 @media(max-width:600px){.hero-actions{display:grid;grid-template-columns:1fr;gap:9px;margin-top:14px}.hero-actions .btn{width:100%;min-height:48px;padding:13px 15px;font-size:15px;white-space:normal}.hero-actions .hero-call{order:0}.hero-actions .hero-symptoms{order:1}.hero-actions .hero-hours{order:2}}
+
+/* Bridge from focused treatments to symptom-first discovery. */
+.focus-symptom-link{margin:18px 0 24px;padding:15px 18px;border-radius:10px;background:#edf4ec;line-height:1.8;word-break:keep-all}
+.focus-symptom-link a{display:inline-block;margin-left:6px;color:#173e35;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.focus-symptom-link a:focus-visible{outline:3px solid #287d60;outline-offset:3px}
+@media(max-width:600px){.focus-symptom-link{padding:15px;font-size:15px}.focus-symptom-link a{display:block;margin:8px 0 0;padding:10px 0;line-height:1.6}}
