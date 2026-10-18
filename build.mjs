@@ -243,6 +243,33 @@ for(const [filename,meta] of Object.entries(localCareMeta)){
 }
 console.log('Care SEO content consistency passed:',Object.keys(localCareMeta).length,'pages');
 
+// Describe the four core treatment guides as clinic-authored web pages.
+// Connect each page to the same verified clinic identity; do not imply a medical review date.
+for(const filename of Object.keys(localCareMeta)){
+ const target=path.join(out,filename);
+ let html=fs.readFileSync(target,'utf8');
+ const title=html.match(/<title>([^<]*)<\/title>/i)?.[1];
+ const description=html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i)?.[1];
+ if(!title||!description)throw new Error('Missing care page metadata for structured data: '+filename);
+ const pageUrl='https://ejoeundental.pages.dev/'+filename;
+ const schema={
+  '@context':'https://schema.org',
+  '@type':'WebPage',
+  '@id':pageUrl+'#webpage',
+  url:pageUrl,
+  name:title,
+  description,
+  inLanguage:'ko-KR',
+  isPartOf:{'@id':'https://ejoeundental.pages.dev/#website'},
+  publisher:{'@id':'https://ejoeundental.pages.dev/#clinic'},
+  about:{'@id':'https://ejoeundental.pages.dev/#clinic'}
+ };
+ if(html.includes('"@id":"'+pageUrl+'#webpage"'))continue;
+ html=html.replace(/<\/head>/i,'<script type="application/ld+json">'+JSON.stringify(schema).replace(/</g,'\\u003c')+'</script>\n</head>');
+ fs.writeFileSync(target,html);
+}
+console.log('Care WebPage structured data generated:',Object.keys(localCareMeta).length,'pages');
+
 // Give visitors a route back from treatment pages to the corresponding health guides.
 const treatmentGuides=[
  ['gum-treatment.html','/gum-health.html','잇몸 건강정보 10편'],
