@@ -281,6 +281,27 @@ for(const sectionName of ['navlinks','hero-actions','mobile-quick']){
 }
 console.log('Homepage menu and hero anchor audit passed');
 
+// Check that all telephone links use the clinic's published number and homepage anchors exist.
+const contactIssues=new Set();
+const homeIds=new Set([...homepageHtml.matchAll(/\bid=["']([^"']+)["']/g)].map(m=>m[1]));
+function auditContactLinks(folder){
+ for(const item of fs.readdirSync(folder,{withFileTypes:true})){
+  const file=path.join(folder,item.name);
+  if(item.isDirectory()){auditContactLinks(file);continue}
+  if(!item.isFile()||!item.name.endsWith('.html'))continue;
+  const html=fs.readFileSync(file,'utf8');
+  const relative=path.relative(out,file);
+  for(const match of html.matchAll(/href=["']tel:([^"']+)["']/gi)){
+   if(match[1].replace(/[^\d]/g,'')!=='0325132875')contactIssues.add(relative+': unexpected phone '+match[1]);
+  }
+  for(const match of html.matchAll(/href=["']\/#([^"']+)["']/g)){
+   if(!homeIds.has(match[1]))contactIssues.add(relative+': missing homepage anchor #'+match[1]);
+  }
+ }
+}
+auditContactLinks(out);
+if(contactIssues.size)throw new Error('Contact navigation audit failed:\n'+[...contactIssues].slice(0,30).join('\n'));
+console.log('Contact navigation audit passed: clinic phone and homepage anchors');
 if(brokenLinks.size)throw new Error('Build contains '+brokenLinks.size+' broken local links');
 console.log('Navigation audit passed:',searchDestinations.length,'search destinations and 3 care journeys');
 // Validate sitemap URLs against generated pages and their canonical addresses.
