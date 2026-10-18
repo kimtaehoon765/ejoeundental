@@ -2,6 +2,10 @@
 /* Responsive cervical-abrasion care diagrams and accessible links. */
 *{box-sizing:border-box}main{overflow-wrap:anywhere}main h1,main h2{word-break:keep-all}a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:4px}@media(max-width:600px){.top{padding:16px 18px;flex-wrap:wrap}.nav{line-height:1.6}.hero{padding:48px 18px 55px}.hero h1{font-size:clamp(29px,7vw,38px)}.hero p{font-size:16px;line-height:1.85}.section{padding:42px 18px}.section p{font-size:16px}.care-extra{padding:42px 18px}.care-extra .care-diagram{padding:18px 12px;gap:10px}.care-extra .care-diagram .phase{min-width:100%;max-width:100%;flex-basis:100%;padding:15px}.care-extra .care-diagram .arrow{transform:rotate(90deg);line-height:1}.care-extra .care-grid{gap:12px}.care-extra .care-tile{padding:18px}}
 
+/* Comfortable text and diagram reading on narrow phones. */
+main p,main li,.care-tile,.care-diagram .phase{word-break:keep-all;overflow-wrap:anywhere}
+@media(max-width:600px){.section h2,.care-extra h2{font-size:clamp(23px,5.8vw,29px);line-height:1.45}.section p,.care-extra p,.care-extra li{font-size:16px;line-height:1.85}.care-extra .care-tile{padding:18px}.care-extra .care-diagram .phase{font-size:15px;line-height:1.8}.care-note{padding:16px 18px}.cta{padding:46px 18px}}
+
 /* FAQ: touch-friendly disclosure controls on small screens. */
 section[aria-label$="자주 묻는 질문"] summary{list-style-position:outside;min-height:48px;padding:10px 6px;word-break:keep-all;overflow-wrap:anywhere}
 section[aria-label$="자주 묻는 질문"] summary:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:4px}
