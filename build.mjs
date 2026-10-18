@@ -29,4 +29,22 @@ function versionStylesheets(folder){
 }
 versionStylesheets(out);
 
+// Replace internal article-link slug labels with readable Korean titles across all health pages.
+const healthTitles=new Map(entries.filter(e=>e.url&&e.title).map(e=>[e.url,e.title]));
+const healthDir=path.join(out,'health');
+for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
+ const target=path.join(healthDir,filename);
+ const original=fs.readFileSync(target,'utf8');
+ const updated=original.replace(/<a(\\s+[^>]*href=["'](\\/health\\/[^"']+\\.html)["'][^>]*)>([^<]*)<\\/a>/g,(whole,attrs,href,label)=>{
+  const title=healthTitles.get(href);
+  if(!title)return whole;
+  const clean=label.replace(/\\s*[→←]\\s*/g,'').trim().toLowerCase();
+  const slug=path.basename(href,'.html').replace(/-/g,' ');
+  if(clean!==slug&&clean!==path.basename(href,'.html'))return whole;
+  return '<a'+attrs+'>'+title+' →</a>';
+ });
+ if(updated!==original)fs.writeFileSync(target,updated);
+}
+
+
 console.log('Build complete:',posts.length,'articles');
