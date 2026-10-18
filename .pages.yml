@@ -66,8 +66,5 @@ content:
       - { name: date, label: 작성일, type: date }
       - { name: summary, label: 요약, type: text }
       - { name: image, label: 대표 사진, type: image, required: false }
-      - name: body
-        label: 본문
-        type: rich-text
-        required: false
+      - { name: body, label: 본문, type: text }
       - { name: published, label: 게시 여부, type: boolean }
