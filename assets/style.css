@@ -145,3 +145,8 @@
 .hero-care-summary a:hover{background:#e1ebdf;border-color:#507a60}
 .hero-care-summary a:focus-visible{outline:3px solid #287d60;outline-offset:2px}
 @media(max-width:600px){.hero-care-summary{grid-template-columns:1fr;gap:8px;padding:10px}.hero-care-summary a{min-height:48px;font-size:14px}}
+
+/* Homepage mobile hierarchy: three primary actions after specialty links. */
+.hero-actions .btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;line-height:1.5}
+.hero-actions .btn:focus-visible,.hero-care-summary a:focus-visible{outline:3px solid #287d60;outline-offset:3px}
+@media(max-width:600px){.hero-actions{display:grid;grid-template-columns:1fr;gap:9px;margin-top:14px}.hero-actions .btn{width:100%;min-height:48px;padding:13px 15px;font-size:15px;white-space:normal}.hero-actions .hero-call{order:0}.hero-actions .hero-symptoms{order:1}.hero-actions .hero-hours{order:2}}
