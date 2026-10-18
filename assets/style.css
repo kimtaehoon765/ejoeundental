@@ -288,3 +288,13 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
 .navlinks a:focus-visible,.mobile-quick a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:5px}
 @media(max-width:760px){.navlinks{max-width:100%;box-sizing:border-box;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scroll-padding-inline:12px}.navlinks a{display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;padding:8px 4px;scroll-snap-align:start;white-space:nowrap}.mobile-quick a{min-height:44px;box-sizing:border-box}}
 @media(max-width:390px){.nav{padding-left:12px;padding-right:12px;column-gap:5px}.mobile-quick{gap:3px}.mobile-quick a{padding:6px 5px;font-size:11px}}
+
+/* Local treatment overview: balanced four-card layout and phone-friendly links. */
+#local-care .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+#local-care .grid>.card{min-width:0;display:flex;flex-direction:column;align-items:flex-start}
+#local-care .grid>.card h3{line-height:1.5;word-break:keep-all}
+#local-care .grid>.card p{line-height:1.8;word-break:keep-all;overflow-wrap:anywhere}
+#local-care .grid>.card p:last-child{margin-top:auto}
+#local-care .grid>.card a{box-sizing:border-box;min-height:44px;max-width:100%;overflow-wrap:anywhere;text-underline-offset:3px}
+#local-care a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:5px}
+@media(max-width:600px){#local-care .grid{grid-template-columns:minmax(0,1fr);gap:14px;margin-top:24px}#local-care .grid>.card{padding:20px 18px}#local-care .grid>.card h3{font-size:20px}#local-care .grid>.card a{min-height:48px;line-height:1.6}}
