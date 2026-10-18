@@ -13,6 +13,15 @@ fs.writeFileSync(path.join(out,'content/search-index-46.json'),JSON.stringify(en
 posts.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
 fs.writeFileSync(path.join(out,'content/posts-index.json'),JSON.stringify(posts.map(({slug,title,date,summary,image})=>({slug,title,date,summary,image})),null,2));
 for(const file of ['sitemap.xml','robots.txt']){const source=path.join(root,file);if(fs.existsSync(source))fs.copyFileSync(source,path.join(out,file))}
+// Add only published journal entries to the generated sitemap.
+const sitemapPath=path.join(out,'sitemap.xml');
+if(fs.existsSync(sitemapPath)){
+ const base='https://ejoeundental.pages.dev';
+ let sitemap=fs.readFileSync(sitemapPath,'utf8');
+ const journalUrls=posts.map(post=>'<url><loc>'+base+'/stories/'+encodeURIComponent(post.slug)+'/</loc></url>').join('\n  ');
+ sitemap=sitemap.replace('</urlset>',(journalUrls?'  '+journalUrls+'\n':'')+'</urlset>');
+ fs.writeFileSync(sitemapPath,sitemap);
+}
 
 // Ensure every published page (including all 46 health articles) loads the latest shared mobile CSS.
 // Versioning is done at build time, so older cached stylesheets cannot override new typography.
