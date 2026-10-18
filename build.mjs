@@ -36,7 +36,7 @@ if(fs.existsSync(sitemapPath)){
 
 // Ensure every published page (including all 46 health articles) loads the latest shared mobile CSS.
 // Versioning is done at build time, so older cached stylesheets cannot override new typography.
-const cssVersion='20261018-health-actions-v10';
+const cssVersion='20261018-hero-summary-v11';
 function versionStylesheets(folder){
  for(const item of fs.readdirSync(folder,{withFileTypes:true})){
   const target=path.join(folder,item.name);
