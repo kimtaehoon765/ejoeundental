@@ -74,6 +74,35 @@ for(const page of ['implant.html','pediatric-dentistry.html','pediatric-orthodon
 }
 
 
+// Publish accurate, machine-readable metadata for every health-information page.
+// Avoid inventing individual authors, review dates or medical credentials.
+const healthSchemaDir=path.join(out,'health');
+let healthSchemaCount=0;
+for(const filename of fs.readdirSync(healthSchemaDir).filter(name=>name.endsWith('.html'))){
+ const target=path.join(healthSchemaDir,filename);
+ let html=fs.readFileSync(target,'utf8');
+ const title=html.match(/<title[^>]*>([^<]+)<\/title>/i)?.[1]?.trim();
+ const description=html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i)?.[1]?.trim();
+ const canonical=html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
+ if(!title||!canonical||!canonical.startsWith('https://ejoeundental.pages.dev/health/'))throw new Error('Health metadata incomplete: '+filename);
+ if(html.includes('application/ld+json'))continue;
+ const schema={
+  '@context':'https://schema.org',
+  '@type':'WebPage',
+  '@id':canonical+'#webpage',
+  url:canonical,
+  name:title,
+  inLanguage:'ko-KR',
+  isPartOf:{'@type':'WebSite',name:'이조은치과',url:'https://ejoeundental.pages.dev/'},
+  publisher:{'@type':'Dentist','@id':'https://ejoeundental.pages.dev/#clinic',name:'이조은치과'}
+ };
+ if(description)schema.description=description;
+ html=html.replace(/<\/head>/i,'<script type="application/ld+json">'+JSON.stringify(schema).replace(/</g,'\\u003c')+'</script>\n</head>');
+ fs.writeFileSync(target,html);
+ healthSchemaCount++;
+}
+console.log('Health structured data generated:',healthSchemaCount,'pages');
+
 // Replace internal article-link slug labels with readable Korean titles across all health pages.
 const healthTitles=new Map(entries.filter(e=>e.url&&e.title).map(e=>[e.url,e.title]));
 const healthDir=path.join(out,'health');
