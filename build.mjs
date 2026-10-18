@@ -259,8 +259,15 @@ for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
  const rule=topicGuideRules.find(x=>x.pattern.test(filename));
  if(!rule)continue;
  const html=fs.readFileSync(path.join(healthDir,filename),'utf8');
- if(!html.includes('data-care-link="true"')||!html.includes('href="'+rule.guide+'"')){
+ const careBlock=html.match(/<div data-care-link="true"[\\s\\S]*?<\\/div>/)?.[0];
+ if(!careBlock||!careBlock.includes('href="'+rule.guide+'"')){
   throw new Error('Health article missing matching care guide: '+filename+' -> '+rule.guide);
+ }
+ if(!careBlock.includes('href="/#philosophy"')||!careBlock.includes('검사와 진찰 결과')){
+  throw new Error('Health article missing philosophy or examination notice: '+filename);
+ }
+ if(html.indexOf('data-care-link="true"')!==html.lastIndexOf('data-care-link="true"')){
+  throw new Error('Duplicate health article care guide: '+filename);
  }
  verifiedTopicGuides++;
 }
