@@ -120,7 +120,14 @@ for(const filename of fs.readdirSync(healthSchemaDir).filter(name=>name.endsWith
  else seenHealthTitles.set(title,filename);
  if(desc&&seenHealthDescriptions.has(desc))healthMetadataIssues.push(filename+': duplicate description with '+seenHealthDescriptions.get(desc));
  else if(desc)seenHealthDescriptions.set(desc,filename);
- if(!html.includes('application/ld+json'))throw new Error('Health structured data missing: '+filename);
+ const schemaBlocks=[...html.matchAll(/<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/gi)];
+ if(schemaBlocks.length!==1)throw new Error('Expected one health JSON-LD block: '+filename);
+ let schema;
+ try{schema=JSON.parse(schemaBlocks[0][1]);}catch{throw new Error('Invalid health JSON-LD: '+filename);}
+ const canonical=html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
+ if(schema['@type']!=='WebPage'||schema.url!==canonical||schema.name!==title||schema.inLanguage!=='ko-KR')throw new Error('Health structured data does not match page metadata: '+filename);
+ if(schema.publisher?.['@id']!=='https://ejoeundental.pages.dev/#clinic')throw new Error('Health publisher does not match clinic identity: '+filename);
+ if(desc&&schema.description!==desc)throw new Error('Health structured description mismatch: '+filename);
 }
 console.log('Health SEO metadata audit:',46,'pages,',healthMetadataIssues.length,'improvement candidates');
 for(const issue of healthMetadataIssues.slice(0,30))console.warn('Health SEO:',issue);
