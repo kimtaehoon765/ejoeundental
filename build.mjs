@@ -225,6 +225,30 @@ for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
  fs.writeFileSync(target,html);
 }
 
+// Give every health article a consistent route to its parent topic hub.
+// This helps visitors and crawlers traverse the 46-page information library.
+const healthHubByPrefix=[
+ ['root-canal-','/root-canal-health.html','신경치료·재신경치료 건강정보'],
+ ['insurance-','/insurance-health.html','건강보험 치과진료 건강정보'],
+ ['abrasion-','/additional-health.html','치경부마모증 등 건강정보']
+];
+const gumTopicPrefixes=['gum-','swollen-gums','periodontal-','scaling-','root-planing','curette-','receding-gums','loose-tooth'];
+let addedHealthHubLinks=0;
+for(const filename of fs.readdirSync(healthDir).filter(name=>name.endsWith('.html'))){
+ const target=path.join(healthDir,filename);
+ let html=fs.readFileSync(target,'utf8');
+ const hub=healthHubByPrefix.find(([prefix])=>filename.startsWith(prefix));
+ const [href,label]=hub?[hub[1],hub[2]]:gumTopicPrefixes.some(prefix=>filename.startsWith(prefix))?['/gum-health.html','잇몸 건강정보']:['/additional-health.html','다른 치과 건강정보'];
+ if(html.includes('data-health-hub-link="true"')||html.includes('href="'+href+'"'))continue;
+ const block='<nav data-health-hub-link="true" aria-label="관련 건강정보 모음" style="margin:20px 0;padding:12px 18px;background:#f4f7f3;border-radius:10px"><a href="'+href+'">← '+label+' 모아보기</a></nav>';
+ if(html.includes('<div class="bottom">'))html=html.replace('<div class="bottom">',block+'<div class="bottom">');
+ else if(html.includes('</main>'))html=html.replace('</main>',block+'</main>');
+ else continue;
+ fs.writeFileSync(target,html);
+ addedHealthHubLinks++;
+}
+console.log('Health topic-hub navigation added:',addedHealthHubLinks,'articles');
+
 // Offer next-step reading for core patient questions, without duplicating existing links.
 const relatedReading={
  'gum-bleeding.html':[['/health/scaling-vs-periodontal.html','스케일링과 잇몸치료의 차이'],['/health/periodontal-pocket.html','치주낭이 깊다는 것은?']],
