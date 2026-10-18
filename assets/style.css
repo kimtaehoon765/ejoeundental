@@ -207,3 +207,10 @@ body{font-family:'DM Sans','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',
  .nav,.navlinks,.mobile-quick{min-width:0}
  .nav a{overflow-wrap:anywhere}
 }
+
+/* Visit information: make parking details readable on narrow screens. */
+#location .parking-info{margin:20px 0;padding:19px 21px;border:1px solid #c5d8c9;border-radius:12px;background:#f3f8f3;overflow-wrap:break-word}
+#location .parking-info h3{margin:0 0 10px;color:#285447;font-size:19px;line-height:1.5;word-break:keep-all}
+#location .parking-info p{margin:8px 0;line-height:1.8;word-break:keep-all}
+#location .parking-info .parking-note{font-size:14px;color:#53675a}
+@media(max-width:600px){#location .parking-info{padding:17px 16px;margin:17px 0}#location .parking-info h3{font-size:17px}#location .parking-info p{font-size:15px}}
