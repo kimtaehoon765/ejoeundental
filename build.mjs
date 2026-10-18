@@ -136,6 +136,7 @@ for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
  const link='<div data-care-link="true" style="margin:26px 0;padding:16px 20px;background:#f0f5ef;border-radius:12px;line-height:1.8"><strong style="display:block;margin-bottom:6px">증상에 맞는 진료를 알아보세요</strong><a href="'+match.href+'" style="font-weight:700;color:#173e35">관련 진료 안내: '+match.label+' →</a><br><a href="/#philosophy" style="color:#285447">원장이 직접 진단하고 필요한 치료부터 안내하는 진료 원칙 →</a><p style="font-size:13px;margin:8px 0 0">치료 여부는 검사와 진찰 결과에 따라 달라집니다.</p></div>';
  if(html.includes('<div class="bottom">'))html=html.replace('<div class="bottom">',link+'<div class="bottom">');
  else if(html.includes('</article>'))html=html.replace('</article>',link+'</article>');
+ else if(html.includes('</main>'))html=html.replace('</main>',link+'</main>');
  else continue;
  fs.writeFileSync(target,html);
 }
