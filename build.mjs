@@ -13,4 +13,20 @@ fs.writeFileSync(path.join(out,'content/search-index-46.json'),JSON.stringify(en
 posts.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
 fs.writeFileSync(path.join(out,'content/posts-index.json'),JSON.stringify(posts.map(({slug,title,date,summary})=>({slug,title,date,summary})),null,2));
 for(const file of ['sitemap.xml','robots.txt']){const source=path.join(root,file);if(fs.existsSync(source))fs.copyFileSync(source,path.join(out,file))}
+
+// Ensure every published page (including all 46 health articles) loads the latest shared mobile CSS.
+// Versioning is done at build time, so older cached stylesheets cannot override new typography.
+const cssVersion='20261018-health-mobile-all';
+function versionStylesheets(folder){
+ for(const item of fs.readdirSync(folder,{withFileTypes:true})){
+  const target=path.join(folder,item.name);
+  if(item.isDirectory()){versionStylesheets(target);continue}
+  if(!item.isFile()||!item.name.endsWith('.html'))continue;
+  const original=fs.readFileSync(target,'utf8');
+  const updated=original.replace(/(href=["']\/assets\/style\.css)(?:\?[^"']*)?(["'])/g,(_,start,end)=>start+'?v='+cssVersion+end);
+  if(updated!==original)fs.writeFileSync(target,updated);
+ }
+}
+versionStylesheets(out);
+
 console.log('Build complete:',posts.length,'articles');
