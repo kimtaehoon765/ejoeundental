@@ -274,6 +274,21 @@ for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
  verifiedTopicGuides++;
 }
 console.log('Health-to-care navigation audit passed:',verifiedTopicGuides,'topic-matched articles');
+// Keep mobile contact buttons functional on all topic-matched health pages.
+for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
+ const html=fs.readFileSync(path.join(healthDir,filename),'utf8');
+ if(!html.includes('data-care-link="true"'))continue;
+ if(!html.includes('name="viewport"')||!html.includes('/assets/style.css?v=')){
+  throw new Error('Health article missing mobile viewport or versioned CSS: '+filename);
+ }
+ const careStart=html.indexOf('<div data-care-link="true"');
+ const careEnd=html.indexOf('</div>',careStart);
+ const panel=careEnd<0?'':html.slice(careStart,careEnd+6);
+ if(!panel.includes('class="health-care-actions"')||!panel.includes('href="tel:0325132875"')||!panel.includes('href="/#location"')){
+  throw new Error('Health article missing mobile contact actions: '+filename);
+ }
+}
+
 // Verify every searchable destination exists and the main care journeys remain connected.
 const searchDestinations=JSON.parse(fs.readFileSync(path.join(out,'content/search-index-46.json'),'utf8'));
 for(const entry of searchDestinations){
