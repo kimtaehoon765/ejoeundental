@@ -314,3 +314,8 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
 #focus-care .grid>.card p a,#focus-care .focus-symptom-link a{display:inline-block;box-sizing:border-box;max-width:100%;min-height:44px;padding:9px 2px;line-height:1.6;text-underline-offset:3px;overflow-wrap:anywhere}
 #focus-care a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:5px}
 @media(max-width:600px){#focus-care .grid{gap:14px}#focus-care .grid>.card{padding:20px 18px}#focus-care .grid>.card h3{font-size:20px}#focus-care .grid>.card p a,#focus-care .focus-symptom-link a{min-height:48px;padding:11px 2px}}
+
+/* Visit section: comfortable tap targets for directions, phone and map on mobile. */
+#location .nearby-location a,#location .hours-box a,#location .visit-check a{overflow-wrap:anywhere;text-underline-offset:3px}
+#location a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:5px}
+@media(max-width:600px){#location .location-actions{grid-template-columns:minmax(0,1fr);gap:12px}#location .location-actions .btn{width:100%;min-height:52px;padding:14px 16px;white-space:normal;line-height:1.55}#location .nearby-location a,#location .hours-box a,#location .visit-check a{display:inline-block;min-height:44px;padding:9px 0;line-height:1.65}}
