@@ -239,4 +239,22 @@ if(brokenLinks.size){
  console.warn('Missing local link targets ('+brokenLinks.size+'):');
  for(const link of [...brokenLinks].slice(0,80))console.warn(' - '+link);
 }
+// Verify every searchable destination exists and the main care journeys remain connected.
+const searchDestinations=JSON.parse(fs.readFileSync(path.join(out,'content/search-index-46.json'),'utf8'));
+for(const entry of searchDestinations){
+ if(typeof entry.url!=='string'||!entry.url.startsWith('/'))throw new Error('Invalid search destination: '+JSON.stringify(entry.url));
+ const target=path.join(out,entry.url.replace(/^\\/+/, '')||'index.html');
+ if(!fs.existsSync(target)&&!fs.existsSync(path.join(target,'index.html')))throw new Error('Missing searchable page: '+entry.url);
+}
+const careJourneys={
+ 'gum-treatment.html':['/health/gum-bleeding.html','/health/scaling-vs-periodontal.html','/#location','tel:0325132875'],
+ 'retreatment.html':['/health/root-canal-after-pain.html','/health/root-canal-retreatment.html','/#location','tel:0325132875'],
+ 'cervical-abrasion.html':['/health/abrasion-sensitive.html','/health/abrasion-gi.html','/#location','tel:0325132875']
+};
+for(const [page,links] of Object.entries(careJourneys)){
+ const html=fs.readFileSync(path.join(out,page),'utf8');
+ for(const link of links)if(!html.includes('href="'+link+'"'))throw new Error('Missing care navigation: '+page+' -> '+link);
+}
+if(brokenLinks.size)throw new Error('Build contains '+brokenLinks.size+' broken local links');
+console.log('Navigation audit passed:',searchDestinations.length,'search destinations and 3 care journeys');
 console.log('Build complete:',posts.length,'articles');
