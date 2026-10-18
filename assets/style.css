@@ -156,3 +156,10 @@
 .focus-symptom-link a{display:inline-block;margin-left:6px;color:#173e35;font-weight:700;text-decoration:underline;text-underline-offset:3px}
 .focus-symptom-link a:focus-visible{outline:3px solid #287d60;outline-offset:3px}
 @media(max-width:600px){.focus-symptom-link{padding:15px;font-size:15px}.focus-symptom-link a{display:block;margin:8px 0 0;padding:10px 0;line-height:1.6}}
+
+/* Preserve natural teeth first in the complete care overview. */
+#care .care-preservation-feature{grid-column:1/-1;background:#f0f5ef;border:2px solid #9fb9a6}
+#care .care-preservation-feature h3{font-size:clamp(24px,3vw,34px);line-height:1.45}
+#care .care-preservation-feature a{display:inline-block;padding:6px 0;font-weight:700;color:#173e35;text-decoration:underline;text-underline-offset:3px}
+#care .care-preservation-feature a:focus-visible{outline:3px solid #287d60;outline-offset:3px}
+@media(max-width:600px){#care .care-preservation-feature{padding:20px 16px}#care .care-preservation-feature a{display:block;padding:10px 0}}
