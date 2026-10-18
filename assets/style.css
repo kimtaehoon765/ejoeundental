@@ -133,3 +133,8 @@
 [data-care-link="true"] .health-care-actions a:first-child{background:#173e35;color:#fff;border-color:#173e35}
 [data-care-link="true"] a:focus-visible{outline:3px solid #287d60;outline-offset:3px}
 @media(max-width:600px){[data-care-link="true"]{padding:16px!important;font-size:15px}[data-care-link="true"] .health-care-actions{flex-direction:column}[data-care-link="true"] .health-care-actions a{width:100%;min-height:48px}}
+
+/* First-screen care summary: readable and restrained on mobile. */
+.hero-care-summary{margin:18px 0 6px;padding:12px 16px;border-left:3px solid #507a60;background:#edf2e9;color:#173e35;font-size:15px;font-weight:700;line-height:1.9;word-break:keep-all}
+.hero-care-summary span{padding:0 5px;color:#698b77}
+@media(max-width:600px){.hero-care-summary{font-size:14px;padding:12px 13px;line-height:1.85}.hero-care-summary span{padding:0 3px}}
