@@ -444,6 +444,20 @@ for(const url of sitemapUrls){
  const canonical=html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
  if(canonical!==url)throw new Error('Sitemap and canonical mismatch: '+url+' vs '+canonical);
 }
+// Detect indexing directives that accidentally hide published sitemap pages.
+for(const url of sitemapUrls){
+ const relative=decodeURIComponent(url.slice('https://ejoeundental.pages.dev/'.length));
+ const candidate=path.join(out,relative||'index.html');
+ const htmlFile=fs.existsSync(candidate)&&fs.statSync(candidate).isFile()?candidate:path.join(candidate,'index.html');
+ const html=fs.readFileSync(htmlFile,'utf8');
+ const robotsMeta=[...html.matchAll(/<meta\s+[^>]*name=["'](?:robots|googlebot|naverbot|yeti)["'][^>]*>/gi)].map(m=>m[0]);
+ for(const tag of robotsMeta){
+  const content=tag.match(/content=["']([^"']*)["']/i)?.[1]||'';
+  if(/(?:^|[,\s])(?:noindex|none)(?:$|[,\s])/i.test(content))throw new Error('Sitemap page blocks indexing: '+url);
+ }
+ if(/<meta\s+[^>]*http-equiv=["']refresh["']/i.test(html))throw new Error('Sitemap page uses meta refresh: '+url);
+}
+console.log('Indexability audit passed:',sitemapUrls.length,'sitemap pages without noindex or meta refresh');
 // Every published health article must be discoverable through the sitemap.
 const healthSitemapUrls=new Set(sitemapUrls.filter(url=>url.startsWith('https://ejoeundental.pages.dev/health/')));
 const healthHtmlFiles=fs.readdirSync(path.join(out,'health')).filter(name=>name.endsWith('.html'));
