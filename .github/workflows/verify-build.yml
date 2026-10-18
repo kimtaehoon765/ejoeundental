@@ -1,0 +1,31 @@
+name: Verify website build
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out website
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Check build script syntax
+        run: node --check build.mjs
+      - name: Build website
+        run: npm run build
+      - name: Verify generated site
+        run: |
+          test -f dist/index.html
+          test -f dist/sitemap.xml
+          test -f dist/content/posts-index.json
+          test -d dist/health
+          echo "Website build and required files verified."
