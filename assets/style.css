@@ -44,3 +44,10 @@
 .hours-box p{margin:8px 0;line-height:1.95}
 .hours-box .notice{font-size:13px;line-height:1.7}
 @media(max-width:600px){.hours-box{padding:17px 16px}.hours-box p{font-size:14px;line-height:1.9}}
+
+/* Direct access to phone and clinic hours from the homepage introduction. */
+.hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:16px}
+.hero-actions .btn{margin-top:0;text-align:center}
+.hero-actions .hero-call{background:#173e35;color:#fff}
+.hero-actions .hero-hours{background:transparent;border:1px solid #8fa897;color:#173e35}
+@media(max-width:600px){.hero-actions{gap:8px}.hero-actions .btn{font-size:13px;padding:11px 13px}.hero-actions .hero-hours{flex-basis:100%}}
