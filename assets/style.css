@@ -283,3 +283,8 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
 #location .hours-box a[href^="tel:"],#location .nearby-location a{display:inline-block;box-sizing:border-box;min-height:44px;padding:9px 2px;line-height:1.6;overflow-wrap:anywhere;text-underline-offset:3px}
 #location .hours-box a:focus-visible,#location .nearby-location a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:5px}
 @media(max-width:600px){#location .hours-box{padding:20px 17px}#location .hours-box h3{font-size:20px;line-height:1.45}#location .hours-box p{font-size:15px;line-height:1.9}#location .hours-box .notice{font-size:14px;line-height:1.9}#location .hours-box a[href^="tel:"],#location .nearby-location a{min-height:48px;padding:11px 2px}#location .parking-info{padding:19px 17px}#location .parking-info h3{line-height:1.55}}
+
+/* Navigation: keep the expanded section menu scrollable without shrinking tap targets. */
+.navlinks a:focus-visible,.mobile-quick a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:5px}
+@media(max-width:760px){.navlinks{max-width:100%;box-sizing:border-box;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scroll-padding-inline:12px}.navlinks a{display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;padding:8px 4px;scroll-snap-align:start;white-space:nowrap}.mobile-quick a{min-height:44px;box-sizing:border-box}}
+@media(max-width:390px){.nav{padding-left:12px;padding-right:12px;column-gap:5px}.mobile-quick{gap:3px}.mobile-quick a{padding:6px 5px;font-size:11px}}
