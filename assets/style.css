@@ -252,3 +252,11 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
 #care .grid>.card:not(.care-preservation-feature) p a{display:inline-block;max-width:100%;min-height:44px;box-sizing:border-box;padding:9px 2px;line-height:1.65;text-underline-offset:3px;overflow-wrap:anywhere}
 #care .grid>.card a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:5px}
 @media(max-width:600px){#care .grid{gap:14px}#care .grid>.card{padding:20px 18px}#care .grid>.card h3{font-size:20px;line-height:1.5}#care .grid>.card:not(.care-preservation-feature) p a{display:block;min-height:48px;padding:11px 0}#care .grid>.card:not(.care-preservation-feature) p br{display:none}#care .care-preservation-feature a{min-height:48px;box-sizing:border-box;display:flex;align-items:center}}
+
+/* Patient education cards: clear reading paths on narrow screens. */
+#health-info .grid>.card{min-width:0}
+#health-info .grid>.card h3{line-height:1.5;word-break:keep-all}
+#health-info .grid>.card p{line-height:1.8;word-break:keep-all;overflow-wrap:anywhere}
+#health-info .grid>.card p a{display:inline-block;max-width:100%;min-height:44px;box-sizing:border-box;padding:9px 2px;line-height:1.6;text-underline-offset:3px;overflow-wrap:anywhere}
+#health-info .grid>.card a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:5px}
+@media(max-width:600px){#health-info .grid{gap:14px}#health-info .grid>.card{padding:20px 18px}#health-info .grid>.card h3{font-size:20px}#health-info .grid>.card p a{display:block;min-height:48px;padding:11px 0}}
