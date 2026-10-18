@@ -70,6 +70,23 @@ for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
 }
 
 
+// Give visitors a route back from treatment pages to the corresponding health guides.
+const treatmentGuides=[
+ ['gum-treatment.html','/gum-health.html','잇몸 건강정보 10편'],
+ ['retreatment.html','/root-canal-health.html','신경치료·재신경치료 건강정보 10편'],
+ ['cervical-abrasion.html','/additional-health.html','치경부마모증 등 건강정보'],
+ ['insured-care.html','/insurance-health.html','건강보험 치과진료 정보 10편']
+];
+for(const [filename,href,label] of treatmentGuides){
+ const target=path.join(out,filename);
+ let html=fs.readFileSync(target,'utf8');
+ if(html.includes('data-health-guide-link="true"'))continue;
+ const link='<section data-health-guide-link="true" class="section light"><div class="wrap"><h2>관련 치과 건강정보</h2><p>진료 내용을 더 자세히 알아보세요.</p><p><a href="'+href+'" style="display:inline-block;padding:12px 18px;background:#173e35;color:white;border-radius:8px;text-decoration:none">'+label+' →</a></p></div></section>';
+ if(html.includes('</main>'))html=html.replace('</main>',link+'</main>');
+ else continue;
+ fs.writeFileSync(target,html);
+}
+
 // Add contextual navigation between detailed health articles and the main care pages.
 const careLinks=[
  {prefix:'root-canal-retreatment',href:'/retreatment.html',label:'재신경치료 진료 안내'},
