@@ -10,3 +10,9 @@
 
 /* Health articles: override older inline page styles on narrow screens. */
 @media(max-width:600px){body .article{padding:30px 20px 65px!important}body .article h1{font-size:clamp(27px,7vw,32px)!important;line-height:1.45!important;margin:17px 0 20px!important;word-break:keep-all}body .article h2{font-size:21px!important;line-height:1.5!important;margin-top:32px!important;margin-bottom:12px!important;word-break:keep-all}body .article p{font-size:16px!important;line-height:1.85!important;overflow-wrap:break-word}body .article .crumb{font-size:13px!important}body .article .note{padding:17px!important;margin-top:28px!important}body .article .bottom{margin-top:30px!important}body .article ul{padding-left:22px}body .article li{margin:8px 0}}
+
+/* Prominent implant care card and readable expanded treatment menu. */
+#care .grid>.card:first-child{box-shadow:0 12px 30px rgba(23,62,53,.09);border-radius:14px}
+#care .grid>.card:first-child h3{color:#173e35}
+#care .grid>.card:first-child a{display:inline-block;padding:10px 15px;background:#173e35;color:#fff;border-radius:7px;text-decoration:none}
+@media(max-width:600px){#care .grid>.card:first-child{padding:24px 20px}#care .grid>.card:first-child h3{font-size:28px!important}}
