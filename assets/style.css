@@ -169,3 +169,18 @@
 #location .visit-check a{display:inline-block;min-height:44px;line-height:44px;text-underline-offset:3px}
 #location .location-actions a{min-height:48px;display:inline-flex;align-items:center;justify-content:center;line-height:1.5;text-align:center}
 @media(max-width:600px){#location .hours-box{padding:18px 15px;line-height:1.9}#location .hours-box p{word-break:keep-all}#location .visit-check{padding:16px!important}#location .location-actions{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}#location .location-actions a{width:100%;padding:12px 14px;white-space:normal}}
+
+/* Homepage mobile: put diagnosis and care pathways ahead of decoration. */
+@media(max-width:600px){
+ .hero{gap:22px;padding-top:22px;padding-bottom:42px}
+ .hero .kicker{font-size:11px;letter-spacing:.12em}
+ .hero h1{font-size:clamp(27px,7vw,34px);line-height:1.48;margin:14px 0}
+ .hero #intro{font-size:15px;line-height:1.85;margin:0 0 15px}
+ .hero .art{height:185px;max-width:360px;border-radius:110px 110px 10px 10px;box-shadow:7px 9px 0 #e9e7d9}
+ .hero .flower{width:115px;left:calc(50% - 57px);top:5%}
+ .hero .art .caption{bottom:13px;right:16px;font-size:10px;letter-spacing:.08em}
+ #focus-care .grid .card{min-width:0;padding:21px 18px}
+ #focus-care .grid .card h3{font-size:21px;line-height:1.5;word-break:keep-all}
+ #focus-care .grid .card a{min-height:44px;display:inline-flex;align-items:center;padding:9px 0;text-underline-offset:3px}
+ #philosophy,#focus-care,#symptoms,#care,#health-info,#location{scroll-margin-top:118px}
+}
