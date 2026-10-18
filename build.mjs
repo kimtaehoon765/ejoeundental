@@ -141,6 +141,31 @@ for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
  fs.writeFileSync(target,html);
 }
 
+// Audit SEO metadata in generated public pages. Report problems in the build log.
+const seoWarnings=[];
+function auditSeo(folder){
+ for(const item of fs.readdirSync(folder,{withFileTypes:true})){
+  const file=path.join(folder,item.name);
+  if(item.isDirectory()){auditSeo(file);continue}
+  if(!item.isFile()||!item.name.endsWith('.html'))continue;
+  const relative=path.relative(out,file);
+  if(relative.startsWith('admin'+path.sep))continue;
+  const html=fs.readFileSync(file,'utf8');
+  const title=html.match(/<title>([^<]*)<\/title>/i)?.[1]?.trim();
+  const description=html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i)?.[1]?.trim();
+  const canonical=html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']*)["']/i)?.[1];
+  if(!title)seoWarnings.push(relative+': missing title');
+  if(!description)seoWarnings.push(relative+': missing meta description');
+  if(!canonical)seoWarnings.push(relative+': missing canonical URL');
+  else if(!canonical.startsWith('https://ejoeundental.pages.dev/'))seoWarnings.push(relative+': unexpected canonical '+canonical);
+ }
+}
+auditSeo(out);
+if(seoWarnings.length){
+ console.warn('SEO metadata warnings ('+seoWarnings.length+'):');
+ for(const warning of seoWarnings.slice(0,100))console.warn(' - '+warning);
+}else console.log('SEO metadata audit: no missing title, description or canonical URL');
+
 // Fail the build instead of silently deploying a site with missing journal images or pages.
 for(const post of posts){
  const page=path.join(out,'stories',post.slug,'index.html');
