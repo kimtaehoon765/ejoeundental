@@ -366,6 +366,18 @@ for(const [page,links] of Object.entries(careJourneys)){
 }
 // Keep the homepage symptom-to-information-to-care-to-contact pathway intact.
 const homepageHtml=fs.readFileSync(path.join(out,'index.html'),'utf8');
+// Keep homepage GEO identity consistent with the real clinic and active canonical host.
+const homepageSchemas=[...homepageHtml.matchAll(/<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/gi)].map(match=>{
+ try{return JSON.parse(match[1]);}catch{throw new Error('Invalid homepage JSON-LD');}
+});
+const clinicSchema=homepageSchemas.find(schema=>schema['@type']==='Dentist');
+const websiteSchema=homepageSchemas.find(schema=>schema['@type']==='WebSite');
+if(!clinicSchema||!websiteSchema)throw new Error('Homepage missing Dentist or WebSite schema');
+if(clinicSchema['@id']!=='https://ejoeundental.pages.dev/#clinic'||clinicSchema.name!=='이조은치과'||clinicSchema.telephone!=='+82-32-513-2875')throw new Error('Homepage clinic identity mismatch');
+if(clinicSchema.address?.streetAddress!=='세월천로 34, 대우프라자 305호')throw new Error('Homepage clinic address mismatch');
+if(websiteSchema.publisher?.['@id']!==clinicSchema['@id']||websiteSchema.url!=='https://ejoeundental.pages.dev/')throw new Error('Homepage website publisher mismatch');
+if(!['청천동','산곡동','산곡역'].every(place=>clinicSchema.areaServed?.some(area=>area.name.includes(place))))throw new Error('Homepage local search coverage incomplete');
+console.log('Homepage SEO/GEO identity audit passed: clinic, website, service areas');
 const symptomSection=homepageHtml.match(/<section[^>]*id=["']symptoms["'][^>]*>([\s\S]*?)<\/section>/)?.[1];
 if(!symptomSection)throw new Error('Homepage symptom guide section is missing');
 const symptomCards=[...symptomSection.matchAll(/<div class="card">([\s\S]*?)<\/div>/g)].map(m=>m[1]);
