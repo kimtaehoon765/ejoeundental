@@ -92,3 +92,10 @@
 .article a:focus-visible{outline:3px solid #507a60;outline-offset:3px;border-radius:3px}
 .article img{max-width:100%;height:auto}
 @media(max-width:600px){.article{padding:36px 18px 65px}.article h1{font-size:clamp(27px,7.2vw,34px);line-height:1.45}.article h2{font-size:clamp(21px,5.5vw,25px);line-height:1.5;margin-top:32px}.article p{font-size:16px;line-height:1.85}.article .note{padding:18px}.article .note a,.article .bottom a{padding:5px 0}}
+
+/* Mobile care-page links, text and diagrams: shared rules for pages using site.css. */
+.care-extra{overflow-wrap:anywhere}
+.care-extra h2,.care-extra p,.care-extra li{word-break:keep-all}
+.care-extra a:focus-visible,.gum-section a:focus-visible{outline:3px solid #507a60;outline-offset:3px}
+.care-extra .care-tile{min-width:0}
+@media(max-width:600px){.care-extra .care-diagram{padding:18px 12px;gap:9px}.care-extra .care-diagram .phase{min-width:min(100%,230px);max-width:none;flex-basis:100%;padding:14px}.care-extra .care-diagram .arrow{transform:rotate(90deg);line-height:1}.care-extra .care-grid{gap:12px}.care-extra .care-tile{padding:19px}.gum-section .gum-box{padding:20px}}
