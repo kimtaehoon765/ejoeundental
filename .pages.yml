@@ -57,7 +57,7 @@ content:
     type: collection
     path: content/posts
     format: json
-filename: "{year}-{month}-{day}-{hour}-{minute}-{second}.json"
+    filename: "{year}-{month}-{day}-{hour}-{minute}-{second}.json"
     view:
       fields: [title, date, published]
       primary: title
