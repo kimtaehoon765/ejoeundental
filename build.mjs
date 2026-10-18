@@ -25,7 +25,7 @@ if(fs.existsSync(sitemapPath)){
 
 // Ensure every published page (including all 46 health articles) loads the latest shared mobile CSS.
 // Versioning is done at build time, so older cached stylesheets cannot override new typography.
-const cssVersion='20261018-health-mobile-all';
+const cssVersion='20261018-journal-mobile-links';
 function versionStylesheets(folder){
  for(const item of fs.readdirSync(folder,{withFileTypes:true})){
   const target=path.join(folder,item.name);
@@ -46,7 +46,7 @@ function alignCanonicalUrls(folder){
   if(item.isDirectory()){alignCanonicalUrls(target);continue}
   if(!item.isFile()||!item.name.endsWith('.html'))continue;
   const html=fs.readFileSync(target,'utf8');
-  const updated=html.replace(/(<link\\s+rel=["']canonical["']\\s+href=["'])https:\/\/ejoeundental\\.com(\\/[^"']*["'])/gi,'$1https://ejoeundental.pages.dev$2');
+  const updated=html.replace(/(<link\s+rel=["']canonical["']\s+href=["'])https:\/\/ejoeundental\.com(\/[^"']*["'])/gi,'$1https://ejoeundental.pages.dev$2');
   if(updated!==html)fs.writeFileSync(target,updated);
  }
 }
