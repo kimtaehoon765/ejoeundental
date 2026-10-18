@@ -255,6 +255,21 @@ for(const [page,links] of Object.entries(careJourneys)){
  const html=fs.readFileSync(path.join(out,page),'utf8');
  for(const link of links)if(!html.includes('href="'+link+'"'))throw new Error('Missing care navigation: '+page+' -> '+link);
 }
+// Keep the homepage symptom-to-information-to-care-to-contact pathway intact.
+const homepageHtml=fs.readFileSync(path.join(out,'index.html'),'utf8');
+const symptomSection=homepageHtml.match(/<section[^>]*id=["']symptoms["'][^>]*>([\s\S]*?)<\/section>/)?.[1];
+if(!symptomSection)throw new Error('Homepage symptom guide section is missing');
+const symptomCards=[...symptomSection.matchAll(/<div class="card">([\s\S]*?)<\/div>/g)].map(m=>m[1]);
+if(symptomCards.length!==6)throw new Error('Expected six homepage symptom cards; found '+symptomCards.length);
+for(const [index,card] of symptomCards.entries()){
+ if(!/href=["']\/health\/[^"']+\.html["']/.test(card))throw new Error('Symptom card '+(index+1)+' lacks a health article');
+ if(!/href=["']\/(?:gum-treatment|retreatment|cervical-abrasion|insured-care)\.html["']/.test(card))throw new Error('Symptom card '+(index+1)+' lacks a treatment guide');
+}
+for(const link of ['href="tel:0325132875"','href="#location"']){
+ if(!symptomSection.includes(link))throw new Error('Symptom guide missing contact link '+link);
+}
+if(!homepageHtml.includes('id="location"'))throw new Error('Homepage location anchor is missing');
+console.log('Homepage symptom journey audit passed:',symptomCards.length,'cards and contact links');
 if(brokenLinks.size)throw new Error('Build contains '+brokenLinks.size+' broken local links');
 console.log('Navigation audit passed:',searchDestinations.length,'search destinations and 3 care journeys');
 // Validate sitemap URLs against generated pages and their canonical addresses.
