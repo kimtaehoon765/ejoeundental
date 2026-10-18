@@ -298,3 +298,11 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
 #local-care .grid>.card a{box-sizing:border-box;min-height:44px;max-width:100%;overflow-wrap:anywhere;text-underline-offset:3px}
 #local-care a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:5px}
 @media(max-width:600px){#local-care .grid{grid-template-columns:minmax(0,1fr);gap:14px;margin-top:24px}#local-care .grid>.card{padding:20px 18px}#local-care .grid>.card h3{font-size:20px}#local-care .grid>.card a{min-height:48px;line-height:1.6}}
+
+/* Clinic philosophy: readable diagnosis and staged-care principles on phones. */
+#philosophy .grid>.card{min-width:0;text-align:left}
+#philosophy .grid>.card h3{line-height:1.5;word-break:keep-all}
+#philosophy .grid>.card p{line-height:1.85;word-break:keep-all;overflow-wrap:anywhere}
+#philosophy .grid>.card p a{display:inline-block;box-sizing:border-box;min-height:44px;padding:9px 2px;line-height:1.6;text-underline-offset:3px}
+#philosophy .grid>.card a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:5px}
+@media(max-width:600px){#philosophy .grid{gap:14px}#philosophy .grid>.card{padding:20px 18px}#philosophy .grid>.card h3{font-size:20px}#philosophy .grid>.card p{font-size:16px}#philosophy .grid>.card p a{min-height:48px;padding:11px 2px}}
