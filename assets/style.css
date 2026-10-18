@@ -57,3 +57,10 @@
 #focus-care{scroll-margin-top:24px}
 #focus-care .card a{display:inline-block;font-weight:700;line-height:1.6}
 @media(max-width:600px){.hero-actions .hero-focus{flex-basis:100%}}
+
+/* Patient symptom links: legible, tappable care pathways. */
+#symptoms{scroll-margin-top:24px}
+#symptoms .symptom-grid .card{min-width:0}
+#symptoms .symptom-grid h3{word-break:keep-all;line-height:1.45}
+#symptoms .symptom-grid a{display:inline-block;margin-top:10px;font-weight:700;color:#173e35;line-height:1.6;overflow-wrap:anywhere}
+@media(max-width:600px){#symptoms .symptom-grid .card{padding:21px 19px}#symptoms .symptom-grid a{padding:8px 0}}
