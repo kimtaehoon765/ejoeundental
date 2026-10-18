@@ -246,6 +246,24 @@ if(brokenLinks.size){
  console.warn('Missing local link targets ('+brokenLinks.size+'):');
  for(const link of [...brokenLinks].slice(0,80))console.warn(' - '+link);
 }
+// Verify that every health search result with a clear topic has its care guide link.
+const topicGuideRules=[
+ {pattern:/^(?:gum-|swollen-gums|periodontal-|scaling-|root-planing|curette-|receding-gums|loose-tooth)/,guide:'/gum-treatment.html'},
+ {pattern:/^root-canal-(?:retreatment|after-pain|or-extraction|reinfection)/,guide:'/retreatment.html'},
+ {pattern:/^(?:abrasion-|cervical-)/,guide:'/cervical-abrasion.html'},
+ {pattern:/^insurance-/,guide:'/insured-care.html'}
+];
+let verifiedTopicGuides=0;
+for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
+ const rule=topicGuideRules.find(x=>x.pattern.test(filename));
+ if(!rule)continue;
+ const html=fs.readFileSync(path.join(healthDir,filename),'utf8');
+ if(!html.includes('data-care-link="true"')||!html.includes('href="'+rule.guide+'"')){
+  throw new Error('Health article missing matching care guide: '+filename+' -> '+rule.guide);
+ }
+ verifiedTopicGuides++;
+}
+console.log('Health-to-care navigation audit passed:',verifiedTopicGuides,'topic-matched articles');
 // Verify every searchable destination exists and the main care journeys remain connected.
 const searchDestinations=JSON.parse(fs.readFileSync(path.join(out,'content/search-index-46.json'),'utf8'));
 for(const entry of searchDestinations){
