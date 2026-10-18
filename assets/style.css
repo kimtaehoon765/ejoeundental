@@ -187,12 +187,12 @@
 
 /* Mobile health article reading comfort and tap targets (shared stylesheet). */
 @media(max-width:600px){
- main.article{max-width:100%;padding:36px 18px 70px;overflow-wrap:break-word}
- main.article h1{font-size:clamp(27px,7vw,34px);line-height:1.45;word-break:keep-all}
- main.article h2{font-size:clamp(21px,5.5vw,25px);line-height:1.5;word-break:keep-all}
- main.article p,main.article li{font-size:16px;line-height:1.85;word-break:keep-all}
- main.article .note{padding:18px 16px;margin-top:26px}
- main.article .note a,main.article .bottom a{display:inline-block;min-height:44px;padding:9px 2px;line-height:1.6;text-underline-offset:3px}
- main.article a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:3px}
- main.article ul{padding-left:22px}
+ body main.article{max-width:100%;padding:36px 18px 70px;overflow-wrap:break-word}
+ body main.article h1{font-size:clamp(27px,7vw,34px);line-height:1.45;word-break:keep-all}
+ body main.article h2{font-size:clamp(21px,5.5vw,25px);line-height:1.5;word-break:keep-all}
+ body main.article p,body main.article li{font-size:16px;line-height:1.85;word-break:keep-all}
+ body main.article .note{padding:18px 16px;margin-top:26px}
+ body main.article .note a,body main.article .bottom a{display:inline-block;min-height:44px;padding:9px 2px;line-height:1.6;text-underline-offset:3px}
+ body main.article a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:3px}
+ body main.article ul{padding-left:22px}
 }
