@@ -51,3 +51,9 @@
 .hero-actions .hero-call{background:#173e35;color:#fff}
 .hero-actions .hero-hours{background:transparent;border:1px solid #8fa897;color:#173e35}
 @media(max-width:600px){.hero-actions{gap:8px}.hero-actions .btn{font-size:13px;padding:11px 13px}.hero-actions .hero-hours{flex-basis:100%}}
+
+/* Focused-care shortcut: visually distinct from phone and directions. */
+.hero-actions .hero-focus{background:#eef5ee;border:1px solid #a4bba9;color:#173e35}
+#focus-care{scroll-margin-top:24px}
+#focus-care .card a{display:inline-block;font-weight:700;line-height:1.6}
+@media(max-width:600px){.hero-actions .hero-focus{flex-basis:100%}}
