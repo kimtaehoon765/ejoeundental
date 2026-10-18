@@ -35,10 +35,10 @@ const healthDir=path.join(out,'health');
 for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
  const target=path.join(healthDir,filename);
  const original=fs.readFileSync(target,'utf8');
- const updated=original.replace(/<a(\\s+[^>]*href=["'](\\/health\\/[^"']+\\.html)["'][^>]*)>([^<]*)<\\/a>/g,(whole,attrs,href,label)=>{
+ const updated=original.replace(/<a(\s+[^>]*href=["'](\/health\/[^"']+\.html)["'][^>]*)>([^<]*)<\/a>/g,(whole,attrs,href,label)=>{
   const title=healthTitles.get(href);
   if(!title)return whole;
-  const clean=label.replace(/\\s*[→←]\\s*/g,'').trim().toLowerCase();
+  const clean=label.replace(/\s*[→←]\s*/g,'').trim().toLowerCase();
   const slug=path.basename(href,'.html').replace(/-/g,' ');
   if(clean!==slug&&clean!==path.basename(href,'.html'))return whole;
   return '<a'+attrs+'>'+title+' →</a>';
