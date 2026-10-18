@@ -80,3 +80,15 @@
 @media(min-width:801px){.navlinks{gap:clamp(7px,1.1vw,17px);flex-wrap:wrap;justify-content:flex-end}.navlinks a{white-space:nowrap}.nav{gap:12px}.logo{flex-shrink:0}}
 @media(max-width:600px){.mobile-quick{gap:4px}.mobile-quick a{padding:5px 7px;font-size:11px}.logo{font-size:20px}}
 #location,#faq{scroll-margin-top:90px}
+
+/* Readable health articles and next-step links on small screens. */
+.article{overflow-wrap:anywhere}
+.article p,.article li{word-break:keep-all}
+.article h1,.article h2,.article h3{word-break:keep-all;overflow-wrap:anywhere}
+.article .note{max-width:100%}
+.article .note ul{padding-left:1.35em;margin:12px 0 0}
+.article .note li{margin:8px 0;line-height:1.75}
+.article .note a,.article .bottom a{display:inline-block;line-height:1.7;text-underline-offset:3px}
+.article a:focus-visible{outline:3px solid #507a60;outline-offset:3px;border-radius:3px}
+.article img{max-width:100%;height:auto}
+@media(max-width:600px){.article{padding:36px 18px 65px}.article h1{font-size:clamp(27px,7.2vw,34px);line-height:1.45}.article h2{font-size:clamp(21px,5.5vw,25px);line-height:1.5;margin-top:32px}.article p{font-size:16px;line-height:1.85}.article .note{padding:18px}.article .note a,.article .bottom a{padding:5px 0}}
