@@ -268,3 +268,11 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
 #more-health .grid>.card p a{display:inline-block;max-width:100%;min-height:44px;box-sizing:border-box;padding:9px 2px;line-height:1.6;text-underline-offset:3px;overflow-wrap:anywhere}
 #more-health a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:5px}
 @media(max-width:600px){#more-health .grid{gap:14px}#more-health .grid>.card{padding:20px 18px}#more-health .grid>.card h3{font-size:20px}#more-health .grid>.card p a{display:block;min-height:48px;padding:11px 0}#more-health .grid>.card p br{display:none}}
+
+/* FAQ: comfortable accordion targets and readable answers on phones. */
+#faq .faq-list details{min-width:0}
+#faq .faq-list summary{min-height:48px;box-sizing:border-box;word-break:keep-all;overflow-wrap:anywhere}
+#faq .faq-list details p{word-break:keep-all;overflow-wrap:anywhere}
+#faq .faq-list details p a{display:inline-block;min-height:44px;box-sizing:border-box;padding:9px 2px;line-height:1.6;text-underline-offset:3px}
+#faq .faq-list details p a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:5px}
+@media(max-width:600px){#faq .faq-list{gap:12px}#faq .faq-list summary{padding:17px 16px;line-height:1.6}#faq .faq-list details p{padding:0 16px 18px;line-height:1.85}#faq .faq-list details p a{min-height:48px;padding:11px 2px}}
