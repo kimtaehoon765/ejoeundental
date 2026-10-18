@@ -75,3 +75,8 @@
 .faq-list details p{padding:0 20px 18px;margin:15px 0 0;line-height:1.8}
 .faq-list details a{font-weight:700;overflow-wrap:anywhere}
 @media(max-width:600px){.faq-list summary{padding:15px 16px}.faq-list details p{padding:0 16px 16px}}
+
+/* Keep the expanded desktop menu usable at intermediate widths. */
+@media(min-width:801px){.navlinks{gap:clamp(7px,1.1vw,17px);flex-wrap:wrap;justify-content:flex-end}.navlinks a{white-space:nowrap}.nav{gap:12px}.logo{flex-shrink:0}}
+@media(max-width:600px){.mobile-quick{gap:4px}.mobile-quick a{padding:5px 7px;font-size:11px}.logo{font-size:20px}}
+#location,#faq{scroll-margin-top:90px}
