@@ -112,6 +112,9 @@ for(const [filename,href,label] of treatmentGuides){
 // Add contextual navigation between detailed health articles and the main care pages.
 const careLinks=[
  {prefix:'root-canal-retreatment',href:'/retreatment.html',label:'재신경치료 진료 안내'},
+ {prefix:'root-canal-after-pain',href:'/retreatment.html',label:'신경치료 후 통증·재신경치료 안내'},
+ {prefix:'root-canal-or-extraction',href:'/retreatment.html',label:'자연치아 보존과 재신경치료 안내'},
+ {prefix:'root-canal-reinfection',href:'/retreatment.html',label:'재신경치료 진료 안내'},
  {prefix:'root-canal-',href:'/root-canal-health.html',label:'신경치료 건강정보 더 보기'},
  {prefix:'insurance-',href:'/insured-care.html',label:'건강보험 진료 안내'},
  {prefix:'abrasion-',href:'/cervical-abrasion.html',label:'치경부마모증 진료 안내'},
