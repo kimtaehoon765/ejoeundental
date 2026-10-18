@@ -104,3 +104,10 @@
 .hero-actions .hero-symptoms{background:#e8f3ed;border:2px solid #507a60;color:#173e35;font-weight:800}
 .hero-actions .hero-symptoms:focus-visible{outline:3px solid #173e35;outline-offset:3px}
 @media(max-width:600px){.hero-actions .hero-symptoms{flex-basis:100%;padding:14px 16px;font-size:15px}.hero-actions .hero-focus{order:1}.hero-actions .hero-symptoms{order:0}}
+
+/* Distinguish health reading from the next clinical step in symptom cards. */
+#symptoms .symptom-grid .card>a{max-width:100%;text-underline-offset:3px}
+#symptoms .symptom-grid .card>a:last-of-type{border:1px solid #b9d0be;border-radius:8px;background:#eef5ee;padding:10px 12px;text-decoration:none}
+#symptoms .symptom-grid .card>a:last-of-type:hover{background:#dcecdf}
+#symptoms .symptom-grid .card>a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:6px}
+@media(max-width:600px){#symptoms .symptom-grid .card>a{display:block;margin-top:7px;padding:11px 0;font-size:15px;line-height:1.6}#symptoms .symptom-grid .card>a:last-of-type{margin-top:11px;padding:13px 14px;font-size:15px}#symptoms .symptom-grid .card br{display:none}}
