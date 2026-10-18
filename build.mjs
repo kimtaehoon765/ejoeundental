@@ -103,6 +103,29 @@ for(const filename of fs.readdirSync(healthSchemaDir).filter(name=>name.endsWith
 }
 console.log('Health structured data generated:',healthSchemaCount,'pages');
 
+if(healthSchemaCount!==46)throw new Error('Expected 46 structured health pages, found '+healthSchemaCount);
+const healthMetadataIssues=[];
+const seenHealthTitles=new Map();
+const seenHealthDescriptions=new Map();
+for(const filename of fs.readdirSync(healthSchemaDir).filter(name=>name.endsWith('.html'))){
+ const html=fs.readFileSync(path.join(healthSchemaDir,filename),'utf8');
+ const title=html.match(/<title[^>]*>([^<]+)<\/title>/i)?.[1]?.trim()||'';
+ const desc=html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i)?.[1]?.trim()||'';
+ const heading=html.match(/<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/i)?.[1]?.replace(/<[^>]+>/g,'').trim()||'';
+ if(!heading)healthMetadataIssues.push(filename+': missing H1');
+ if(!desc)healthMetadataIssues.push(filename+': missing meta description');
+ if(desc.length>170)healthMetadataIssues.push(filename+': long meta description ('+desc.length+')');
+ if(title.length>75)healthMetadataIssues.push(filename+': long title ('+title.length+')');
+ if(seenHealthTitles.has(title))healthMetadataIssues.push(filename+': duplicate title with '+seenHealthTitles.get(title));
+ else seenHealthTitles.set(title,filename);
+ if(desc&&seenHealthDescriptions.has(desc))healthMetadataIssues.push(filename+': duplicate description with '+seenHealthDescriptions.get(desc));
+ else if(desc)seenHealthDescriptions.set(desc,filename);
+ if(!html.includes('application/ld+json'))throw new Error('Health structured data missing: '+filename);
+}
+console.log('Health SEO metadata audit:',46,'pages,',healthMetadataIssues.length,'improvement candidates');
+for(const issue of healthMetadataIssues.slice(0,30))console.warn('Health SEO:',issue);
+
+
 // Replace internal article-link slug labels with readable Korean titles across all health pages.
 const healthTitles=new Map(entries.filter(e=>e.url&&e.title).map(e=>[e.url,e.title]));
 const healthDir=path.join(out,'health');
