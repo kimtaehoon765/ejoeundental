@@ -118,3 +118,7 @@
 #symptoms .symptom-contact a:first-of-type{background:#173e35;color:#fff;border-color:#173e35}
 #symptoms .symptom-contact a:focus-visible{outline:3px solid #287d60;outline-offset:3px}
 @media(max-width:600px){#symptoms .symptom-contact{padding:18px 16px;font-size:15px}#symptoms .symptom-contact a{display:block;margin:10px 0 0;text-align:center;padding:13px 12px}}
+
+/* Keyboard accessibility: bypass the long homepage navigation. */
+.skip-link{position:fixed;top:12px;left:12px;z-index:9999;transform:translateY(-160%);padding:12px 18px;border-radius:7px;background:#173e35;color:#fff;font-weight:700;text-decoration:none;box-shadow:0 3px 12px rgba(0,0,0,.18)}
+.skip-link:focus,.skip-link:focus-visible{transform:translateY(0);outline:3px solid #e4cf89;outline-offset:2px}
