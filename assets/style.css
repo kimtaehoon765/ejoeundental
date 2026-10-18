@@ -99,3 +99,8 @@
 .care-extra a:focus-visible,.gum-section a:focus-visible{outline:3px solid #507a60;outline-offset:3px}
 .care-extra .care-tile{min-width:0}
 @media(max-width:600px){.care-extra .care-diagram{padding:18px 12px;gap:9px}.care-extra .care-diagram .phase{min-width:min(100%,230px);max-width:none;flex-basis:100%;padding:14px}.care-extra .care-diagram .arrow{transform:rotate(90deg);line-height:1}.care-extra .care-grid{gap:12px}.care-extra .care-tile{padding:19px}.gum-section .gum-box{padding:20px}}
+
+/* Keep symptom discovery obvious and easy to tap on small screens. */
+.hero-actions .hero-symptoms{background:#e8f3ed;border:2px solid #507a60;color:#173e35;font-weight:800}
+.hero-actions .hero-symptoms:focus-visible{outline:3px solid #173e35;outline-offset:3px}
+@media(max-width:600px){.hero-actions .hero-symptoms{flex-basis:100%;padding:14px 16px;font-size:15px}.hero-actions .hero-focus{order:1}.hero-actions .hero-symptoms{order:0}}
