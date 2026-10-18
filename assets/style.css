@@ -24,3 +24,16 @@
 .article>img{display:block;max-width:100%;height:auto;border-radius:14px;margin:0 auto 28px}
 .article .body{overflow-wrap:anywhere;word-break:keep-all}
 @media(max-width:600px){#post-list .post-card img{aspect-ratio:16/10;height:auto}#post-list .post-card h3{font-size:21px;line-height:1.5}.article>img{width:100%;margin-bottom:24px}.article .body{font-size:16px;line-height:1.9}}
+
+
+/* Keep clinical illustrations, tables and long links inside narrow phone screens. */
+.article img,.article svg,.article video,.article iframe{max-width:100%;height:auto}
+.article table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-collapse:collapse}
+.article pre,.article code{max-width:100%;overflow-wrap:anywhere}
+.article a{overflow-wrap:anywhere}
+@media(max-width:600px){
+ .article{min-width:0}
+ .article blockquote{margin-left:0;margin-right:0;padding:14px 16px}
+ .article table{font-size:14px}
+ .article th,.article td{padding:9px 10px}
+}
