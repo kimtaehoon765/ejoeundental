@@ -57,7 +57,7 @@ content:
     type: collection
     path: content/posts
     format: json
-    filename: "{primary}.json"
+    extension: json
     view:
       fields: [title, date, published]
       primary: title
