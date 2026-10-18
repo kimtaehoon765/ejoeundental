@@ -276,3 +276,10 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
 #faq .faq-list details p a{display:inline-block;min-height:44px;box-sizing:border-box;padding:9px 2px;line-height:1.6;text-underline-offset:3px}
 #faq .faq-list details p a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:5px}
 @media(max-width:600px){#faq .faq-list{gap:12px}#faq .faq-list summary{padding:17px 16px;line-height:1.6}#faq .faq-list details p{padding:0 16px 18px;line-height:1.85}#faq .faq-list details p a{min-height:48px;padding:11px 2px}}
+
+/* Visit details: readable alternating Friday/Saturday schedule on small screens. */
+#location .hours-box,#location .parking-info{min-width:0}
+#location .hours-box .notice{word-break:keep-all;overflow-wrap:anywhere}
+#location .hours-box a[href^="tel:"],#location .nearby-location a{display:inline-block;box-sizing:border-box;min-height:44px;padding:9px 2px;line-height:1.6;overflow-wrap:anywhere;text-underline-offset:3px}
+#location .hours-box a:focus-visible,#location .nearby-location a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:5px}
+@media(max-width:600px){#location .hours-box{padding:20px 17px}#location .hours-box h3{font-size:20px;line-height:1.45}#location .hours-box p{font-size:15px;line-height:1.9}#location .hours-box .notice{font-size:14px;line-height:1.9}#location .hours-box a[href^="tel:"],#location .nearby-location a{min-height:48px;padding:11px 2px}#location .parking-info{padding:19px 17px}#location .parking-info h3{line-height:1.55}}
