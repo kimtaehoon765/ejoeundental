@@ -47,4 +47,20 @@ for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
 }
 
 
+// Place supplemental clinical explanations and related reading before the article footer.
+for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
+ const target=path.join(healthDir,filename);
+ let html=fs.readFileSync(target,'utf8');
+ const footerStart=html.indexOf('<div class="bottom">');
+ if(footerStart<0)continue;
+ const footerEnd=html.indexOf('</div>',footerStart);
+ if(footerEnd<0)continue;
+ const tail=html.slice(footerEnd+6);
+ const sections=[...tail.matchAll(/<section class="note"[^>]*>[\s\S]*?<\/section>/g)].map(m=>m[0]);
+ if(!sections.length)continue;
+ const cleaned=tail.replace(/<section class="note"[^>]*>[\s\S]*?<\/section>/g,'');
+ html=html.slice(0,footerStart)+sections.join('')+html.slice(footerStart,footerEnd+6)+cleaned;
+ fs.writeFileSync(target,html);
+}
+
 console.log('Build complete:',posts.length,'articles');
