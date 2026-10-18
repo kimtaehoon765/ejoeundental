@@ -319,3 +319,8 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
 #location .nearby-location a,#location .hours-box a,#location .visit-check a{overflow-wrap:anywhere;text-underline-offset:3px}
 #location a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:5px}
 @media(max-width:600px){#location .location-actions{grid-template-columns:minmax(0,1fr);gap:12px}#location .location-actions .btn{width:100%;min-height:52px;padding:14px 16px;white-space:normal;line-height:1.55}#location .nearby-location a,#location .hours-box a,#location .visit-check a{display:inline-block;min-height:44px;padding:9px 0;line-height:1.65}}
+
+/* Readable visit hours and parking notes on narrow screens. */
+#location .hours-box,#location .parking-info{min-width:0;overflow-wrap:anywhere}
+#location .hours-box p,#location .parking-info p{word-break:keep-all}
+@media(max-width:600px){#location .hours-box{padding:20px 18px}#location .hours-box h3{font-size:20px;line-height:1.5;margin-bottom:12px}#location .hours-box p{font-size:16px;line-height:1.9;margin:12px 0}#location .hours-box .notice{font-size:15px;line-height:1.85}#location .parking-info{padding:20px 18px;margin:18px 0}#location .parking-info h3{font-size:18px;line-height:1.5}#location .parking-info p{font-size:16px;line-height:1.85}#location .parking-info .parking-note{font-size:15px;line-height:1.8}}
