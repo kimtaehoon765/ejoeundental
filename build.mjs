@@ -468,5 +468,17 @@ if(unexpectedHealthSitemap.length)throw new Error('Unexpected health sitemap URL
 console.log('Health sitemap coverage passed:',healthHtmlFiles.length,'published health pages');
 const publishedRobots=fs.readFileSync(path.join(out,'robots.txt'),'utf8');
 if(!publishedRobots.includes('Sitemap: https://ejoeundental.pages.dev/sitemap.xml'))throw new Error('Robots sitemap location mismatch');
+// Ensure the crawler rules permit published pages and keep private editing routes out.
+const robotsLines=publishedRobots.split(/\r?\n/).map(line=>line.trim()).filter(line=>line&&!line.startsWith('#'));
+if(!robotsLines.some(line=>/^User-agent:\s*\*$/i.test(line)))throw new Error('Robots.txt missing default crawler group');
+if(!robotsLines.some(line=>/^Allow:\s*\/$/i.test(line)))throw new Error('Robots.txt missing public crawl allowance');
+if(!robotsLines.some(line=>/^Disallow:\s*\/admin\/$/i.test(line)))throw new Error('Robots.txt does not protect editing route');
+const disallowedPaths=robotsLines.filter(line=>/^Disallow:/i.test(line)).map(line=>line.replace(/^Disallow:\s*/i,'').trim());
+for(const url of sitemapUrls){
+ const pathname=new URL(url).pathname;
+ if(disallowedPaths.some(rule=>rule==='/'||(rule&&pathname.startsWith(rule))))throw new Error('Sitemap URL blocked by robots.txt: '+url);
+}
+console.log('Robots crawl audit passed:',sitemapUrls.length,'sitemap pages allowed, /admin/ excluded');
+
 console.log('Sitemap audit passed:',sitemapUrls.length,'canonical-aligned published pages');
 console.log('Build complete:',posts.length,'articles');
