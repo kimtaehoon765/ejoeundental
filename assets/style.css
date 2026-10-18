@@ -237,3 +237,10 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
 .hero-visit-note strong{color:#24483f}.hero-visit-note a{color:#245d4b;font-weight:700;text-underline-offset:3px}
 .hero-visit-note a:focus-visible{outline:3px solid #287d60;outline-offset:3px}
 @media(max-width:600px){.hero-visit-note{margin:12px 0 0;padding:13px 14px;font-size:15px;line-height:1.85}.hero-visit-note a{display:inline-block;min-height:44px;padding:7px 2px;vertical-align:middle}}
+
+/* Symptom navigation: consistent reading order and comfortable phone tap targets. */
+#symptoms .symptom-grid .card{display:flex;flex-direction:column;align-items:stretch}
+#symptoms .symptom-grid .card h3{margin-bottom:8px}
+#symptoms .symptom-grid .card p{margin-top:0;line-height:1.8;word-break:keep-all}
+#symptoms .symptom-grid .card>a{box-sizing:border-box;min-height:44px;display:flex;align-items:center;word-break:keep-all}
+@media(max-width:600px){#symptoms .symptom-grid{gap:14px}#symptoms .symptom-grid .card{padding:20px 18px}#symptoms .symptom-grid .card h3{font-size:19px;line-height:1.45}#symptoms .symptom-grid .card>a{min-height:48px;font-size:15px;line-height:1.6}#symptoms .symptom-contact a{min-height:48px;display:flex;align-items:center;justify-content:center}}
