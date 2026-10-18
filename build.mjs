@@ -131,4 +131,16 @@ for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
  fs.writeFileSync(target,html);
 }
 
+// Fail the build instead of silently deploying a site with missing journal images or pages.
+for(const post of posts){
+ const page=path.join(out,'stories',post.slug,'index.html');
+ if(!fs.existsSync(page))throw new Error('Missing published article: '+post.slug);
+ if(typeof post.image==='string'&&post.image.startsWith('/assets/cms-images/')){
+  const imagePath=path.join(out,post.image.slice(1));
+  if(!fs.existsSync(imagePath))throw new Error('Missing article image: '+post.image);
+ }
+}
+for(const filename of ['index.html','content/posts-index.json','sitemap.xml']){
+ if(!fs.existsSync(path.join(out,filename)))throw new Error('Missing required output: '+filename);
+}
 console.log('Build complete:',posts.length,'articles');
