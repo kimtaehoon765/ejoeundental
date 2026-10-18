@@ -38,6 +38,20 @@ function versionStylesheets(folder){
 }
 versionStylesheets(out);
 
+// Until the custom domain is connected, keep canonical links aligned with the Pages preview site.
+// Apply only to generated HTML; the original source pages remain unchanged.
+function alignCanonicalUrls(folder){
+ for(const item of fs.readdirSync(folder,{withFileTypes:true})){
+  const target=path.join(folder,item.name);
+  if(item.isDirectory()){alignCanonicalUrls(target);continue}
+  if(!item.isFile()||!item.name.endsWith('.html'))continue;
+  const html=fs.readFileSync(target,'utf8');
+  const updated=html.replace(/(<link\\s+rel=["']canonical["']\\s+href=["'])https:\/\/ejoeundental\\.com(\\/[^"']*["'])/gi,'$1https://ejoeundental.pages.dev$2');
+  if(updated!==html)fs.writeFileSync(target,updated);
+ }
+}
+alignCanonicalUrls(out);
+
 // Replace internal article-link slug labels with readable Korean titles across all health pages.
 const healthTitles=new Map(entries.filter(e=>e.url&&e.title).map(e=>[e.url,e.title]));
 const healthDir=path.join(out,'health');
