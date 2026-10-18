@@ -63,6 +63,31 @@ function alignCanonicalUrls(folder){
 }
 alignCanonicalUrls(out);
 
+// Mirror only visible homepage FAQs in machine-readable form for answer engines.
+// No extra answers are invented; the source of truth remains the visible FAQ.
+const homeFaqPath=path.join(out,'index.html');
+let homeFaqHtml=fs.readFileSync(homeFaqPath,'utf8');
+const faqSection=homeFaqHtml.match(/<section[^>]*id=["']faq["'][^>]*>([\s\S]*?)<\/section>/i)?.[1];
+if(!faqSection)throw new Error('Homepage FAQ section missing');
+const stripFaqHtml=value=>value.replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim();
+const faqPairs=[...faqSection.matchAll(/<details>\s*<summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>\s*<\/details>/gi)];
+if(faqPairs.length!==7)throw new Error('Expected seven visible FAQ entries, found '+faqPairs.length);
+const faqSchema={
+ '@context':'https://schema.org',
+ '@type':'FAQPage',
+ '@id':'https://ejoeundental.pages.dev/#faq',
+ mainEntity:faqPairs.map(([,question,answer])=>({
+  '@type':'Question',
+  name:stripFaqHtml(question),
+  acceptedAnswer:{'@type':'Answer',text:stripFaqHtml(answer)}
+ }))
+};
+if(!homeFaqHtml.includes('"@type": "FAQPage"')){
+ homeFaqHtml=homeFaqHtml.replace(/<\/head>/i,'<script type="application/ld+json">'+JSON.stringify(faqSchema).replace(/</g,'\\u003c')+'</script>\n</head>');
+ fs.writeFileSync(homeFaqPath,homeFaqHtml);
+}
+console.log('Visible homepage FAQ structured data generated:',faqPairs.length,'questions');
+
 // Supply canonical URLs for legacy pages that do not declare one in their source HTML.
 for(const page of ['implant.html','pediatric-dentistry.html','pediatric-orthodontics.html','search.html']){
  const target=path.join(out,page);
