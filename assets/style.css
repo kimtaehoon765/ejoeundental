@@ -125,3 +125,11 @@
 
 /* Location directions: large, easy-to-tap map and call actions. */
 .location-actions{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px;margin-top:18px}.location-actions .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;text-align:center;line-height:1.45}.location-actions .btn:focus-visible{outline:3px solid #507a60;outline-offset:3px}@media(max-width:600px){.location-actions{flex-direction:column}.location-actions .btn{width:100%;box-sizing:border-box;white-space:normal}}
+
+/* Health article next steps: readable, accessible contact actions on phones. */
+[data-care-link="true"]{word-break:keep-all;overflow-wrap:anywhere}
+[data-care-link="true"] .health-care-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+[data-care-link="true"] .health-care-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:46px;box-sizing:border-box;padding:11px 15px;border:1px solid #91b3a0;border-radius:8px;background:#fff;color:#173e35;font-weight:700;text-decoration:none;text-align:center;line-height:1.5}
+[data-care-link="true"] .health-care-actions a:first-child{background:#173e35;color:#fff;border-color:#173e35}
+[data-care-link="true"] a:focus-visible{outline:3px solid #287d60;outline-offset:3px}
+@media(max-width:600px){[data-care-link="true"]{padding:16px!important;font-size:15px}[data-care-link="true"] .health-care-actions{flex-direction:column}[data-care-link="true"] .health-care-actions a{width:100%;min-height:48px}}
