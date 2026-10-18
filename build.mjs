@@ -143,4 +143,30 @@ for(const post of posts){
 for(const filename of ['index.html','content/posts-index.json','sitemap.xml']){
  if(!fs.existsSync(path.join(out,filename)))throw new Error('Missing required output: '+filename);
 }
+// Check local navigation targets in generated HTML without blocking deployment for old optional links.
+const brokenLinks=new Set();
+function checkLocalLinks(folder){
+ for(const item of fs.readdirSync(folder,{withFileTypes:true})){
+  const file=path.join(folder,item.name);
+  if(item.isDirectory()){checkLocalLinks(file);continue}
+  if(!item.isFile()||!item.name.endsWith('.html'))continue;
+  const html=fs.readFileSync(file,'utf8');
+  for(const match of html.matchAll(/(?:href|src)=["'](\/[^"'#?]*)(?:[?#][^"']*)?["']/g)){
+   const url=match[1];
+   if(url==='/'||url.startsWith('//'))continue;
+   let decoded;
+   try{decoded=decodeURIComponent(url)}catch{continue}
+   if(decoded.includes('..'))continue;
+   const local=path.join(out,decoded.slice(1));
+   if(!fs.existsSync(local)&&!fs.existsSync(path.join(local,'index.html'))){
+    brokenLinks.add(path.relative(out,file)+': '+url);
+   }
+  }
+ }
+}
+checkLocalLinks(out);
+if(brokenLinks.size){
+ console.warn('Missing local link targets ('+brokenLinks.size+'):');
+ for(const link of [...brokenLinks].slice(0,80))console.warn(' - '+link);
+}
 console.log('Build complete:',posts.length,'articles');
