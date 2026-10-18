@@ -70,6 +70,26 @@ for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
 }
 
 
+// Add contextual navigation between detailed health articles and the main care pages.
+const careLinks=[
+ {prefix:'root-canal-',href:'/retreatment.html',label:'재신경치료 진료 안내'},
+ {prefix:'insurance-',href:'/insured-care.html',label:'건강보험 진료 안내'},
+ {prefix:'abrasion-',href:'/cervical-abrasion.html',label:'치경부마모증 진료 안내'},
+ {prefix:'gum-',href:'/gum-treatment.html',label:'잇몸치료 진료 안내'}
+];
+for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
+ const match=careLinks.find(x=>filename.startsWith(x.prefix));
+ if(!match)continue;
+ const target=path.join(healthDir,filename);
+ let html=fs.readFileSync(target,'utf8');
+ if(html.includes('data-care-link="true"'))continue;
+ const link='<p data-care-link="true" style="margin:26px 0;padding:16px 20px;background:#f0f5ef;border-radius:12px"><a href="'+match.href+'" style="font-weight:700;color:#173e35">관련 진료 안내: '+match.label+' →</a></p>';
+ if(html.includes('<div class="bottom">'))html=html.replace('<div class="bottom">',link+'<div class="bottom">');
+ else if(html.includes('</article>'))html=html.replace('</article>',link+'</article>');
+ else continue;
+ fs.writeFileSync(target,html);
+}
+
 // Place supplemental clinical explanations and related reading before the article footer.
 for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
  const target=path.join(healthDir,filename);
