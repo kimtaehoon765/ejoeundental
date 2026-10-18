@@ -72,10 +72,18 @@ for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
 
 // Add contextual navigation between detailed health articles and the main care pages.
 const careLinks=[
- {prefix:'root-canal-',href:'/retreatment.html',label:'재신경치료 진료 안내'},
+ {prefix:'root-canal-retreatment',href:'/retreatment.html',label:'재신경치료 진료 안내'},
+ {prefix:'root-canal-',href:'/root-canal-health.html',label:'신경치료 건강정보 더 보기'},
  {prefix:'insurance-',href:'/insured-care.html',label:'건강보험 진료 안내'},
  {prefix:'abrasion-',href:'/cervical-abrasion.html',label:'치경부마모증 진료 안내'},
- {prefix:'gum-',href:'/gum-treatment.html',label:'잇몸치료 진료 안내'}
+ {prefix:'gum-',href:'/gum-treatment.html',label:'잇몸치료 진료 안내'},
+ {prefix:'swollen-gums',href:'/gum-treatment.html',label:'잇몸치료 진료 안내'},
+ {prefix:'periodontal-',href:'/gum-treatment.html',label:'잇몸치료 진료 안내'},
+ {prefix:'scaling-',href:'/gum-treatment.html',label:'잇몸치료 진료 안내'},
+ {prefix:'root-planing',href:'/gum-treatment.html',label:'잇몸치료 진료 안내'},
+ {prefix:'curette-',href:'/gum-treatment.html',label:'잇몸치료 진료 안내'},
+ {prefix:'receding-gums',href:'/gum-treatment.html',label:'잇몸치료 진료 안내'},
+ {prefix:'loose-tooth',href:'/gum-treatment.html',label:'잇몸치료 진료 안내'}
 ];
 for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
  const match=careLinks.find(x=>filename.startsWith(x.prefix));
