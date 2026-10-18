@@ -62,6 +62,17 @@ function alignCanonicalUrls(folder){
 }
 alignCanonicalUrls(out);
 
+// Supply canonical URLs for legacy pages that do not declare one in their source HTML.
+for(const page of ['implant.html','pediatric-dentistry.html','pediatric-orthodontics.html','search.html']){
+ const target=path.join(out,page);
+ let html=fs.readFileSync(target,'utf8');
+ if(/<link\s+rel=["']canonical["']/i.test(html))continue;
+ const canonical='<link rel="canonical" href="https://ejoeundental.pages.dev/'+page+'">';
+ html=html.replace(/<\/head>/i,canonical+'\n</head>');
+ fs.writeFileSync(target,html);
+}
+
+
 // Replace internal article-link slug labels with readable Korean titles across all health pages.
 const healthTitles=new Map(entries.filter(e=>e.url&&e.title).map(e=>[e.url,e.title]));
 const healthDir=path.join(out,'health');
