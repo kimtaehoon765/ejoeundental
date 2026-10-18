@@ -219,6 +219,30 @@ for(const [filename,meta] of Object.entries(localCareMeta)){
 }
 console.log('Local care SEO snippets refreshed:',Object.keys(localCareMeta).length,'pages');
 
+// Check that localized snippets describe information actually visible on care pages.
+const careTopicWords={
+ 'gum-treatment.html':['잇몸','치주'],
+ 'retreatment.html':['재신경치료','근관'],
+ 'cervical-abrasion.html':['치경부마모증','GI'],
+ 'insured-care.html':['건강보험','보험']
+};
+for(const [filename,meta] of Object.entries(localCareMeta)){
+ const html=fs.readFileSync(path.join(out,filename),'utf8');
+ const title=html.match(/<title>([^<]*)<\/title>/i)?.[1]||'';
+ const description=html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i)?.[1]||'';
+ const visible=html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,' ').replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,' ').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ');
+ if(title!==meta.title||description!==meta.description)throw new Error('Localized SEO snippet mismatch: '+filename);
+ for(const keyword of careTopicWords[filename]){
+  if(!title.includes(keyword)&&!description.includes(keyword))throw new Error('Care snippet missing treatment topic '+keyword+': '+filename);
+  if(!visible.includes(keyword))throw new Error('Care snippet mentions topic absent from visible page '+keyword+': '+filename);
+ }
+ for(const locality of ['청천동','산곡동','산곡역']){
+  if(!description.includes(locality)||!visible.includes(locality))throw new Error('Care local snippet not supported by visible page: '+filename+' / '+locality);
+ }
+ if(!visible.includes('세월천로 34'))throw new Error('Care location missing from visible page: '+filename);
+}
+console.log('Care SEO content consistency passed:',Object.keys(localCareMeta).length,'pages');
+
 // Give visitors a route back from treatment pages to the corresponding health guides.
 const treatmentGuides=[
  ['gum-treatment.html','/gum-health.html','잇몸 건강정보 10편'],
