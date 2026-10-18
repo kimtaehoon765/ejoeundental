@@ -176,6 +176,20 @@ for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
 }
 
 
+// Give local patients an accurate location path from each core treatment guide.
+// The clinic is in Cheongcheon-dong; Sangok-dong and Sangok Station are nearby areas, not branches.
+const localCarePages=['gum-treatment.html','retreatment.html','cervical-abrasion.html','insured-care.html'];
+for(const filename of localCarePages){
+ const target=path.join(out,filename);
+ let html=fs.readFileSync(target,'utf8');
+ if(html.includes('data-local-care-location="true"'))continue;
+ const block='<section data-local-care-location="true" aria-label="치과 위치 안내" style="padding:36px 20px;background:#f2f6f1"><div style="max-width:1000px;margin:auto;line-height:1.85"><h2 style="margin:0 0 12px;font-size:clamp(22px,3vw,28px)">청천동 이조은치과 위치 안내</h2><p>이조은치과는 <strong>인천 부평구 청천동, 세월천로 34 대우프라자 305호</strong>에 있습니다. 산곡동·산곡역 주변에서 방문을 고려하신다면 실제 위치와 이동 경로를 먼저 확인해 주세요.</p><p><a href="/#location">진료시간·위치·주차 안내 →</a> · <a href="tel:0325132875">전화 문의 032-513-2875 →</a></p><p style="font-size:14px">금요일과 토요일은 격주로 진료 일정이 달라 방문 전 전화 확인을 권합니다.</p></div></section>';
+ if(!html.includes('</main>'))throw new Error('Missing main section in care page: '+filename);
+ html=html.replace('</main>',block+'</main>');
+ fs.writeFileSync(target,html);
+}
+console.log('Local care navigation generated:',localCarePages.length,'treatment pages');
+
 // Give visitors a route back from treatment pages to the corresponding health guides.
 const treatmentGuides=[
  ['gum-treatment.html','/gum-health.html','잇몸 건강정보 10편'],
