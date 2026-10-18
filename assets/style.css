@@ -16,3 +16,11 @@
 #care .grid>.card:first-child h3{color:#173e35}
 #care .grid>.card:first-child a{display:inline-block;padding:10px 15px;background:#173e35;color:#fff;border-radius:7px;text-decoration:none}
 @media(max-width:600px){#care .grid>.card:first-child{padding:24px 20px}#care .grid>.card:first-child h3{font-size:28px!important}}
+
+/* Journal cards and featured images: responsive, consistent presentation. */
+#post-list .post-card{min-width:0;overflow:hidden}
+#post-list .post-card img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;border-radius:12px;margin-bottom:14px}
+#post-list .post-card h3,#post-list .post-card p{overflow-wrap:anywhere;word-break:keep-all}
+.article>img{display:block;max-width:100%;height:auto;border-radius:14px;margin:0 auto 28px}
+.article .body{overflow-wrap:anywhere;word-break:keep-all}
+@media(max-width:600px){#post-list .post-card img{aspect-ratio:16/10;height:auto}#post-list .post-card h3{font-size:21px;line-height:1.5}.article>img{width:100%;margin-bottom:24px}.article .body{font-size:16px;line-height:1.9}}
