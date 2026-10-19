@@ -35,6 +35,7 @@ jobs:
           test -f dist/content/fees-index.json
           test -f dist/assets/fees.js
           test -f dist/assets/site.js
+          node -e "const fs=require('fs');const html=fs.readFileSync('dist/index.html','utf8');if(!html.includes('id=\"post-list\"')||!html.includes('aria-busy=\"true\"')||!html.includes('<noscript>'))process.exit(1)"
           node -e "const fs=require('fs');const x=JSON.parse(fs.readFileSync('dist/content/fees-index.json','utf8'));if(!Array.isArray(x.items))process.exit(1)"
           test -d dist/health
           echo "Website build and required files verified."
