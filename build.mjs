@@ -790,6 +790,16 @@ for(const property of ['og:title','og:description','og:type','og:locale','og:sit
 if(!homeAuditHtml.includes('name="twitter:card"'))throw new Error('Homepage Twitter card metadata missing');
 if(!/<meta\s+name=["']robots["']\s+content=["']index,follow,max-image-preview:large["']/.test(homeAuditHtml))throw new Error('Homepage indexing directive missing');
 if(!homeAuditHtml.includes('name="format-detection" content="telephone=no"'))throw new Error('Homepage telephone detection preference missing');
+// Every published journal article must keep its consultation and navigation details.
+for(const post of posts){
+ const html=fs.readFileSync(path.join(out,'stories',post.slug,'index.html'),'utf8');
+ for(const required of ['id="main-content"','href="tel:0325132875"','href="/#location"','격주 금요일·토요일 진료 일정','application/ld+json']){
+  if(!html.includes(required))throw new Error('Journal article missing essential patient information ('+required+'): '+post.slug);
+ }
+ const canonical='https://ejoeundental.pages.dev/stories/'+encodeURIComponent(post.slug)+'/';
+ if(!html.includes('rel="canonical" href="'+canonical+'"'))throw new Error('Journal article canonical mismatch: '+post.slug);
+}
+console.log('Journal patient-navigation audit passed:',posts.length,'published articles');
 console.log('Homepage social preview audit passed:',auditedHomepageCanonical);
 console.log('Homepage published-page links audit passed:',new Set(auditedHomepageLocalPages).size,'local pages');
 console.log('Homepage anchor navigation audit passed:',auditedHomepageHashLinks.length,'links');
