@@ -79,6 +79,14 @@ fs.writeFileSync(path.join(out,'content/search-index-46.json'),JSON.stringify(en
 posts.sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))||a.slug.localeCompare(b.slug));
 fs.writeFileSync(path.join(out,'content/posts-index.json'),JSON.stringify(posts.map(({slug,title,date,summary,image})=>({slug,title,date,summary,image:typeof image==='string'&&/^\/assets\/cms-images\/[\w./%-]+$/i.test(image)&&!image.includes('..')&&!/%2f|%5c|%2e/i.test(image)&&fs.existsSync(path.join(root,image.slice(1)))?image:''})),null,2));
 for(const file of ['sitemap.xml','robots.txt']){const source=path.join(root,file);if(fs.existsSync(source))fs.copyFileSync(source,path.join(out,file))}
+// Match the generated robots sitemap pointer to the current Pages preview output.
+// Keep the source robots.txt and the future custom-domain configuration unchanged.
+const previewRobotsPath=path.join(out,'robots.txt');
+if(fs.existsSync(previewRobotsPath)){
+ const robots=fs.readFileSync(previewRobotsPath,'utf8');
+ fs.writeFileSync(previewRobotsPath,robots.replace(/(^Sitemap:\\s*)https:\/\/ejoeundental\\.com\/sitemap\\.xml\\s*$/gmi,'$1https://ejoeundental.pages.dev/sitemap.xml'));
+}
+
 // Search is intentionally noindex: exclude it from the sitemap.
 const searchSitemapPath=path.join(out,'sitemap.xml');
 if(fs.existsSync(searchSitemapPath)){
