@@ -738,6 +738,12 @@ for(const match of auditedFragmentLinks){
  const escapedFragment=match[2].replace(/[.*+?^\x24{}()|[\]\\]/g,'\\\x24&');
  if(!new RegExp('\\bid=["\\\']'+escapedFragment+'["\\\']').test(targetHtml))throw new Error('Homepage fragment link points to missing section: '+match[1]+'#'+match[2]);
 }
+// Keep key local-search and patient-care pages reachable through the homepage.
+const auditedRequiredPages=['/gum-treatment.html','/retreatment.html','/cervical-abrasion.html','/insured-care.html','/noncovered-fees.html','/search.html'];
+const auditedLinkedPages=new Set(auditedHomepageLocalPages);
+for(const requiredPage of auditedRequiredPages){if(!auditedLinkedPages.has(requiredPage))throw new Error('Homepage lost key patient information link: '+requiredPage);}
+const auditedVisitAnchors=['location','symptom-guide','visit-guide','faq'];
+for(const sectionId of auditedVisitAnchors){if(!auditedHomepageIdSet.has(sectionId))throw new Error('Homepage lost essential patient section: '+sectionId);}
 console.log('Homepage published-page links audit passed:',new Set(auditedHomepageLocalPages).size,'local pages');
 console.log('Homepage anchor navigation audit passed:',auditedHomepageHashLinks.length,'links');
 console.log('Homepage local SEO audit passed:',homeSchemas.length,'valid structured data blocks, phone, address and key links');
