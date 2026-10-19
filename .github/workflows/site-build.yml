@@ -53,6 +53,12 @@ jobs:
           const posts=JSON.parse(fs.readFileSync(path.join(base,'content/posts-index.json'),'utf8'));
           if(!site.clinic||!site.phone||!site.address)throw Error('Clinic runtime details missing');
           if(!Array.isArray(entries)||entries.length===0)throw Error('No searchable pages');
+          const homepage=entries.find(item=>item.url==='/');
+          if(!homepage)throw Error('Homepage missing from on-site search');
+          const homepageText=[homepage.title,homepage.description,homepage.body].join(' ');
+          for(const keyword of ['이조은치과','진료시간','주차','잇몸치료','재신경치료']){
+            if(!homepageText.includes(keyword))throw Error('Homepage search missing keyword: '+keyword);
+          }
           for(const item of entries){
             if(!item||typeof item.url!=='string'||!item.url.startsWith('/')||item.url.startsWith('//'))throw Error('Invalid search result URL');
             const url=new URL(item.url,'https://example.test');
