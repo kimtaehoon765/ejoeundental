@@ -38,6 +38,19 @@ jobs:
           node -e "const fs=require('fs');const html=fs.readFileSync('dist/index.html','utf8');if(!html.includes('id=\"post-list\"')||!html.includes('aria-busy=\"true\"')||!html.includes('<noscript>'))process.exit(1)"
           node -e "const fs=require('fs');const x=JSON.parse(fs.readFileSync('dist/content/fees-index.json','utf8'));if(!Array.isArray(x.items))process.exit(1)"
           # Guard against regressions in the optional, user-controlled music UI.
-          node -e "const fs=require('fs');const h=fs.readFileSync('dist/index.html','utf8');const required=['id=\"music-panel\"','id=\"music-reopen\"','id=\"piano-toggle\"','id=\"piano-volume\"','id=\"piano-audio\"','id=\"random-pop\"','id=\"random-pop-fallback\"','preload=\"none\"','setPanelVisibility(false)'];for(const item of required){if(!h.includes(item)){console.error('Missing music control:',item);process.exit(1)}}if(!/<div[^>]*id=\"music-panel\"[^>]*hidden/.test(h)){console.error('Music panel must start minimized');process.exit(1)}}"
+          node <<'NODE'
+          const fs = require("node:fs");
+          const html = fs.readFileSync("dist/index.html", "utf8");
+          const requiredIds = ["music-panel", "music-reopen", "piano-toggle", "piano-volume", "piano-audio", "random-pop", "random-pop-fallback"];
+          for (const id of requiredIds) {
+            if (!html.includes(`id="${id}"`)) throw new Error(`Missing music control: ${id}`);
+          }
+          if (!/<div[^>]*id="music-panel"[^>]*hidden/.test(html)) throw new Error("Music panel must start minimized");
+          if (!/<audio[^>]*id="piano-audio"[^>]*preload="none"/.test(html)) throw new Error("Audio must not preload");
+          if (!html.includes("setPanelVisibility(false)")) throw new Error("Missing minimized default");
+          if (!html.includes("aria-controls=")) throw new Error("Missing accessible music controls");
+          if (!html.includes("visibilitychange") || !html.includes("pagehide")) throw new Error("Missing audio stop lifecycle handlers");
+          console.log("Music controls and safe defaults verified.");
+          NODE
           test -d dist/health
           echo "Website build and required files verified."
