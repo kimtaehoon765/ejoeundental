@@ -913,6 +913,17 @@ const runtimeSearch=JSON.parse(fs.readFileSync(path.join(out,'content/search-ind
 const runtimeFees=JSON.parse(fs.readFileSync(path.join(out,'content/fees-index.json'),'utf8'));
 if(!Array.isArray(runtimePosts))throw new Error('Invalid runtime post index');
 if(!Array.isArray(runtimeSearch))throw new Error('Invalid runtime search index');
+if(runtimeSearch.length===0)throw new Error('Empty runtime search index');
+for(const entry of runtimeSearch){
+ if(!entry||typeof entry.title!=='string'||!entry.title.trim()||typeof entry.url!=='string'||!entry.url.startsWith('/'))throw new Error('Invalid runtime search entry');
+ const route=entry.url.split(/[?#]/)[0];
+ if(!/^\/[a-z0-9_/%.-]+\/?$/i.test(route)||route.includes('..'))throw new Error('Unsafe runtime search URL: '+entry.url);
+ const relative=decodeURIComponent(route.slice(1));
+ const destination=path.join(out,relative);
+ const html=route.endsWith('/')?path.join(destination,'index.html'):destination;
+ if(!fs.existsSync(html))throw new Error('Search result points to missing page: '+entry.url);
+}
+
 if(!runtimeFees||!Array.isArray(runtimeFees.items))throw new Error('Invalid runtime fee index');
 for(const post of runtimePosts){
  if(!post||typeof post.slug!=='string'||typeof post.title!=='string')throw new Error('Invalid published post index item');
