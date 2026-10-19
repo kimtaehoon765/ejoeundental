@@ -119,5 +119,19 @@ jobs:
           }
           console.log("Pre-visit checklist verified.");
           NODE
+          # Navigation should stay compact while key patient paths remain reachable.
+          node <<'NODE'
+          const fs = require("node:fs");
+          const html = fs.readFileSync("dist/index.html", "utf8");
+          const nav = html.match(/<div class="navlinks">([\s\S]*?)<\/div><\/nav>/);
+          if (!nav) throw new Error("Missing primary navigation");
+          const count = (nav[1].match(/<a\b/g) || []).length;
+          if (count > 15) throw new Error("Desktop navigation is too crowded: " + count + " links");
+          for (const id of ["treatment-decisions", "when-to-call", "appointment-checklist", "location"]) {
+            if (!nav[1].includes('href="#' + id + '"')) throw new Error("Missing important navigation link: " + id);
+          }
+          if (!html.includes('class="mobile-quick"')) throw new Error("Missing mobile shortcuts");
+          console.log("Compact desktop and mobile navigation verified.");
+          NODE
           test -d dist/health
           echo "Website build and required files verified."
