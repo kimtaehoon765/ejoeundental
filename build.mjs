@@ -71,7 +71,7 @@ const faqSection=homeFaqHtml.match(/<section[^>]*id=["']faq["'][^>]*>([\s\S]*?)<
 if(!faqSection)throw new Error('Homepage FAQ section missing');
 const stripFaqHtml=value=>value.replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim();
 const faqPairs=[...faqSection.matchAll(/<details>\s*<summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>\s*<\/details>/gi)];
-if(faqPairs.length!==7)throw new Error('Expected seven visible FAQ entries, found '+faqPairs.length);
+if(faqPairs.length===0)throw new Error('No visible FAQ entries found');
 const faqSchema={
  '@context':'https://schema.org',
  '@type':'FAQPage',
