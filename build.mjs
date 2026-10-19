@@ -686,5 +686,22 @@ for(const row of publishedFeeData.items){if(!row.item.trim()||!row.price.trim())
 for(let i=1;i<publishedFeeData.items.length;i++){const a=publishedFeeData.items[i-1],b=publishedFeeData.items[i];if(a.category.localeCompare(b.category,'ko')>0)throw new Error('Fee categories are not sorted');}
 if(!sitemapUrls.includes(feePageUrl))throw new Error('Fee disclosure page missing from sitemap');
 console.log('Fee disclosure audit passed:',publishedFeeData.items.length,'explicitly published items, homepage link and sitemap verified');
+// Check patient-facing navigation and local search signals in the built homepage.
+const homeAuditHtml=fs.readFileSync(path.join(out,'index.html'),'utf8');
+for(const [label,pattern] of [
+ ['clinic telephone',/href=["']tel:0325132875["']/i],
+ ['clinic address',/세월천로\s*34/],
+ ['Cheongcheon local area',/청천동/],
+ ['Sangok local area',/산곡동/],
+ ['Sangok station',/산곡역/],
+ ['fee disclosure',/href=["']\/noncovered-fees\.html["']/],
+ ['search entry',/href=["']\/search\.html/]
+]){if(!pattern.test(homeAuditHtml))throw new Error('Homepage missing essential patient navigation or local signal: '+label);}
+const homeSchemaBlocks=[...homeAuditHtml.matchAll(/<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/gi)];
+const homeSchemas=homeSchemaBlocks.map((match,index)=>{try{return JSON.parse(match[1]);}catch{throw new Error('Invalid homepage JSON-LD block '+(index+1));}});
+const clinicSchema=homeSchemas.find(schema=>schema['@type']==='Dentist');
+if(!clinicSchema||clinicSchema.name!=='이조은치과'||clinicSchema.telephone!=='+82-32-513-2875')throw new Error('Homepage clinic structured data missing or incorrect');
+if(!clinicSchema.address?.streetAddress?.includes('세월천로 34'))throw new Error('Homepage clinic address missing from structured data');
+console.log('Homepage local SEO audit passed:',homeSchemas.length,'valid structured data blocks, phone, address and key links');
 console.log('Sitemap audit passed:',sitemapUrls.length,'canonical-aligned published pages');
 console.log('Build complete:',posts.length,'articles');
