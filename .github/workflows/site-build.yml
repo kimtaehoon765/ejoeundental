@@ -54,6 +54,7 @@ jobs:
           if(!site.clinic||!site.phone||!site.address)throw Error('Clinic runtime details missing');
           if(!Array.isArray(entries)||entries.length===0)throw Error('No searchable pages');
           for(const item of entries){
+            if(!item||typeof item.url!=='string'||!item.url.startsWith('/')||item.url.startsWith('//'))throw Error('Invalid search result URL');
             const url=new URL(item.url,'https://example.test');
             if(url.origin!=='https://example.test')throw Error('External search result');
             const local=decodeURIComponent(url.pathname).replace(/^\/+/, '');
