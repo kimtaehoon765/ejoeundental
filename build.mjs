@@ -4,7 +4,7 @@ const root=process.cwd(),out=path.join(root,'dist');fs.rmSync(out,{recursive:tru
 const feeFolder=path.join(root,'content/fees');
 const feeEntries=fs.existsSync(feeFolder)?fs.readdirSync(feeFolder).filter(n=>n.endsWith('.json')).map(n=>JSON.parse(fs.readFileSync(path.join(feeFolder,n),'utf8'))).filter(row=>row.published===true&&String(row.item||'').trim()&&String(row.price||'').trim()).map(({category,item,detail,price,note})=>({category:String(category||'기타'),item:String(item),detail:String(detail||''),price:String(price),note:String(note||'')})):[];
 fs.mkdirSync(path.join(out,'content'),{recursive:true});
-fs.writeFileSync(path.join(out,'content/fees-index.json'),JSON.stringify({items:feeEntries,updated:''},null,2));
+feeEntries.sort((a,b)=>a.category.localeCompare(b.category,'ko')||a.item.localeCompare(b.item,'ko'));fs.writeFileSync(path.join(out,'content/fees-index.json'),JSON.stringify({items:feeEntries,updated:''},null,2));
 // Link to the public fee disclosure from the homepage without disturbing the design.
 const feesHomePath=path.join(out,'index.html');
 let feesHome=fs.readFileSync(feesHomePath,'utf8');
