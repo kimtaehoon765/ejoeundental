@@ -291,7 +291,14 @@ document.addEventListener('DOMContentLoaded',()=>{
     audio.volume=level/100;
     if(volumeValue)volumeValue.textContent=level+'%';
   };
-  volume?.addEventListener('input',updateVolume);
+  volume?.addEventListener('input',()=>{
+    updateVolume();
+    try{localStorage.setItem('clinic-piano-volume',volume.value)}catch{}
+  });
+  try{
+    const saved=localStorage.getItem('clinic-piano-volume');
+    if(saved!==null&&/^\\d{1,3}$/.test(saved)&&Number(saved)<=100&&volume)volume.value=saved;
+  }catch{}
   updateVolume();
   button.addEventListener('click',async()=>{
     if(!audio.paused){audio.pause();return}
