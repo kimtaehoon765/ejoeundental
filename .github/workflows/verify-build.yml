@@ -20,6 +20,8 @@ jobs:
           node-version: '20'
       - name: Check build script syntax
         run: node --check build.mjs
+      - name: Check fee table JavaScript syntax
+        run: node --check assets/fees.js
       - name: Build website
         run: npm run build
       - name: Verify generated site
@@ -27,5 +29,9 @@ jobs:
           test -f dist/index.html
           test -f dist/sitemap.xml
           test -f dist/content/posts-index.json
+          test -f dist/noncovered-fees.html
+          test -f dist/content/fees-index.json
+          test -f dist/assets/fees.js
+          node -e "const fs=require('fs');const x=JSON.parse(fs.readFileSync('dist/content/fees-index.json','utf8'));if(!Array.isArray(x.items))process.exit(1)"
           test -d dist/health
           echo "Website build and required files verified."
