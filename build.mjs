@@ -644,7 +644,7 @@ for(const [page,label] of coreCareBreadcrumbs){
  const breadcrumbs=scripts.filter(data=>data['@type']==='BreadcrumbList');
  if(breadcrumbs.length!==1)throw new Error('Expected one treatment breadcrumb schema: '+page);
  const entries=breadcrumbs[0].itemListElement;
- if(!Array.isArray(entries)||entries.length!==2||entries[0].position!==1||entries[1].position!==2||entries[1].name!==label)throw new Error('Invalid treatment breadcrumb hierarchy: '+page);
+ if(!Array.isArray(entries)||entries.length!==2||entries[0].position!==1||entries[1].position!==2||entries[0].name!=='이조은치과 홈'||entries[1].name!==label||entries.some(e=>e['@type']!=='ListItem'))throw new Error('Invalid treatment breadcrumb hierarchy: '+page);
  for(const [index,expectedPath] of ['/', '/'+page].entries()){
   const item=entries[index].item;
   if(!['https://ejoeundental.com'+expectedPath,'https://ejoeundental.pages.dev'+expectedPath].includes(item))throw new Error('Treatment breadcrumb URL mismatch: '+page);
