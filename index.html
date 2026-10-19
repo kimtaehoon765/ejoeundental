@@ -296,6 +296,13 @@ document.addEventListener('DOMContentLoaded',()=>{
   popMenu?.addEventListener('toggle',()=>{
     if(!popMenu.open&&randomResult)randomResult.hidden=true;
   });
+  document.addEventListener('keydown',event=>{
+    if(event.key==='Escape'&&player&&!player.hidden&&popMenu?.open){
+      popMenu.open=false;
+      popMenu.querySelector('summary')?.focus();
+      event.stopPropagation();
+    }
+  });
   const hide=document.getElementById('music-hide');
   const reopen=document.getElementById('music-reopen');
   hide?.addEventListener('click',()=>{
