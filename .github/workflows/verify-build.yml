@@ -126,12 +126,24 @@ jobs:
           const nav = html.match(/<div class="navlinks">([\s\S]*?)<\/div><\/nav>/);
           if (!nav) throw new Error("Missing primary navigation");
           const count = (nav[1].match(/<a\b/g) || []).length;
-          if (count > 15) throw new Error("Desktop navigation is too crowded: " + count + " links");
+          if (count > 10) throw new Error("Desktop navigation is too crowded: " + count + " links");
           for (const id of ["treatment-decisions", "when-to-call", "appointment-checklist", "location"]) {
             if (!nav[1].includes('href="#' + id + '"')) throw new Error("Missing important navigation link: " + id);
           }
           if (!html.includes('class="mobile-quick"')) throw new Error("Missing mobile shortcuts");
           console.log("Compact desktop and mobile navigation verified.");
+          NODE
+          # Ensure key pages remain reachable despite the shorter primary menu.
+          node <<'NODE'
+          const fs = require("node:fs");
+          const html = fs.readFileSync("dist/index.html", "utf8");
+          for (const destination of ["/noncovered-fees.html", "/insured-care.html", "#visit-guide", "#care-pathway", "#faq"]) {
+            if (!html.includes('href="' + destination + '"')) throw new Error("Missing internal route: " + destination);
+          }
+          for (const id of ["philosophy", "focus-care", "doctor", "symptom-guide", "treatment-decisions", "appointment-checklist", "when-to-call", "location"]) {
+            if (!html.includes('id="' + id + '"')) throw new Error("Missing primary menu destination: " + id);
+          }
+          console.log("Essential routes remain reachable after menu simplification.");
           NODE
           test -d dist/health
           echo "Website build and required files verified."
