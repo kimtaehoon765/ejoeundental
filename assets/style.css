@@ -512,3 +512,16 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
  html{scroll-padding-top:112px}
  #philosophy,#focus-care,#symptom-guide,#care,#doctor,#health-info,#more-health,#stories,#faq,#location,#neighborhood-guide,#treatment-decisions,#care-pathway,#when-to-call,#appointment-checklist,#visit-guide{scroll-margin-top:112px}
 }
+
+/* Accessible anchor navigation: account for the sticky mobile header on every section. */
+:where(section[id],main[id],article[id]){scroll-margin-top:100px}
+@media(max-width:600px){
+ :where(section[id],main[id],article[id]){scroll-margin-top:124px}
+ .hero-care-summary a,.focus-symptom-link a{overflow-wrap:anywhere}
+}
+/* Make keyboard navigation obvious on cards, treatment links and primary actions. */
+:where(a,button,input,select,textarea):focus-visible{outline:3px solid #a96b24;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto!important}
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
