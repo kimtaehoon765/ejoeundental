@@ -110,7 +110,18 @@ for(const filename of fs.readdirSync(healthSchemaDir).filter(name=>name.endsWith
  const description=html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i)?.[1]?.trim();
  const canonical=html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
  if(!title||!canonical||!canonical.startsWith('https://ejoeundental.pages.dev/health/'))throw new Error('Health metadata incomplete: '+filename);
- if(html.includes('application/ld+json'))continue;
+ if(html.includes('application/ld+json')){
+  html=html.replace(/(<script\\s+type=["']application\\/ld\\+json["']>)([\\s\\S]*?)(<\\/script>)/i,(whole,open,json,close)=>{
+   let existing;try{existing=JSON.parse(json)}catch{return whole}
+   if(!['WebPage','MedicalWebPage'].includes(existing['@type']))return whole;
+   existing.url=canonical;
+   if(existing['@id'])existing['@id']=canonical+'#webpage';
+   if(existing.publisher?.['@id'])existing.publisher['@id']=new URL(canonical).origin+'/#clinic';
+   return open+JSON.stringify(existing).replace(/</g,'\\\\u003c')+close;
+  });
+  fs.writeFileSync(target,html);
+  continue;
+ }
  const schema={
   '@context':'https://schema.org',
   '@type':'WebPage',
