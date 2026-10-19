@@ -72,7 +72,7 @@ for(const post of posts){
 fs.writeFileSync(path.join(out,'content/search-index.json'),JSON.stringify(entries,null,2));
 fs.writeFileSync(path.join(out,'content/search-index-46.json'),JSON.stringify(entries,null,2));
 posts.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
-fs.writeFileSync(path.join(out,'content/posts-index.json'),JSON.stringify(posts.map(({slug,title,date,summary,image})=>({slug,title,date,summary,image})),null,2));
+fs.writeFileSync(path.join(out,'content/posts-index.json'),JSON.stringify(posts.map(({slug,title,date,summary,image})=>({slug,title,date,summary,image:typeof image==='string'&&/^\/assets\/cms-images\/[\w./%-]+$/i.test(image)&&!image.includes('..')&&!/%2f|%5c|%2e/i.test(image)&&fs.existsSync(path.join(root,image.slice(1)))?image:''})),null,2));
 for(const file of ['sitemap.xml','robots.txt']){const source=path.join(root,file);if(fs.existsSync(source))fs.copyFileSync(source,path.join(out,file))}
 // Search is intentionally noindex: exclude it from the sitemap.
 const searchSitemapPath=path.join(out,'sitemap.xml');
