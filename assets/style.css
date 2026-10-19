@@ -330,3 +330,8 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
 #faq .faq-list summary:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:6px}
 #faq .faq-list details[open] summary{font-weight:700}
 @media(max-width:600px){#faq .faq-list summary{min-height:56px;padding:17px 18px;font-size:16px;line-height:1.6;touch-action:manipulation}#faq .faq-list details p{font-size:15px;line-height:1.85;padding:2px 18px 20px}#faq .faq-list{gap:12px}}
+
+/* Accessibility: keyboard navigation and mobile targets */
+:where(a,button,input,select,textarea,summary):focus-visible{outline:3px solid #287d60;outline-offset:3px}
+@media(max-width:600px){#nearby-areas .card a,#care-principles .card a{display:inline-flex;align-items:center;min-height:44px;padding:8px 0;text-decoration:underline;text-underline-offset:3px}#nearby-areas .card p,#care-principles .card p{overflow-wrap:anywhere}#related-care a{min-height:44px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
