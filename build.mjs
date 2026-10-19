@@ -699,9 +699,9 @@ for(const [label,pattern] of [
 ]){if(!pattern.test(homeAuditHtml))throw new Error('Homepage missing essential patient navigation or local signal: '+label);}
 const homeSchemaBlocks=[...homeAuditHtml.matchAll(/<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/gi)];
 const homeSchemas=homeSchemaBlocks.map((match,index)=>{try{return JSON.parse(match[1]);}catch{throw new Error('Invalid homepage JSON-LD block '+(index+1));}});
-const clinicSchema=homeSchemas.find(schema=>schema['@type']==='Dentist');
-if(!clinicSchema||clinicSchema.name!=='이조은치과'||clinicSchema.telephone!=='+82-32-513-2875')throw new Error('Homepage clinic structured data missing or incorrect');
-if(!clinicSchema.address?.streetAddress?.includes('세월천로 34'))throw new Error('Homepage clinic address missing from structured data');
+const auditedClinicSchema=homeSchemas.find(schema=>schema['@type']==='Dentist');
+if(!auditedClinicSchema||auditedClinicSchema.name!=='이조은치과'||auditedClinicSchema.telephone!=='+82-32-513-2875')throw new Error('Homepage clinic structured data missing or incorrect');
+if(!auditedClinicSchema.address?.streetAddress?.includes('세월천로 34'))throw new Error('Homepage clinic address missing from structured data');
 console.log('Homepage local SEO audit passed:',homeSchemas.length,'valid structured data blocks, phone, address and key links');
 console.log('Sitemap audit passed:',sitemapUrls.length,'canonical-aligned published pages');
 console.log('Build complete:',posts.length,'articles');
