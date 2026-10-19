@@ -623,7 +623,8 @@ if(missingHealthSitemap.length)throw new Error('Health pages missing from sitema
 const unexpectedHealthSitemap=[...healthSitemapUrls].filter(url=>!healthHtmlFiles.includes(url.split('/').pop()));
 if(unexpectedHealthSitemap.length)throw new Error('Unexpected health sitemap URLs: '+unexpectedHealthSitemap.join(', '));
 console.log('Health sitemap coverage passed:',healthHtmlFiles.length,'published health pages');
-const publishedRobots=fs.readFileSync(path.join(out,'robots.txt'),'utf8');
+const publishedRobots=fs.readFileSync(path.join(out,'robots.txt'),'utf8').replace('Sitemap: https://ejoeundental.com/sitemap.xml','Sitemap: https://ejoeundental.pages.dev/sitemap.xml');
+fs.writeFileSync(path.join(out,'robots.txt'),publishedRobots);
 if(!publishedRobots.includes('Sitemap: https://ejoeundental.pages.dev/sitemap.xml'))throw new Error('Robots sitemap location mismatch');
 // Ensure the crawler rules permit published pages and keep private editing routes out.
 const robotsLines=publishedRobots.split(/\r?\n/).map(line=>line.trim()).filter(line=>line&&!line.startsWith('#'));
