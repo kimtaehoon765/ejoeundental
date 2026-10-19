@@ -284,6 +284,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
   });
   const player=document.querySelector('.piano-player');
+  const reopen=document.getElementById('music-reopen');
   const setPanelVisibility=(isOpen)=>{
     if(player)player.hidden=!isOpen;
     if(reopen){
@@ -297,7 +298,6 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(!popMenu.open&&randomResult)randomResult.hidden=true;
   });
   const hide=document.getElementById('music-hide');
-  const reopen=document.getElementById('music-reopen');
   hide?.addEventListener('click',()=>{
     audio.pause();
     if(popMenu)popMenu.open=false;
