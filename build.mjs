@@ -915,10 +915,11 @@ if(!Array.isArray(runtimePosts))throw new Error('Invalid runtime post index');
 if(!Array.isArray(runtimeSearch))throw new Error('Invalid runtime search index');
 if(runtimeSearch.length===0)throw new Error('Empty runtime search index');
 for(const entry of runtimeSearch){
- if(!entry||typeof entry.title!=='string'||!entry.title.trim()||typeof entry.url!=='string'||!entry.url.startsWith('/'))throw new Error('Invalid runtime search entry');
+ if(!entry||typeof entry.title!=='string'||!entry.title.trim()||typeof entry.url!=='string'||!entry.url.startsWith('/')||entry.url.startsWith('//')||entry.url.includes('?')||entry.url.includes('#'))throw new Error('Invalid runtime search entry');
  const route=entry.url.split(/[?#]/)[0];
  if(route!=='/'&&(!/^\/[a-z0-9_/%.-]+\/?$/i.test(route)||route.includes('..')))throw new Error('Unsafe runtime search URL: '+entry.url);
  const relative=decodeURIComponent(route.slice(1));
+ if(relative.split('/').includes('..')||relative.includes('\\')||relative.includes('\0'))throw new Error('Unsafe decoded search path: '+entry.url);
  const destination=path.join(out,relative);
  const html=route==='/'||route.endsWith('/')?path.join(destination,'index.html'):destination;
  if(!fs.existsSync(html)||!fs.statSync(html).isFile()||!html.endsWith('.html'))throw new Error('Search result points to missing HTML page: '+entry.url);
