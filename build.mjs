@@ -29,10 +29,19 @@ fs.mkdirSync(path.join(out,'content'),{recursive:true});cp('content/site.json','
 const plainHtml=html=>html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,' ').replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,' ').replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim();
 const entries=JSON.parse(fs.readFileSync(path.join(root,'content/search-index-46.json'),'utf8'));
 for(const entry of entries){
+ if(!entry||typeof entry.url!=='string'||typeof entry.title!=='string')throw new Error('Invalid search index entry');
  const local=entry.url==='/'?'index.html':entry.url.replace(/^\/+/, '');
  if(!local||local.includes('..'))continue;
  const htmlFile=path.join(out,local);
  if(fs.existsSync(htmlFile)&&htmlFile.endsWith('.html'))entry.body=plainHtml(fs.readFileSync(htmlFile,'utf8')).slice(0,24000);
+}
+// Include every published journal article in on-site search, not just the curated static pages.
+const searchUrls=new Set(entries.map(entry=>entry.url));
+for(const post of posts){
+ const url='/stories/'+encodeURIComponent(post.slug)+'/';
+ if(searchUrls.has(url))continue;
+ entries.push({url,title:String(post.title||''),description:String(post.summary||''),body:String(post.body||'').slice(0,24000)});
+ searchUrls.add(url);
 }
 fs.writeFileSync(path.join(out,'content/search-index.json'),JSON.stringify(entries,null,2));
 fs.writeFileSync(path.join(out,'content/search-index-46.json'),JSON.stringify(entries,null,2));
