@@ -826,3 +826,14 @@ console.log('Homepage anchor navigation audit passed:',auditedHomepageHashLinks.
 console.log('Homepage local SEO audit passed:',homeSchemas.length,'valid structured data blocks, phone, address and key links');
 console.log('Sitemap audit passed:',sitemapUrls.length,'canonical-aligned published pages');
 console.log('Build complete:',posts.length,'articles');
+
+// Verify that published journal pages have a single consistent canonical and social URL.
+// Keep the current pages.dev host until the separately scheduled domain migration.
+for(const post of posts){
+ const html=fs.readFileSync(path.join(out,'stories',post.slug,'index.html'),'utf8');
+ const canonicalMatches=[...html.matchAll(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/gi)];
+ const ogMatches=[...html.matchAll(/<meta\s+property=["']og:url["']\s+content=["']([^"']+)["']/gi)];
+ if(canonicalMatches.length!==1||ogMatches.length!==1)throw new Error('Journal must have exactly one canonical and og:url: '+post.slug);
+ if(canonicalMatches[0][1]!==ogMatches[0][1])throw new Error('Journal canonical and og:url mismatch: '+post.slug);
+}
+console.log('Journal canonical/social URL consistency audit passed:',posts.length,'published articles');
