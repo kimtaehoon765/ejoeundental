@@ -176,7 +176,15 @@ jobs:
           const fs = require("node:fs");
           const path = require("node:path");
           const root = path.resolve("dist");
-          const pages = fs.readdirSync(root).filter(name => name.endsWith(".html"));
+          const pages = [];
+          function collect(directory) {
+            for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+              const full = path.join(directory, entry.name);
+              if (entry.isDirectory()) collect(full);
+              else if (entry.isFile() && entry.name.endsWith(".html")) pages.push(path.relative(root, full));
+            }
+          }
+          collect(root);
           const errors = [];
           let checked = 0;
           for (const page of pages) {
