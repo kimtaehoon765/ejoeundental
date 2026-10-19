@@ -65,6 +65,22 @@ jobs:
           if(!Array.isArray(posts))throw Error('Invalid published post index');
           console.log('Runtime smoke test passed:',entries.length,'search entries,',posts.length,'posts');
           NODE
+      - name: Publish build verification summary
+        if: success()
+        run: |
+          {
+            echo '## 이조은치과 홈페이지 빌드 검증'
+            echo ''
+            echo '- 상태: **통과**'
+            echo '- JavaScript 문법 검사: 통과'
+            echo '- 정적 페이지 생성 및 SEO 검사: 통과'
+            echo '- 검색 결과 연결 검사: 통과'
+            echo ''
+            echo '### 생성 결과'
+            echo "- HTML 페이지 수: $(find dist -type f -name '*.html' | wc -l)"
+            echo "- 사이트맵: $(test -s dist/sitemap.xml && echo '생성됨')"
+            echo "- 검색 데이터: $(test -s dist/content/search-index.json && echo '생성됨')"
+          } >> "$GITHUB_STEP_SUMMARY"
       - name: Upload generated site for inspection
         if: always()
         uses: actions/upload-artifact@v4
