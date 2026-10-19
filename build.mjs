@@ -111,7 +111,7 @@ for(const filename of fs.readdirSync(healthSchemaDir).filter(name=>name.endsWith
  const canonical=html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
  if(!title||!canonical||!canonical.startsWith('https://ejoeundental.pages.dev/health/'))throw new Error('Health metadata incomplete: '+filename);
  if(html.includes('application/ld+json')){
-  html=html.replace(/(<script\\s+type=["']application\\/ld\\+json["']>)([\\s\\S]*?)(<\\/script>)/i,(whole,open,json,close)=>{
+  html=html.replace(/(<script\s+type=["']application\/ld\+json["']>)([\s\S]*?)(<\/script>)/i,(whole,open,json,close)=>{
    let existing;try{existing=JSON.parse(json)}catch{return whole}
    if(!['WebPage','MedicalWebPage'].includes(existing['@type']))return whole;
    existing.url=canonical;
