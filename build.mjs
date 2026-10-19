@@ -2,7 +2,20 @@ import fs from 'node:fs';import path from 'node:path';
 const root=process.cwd(),out=path.join(root,'dist');fs.rmSync(out,{recursive:true,force:true});fs.mkdirSync(out,{recursive:true});function cp(src,dst){fs.cpSync(path.join(root,src),path.join(out,dst),{recursive:true})}cp('index.html','index.html');cp('search.html','search.html');cp('gum-treatment.html','gum-treatment.html');cp('cervical-abrasion.html','cervical-abrasion.html');cp('insured-care.html','insured-care.html');cp('retreatment.html','retreatment.html');const retreatmentPath=path.join(out,'retreatment.html');fs.writeFileSync(retreatmentPath,fs.readFileSync(retreatmentPath,'utf8').replace('</body>','<script defer src="/assets/retreatment-image-manager.js"></script></body>'));cp('tmj-care.html','tmj-care.html');cp('wisdom-tooth.html','wisdom-tooth.html');for(const page of ['implant.html','pediatric-orthodontics.html','pediatric-dentistry.html'])cp(page,page);cp('assets','assets');for(const page of ['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'])cp(page,page);cp('health','health');cp('noncovered-fees.html','noncovered-fees.html');
 // Generate a public fee list only from explicitly published, complete entries.
 const feeFolder=path.join(root,'content/fees');
-const feeEntries=fs.existsSync(feeFolder)?fs.readdirSync(feeFolder).filter(n=>n.endsWith('.json')).map(n=>JSON.parse(fs.readFileSync(path.join(feeFolder,n),'utf8'))).filter(row=>row.published===true&&String(row.item||'').trim()&&String(row.price||'').trim()).map(({category,item,detail,price,note})=>({category:String(category||'기타'),item:String(item),detail:String(detail||''),price:String(price),note:String(note||'')})):[];
+const feeSources=fs.existsSync(feeFolder)?fs.readdirSync(feeFolder).filter(n=>n.endsWith('.json')).map(name=>({name,row:JSON.parse(fs.readFileSync(path.join(feeFolder,name),'utf8'))})):[];
+const feeEntries=[];
+const feeKeys=new Set();
+for(const {name,row} of feeSources){
+ if(row.published!==true)continue;
+ const category=String(row.category||'기타').trim()||'기타';
+ const item=String(row.item||'').trim();
+ const price=String(row.price||'').trim();
+ if(!item||!price)throw new Error('Published fee missing treatment name or price: '+name);
+ const key=category+'\\u0000'+item;
+ if(feeKeys.has(key))throw new Error('Duplicate published fee category and item: '+category+' / '+item);
+ feeKeys.add(key);
+ feeEntries.push({category,item,detail:String(row.detail||'').trim(),price,note:String(row.note||'').trim()});
+}
 fs.mkdirSync(path.join(out,'content'),{recursive:true});
 feeEntries.sort((a,b)=>a.category.localeCompare(b.category,'ko')||a.item.localeCompare(b.item,'ko'));fs.writeFileSync(path.join(out,'content/fees-index.json'),JSON.stringify({items:feeEntries,updated:''},null,2));
 // Link to the public fee disclosure from the homepage without disturbing the design.
