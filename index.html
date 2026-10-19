@@ -260,7 +260,13 @@ document.addEventListener('DOMContentLoaded',()=>{
   randomPop?.addEventListener('click',()=>{
     const links=[...document.querySelectorAll('.pop-menu nav a')];
     if(!links.length)return;
-    const pick=links[Math.floor(Math.random()*links.length)];
+    let choices=links;
+    try{
+      const previous=sessionStorage.getItem('clinic-last-random-artist');
+      if(links.length>1)choices=links.filter(link=>link.href!==previous);
+    }catch{}
+    const pick=choices[Math.floor(Math.random()*choices.length)];
+    try{sessionStorage.setItem('clinic-last-random-artist',pick.href)}catch{}
     const fallback=document.getElementById('random-pop-fallback');
     if(fallback){
       fallback.href=pick.href;
