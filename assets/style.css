@@ -442,3 +442,19 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
  .hero-actions .btn{width:100%;margin-top:0;min-height:48px}
 }
 @media(prefers-reduced-motion:reduce){.card,.btn,.navlinks .call{transition:none!important}}
+
+/* Final mobile navigation pass: reduce duplicate controls and header height. */
+@media(max-width:600px){
+ .nav{grid-template-columns:minmax(0,1fr);row-gap:8px}
+ .nav .logo{margin:0;font-size:21px;line-height:1.35}
+ .mobile-quick{grid-column:1;grid-row:2;margin:0}
+ .navlinks{display:none}
+ header{backdrop-filter:none}
+ html{scroll-padding-top:142px}
+ #philosophy,#focus-care,#symptom-guide,#care,#doctor,#health-info,#more-health,#stories,#faq,#location,#neighborhood-guide,#treatment-decisions,#care-pathway,#when-to-call,#appointment-checklist,#visit-guide{scroll-margin-top:142px}
+}
+@media(min-width:601px) and (max-width:900px){
+ .nav{flex-wrap:wrap}
+ .navlinks{flex-wrap:wrap;gap:10px 16px}
+ .navlinks a{min-height:38px;display:inline-flex;align-items:center}
+}
