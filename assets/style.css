@@ -414,3 +414,10 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
  .mobile-quick a{min-width:0;min-height:46px;padding:7px 3px;text-align:center}
  #symptom-guide,#visit-guide{scroll-margin-top:150px}
 }
+
+/* Make dynamically loaded patient education cards keyboard-friendly. */
+#post-list .post-card{min-width:0;overflow-wrap:anywhere}
+#post-list .post-card:focus-visible{outline:3px solid #a47837;outline-offset:4px;transform:translateY(-2px)}
+#post-list .post-card img{display:block;max-width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+@media(hover:hover){#post-list .post-card:hover{border-color:#a47837;box-shadow:0 8px 22px rgba(23,62,53,.12)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.post-card,.mobile-quick a{transition:none!important;transform:none!important}}
