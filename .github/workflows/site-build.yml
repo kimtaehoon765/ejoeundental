@@ -56,7 +56,7 @@ jobs:
           for(const item of entries){
             const url=new URL(item.url,'https://example.test');
             if(url.origin!=='https://example.test')throw Error('External search result');
-            const local=decodeURIComponent(url.pathname).replace(/^\\/+/, '');
+            const local=decodeURIComponent(url.pathname).replace(/^\/+/, '');
             const file=path.join(base,local||'index.html');
             const candidate=url.pathname.endsWith('/')&&local?path.join(file,'index.html'):file;
             if(!fs.existsSync(candidate))throw Error('Broken search result: '+item.url);
