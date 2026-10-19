@@ -128,7 +128,8 @@ for(const filename of fs.readdirSync(healthSchemaDir).filter(name=>name.endsWith
 }
 console.log('Health structured data generated:',healthSchemaCount,'pages');
 
-if(healthSchemaCount!==46)throw new Error('Expected 46 structured health pages, found '+healthSchemaCount);
+const totalHealthPages=fs.readdirSync(healthSchemaDir).filter(name=>name.endsWith('.html')).length;
+if(totalHealthPages!==46)throw new Error('Expected 46 health pages, found '+totalHealthPages);
 const healthMetadataIssues=[];
 const seenHealthTitles=new Map();
 const seenHealthDescriptions=new Map();
