@@ -616,6 +616,16 @@ if(!['세월천로 34, 대우프라자 305호','세월천로 34 대우프라자 
 if(websiteSchema.publisher?.['@id']!==clinicSchema['@id']||!['https://ejoeundental.pages.dev/','https://ejoeundental.com/'].includes(websiteSchema.url))throw new Error('Homepage website publisher mismatch');
 if(!['청천동','산곡동','산곡역'].every(place=>clinicSchema.areaServed?.some(area=>area.name.includes(place))))throw new Error('Homepage local search coverage incomplete');
 console.log('Homepage SEO/GEO identity audit passed: clinic, website, service areas');
+
+// Keep public structured clinic details aligned with patient-facing visit guidance.
+const clinicProperties=Array.isArray(clinicSchema.additionalProperty)?clinicSchema.additionalProperty:[];
+const clinicPropertyText=clinicProperties.map(item=>String(item.name||'')+' '+String(item.value||'')).join(' ');
+if(!clinicPropertyText.includes('격주')||!clinicPropertyText.includes('금요일')||!clinicPropertyText.includes('토요일'))throw new Error('Clinic structured data missing alternating hours');
+if(!clinicPropertyText.includes('3시간')||!clinicPropertyText.includes('주차'))throw new Error('Clinic structured data missing parking terms');
+const visitSection=homepageHtml.match(/<section[^>]*id=["']location["'][^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+if(!visitSection.includes('격주')||!visitSection.includes('3시간 무료 주차'))throw new Error('Visitor-facing hours or parking information missing');
+console.log('Clinic visit facts GEO consistency audit passed');
+
 const symptomSection=homepageHtml.match(/<section[^>]*id=["']symptoms["'][^>]*>([\s\S]*?)<\/section>/)?.[1];
 if(!symptomSection)throw new Error('Homepage symptom guide section is missing');
 const symptomCards=[...symptomSection.matchAll(/<div class="card">([\s\S]*?)<\/div>/g)].map(m=>m[1]);
