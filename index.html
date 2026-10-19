@@ -203,6 +203,7 @@
 <div class="piano-player" aria-label="클래식 피아노와 팝·록 음악 선택">
   <button type="button" id="piano-toggle" aria-pressed="false" aria-controls="piano-audio">♫ 피아노 음악 듣기</button>
   <span id="piano-status" role="status" aria-live="polite">음악 꺼짐</span>
+  <button type="button" id="music-hide" aria-label="음악 메뉴 닫기" title="음악 메뉴 닫기">×</button>
   <a href="https://commons.wikimedia.org/wiki/File:Chopin.Nocturne.Es-Dur.opus.9.2.ogg" target="_blank" rel="noopener noreferrer" aria-label="쇼팽 녹턴 연주 음원 및 CC0 라이선스 출처, 새 창">음원 출처 · CC0</a>
   <details class="pop-menu"><summary>🎸 무료 팝·록 듣기</summary>
     <p>좋아하는 가수를 선택하면 유튜브 검색이 새 창에서 열립니다. 음악 재생과 광고는 유튜브에서 관리합니다.</p>
@@ -220,6 +221,7 @@
   </details>
   <audio id="piano-audio" preload="none" loop src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Chopin.Nocturne.Es-Dur.opus.9.2.ogg"></audio>
 </div>
+<button type="button" id="music-reopen" class="music-reopen" hidden aria-label="음악 메뉴 다시 열기">♫ 음악</button>
 <style>
 .piano-player{position:fixed;right:14px;bottom:14px;z-index:50;display:flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:min(95vw,380px);padding:9px 12px;border:1px solid #c8d5c8;border-radius:14px;background:#f7f4ec;box-shadow:0 5px 22px #173e3526;font-size:12px;line-height:1.4}
 .piano-player button{border:0;border-radius:9px;background:#173e35;color:#fff;padding:9px 12px;cursor:pointer;font-size:13px}
@@ -237,6 +239,11 @@
 .piano-player .pop-menu nav a{padding:4px 7px;border-radius:6px;background:#e6eee6}
 .piano-player .pop-menu small{display:block;margin-top:6px}
 .piano-player #random-pop{margin-top:8px}
+.piano-player #music-hide{padding:4px 10px;background:#e3e8e0;color:#173e35;font-size:18px}
+.music-reopen{position:fixed;right:12px;bottom:12px;z-index:50;padding:11px 14px;border:1px solid #c8d5c8;border-radius:30px;background:#173e35;color:white;box-shadow:0 4px 14px #173e3533;cursor:pointer}
+.music-reopen:focus-visible{outline:3px solid #a47837;outline-offset:3px}
+.piano-player[hidden],.music-reopen[hidden]{display:none!important}
+
 
 @media(max-width:600px){.piano-player{right:8px;bottom:8px;gap:5px;padding:7px 9px}.piano-player button{padding:8px}.piano-player a{font-size:11px}}
 </style>
@@ -253,6 +260,11 @@ document.addEventListener('DOMContentLoaded',()=>{
     const pick=links[Math.floor(Math.random()*links.length)];
     window.open(pick.href,'_blank','noopener,noreferrer');
   });
+  const player=document.querySelector('.piano-player');
+  const hide=document.getElementById('music-hide');
+  const reopen=document.getElementById('music-reopen');
+  hide?.addEventListener('click',()=>{audio.pause();if(player)player.hidden=true;if(reopen)reopen.hidden=false});
+  reopen?.addEventListener('click',()=>{if(player)player.hidden=false;if(reopen)reopen.hidden=true});
   audio.volume=0.3;
   button.addEventListener('click',async()=>{
     if(!audio.paused){audio.pause();return}
