@@ -630,7 +630,11 @@ const coreCareBreadcrumbs=[
   ['gum-treatment.html','잇몸치료'],
   ['retreatment.html','재신경치료'],
   ['cervical-abrasion.html','치경부마모증·GI 수복'],
-  ['insured-care.html','건강보험 진료']
+  ['insured-care.html','건강보험 진료'],
+  ['tmj-care.html','턱관절 진료'],
+  ['wisdom-tooth.html','사랑니 발치'],
+  ['implant.html','임플란트 진료'],
+  ['pediatric-orthodontics.html','어린이 교정·성장기 치열 상담']
 ];
 for(const [page,label] of coreCareBreadcrumbs){
  const careHtml=fs.readFileSync(path.join(out,page),'utf8');
@@ -646,7 +650,7 @@ for(const [page,label] of coreCareBreadcrumbs){
   if(!['https://ejoeundental.com'+expectedPath,'https://ejoeundental.pages.dev'+expectedPath].includes(item))throw new Error('Treatment breadcrumb URL mismatch: '+page);
  }
 }
-console.log('Core treatment breadcrumb GEO audit passed');
+console.log('All eight treatment breadcrumb GEO audits passed');
 
 
 const symptomSection=homepageHtml.match(/<section[^>]*id=["']symptoms["'][^>]*>([\s\S]*?)<\/section>/)?.[1];
