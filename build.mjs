@@ -583,6 +583,9 @@ console.log('Contact navigation audit passed: clinic phone and homepage anchors'
 if(brokenLinks.size)throw new Error('Build contains '+brokenLinks.size+' broken local links');
 console.log('Navigation audit passed:',searchDestinations.length,'search destinations and 3 care journeys');
 // Validate sitemap URLs against generated pages and their canonical addresses.
+const sitemapFile=path.join(out,'sitemap.xml');
+let normalizedSitemap=fs.readFileSync(sitemapFile,'utf8').replace(/https:\/\/ejoeundental\.com\//g,'https://ejoeundental.pages.dev/');
+fs.writeFileSync(sitemapFile,normalizedSitemap);
 const sitemapXml=fs.readFileSync(path.join(out,'sitemap.xml'),'utf8');
 const sitemapUrls=[...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
 if(!sitemapUrls.length)throw new Error('Sitemap contains no URLs');
