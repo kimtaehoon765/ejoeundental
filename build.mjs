@@ -37,6 +37,14 @@ for(const entry of entries){
 }
 // Include every published journal article in on-site search, not just the curated static pages.
 const searchUrls=new Set(entries.map(entry=>entry.url));
+if(searchUrls.size!==entries.length)throw new Error('Duplicate URL in curated search index');
+for(const entry of entries){
+ if(!entry.url.startsWith('/')||entry.url.includes('..')||entry.url.includes('?')||entry.url.includes('#'))throw new Error('Unsafe search URL: '+entry.url);
+ const relative=entry.url==='/'?'index.html':entry.url.slice(1);
+ const candidate=path.join(out,relative);
+ const target=fs.existsSync(candidate)&&fs.statSync(candidate).isFile()?candidate:path.join(candidate,'index.html');
+ if(!fs.existsSync(target)||!target.endsWith('.html'))throw new Error('Search result points to missing published page: '+entry.url);
+}
 for(const post of posts){
  const url='/stories/'+encodeURIComponent(post.slug)+'/';
  if(searchUrls.has(url))continue;
