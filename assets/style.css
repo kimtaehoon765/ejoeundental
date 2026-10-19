@@ -373,3 +373,13 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
  .footer a{display:inline-flex;align-items:center;min-height:44px;max-width:100%;overflow-wrap:anywhere}
  .footer .bloglinks{flex-wrap:wrap}
 }
+
+/* Clearer location information for mobile visitors. */
+@media(max-width:600px){
+ #location .visit-check{margin:16px 0!important;padding:18px!important;line-height:1.8!important}
+ #location .visit-check strong{display:inline-block;font-size:17px;line-height:1.5}
+ #location .visit-check p{margin-top:10px!important;font-size:15px}
+ #location .parking-info,#location .hours-box{border-radius:10px}
+ #location .location-actions a{border-radius:8px;font-weight:700}
+ #location #address{font-size:16px;font-weight:600;overflow-wrap:anywhere}
+}
