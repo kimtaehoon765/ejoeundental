@@ -798,6 +798,11 @@ for(const post of posts){
  }
  const canonical='https://ejoeundental.pages.dev/stories/'+encodeURIComponent(post.slug)+'/';
  if(!html.includes('rel="canonical" href="'+canonical+'"'))throw new Error('Journal article canonical mismatch: '+post.slug);
+ const structured=html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+ if(!structured)throw new Error('Journal structured data missing: '+post.slug);
+ let data;
+ try{data=JSON.parse(structured[1]);}catch{throw new Error('Journal structured data is invalid JSON: '+post.slug);}
+ if(data['@type']!=='BlogPosting'||data.headline!==post.title||data.mainEntityOfPage!==canonical||data.publisher?.name!=='이조은치과')throw new Error('Journal structured data does not match published article: '+post.slug);
 }
 console.log('Journal patient-navigation audit passed:',posts.length,'published articles');
 console.log('Homepage social preview audit passed:',auditedHomepageCanonical);
