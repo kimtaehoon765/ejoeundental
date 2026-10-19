@@ -363,3 +363,13 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
  .mobile-quick .mobile-call{background:#173e35;color:#fff;border-color:#173e35}
  .mobile-quick a:active{transform:translateY(1px)}
 }
+
+/* Improve Korean text readability and prevent cramped mobile navigation. */
+@media(max-width:600px){
+ body{font-size:16px;line-height:1.8}
+ .hero h1{line-height:1.45;overflow-wrap:anywhere}
+ .hero p,.section p{line-height:1.85}
+ .mobile-quick a{font-size:clamp(10px,2.65vw,12px);letter-spacing:-.035em;word-break:keep-all;line-height:1.35}
+ .footer a{display:inline-flex;align-items:center;min-height:44px;max-width:100%;overflow-wrap:anywhere}
+ .footer .bloglinks{flex-wrap:wrap}
+}
