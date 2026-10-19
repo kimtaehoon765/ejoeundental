@@ -79,7 +79,7 @@ function alignCanonicalUrls(folder){
   if(item.isDirectory()){alignCanonicalUrls(target);continue}
   if(!item.isFile()||!item.name.endsWith('.html'))continue;
   const html=fs.readFileSync(target,'utf8');
-  const updated=html.replace(/(<link\s+rel=["']canonical["']\s+href=["'])https:\/\/ejoeundental\.com(\/[^"']*["'])/gi,'$1https://ejoeundental.pages.dev$2');
+  const updated=html.replace(/(<link\s+rel=["']canonical["']\s+href=["'])https:\/\/ejoeundental\.com(\/[^"']*["'])/gi,'$1https://ejoeundental.pages.dev$2').replace(/(<meta\s+property=["']og:url["']\s+content=["'])https:\/\/ejoeundental\.com(\/[^"']*["'])/gi,'$1https://ejoeundental.pages.dev$2');
   if(updated!==html)fs.writeFileSync(target,updated);
  }
 }
