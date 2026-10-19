@@ -241,6 +241,8 @@
 .piano-player .pop-menu nav{display:flex;gap:6px;flex-wrap:wrap}
 .piano-player .pop-menu nav a{padding:4px 7px;border-radius:6px;background:#e6eee6}
 .piano-player .pop-menu small{display:block;margin-top:6px}
+.piano-player #random-pop-fallback:not([hidden]){display:block;margin-top:8px;padding:10px;border:2px solid #173e35;border-radius:8px;background:#fff;color:#173e35;font-weight:700}
+@media(max-width:600px){.piano-player .pop-menu nav a,.piano-player #random-pop-fallback:not([hidden]){min-height:44px}}
 .piano-player #random-pop{margin-top:8px}
 .piano-player #music-hide{padding:4px 10px;background:#e3e8e0;color:#173e35;font-size:18px}
 .music-reopen{position:fixed;right:12px;bottom:12px;z-index:50;padding:11px 14px;border:1px solid #c8d5c8;border-radius:30px;background:#173e35;color:white;box-shadow:0 4px 14px #173e3533;cursor:pointer}
@@ -281,6 +283,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
   const player=document.querySelector('.piano-player');
   const popMenu=document.querySelector('.pop-menu');
+  const randomResult=document.getElementById('random-pop-fallback');
+  popMenu?.addEventListener('toggle',()=>{
+    if(!popMenu.open&&randomResult)randomResult.hidden=true;
+  });
   const hide=document.getElementById('music-hide');
   const reopen=document.getElementById('music-reopen');
   hide?.addEventListener('click',()=>{
