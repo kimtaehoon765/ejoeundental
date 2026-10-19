@@ -879,10 +879,15 @@ console.log('Mobile and document landmark audit passed:',auditPages.length,'page
 
 // Verify homepage in-page navigation targets and locally linked HTML documents.
 const homepageHtml=fs.readFileSync(path.join(out,'index.html'),'utf8');
-const homepageIds=new Set([...homepageHtml.matchAll(/\bid=["']([^"']+)["']/gi)].map(match=>match[1]));
+const homepageIdList=[...homepageHtml.matchAll(/\bid=["']([^"']+)["']/gi)].map(match=>match[1]);
+const homepageIds=new Set(homepageIdList);
+if(homepageIds.size!==homepageIdList.length)throw new Error('Duplicate HTML id on homepage');
 for(const match of homepageHtml.matchAll(/\bhref=["']([^"']+)["']/gi)){
  const href=match[1];
- if(href.startsWith('#')&&href.length>1&&!homepageIds.has(decodeURIComponent(href.slice(1))))throw new Error('Broken homepage section link: '+href);
+ if((href.startsWith('#')||href.startsWith('/#'))&&href.includes('#')){
+  const anchor=href.slice(href.indexOf('#')+1);
+  if(anchor&&!homepageIds.has(decodeURIComponent(anchor)))throw new Error('Broken homepage section link: '+href);
+ }
  if(/^\/[a-z0-9_/-]+\.html(?:[?#].*)?$/i.test(href)){
   const file=path.join(out,href.split(/[?#]/)[0].slice(1));
   if(!fs.existsSync(file))throw new Error('Broken homepage HTML link: '+href);
