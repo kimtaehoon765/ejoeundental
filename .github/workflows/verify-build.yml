@@ -211,5 +211,37 @@ jobs:
           if (errors.length) throw new Error("Published page link audit failed:\\n" + [...new Set(errors)].join("\\n"));
           console.log("Published HTML link audit passed:", pages.length, "pages,", checked, "local links");
           NODE
+          # Prevent duplicate HTML ids and inaccessible images across generated pages.
+          node <<'NODE'
+          const fs = require("node:fs");
+          const path = require("node:path");
+          const root = path.resolve("dist");
+          const pages = [];
+          function walk(dir) {
+            for (const item of fs.readdirSync(dir, {withFileTypes: true})) {
+              const full = path.join(dir, item.name);
+              if (item.isDirectory()) walk(full);
+              else if (item.isFile() && item.name.endsWith(".html")) pages.push(full);
+            }
+          }
+          walk(root);
+          const errors = [];
+          let images = 0;
+          for (const file of pages) {
+            const html = fs.readFileSync(file, "utf8");
+            const name = path.relative(root, file);
+            const ids = new Set();
+            for (const [, id] of html.matchAll(/\bid=["']([^"']+)["']/g)) {
+              if (ids.has(id)) errors.push(name + ": duplicate id " + id);
+              ids.add(id);
+            }
+            for (const [, attrs] of html.matchAll(/<img\b([^>]*)>/gi)) {
+              images++;
+              if (!/\balt\s*=\s*["'][^"']*["']/i.test(attrs)) errors.push(name + ": image missing alt");
+            }
+          }
+          if (errors.length) throw new Error("Accessibility audit failed:\\n" + errors.slice(0,30).join("\\n"));
+          console.log("HTML accessibility audit passed:", pages.length, "pages,", images, "images");
+          NODE
           test -d dist/health
           echo "Website build and required files verified."
