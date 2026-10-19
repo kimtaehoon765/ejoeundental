@@ -311,13 +311,9 @@ document.addEventListener('DOMContentLoaded',()=>{
     button.focus();
     try{sessionStorage.setItem('clinic-music-collapsed','0')}catch{}
   });
-  // Keep the visitor-facing clinic page unobstructed until music is requested.
+  // Keep the clinic page unobstructed on every fresh visit.
+  // A previously opened music menu stays minimized after page navigation.
   setPanelVisibility(false);
-  try{
-    if(sessionStorage.getItem('clinic-music-collapsed')==='0'){
-      setPanelVisibility(true);
-    }
-  }catch{}
   player?.addEventListener('keydown',event=>{
     if(event.key!=='Escape'||player.hidden)return;
     event.preventDefault();
