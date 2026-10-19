@@ -744,6 +744,15 @@ const auditedLinkedPages=new Set(auditedHomepageLocalPages);
 for(const requiredPage of auditedRequiredPages){if(!auditedLinkedPages.has(requiredPage))throw new Error('Homepage lost key patient information link: '+requiredPage);}
 const auditedVisitAnchors=['location','symptom-guide','visit-guide','faq'];
 for(const sectionId of auditedVisitAnchors){if(!auditedHomepageIdSet.has(sectionId))throw new Error('Homepage lost essential patient section: '+sectionId);}
+// Social share previews must point at the same published homepage as canonical.
+const auditedHomepageCanonical=homeAuditHtml.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
+const auditedHomepageOgUrl=homeAuditHtml.match(/<meta\s+property=["']og:url["']\s+content=["']([^"']+)["']/i)?.[1];
+if(!auditedHomepageCanonical||auditedHomepageOgUrl!==auditedHomepageCanonical)throw new Error('Homepage Open Graph URL and canonical disagree');
+for(const property of ['og:title','og:description','og:type','og:locale','og:site_name']){
+ if(!homeAuditHtml.includes('property="'+property+'"'))throw new Error('Homepage social preview metadata missing: '+property);
+}
+if(!homeAuditHtml.includes('name="twitter:card"'))throw new Error('Homepage Twitter card metadata missing');
+console.log('Homepage social preview audit passed:',auditedHomepageCanonical);
 console.log('Homepage published-page links audit passed:',new Set(auditedHomepageLocalPages).size,'local pages');
 console.log('Homepage anchor navigation audit passed:',auditedHomepageHashLinks.length,'links');
 console.log('Homepage local SEO audit passed:',homeSchemas.length,'valid structured data blocks, phone, address and key links');
