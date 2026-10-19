@@ -837,3 +837,17 @@ for(const post of posts){
  if(canonicalMatches[0][1]!==ogMatches[0][1])throw new Error('Journal canonical and og:url mismatch: '+post.slug);
 }
 console.log('Journal canonical/social URL consistency audit passed:',posts.length,'published articles');
+
+// Audit on-page descriptions for published journal articles without changing the active domain.
+const journalTitles=new Set();
+for(const post of posts){
+ const html=fs.readFileSync(path.join(out,'stories',post.slug,'index.html'),'utf8');
+ const titleMatches=[...html.matchAll(/<title>([\s\S]*?)<\/title>/gi)];
+ const descMatches=[...html.matchAll(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/gi)];
+ if(titleMatches.length!==1||!titleMatches[0][1].trim())throw new Error('Journal missing unique page title: '+post.slug);
+ if(descMatches.length!==1||!descMatches[0][1].trim())throw new Error('Journal missing meta description: '+post.slug);
+ if(journalTitles.has(titleMatches[0][1]))throw new Error('Duplicate published journal title: '+post.slug);
+ journalTitles.add(titleMatches[0][1]);
+ if(!html.includes('<html lang="ko">'))throw new Error('Journal missing Korean language declaration: '+post.slug);
+}
+console.log('Journal title, description and language audit passed:',posts.length,'published articles');
