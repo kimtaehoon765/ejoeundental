@@ -600,7 +600,7 @@ const feeSitemapPath=path.join(out,'sitemap.xml');
 let feeSitemapXml=fs.readFileSync(feeSitemapPath,'utf8');
 const feePageUrl='https://ejoeundental.pages.dev/noncovered-fees.html';
 if(!feeSitemapXml.includes('<loc>'+feePageUrl+'</loc>')){
- feeSitemapXml=feeSitemapXml.replace('</urlset>','  <url><loc>'+feePageUrl+'</loc></url>\\n</urlset>');
+ feeSitemapXml=feeSitemapXml.replace('</urlset>','  <url><loc>'+feePageUrl+'</loc></url>\n</urlset>');
  fs.writeFileSync(feeSitemapPath,feeSitemapXml);
 }
 const sitemapXml=fs.readFileSync(path.join(out,'sitemap.xml'),'utf8');
