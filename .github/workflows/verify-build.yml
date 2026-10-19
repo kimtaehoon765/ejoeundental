@@ -171,5 +171,37 @@ jobs:
           if (missing.length) throw new Error("Homepage link audit failed:\\n" + [...new Set(missing)].join("\\n"));
           console.log("Homepage internal links verified:", hrefs.length, "links checked");
           NODE
+          # Check local navigation in every top-level published HTML page.
+          node <<'NODE'
+          const fs = require("node:fs");
+          const path = require("node:path");
+          const root = path.resolve("dist");
+          const pages = fs.readdirSync(root).filter(name => name.endsWith(".html"));
+          const errors = [];
+          let checked = 0;
+          for (const page of pages) {
+            const html = fs.readFileSync(path.join(root, page), "utf8");
+            const ids = new Set([...html.matchAll(/\bid=["']([^"']+)["']/g)].map(match => match[1]));
+            for (const [, href] of html.matchAll(/\bhref=["']([^"']+)["']/g)) {
+              if (href.startsWith("#")) {
+                const fragment = decodeURIComponent(href.slice(1));
+                if (fragment && !ids.has(fragment)) errors.push(page + ": missing " + href);
+                checked++;
+              } else if (href.startsWith("/") && !href.startsWith("//")) {
+                const targetPath = href.split(/[?#]/, 1)[0];
+                if (!targetPath || targetPath === "/") continue;
+                const resolved = path.resolve(root, "." + targetPath);
+                if (!resolved.startsWith(root + path.sep)) {
+                  errors.push(page + ": unsafe " + href);
+                } else if (!fs.existsSync(resolved) && !fs.existsSync(path.join(resolved, "index.html"))) {
+                  errors.push(page + ": missing " + href);
+                }
+                checked++;
+              }
+            }
+          }
+          if (errors.length) throw new Error("Published page link audit failed:\\n" + [...new Set(errors)].join("\\n"));
+          console.log("Published HTML link audit passed:", pages.length, "pages,", checked, "local links");
+          NODE
           test -d dist/health
           echo "Website build and required files verified."
