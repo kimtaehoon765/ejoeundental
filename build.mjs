@@ -729,6 +729,15 @@ for(const localPage of new Set(auditedHomepageLocalPages)){
  const localFile=path.join(out,localPage.slice(1));
  if(!fs.existsSync(localFile)||!fs.statSync(localFile).isFile())throw new Error('Homepage link points to missing published page: '+localPage);
 }
+// Validate fragment destinations in linked, published patient-information pages.
+const auditedFragmentLinks=[...homeAuditHtml.matchAll(/\bhref=["'](\/[^"'?#]+\.html)#([^"']+)["']/g)];
+for(const match of auditedFragmentLinks){
+ const targetPath=path.join(out,match[1].slice(1));
+ if(!fs.existsSync(targetPath))throw new Error('Fragment link points to missing page: '+match[1]);
+ const targetHtml=fs.readFileSync(targetPath,'utf8');
+ const escapedFragment=match[2].replace(/[.*+?^\x24{}()|[\]\\]/g,'\\\x24&');
+ if(!new RegExp('\\bid=["\\\']'+escapedFragment+'["\\\']').test(targetHtml))throw new Error('Homepage fragment link points to missing section: '+match[1]+'#'+match[2]);
+}
 console.log('Homepage published-page links audit passed:',new Set(auditedHomepageLocalPages).size,'local pages');
 console.log('Homepage anchor navigation audit passed:',auditedHomepageHashLinks.length,'links');
 console.log('Homepage local SEO audit passed:',homeSchemas.length,'valid structured data blocks, phone, address and key links');
