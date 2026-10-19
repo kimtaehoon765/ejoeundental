@@ -4,7 +4,7 @@ const root=process.cwd(),out=path.join(root,'dist');fs.rmSync(out,{recursive:tru
 const feeFolder=path.join(root,'content/fees');
 const feeEntries=fs.existsSync(feeFolder)?fs.readdirSync(feeFolder).filter(n=>n.endsWith('.json')).map(n=>JSON.parse(fs.readFileSync(path.join(feeFolder,n),'utf8'))).filter(row=>row.published===true&&String(row.item||'').trim()&&String(row.price||'').trim()).map(({category,item,detail,price,note})=>({category:String(category||'기타'),item:String(item),detail:String(detail||''),price:String(price),note:String(note||'')})):[];
 fs.mkdirSync(path.join(out,'content'),{recursive:true});
-fs.writeFileSync(path.join(out,'content/fees-index.json'),JSON.stringify({items:feeEntries,updated:feeEntries.length?new Date().toISOString().slice(0,10):''},null,2));
+fs.writeFileSync(path.join(out,'content/fees-index.json'),JSON.stringify({items:feeEntries,updated:''},null,2));
 // Link to the public fee disclosure from the homepage without disturbing the design.
 const feesHomePath=path.join(out,'index.html');
 let feesHome=fs.readFileSync(feesHomePath,'utf8');
@@ -595,6 +595,14 @@ console.log('Navigation audit passed:',searchDestinations.length,'search destina
 const sitemapFile=path.join(out,'sitemap.xml');
 let normalizedSitemap=fs.readFileSync(sitemapFile,'utf8').replace(/https:\/\/ejoeundental\.com\//g,'https://ejoeundental.pages.dev/');
 fs.writeFileSync(sitemapFile,normalizedSitemap);
+// Make the public fee disclosure discoverable in the published sitemap.
+const feeSitemapPath=path.join(out,'sitemap.xml');
+let feeSitemapXml=fs.readFileSync(feeSitemapPath,'utf8');
+const feePageUrl='https://ejoeundental.pages.dev/noncovered-fees.html';
+if(!feeSitemapXml.includes('<loc>'+feePageUrl+'</loc>')){
+ feeSitemapXml=feeSitemapXml.replace('</urlset>','  <url><loc>'+feePageUrl+'</loc></url>\\n</urlset>');
+ fs.writeFileSync(feeSitemapPath,feeSitemapXml);
+}
 const sitemapXml=fs.readFileSync(path.join(out,'sitemap.xml'),'utf8');
 const sitemapUrls=[...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
 if(!sitemapUrls.length)throw new Error('Sitemap contains no URLs');
