@@ -200,7 +200,7 @@
 </main>
 <footer class="footer"><div class="wrap footgrid"><div><h3>이조은치과</h3><p id="footer_address">인천광역시 부평구 세월천로 34, 대우프라자 305호</p><p>대표전화 <a href="tel:0325132875" aria-label="이조은치과 대표전화 032-513-2875로 전화하기"><strong>032-513-2875</strong></a></p><small class="muted">© 이조은치과. All rights reserved.</small></div><div><p>원장이 전하는 치과 이야기</p><div class="bloglinks"><a id="blog1" target="_blank" rel="noopener noreferrer" aria-label="이조은치과 블로그 1, 새 창 열림">블로그 1</a><a id="blog2" target="_blank" rel="noopener noreferrer" aria-label="이조은치과 블로그 2, 새 창 열림">블로그 2</a><a id="blog3" target="_blank" rel="noopener noreferrer" aria-label="이조은치과 블로그 3, 새 창 열림">블로그 3</a></div><p><a href="/noncovered-fees.html" aria-label="이조은치과 비급여 진료비용 및 제증명수수료 안내">비급여 진료비용 · 제증명수수료 안내 →</a></p><p><a class="adminlink" href="/admin/">홈페이지 글 관리 ↗</a></p></div></div></footer>
 <!-- Optional, visitor-controlled classical piano player; recording license requires source verification. -->
-<div class="piano-player" aria-label="클래식 피아노와 팝·록 음악 선택">
+<div class="piano-player" id="music-panel" role="region" aria-label="클래식 피아노와 팝·록 음악 선택">
   <button type="button" id="piano-toggle" aria-pressed="false" aria-controls="piano-audio">♫ 피아노 음악 듣기</button>
   <span id="piano-status" role="status" aria-live="polite">음악 꺼짐</span>
   <label class="piano-volume-control" for="piano-volume">음량 <input type="range" id="piano-volume" min="0" max="100" value="30" step="5" aria-label="피아노 음악 음량"><output id="piano-volume-value" for="piano-volume">30%</output></label>
@@ -223,7 +223,7 @@
   </details>
   <audio id="piano-audio" preload="none" loop src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Chopin.Nocturne.Es-Dur.opus.9.2.ogg"></audio>
 </div>
-<button type="button" id="music-reopen" class="music-reopen" hidden aria-label="음악 메뉴 다시 열기">♫ 음악</button>
+<button type="button" id="music-reopen" class="music-reopen" hidden aria-label="음악 메뉴 다시 열기" aria-controls="music-panel" aria-expanded="false">♫ 음악</button>
 <style>
 .piano-player{position:fixed;right:14px;bottom:14px;z-index:50;display:flex;align-items:center;gap:8px;flex-wrap:wrap;max-width:min(95vw,380px);padding:9px 12px;border:1px solid #c8d5c8;border-radius:14px;background:#f7f4ec;box-shadow:0 5px 22px #173e3526;font-size:12px;line-height:1.4}
 .piano-player button{border:0;border-radius:9px;background:#173e35;color:#fff;padding:9px 12px;cursor:pointer;font-size:13px}
@@ -294,12 +294,12 @@ document.addEventListener('DOMContentLoaded',()=>{
   hide?.addEventListener('click',()=>{
     audio.pause();
     if(player)player.hidden=true;
-    if(reopen){reopen.hidden=false;reopen.focus()}
+    if(reopen){reopen.hidden=false;reopen.setAttribute('aria-expanded','false');reopen.focus()}
     try{sessionStorage.setItem('clinic-music-collapsed','1')}catch{}
   });
   reopen?.addEventListener('click',()=>{
     if(player)player.hidden=false;
-    if(reopen)reopen.hidden=true;
+    if(reopen){reopen.hidden=true;reopen.setAttribute('aria-expanded','true')}
     if(button)button.focus();
     try{sessionStorage.setItem('clinic-music-collapsed','0')}catch{}
   });
@@ -309,9 +309,15 @@ document.addEventListener('DOMContentLoaded',()=>{
   try{
     if(sessionStorage.getItem('clinic-music-collapsed')==='0'){
       if(player)player.hidden=false;
-      if(reopen)reopen.hidden=true;
+      if(reopen){reopen.hidden=true;reopen.setAttribute('aria-expanded','true')}
     }
   }catch{}
+  player?.addEventListener('keydown',event=>{
+    if(event.key==='Escape'&&!player.hidden){
+      event.preventDefault();
+      hide?.click();
+    }
+  });
   // Never continue playing music when the visitor leaves the page.
   window.addEventListener('pagehide',()=>audio.pause());
   document.addEventListener('visibilitychange',()=>{
