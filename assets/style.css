@@ -503,3 +503,12 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
 :where(.hero,.section,.article) :where(h1,h2,h3){text-wrap:balance}
 :where(.hero,.section,.article) p{text-wrap:pretty}
 @media(max-width:600px){.hero p,.section p{word-break:keep-all}.article .body{overflow-wrap:anywhere}}
+
+/* Four essential mobile actions fit on one row, leaving more room for clinical content. */
+@media(max-width:600px){
+ .mobile-quick{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+ .mobile-quick a{min-height:44px;padding:7px 2px;font-size:clamp(10px,2.65vw,12px);word-break:keep-all}
+ .nav{row-gap:6px}
+ html{scroll-padding-top:112px}
+ #philosophy,#focus-care,#symptom-guide,#care,#doctor,#health-info,#more-health,#stories,#faq,#location,#neighborhood-guide,#treatment-decisions,#care-pathway,#when-to-call,#appointment-checklist,#visit-guide{scroll-margin-top:112px}
+}
