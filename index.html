@@ -203,6 +203,7 @@
 <div class="piano-player" aria-label="클래식 피아노와 팝·록 음악 선택">
   <button type="button" id="piano-toggle" aria-pressed="false" aria-controls="piano-audio">♫ 피아노 음악 듣기</button>
   <span id="piano-status" role="status" aria-live="polite">음악 꺼짐</span>
+  <label class="piano-volume-control" for="piano-volume">음량 <input type="range" id="piano-volume" min="0" max="100" value="30" step="5" aria-label="피아노 음악 음량"><output id="piano-volume-value" for="piano-volume">30%</output></label>
   <button type="button" id="music-hide" aria-label="음악 메뉴 닫기" title="음악 메뉴 닫기">×</button>
   <a href="https://commons.wikimedia.org/wiki/File:Chopin.Nocturne.Es-Dur.opus.9.2.ogg" target="_blank" rel="noopener noreferrer" aria-label="쇼팽 녹턴 연주 음원 및 CC0 라이선스 출처, 새 창">음원 출처 · CC0</a>
   <details class="pop-menu"><summary>🎸 무료 팝·록 듣기</summary>
@@ -228,6 +229,7 @@
 .piano-player button:focus-visible,.piano-player a:focus-visible{outline:3px solid #a47837;outline-offset:3px}
 .piano-player a{text-decoration:underline}
 .piano-player .pop-menu{flex-basis:100%;position:relative}
+.piano-player .piano-volume-control{display:inline-flex;align-items:center;gap:5px;font-size:12px}.piano-player .piano-volume-control input{width:72px;accent-color:#173e35}.piano-player .piano-volume-control output{min-width:30px}
 @media(max-width:600px){
  .piano-player{max-width:calc(100vw - 16px);width:auto;max-height:min(70vh,470px);overflow-y:auto;overscroll-behavior:contain}
  .piano-player .pop-menu[open]{max-height:45vh;overflow-y:auto}
@@ -281,7 +283,16 @@ document.addEventListener('DOMContentLoaded',()=>{
       if(reopen)reopen.hidden=false;
     }
   }catch{}
-  audio.volume=0.3;
+  const volume=document.getElementById('piano-volume');
+  const volumeValue=document.getElementById('piano-volume-value');
+  const updateVolume=()=>{
+    if(!volume)return;
+    const level=Math.min(100,Math.max(0,Number(volume.value)||0));
+    audio.volume=level/100;
+    if(volumeValue)volumeValue.textContent=level+'%';
+  };
+  volume?.addEventListener('input',updateVolume);
+  updateVolume();
   button.addEventListener('click',async()=>{
     if(!audio.paused){audio.pause();return}
     status.textContent='음악 연결 중…';
