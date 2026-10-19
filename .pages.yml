@@ -57,7 +57,7 @@ content:
     type: collection
     path: content/fees
     format: json
-    filename: "{primary}.json"
+    filename: "{year}-{month}-{day}-{hour}-{minute}-{second}.json"
     view:
       fields: [category, item, price, published]
       primary: item
