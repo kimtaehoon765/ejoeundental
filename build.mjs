@@ -530,9 +530,9 @@ const homepageSchemas=[...homepageHtml.matchAll(/<script\s+type=["']application\
 const clinicSchema=homepageSchemas.find(schema=>schema['@type']==='Dentist');
 const websiteSchema=homepageSchemas.find(schema=>schema['@type']==='WebSite');
 if(!clinicSchema||!websiteSchema)throw new Error('Homepage missing Dentist or WebSite schema');
-if(clinicSchema['@id']!=='https://ejoeundental.pages.dev/#clinic'||clinicSchema.name!=='이조은치과'||clinicSchema.telephone!=='+82-32-513-2875')throw new Error('Homepage clinic identity mismatch');
-if(clinicSchema.address?.streetAddress!=='세월천로 34, 대우프라자 305호')throw new Error('Homepage clinic address mismatch');
-if(websiteSchema.publisher?.['@id']!==clinicSchema['@id']||websiteSchema.url!=='https://ejoeundental.pages.dev/')throw new Error('Homepage website publisher mismatch');
+if(!['https://ejoeundental.pages.dev/#clinic','https://ejoeundental.com/#clinic'].includes(clinicSchema['@id'])||clinicSchema.name!=='이조은치과'||clinicSchema.telephone!=='+82-32-513-2875')throw new Error('Homepage clinic identity mismatch');
+if(!['세월천로 34, 대우프라자 305호','세월천로 34 대우프라자 305호'].includes(clinicSchema.address?.streetAddress))throw new Error('Homepage clinic address mismatch');
+if(websiteSchema.publisher?.['@id']!==clinicSchema['@id']||!['https://ejoeundental.pages.dev/','https://ejoeundental.com/'].includes(websiteSchema.url))throw new Error('Homepage website publisher mismatch');
 if(!['청천동','산곡동','산곡역'].every(place=>clinicSchema.areaServed?.some(area=>area.name.includes(place))))throw new Error('Homepage local search coverage incomplete');
 console.log('Homepage SEO/GEO identity audit passed: clinic, website, service areas');
 const symptomSection=homepageHtml.match(/<section[^>]*id=["']symptoms["'][^>]*>([\s\S]*?)<\/section>/)?.[1];
