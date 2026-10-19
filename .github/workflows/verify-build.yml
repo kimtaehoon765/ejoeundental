@@ -243,5 +243,30 @@ jobs:
           if (errors.length) throw new Error("Accessibility audit failed:\\n" + errors.slice(0,30).join("\\n"));
           console.log("HTML accessibility audit passed:", pages.length, "pages,", images, "images");
           NODE
+          # Audit essential metadata on every generated HTML document.
+          node <<'NODE'
+          const fs = require("node:fs");
+          const path = require("node:path");
+          const root = path.resolve("dist");
+          const pages = [];
+          function walk(dir) {
+            for (const item of fs.readdirSync(dir, {withFileTypes: true})) {
+              const full = path.join(dir, item.name);
+              if (item.isDirectory()) walk(full);
+              else if (item.isFile() && item.name.endsWith(".html")) pages.push(full);
+            }
+          }
+          walk(root);
+          const errors = [];
+          for (const file of pages) {
+            const html = fs.readFileSync(file, "utf8");
+            const name = path.relative(root, file);
+            if (!/<html\b[^>]*\blang=["']ko["']/i.test(html)) errors.push(name + ": missing Korean document language");
+            if (!/<title>\s*[^<\s][\s\S]*?<\/title>/i.test(html)) errors.push(name + ": missing page title");
+            if (!/<meta\s+name=["']viewport["']/i.test(html) && !/<meta\s+content=["'][^"']*width=device-width[^"']*["']\s+name=["']viewport["']/i.test(html)) errors.push(name + ": missing viewport");
+          }
+          if (errors.length) throw new Error("Page metadata audit failed:\\n" + errors.slice(0,30).join("\\n"));
+          console.log("Document language, title and mobile viewport verified:", pages.length, "pages");
+          NODE
           test -d dist/health
           echo "Website build and required files verified."
