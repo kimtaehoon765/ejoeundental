@@ -115,6 +115,8 @@ for(const filename of fs.readdirSync(healthSchemaDir).filter(name=>name.endsWith
    let existing;try{existing=JSON.parse(json)}catch{return whole}
    if(!['WebPage','MedicalWebPage'].includes(existing['@type']))return whole;
    existing.url=canonical;
+   existing.name=title;
+   if(description)existing.description=description;
    if(existing['@id'])existing['@id']=canonical+'#webpage';
    if(existing.publisher?.['@id'])existing.publisher['@id']=new URL(canonical).origin+'/#clinic';
    return open+JSON.stringify(existing).replace(/</g,'\\\\u003c')+close;
