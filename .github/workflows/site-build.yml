@@ -87,6 +87,16 @@ jobs:
             echo "- 사이트맵: $(test -s dist/sitemap.xml && echo '생성됨')"
             echo "- 검색 데이터: $(test -s dist/content/search-index.json && echo '생성됨')"
           } >> "$GITHUB_STEP_SUMMARY"
+      - name: Explain failed validation
+        if: failure()
+        run: |
+          {
+            echo '## 이조은치과 홈페이지 빌드 검증'
+            echo ''
+            echo '- 상태: **실패 — 확인 필요**'
+            echo '- 실패한 단계의 로그를 펼쳐 구체적인 오류를 확인하세요.'
+            echo '- 이 결과는 사이트 배포 성공 여부를 의미하지 않습니다.'
+          } >> "$GITHUB_STEP_SUMMARY"
       - name: Upload generated site for inspection
         if: always()
         uses: actions/upload-artifact@v4
