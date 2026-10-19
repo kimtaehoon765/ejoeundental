@@ -218,6 +218,7 @@
       <a href="https://www.youtube.com/results?search_query=The+Alan+Parsons+Project+official+music" target="_blank" rel="noopener noreferrer">앨런 파슨스 프로젝트 ↗</a>
     </nav>
     <button type="button" id="random-pop">🔀 가수 무작위 선택 ↗</button>
+    <a id="random-pop-fallback" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" hidden>선택한 가수 유튜브에서 열기 ↗</a>
     <small>무작위 버튼은 가수를 골라 유튜브 검색을 엽니다. 곡 순서 무작위 재생은 유튜브에서 설정해 주세요.</small>
   </details>
   <audio id="piano-audio" preload="none" loop src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Chopin.Nocturne.Es-Dur.opus.9.2.ogg"></audio>
@@ -260,7 +261,11 @@ document.addEventListener('DOMContentLoaded',()=>{
     const links=[...document.querySelectorAll('.pop-menu nav a')];
     if(!links.length)return;
     const pick=links[Math.floor(Math.random()*links.length)];
-    window.open(pick.href,'_blank','noopener,noreferrer');
+    const opened=window.open(pick.href,'_blank','noopener,noreferrer');
+    if(!opened){
+      const fallback=document.getElementById('random-pop-fallback');
+      if(fallback){fallback.href=pick.href;fallback.textContent='선택된 가수: '+pick.textContent.trim()+' — 여기 눌러 열기 ↗';fallback.hidden=false}
+    }
   });
   const player=document.querySelector('.piano-player');
   const hide=document.getElementById('music-hide');
