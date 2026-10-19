@@ -352,3 +352,6 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
 
 /* Keep five mobile quick actions readable without sideways overflow. */
 @media(max-width:600px){.mobile-quick a{font-size:clamp(9px,2.55vw,11px);padding:8px 2px;line-height:1.35}.mobile-quick a:focus-visible{outline:3px solid #bc9761;outline-offset:2px}}
+
+/* Account for the sticky two-row header when jumping to clinic sections on phones. */
+@media(max-width:600px){html{scroll-padding-top:150px}#philosophy,#focus-care,#symptoms,#care,#doctor,#health-info,#more-health,#stories,#faq,#location{scroll-margin-top:150px}}
