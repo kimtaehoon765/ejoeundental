@@ -492,3 +492,8 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
 .footer-visit-note{max-width:370px;padding:11px 14px;border-left:3px solid #bc9761;background:rgba(255,255,255,.06);border-radius:0 7px 7px 0;line-height:1.7;font-size:13px}
 .footer a:focus-visible{outline-color:#e5c48d}
 @media(max-width:600px){.footer{padding:40px 0}.footer .footgrid{gap:18px}.footer-visit-note{max-width:none}}
+
+/* Show the actual clinic number in the primary call action. */
+.hero-call{gap:10px;white-space:normal;text-align:center}
+.hero-phone{font-size:13px;font-weight:700;letter-spacing:.015em;font-variant-numeric:tabular-nums}
+@media(max-width:600px){.hero-call{flex-wrap:wrap;gap:6px}.hero-phone{font-size:14px}}
