@@ -71,6 +71,17 @@ function versionStylesheets(folder){
 }
 versionStylesheets(out);
 
+// Fingerprint search assets so repeat visits can cache them without showing stale new articles.
+const searchIndexHash=createHash('sha256').update(fs.readFileSync(path.join(out,'content/search-index-46.json'))).digest('hex').slice(0,12);
+const searchScriptHash=createHash('sha256').update(fs.readFileSync(path.join(out,'assets/search.js'))).digest('hex').slice(0,12);
+const searchHtmlPath=path.join(out,'search.html');
+let searchHtml=fs.readFileSync(searchHtmlPath,'utf8');
+searchHtml=searchHtml.replace(/(src=["']\/assets\/search\.js)(?:\?[^"']*)?(["'])/g,(_,start,end)=>start+'?v='+searchScriptHash+end);
+fs.writeFileSync(searchHtmlPath,searchHtml);
+const searchJsPath=path.join(out,'assets/search.js');
+const searchJs=fs.readFileSync(searchJsPath,'utf8').replace(/\/content\/search-index-46\.json(?=['"])/g,'/content/search-index-46.json?v='+searchIndexHash);
+fs.writeFileSync(searchJsPath,searchJs);
+
 // Until the custom domain is connected, keep canonical links aligned with the Pages preview site.
 // Apply only to generated HTML; the original source pages remain unchanged.
 function alignCanonicalUrls(folder){
