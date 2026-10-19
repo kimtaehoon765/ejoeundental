@@ -698,6 +698,8 @@ for(const [label,pattern] of [
  ['search entry',/href=["']\/search\.html/],
  ['symptom guide',/id=["']symptom-guide["']/],
  ['first visit guide',/id=["']visit-guide["']/],
+ ['symptom guide navigation',/href=["']#symptom-guide["']/],
+ ['first visit navigation',/href=["']#visit-guide["']/],
  ['care principles link',/href=["']#care-principles["']/],
  ['location guide link',/href=["']#location["']/],
  ['gum health navigation',/href=["']\/gum-health\.html["']/],
