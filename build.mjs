@@ -723,6 +723,13 @@ const auditedHomepageIdSet=new Set(auditedHomepageIds);
 if(auditedHomepageIds.length!==auditedHomepageIdSet.size)throw new Error('Duplicate homepage HTML id attribute detected');
 const auditedHomepageHashLinks=[...homeAuditHtml.matchAll(/\bhref=["']#([^"']+)["']/g)].map(m=>m[1]);
 for(const target of auditedHomepageHashLinks){if(!auditedHomepageIdSet.has(target))throw new Error('Homepage navigation links to missing section: #'+target);}
+// Check local patient navigation targets exist in the generated site, not just in source files.
+const auditedHomepageLocalPages=[...homeAuditHtml.matchAll(/\bhref=["'](\/[^"'?#]+\.html)(?:[?#][^"']*)?["']/g)].map(match=>match[1]);
+for(const localPage of new Set(auditedHomepageLocalPages)){
+ const localFile=path.join(out,localPage.slice(1));
+ if(!fs.existsSync(localFile)||!fs.statSync(localFile).isFile())throw new Error('Homepage link points to missing published page: '+localPage);
+}
+console.log('Homepage published-page links audit passed:',new Set(auditedHomepageLocalPages).size,'local pages');
 console.log('Homepage anchor navigation audit passed:',auditedHomepageHashLinks.length,'links');
 console.log('Homepage local SEO audit passed:',homeSchemas.length,'valid structured data blocks, phone, address and key links');
 console.log('Sitemap audit passed:',sitemapUrls.length,'canonical-aligned published pages');
