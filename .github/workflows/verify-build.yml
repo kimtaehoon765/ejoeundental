@@ -106,5 +106,18 @@ jobs:
           }
           console.log("Urgent symptom guidance verified.");
           NODE
+          # Validate pre-visit checklist and key operating details.
+          node <<'NODE'
+          const fs = require("node:fs");
+          const html = fs.readFileSync("dist/index.html", "utf8");
+          const start = html.indexOf('id="appointment-checklist"');
+          const end = html.indexOf('id="visit-guide"', start);
+          if (start < 0 || end < start) throw new Error("Missing pre-visit checklist");
+          const checklist = html.slice(start, end);
+          for (const term of ["격주", "12:30", "18:00", "복용", "알레르기", "3시간 무료", "건강보험", "tel:0325132875"]) {
+            if (!checklist.includes(term)) throw new Error("Incomplete visit checklist: " + term);
+          }
+          console.log("Pre-visit checklist verified.");
+          NODE
           test -d dist/health
           echo "Website build and required files verified."
