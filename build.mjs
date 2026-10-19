@@ -894,3 +894,21 @@ for(const match of homepageHtml.matchAll(/\bhref=["']([^"']+)["']/gi)){
  }
 }
 console.log('Homepage navigation and HTML link audit passed');
+
+// Ensure runtime configuration and generated search data stay usable by visitors.
+const runtimeSite=JSON.parse(fs.readFileSync(path.join(out,'content/site.json'),'utf8'));
+for(const field of ['clinic','address','phone','intro','philosophy']){
+ if(typeof runtimeSite[field]!=='string'||!runtimeSite[field].trim())throw new Error('Missing runtime clinic field: '+field);
+}
+const runtimePosts=JSON.parse(fs.readFileSync(path.join(out,'content/posts-index.json'),'utf8'));
+const runtimeSearch=JSON.parse(fs.readFileSync(path.join(out,'content/search-index.json'),'utf8'));
+const runtimeFees=JSON.parse(fs.readFileSync(path.join(out,'content/fees-index.json'),'utf8'));
+if(!Array.isArray(runtimePosts))throw new Error('Invalid runtime post index');
+if(!Array.isArray(runtimeSearch))throw new Error('Invalid runtime search index');
+if(!runtimeFees||!Array.isArray(runtimeFees.items))throw new Error('Invalid runtime fee index');
+for(const post of runtimePosts){
+ if(!post||typeof post.slug!=='string'||typeof post.title!=='string')throw new Error('Invalid published post index item');
+ const target=path.join(out,'stories',post.slug,'index.html');
+ if(!fs.existsSync(target))throw new Error('Published post missing generated page: '+post.slug);
+}
+console.log('Runtime clinic settings and content index audit passed');
