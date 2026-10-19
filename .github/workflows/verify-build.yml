@@ -145,5 +145,31 @@ jobs:
           }
           console.log("Essential routes remain reachable after menu simplification.");
           NODE
+          # Audit homepage fragment links and internal HTML routes together.
+          node <<'NODE'
+          const fs = require("node:fs");
+          const path = require("node:path");
+          const html = fs.readFileSync("dist/index.html", "utf8");
+          const ids = new Set([...html.matchAll(/\bid=["']([^"']+)["']/g)].map(match => match[1]));
+          const hrefs = [...html.matchAll(/\bhref=["']([^"']+)["']/g)].map(match => match[1]);
+          const missing = [];
+          for (const href of hrefs) {
+            if (href.startsWith("#")) {
+              const fragment = decodeURIComponent(href.slice(1));
+              if (fragment && !ids.has(fragment)) missing.push("missing anchor: " + href);
+            } else if (href.startsWith("/") && !href.startsWith("//")) {
+              const clean = href.split(/[?#]/, 1)[0];
+              if (!clean || clean === "/") continue;
+              const target = path.resolve("dist", "." + clean);
+              const root = path.resolve("dist") + path.sep;
+              if (!target.startsWith(root)) { missing.push("unsafe internal route: " + href); continue; }
+              if (!fs.existsSync(target) && !fs.existsSync(path.join(target, "index.html"))) {
+                missing.push("missing page: " + href);
+              }
+            }
+          }
+          if (missing.length) throw new Error("Homepage link audit failed:\\n" + [...new Set(missing)].join("\\n"));
+          console.log("Homepage internal links verified:", hrefs.length, "links checked");
+          NODE
           test -d dist/health
           echo "Website build and required files verified."
