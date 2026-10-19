@@ -300,6 +300,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   const reopen=document.getElementById('music-reopen');
   hide?.addEventListener('click',()=>{
     audio.pause();
+    if(popMenu)popMenu.open=false;
+    if(randomResult)randomResult.hidden=true;
     setPanelVisibility(false);
     reopen?.focus();
     try{sessionStorage.setItem('clinic-music-collapsed','1')}catch{}
