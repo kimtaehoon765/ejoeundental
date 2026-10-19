@@ -1,0 +1,47 @@
+name: Validate static website
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate JavaScript syntax
+        run: |
+          node --check build.mjs
+          node --check assets/site.js
+      - name: Build and run SEO audits
+        run: npm run build
+      - name: Verify generated output
+        run: |
+          test -s dist/index.html
+          test -s dist/sitemap.xml
+          test -s dist/robots.txt
+          test -s dist/search.html
+          test -s dist/gum-treatment.html
+          test -s dist/retreatment.html
+          test -s dist/cervical-abrasion.html
+          test -s dist/insured-care.html
+      - name: Upload generated site for inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-build-output
+          path: dist/
+          if-no-files-found: ignore
+          retention-days: 3
