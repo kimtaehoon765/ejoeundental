@@ -921,7 +921,7 @@ for(const entry of runtimeSearch){
  const relative=decodeURIComponent(route.slice(1));
  const destination=path.join(out,relative);
  const html=route==='/'||route.endsWith('/')?path.join(destination,'index.html'):destination;
- if(!fs.existsSync(html)||!fs.statSync(html).isFile())throw new Error('Search result points to missing page: '+entry.url);
+ if(!fs.existsSync(html)||!fs.statSync(html).isFile()||!html.endsWith('.html'))throw new Error('Search result points to missing HTML page: '+entry.url);
 }
 
 if(!runtimeFees||!Array.isArray(runtimeFees.items))throw new Error('Invalid runtime fee index');
