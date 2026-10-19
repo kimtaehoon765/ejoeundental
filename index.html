@@ -200,7 +200,7 @@
 </main>
 <footer class="footer"><div class="wrap footgrid"><div><h3>이조은치과</h3><p id="footer_address">인천광역시 부평구 세월천로 34, 대우프라자 305호</p><p>대표전화 <a href="tel:0325132875" aria-label="이조은치과 대표전화 032-513-2875로 전화하기"><strong>032-513-2875</strong></a></p><small class="muted">© 이조은치과. All rights reserved.</small></div><div><p>원장이 전하는 치과 이야기</p><div class="bloglinks"><a id="blog1" target="_blank" rel="noopener noreferrer" aria-label="이조은치과 블로그 1, 새 창 열림">블로그 1</a><a id="blog2" target="_blank" rel="noopener noreferrer" aria-label="이조은치과 블로그 2, 새 창 열림">블로그 2</a><a id="blog3" target="_blank" rel="noopener noreferrer" aria-label="이조은치과 블로그 3, 새 창 열림">블로그 3</a></div><p><a href="/noncovered-fees.html" aria-label="이조은치과 비급여 진료비용 및 제증명수수료 안내">비급여 진료비용 · 제증명수수료 안내 →</a></p><p><a class="adminlink" href="/admin/">홈페이지 글 관리 ↗</a></p></div></div></footer>
 <!-- Optional, visitor-controlled classical piano player (CC0 recording). -->
-<div class="piano-player" aria-label="클래식 피아노 배경음악">
+<div class="piano-player" aria-label="클래식 피아노와 팝·록 음악 선택">
   <button type="button" id="piano-toggle" aria-pressed="false" aria-controls="piano-audio">♫ 피아노 음악 듣기</button>
   <span id="piano-status" role="status" aria-live="polite">음악 꺼짐</span>
   <a href="https://commons.wikimedia.org/wiki/File:Chopin.Nocturne.Es-Dur.opus.9.2.ogg" target="_blank" rel="noopener noreferrer" aria-label="쇼팽 녹턴 연주 음원 및 CC0 라이선스 출처, 새 창">음원 출처 · CC0</a>
@@ -226,6 +226,11 @@
 .piano-player button:focus-visible,.piano-player a:focus-visible{outline:3px solid #a47837;outline-offset:3px}
 .piano-player a{text-decoration:underline}
 .piano-player .pop-menu{flex-basis:100%;position:relative}
+@media(max-width:600px){
+ .piano-player{max-width:calc(100vw - 16px);width:auto;max-height:min(70vh,470px);overflow-y:auto;overscroll-behavior:contain}
+ .piano-player .pop-menu[open]{max-height:45vh;overflow-y:auto}
+ .piano-player .pop-menu nav a{min-height:36px;display:inline-flex;align-items:center}
+}
 .piano-player .pop-menu summary{cursor:pointer;font-weight:700;padding:4px 0}
 .piano-player .pop-menu p{margin:5px 0}
 .piano-player .pop-menu nav{display:flex;gap:6px;flex-wrap:wrap}
