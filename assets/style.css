@@ -383,3 +383,11 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
  #location .location-actions a{border-radius:8px;font-weight:700}
  #location #address{font-size:16px;font-weight:600;overflow-wrap:anywhere}
 }
+
+/* Keep the expanded desktop navigation usable on laptop widths. */
+@media(min-width:901px) and (max-width:1250px){
+ .nav{padding:14px 18px;gap:12px;flex-wrap:wrap}
+ .nav .logo{flex:0 0 auto}
+ .navlinks{flex:1 1 760px;justify-content:flex-end;flex-wrap:wrap;gap:8px 14px;font-size:12px;line-height:1.5}
+ .navlinks a{min-height:36px;display:inline-flex;align-items:center}
+}
