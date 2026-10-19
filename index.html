@@ -312,6 +312,11 @@ document.addEventListener('DOMContentLoaded',()=>{
       if(reopen)reopen.hidden=true;
     }
   }catch{}
+  // Never continue playing music when the visitor leaves the page.
+  window.addEventListener('pagehide',()=>audio.pause());
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden&&!audio.paused)audio.pause();
+  });
   const volume=document.getElementById('piano-volume');
   const volumeValue=document.getElementById('piano-volume-value');
   const updateVolume=()=>{
