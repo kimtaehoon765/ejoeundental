@@ -151,8 +151,8 @@ for(const filename of fs.readdirSync(healthSchemaDir).filter(name=>name.endsWith
  let schema;
  try{schema=JSON.parse(schemaBlocks[0][1]);}catch{throw new Error('Invalid health JSON-LD: '+filename);}
  const canonical=html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
- if(schema['@type']!=='WebPage'||schema.url!==canonical||schema.name!==title||schema.inLanguage!=='ko-KR')throw new Error('Health structured data does not match page metadata: '+filename);
- if(schema.publisher?.['@id']!=='https://ejoeundental.pages.dev/#clinic')throw new Error('Health publisher does not match clinic identity: '+filename);
+ if(!['WebPage','MedicalWebPage'].includes(schema['@type'])||schema.url!==canonical||schema.name!==title||schema.inLanguage!=='ko-KR')throw new Error('Health structured data does not match page metadata: '+filename);
+ if(!['https://ejoeundental.pages.dev/#clinic','https://ejoeundental.com/#clinic'].includes(schema.publisher?.['@id']))throw new Error('Health publisher does not match clinic identity: '+filename);
  if(desc&&schema.description!==desc)throw new Error('Health structured description mismatch: '+filename);
 }
 console.log('Health SEO metadata audit:',46,'pages,',healthMetadataIssues.length,'improvement candidates');
