@@ -344,3 +344,8 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
  .mobile-quick a{min-width:0;min-height:44px;padding:7px 3px;text-align:center;font-size:clamp(10px,2.8vw,12px);line-height:1.35;white-space:normal;overflow-wrap:anywhere}
  .navlinks{grid-column:1;max-width:100%}
 }
+
+/* Mobile visit action layout: prominent map and call controls. */
+#location .location-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+#location .location-actions .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;max-width:100%;text-align:center;overflow-wrap:anywhere}
+@media(max-width:600px){#location .location-actions{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}#location .location-actions .btn{width:100%;min-height:52px;padding:12px 14px;line-height:1.5}#location .hours-box{overflow-wrap:anywhere}#location .hours-box a{text-decoration:underline;text-underline-offset:3px}}
