@@ -699,6 +699,7 @@ for(const [label,pattern] of [
  ['symptom guide',/id=["']symptom-guide["']/],
  ['first visit guide',/id=["']visit-guide["']/],
  ['symptom guide navigation',/href=["']#symptom-guide["']/],
+ ['mobile symptom guide shortcut',/aria-label=["']증상별 건강정보 안내 바로가기["']/],
  ['first visit navigation',/href=["']#visit-guide["']/],
  ['care principles link',/href=["']#care-principles["']/],
  ['location guide link',/href=["']#location["']/],
