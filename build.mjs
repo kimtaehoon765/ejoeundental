@@ -65,11 +65,6 @@ if(fs.existsSync(sitemapPath)){
  fs.writeFileSync(sitemapPath,sitemap);
 }
 
-// Keep the published sitemap on the same preview host as generated canonical links.
-const normalizedSitemapPath=path.join(out,'sitemap.xml');
-const normalizedSitemap=fs.readFileSync(normalizedSitemapPath,'utf8').replace(/https:\/\/ejoeundental\.com(?=\/|<)/g,'https://ejoeundental.pages.dev');
-fs.writeFileSync(normalizedSitemapPath,normalizedSitemap);
-
 // Every generated sitemap entry must point to a real, published local page.
 const generatedSitemap=fs.readFileSync(path.join(out,'sitemap.xml'),'utf8');
 const generatedSitemapUrls=[...generatedSitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match=>match[1]);
