@@ -851,3 +851,15 @@ for(const post of posts){
  if(!html.includes('<html lang="ko">'))throw new Error('Journal missing Korean language declaration: '+post.slug);
 }
 console.log('Journal title, description and language audit passed:',posts.length,'published articles');
+
+// Ensure published journal pages keep working links to primary treatment guides.
+for(const post of posts){
+ const html=fs.readFileSync(path.join(out,'stories',post.slug,'index.html'),'utf8');
+ const links=[...html.matchAll(/<a\s+[^>]*href=["'](\/[^"'?#]+\.html)(?:[?#][^"']*)?["']/gi)].map(m=>m[1]);
+ for(const url of new Set(links)){
+  const destination=path.join(out,url.slice(1));
+  if(!fs.existsSync(destination)||!fs.statSync(destination).isFile())throw new Error('Broken journal internal link '+url+' in '+post.slug);
+ }
+ if(!html.includes('href="/search.html"')||!html.includes('href="/#stories"'))throw new Error('Journal missing discovery navigation: '+post.slug);
+}
+console.log('Journal internal link audit passed:',posts.length,'published articles');
