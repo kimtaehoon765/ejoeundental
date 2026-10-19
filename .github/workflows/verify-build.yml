@@ -93,5 +93,18 @@ jobs:
           }
           console.log("Doctor-led care pathway verified.");
           NODE
+          # Keep urgent dental symptom guidance visible and linked to emergency help.
+          node <<'NODE'
+          const fs = require("node:fs");
+          const html = fs.readFileSync("dist/index.html", "utf8");
+          const start = html.indexOf('id="when-to-call"');
+          const end = html.indexOf('id="visit-guide"', start);
+          if (start < 0 || end < start) throw new Error("Missing urgent symptom guidance");
+          const section = html.slice(start, end);
+          for (const phrase of ["호흡곤란", "삼킴 곤란", "119", "응급실", "tel:0325132875", "발열"]) {
+            if (!section.includes(phrase)) throw new Error("Missing urgent symptom safety detail: " + phrase);
+          }
+          console.log("Urgent symptom guidance verified.");
+          NODE
           test -d dist/health
           echo "Website build and required files verified."
