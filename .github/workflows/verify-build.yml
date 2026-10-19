@@ -80,5 +80,18 @@ jobs:
           }
           console.log("Patient treatment decision FAQs verified.");
           NODE
+          # Verify the doctor-led care pathway and patient contact actions.
+          node <<'NODE'
+          const fs = require("node:fs");
+          const html = fs.readFileSync("dist/index.html", "utf8");
+          const start = html.indexOf('id="care-pathway"');
+          const end = html.indexOf('id="visit-guide"', start);
+          if (start < 0 || end < start) throw new Error("Missing care pathway section");
+          const pathway = html.slice(start, end);
+          for (const term of ["원장", "검진", "자연치아", "보험", "단계적으로", "tel:0325132875", 'href="#location"']) {
+            if (!pathway.includes(term)) throw new Error("Incomplete care pathway: " + term);
+          }
+          console.log("Doctor-led care pathway verified.");
+          NODE
           test -d dist/health
           echo "Website build and required files verified."
