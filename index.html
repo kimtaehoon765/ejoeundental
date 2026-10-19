@@ -263,8 +263,24 @@ document.addEventListener('DOMContentLoaded',()=>{
   const player=document.querySelector('.piano-player');
   const hide=document.getElementById('music-hide');
   const reopen=document.getElementById('music-reopen');
-  hide?.addEventListener('click',()=>{audio.pause();if(player)player.hidden=true;if(reopen)reopen.hidden=false});
-  reopen?.addEventListener('click',()=>{if(player)player.hidden=false;if(reopen)reopen.hidden=true});
+  hide?.addEventListener('click',()=>{
+    audio.pause();
+    if(player)player.hidden=true;
+    if(reopen){reopen.hidden=false;reopen.focus()}
+    try{sessionStorage.setItem('clinic-music-collapsed','1')}catch{}
+  });
+  reopen?.addEventListener('click',()=>{
+    if(player)player.hidden=false;
+    if(reopen)reopen.hidden=true;
+    if(button)button.focus();
+    try{sessionStorage.removeItem('clinic-music-collapsed')}catch{}
+  });
+  try{
+    if(sessionStorage.getItem('clinic-music-collapsed')==='1'){
+      if(player)player.hidden=true;
+      if(reopen)reopen.hidden=false;
+    }
+  }catch{}
   audio.volume=0.3;
   button.addEventListener('click',async()=>{
     if(!audio.paused){audio.pause();return}
