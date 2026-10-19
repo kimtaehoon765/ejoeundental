@@ -1,4 +1,4 @@
-import fs from 'node:fs';import path from 'node:path';
+import fs from 'node:fs';import path from 'node:path';import {createHash} from 'node:crypto';
 const root=process.cwd(),out=path.join(root,'dist');fs.rmSync(out,{recursive:true,force:true});fs.mkdirSync(out,{recursive:true});function cp(src,dst){fs.cpSync(path.join(root,src),path.join(out,dst),{recursive:true})}cp('index.html','index.html');cp('search.html','search.html');cp('gum-treatment.html','gum-treatment.html');cp('cervical-abrasion.html','cervical-abrasion.html');cp('insured-care.html','insured-care.html');cp('retreatment.html','retreatment.html');const retreatmentPath=path.join(out,'retreatment.html');fs.writeFileSync(retreatmentPath,fs.readFileSync(retreatmentPath,'utf8').replace('</body>','<script defer src="/assets/retreatment-image-manager.js"></script></body>'));cp('tmj-care.html','tmj-care.html');cp('wisdom-tooth.html','wisdom-tooth.html');for(const page of ['implant.html','pediatric-orthodontics.html','pediatric-dentistry.html'])cp(page,page);cp('assets','assets');for(const page of ['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'])cp(page,page);cp('health','health');cp('noncovered-fees.html','noncovered-fees.html');
 // Generate a public fee list only from explicitly published, complete entries.
 const feeFolder=path.join(root,'content/fees');
@@ -58,7 +58,7 @@ if(fs.existsSync(sitemapPath)){
 
 // Ensure every published page (including all 46 health articles) loads the latest shared mobile CSS.
 // Versioning is done at build time, so older cached stylesheets cannot override new typography.
-const cssVersion='20261018-hero-mobile-v17';
+const cssVersion=createHash('sha256').update(fs.readFileSync(path.join(out,'assets/style.css'))).digest('hex').slice(0,12);
 function versionStylesheets(folder){
  for(const item of fs.readdirSync(folder,{withFileTypes:true})){
   const target=path.join(folder,item.name);
