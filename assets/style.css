@@ -458,3 +458,18 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
  .navlinks{flex-wrap:wrap;gap:10px 16px}
  .navlinks a{min-height:38px;display:inline-flex;align-items:center}
 }
+
+/* Clear clinical hierarchy on the first screen without extra homepage sections. */
+.hero-care-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:24px 0 4px;max-width:650px}
+.hero-care-summary a{display:flex;align-items:center;min-height:58px;padding:13px 16px;border:1px solid #d8dfd3;border-radius:9px;background:#fffdf7;font-size:14px;font-weight:650;line-height:1.55;word-break:keep-all;transition:border-color .18s ease,background-color .18s ease}
+.hero-care-summary a:hover{border-color:#8da99a;background:#f1f5ef}
+.hero-care-summary a:focus-visible{outline:3px solid #a47837;outline-offset:3px}
+.hero-visit-note{font-size:13px!important;line-height:1.75!important;color:#476256;border-left:3px solid #bc9761;padding:8px 0 8px 14px;margin-top:22px}
+.hero-visit-note a{text-decoration:underline;text-underline-offset:3px}
+@media(max-width:800px){.hero-care-summary{max-width:none}}
+@media(max-width:600px){
+ .hero-care-summary{grid-template-columns:1fr;gap:8px;margin:18px 0 12px}
+ .hero-care-summary a{min-height:48px;padding:12px 14px;font-size:14px}
+ .hero-visit-note{margin-top:18px}
+}
+@media(prefers-reduced-motion:reduce){.hero-care-summary a{transition:none!important}}
