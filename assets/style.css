@@ -473,3 +473,17 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
  .hero-visit-note{margin-top:18px}
 }
 @media(prefers-reduced-motion:reduce){.hero-care-summary a{transition:none!important}}
+
+/* Prioritize clinical information over decorative artwork on small screens. */
+@media(max-width:600px){
+ .hero{gap:18px}
+ .hero .art{height:190px;max-width:320px;border-radius:130px 130px 10px 10px;box-shadow:7px 9px 0 #e9e7d9}
+ .hero .flower{width:125px;left:30%;top:7%}
+ .hero .art .caption{font-size:10px;bottom:12px;right:15px}
+ .hero h1{margin:12px 0 14px}
+ .hero #intro{margin-bottom:10px}
+ .hero-care-summary{margin-top:14px}
+}
+@media(min-width:601px) and (max-width:800px){
+ .hero .art{height:290px}
+}
