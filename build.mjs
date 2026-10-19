@@ -626,6 +626,29 @@ const visitSection=homepageHtml.match(/<section[^>]*id=["']location["'][^>]*>([\
 if(!visitSection.includes('격주')||!visitSection.includes('3시간 무료 주차'))throw new Error('Visitor-facing hours or parking information missing');
 console.log('Clinic visit facts GEO consistency audit passed');
 
+const coreCareBreadcrumbs=[
+  ['gum-treatment.html','잇몸치료'],
+  ['retreatment.html','재신경치료'],
+  ['cervical-abrasion.html','치경부마모증·GI 수복'],
+  ['insured-care.html','건강보험 진료']
+];
+for(const [page,label] of coreCareBreadcrumbs){
+ const careHtml=fs.readFileSync(path.join(out,page),'utf8');
+ const scripts=[...careHtml.matchAll(/<script\\s+type=["']application\\/ld\\+json["']>([\\s\\S]*?)<\\/script>/gi)].map(match=>{
+  try{return JSON.parse(match[1]);}catch{throw new Error('Invalid treatment JSON-LD: '+page);}
+ });
+ const breadcrumbs=scripts.filter(data=>data['@type']==='BreadcrumbList');
+ if(breadcrumbs.length!==1)throw new Error('Expected one treatment breadcrumb schema: '+page);
+ const entries=breadcrumbs[0].itemListElement;
+ if(!Array.isArray(entries)||entries.length!==2||entries[0].position!==1||entries[1].position!==2||entries[1].name!==label)throw new Error('Invalid treatment breadcrumb hierarchy: '+page);
+ for(const [index,expectedPath] of ['/', '/'+page].entries()){
+  const item=entries[index].item;
+  if(!['https://ejoeundental.com'+expectedPath,'https://ejoeundental.pages.dev'+expectedPath].includes(item))throw new Error('Treatment breadcrumb URL mismatch: '+page);
+ }
+}
+console.log('Core treatment breadcrumb GEO audit passed');
+
+
 const symptomSection=homepageHtml.match(/<section[^>]*id=["']symptoms["'][^>]*>([\s\S]*?)<\/section>/)?.[1];
 if(!symptomSection)throw new Error('Homepage symptom guide section is missing');
 const symptomCards=[...symptomSection.matchAll(/<div class="card">([\s\S]*?)<\/div>/g)].map(m=>m[1]);
