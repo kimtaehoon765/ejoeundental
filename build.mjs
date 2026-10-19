@@ -638,7 +638,7 @@ const coreCareBreadcrumbs=[
 ];
 for(const [page,label] of coreCareBreadcrumbs){
  const careHtml=fs.readFileSync(path.join(out,page),'utf8');
- const scripts=[...careHtml.matchAll(/<script\\s+type=["']application\\/ld\\+json["']>([\\s\\S]*?)<\\/script>/gi)].map(match=>{
+ const scripts=[...careHtml.matchAll(/<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/gi)].map(match=>{
   try{return JSON.parse(match[1]);}catch{throw new Error('Invalid treatment JSON-LD: '+page);}
  });
  const breadcrumbs=scripts.filter(data=>data['@type']==='BreadcrumbList');
@@ -653,13 +653,13 @@ for(const [page,label] of coreCareBreadcrumbs){
 console.log('All eight treatment breadcrumb GEO audits passed');
 
 const searchPageHtml=fs.readFileSync(path.join(out,'search.html'),'utf8');
-if(!/<form\\b[^>]*role=["']search["'][^>]*>/.test(searchPageHtml))throw new Error('Search page missing search landmark');
-if(!/<input\\b[^>]*id=["']q["'][^>]*aria-describedby=["']search-help["']/.test(searchPageHtml))throw new Error('Search field missing accessible help reference');
-if(!/<p\\b[^>]*id=["']search-help["'][^>]*>/.test(searchPageHtml))throw new Error('Search help description missing');
+if(!/<form\b[^>]*role=["']search["'][^>]*>/.test(searchPageHtml))throw new Error('Search page missing search landmark');
+if(!/<input\b[^>]*id=["']q["'][^>]*aria-describedby=["']search-help["']/.test(searchPageHtml))throw new Error('Search field missing accessible help reference');
+if(!/<p\b[^>]*id=["']search-help["'][^>]*>/.test(searchPageHtml))throw new Error('Search help description missing');
 for(const destination of ['/#focus-care','/#location','tel:0325132875']){
  if(!searchPageHtml.includes('href="'+destination+'"'))throw new Error('Search page missing patient quick action: '+destination);
 }
-if(!/<a\\b[^>]*href=["']\\/search\\.html["'][^>]*aria-current=["']page["']/.test(searchPageHtml))throw new Error('Search page current navigation marker missing');
+if(!/<a\b[^>]*href=["']\/search\.html["'][^>]*aria-current=["']page["']/.test(searchPageHtml))throw new Error('Search page current navigation marker missing');
 console.log('Search page mobile navigation and accessibility audit passed');
 
 const searchScript=fs.readFileSync(path.join(out,'assets/search.js'),'utf8');
