@@ -658,5 +658,15 @@ for(const url of sitemapUrls){
 }
 console.log('Robots crawl audit passed:',sitemapUrls.length,'sitemap pages allowed, /admin/ excluded');
 
+// Guard the patient-facing fee disclosure against accidental removal or missing data.
+const publishedFeePage=fs.readFileSync(path.join(out,'noncovered-fees.html'),'utf8');
+const publishedHome=fs.readFileSync(path.join(out,'index.html'),'utf8');
+if(!publishedHome.includes('href="/noncovered-fees.html"'))throw new Error('Homepage missing noncovered fee disclosure link');
+if(!publishedFeePage.includes('/assets/fees.js'))throw new Error('Fee disclosure page missing its data renderer');
+if(!fs.existsSync(path.join(out,'assets/fees.js')))throw new Error('Fee disclosure renderer missing from output');
+const publishedFeeData=JSON.parse(fs.readFileSync(path.join(out,'content/fees-index.json'),'utf8'));
+if(!Array.isArray(publishedFeeData.items)||publishedFeeData.items.length!==feeEntries.length)throw new Error('Published fee data does not match approved entries');
+if(!sitemapUrls.includes(feePageUrl))throw new Error('Fee disclosure page missing from sitemap');
+console.log('Fee disclosure audit passed:',publishedFeeData.items.length,'explicitly published items, homepage link and sitemap verified');
 console.log('Sitemap audit passed:',sitemapUrls.length,'canonical-aligned published pages');
 console.log('Build complete:',posts.length,'articles');
