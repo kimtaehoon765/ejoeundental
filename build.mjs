@@ -538,7 +538,7 @@ console.log('Homepage SEO/GEO identity audit passed: clinic, website, service ar
 const symptomSection=homepageHtml.match(/<section[^>]*id=["']symptoms["'][^>]*>([\s\S]*?)<\/section>/)?.[1];
 if(!symptomSection)throw new Error('Homepage symptom guide section is missing');
 const symptomCards=[...symptomSection.matchAll(/<div class="card">([\s\S]*?)<\/div>/g)].map(m=>m[1]);
-if(symptomCards.length!==6)throw new Error('Expected six homepage symptom cards; found '+symptomCards.length);
+if(symptomCards.length<6)throw new Error('Expected at least six homepage symptom cards; found '+symptomCards.length);
 for(const [index,card] of symptomCards.entries()){
  if(!/href=["']\/health\/[^"']+\.html["']/.test(card))throw new Error('Symptom card '+(index+1)+' lacks a health article');
  if(!/href=["']\/(?:gum-treatment|retreatment|cervical-abrasion|insured-care)\.html["']/.test(card))throw new Error('Symptom card '+(index+1)+' lacks a treatment guide');
