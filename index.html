@@ -345,7 +345,16 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
   });
   audio.addEventListener('play',()=>{button.textContent='♫ 음악 끄기';button.setAttribute('aria-pressed','true');status.textContent='쇼팽 · 녹턴'});
-  audio.addEventListener('pause',()=>{button.textContent='♫ 피아노 음악 듣기';button.setAttribute('aria-pressed','false');status.textContent='음악 꺼짐'});
+  audio.addEventListener('pause',()=>{
+    button.textContent='♫ 피아노 음악 듣기';
+    button.setAttribute('aria-pressed','false');
+    if(audio.error){
+      button.textContent='♫ 다시 시도';
+      status.textContent='음원 연결에 실패했습니다. 음원 정보를 확인해 주세요.';
+    }else{
+      status.textContent='음악 꺼짐';
+    }
+  });
   audio.addEventListener('error',()=>{
     button.textContent='♫ 다시 시도';
     button.setAttribute('aria-pressed','false');
