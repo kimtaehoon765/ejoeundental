@@ -304,16 +304,16 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(randomResult)randomResult.hidden=true;
     setPanelVisibility(false);
     reopen?.focus();
-    try{sessionStorage.setItem('clinic-music-collapsed','1')}catch{}
+
   });
   reopen?.addEventListener('click',()=>{
     setPanelVisibility(true);
     button.focus();
-    try{sessionStorage.setItem('clinic-music-collapsed','0')}catch{}
+
   });
-  // Keep the clinic page unobstructed on every fresh visit.
-  // A previously opened music menu stays minimized after page navigation.
+  // Music controls start minimized on every page load; no stale saved open state.
   setPanelVisibility(false);
+  try{sessionStorage.removeItem('clinic-music-collapsed')}catch{}
   player?.addEventListener('keydown',event=>{
     if(event.key!=='Escape'||player.hidden)return;
     event.preventDefault();
