@@ -38,7 +38,7 @@ if(post.date){
 posts.push({...post,slug});const escaped=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const safeImage=typeof post.image==="string"&&/^\/assets\/cms-images\/[\w./%-]+$/i.test(post.image)&&!post.image.includes('..')&&!/%2f|%5c|%2e/i.test(post.image)&&fs.existsSync(path.join(root,post.image.slice(1)))?post.image:"";const articleDescription=escaped(String(post.summary||post.body||post.title||'').replace(/\s+/g,' ').trim().slice(0,155));
 const articleUrl='https://ejoeundental.pages.dev/stories/'+encodeURIComponent(slug)+'/';
 const articleSchema={'@context':'https://schema.org','@type':'BlogPosting',headline:String(post.title||''),description:String(post.summary||post.body||post.title||'').replace(/\s+/g,' ').trim().slice(0,155),mainEntityOfPage:articleUrl,publisher:{'@type':'Organization',name:'이조은치과'}};
-if(/^\d{4}-\d{2}-\d{2}$/.test(String(post.date||'')))articleSchema.datePublished=post.date;
+if(post.date)articleSchema.datePublished=post.date;
 if(safeImage)articleSchema.image='https://ejoeundental.pages.dev'+safeImage;
 const articleJson=JSON.stringify(articleSchema).replace(/</g,'\\u003c');
 const articlePrev=posts.length>1?posts[posts.length-2]:null; // Earlier article by publication date, not filesystem order.
@@ -71,7 +71,7 @@ for(const post of posts){
 }
 fs.writeFileSync(path.join(out,'content/search-index.json'),JSON.stringify(entries,null,2));
 fs.writeFileSync(path.join(out,'content/search-index-46.json'),JSON.stringify(entries,null,2));
-posts.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+posts.sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))||a.slug.localeCompare(b.slug));
 fs.writeFileSync(path.join(out,'content/posts-index.json'),JSON.stringify(posts.map(({slug,title,date,summary,image})=>({slug,title,date,summary,image:typeof image==='string'&&/^\/assets\/cms-images\/[\w./%-]+$/i.test(image)&&!image.includes('..')&&!/%2f|%5c|%2e/i.test(image)&&fs.existsSync(path.join(root,image.slice(1)))?image:''})),null,2));
 for(const file of ['sitemap.xml','robots.txt']){const source=path.join(root,file);if(fs.existsSync(source))fs.copyFileSync(source,path.join(out,file))}
 // Search is intentionally noindex: exclude it from the sitemap.
