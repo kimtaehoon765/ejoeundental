@@ -40,7 +40,7 @@ const searchUrls=new Set(entries.map(entry=>entry.url));
 for(const post of posts){
  const url='/stories/'+encodeURIComponent(post.slug)+'/';
  if(searchUrls.has(url))continue;
- entries.push({url,title:String(post.title||''),description:String(post.summary||''),body:String(post.body||'').slice(0,24000)});
+ entries.push({url,title:String(post.title||''),description:String(post.summary||''),body:String(post.body||'').slice(0,12000)});
  searchUrls.add(url);
 }
 fs.writeFileSync(path.join(out,'content/search-index.json'),JSON.stringify(entries,null,2));
