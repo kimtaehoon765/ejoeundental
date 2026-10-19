@@ -702,6 +702,11 @@ const homeSchemas=homeSchemaBlocks.map((match,index)=>{try{return JSON.parse(mat
 const auditedClinicSchema=homeSchemas.find(schema=>schema['@type']==='Dentist');
 if(!auditedClinicSchema||auditedClinicSchema.name!=='이조은치과'||auditedClinicSchema.telephone!=='+82-32-513-2875')throw new Error('Homepage clinic structured data missing or incorrect');
 if(!auditedClinicSchema.address?.streetAddress?.includes('세월천로 34'))throw new Error('Homepage clinic address missing from structured data');
+const localServiceNames=new Set((auditedClinicSchema.availableService||[]).map(service=>service.name));
+for(const service of ['잇몸치료','재신경치료','치경부마모증 수복']){if(!localServiceNames.has(service))throw new Error('Clinic structured data missing primary care: '+service);}
+const servedAreas=new Set((auditedClinicSchema.areaServed||[]).map(area=>area.name));
+for(const area of ['인천광역시 부평구 청천동','인천광역시 부평구 산곡동','산곡역 인근']){if(!servedAreas.has(area))throw new Error('Clinic structured data missing nearby area: '+area);}
+if(!auditedClinicSchema.hasMap||!/^https:\/\//.test(auditedClinicSchema.hasMap))throw new Error('Clinic structured data missing map destination');
 console.log('Homepage local SEO audit passed:',homeSchemas.length,'valid structured data blocks, phone, address and key links');
 console.log('Sitemap audit passed:',sitemapUrls.length,'canonical-aligned published pages');
 console.log('Build complete:',posts.length,'articles');
