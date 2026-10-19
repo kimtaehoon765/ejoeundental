@@ -662,6 +662,20 @@ for(const destination of ['/#focus-care','/#location','tel:0325132875']){
 if(!/<a\\b[^>]*href=["']\\/search\\.html["'][^>]*aria-current=["']page["']/.test(searchPageHtml))throw new Error('Search page current navigation marker missing');
 console.log('Search page mobile navigation and accessibility audit passed');
 
+const searchScript=fs.readFileSync(path.join(out,'assets/search.js'),'utf8');
+if(!searchScript.includes("fetch('/content/search-index.json'"))throw new Error('Search script must fetch generated runtime index');
+if(searchScript.includes("fetch('/content/search-index-46.json'"))throw new Error('Search script still references legacy curated-only index');
+const runtimeSearch=JSON.parse(fs.readFileSync(path.join(out,'content/search-index.json'),'utf8'));
+const legacySearch=JSON.parse(fs.readFileSync(path.join(out,'content/search-index-46.json'),'utf8'));
+if(JSON.stringify(runtimeSearch)!==JSON.stringify(legacySearch))throw new Error('Runtime search index aliases differ');
+if(!Array.isArray(runtimeSearch)||runtimeSearch.length<60)throw new Error('Generated search index is unexpectedly small');
+for(const coreUrl of ['/gum-treatment.html','/retreatment.html','/cervical-abrasion.html','/insured-care.html']){
+ if(!runtimeSearch.some(entry=>entry.url===coreUrl))throw new Error('Core treatment missing from search: '+coreUrl);
+}
+if(!searchPageHtml.includes('/assets/search.js?v=20261020-runtime-index'))throw new Error('Search page cache version is stale');
+console.log('Search runtime index and core-treatment coverage audit passed');
+
+
 
 
 const symptomSection=homepageHtml.match(/<section[^>]*id=["']symptoms["'][^>]*>([\s\S]*?)<\/section>/)?.[1];
