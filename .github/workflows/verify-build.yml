@@ -37,5 +37,7 @@ jobs:
           test -f dist/assets/site.js
           node -e "const fs=require('fs');const html=fs.readFileSync('dist/index.html','utf8');if(!html.includes('id=\"post-list\"')||!html.includes('aria-busy=\"true\"')||!html.includes('<noscript>'))process.exit(1)"
           node -e "const fs=require('fs');const x=JSON.parse(fs.readFileSync('dist/content/fees-index.json','utf8'));if(!Array.isArray(x.items))process.exit(1)"
+          # Guard against regressions in the optional, user-controlled music UI.
+          node -e "const fs=require('fs');const h=fs.readFileSync('dist/index.html','utf8');const required=['id=\"music-panel\"','id=\"music-reopen\"','id=\"piano-toggle\"','id=\"piano-volume\"','id=\"piano-audio\"','id=\"random-pop\"','id=\"random-pop-fallback\"','preload=\"none\"','setPanelVisibility(false)'];for(const item of required){if(!h.includes(item)){console.error('Missing music control:',item);process.exit(1)}}if(!/<div[^>]*id=\"music-panel\"[^>]*hidden/.test(h)){console.error('Music panel must start minimized');process.exit(1)}}"
           test -d dist/health
           echo "Website build and required files verified."
