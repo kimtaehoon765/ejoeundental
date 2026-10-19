@@ -52,5 +52,17 @@ jobs:
           if (!html.includes("visibilitychange") || !html.includes("pagehide")) throw new Error("Missing audio stop lifecycle handlers");
           console.log("Music controls and safe defaults verified.");
           NODE
+          # Ensure local discovery content remains present and links to real clinic information.
+          node <<'NODE'
+          const fs = require("node:fs");
+          const html = fs.readFileSync("dist/index.html", "utf8");
+          for (const phrase of ["id=\"neighborhood-guide\"", "청천동", "산곡동", "산곡역", "세월천로 34", "3시간 무료 주차", "/retreatment.html", "/gum-treatment.html"]) {
+            if (!html.includes(phrase)) throw new Error("Missing local discovery content: " + phrase);
+          }
+          for (const href of ["retreatment.html", "gum-treatment.html", "root-canal-health.html"]) {
+            if (!fs.existsSync("dist/" + href)) throw new Error("Broken neighborhood guide target: " + href);
+          }
+          console.log("Local SEO and clinic navigation verified.");
+          NODE
           test -d dist/health
           echo "Website build and required files verified."
