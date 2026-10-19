@@ -52,6 +52,22 @@ content:
         label: "하단 고양이와 자연치아"
         type: image
         required: false
+  - name: fees
+    label: 비급여 수가표 관리
+    type: collection
+    path: content/fees
+    format: json
+    filename: "{primary}.json"
+    view:
+      fields: [category, item, price, published]
+      primary: item
+    fields:
+      - { name: category, label: "구분 (예 보철, 임플란트, 제증명수수료)", type: string, required: true }
+      - { name: item, label: "진료 항목명", type: string, required: true }
+      - { name: detail, label: "세부 내용", type: string, required: false }
+      - { name: price, label: "금액 (예 500,000원 또는 300,000~500,000원)", type: string, required: true }
+      - { name: note, label: "추가 안내", type: text, required: false }
+      - { name: published, label: "홈페이지에 공개", type: boolean, default: false }
   - name: posts
     label: 치과 이야기 글 관리
     type: collection
