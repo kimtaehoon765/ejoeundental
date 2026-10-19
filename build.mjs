@@ -120,9 +120,9 @@ function versionStylesheets(folder){
 versionStylesheets(out);
 
 // Fingerprint search assets so repeat visits can cache them without showing stale new articles.
-const searchIndexHash=createHash('sha256').update(fs.readFileSync(path.join(out,'content/search-index-46.json'))).digest('hex').slice(0,12);
+const searchIndexHash=createHash('sha256').update(fs.readFileSync(path.join(out,'content/search-index.json'))).digest('hex').slice(0,12);
 const searchJsPath=path.join(out,'assets/search.js');
-const searchJs=fs.readFileSync(searchJsPath,'utf8').replace(/\/content\/search-index-46\.json(?=['"])/g,'/content/search-index-46.json?v='+searchIndexHash);
+const searchJs=fs.readFileSync(searchJsPath,'utf8').replace(/\/content\/search-index\.json(?=['"])/g,'/content/search-index.json?v='+searchIndexHash);
 fs.writeFileSync(searchJsPath,searchJs);
 const searchScriptHash=createHash('sha256').update(searchJs).digest('hex').slice(0,12);
 const searchHtmlPath=path.join(out,'search.html');
@@ -663,7 +663,7 @@ if(!/<a\b[^>]*href=["']\/search\.html["'][^>]*aria-current=["']page["']/.test(se
 console.log('Search page mobile navigation and accessibility audit passed');
 
 const searchScript=fs.readFileSync(path.join(out,'assets/search.js'),'utf8');
-if(!searchScript.includes("fetch('/content/search-index.json'"))throw new Error('Search script must fetch generated runtime index');
+if(!searchScript.includes("fetch('/content/search-index.json?v="))throw new Error('Search script must fetch versioned generated runtime index');
 if(searchScript.includes("fetch('/content/search-index-46.json'"))throw new Error('Search script still references legacy curated-only index');
 const auditedSearchIndex=JSON.parse(fs.readFileSync(path.join(out,'content/search-index.json'),'utf8'));
 const legacySearch=JSON.parse(fs.readFileSync(path.join(out,'content/search-index-46.json'),'utf8'));
@@ -672,7 +672,7 @@ if(!Array.isArray(auditedSearchIndex)||auditedSearchIndex.length<60)throw new Er
 for(const coreUrl of ['/gum-treatment.html','/retreatment.html','/cervical-abrasion.html','/insured-care.html']){
  if(!auditedSearchIndex.some(entry=>entry.url===coreUrl))throw new Error('Core treatment missing from search: '+coreUrl);
 }
-if(!searchPageHtml.includes('/assets/search.js?v=20261020-runtime-index'))throw new Error('Search page cache version is stale');
+if(!/src=["']\/assets\/search\.js\?v=[a-f0-9]{12}["']/.test(searchPageHtml))throw new Error('Search page script fingerprint missing');
 console.log('Search runtime index and core-treatment coverage audit passed');
 
 
