@@ -697,6 +697,9 @@ for(const [label,pattern] of [
  ['fee disclosure',/href=["']\/noncovered-fees\.html["']/],
  ['search entry',/href=["']\/search\.html/],
  ['symptom guide',/id=["']symptom-guide["']/],
+ ['first visit guide',/id=["']visit-guide["']/],
+ ['care principles link',/href=["']#care-principles["']/],
+ ['location guide link',/href=["']#location["']/],
  ['gum health navigation',/href=["']\/gum-health\.html["']/],
  ['root canal health navigation',/href=["']\/root-canal-health\.html["']/],
  ['cervical abrasion navigation',/href=["']\/cervical-abrasion\.html["']/]
