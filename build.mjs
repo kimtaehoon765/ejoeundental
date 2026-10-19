@@ -44,7 +44,7 @@ const articleJson=JSON.stringify(articleSchema).replace(/</g,'\\u003c');
 const breadcrumbSchema={'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'홈',item:'https://ejoeundental.pages.dev/'},{'@type':'ListItem',position:2,name:'치과 이야기',item:'https://ejoeundental.pages.dev/#stories'},{'@type':'ListItem',position:3,name:String(post.title),item:articleUrl}]};
 const breadcrumbJson=JSON.stringify(breadcrumbSchema).replace(/</g,'\\u003c');
 const articlePrev=posts.length>1?posts[posts.length-2]:null; // Earlier article by publication date, not filesystem order.
-const articleTopic=[post.title,post.summary,String(post.body||'').slice(0,350)].filter(Boolean).join(' ');
+const articleTopic=[post.title,post.summary,String(post.body||'').slice(0,1500)].filter(Boolean).join(' ');
 const topicLinks=[[/잇몸|치주|스케일링|치석|큐렛/,['잇몸치료 안내','/gum-treatment.html']],[/신경치료|근관|재신경/,['재신경치료 안내','/retreatment.html']],[/시린|치경부|마모|글라스아이오노머|지아이|\bGI\b/i,['치경부마모증 안내','/cervical-abrasion.html']],[/건강보험|보험적용|급여/,['건강보험 진료 안내','/insured-care.html']]].filter(([pattern])=>pattern.test(articleTopic)).slice(0,2).map(([,link])=>'<a href="'+link[1]+'">'+link[0]+' →</a>');
 const articleTopicNavigation=topicLinks.length?'<aside class="notice" aria-label="관련 진료 안내"><strong>관련 진료 안내</strong><p>'+topicLinks.join(' · ')+'</p></aside>':'';
 const journalNavigation='<nav class="notice" aria-label="치과 이야기 탐색">'+(articlePrev?'<p>이전 치과 이야기: <a href="/stories/'+encodeURIComponent(articlePrev.slug)+'/">'+escaped(articlePrev.title)+'</a></p>':'')+'<p><a href="/#stories">치과 이야기 목록 →</a> · <a href="/search.html">건강정보 검색 →</a></p></nav>';
