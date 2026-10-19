@@ -336,12 +336,19 @@ document.addEventListener('DOMContentLoaded',()=>{
   updateVolume();
   button.addEventListener('click',async()=>{
     if(!audio.paused){audio.pause();return}
+    if(document.hidden)return;
     status.textContent='음악 연결 중…';
     try{await audio.play()}catch{status.textContent='음악을 재생할 수 없습니다. 잠시 후 다시 시도해 주세요.'}
   });
   audio.addEventListener('play',()=>{button.textContent='♫ 음악 끄기';button.setAttribute('aria-pressed','true');status.textContent='쇼팽 · 녹턴'});
   audio.addEventListener('pause',()=>{button.textContent='♫ 피아노 음악 듣기';button.setAttribute('aria-pressed','false');status.textContent='음악 꺼짐'});
-  audio.addEventListener('error',()=>{status.textContent='음원 연결에 실패했습니다.'});
+  audio.addEventListener('error',()=>{
+    button.textContent='♫ 다시 시도';
+    button.setAttribute('aria-pressed','false');
+    status.textContent='음원 연결에 실패했습니다. 원본 음원 링크를 확인해 주세요.';
+  });
+  audio.addEventListener('waiting',()=>{if(!audio.paused)status.textContent='음악 불러오는 중…'});
+  audio.addEventListener('playing',()=>{status.textContent='쇼팽 · 녹턴'});
 });
 </script>
 <script src="/assets/site.js" defer></script>
