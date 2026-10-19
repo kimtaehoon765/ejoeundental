@@ -256,6 +256,9 @@ document.addEventListener('DOMContentLoaded',()=>{
   const audio=document.getElementById('piano-audio');
   const status=document.getElementById('piano-status');
   if(!button||!audio||!status)return;
+  document.querySelectorAll('.pop-menu nav a').forEach(link=>{
+    link.addEventListener('click',()=>audio.pause());
+  });
   const randomPop=document.getElementById('random-pop');
   randomPop?.addEventListener('click',()=>{
     const links=[...document.querySelectorAll('.pop-menu nav a')];
@@ -267,6 +270,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     }catch{}
     const pick=choices[Math.floor(Math.random()*choices.length)];
     try{sessionStorage.setItem('clinic-last-random-artist',pick.href)}catch{}
+    audio.pause();
     const fallback=document.getElementById('random-pop-fallback');
     if(fallback){
       fallback.href=pick.href;
