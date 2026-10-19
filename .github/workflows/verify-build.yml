@@ -268,5 +268,26 @@ jobs:
           if (errors.length) throw new Error("Page metadata audit failed:\\n" + errors.slice(0,30).join("\\n"));
           console.log("Document language, title and mobile viewport verified:", pages.length, "pages");
           NODE
+          # Verify search crawler assets reference only published pages.
+          node <<'NODE'
+          const fs = require("node:fs");
+          const path = require("node:path");
+          const sitemap = fs.readFileSync("dist/sitemap.xml", "utf8");
+          const robots = fs.readFileSync("dist/robots.txt", "utf8");
+          const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
+          if (!urls.length) throw new Error("Sitemap contains no URLs");
+          if (new Set(urls).size !== urls.length) throw new Error("Sitemap contains duplicate URLs");
+          if (!/Sitemap:\s*https?:\/\//i.test(robots)) throw new Error("Robots file lacks sitemap reference");
+          const missing = [];
+          for (const url of urls) {
+            const parsed = new URL(url);
+            const relative = decodeURIComponent(parsed.pathname);
+            if (relative.includes("..")) { missing.push("unsafe: " + url); continue; }
+            const candidate = path.join("dist", relative.replace(/^\/+/, ""));
+            if (!fs.existsSync(candidate) && !fs.existsSync(path.join(candidate, "index.html"))) missing.push(url);
+          }
+          if (missing.length) throw new Error("Sitemap references missing generated pages:\\n" + missing.slice(0,20).join("\\n"));
+          console.log("Sitemap and robots verified:", urls.length, "published URLs");
+          NODE
           test -d dist/health
           echo "Website build and required files verified."
