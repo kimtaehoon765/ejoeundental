@@ -666,6 +666,8 @@ if(!publishedFeePage.includes('/assets/fees.js'))throw new Error('Fee disclosure
 if(!fs.existsSync(path.join(out,'assets/fees.js')))throw new Error('Fee disclosure renderer missing from output');
 const publishedFeeData=JSON.parse(fs.readFileSync(path.join(out,'content/fees-index.json'),'utf8'));
 if(!Array.isArray(publishedFeeData.items)||publishedFeeData.items.length!==feeEntries.length)throw new Error('Published fee data does not match approved entries');
+for(const row of publishedFeeData.items){if(!row.item.trim()||!row.price.trim())throw new Error('Published fee item is incomplete');}
+for(let i=1;i<publishedFeeData.items.length;i++){const a=publishedFeeData.items[i-1],b=publishedFeeData.items[i];if(a.category.localeCompare(b.category,'ko')>0)throw new Error('Fee categories are not sorted');}
 if(!sitemapUrls.includes(feePageUrl))throw new Error('Fee disclosure page missing from sitemap');
 console.log('Fee disclosure audit passed:',publishedFeeData.items.length,'explicitly published items, homepage link and sitemap verified');
 console.log('Sitemap audit passed:',sitemapUrls.length,'canonical-aligned published pages');
