@@ -204,6 +204,20 @@
   <button type="button" id="piano-toggle" aria-pressed="false" aria-controls="piano-audio">♫ 피아노 음악 듣기</button>
   <span id="piano-status" role="status" aria-live="polite">음악 꺼짐</span>
   <a href="https://commons.wikimedia.org/wiki/File:Chopin.Nocturne.Es-Dur.opus.9.2.ogg" target="_blank" rel="noopener noreferrer" aria-label="쇼팽 녹턴 연주 음원 및 CC0 라이선스 출처, 새 창">음원 출처 · CC0</a>
+  <details class="pop-menu"><summary>🎸 무료 팝·록 듣기</summary>
+    <p>좋아하는 가수를 선택하면 유튜브 검색이 새 창에서 열립니다. 음악 재생과 광고는 유튜브에서 관리합니다.</p>
+    <nav aria-label="팝·록 가수 선택">
+      <a href="https://www.youtube.com/results?search_query=The+Beatles+official+music" target="_blank" rel="noopener noreferrer">비틀스 ↗</a>
+      <a href="https://www.youtube.com/results?search_query=Queen+official+music" target="_blank" rel="noopener noreferrer">퀸 ↗</a>
+      <a href="https://www.youtube.com/results?search_query=Pink+Floyd+official+music" target="_blank" rel="noopener noreferrer">핑크 플로이드 ↗</a>
+      <a href="https://www.youtube.com/results?search_query=Eagles+official+music" target="_blank" rel="noopener noreferrer">이글스 ↗</a>
+      <a href="https://www.youtube.com/results?search_query=Yes+band+official+music" target="_blank" rel="noopener noreferrer">YES ↗</a>
+      <a href="https://www.youtube.com/results?search_query=Camel+progressive+rock+official+music" target="_blank" rel="noopener noreferrer">카멜 ↗</a>
+      <a href="https://www.youtube.com/results?search_query=The+Alan+Parsons+Project+official+music" target="_blank" rel="noopener noreferrer">앨런 파슨스 프로젝트 ↗</a>
+    </nav>
+    <button type="button" id="random-pop">🔀 가수 무작위 선택 ↗</button>
+    <small>무작위 버튼은 가수를 골라 유튜브 검색을 엽니다. 곡 순서 무작위 재생은 유튜브에서 설정해 주세요.</small>
+  </details>
   <audio id="piano-audio" preload="none" loop src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Chopin.Nocturne.Es-Dur.opus.9.2.ogg"></audio>
 </div>
 <style>
@@ -211,6 +225,14 @@
 .piano-player button{border:0;border-radius:9px;background:#173e35;color:#fff;padding:9px 12px;cursor:pointer;font-size:13px}
 .piano-player button:focus-visible,.piano-player a:focus-visible{outline:3px solid #a47837;outline-offset:3px}
 .piano-player a{text-decoration:underline}
+.piano-player .pop-menu{flex-basis:100%;position:relative}
+.piano-player .pop-menu summary{cursor:pointer;font-weight:700;padding:4px 0}
+.piano-player .pop-menu p{margin:5px 0}
+.piano-player .pop-menu nav{display:flex;gap:6px;flex-wrap:wrap}
+.piano-player .pop-menu nav a{padding:4px 7px;border-radius:6px;background:#e6eee6}
+.piano-player .pop-menu small{display:block;margin-top:6px}
+.piano-player #random-pop{margin-top:8px}
+
 @media(max-width:600px){.piano-player{right:8px;bottom:8px;gap:5px;padding:7px 9px}.piano-player button{padding:8px}.piano-player a{font-size:11px}}
 </style>
 <script>
@@ -219,6 +241,13 @@ document.addEventListener('DOMContentLoaded',()=>{
   const audio=document.getElementById('piano-audio');
   const status=document.getElementById('piano-status');
   if(!button||!audio||!status)return;
+  const randomPop=document.getElementById('random-pop');
+  randomPop?.addEventListener('click',()=>{
+    const links=[...document.querySelectorAll('.pop-menu nav a')];
+    if(!links.length)return;
+    const pick=links[Math.floor(Math.random()*links.length)];
+    window.open(pick.href,'_blank','noopener,noreferrer');
+  });
   audio.volume=0.3;
   button.addEventListener('click',async()=>{
     if(!audio.paused){audio.pause();return}
