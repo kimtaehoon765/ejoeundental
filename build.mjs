@@ -695,7 +695,11 @@ for(const [label,pattern] of [
  ['Sangok local area',/산곡동/],
  ['Sangok station',/산곡역/],
  ['fee disclosure',/href=["']\/noncovered-fees\.html["']/],
- ['search entry',/href=["']\/search\.html/]
+ ['search entry',/href=["']\/search\.html/],
+ ['symptom guide',/id=["']symptom-guide["']/],
+ ['gum health navigation',/href=["']\/gum-health\.html["']/],
+ ['root canal health navigation',/href=["']\/root-canal-health\.html["']/],
+ ['cervical abrasion navigation',/href=["']\/cervical-abrasion\.html["']/]
 ]){if(!pattern.test(homeAuditHtml))throw new Error('Homepage missing essential patient navigation or local signal: '+label);}
 const homeSchemaBlocks=[...homeAuditHtml.matchAll(/<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/gi)];
 const homeSchemas=homeSchemaBlocks.map((match,index)=>{try{return JSON.parse(match[1]);}catch{throw new Error('Invalid homepage JSON-LD block '+(index+1));}});
