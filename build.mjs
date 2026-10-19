@@ -65,6 +65,22 @@ if(fs.existsSync(sitemapPath)){
  fs.writeFileSync(sitemapPath,sitemap);
 }
 
+// Every generated sitemap entry must point to a real, published local page.
+const generatedSitemap=fs.readFileSync(path.join(out,'sitemap.xml'),'utf8');
+const generatedSitemapUrls=[...generatedSitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match=>match[1]);
+const sitemapSeen=new Set();
+for(const url of generatedSitemapUrls){
+ const parsed=new URL(url);
+ if(parsed.origin!=='https://ejoeundental.pages.dev')throw new Error('Sitemap points outside the current published host: '+url);
+ if(sitemapSeen.has(url))throw new Error('Duplicate sitemap URL: '+url);
+ sitemapSeen.add(url);
+ const relative=decodeURIComponent(parsed.pathname).replace(/^\/+/, '');
+ if(relative.includes('..')||relative.includes('\\'))throw new Error('Unsafe sitemap path: '+url);
+ const target=path.join(out,relative,relative.endsWith('/')?'index.html':'');
+ if(!fs.existsSync(target)||!fs.statSync(target).isFile())throw new Error('Sitemap URL has no published HTML file: '+url);
+}
+console.log('Sitemap published-file audit passed:',sitemapSeen.size,'URLs');
+
 // Ensure every published page (including all 46 health articles) loads the latest shared mobile CSS.
 // Versioning is done at build time, so older cached stylesheets cannot override new typography.
 const cssVersion=createHash('sha256').update(fs.readFileSync(path.join(out,'assets/style.css'))).digest('hex').slice(0,12);
