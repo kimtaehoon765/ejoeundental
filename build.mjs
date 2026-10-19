@@ -28,8 +28,14 @@ if(!feesHome.includes('href="/noncovered-fees.html"')){
 fs.mkdirSync(path.join(out,'content'),{recursive:true});cp('content/site.json','content/site.json');cp('admin','admin');const dir=path.join(root,'content/posts'),posts=[];for(const name of fs.readdirSync(dir).filter(x=>x.endsWith('.json'))){const post=JSON.parse(fs.readFileSync(path.join(dir,name),'utf8'));if(post.published!==true)continue;const slug=path.basename(name,'.json');
 if(!/^[a-zA-Z0-9][a-zA-Z0-9_-]*$/.test(slug))throw new Error('Invalid published journal filename: '+name);
 if(typeof post.title!=='string'||!post.title.trim()||typeof post.body!=='string'||!post.body.trim())throw new Error('Published journal article requires title and body: '+name);
-if(post.date&&(!/^\d{4}-\d{2}-\d{2}$/.test(String(post.date))||Number.isNaN(Date.parse(post.date))))throw new Error('Invalid published journal date: '+name);
-posts.push({...post,slug});const escaped=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const safeImage=typeof post.image==="string"&&/^\/assets\/cms-images\/[\w./%-]+$/i.test(post.image)?post.image:"";const articleDescription=escaped(String(post.summary||post.body||post.title||'').replace(/\s+/g,' ').trim().slice(0,155));
+if(post.date){
+ const match=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(post.date));
+ if(!match)throw new Error('Invalid published journal date: '+name);
+ const [year,month,day]=match.slice(1).map(Number);
+ const actual=new Date(Date.UTC(year,month-1,day));
+ if(year<100||actual.getUTCFullYear()!==year||actual.getUTCMonth()!==month-1||actual.getUTCDate()!==day)throw new Error('Nonexistent published journal date: '+name);
+}
+posts.push({...post,slug});const escaped=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const safeImage=typeof post.image==="string"&&/^\/assets\/cms-images\/[\w./%-]+$/i.test(post.image)&&!post.image.includes('..')&&!/%2f|%5c|%2e/i.test(post.image)&&fs.existsSync(path.join(root,post.image.slice(1)))?post.image:"";const articleDescription=escaped(String(post.summary||post.body||post.title||'').replace(/\s+/g,' ').trim().slice(0,155));
 const articleUrl='https://ejoeundental.pages.dev/stories/'+encodeURIComponent(slug)+'/';
 const articleSchema={'@context':'https://schema.org','@type':'BlogPosting',headline:String(post.title||''),description:String(post.summary||post.body||post.title||'').replace(/\s+/g,' ').trim().slice(0,155),mainEntityOfPage:articleUrl,publisher:{'@type':'Organization',name:'이조은치과'}};
 if(/^\d{4}-\d{2}-\d{2}$/.test(String(post.date||'')))articleSchema.datePublished=post.date;
