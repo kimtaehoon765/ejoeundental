@@ -37,6 +37,11 @@ jobs:
           test -s dist/retreatment.html
           test -s dist/cervical-abrasion.html
           test -s dist/insured-care.html
+          test -s dist/content/site.json
+          test -s dist/content/posts-index.json
+          test -s dist/content/search-index.json
+          test -s dist/content/fees-index.json
+          node -e "const fs=require('fs');for(const name of ['site','posts-index','search-index','fees-index'])JSON.parse(fs.readFileSync('dist/content/'+name+'.json','utf8'))"
       - name: Upload generated site for inspection
         if: always()
         uses: actions/upload-artifact@v4
