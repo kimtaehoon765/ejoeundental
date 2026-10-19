@@ -421,3 +421,24 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
 #post-list .post-card img{display:block;max-width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
 @media(hover:hover){#post-list .post-card:hover{border-color:#a47837;box-shadow:0 8px 22px rgba(23,62,53,.12)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.post-card,.mobile-quick a{transition:none!important;transform:none!important}}
+
+/* Patient-first visual polish: calm spacing, readable calls to action, consistent cards. */
+:root{--focus-ring:#a47837}
+:where(a,button,input,select,textarea,summary):focus-visible{outline:3px solid var(--focus-ring);outline-offset:3px}
+.section{scroll-margin-top:110px}
+.card{transition:border-color .18s ease,box-shadow .18s ease;min-width:0}
+@media(hover:hover){.card:hover{border-color:#c9b38b;box-shadow:0 12px 28px rgba(23,62,53,.07)}}
+.btn,.navlinks .call{transition:background-color .18s ease,box-shadow .18s ease}
+@media(hover:hover){.btn:hover,.navlinks .call:hover{background:#285a4b;color:#fff;box-shadow:0 6px 16px rgba(23,62,53,.17)}}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.hero-actions .btn{margin-top:12px;min-height:48px;display:inline-flex;align-items:center;justify-content:center}
+@media(max-width:600px){
+ .section{padding-top:54px;padding-bottom:54px;scroll-margin-top:155px}
+ .section h2{margin-bottom:20px}
+ .grid{gap:14px;margin-top:26px}
+ .card{min-height:0;padding:24px 20px}
+ .hero{padding-top:38px;padding-bottom:44px}
+ .hero-actions{display:grid;grid-template-columns:1fr;gap:8px}
+ .hero-actions .btn{width:100%;margin-top:0;min-height:48px}
+}
+@media(prefers-reduced-motion:reduce){.card,.btn,.navlinks .call{transition:none!important}}
