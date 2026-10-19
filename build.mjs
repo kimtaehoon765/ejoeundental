@@ -14,15 +14,12 @@ fs.writeFileSync(path.join(out,'content/search-index-46.json'),JSON.stringify(en
 posts.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
 fs.writeFileSync(path.join(out,'content/posts-index.json'),JSON.stringify(posts.map(({slug,title,date,summary,image})=>({slug,title,date,summary,image})),null,2));
 for(const file of ['sitemap.xml','robots.txt']){const source=path.join(root,file);if(fs.existsSync(source))fs.copyFileSync(source,path.join(out,file))}
-// Include the searchable clinic information page in the sitemap.
+// Search is intentionally noindex: exclude it from the sitemap.
 const searchSitemapPath=path.join(out,'sitemap.xml');
 if(fs.existsSync(searchSitemapPath)){
  let xml=fs.readFileSync(searchSitemapPath,'utf8');
- const searchUrl='https://ejoeundental.pages.dev/search.html';
- if(!xml.includes('<loc>'+searchUrl+'</loc>')){
-  xml=xml.replace('</urlset>','  <url><loc>'+searchUrl+'</loc></url>\n</urlset>');
-  fs.writeFileSync(searchSitemapPath,xml);
- }
+ xml=xml.replace(/\s*<url>\s*<loc>https:\/\/ejoeundental(?:\.pages\.dev|\.com)\/search\.html<\/loc>\s*<\/url>/g,'');
+ fs.writeFileSync(searchSitemapPath,xml);
 }
 // Add only published journal entries to the generated sitemap.
 const sitemapPath=path.join(out,'sitemap.xml');
