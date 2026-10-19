@@ -340,7 +340,7 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
 @media(max-width:600px){
  .nav{grid-template-columns:minmax(0,1fr);row-gap:8px}
  .nav .logo{grid-column:1;justify-self:start}
- .mobile-quick{grid-column:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:100%;gap:6px}
+ .mobile-quick{grid-column:1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));width:100%;gap:5px}
  .mobile-quick a{min-width:0;min-height:44px;padding:7px 3px;text-align:center;font-size:clamp(10px,2.8vw,12px);line-height:1.35;white-space:normal;overflow-wrap:anywhere}
  .navlinks{grid-column:1;max-width:100%}
 }
@@ -349,3 +349,6 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
 #location .location-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
 #location .location-actions .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;max-width:100%;text-align:center;overflow-wrap:anywhere}
 @media(max-width:600px){#location .location-actions{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}#location .location-actions .btn{width:100%;min-height:52px;padding:12px 14px;line-height:1.5}#location .hours-box{overflow-wrap:anywhere}#location .hours-box a{text-decoration:underline;text-underline-offset:3px}}
+
+/* Keep five mobile quick actions readable without sideways overflow. */
+@media(max-width:600px){.mobile-quick a{font-size:clamp(9px,2.55vw,11px);padding:8px 2px;line-height:1.35}.mobile-quick a:focus-visible{outline:3px solid #bc9761;outline-offset:2px}}
