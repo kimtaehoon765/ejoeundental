@@ -391,3 +391,12 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
  .navlinks{flex:1 1 760px;justify-content:flex-end;flex-wrap:wrap;gap:8px 14px;font-size:12px;line-height:1.5}
  .navlinks a{min-height:36px;display:inline-flex;align-items:center}
 }
+
+/* Keep section headings and long treatment links readable on tablets. */
+@media(min-width:601px) and (max-width:900px){
+ .wrap{padding-left:20px;padding-right:20px}
+ .section{padding-top:64px;padding-bottom:64px}
+ .section h2{line-height:1.5;overflow-wrap:anywhere}
+ .card{min-width:0;overflow-wrap:anywhere}
+ .footer a{overflow-wrap:anywhere}
+}
