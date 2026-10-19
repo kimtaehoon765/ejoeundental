@@ -920,3 +920,10 @@ for(const post of runtimePosts){
  if(!fs.existsSync(target))throw new Error('Published post missing generated page: '+post.slug);
 }
 console.log('Runtime clinic settings and content index audit passed');
+
+// Keep the crawler entry point in sync with the generated sitemap host.
+const builtRobots=fs.readFileSync(path.join(out,'robots.txt'),'utf8');
+const sitemapPointers=[...builtRobots.matchAll(/^Sitemap:\s*(\S+)\s*$/gmi)].map(match=>match[1]);
+if(sitemapPointers.length!==1||sitemapPointers[0]!=='https://ejoeundental.pages.dev/sitemap.xml')throw new Error('Preview robots.txt sitemap pointer mismatch');
+if(!/^Disallow:\s*\/admin\/\s*$/mi.test(builtRobots))throw new Error('Admin exclusion missing from robots.txt');
+console.log('Preview crawler configuration audit passed');
