@@ -355,3 +355,11 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
 
 /* Account for the sticky two-row header when jumping to clinic sections on phones. */
 @media(max-width:600px){html{scroll-padding-top:150px}#philosophy,#focus-care,#symptoms,#care,#doctor,#health-info,#more-health,#stories,#faq,#location{scroll-margin-top:150px}}
+
+/* Mobile quick navigation: accessible touch targets and stable layout. */
+@media(max-width:600px){
+ .mobile-quick{align-items:stretch}
+ .mobile-quick a{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:48px;border:1px solid #d7e1d9;border-radius:7px;background:#fffdf7;color:#173e35;font-weight:700;text-decoration:none}
+ .mobile-quick .mobile-call{background:#173e35;color:#fff;border-color:#173e35}
+ .mobile-quick a:active{transform:translateY(1px)}
+}
