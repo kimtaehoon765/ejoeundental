@@ -284,6 +284,13 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
   });
   const player=document.querySelector('.piano-player');
+  const setPanelVisibility=(isOpen)=>{
+    if(player)player.hidden=!isOpen;
+    if(reopen){
+      reopen.hidden=isOpen;
+      reopen.setAttribute('aria-expanded',String(isOpen));
+    }
+  };
   const popMenu=document.querySelector('.pop-menu');
   const randomResult=document.getElementById('random-pop-fallback');
   popMenu?.addEventListener('toggle',()=>{
@@ -293,23 +300,20 @@ document.addEventListener('DOMContentLoaded',()=>{
   const reopen=document.getElementById('music-reopen');
   hide?.addEventListener('click',()=>{
     audio.pause();
-    if(player)player.hidden=true;
-    if(reopen){reopen.hidden=false;reopen.setAttribute('aria-expanded','false');reopen.focus()}
+    setPanelVisibility(false);
+    reopen?.focus();
     try{sessionStorage.setItem('clinic-music-collapsed','1')}catch{}
   });
   reopen?.addEventListener('click',()=>{
-    if(player)player.hidden=false;
-    if(reopen){reopen.hidden=true;reopen.setAttribute('aria-expanded','true')}
-    if(button)button.focus();
+    setPanelVisibility(true);
+    button.focus();
     try{sessionStorage.setItem('clinic-music-collapsed','0')}catch{}
   });
   // Keep the visitor-facing clinic page unobstructed until music is requested.
-  if(player)player.hidden=true;
-  if(reopen)reopen.hidden=false;
+  setPanelVisibility(false);
   try{
     if(sessionStorage.getItem('clinic-music-collapsed')==='0'){
-      if(player)player.hidden=false;
-      if(reopen){reopen.hidden=true;reopen.setAttribute('aria-expanded','true')}
+      setPanelVisibility(true);
     }
   }catch{}
   player?.addEventListener('keydown',event=>{
