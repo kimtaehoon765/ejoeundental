@@ -84,7 +84,7 @@ for(const file of ['sitemap.xml','robots.txt']){const source=path.join(root,file
 const previewRobotsPath=path.join(out,'robots.txt');
 if(fs.existsSync(previewRobotsPath)){
  const robots=fs.readFileSync(previewRobotsPath,'utf8');
- fs.writeFileSync(previewRobotsPath,robots.replace(/(^Sitemap:\\s*)https:\/\/ejoeundental\\.com\/sitemap\\.xml\\s*$/gmi,'$1https://ejoeundental.pages.dev/sitemap.xml'));
+ fs.writeFileSync(previewRobotsPath,robots.replace(/^Sitemap:[^\r\n]*$/gmi,'Sitemap: https://ejoeundental.pages.dev/sitemap.xml'));
 }
 
 // Search is intentionally noindex: exclude it from the sitemap.
@@ -886,11 +886,11 @@ for(const relative of auditPages){
 console.log('Mobile and document landmark audit passed:',auditPages.length,'pages');
 
 // Verify homepage in-page navigation targets and locally linked HTML documents.
-const homepageHtml=fs.readFileSync(path.join(out,'index.html'),'utf8');
-const homepageIdList=[...homepageHtml.matchAll(/\bid=["']([^"']+)["']/gi)].map(match=>match[1]);
+const navigationHomepageHtml=fs.readFileSync(path.join(out,'index.html'),'utf8');
+const homepageIdList=[...navigationHomepageHtml.matchAll(/\bid=["']([^"']+)["']/gi)].map(match=>match[1]);
 const homepageIds=new Set(homepageIdList);
 if(homepageIds.size!==homepageIdList.length)throw new Error('Duplicate HTML id on homepage');
-for(const match of homepageHtml.matchAll(/\bhref=["']([^"']+)["']/gi)){
+for(const match of navigationHomepageHtml.matchAll(/\bhref=["']([^"']+)["']/gi)){
  const href=match[1];
  if((href.startsWith('#')||href.startsWith('/#'))&&href.includes('#')){
   const anchor=href.slice(href.indexOf('#')+1);
