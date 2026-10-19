@@ -863,3 +863,16 @@ for(const post of posts){
  if(!html.includes('href="/search.html"')||!html.includes('href="/#stories"'))throw new Error('Journal missing discovery navigation: '+post.slug);
 }
 console.log('Journal internal link audit passed:',posts.length,'published articles');
+
+// Audit published static and journal pages for mobile viewport and accessible document landmarks.
+// Do not alter canonical hosts while the domain transfer is pending.
+const auditPages=['index.html','gum-treatment.html','retreatment.html','cervical-abrasion.html','insured-care.html',...posts.map(post=>path.join('stories',post.slug,'index.html'))];
+for(const relative of auditPages){
+ const html=fs.readFileSync(path.join(out,relative),'utf8');
+ if(!/<meta\s+name=["']viewport["']\s+content=["'][^"']*width=device-width/i.test(html))throw new Error('Mobile viewport missing: '+relative);
+ if(!/<html\s+lang=["']ko["']/i.test(html))throw new Error('Korean document language missing: '+relative);
+ if(!/<main\b/i.test(html)||!/<h1\b/i.test(html))throw new Error('Main landmark or H1 missing: '+relative);
+ const h1Count=[...html.matchAll(/<h1\b/gi)].length;
+ if(h1Count!==1)throw new Error('Expected exactly one H1: '+relative+' ('+h1Count+')');
+}
+console.log('Mobile and document landmark audit passed:',auditPages.length,'pages');
