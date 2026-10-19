@@ -64,5 +64,21 @@ jobs:
           }
           console.log("Local SEO and clinic navigation verified.");
           NODE
+          # Patient FAQ content should remain discoverable and medically qualified.
+          node <<'NODE'
+          const fs = require("node:fs");
+          const html = fs.readFileSync("dist/index.html", "utf8");
+          const start = html.indexOf('id="treatment-decisions"');
+          const end = html.indexOf('id="visit-guide"', start);
+          if (start < 0 || end < start) throw new Error("Missing treatment decision FAQ section");
+          const section = html.slice(start, end);
+          for (const term of ["잇몸", "재신경치료", "치경부마모증", "건강보험", "검진", "급여 기준"]) {
+            if (!section.includes(term)) throw new Error("Incomplete treatment FAQ: " + term);
+          }
+          for (const target of ["gum-treatment.html", "retreatment.html", "cervical-abrasion.html", "insured-care.html"]) {
+            if (!fs.existsSync("dist/" + target)) throw new Error("Broken treatment FAQ target: " + target);
+          }
+          console.log("Patient treatment decision FAQs verified.");
+          NODE
           test -d dist/health
           echo "Website build and required files verified."
