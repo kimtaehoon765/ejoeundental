@@ -335,3 +335,12 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
 :where(a,button,input,select,textarea,summary):focus-visible{outline:3px solid #287d60;outline-offset:3px}
 @media(max-width:600px){#nearby-areas .card a,#care-principles .card a{display:inline-flex;align-items:center;min-height:44px;padding:8px 0;text-decoration:underline;text-underline-offset:3px}#nearby-areas .card p,#care-principles .card p{overflow-wrap:anywhere}#related-care a{min-height:44px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* Four-action mobile navigation layout: prevent overflow on narrow phones. */
+@media(max-width:600px){
+ .nav{grid-template-columns:minmax(0,1fr);row-gap:8px}
+ .nav .logo{grid-column:1;justify-self:start}
+ .mobile-quick{grid-column:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:100%;gap:6px}
+ .mobile-quick a{min-width:0;min-height:44px;padding:7px 3px;text-align:center;font-size:clamp(10px,2.8vw,12px);line-height:1.35;white-space:normal;overflow-wrap:anywhere}
+ .navlinks{grid-column:1;max-width:100%}
+}
