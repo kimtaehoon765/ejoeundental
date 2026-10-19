@@ -304,12 +304,10 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(randomResult)randomResult.hidden=true;
     setPanelVisibility(false);
     reopen?.focus();
-
   });
   reopen?.addEventListener('click',()=>{
     setPanelVisibility(true);
     button.focus();
-
   });
   // Music controls start minimized on every page load; no stale saved open state.
   setPanelVisibility(false);
