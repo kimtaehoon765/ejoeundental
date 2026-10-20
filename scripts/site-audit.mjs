@@ -86,7 +86,9 @@ for (const f of html) {
     catch { errors.push(relative + ': 잘못된 URL 인코딩 ' + match[1]); continue; }
     if (target.startsWith('//') || target === '/') continue;
     if (!paths.has(target) && !paths.has(target + 'index.html') && !paths.has(target + '/index.html')) {
-      warnings.push(relative + ': 내부 경로 확인 ' + target);
+      const message = relative + ': 내부 경로 확인 ' + target;
+      if (/\\.(?:html|js|mjs|css)$/i.test(target)) errors.push(message);
+      else warnings.push(message);
     }
   }
 }
