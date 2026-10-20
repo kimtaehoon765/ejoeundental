@@ -26,6 +26,10 @@ for (const f of html) {
   if (!/<html\b[^>]*lang=["']ko["']/i.test(body)) warnings.push(relative + ': 한국어 lang 확인');
   if (!/<title>[^<]+<\/title>/i.test(body)) errors.push(relative + ': title 누락');
   if (!/<meta\s+name=["']description["']/i.test(body)) warnings.push(relative + ': description 누락');
+  if (!body.includes('name="viewport"')) warnings.push(relative + ': 모바일 viewport 누락');
+  if (relative !== 'admin/index.html' && !body.includes('rel="canonical"') && !body.includes('name="robots" content="noindex')) {
+    warnings.push(relative + ': canonical 또는 noindex 설정 확인');
+  }
   // Prevent accidental indexing of private administration pages.
   if (relative.startsWith('admin/') && !body.includes('name="robots" content="noindex')) {
     errors.push(relative + ': 관리자 페이지 검색 제외(noindex) 누락');
