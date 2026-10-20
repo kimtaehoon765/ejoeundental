@@ -156,3 +156,18 @@
  #main-content>.hero h1{font-size:clamp(25px,7vw,29px)}
  #main-content>.hero .hero-actions .btn{font-size:13px}
 }
+
+/* Homepage symptom-first navigation: keyboard and mobile friendly */
+.symptom-navigator{margin:22px auto 10px;padding:25px 24px;background:#f5f9f6;border:1px solid #d7e5da;border-radius:18px}
+.symptom-navigator h2{margin:5px 0 10px;color:#173e35;font-size:clamp(23px,3vw,32px)}
+.symptom-navigator>p{line-height:1.7;margin:0 0 18px}
+.symptom-navigator-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.symptom-navigator-grid a{display:flex;flex-direction:column;justify-content:space-between;gap:10px;min-height:105px;padding:18px 16px;border:1px solid #d2e1d5;border-radius:12px;background:#fff;color:#173e35;text-decoration:none;transition:border-color .15s,box-shadow .15s}
+.symptom-navigator-grid a strong{font-size:17px;line-height:1.4}
+.symptom-navigator-grid a span{font-size:13px;line-height:1.5;color:#48695a}
+.symptom-navigator-grid a:hover{border-color:#648f78;box-shadow:0 4px 15px #173e3517}
+.symptom-navigator-grid a:focus-visible,.symptom-navigator-more a:focus-visible{outline:3px solid #a47837;outline-offset:3px}
+.symptom-navigator .symptom-navigator-more{margin:18px 0 0;text-align:right}
+.symptom-navigator-more a{color:#173e35;font-weight:700}
+@media(max-width:800px){.symptom-navigator-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.symptom-navigator{margin:12px auto;padding:18px 14px;border-radius:14px}.symptom-navigator-grid{grid-template-columns:1fr;gap:9px}.symptom-navigator-grid a{min-height:72px;padding:13px 14px;gap:5px}.symptom-navigator-grid a strong{font-size:16px}}
