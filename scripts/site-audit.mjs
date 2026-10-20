@@ -45,6 +45,20 @@ else {
     }
   }
 }
+// Guard mobile rendering and private admin indexability on every deployment.
+const homepageFile = join(root, 'index.html');
+if (existsSync(homepageFile)) {
+  const homepage = readFileSync(homepageFile, 'utf8');
+  if (!/<meta\\s+name=["']viewport["'][^>]*width=device-width/i.test(homepage)) errors.push('홈페이지 모바일 viewport 누락');
+  if (!/<a\\b[^>]*class=["'][^"']*skip-link[^"']*["'][^>]*href=["']#main-content["']/i.test(homepage)) errors.push('홈페이지 본문 건너뛰기 링크 누락');
+  if (!/<main\\b[^>]*id=["']main-content["']/i.test(homepage)) errors.push('홈페이지 main-content 누락');
+  if (!/src=["']\\/assets\\/site\\.js[^"']*["'][^>]*\\bdefer\\b/i.test(homepage)) errors.push('홈페이지 스크립트 defer 누락');
+}
+const adminFile = join(root, 'admin/index.html');
+if (existsSync(adminFile)) {
+  const admin = readFileSync(adminFile, 'utf8');
+  if (!/<meta\\s+name=["']robots["']\\s+content=["'][^"']*noindex/i.test(admin)) errors.push('관리자 페이지 noindex 누락');
+}
 if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);
