@@ -1071,6 +1071,13 @@ for(const htmlFile of publicHtmlFiles){
  if(!toc)throw new Error('Invalid article table of contents: '+path.relative(out,htmlFile));
  const links=[...toc[1].matchAll(/<a\b[^>]*href="#([^"]+)"[^>]*>/gi)].map(m=>m[1]);
  if(!links.length)throw new Error('Empty article table of contents: '+path.relative(out,htmlFile));
+ if(new Set(links).size!==links.length)throw new Error('Duplicate article contents links: '+path.relative(out,htmlFile));
+ const articleStart=markup.indexOf('<main class="article">');
+ const articleEnd=markup.indexOf('</main>',articleStart);
+ if(articleStart<0||articleEnd<0)throw new Error('Article contents outside patient article: '+path.relative(out,htmlFile));
+ const article=markup.slice(articleStart,articleEnd);
+ const sectionIds=[...article.matchAll(/<h2\b[^>]*\bid="([^"]+)"[^>]*>/gi)].map(m=>m[1]);
+ if(sectionIds.length!==links.length||sectionIds.some((id,index)=>id!==links[index]))throw new Error('Article contents and section headings differ: '+path.relative(out,htmlFile));
  const ids=[...markup.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
  if(new Set(ids).size!==ids.length)throw new Error('Duplicate HTML ID in '+path.relative(out,htmlFile));
  for(const id of links){
