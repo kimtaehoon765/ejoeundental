@@ -121,3 +121,19 @@
  .hero .hero-visit-note{font-size:14px;line-height:1.75;word-break:keep-all}
  .hero .art{max-width:100%}
 }
+
+/* Section navigation and accessibility on narrow screens */
+#main-content section[id]{scroll-margin-top:88px}
+#main-content a:focus-visible,#main-content button:focus-visible{outline:3px solid #a96b24;outline-offset:3px}
+#main-content .wrap,#main-content .grid,#main-content .split{min-width:0}
+#main-content .card,#main-content .split>*{min-width:0;overflow-wrap:anywhere}
+@media(max-width:600px){
+ #main-content section[id]{scroll-margin-top:72px}
+ #main-content .section{overflow-wrap:anywhere}
+ #main-content .section h2{font-size:clamp(23px,6vw,30px);line-height:1.45;word-break:keep-all}
+ #main-content .section h3{line-height:1.5;word-break:keep-all}
+ #main-content .section p,#main-content .section li{line-height:1.8;word-break:keep-all}
+ #main-content .section img,#main-content .section iframe,#main-content .section svg{max-width:100%;height:auto}
+ #main-content .section .grid{grid-template-columns:minmax(0,1fr)}
+ #main-content .section a{overflow-wrap:anywhere;text-underline-offset:3px}
+}
