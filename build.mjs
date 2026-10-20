@@ -1001,3 +1001,38 @@ const sitemapPointers=[...builtRobots.matchAll(/^Sitemap:\s*(\S+)\s*$/gmi)].map(
 if(sitemapPointers.length!==1||sitemapPointers[0]!=='https://ejoeundental.pages.dev/sitemap.xml')throw new Error('Preview robots.txt sitemap pointer mismatch');
 if(!/^Disallow:\s*\/admin\/\s*$/mi.test(builtRobots))throw new Error('Admin exclusion missing from robots.txt');
 console.log('Preview crawler configuration audit passed');
+
+
+// Quality gate: sitemap entries and search recommendation destinations must exist in the build.
+const sitemapXml=fs.readFileSync(path.join(out,'sitemap.xml'),'utf8');
+const sitemapLocations=[...sitemapXml.matchAll(/<loc>\s*([^<]+?)\s*<\/loc>/g)].map(m=>m[1].trim());
+if(!sitemapLocations.length)throw new Error('Sitemap has no URLs');
+const seenSitemap=new Set();
+for(const location of sitemapLocations){
+ const url=new URL(location);
+ if(url.origin!=='https://ejoeundental.com')throw new Error('Unexpected sitemap origin: '+location);
+ if(seenSitemap.has(url.pathname))throw new Error('Duplicate sitemap path: '+url.pathname);
+ seenSitemap.add(url.pathname);
+ const destination=url.pathname==='/'?path.join(out,'index.html'):path.join(out,decodeURIComponent(url.pathname.slice(1)));
+ if(!fs.existsSync(destination)||!fs.statSync(destination).isFile())throw new Error('Sitemap target missing: '+location);
+}
+for(const [route,fragment] of [
+ ['/additional-health.html','dentures'],
+ ['/additional-health.html','cavities'],
+ ['/health/tooth-preservation.html',null],
+ ['/health/insurance-denture.html',null],
+ ['/health/insurance-cavity.html',null],
+ ['/gum-treatment.html',null],
+ ['/retreatment.html',null],
+ ['/cervical-abrasion.html',null],
+ ['/insured-care.html',null],
+ ['/root-canal-health.html',null]
+]){
+ const destination=path.join(out,route.slice(1));
+ if(!fs.existsSync(destination))throw new Error('Search recommendation missing: '+route);
+ if(fragment){
+  const markup=fs.readFileSync(destination,'utf8');
+  if(!markup.includes('id="'+fragment+'"')&&!markup.includes("id='"+fragment+"'"))throw new Error('Search recommendation anchor missing: '+route+'#'+fragment);
+ }
+}
+console.log('Sitemap ('+sitemapLocations.length+' URLs) and search recommendation audit passed');
