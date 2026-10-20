@@ -144,6 +144,16 @@ for (const treatment of ['gum-treatment.html', 'retreatment.html', 'cervical-abr
   if (!page.includes('032-513-2875') || !page.includes('세월천로 34')) errors.push(treatment + ': 방문 안내 정보 누락');
   if (!page.includes('/#location')) errors.push(treatment + ': 진료시간 안내 링크 누락');
 }
+// Catch duplicate IDs that make in-page navigation ambiguous.
+for (const file of html) {
+  const page = readFileSync(file, 'utf8');
+  const ids = new Set();
+  for (const match of page.matchAll(/\bid=["']([^"']+)["']/gi)) {
+    const id = match[1];
+    if (ids.has(id)) errors.push(file.slice(root.length + 1) + ': 중복 HTML id ' + id);
+    ids.add(id);
+  }
+}
 // Homepage in-page navigation must point to an existing section or landmark.
 if (existsSync(homepageFile)) {
   const home = readFileSync(homepageFile, 'utf8');
