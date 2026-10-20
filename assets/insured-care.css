@@ -28,3 +28,13 @@ section[aria-label$="자주 묻는 질문"] details p{word-break:keep-all;overfl
 @media(max-width:600px){section[aria-label$="자주 묻는 질문"] .wrap{padding-left:18px;padding-right:18px}section[aria-label$="자주 묻는 질문"] summary{font-size:16px;line-height:1.7}}
 @media(max-width:600px){.top .nav{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;font-size:14px}.top .nav a{display:inline-flex;align-items:center;min-height:44px;padding:5px 0;line-height:1.4;word-break:keep-all}.top .logo{line-height:1.5}}
 
+
+/* Mobile-friendly related treatment navigation. */
+nav[aria-label="이조은치과 주요 진료 안내"]{box-sizing:border-box;width:calc(100% - 32px);max-width:960px;overflow-wrap:anywhere}
+nav[aria-label="이조은치과 주요 진료 안내"] h2{font-size:clamp(20px,3vw,26px);line-height:1.4;margin:0 0 14px}
+nav[aria-label="이조은치과 주요 진료 안내"] ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:10px;list-style:none;margin:0;padding:0}
+nav[aria-label="이조은치과 주요 진료 안내"] li{min-width:0;margin:0}
+nav[aria-label="이조은치과 주요 진료 안내"] a{display:flex;align-items:center;min-height:44px;box-sizing:border-box;padding:10px 12px;line-height:1.55;border-radius:9px;background:#edf5f0;color:#173e35;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+nav[aria-label="이조은치과 주요 진료 안내"] p{margin:12px 0 0}
+nav[aria-label="이조은치과 주요 진료 안내"] a:focus-visible{outline:3px solid #a96b24;outline-offset:2px}
+@media(max-width:600px){nav[aria-label="이조은치과 주요 진료 안내"]{width:calc(100% - 28px);padding:16px!important;margin:22px auto!important}nav[aria-label="이조은치과 주요 진료 안내"] ul{grid-template-columns:minmax(0,1fr)}nav[aria-label="이조은치과 주요 진료 안내"] a{font-size:16px}}
