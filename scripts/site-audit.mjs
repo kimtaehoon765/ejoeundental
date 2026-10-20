@@ -1,6 +1,7 @@
 // Static output quality checks. Run after npm run build: node scripts/site-audit.mjs
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { spawnSync } from 'node:child_process';
 
 const root = resolve('dist');
 if (!existsSync(root)) {
@@ -20,6 +21,14 @@ const html = files.filter(f => f.endsWith('.html'));
 const errors = [];
 const warnings = [];
 const paths = new Set(files.map(f => '/' + f.slice(root.length + 1).replaceAll('\\', '/')));
+// CI must parse deployed JavaScript, not merely check that script files exist.
+const javascriptFiles = files.filter(f => f.endsWith('.js') || f.endsWith('.mjs'));
+for (const file of javascriptFiles) {
+  const check = spawnSync(process.execPath, ['--check', file], { encoding: 'utf8' });
+  if (check.error || check.status !== 0) errors.push('JavaScript 문법 오류: ' + file.slice(root.length + 1) + ' ' + (check.stderr || check.error?.message || '').trim().slice(0, 300));
+}
+console.log('JavaScript syntax checked:', javascriptFiles.length);
+
 for (const f of html) {
   const body = readFileSync(f, 'utf8');
   const relative = f.slice(root.length + 1);
