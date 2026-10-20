@@ -4,6 +4,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "node build.mjs"
+    "build": "node build.mjs",
+    "audit": "node scripts/site-audit.mjs",
+    "build:check": "npm run build && npm run audit"
   }
 }
