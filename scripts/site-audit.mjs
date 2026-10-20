@@ -216,6 +216,12 @@ else {
   for (const route of ['/curing-light-maintenance.html', '/dental-chair-maintenance.html', '/dental-xray-maintenance.html', '/endodontic-instruments-guide.html', '/equipment-log.html', '/extraction-instruments-guide.html', '/intraoral-camera-maintenance.html', '/periodontal-instruments-guide.html', '/scaler-maintenance.html']) {
     if (!script.includes(route.slice(1, -5))) errors.push('검색 장비·기구 분류 누락: ' + route);
   }
+  // Search labels must recognize specialist articles inside /health/ as well as at the root.
+  for (const group of ['medicalGuide', 'equipmentGuide']) {
+    const declaration = script.split('const ' + group + '=')[1]?.split(';')[0] || '';
+    if (!declaration.includes('health\\/')) errors.push('검색 분류에서 /health/ 경로 지원 누락: ' + group);
+  }
+  if (!script.includes("medicalGuide?'medical':equipmentGuide?'equipment':p.url.startsWith('/health/')?'health'")) errors.push('검색 전문 안내 분류 우선순위 오류');
   // Topic boosts should never make a page appear without matching a search term.
   for (const intent of ['safetyIntent', 'equipmentIntent', 'giInsuranceIntent', 'gumIntent', 'retreatmentIntent']) {
     if (!script.includes('matched>0&&' + intent)) errors.push('검색어 불일치 결과 가산점 차단 누락: ' + intent);
