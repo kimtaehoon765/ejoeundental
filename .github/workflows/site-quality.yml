@@ -33,3 +33,17 @@ jobs:
           test -f dist/search.html
           test -f dist/sitemap.xml
           test -f dist/content/search-index.json
+      - name: Summarize successful website audit
+        if: success()
+        shell: bash
+        run: |
+          health_count=$(grep -c '<loc>https://ejoeundental.com/health/' dist/sitemap.xml || true)
+          html_count=$(find dist -type f -name '*.html' | wc -l | tr -d ' ')
+          {
+            echo '## 이조은치과 홈페이지 품질 검사'
+            echo ''
+            echo '- 빌드 및 자동 검사: 통과'
+            echo "- 생성된 HTML 페이지: ${html_count}개"
+            echo "- 사이트맵 건강정보 페이지: ${health_count}개"
+            echo '- 검사 항목: 사이트맵, 검색 색인, 정적 자산, 건강정보 목차, 키보드 접근성, SEO 메타데이터, 내부 링크'
+          } >> "$GITHUB_STEP_SUMMARY"
