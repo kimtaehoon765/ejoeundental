@@ -54,6 +54,25 @@ if (existsSync(homepageFile)) {
   if (!homepage.includes('<main id="main-content">')) errors.push('홈페이지 main-content 누락');
   if (!homepage.includes('src="/assets/site.js') || !homepage.includes('defer></script>')) errors.push('홈페이지 스크립트 defer 누락');
 }
+// Ensure local SEO data is machine-readable and matches the visible clinic identity.
+if (existsSync(homepageFile)) {
+  const homepage = readFileSync(homepageFile, 'utf8');
+  const blocks = [...homepage.matchAll(/<script[^>]+type="application\\/ld\\+json"[^>]*>([\\s\\S]*?)<\\/script>/gi)];
+  const structured = [];
+  for (const [index, block] of blocks.entries()) {
+    try { structured.push(JSON.parse(block[1])); }
+    catch { errors.push('홈페이지 구조화 데이터 JSON 오류: ' + (index + 1)); }
+  }
+  const clinic = structured.find(data => data['@type'] === 'Dentist');
+  if (!clinic) errors.push('치과 구조화 데이터 누락');
+  else {
+    if (clinic.name !== '이조은치과' || clinic.telephone !== '+82-32-513-2875') errors.push('치과 이름 또는 전화번호 구조화 데이터 불일치');
+    const areas = (clinic.areaServed || []).map(place => place.name || '');
+    for (const area of ['청천동', '산곡동', '산곡역']) {
+      if (!areas.some(name => name.includes(area))) errors.push('지역 구조화 데이터 누락: ' + area);
+    }
+  }
+}
 const adminFile = join(root, 'admin/index.html');
 if (existsSync(adminFile)) {
   const admin = readFileSync(adminFile, 'utf8');
