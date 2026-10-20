@@ -24,3 +24,6 @@
  .gum-section h2,.section h2{font-size:clamp(23px,6vw,30px)}
  .gum-box,.gum-step,.section .card{padding:18px}
 }
+
+/* Identify the current treatment page for sighted keyboard and touch users. */
+.treatment-quick-links a[aria-current="page"]{background:#173e35;color:#fff;border-color:#173e35;text-decoration:none;pointer-events:none}
