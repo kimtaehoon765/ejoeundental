@@ -1121,3 +1121,20 @@ for(const route of healthSitemapRoutes){
 }
 if(checkedArticleToc<healthSitemapRoutes.length)throw new Error('Fewer validated article contents than sitemap health articles');
 console.log('Sitemap health guides with contents and skip navigation checked: '+healthSitemapRoutes.length);
+
+
+// Search-engine metadata and document outline checks for sitemap patient guides.
+let checkedHealthMetadata=0;
+for(const route of healthSitemapRoutes){
+ const html=fs.readFileSync(path.join(out,route.slice(1)),'utf8');
+ const title=html.match(/<title>\s*([^<]+?)\s*<\/title>/i)?.[1];
+ const description=html.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i)?.[1];
+ const canonical=html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
+ const headings=[...html.matchAll(/<h1\b[^>]*>/gi)];
+ if(!title||!title.trim())throw new Error('Health guide missing page title: '+route);
+ if(!description||!description.trim())throw new Error('Health guide missing meta description: '+route);
+ if(canonical!=='https://ejoeundental.com'+route)throw new Error('Health guide canonical URL mismatch: '+route);
+ if(headings.length!==1)throw new Error('Health guide must have exactly one H1: '+route);
+ checkedHealthMetadata++;
+}
+console.log('Health guide titles, descriptions, canonical URLs and H1 checked: '+checkedHealthMetadata);
