@@ -1102,6 +1102,8 @@ for(const htmlFile of publicHtmlFiles){
   const target=href[1];
   const targetIds=[...markup.matchAll(/\bid=["']([^"']+)["']/g)].map(m=>m[1]);
   if(!targetIds.includes(target))throw new Error('Missing skip-link target in '+path.relative(out,htmlFile)+': #'+target);
+  const mainTargets=[...markup.matchAll(/<main\b[^>]*\bid=["']([^"']+)["'][^>]*>/gi)].map(m=>m[1]);
+  if(!mainTargets.includes(target))throw new Error('Skip link must point to main content in '+path.relative(out,htmlFile)+': #'+target);
   checkedSkipLinks++;
  }
 }
