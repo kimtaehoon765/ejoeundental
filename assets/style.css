@@ -596,7 +596,8 @@ main.article[id]{scroll-margin-top:85px}
 @media print{
  @page{margin:16mm}
  body{background:#fff!important;color:#111!important;font-family:'Malgun Gothic','Apple SD Gothic Neo',sans-serif}
- header,footer,.article-skip-link,.article-toc,.nav,.navlinks{display:none!important}
+ body>header,body>footer,.article-skip-link,.article-toc,.nav,.navlinks{display:none!important}
+ main.article footer,main.article .bottom{display:block!important}
  main.article{max-width:none!important;margin:0!important;padding:0!important;color:#111!important}
  main.article h1{font-size:23pt!important;color:#111!important;line-height:1.3}
  main.article h2{font-size:15pt!important;color:#111!important;break-after:avoid;page-break-after:avoid}
