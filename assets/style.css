@@ -534,3 +534,13 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
  .navlinks{min-width:0;margin-top:2px}
 }
 @media(min-width:421px) and (max-width:600px){.mobile-quick a{min-height:44px}}
+
+/* Responsive treatment-guide cross-navigation: added 2026-10-20 */
+nav[aria-label="이조은치과 주요 진료 안내"]{box-sizing:border-box;width:min(100% - 32px,960px);margin:32px auto!important;padding:clamp(16px,3vw,26px)!important;overflow-wrap:anywhere}
+nav[aria-label="이조은치과 주요 진료 안내"] h2{font-size:clamp(1.2rem,3vw,1.55rem);line-height:1.4;margin:0 0 12px}
+nav[aria-label="이조은치과 주요 진료 안내"] ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:8px 16px;padding-left:0;margin:12px 0;list-style:none}
+nav[aria-label="이조은치과 주요 진료 안내"] li{margin:0;min-width:0}
+nav[aria-label="이조은치과 주요 진료 안내"] a{display:flex;align-items:center;min-height:44px;padding:9px 12px;border-radius:8px;background:#edf5f0;color:#173e35;line-height:1.5;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+nav[aria-label="이조은치과 주요 진료 안내"] a:focus-visible{outline:3px solid #a96b24;outline-offset:2px}
+nav[aria-label="이조은치과 주요 진료 안내"] p{margin:12px 0 0}
+@media(max-width:600px){nav[aria-label="이조은치과 주요 진료 안내"]{width:calc(100% - 28px);margin:22px auto!important;padding:16px!important}nav[aria-label="이조은치과 주요 진료 안내"] ul{grid-template-columns:1fr}nav[aria-label="이조은치과 주요 진료 안내"] a{font-size:16px}}
