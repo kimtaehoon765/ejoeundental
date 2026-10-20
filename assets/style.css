@@ -574,3 +574,13 @@ main.article a:focus-visible{outline:3px solid #a96b24;outline-offset:3px}
  main.article .note{padding:18px;margin:22px 0}
  main.article img,main.article svg,main.article iframe{max-width:100%;height:auto}
 }
+
+/* In-article navigation: readable on small screens, usable without JavaScript. */
+.article-toc{margin:24px 0 32px;padding:18px 20px;border:1px solid #d4e2d8;border-radius:14px;background:#edf4ed}
+.article-toc strong{display:block;margin-bottom:8px;color:#173e35;font-size:16px}
+.article-toc ul{margin:0;padding-left:20px;columns:2;column-gap:28px}
+.article-toc li{break-inside:avoid;margin:3px 0}
+.article-toc a{display:inline-block;padding:4px 0;color:#173e35;text-decoration:underline;text-underline-offset:3px}
+.article-toc a:focus-visible{outline:3px solid #a96b24;outline-offset:3px}
+main.article h2[id]{scroll-margin-top:100px}
+@media(max-width:600px){.article-toc{padding:16px;margin:20px 0 26px}.article-toc ul{columns:1}.article-toc a{padding:6px 0}main.article h2[id]{scroll-margin-top:85px}}
