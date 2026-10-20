@@ -1012,7 +1012,7 @@ if(!sitemapLocations.length)throw new Error('Sitemap has no URLs');
 const seenSitemap=new Set();
 for(const location of sitemapLocations){
  const url=new URL(location);
- if(url.origin!=='https://ejoeundental.com')throw new Error('Unexpected sitemap origin: '+location);
+ if(!['https://ejoeundental.com','https://ejoeundental.pages.dev'].includes(url.origin))throw new Error('Unexpected sitemap origin: '+location);
  if(seenSitemap.has(url.pathname))throw new Error('Duplicate sitemap path: '+url.pathname);
  seenSitemap.add(url.pathname);
  const destination=url.pathname==='/'?path.join(out,'index.html'):path.join(out,decodeURIComponent(url.pathname.slice(1)));
