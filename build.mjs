@@ -1006,8 +1006,8 @@ console.log('Preview crawler configuration audit passed');
 
 
 // Quality gate: sitemap entries and search recommendation destinations must exist in the build.
-const sitemapXml=fs.readFileSync(path.join(out,'sitemap.xml'),'utf8');
-const sitemapLocations=[...sitemapXml.matchAll(/<loc>\s*([^<]+?)\s*<\/loc>/g)].map(m=>m[1].trim());
+const sitemapXmlAudit=fs.readFileSync(path.join(out,'sitemap.xml'),'utf8');
+const sitemapLocations=[...sitemapXmlAudit.matchAll(/<loc>\s*([^<]+?)\s*<\/loc>/g)].map(m=>m[1].trim());
 if(!sitemapLocations.length)throw new Error('Sitemap has no URLs');
 const seenSitemap=new Set();
 for(const location of sitemapLocations){
@@ -1135,8 +1135,8 @@ console.log('Sitemap health guides with contents and skip navigation checked: '+
 
 // Search-engine metadata and document outline checks for sitemap patient guides.
 let checkedHealthMetadata=0;
-const seenHealthTitles=new Map();
-const seenHealthDescriptions=new Map();
+const seenHealthTitlesAudit=new Map();
+const seenHealthDescriptionsAudit=new Map();
 for(const route of healthSitemapRoutes){
  const html=fs.readFileSync(path.join(out,route.slice(1)),'utf8');
  const title=html.match(/<title>\s*([^<]+?)\s*<\/title>/i)?.[1];
@@ -1149,10 +1149,10 @@ for(const route of healthSitemapRoutes){
  if(headings.length!==1)throw new Error('Health guide must have exactly one H1: '+route);
  const normalizedTitle=title.trim().replace(/\s+/g,' ');
  const normalizedDescription=description.trim().replace(/\s+/g,' ');
- if(seenHealthTitles.has(normalizedTitle))throw new Error('Duplicate health guide title: '+seenHealthTitles.get(normalizedTitle)+' and '+route);
- if(seenHealthDescriptions.has(normalizedDescription))throw new Error('Duplicate health guide description: '+seenHealthDescriptions.get(normalizedDescription)+' and '+route);
- seenHealthTitles.set(normalizedTitle,route);
- seenHealthDescriptions.set(normalizedDescription,route);
+ if(seenHealthTitlesAudit.has(normalizedTitle))throw new Error('Duplicate health guide title: '+seenHealthTitlesAudit.get(normalizedTitle)+' and '+route);
+ if(seenHealthDescriptionsAudit.has(normalizedDescription))throw new Error('Duplicate health guide description: '+seenHealthDescriptionsAudit.get(normalizedDescription)+' and '+route);
+ seenHealthTitlesAudit.set(normalizedTitle,route);
+ seenHealthDescriptionsAudit.set(normalizedDescription,route);
  checkedHealthMetadata++;
 }
 console.log('Health guide titles, descriptions, canonical URLs and H1 checked: '+checkedHealthMetadata);
