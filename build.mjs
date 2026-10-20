@@ -1079,8 +1079,8 @@ for(const htmlFile of publicHtmlFiles){
  const article=markup.slice(articleStart,articleEnd);
  const sectionIds=[...article.matchAll(/<h2\b[^>]*\bid="([^"]+)"[^>]*>/gi)].map(m=>m[1]);
  if(sectionIds.length!==links.length||sectionIds.some((id,index)=>id!==links[index]))throw new Error('Article contents and section headings differ: '+path.relative(out,htmlFile));
- if(!/<a\\b[^>]*class=["'][^"']*\\barticle-skip-link\\b[^"']*["'][^>]*>/i.test(markup))throw new Error('Article with contents is missing keyboard skip link: '+path.relative(out,htmlFile));
- if(!/<main\\b[^>]*\\bid=["']article-main["'][^>]*>/i.test(markup))throw new Error('Article contents page has no accessible main target: '+path.relative(out,htmlFile));
+ if(!/<a\b[^>]*class=["'][^"']*\barticle-skip-link\b[^"']*["'][^>]*>/i.test(markup))throw new Error('Article with contents is missing keyboard skip link: '+path.relative(out,htmlFile));
+ if(!/<main\b[^>]*\bid=["']article-main["'][^>]*>/i.test(markup))throw new Error('Article contents page has no accessible main target: '+path.relative(out,htmlFile));
  const ids=[...markup.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
  if(new Set(ids).size!==ids.length)throw new Error('Duplicate HTML ID in '+path.relative(out,htmlFile));
  for(const id of links){
