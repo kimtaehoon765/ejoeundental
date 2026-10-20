@@ -1088,3 +1088,19 @@ for(const htmlFile of publicHtmlFiles){
  checkedArticleToc++;
 }
 console.log('Article table-of-contents anchors checked across '+checkedArticleToc+' pages');
+
+// Check that keyboard skip links resolve to an actual element on the same page.
+let checkedSkipLinks=0;
+for(const htmlFile of publicHtmlFiles){
+ const markup=fs.readFileSync(htmlFile,'utf8');
+ const skipLinks=[...markup.matchAll(/<a\b[^>]*class=["'][^"']*\b(?:article-skip-link|page-skip-link)\b[^"']*["'][^>]*>/gi)];
+ for(const match of skipLinks){
+  const href=match[0].match(/\bhref=["']#([^"']+)["']/i);
+  if(!href)throw new Error('Skip link must target a page fragment: '+path.relative(out,htmlFile));
+  const target=href[1];
+  const targetIds=[...markup.matchAll(/\bid=["']([^"']+)["']/g)].map(m=>m[1]);
+  if(!targetIds.includes(target))throw new Error('Missing skip-link target in '+path.relative(out,htmlFile)+': #'+target);
+  checkedSkipLinks++;
+ }
+}
+console.log('Keyboard skip links checked: '+checkedSkipLinks);
