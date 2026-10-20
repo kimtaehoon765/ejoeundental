@@ -31,3 +31,6 @@
 
 /* Five compact mobile shortcuts: treatment, search, preparation, directions, call. */
 @media(max-width:600px){header .nav .mobile-quick{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}header .nav .mobile-quick a{min-width:0;padding:8px 2px;font-size:clamp(10px,2.4vw,12px);line-height:1.3;min-height:44px;display:flex;align-items:center;justify-content:center;text-align:center;word-break:keep-all}}
+
+/* Keep the music widget clear of mobile navigation and the system gesture area. */
+@media(max-width:600px){.piano-player{max-width:min(310px,calc(100vw - 16px));bottom:calc(8px + env(safe-area-inset-bottom,0px))}.music-reopen{bottom:calc(12px + env(safe-area-inset-bottom,0px))}}
