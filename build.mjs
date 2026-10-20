@@ -1135,6 +1135,8 @@ console.log('Sitemap health guides with contents and skip navigation checked: '+
 
 // Search-engine metadata and document outline checks for sitemap patient guides.
 let checkedHealthMetadata=0;
+const seenHealthTitles=new Map();
+const seenHealthDescriptions=new Map();
 for(const route of healthSitemapRoutes){
  const html=fs.readFileSync(path.join(out,route.slice(1)),'utf8');
  const title=html.match(/<title>\s*([^<]+?)\s*<\/title>/i)?.[1];
@@ -1145,6 +1147,12 @@ for(const route of healthSitemapRoutes){
  if(!description||!description.trim())throw new Error('Health guide missing meta description: '+route);
  if(canonical!=='https://ejoeundental.com'+route)throw new Error('Health guide canonical URL mismatch: '+route);
  if(headings.length!==1)throw new Error('Health guide must have exactly one H1: '+route);
+ const normalizedTitle=title.trim().replace(/\s+/g,' ');
+ const normalizedDescription=description.trim().replace(/\s+/g,' ');
+ if(seenHealthTitles.has(normalizedTitle))throw new Error('Duplicate health guide title: '+seenHealthTitles.get(normalizedTitle)+' and '+route);
+ if(seenHealthDescriptions.has(normalizedDescription))throw new Error('Duplicate health guide description: '+seenHealthDescriptions.get(normalizedDescription)+' and '+route);
+ seenHealthTitles.set(normalizedTitle,route);
+ seenHealthDescriptions.set(normalizedDescription,route);
  checkedHealthMetadata++;
 }
 console.log('Health guide titles, descriptions, canonical URLs and H1 checked: '+checkedHealthMetadata);
