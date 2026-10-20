@@ -73,6 +73,17 @@ if (existsSync(homepageFile)) {
     }
   }
 }
+// Core treatment pages must provide useful routes to related care and clinic access.
+for (const treatment of ['gum-treatment.html', 'retreatment.html', 'cervical-abrasion.html']) {
+  const file = join(root, treatment);
+  if (!existsSync(file)) { errors.push('핵심 진료 페이지 누락: ' + treatment); continue; }
+  const page = readFileSync(file, 'utf8');
+  for (const related of ['gum-treatment.html', 'retreatment.html', 'cervical-abrasion.html', 'insured-care.html']) {
+    if (related !== treatment && !page.includes('/' + related)) errors.push(treatment + ': 관련 진료 연결 누락 ' + related);
+  }
+  if (!page.includes('032-513-2875') || !page.includes('세월천로 34')) errors.push(treatment + ': 방문 안내 정보 누락');
+  if (!page.includes('/#location')) errors.push(treatment + ': 진료시간 안내 링크 누락');
+}
 const adminFile = join(root, 'admin/index.html');
 if (existsSync(adminFile)) {
   const admin = readFileSync(adminFile, 'utf8');
