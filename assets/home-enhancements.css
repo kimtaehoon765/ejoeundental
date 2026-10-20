@@ -68,3 +68,14 @@
 .alternating-hours .alternating-hours-call span{white-space:nowrap}
 .alternating-hours .alternating-hours-call:focus-visible{outline:3px solid #a96b24;outline-offset:3px}
 @media(max-width:600px){.alternating-hours .alternating-hours-call{min-height:52px;padding:12px 10px;font-size:15px}}
+
+/* Directions and parking readability on small screens */
+#location .parking-info{box-sizing:border-box;max-width:100%;margin:20px 0;padding:clamp(16px,3vw,24px);border:1px solid #d0decf;border-radius:14px;background:#edf4eb;overflow-wrap:anywhere}
+#location .parking-info h3{margin:0 0 12px;font-size:clamp(18px,2.8vw,23px);line-height:1.5;word-break:keep-all}
+#location .parking-info p{margin:10px 0;line-height:1.75}
+#location .parking-info strong{font-weight:800;color:#174a37}
+#location .parking-info .parking-note{font-size:14px;color:#37584b}
+#location .location-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:20px 0}
+#location .location-actions .btn{box-sizing:border-box;display:flex;align-items:center;justify-content:center;min-width:0;min-height:48px;margin:0;padding:12px 14px;text-align:center;line-height:1.5;white-space:normal;overflow-wrap:anywhere}
+#location .location-actions .btn:focus-visible{outline:3px solid #a96b24;outline-offset:3px}
+@media(max-width:600px){#location .parking-info{margin:16px 0;padding:16px}#location .parking-info p{font-size:16px}#location .parking-info .parking-note{font-size:14px}#location .location-actions{grid-template-columns:1fr;gap:10px}#location .location-actions .btn{min-height:52px;font-size:16px}}
