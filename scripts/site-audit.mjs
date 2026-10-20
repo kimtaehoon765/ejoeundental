@@ -27,12 +27,12 @@ for (const f of html) {
   if (!/<title>[^<]+<\/title>/i.test(body)) errors.push(relative + ': title 누락');
   if (!/<meta\s+name=["']description["']/i.test(body)) warnings.push(relative + ': description 누락');
   // Prevent accidental indexing of private administration pages.
-  if (relative.startsWith('admin/') && !/<meta\\s+name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(body)) {
+  if (relative.startsWith('admin/') && !body.includes('name="robots" content="noindex')) {
     errors.push(relative + ': 관리자 페이지 검색 제외(noindex) 누락');
   }
   // External tabs should not retain access to the originating window.
-  for (const anchor of body.matchAll(/<a\\b[^>]*target=["']_blank["'][^>]*>/gi)) {
-    if (!/\\brel=["'][^"']*noopener/i.test(anchor[0])) warnings.push(relative + ': 외부 새 창 링크에 noopener 누락');
+  for (const anchor of body.matchAll(new RegExp('<a[^>]*target="_blank"[^>]*>', 'gi'))) {
+    if (!anchor[0].includes('noopener')) warnings.push(relative + ': 외부 새 창 링크에 noopener 누락');
   }
   for (const match of body.matchAll(/\b(?:href|src)=["'](\/[^"'?#]*)/gi)) {
     let target;
