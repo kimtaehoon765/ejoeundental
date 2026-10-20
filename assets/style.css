@@ -591,3 +591,18 @@ main.article h2[id]{scroll-margin-top:100px}
 @media(max-width:600px){.article-skip-link{left:8px;right:8px;text-align:center;max-width:calc(100% - 16px)}}
 main.article[id]{scroll-margin-top:85px}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* Patient-friendly printed health guides: hide navigation and preserve article content. */
+@media print{
+ @page{margin:16mm}
+ body{background:#fff!important;color:#111!important;font-family:'Malgun Gothic','Apple SD Gothic Neo',sans-serif}
+ header,footer,.article-skip-link,.article-toc,.nav,.navlinks{display:none!important}
+ main.article{max-width:none!important;margin:0!important;padding:0!important;color:#111!important}
+ main.article h1{font-size:23pt!important;color:#111!important;line-height:1.3}
+ main.article h2{font-size:15pt!important;color:#111!important;break-after:avoid;page-break-after:avoid}
+ main.article p,main.article li{font-size:11pt!important;line-height:1.65!important}
+ main.article a{color:#111!important;text-decoration:underline!important}
+ main.article .note{border:1px solid #999!important;background:#fff!important;break-inside:avoid}
+ main.article img,main.article table{max-width:100%!important}
+ main.article img{break-inside:avoid}
+}
