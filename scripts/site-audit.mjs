@@ -200,6 +200,12 @@ else {
   const script = readFileSync(searchScript, 'utf8');
   if (!page.includes('id="q"') || !page.includes('id="results"') || !page.includes('id="status"')) errors.push('검색 입력 또는 결과 표시 영역 누락');
   if (!page.includes('/assets/search.js')) errors.push('검색 스크립트 연결 누락');
+  const searchIds = new Set([...page.matchAll(/\bid=["']([^"']+)["']/gi)].map(match => match[1]));
+  for (const match of page.matchAll(/\bhref=["']#([^"']+)["']/gi)) {
+    const fragment = match[1];
+    if (!searchIds.has(fragment)) errors.push('검색 화면 앵커 목적지 누락: #' + fragment);
+  }
+  if (!page.includes('href="#symptom-search"') || !searchIds.has('symptom-search')) errors.push('모바일 증상 검색 바로가기 누락');
   for (const term of ['혈액희석제', '골다공증 약', '핸드피스', '멸균기']) {
     if (!page.includes(term)) errors.push('검색 바로가기 누락: ' + term);
   }
