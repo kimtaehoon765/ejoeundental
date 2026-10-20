@@ -137,3 +137,22 @@
  #main-content .section .grid{grid-template-columns:minmax(0,1fr)}
  #main-content .section a{overflow-wrap:anywhere;text-underline-offset:3px}
 }
+
+
+/* Compact first-screen actions on narrow phones without shrinking touch targets. */
+@media(max-width:600px){
+ #main-content>.hero{min-height:0;padding-top:26px;padding-bottom:32px;gap:16px}
+ #main-content>.hero .kicker{letter-spacing:.12em;font-size:11px}
+ #main-content>.hero h1{margin:12px 0 14px;line-height:1.38}
+ #main-content>.hero #intro{margin:0 0 12px;line-height:1.65}
+ #main-content>.hero .hero-actions{margin:12px 0 14px;gap:8px}
+ #main-content>.hero .hero-actions .btn{min-height:48px;padding:10px 12px;font-size:14px}
+ #main-content>.hero .hero-care-summary{gap:7px}
+ #main-content>.hero .hero-care-summary a{min-height:44px;padding:9px 12px}
+ #main-content>.hero .hero-visit-note{margin-top:12px}
+}
+@media(max-width:380px){
+ #main-content>.hero{padding-top:18px}
+ #main-content>.hero h1{font-size:clamp(25px,7vw,29px)}
+ #main-content>.hero .hero-actions .btn{font-size:13px}
+}
