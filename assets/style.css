@@ -584,3 +584,9 @@ main.article a:focus-visible{outline:3px solid #a96b24;outline-offset:3px}
 .article-toc a:focus-visible{outline:3px solid #a96b24;outline-offset:3px}
 main.article h2[id]{scroll-margin-top:100px}
 @media(max-width:600px){.article-toc{padding:16px;margin:20px 0 26px}.article-toc ul{columns:1}.article-toc a{padding:6px 0}main.article h2[id]{scroll-margin-top:85px}}
+
+/* Keyboard navigation for long patient education articles. */
+.article-skip-link{position:absolute;left:12px;top:-100px;z-index:1000;background:#173e35;color:#fff;padding:12px 18px;border-radius:8px;font-weight:700;text-decoration:none}
+.article-skip-link:focus{top:12px;color:#fff;outline:3px solid #a96b24;outline-offset:2px}
+main.article[id]{scroll-margin-top:85px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
