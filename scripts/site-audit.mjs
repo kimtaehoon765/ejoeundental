@@ -150,6 +150,8 @@ else {
   for (const term of ['혈액희석제', '골다공증 약', '핸드피스', '멸균기']) {
     if (!page.includes(term)) errors.push('검색 바로가기 누락: ' + term);
   }
+  // Search relevance boosts must not masquerade as matches to every typed word.
+  if (/matched\\s*=\\s*terms\\.length/.test(script)) errors.push('검색 결과 관련도 계산에서 검색어 일치 수를 강제로 변경함');
   for (const target of ['/medical-history.html', '/dental-equipment.html', '/content/search-index.json']) {
     if (!script.includes(target)) errors.push('검색 안전정보 연결 누락: ' + target);
   }
