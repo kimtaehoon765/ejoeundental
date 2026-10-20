@@ -57,7 +57,7 @@ if (existsSync(homepageFile)) {
 // Ensure local SEO data is machine-readable and matches the visible clinic identity.
 if (existsSync(homepageFile)) {
   const homepage = readFileSync(homepageFile, 'utf8');
-  const blocks = [...homepage.matchAll(new RegExp('<script[^>]+type="application/ld\\\\+json"[^>]*>([\\\\s\\\\S]*?)</script>', 'gi'))];
+  const blocks = homepage.split('<script type="application/ld+json">').slice(1).map(part => [null, part.split('</script>')[0]]);
   const structured = [];
   for (const [index, block] of blocks.entries()) {
     try { structured.push(JSON.parse(block[1])); }
