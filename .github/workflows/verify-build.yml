@@ -47,9 +47,9 @@ jobs:
           }
           if (!/<div[^>]*id="music-panel"[^>]*hidden/.test(html)) throw new Error("Music panel must start minimized");
           if (!/<audio[^>]*id="piano-audio"[^>]*preload="none"/.test(html)) throw new Error("Audio must not preload");
-          if (!html.includes("setPanelVisibility(false)")) throw new Error("Missing minimized default");
+          if (!fs.readFileSync("dist/assets/music-controls.js", "utf8").includes("setPanelVisibility(false)")) throw new Error("Missing minimized default");
           if (!html.includes("aria-controls=")) throw new Error("Missing accessible music controls");
-          if (!html.includes("visibilitychange") || !html.includes("pagehide")) throw new Error("Missing audio stop lifecycle handlers");
+          if (!fs.readFileSync("dist/assets/music-controls.js", "utf8").includes("visibilitychange") || !fs.readFileSync("dist/assets/music-controls.js", "utf8").includes("pagehide")) throw new Error("Missing audio stop lifecycle handlers");
           console.log("Music controls and safe defaults verified.");
           NODE
           # Ensure local discovery content remains present and links to real clinic information.
