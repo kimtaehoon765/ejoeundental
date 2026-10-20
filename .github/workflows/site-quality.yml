@@ -26,7 +26,7 @@ jobs:
           node --check assets/search.js
           node --check assets/site.js
       - name: Build and audit website
-        run: npm run build
+        run: npm run build:check
       - name: Verify output
         run: |
           test -f dist/index.html
@@ -45,5 +45,5 @@ jobs:
             echo '- 빌드 및 자동 검사: 통과'
             echo "- 생성된 HTML 페이지: ${html_count}개"
             echo "- 사이트맵 건강정보 페이지: ${health_count}개"
-            echo '- 검사 항목: 사이트맵, 검색 색인, 정적 자산, 건강정보 목차, 키보드 접근성, SEO 메타데이터, 내부 링크'
+            echo '- 검사 항목: 기존 빌드 검증 + HTML 제목, 설명, 내부 경로, 사이트맵 대상 확인'
           } >> "$GITHUB_STEP_SUMMARY"
