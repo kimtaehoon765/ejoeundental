@@ -34,9 +34,9 @@ let checkedAssetReferences = 0;
 for (const file of html) {
   const page = readFileSync(file, 'utf8');
   const relative = file.slice(root.length + 1);
-  for (const match of page.matchAll(/<(?:script|link)\\b[^>]*\\b(?:src|href)=[\"'](\\/assets\\/[^\\\"'?#]+)(?:[?#][^\\\"']*)?[\"']/gi)) {
-    const asset = match[1];
-    if (!/\\.(?:js|mjs|css)$/i.test(asset)) continue;
+  for (const tag of page.match(/<(?:script|link)\b[^>]*>/gi) || []) {
+    const asset = tag.match(/\b(?:src|href)=["'](\/assets\/[^"'?#]+)/i)?.[1];
+    if (!asset || !/\.(?:js|mjs|css)$/i.test(asset)) continue;
     checkedAssetReferences++;
     if (!paths.has(asset)) errors.push(relative + ': 필수 CSS/JS 파일 누락 ' + asset);
   }
