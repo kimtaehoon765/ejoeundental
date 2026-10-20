@@ -87,7 +87,7 @@ for (const f of html) {
     if (target.startsWith('//') || target === '/') continue;
     if (!paths.has(target) && !paths.has(target + 'index.html') && !paths.has(target + '/index.html')) {
       const message = relative + ': 내부 경로 확인 ' + target;
-      if (/\\.(?:html|js|mjs|css)$/i.test(target)) errors.push(message);
+      if (/\.(?:html|js|mjs|css)$/i.test(target)) errors.push(message);
       else warnings.push(message);
     }
   }
