@@ -604,6 +604,9 @@ main.article[id]{scroll-margin-top:85px}
  main.article p,main.article li{font-size:11pt!important;line-height:1.65!important}
  main.article a{color:#111!important;text-decoration:underline!important}
  main.article .note{border:1px solid #999!important;background:#fff!important;break-inside:avoid}
+ main.article .bottom,main.article footer{border-top:1px solid #bbb!important;margin-top:20pt!important;padding-top:10pt!important;font-size:9pt!important}
+ main.article .bottom small,main.article footer small{display:block!important;font-size:9pt!important;line-height:1.5!important}
+ main.article .bottom a,main.article footer a{color:#111!important}
  main.article img,main.article table{max-width:100%!important}
  main.article img{break-inside:avoid}
 }
