@@ -74,8 +74,11 @@ for (const f of html) {
     errors.push(relative + ': 관리자 페이지 검색 제외(noindex) 누락');
   }
   // External tabs should not retain access to the originating window.
-  for (const anchor of body.matchAll(new RegExp('<a[^>]*target="_blank"[^>]*>', 'gi'))) {
-    if (!anchor[0].includes('noopener')) warnings.push(relative + ': 외부 새 창 링크에 noopener 누락');
+  for (const anchor of body.matchAll(/<a\\b[^>]*>/gi)) {
+    const tag = anchor[0];
+    if (!/\\btarget\\s*=\\s*["']_blank["']/i.test(tag)) continue;
+    const rel = tag.match(/\\brel\\s*=\\s*["']([^"']*)["']/i)?.[1] || '';
+    if (!/\\bnoopener\\b/i.test(rel)) warnings.push(relative + ': 새 창 링크에 noopener 누락');
   }
   for (const match of body.matchAll(/\b(?:href|src)=["'](\/[^"'?#]*)/gi)) {
     let target;
