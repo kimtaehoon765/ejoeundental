@@ -171,3 +171,8 @@
 .symptom-navigator-more a{color:#173e35;font-weight:700}
 @media(max-width:800px){.symptom-navigator-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.symptom-navigator{margin:12px auto;padding:18px 14px;border-radius:14px}.symptom-navigator-grid{grid-template-columns:1fr;gap:9px}.symptom-navigator-grid a{min-height:72px;padding:13px 14px;gap:5px}.symptom-navigator-grid a strong{font-size:16px}}
+
+/* Anchor targets remain visible beneath the sticky mobile header. */
+#symptom-navigator-title,#symptom-guide,#location,#appointment-checklist,#when-to-call{scroll-margin-top:110px}
+@media(max-width:600px){#symptom-navigator-title,#symptom-guide,#location,#appointment-checklist,#when-to-call{scroll-margin-top:88px}}
+@media(prefers-reduced-motion:reduce){.symptom-navigator-grid a{transition:none}}
