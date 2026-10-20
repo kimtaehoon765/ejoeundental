@@ -1138,3 +1138,22 @@ for(const route of healthSitemapRoutes){
  checkedHealthMetadata++;
 }
 console.log('Health guide titles, descriptions, canonical URLs and H1 checked: '+checkedHealthMetadata);
+
+
+// Validate local links inside health guides without following external sites or phone links.
+let checkedHealthPageLinks=0;
+for(const route of healthSitemapRoutes){
+ const html=fs.readFileSync(path.join(out,route.slice(1)),'utf8');
+ for(const match of html.matchAll(/<a\b[^>]*\bhref=["'](\/(?!\/)[^"'#?]*)(?:\?[^"'#]*)?(?:#([^"']*))?["']/gi)){
+  const rawPath=match[1];
+  let decoded;
+  try{decoded=decodeURIComponent(rawPath)}catch{throw new Error('Malformed health guide link: '+route+' -> '+rawPath)}
+  if(decoded.includes('\\')||decoded.split('/').includes('..'))throw new Error('Unsafe health guide link: '+route+' -> '+rawPath);
+  const resolved=decoded.endsWith('/')?decoded+'index.html':decoded;
+  if(!resolved.endsWith('.html'))continue;
+  const destination=path.join(out,resolved.slice(1));
+  if(!fs.existsSync(destination)||!fs.statSync(destination).isFile())throw new Error('Broken health guide link: '+route+' -> '+rawPath);
+  checkedHealthPageLinks++;
+ }
+}
+console.log('Local health guide page links checked: '+checkedHealthPageLinks);
