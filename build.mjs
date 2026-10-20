@@ -1072,8 +1072,9 @@ for(const htmlFile of publicHtmlFiles){
  const links=[...toc[1].matchAll(/<a\b[^>]*href="#([^"]+)"[^>]*>/gi)].map(m=>m[1]);
  if(!links.length)throw new Error('Empty article table of contents: '+path.relative(out,htmlFile));
  if(new Set(links).size!==links.length)throw new Error('Duplicate article contents links: '+path.relative(out,htmlFile));
- const articleStart=markup.indexOf('<main class="article">');
- const articleEnd=markup.indexOf('</main>',articleStart);
+ const articleOpening=/<main\b[^>]*\bclass=["'][^"']*\barticle\b[^"']*["'][^>]*>/i.exec(markup);
+ const articleStart=articleOpening?articleOpening.index:-1;
+ const articleEnd=articleStart<0?-1:markup.indexOf('</main>',articleStart);
  if(articleStart<0||articleEnd<0)throw new Error('Article contents outside patient article: '+path.relative(out,htmlFile));
  const article=markup.slice(articleStart,articleEnd);
  const sectionIds=[...article.matchAll(/<h2\b[^>]*\bid="([^"]+)"[^>]*>/gi)].map(m=>m[1]);
