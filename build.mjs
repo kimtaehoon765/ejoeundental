@@ -1061,3 +1061,22 @@ for(const htmlFile of publicHtmlFiles){
  }
 }
 console.log('Public HTML asset references checked: '+checkedAssets+' across '+publicHtmlFiles.length+' pages');
+
+// Validate article table-of-contents links against actual heading IDs.
+let checkedArticleToc=0;
+for(const htmlFile of publicHtmlFiles){
+ const markup=fs.readFileSync(htmlFile,'utf8');
+ if(!markup.includes('class="article-toc"'))continue;
+ const toc=markup.match(/<nav\b[^>]*class="article-toc"[^>]*>([\s\S]*?)<\/nav>/i);
+ if(!toc)throw new Error('Invalid article table of contents: '+path.relative(out,htmlFile));
+ const links=[...toc[1].matchAll(/<a\b[^>]*href="#([^"]+)"[^>]*>/gi)].map(m=>m[1]);
+ if(!links.length)throw new Error('Empty article table of contents: '+path.relative(out,htmlFile));
+ const ids=[...markup.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
+ if(new Set(ids).size!==ids.length)throw new Error('Duplicate HTML ID in '+path.relative(out,htmlFile));
+ for(const id of links){
+  if(!ids.includes(id))throw new Error('Article contents link has no target: '+path.relative(out,htmlFile)+'#'+id);
+  if(!new RegExp('<h[2-6]\\b[^>]*\\bid="'+id+'"').test(markup))throw new Error('Article contents link does not point to a heading: '+path.relative(out,htmlFile)+'#'+id);
+ }
+ checkedArticleToc++;
+}
+console.log('Article table-of-contents anchors checked across '+checkedArticleToc+' pages');
