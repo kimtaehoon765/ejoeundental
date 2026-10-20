@@ -226,6 +226,8 @@ else {
   for (const intent of ['safetyIntent', 'equipmentIntent', 'giInsuranceIntent', 'gumIntent', 'retreatmentIntent']) {
     if (!script.includes('matched>0&&' + intent)) errors.push('검색어 불일치 결과 가산점 차단 누락: ' + intent);
   }
+  // Whole-query bonuses must not admit pages with no actual matched search terms.
+  if (!script.includes('if(matched>0&&normalizedQuery.length>=3)')) errors.push('검색 구문 가산점의 검색어 일치 검증 누락');
   // Search relevance boosts must not masquerade as matches to every typed word.
   if (/matched\\s*=\\s*terms\\.length/.test(script)) errors.push('검색 결과 관련도 계산에서 검색어 일치 수를 강제로 변경함');
   for (const target of ['/medical-history.html', '/dental-equipment.html', '/content/search-index.json']) {
