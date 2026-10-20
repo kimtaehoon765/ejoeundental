@@ -150,6 +150,9 @@ else {
   for (const term of ['혈액희석제', '골다공증 약', '핸드피스', '멸균기']) {
     if (!page.includes(term)) errors.push('검색 바로가기 누락: ' + term);
   }
+  for (const route of ['/curing-light-maintenance.html', '/dental-chair-maintenance.html', '/dental-xray-maintenance.html', '/endodontic-instruments-guide.html', '/equipment-log.html', '/extraction-instruments-guide.html', '/intraoral-camera-maintenance.html', '/periodontal-instruments-guide.html', '/scaler-maintenance.html']) {
+    if (!script.includes(route.slice(1, -5))) errors.push('검색 장비·기구 분류 누락: ' + route);
+  }
   // Search relevance boosts must not masquerade as matches to every typed word.
   if (/matched\\s*=\\s*terms\\.length/.test(script)) errors.push('검색 결과 관련도 계산에서 검색어 일치 수를 강제로 변경함');
   for (const target of ['/medical-history.html', '/dental-equipment.html', '/content/search-index.json']) {
