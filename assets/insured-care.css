@@ -1,0 +1,30 @@
+body{margin:0;font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;color:#2b3d36;background:#fff}a{color:inherit}.top{background:#f6f5ee;padding:20px max(5%,calc((100% - 1050px)/2));display:flex;justify-content:space-between;align-items:center;gap:15px}.top a{text-decoration:none}.logo{font-weight:800;color:#285447;font-size:21px}.nav{font-size:14px}.hero{background:#f6f5ee;padding:85px 22px 95px}.wrap{max-width:1050px;margin:auto}.eyebrow{letter-spacing:2px;color:#6a8d7b;font-size:13px;font-weight:700}.hero h1{font-size:clamp(33px,5vw,54px);line-height:1.35;color:#285447;margin:18px 0}.hero p{font-size:19px;line-height:1.9;max-width:770px}.section{padding:65px 22px}.section:nth-child(odd){background:#f8f9f5}.section h2{font-size:clamp(25px,3.5vw,34px);color:#285447}.section p{font-size:17px;line-height:1.95}.cta{background:#285447;color:white;text-align:center;padding:60px 22px}.cta a{display:inline-block;background:white;color:#285447;text-decoration:none;padding:15px 24px;border-radius:9px;font-weight:700}.note{font-size:13px!important;color:#65746d}.footer{padding:35px 22px;background:#f6f5ee;font-size:14px;line-height:1.8}
+/* Readable insured-care guide on phones and accessible related reading. */
+*{box-sizing:border-box}main{overflow-wrap:anywhere}main h1,main h2,main p{word-break:keep-all}
+a:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:4px}
+#insured-related-reading{scroll-margin-top:24px}
+#insured-related-reading a{text-underline-offset:3px;overflow-wrap:anywhere}
+@media(max-width:600px){
+ .top{padding:16px 18px;flex-wrap:wrap;gap:10px}
+ .nav{line-height:1.8}
+ .hero{padding:48px 18px 56px}
+ .hero h1{font-size:clamp(29px,7.3vw,38px);line-height:1.4}
+ .hero p{font-size:16px;line-height:1.85}
+ .section{padding:42px 18px}
+ .section h2{font-size:clamp(23px,5.8vw,29px);line-height:1.45}
+ .section p{font-size:16px;line-height:1.85}
+ .cta{padding:45px 18px}
+ #insured-related-reading a{padding-top:12px;padding-bottom:12px}
+}
+
+/* Insurance guide: prevent clipped Korean text and cramped links on phones. */
+main li,main details,main .wrap{overflow-wrap:anywhere}main li,main details p{word-break:keep-all}
+@media(max-width:600px){.section li{font-size:16px;line-height:1.85}.section a{overflow-wrap:anywhere;text-underline-offset:3px}.section details{max-width:100%}.section details p{font-size:16px;line-height:1.85}.cta a{max-width:100%;line-height:1.5;white-space:normal}}
+
+/* FAQ: touch-friendly disclosure controls on small screens. */
+section[aria-label$="자주 묻는 질문"] summary{list-style-position:outside;min-height:48px;padding:10px 6px;word-break:keep-all;overflow-wrap:anywhere}
+section[aria-label$="자주 묻는 질문"] summary:focus-visible{outline:3px solid #287d60;outline-offset:3px;border-radius:4px}
+section[aria-label$="자주 묻는 질문"] details p{word-break:keep-all;overflow-wrap:anywhere}
+@media(max-width:600px){section[aria-label$="자주 묻는 질문"] .wrap{padding-left:18px;padding-right:18px}section[aria-label$="자주 묻는 질문"] summary{font-size:16px;line-height:1.7}}
+@media(max-width:600px){.top .nav{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;font-size:14px}.top .nav a{display:inline-flex;align-items:center;min-height:44px;padding:5px 0;line-height:1.4;word-break:keep-all}.top .logo{line-height:1.5}}
+
