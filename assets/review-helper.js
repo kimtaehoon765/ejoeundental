@@ -1,2 +1,1 @@
-// Clinical reference review helper.
-// Loaded only after the private notes page is ready.
+(()=>{'use strict';const summary=document.getElementById('review-summary');const list=document.getElementById('entry-list');if(!summary||!list)return;const refresh=()=>{const items=Array.from(list.querySelectorAll('li'));const flagged=items.filter(item=>item.textContent.includes('재검토 권장')).length;summary.dataset.visibleReviewCount=String(flagged);};new MutationObserver(refresh).observe(list,{childList:true});refresh();})();
