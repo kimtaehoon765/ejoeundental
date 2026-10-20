@@ -147,6 +147,18 @@ else {
     if (!script.includes(target)) errors.push('검색 안전정보 연결 누락: ' + target);
   }
 }
+// Patient-facing pages should not lose the canonical clinic identity or mobile support.
+const patientPages = ['index.html', 'gum-treatment.html', 'retreatment.html', 'cervical-abrasion.html', 'insured-care.html', 'medical-history.html', 'search.html'];
+for (const name of patientPages) {
+  const file = join(root, name);
+  if (!existsSync(file)) { errors.push('핵심 환자 안내 페이지 누락: ' + name); continue; }
+  const page = readFileSync(file, 'utf8');
+  if (!/<html[^>]*lang=["']ko["']/i.test(page)) errors.push(name + ': 한국어 언어 표시 누락');
+  if (!/<meta[^>]*name=["']viewport["']/i.test(page)) errors.push(name + ': 모바일 viewport 누락');
+  if (!/<title>[^<]+<\/title>/i.test(page)) errors.push(name + ': 페이지 제목 누락');
+  if (!page.includes('이조은치과')) errors.push(name + ': 치과 이름 누락');
+  if (!page.includes('032-513-2875') && !page.includes('0325132875')) errors.push(name + ': 전화번호 누락');
+}
 const adminFile = join(root, 'admin/index.html');
 if (existsSync(adminFile)) {
   const admin = readFileSync(adminFile, 'utf8');
