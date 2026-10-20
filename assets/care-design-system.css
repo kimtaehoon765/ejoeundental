@@ -8,3 +8,19 @@
 .treatment-hero-actions a:focus-visible,.treatment-quick-links a:focus-visible{outline:3px solid var(--care-focus);outline-offset:3px}
 @media(max-width:600px){.treatment-hero-actions{gap:9px;margin:16px 0}.treatment-hero-actions a{min-height:48px;line-height:1.5}}
 @media(prefers-reduced-motion:reduce){.treatment-hero-actions a,.treatment-quick-links a{transition:none!important}}
+
+
+/* Shared type scale, reading width and spacing across treatment templates. */
+.gum-hero h1,.hero h1{font-size:clamp(31px,4.6vw,52px);line-height:1.35;letter-spacing:-.035em;word-break:keep-all;overflow-wrap:break-word;color:var(--care-green)}
+.gum-hero p,.hero p{font-size:clamp(16px,1.5vw,18px);line-height:1.8;word-break:keep-all}
+.gum-section h2,.section h2{font-size:clamp(25px,3.2vw,36px);line-height:1.45;letter-spacing:-.025em;word-break:keep-all;color:var(--care-green)}
+.gum-section p,.gum-section li,.section p,.section li{line-height:1.85;overflow-wrap:break-word}
+.gum-box,.gum-step,.section .card{border-radius:16px}
+@media(max-width:600px){
+ .gum-hero,.hero{padding-top:42px;padding-bottom:44px}
+ .gum-hero h1,.hero h1{font-size:clamp(28px,7vw,36px);line-height:1.38;margin:12px 0 14px}
+ .gum-hero p,.hero p{font-size:16px;line-height:1.75}
+ .gum-section,.section{padding-top:42px;padding-bottom:42px}
+ .gum-section h2,.section h2{font-size:clamp(23px,6vw,30px)}
+ .gum-box,.gum-step,.section .card{padding:18px}
+}
