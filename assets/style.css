@@ -544,3 +544,6 @@ nav[aria-label="이조은치과 주요 진료 안내"] a{display:flex;align-item
 nav[aria-label="이조은치과 주요 진료 안내"] a:focus-visible{outline:3px solid #a96b24;outline-offset:2px}
 nav[aria-label="이조은치과 주요 진료 안내"] p{margin:12px 0 0}
 @media(max-width:600px){nav[aria-label="이조은치과 주요 진료 안내"]{width:calc(100% - 28px);margin:22px auto!important;padding:16px!important}nav[aria-label="이조은치과 주요 진료 안내"] ul{grid-template-columns:1fr}nav[aria-label="이조은치과 주요 진료 안내"] a{font-size:16px}}
+
+/* Patient education: clearer mobile navigation and tap targets */
+@media(max-width:600px){.article .note p:has(> a[href^="/health/"],> a[href^="/#location"],> a[href^="tel:"]){line-height:1.55}.article .note p:has(> a[href^="/health/"],> a[href^="/#location"],> a[href^="tel:"]) > a{display:inline-flex;align-items:center;justify-content:flex-start;min-height:48px;padding:10px 12px;margin:4px 3px 4px 0;border:1px solid #c6d7cb;border-radius:9px;background:#fff;color:#174a3a;text-decoration:none;font-weight:600}.article .note p:has(> a[href^="/health/"],> a[href^="/#location"],> a[href^="tel:"]) > a[href^="tel:"]{background:#174a3a;color:#fff;border-color:#174a3a}.article .note p:has(> a[href^="/health/"],> a[href^="/#location"],> a[href^="tel:"]) > a:focus-visible{outline:3px solid #287d60;outline-offset:2px}}
