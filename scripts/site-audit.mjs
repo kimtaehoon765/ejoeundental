@@ -27,7 +27,9 @@ for (const f of html) {
   if (!/<title>[^<]+<\/title>/i.test(body)) errors.push(relative + ': title 누락');
   if (!/<meta\s+name=["']description["']/i.test(body)) warnings.push(relative + ': description 누락');
   for (const match of body.matchAll(/\b(?:href|src)=["'](\/[^"'?#]*)/gi)) {
-    const target = decodeURIComponent(match[1]);
+    let target;
+    try { target = decodeURIComponent(match[1]); }
+    catch { errors.push(relative + ': 잘못된 URL 인코딩 ' + match[1]); continue; }
     if (target.startsWith('//') || target === '/') continue;
     if (!paths.has(target) && !paths.has(target + 'index.html') && !paths.has(target + '/index.html')) {
       warnings.push(relative + ': 내부 경로 확인 ' + target);
@@ -39,7 +41,9 @@ if (!existsSync(sitemap)) errors.push('sitemap.xml 누락');
 else {
   const xml = readFileSync(sitemap, 'utf8');
   for (const m of xml.matchAll(/<loc>https?:\/\/[^/]+(\/[^<]*)<\/loc>/g)) {
-    const p = decodeURIComponent(m[1]);
+    let p;
+    try { p = decodeURIComponent(m[1]); }
+    catch { errors.push('사이트맵 URL 인코딩 오류: ' + m[1]); continue; }
     if (p !== '/' && !paths.has(p.slice(0, 1) === '/' ? p : '/' + p) && !paths.has(p + 'index.html')) {
       errors.push('사이트맵 대상 파일 누락: ' + p);
     }
