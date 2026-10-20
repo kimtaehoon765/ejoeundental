@@ -39,6 +39,9 @@ for (const f of html) {
   if (description !== undefined && description.length > 190) {
     warnings.push(relative + ': 검색 설명이 190자를 초과함');
   }
+  if (relative.startsWith('health/') && !body.includes('name="robots" content="noindex') && !body.includes('rel="canonical"')) {
+    errors.push(relative + ': 건강정보 페이지 canonical 누락');
+  }
   if (!body.includes('name="viewport"')) warnings.push(relative + ': 모바일 viewport 누락');
   if (relative !== 'admin/index.html' && !body.includes('rel="canonical"') && !body.includes('name="robots" content="noindex')) {
     warnings.push(relative + ': canonical 또는 noindex 설정 확인');
