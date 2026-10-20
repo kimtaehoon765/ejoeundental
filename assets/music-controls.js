@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   button.addEventListener('click',async()=>{
     if(!audio.paused){audio.pause();return}
     if(document.hidden)return;
+    if(!audio.getAttribute('src')&&audio.dataset.src)audio.src=audio.dataset.src;
     status.textContent='음악 연결 중…';
     try{await audio.play()}catch{
       button.setAttribute('aria-pressed','false');
