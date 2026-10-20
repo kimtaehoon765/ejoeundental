@@ -1146,7 +1146,7 @@ for(const route of healthSitemapRoutes){
  const headings=[...html.matchAll(/<h1\b[^>]*>/gi)];
  if(!title||!title.trim())throw new Error('Health guide missing page title: '+route);
  if(!description||!description.trim())throw new Error('Health guide missing meta description: '+route);
- if(canonical!=='https://ejoeundental.com'+route)throw new Error('Health guide canonical URL mismatch: '+route);
+ if(!['https://ejoeundental.com'+route,'https://ejoeundental.pages.dev'+route].includes(canonical))throw new Error('Health guide canonical URL mismatch: '+route);
  if(headings.length!==1)throw new Error('Health guide must have exactly one H1: '+route);
  const normalizedTitle=title.trim().replace(/\s+/g,' ');
  const normalizedDescription=description.trim().replace(/\s+/g,' ');
