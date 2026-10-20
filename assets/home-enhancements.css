@@ -62,3 +62,9 @@
 .alternating-hours-card span{font-size:15px;overflow-wrap:anywhere}
 .alternating-hours>p{margin:12px 0 0;font-size:14px;line-height:1.65}
 @media(max-width:600px){.alternating-hours-grid{grid-template-columns:1fr}.alternating-hours-card{padding:14px}.alternating-hours-card span{font-size:16px}}
+
+/* Direct call button within alternating-hours card */
+.alternating-hours .alternating-hours-call{box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;width:100%;min-height:48px;margin-top:14px;padding:12px 16px;border-radius:9px;background:#173e35;color:#fff;text-align:center;font-size:16px;font-weight:700;line-height:1.5;text-decoration:none}
+.alternating-hours .alternating-hours-call span{white-space:nowrap}
+.alternating-hours .alternating-hours-call:focus-visible{outline:3px solid #a96b24;outline-offset:3px}
+@media(max-width:600px){.alternating-hours .alternating-hours-call{min-height:52px;padding:12px 10px;font-size:15px}}
