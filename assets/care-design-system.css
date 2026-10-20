@@ -1,0 +1,10 @@
+/* Unified visual tokens for the four primary patient-care pages. */
+:root{--care-green:#173e35;--care-green-soft:#245d4b;--care-cream:#f7f4ec;--care-ink:#203c32;--care-focus:#a96b24}
+.treatment-quick-links{background:var(--care-cream);border-bottom-color:#dbe4d9}
+.treatment-quick-links a{color:var(--care-green);border-color:#d4dfd4}
+.treatment-hero-actions .treatment-hero-call{background:var(--care-green);color:#fff}
+.treatment-hero-actions .treatment-hero-location{background:#fff;color:var(--care-green);border:1px solid var(--care-green)}
+.treatment-hero-actions a:hover{box-shadow:0 4px 14px rgba(23,62,53,.16)}
+.treatment-hero-actions a:focus-visible,.treatment-quick-links a:focus-visible{outline:3px solid var(--care-focus);outline-offset:3px}
+@media(max-width:600px){.treatment-hero-actions{gap:9px;margin:16px 0}.treatment-hero-actions a{min-height:48px;line-height:1.5}}
+@media(prefers-reduced-motion:reduce){.treatment-hero-actions a,.treatment-quick-links a{transition:none!important}}
