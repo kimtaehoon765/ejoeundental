@@ -1109,3 +1109,15 @@ for(const htmlFile of publicHtmlFiles){
  }
 }
 console.log('Keyboard skip links checked: '+checkedSkipLinks);
+
+
+// Every public health guide in the sitemap must retain its accessible contents navigation.
+const healthSitemapRoutes=sitemapLocations.map(location=>new URL(location).pathname).filter(route=>/^\/health\/[^/]+\.html$/.test(route));
+if(!healthSitemapRoutes.length)throw new Error('No patient health articles found in sitemap');
+for(const route of healthSitemapRoutes){
+ const html=fs.readFileSync(path.join(out,route.slice(1)),'utf8');
+ if(!/<nav\b[^>]*class=["'][^"']*\barticle-toc\b[^"']*["']/i.test(html))throw new Error('Sitemap health article is missing contents navigation: '+route);
+ if(!/<a\b[^>]*class=["'][^"']*\barticle-skip-link\b[^"']*["']/i.test(html))throw new Error('Sitemap health article is missing skip navigation: '+route);
+}
+if(checkedArticleToc<healthSitemapRoutes.length)throw new Error('Fewer validated article contents than sitemap health articles');
+console.log('Sitemap health guides with contents and skip navigation checked: '+healthSitemapRoutes.length);
