@@ -144,6 +144,21 @@ for (const treatment of ['gum-treatment.html', 'retreatment.html', 'cervical-abr
   if (!page.includes('032-513-2875') || !page.includes('세월천로 34')) errors.push(treatment + ': 방문 안내 정보 누락');
   if (!page.includes('/#location')) errors.push(treatment + ': 진료시간 안내 링크 누락');
 }
+// Homepage in-page navigation must point to an existing section or landmark.
+if (existsSync(homepageFile)) {
+  const home = readFileSync(homepageFile, 'utf8');
+  const ids = new Set([...home.matchAll(/\bid=["']([^"']+)["']/gi)].map(match => match[1]));
+  let checkedAnchors = 0;
+  for (const match of home.matchAll(/\bhref=["']#([^"']+)["']/gi)) {
+    let fragment;
+    try { fragment = decodeURIComponent(match[1]); }
+    catch { errors.push('홈페이지 잘못된 앵커 인코딩: ' + match[1]); continue; }
+    if (!fragment || fragment === 'top') continue;
+    checkedAnchors++;
+    if (!ids.has(fragment)) errors.push('홈페이지 앵커 목적지 누락: #' + fragment);
+  }
+  console.log('Homepage fragment links checked:', checkedAnchors);
+}
 // Protect the patient symptom shortcuts and local search entry points against regressions.
 if (existsSync(homepageFile)) {
   const home = readFileSync(homepageFile, 'utf8');
