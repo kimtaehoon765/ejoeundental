@@ -1071,6 +1071,7 @@ for(const htmlFile of publicHtmlFiles){
  if(!toc)throw new Error('Invalid article table of contents: '+path.relative(out,htmlFile));
  const links=[...toc[1].matchAll(/<a\b[^>]*href="#([^"]+)"[^>]*>/gi)].map(m=>m[1]);
  if(!links.length)throw new Error('Empty article table of contents: '+path.relative(out,htmlFile));
+ if(!/<nav\b[^>]*class=["'][^"']*\barticle-toc\b[^"']*["'][^>]*\baria-label=["'][^"']+["']/i.test(markup))throw new Error('Article table of contents needs an accessible label: '+path.relative(out,htmlFile));
  if(new Set(links).size!==links.length)throw new Error('Duplicate article contents links: '+path.relative(out,htmlFile));
  const articleOpening=/<main\b[^>]*\bclass=["'][^"']*\barticle\b[^"']*["'][^>]*>/i.exec(markup);
  const articleStart=articleOpening?articleOpening.index:-1;
