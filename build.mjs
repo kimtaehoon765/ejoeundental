@@ -975,8 +975,10 @@ const runtimeSearch=JSON.parse(fs.readFileSync(path.join(out,'content/search-ind
 const runtimeFees=JSON.parse(fs.readFileSync(path.join(out,'content/fees-index.json'),'utf8'));
 if(!Array.isArray(runtimePosts))throw new Error('Invalid runtime post index');
 if(!Array.isArray(runtimeSearch))throw new Error('Invalid runtime search index');
+const searchIndexUrls=new Set();
 if(runtimeSearch.length===0)throw new Error('Empty runtime search index');
 for(const entry of runtimeSearch){
+ if(entry&&typeof entry.url==='string'){if(searchIndexUrls.has(entry.url))throw new Error('Duplicate runtime search URL: '+entry.url);searchIndexUrls.add(entry.url)}
  if(!entry||typeof entry.title!=='string'||!entry.title.trim()||typeof entry.url!=='string'||!entry.url.startsWith('/')||entry.url.startsWith('//')||entry.url.includes('?')||entry.url.includes('#'))throw new Error('Invalid runtime search entry');
  const route=entry.url.split(/[?#]/)[0];
  if(route!=='/'&&(!/^\/[a-z0-9_/%.-]+\/?$/i.test(route)||route.includes('..')))throw new Error('Unsafe runtime search URL: '+entry.url);
