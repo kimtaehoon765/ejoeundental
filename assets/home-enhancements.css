@@ -108,3 +108,16 @@
  #focus-care .grid>.card a,#symptoms .grid>.card a,#care .grid>.card a{display:inline-block;min-height:44px;box-sizing:border-box;padding:9px 0;line-height:1.6}
  #focus-care .grid>.card a+a,#symptoms .grid>.card a+a,#care .grid>.card a+a{margin-top:3px}
 }
+
+/* Mobile first-screen priorities */
+@media(max-width:600px){
+ .hero{min-width:0;gap:18px}
+ .hero h1{font-size:clamp(27px,7vw,36px);line-height:1.4;word-break:keep-all;overflow-wrap:anywhere}
+ .hero #intro{font-size:16px;line-height:1.8;word-break:keep-all}
+ .hero .hero-actions{display:grid;grid-template-columns:minmax(0,1fr);gap:9px;margin:18px 0}
+ .hero .hero-actions .btn{box-sizing:border-box;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;width:100%;min-width:0;min-height:50px;margin:0;padding:12px 14px;text-align:center;white-space:normal;line-height:1.5}
+ .hero .hero-care-summary{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+ .hero .hero-care-summary a{display:block;box-sizing:border-box;min-width:0;min-height:48px;padding:12px 13px;line-height:1.6;word-break:keep-all}
+ .hero .hero-visit-note{font-size:14px;line-height:1.75;word-break:keep-all}
+ .hero .art{max-width:100%}
+}
