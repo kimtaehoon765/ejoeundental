@@ -1120,6 +1120,16 @@ for(const route of healthSitemapRoutes){
  if(!/<a\b[^>]*class=["'][^"']*\barticle-skip-link\b[^"']*["']/i.test(html))throw new Error('Sitemap health article is missing skip navigation: '+route);
 }
 if(checkedArticleToc<healthSitemapRoutes.length)throw new Error('Fewer validated article contents than sitemap health articles');
+for(const route of healthSitemapRoutes){
+ const html=fs.readFileSync(path.join(out,route.slice(1)),'utf8');
+ const tocStart=html.search(/<nav\b[^>]*class=["'][^"']*\barticle-toc\b/i);
+ const mainStart=html.search(/<main\b[^>]*class=["'][^"']*\barticle\b/i);
+ const firstHeading=html.search(/<h2\b/i);
+ if(mainStart<0||tocStart<mainStart||firstHeading<tocStart)throw new Error('Health guide contents navigation must precede the first section: '+route);
+ const skip=html.match(/<a\b[^>]*class=["'][^"']*\barticle-skip-link\b[^"']*["'][^>]*>/i)?.[0];
+ if(!skip||!/\bhref=["']#article-main["']/.test(skip))throw new Error('Health guide skip link must target #article-main: '+route);
+}
+
 console.log('Sitemap health guides with contents and skip navigation checked: '+healthSitemapRoutes.length);
 
 
