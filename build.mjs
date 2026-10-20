@@ -1175,3 +1175,18 @@ for(const route of healthSitemapRoutes){
  }
 }
 console.log('Local health guide page links checked: '+checkedHealthPageLinks);
+
+
+// Patient safety and practical access: every published health article needs a disclaimer and contact route.
+let checkedHealthPatientInfo=0;
+for(const route of healthSitemapRoutes){
+ const html=fs.readFileSync(path.join(out,route.slice(1)),'utf8');
+ const main=html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
+ if(!main)throw new Error('Health article missing main content: '+route);
+ const notices=[...main.matchAll(/<small\b[^>]*>([\s\S]*?)<\/small>/gi)].map(m=>m[1].replace(/<[^>]+>/g,'').trim());
+ if(!notices.some(note=>note.includes('건강정보')||note.includes('일반적인 정보')))throw new Error('Health article missing general-information disclaimer: '+route);
+ if(!/<a\b[^>]*href=["']tel:0325132875["']/i.test(main))throw new Error('Health article missing clinic phone link: '+route);
+ if(!/<a\b[^>]*href=["']\/#location["']/i.test(main))throw new Error('Health article missing location and hours link: '+route);
+ checkedHealthPatientInfo++;
+}
+console.log('Health article safety notices and contact links checked: '+checkedHealthPatientInfo);
