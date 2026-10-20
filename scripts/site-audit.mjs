@@ -116,6 +116,37 @@ for (const treatment of ['gum-treatment.html', 'retreatment.html', 'cervical-abr
   if (!page.includes('032-513-2875') || !page.includes('세월천로 34')) errors.push(treatment + ': 방문 안내 정보 누락');
   if (!page.includes('/#location')) errors.push(treatment + ': 진료시간 안내 링크 누락');
 }
+// Protect the patient symptom shortcuts and local search entry points against regressions.
+if (existsSync(homepageFile)) {
+  const home = readFileSync(homepageFile, 'utf8');
+  const quickStart = home.indexOf('class="symptom-navigator wrap"');
+  const heroStart = home.indexOf('class="hero wrap"');
+  const localStart = home.indexOf('id="local-care"');
+  if (quickStart < 0) errors.push('홈페이지 증상별 바로가기 누락');
+  else {
+    if (heroStart < 0 || quickStart < heroStart || (localStart >= 0 && quickStart > localStart)) errors.push('홈페이지 증상별 바로가기 배치 오류');
+    const quickEnd = home.indexOf('</section>', quickStart);
+    const quick = home.slice(quickStart, quickEnd < 0 ? undefined : quickEnd);
+    for (const target of ['/health/gum-bleeding.html', '/health/swollen-gums.html', '/health/abrasion-sensitive.html', '/health/root-canal-after-pain.html', '/health/loose-tooth.html', '/health/denture-loose.html']) {
+      if (!quick.includes('href="' + target + '"')) errors.push('증상별 바로가기 연결 누락: ' + target);
+    }
+  }
+}
+const searchPage = join(root, 'search.html');
+const searchScript = join(root, 'assets/search.js');
+if (!existsSync(searchPage) || !existsSync(searchScript)) errors.push('홈페이지 검색 화면 또는 스크립트 누락');
+else {
+  const page = readFileSync(searchPage, 'utf8');
+  const script = readFileSync(searchScript, 'utf8');
+  if (!page.includes('id="q"') || !page.includes('id="results"') || !page.includes('id="status"')) errors.push('검색 입력 또는 결과 표시 영역 누락');
+  if (!page.includes('/assets/search.js')) errors.push('검색 스크립트 연결 누락');
+  for (const term of ['혈액희석제', '골다공증 약', '핸드피스', '멸균기']) {
+    if (!page.includes(term)) errors.push('검색 바로가기 누락: ' + term);
+  }
+  for (const target of ['/medical-history.html', '/dental-equipment.html', '/content/search-index.json']) {
+    if (!script.includes(target)) errors.push('검색 안전정보 연결 누락: ' + target);
+  }
+}
 const adminFile = join(root, 'admin/index.html');
 if (existsSync(adminFile)) {
   const admin = readFileSync(adminFile, 'utf8');
