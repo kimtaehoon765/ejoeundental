@@ -166,6 +166,25 @@ for (const name of patientPages) {
   if (!page.includes('이조은치과')) errors.push(name + ': 치과 이름 누락');
   if (!page.includes('032-513-2875') && !page.includes('0325132875')) errors.push(name + ': 전화번호 누락');
 }
+// Verify practical visit details are kept together for patients on mobile.
+if (existsSync(homepageFile)) {
+  const home = readFileSync(homepageFile, 'utf8');
+  const visit = home.indexOf('class="visit-quick-facts"');
+  const parking = home.indexOf('class="parking-info"');
+  if (visit < 0 || parking < 0 || visit > parking) errors.push('방문 핵심정보 카드 위치 또는 표시 누락');
+  else {
+    const summary = home.slice(visit, parking);
+    for (const detail of ['세월천로 34', '대우프라자 305호', '3시간 무료', '격주 운영']) {
+      if (!summary.includes(detail)) errors.push('방문 핵심정보 누락: ' + detail);
+    }
+  }
+  if (!home.includes('href="tel:0325132875"')) errors.push('전화 연결 누락');
+}
+const enhancements = join(root, 'assets/home-enhancements.css');
+if (existsSync(enhancements)) {
+  const css = readFileSync(enhancements, 'utf8');
+  if (!css.includes('.visit-quick-facts')) errors.push('방문 핵심정보 스타일 누락');
+}
 const adminFile = join(root, 'admin/index.html');
 if (existsSync(adminFile)) {
   const admin = readFileSync(adminFile, 'utf8');
