@@ -1036,3 +1036,26 @@ for(const [route,fragment] of [
  }
 }
 console.log('Sitemap ('+sitemapLocations.length+' URLs) and search recommendation audit passed');
+
+
+// Audit local stylesheet and script references in public HTML pages.
+const publicHtmlFiles=[];
+function collectHtml(directory){
+ for(const entry of fs.readdirSync(directory,{withFileTypes:true})){
+  if(entry.name==='admin')continue;
+  const absolute=path.join(directory,entry.name);
+  if(entry.isDirectory())collectHtml(absolute);
+  else if(entry.name.endsWith('.html'))publicHtmlFiles.push(absolute);
+ }
+}
+collectHtml(out);
+let checkedAssets=0;
+for(const htmlFile of publicHtmlFiles){
+ const markup=fs.readFileSync(htmlFile,'utf8');
+ for(const match of markup.matchAll(/<(?:script|link)\b[^>]*?\b(?:src|href)=["'](\/assets\/[^"'?#]+)(?:[?#][^"']*)?["'][^>]*>/gi)){
+  const asset=path.join(out,match[1].slice(1));
+  if(!fs.existsSync(asset)||!fs.statSync(asset).isFile())throw new Error('Missing linked asset in '+path.relative(out,htmlFile)+': '+match[1]);
+  checkedAssets++;
+ }
+}
+console.log('Public HTML asset references checked: '+checkedAssets+' across '+publicHtmlFiles.length+' pages');
