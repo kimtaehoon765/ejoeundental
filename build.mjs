@@ -1015,7 +1015,8 @@ for(const location of sitemapLocations){
  if(!['https://ejoeundental.com','https://ejoeundental.pages.dev'].includes(url.origin))throw new Error('Unexpected sitemap origin: '+location);
  if(seenSitemap.has(url.pathname))throw new Error('Duplicate sitemap path: '+url.pathname);
  seenSitemap.add(url.pathname);
- const destination=url.pathname==='/'?path.join(out,'index.html'):path.join(out,decodeURIComponent(url.pathname.slice(1)));
+ const routePath=decodeURIComponent(url.pathname.slice(1));
+ const destination=url.pathname==='/'?path.join(out,'index.html'):path.join(out,routePath.endsWith('/')?routePath+'index.html':routePath);
  if(!fs.existsSync(destination)||!fs.statSync(destination).isFile())throw new Error('Sitemap target missing: '+location);
 }
 for(const [route,fragment] of [
