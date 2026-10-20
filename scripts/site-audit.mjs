@@ -26,9 +26,10 @@ for (const f of html) {
   if (!/<html\b[^>]*lang=["']ko["']/i.test(body)) warnings.push(relative + ': 한국어 lang 확인');
   if (!/<title>[^<]+<\/title>/i.test(body)) errors.push(relative + ': title 누락');
   if (!/<meta\s+name=["']description["']/i.test(body)) warnings.push(relative + ': description 누락');
-  const pageTitle = body.match(/<title>([^<]+)<\\/title>/i)?.[1]?.trim();
+  const pageTitle = body.split('<title>')[1]?.split('</title>')[0]?.trim();
   if (pageTitle && pageTitle.length > 75) warnings.push(relative + ': 검색 제목이 75자를 초과함');
-  const description = body.match(/<meta\\s+name=["']description["']\\s+content=["']([^"']*)["']/i)?.[1];
+  const descriptionTag = body.split('<meta name="description" content="')[1];
+  const description = descriptionTag?.split('"')[0];
   if (description !== undefined && description.trim().length < 30 && !relative.startsWith('admin/')) {
     warnings.push(relative + ': 검색 설명이 너무 짧음');
   }
