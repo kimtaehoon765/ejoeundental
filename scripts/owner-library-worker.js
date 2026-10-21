@@ -8,7 +8,9 @@ function safeEqual(a,b){if(a.length!==b.length)return false;let diff=0;for(let i
 export default {
  async fetch(request,env){
   // Never serve ANY asset without a configured server-side secret.
-  if(!env.OWNER_PASSWORD || env.OWNER_PASSWORD.length<16 || !env.ASSETS)return denied();
+  if(typeof env?.OWNER_PASSWORD!=='string' || env.OWNER_PASSWORD.length<16 || typeof env?.ASSETS?.fetch!=='function')return denied();
+  const url=new URL(request.url);
+  if(url.protocol!=='https:')return new Response('HTTPS required',{status:403,headers:{'Cache-Control':'no-store'}});
   const auth=request.headers.get('Authorization')||'';
   if(!auth.startsWith('Basic '))return unauthorized();
   let raw;
