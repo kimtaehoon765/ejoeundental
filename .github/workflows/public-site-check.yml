@@ -10,6 +10,7 @@ on:
       - 'retreatment.html'
       - 'insured-care.html'
       - 'medical-history.html'
+      - 'medical-safety-guide.html'
       - 'scripts/**'
       - 'sitemap.xml'
       - 'robots.txt'
@@ -38,9 +39,12 @@ jobs:
         run: npm run build:check
       - name: Verify first-visit page is included
         run: |
+          test -s dist/medical-safety-guide.html
           test -s dist/visit-guide.html
           grep -q 'href="/visit-guide.html"' dist/index.html
           grep -q 'visit-guide.html' dist/sitemap.xml
+          grep -q 'medical-safety-guide.html' dist/sitemap.xml
+          grep -q 'href="/medical-safety-guide.html"' dist/index.html
           test -s dist/gum-treatment-faq.html
           test -s dist/root-canal-retreatment-faq.html
           test -s dist/dental-insurance-faq.html
