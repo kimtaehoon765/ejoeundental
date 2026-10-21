@@ -13,6 +13,7 @@
     "test:owner:all": "npm run test:owner && npm run test:owner:auth",
     "check:domain": "node scripts/domain-readiness.mjs",
     "check:origin": "node scripts/verify-public-origin.mjs",
-    "build:production:check": "SITE_PUBLIC_ORIGIN=https://ejoeundental.com npm run build && SITE_PUBLIC_ORIGIN=https://ejoeundental.com npm run check:origin"
+    "build:production:check": "SITE_PUBLIC_ORIGIN=https://ejoeundental.com npm run build && SITE_PUBLIC_ORIGIN=https://ejoeundental.com npm run check:origin",
+    "build:preview:check": "npm run build && npm run audit && npm run check:origin"
   }
 }
