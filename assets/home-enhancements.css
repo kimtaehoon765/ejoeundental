@@ -284,3 +284,12 @@
 .home-care-paths__grid a:hover{border-color:#69947d;box-shadow:0 10px 24px #20382d14}
 .home-care-paths__grid a:focus-visible{outline:3px solid #ad7937;outline-offset:4px}
 @media(max-width:640px){.home-care-paths{margin:30px auto}.home-care-paths__grid{grid-template-columns:1fr}.home-care-paths__grid a{min-height:0;padding:22px}}
+
+/* Consistent, responsive patient resources section. */
+.home-previsit-links{max-width:1080px;margin:36px auto 50px;padding:0 18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.home-previsit-links>aside,.home-previsit-links>nav,.home-previsit-links>p{max-width:none!important;width:100%;margin:0!important;padding:22px!important;border-radius:8px!important;text-align:left!important;min-width:0}
+.home-previsit-links>nav[aria-label="자주 묻는 진료 질문"]{grid-column:1/-1}
+.home-previsit-links a{display:inline-flex;align-items:center;min-height:44px;line-height:1.5;text-underline-offset:4px;overflow-wrap:anywhere}
+.home-previsit-links a:focus-visible{outline:3px solid #ad7937;outline-offset:3px}
+.home-previsit-links>nav div{gap:10px 18px!important}
+@media(max-width:700px){.home-previsit-links{grid-template-columns:1fr;gap:12px;margin:26px auto 34px}.home-previsit-links>nav[aria-label="자주 묻는 진료 질문"]{grid-column:auto}.home-previsit-links>aside,.home-previsit-links>nav,.home-previsit-links>p{padding:20px!important}}
