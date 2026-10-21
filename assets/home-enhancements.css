@@ -305,3 +305,8 @@
 .hero .kicker{letter-spacing:.15em}
 .hero .hero-actions a:focus-visible,.hero .hero-care-summary a:focus-visible{outline:3px solid #ad7937;outline-offset:4px}
 @media(max-width:640px){.hero #headline{font-size:clamp(1.85rem,7vw,2.7rem);line-height:1.38}.hero #intro{font-size:1rem;line-height:1.8}.hero .hero-actions a{min-height:48px}}
+
+/* Respect fixed header height when navigating to in-page information. */
+html{scroll-padding-top:92px}
+#main-content section[id],#main-content [id="symptom-navigator-title"],#main-content [id="home-symptom-query"],#main-content [id="appointment-checklist"],#main-content [id="location"],#main-content [id="parking-details"],#main-content [id="weekly-hours"]{scroll-margin-top:100px}
+@media(max-width:700px){html{scroll-padding-top:116px}#main-content section[id],#main-content [id="symptom-navigator-title"],#main-content [id="home-symptom-query"],#main-content [id="appointment-checklist"],#main-content [id="location"],#main-content [id="parking-details"],#main-content [id="weekly-hours"]{scroll-margin-top:124px}}
