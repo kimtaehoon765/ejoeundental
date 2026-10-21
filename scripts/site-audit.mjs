@@ -406,6 +406,22 @@ for (const [source,faq] of [
  const file=join(root,source);
  if (!existsSync(file) || !readFileSync(file,'utf8').includes('href="/'+faq+'"')) errors.push('전신질환 상세 페이지 FAQ 링크 누락: '+source);
 }
+// Keep the patient safety hub discoverable and all critical resources connected.
+const safetyHub = join(root,'medical-safety-guide.html');
+if (!existsSync(safetyHub)) errors.push('환자 안전정보 모음 페이지 배포 누락');
+else {
+ const hub=readFileSync(safetyHub,'utf8');
+ for (const target of ['medication-dental-faq.html','systemic-disease-dental-faq.html','medical-history.html','visit-guide.html']) {
+  if (!hub.includes('href="/'+target+'"')) errors.push('환자 안전정보 모음 링크 누락: '+target);
+ }
+ if (!hub.includes('임의로 중단하지 마세요')) errors.push('환자 안전정보 모음 복용약 경고 누락');
+ if (!hub.includes('https://ejoeundental.pages.dev/medical-safety-guide.html')) errors.push('환자 안전정보 모음 canonical 불일치');
+}
+if (!existsSync(sitemapFile) || !readFileSync(sitemapFile,'utf8').includes('https://ejoeundental.pages.dev/medical-safety-guide.html')) errors.push('환자 안전정보 모음 사이트맵 누락');
+for (const source of ['index.html','visit-guide.html','medical-history.html']) {
+ const file=join(root,source);
+ if (!existsSync(file) || !readFileSync(file,'utf8').includes('href="/medical-safety-guide.html"')) errors.push('환자 안전정보 모음 진입 링크 누락: '+source);
+}
 const adminFile = join(root, 'admin/index.html');
 if (existsSync(adminFile)) {
   const admin = readFileSync(adminFile, 'utf8');
