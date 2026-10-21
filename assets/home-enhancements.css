@@ -193,3 +193,12 @@
 
 /* Comfortable tap targets and readable visit shortcuts on narrow phones. */
 @media(max-width:650px){.visit-quick-facts>div{display:block}.visit-quick-facts strong{display:block;margin-bottom:4px}.visit-quick-facts span{display:block;text-align:left;font-size:14px}.visit-quick-facts a{min-height:44px;display:inline-flex;align-items:center;margin-top:2px;padding:7px 2px;line-height:1.4}}
+
+/* Safety-first navigation from symptoms to medication and medical-history guides. */
+.symptom-previsit{margin:20px 0 4px;padding:18px 20px;border:1px solid #d4e4d8;border-left:4px solid #527b62;border-radius:12px;background:#f8faf6}
+.symptom-previsit>strong{display:block;color:#173e35;font-size:17px}
+.symptom-previsit p{margin:8px 0 12px;line-height:1.7;word-break:keep-all}
+.symptom-previsit-links{display:flex;flex-wrap:wrap;gap:8px 14px}
+.symptom-previsit-links a{display:inline-flex;align-items:center;min-height:44px;font-weight:700;color:#173e35;text-underline-offset:3px}
+.symptom-previsit-links a:focus-visible{outline:3px solid #a47837;outline-offset:3px;border-radius:3px}
+@media(max-width:520px){.symptom-previsit{padding:16px 14px}.symptom-previsit-links{display:grid;gap:3px}.symptom-previsit-links a{min-height:44px}}
