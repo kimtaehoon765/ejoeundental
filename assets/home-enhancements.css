@@ -333,3 +333,15 @@ html{scroll-padding-top:92px}
 #stories #post-list a.post-card:hover h3{text-decoration-thickness:2px}
 #stories #post-list article.card:focus-within{outline:3px solid #a47837;outline-offset:3px}
 #stories #post-list article.card .article-card-action{pointer-events:none}
+
+/* Patient guidance in the footer: responsive, scannable and easy to tap. */
+.footer .footer-care-panel,.footer .footer-care-nav{box-sizing:border-box;max-width:960px;margin:24px auto;padding:clamp(20px,4vw,28px);border:1px solid #d6e7e8;border-radius:16px;background:#f1f9f9;color:#173e35}
+.footer .footer-care-nav{background:#fffdf8;margin-top:16px}
+.footer .footer-care-panel h2{margin:0 0 12px;font-size:clamp(20px,3vw,25px);line-height:1.4}
+.footer .footer-care-panel p{line-height:1.8}
+.footer .footer-care-link{font-weight:700;text-underline-offset:4px}
+.footer .footer-care-nav-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0 0;line-height:1.5}
+.footer .footer-care-nav-links a{display:flex;align-items:center;min-height:48px;padding:12px 14px;border:1px solid #d6e7e8;border-radius:10px;background:#fff;color:#173e35;text-decoration:none;font-weight:650;word-break:keep-all}
+.footer .footer-care-nav-links a:hover{background:#e5efe7}
+.footer .footer-care-nav a:focus-visible,.footer .footer-care-panel a:focus-visible{outline:3px solid #a47837;outline-offset:3px}
+@media(max-width:640px){.footer .footer-care-nav-links{grid-template-columns:1fr}.footer .footer-care-panel,.footer .footer-care-nav{margin-left:16px;margin-right:16px}}
