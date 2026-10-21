@@ -262,9 +262,12 @@ if (existsSync(homepageFile)) {
   if (visit < 0 || parking < 0 || visit > parking) errors.push('방문 핵심정보 카드 위치 또는 표시 누락');
   else {
     const summary = home.slice(visit, parking);
-    for (const detail of ['세월천로 34', '대우프라자 305호', '3시간 무료', '격주 운영']) {
+    for (const detail of ['세월천로 34', '대우프라자 305호', '3시간 무료', '격주 운영', 'href="#parking-details"', 'href="#weekly-hours"', 'href="tel:0325132875"']) {
       if (!summary.includes(detail)) errors.push('방문 핵심정보 누락: ' + detail);
     }
+  }
+  for (const anchor of ['parking-details', 'weekly-hours']) {
+    if (!home.includes('id="' + anchor + '"')) errors.push('방문 정보 상세 이동 위치 누락: ' + anchor);
   }
   if (!home.includes('href="tel:0325132875"')) errors.push('전화 연결 누락');
 }
