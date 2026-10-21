@@ -345,3 +345,7 @@ html{scroll-padding-top:92px}
 .footer .footer-care-nav-links a:hover{background:#e5efe7}
 .footer .footer-care-nav a:focus-visible,.footer .footer-care-panel a:focus-visible{outline:3px solid #a47837;outline-offset:3px}
 @media(max-width:640px){.footer .footer-care-nav-links{grid-template-columns:1fr}.footer .footer-care-panel,.footer .footer-care-nav{margin-left:16px;margin-right:16px}}
+
+/* Copyright belongs below patient information, not between contact details and links. */
+.footer .footer-copyright{max-width:960px;margin:24px auto 0;padding:18px 0 0;border-top:1px solid rgba(23,62,53,.18);text-align:center;font-size:13px}
+@media(max-width:640px){.footer .footer-copyright{margin-left:16px;margin-right:16px}}
