@@ -331,14 +331,14 @@ else {
   for (const detail of ['격주', '3시간 무료', '12:30', '18:00', '임의로 중단하지 마세요', 'href="tel:0325132875"']) {
     if (!guide.includes(detail)) errors.push('방문 안내 필수정보 누락: ' + detail);
   }
-  if (!guide.includes('rel="canonical" href="https://ejoeundental.com/visit-guide.html"')) errors.push('방문 안내 canonical 주소 누락');
+  if (!guide.includes('rel="canonical" href="https://ejoeundental.pages.dev/visit-guide.html"')) errors.push('방문 안내 canonical 주소 누락');
 }
 if (existsSync(homepageFile)) {
   const home = readFileSync(homepageFile, 'utf8');
   if (!home.includes('href="/visit-guide.html"')) errors.push('홈페이지에서 방문 전 안내 연결 누락');
 }
 const sitemapFile = join(root, 'sitemap.xml');
-if (!existsSync(sitemapFile) || !readFileSync(sitemapFile, 'utf8').includes('https://ejoeundental.com/visit-guide.html')) errors.push('방문 안내 사이트맵 누락');
+if (!existsSync(sitemapFile) || !readFileSync(sitemapFile, 'utf8').includes('https://ejoeundental.pages.dev/visit-guide.html')) errors.push('방문 안내 사이트맵 누락');
 // Keep new patient FAQs published, discoverable, and consistent with on-page answers.
 for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq']) {
   const route = '/' + slug + '.html';
@@ -349,7 +349,7 @@ for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-ins
   if ((page.match(/<section class="card">/g) || []).length < 6) errors.push('FAQ 질문 수 부족: ' + route);
   if (!page.includes('href="tel:0325132875"')) errors.push('FAQ 전화 연결 누락: ' + route);
   if (!page.includes('일반적인 건강정보')) errors.push('FAQ 건강정보 안내 누락: ' + route);
-  if (!existsSync(sitemapFile) || !readFileSync(sitemapFile,'utf8').includes('https://ejoeundental.com' + route)) errors.push('FAQ 사이트맵 누락: ' + route);
+  if (!existsSync(sitemapFile) || !readFileSync(sitemapFile,'utf8').includes('https://ejoeundental.pages.dev' + route)) errors.push('FAQ 사이트맵 누락: ' + route);
   if (!existsSync(homepageFile) || !readFileSync(homepageFile,'utf8').includes('href="' + route + '"')) errors.push('FAQ 홈페이지 링크 누락: ' + route);
 }
 // Cross-link integrity and FAQ structured-data consistency for patients and search crawlers.
@@ -381,7 +381,7 @@ for (const slug of ['visit-guide','gum-treatment-faq','root-canal-retreatment-fa
   const file = join(root, slug + '.html');
   if (!existsSync(file)) continue;
   const page = readFileSync(file, 'utf8');
-  const expectedCanonical = 'https://ejoeundental.com/' + slug + '.html';
+  const expectedCanonical = 'https://ejoeundental.pages.dev/' + slug + '.html';
   if (!page.includes('rel="canonical" href="' + expectedCanonical + '"')) errors.push('정규 URL 불일치: ' + slug);
   const links = [...page.matchAll(/href="(\/[^"#?]+[.]html)"/g)].map(match => match[1]);
   for (const link of links) if (!paths.has(link)) errors.push('방문 안내/FAQ 내부 링크 누락: ' + slug + ' -> ' + link);
