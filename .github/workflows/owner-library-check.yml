@@ -5,6 +5,8 @@ on:
     paths:
       - 'scripts/build-owner-library.mjs'
       - 'scripts/test-owner-library.mjs'
+      - 'scripts/test-owner-auth.mjs'
+      - 'scripts/owner-library-worker.js'
       - 'package.json'
       - '*maintenance.html'
       - '*materials*.html'
@@ -23,7 +25,7 @@ jobs:
         with:
           node-version: '22'
       - name: Verify owner-only bundle (never deploy or upload)
-        run: npm run test:owner
+        run: npm run test:owner:all
       - name: Confirm private bundle is not tracked
         run: |
           if git ls-files --error-unmatch .private-dist/index.html >/dev/null 2>&1; then
