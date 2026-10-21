@@ -373,3 +373,10 @@ html{scroll-padding-top:92px}
     outline-offset: 3px;
   }
 }
+
+/* Prevent long labels and links from causing horizontal scrolling on narrow screens. */
+@media (max-width: 600px) {
+  main, main section, main article, .footer { min-width: 0; }
+  main p, main li, main a, .footer a { overflow-wrap: break-word; }
+  img, video, iframe { max-width: 100%; }
+}
