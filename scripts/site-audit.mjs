@@ -396,6 +396,16 @@ for (const slug of ['medication-dental-faq','systemic-disease-dental-faq']) {
  if (!existsSync(join(root,'medical-history.html')) || !readFileSync(join(root,'medical-history.html'),'utf8').includes('href="/'+slug+'.html"')) errors.push('문진 안내 FAQ 링크 누락: '+slug);
  if (!existsSync(join(root,'visit-guide.html')) || !readFileSync(join(root,'visit-guide.html'),'utf8').includes('href="/'+slug+'.html"')) errors.push('방문 안내 FAQ 링크 누락: '+slug);
 }
+// Medical safety topic pages must lead to their patient-facing FAQ.
+for (const [source,faq] of [
+ ['blood-thinners-dental.html','medication-dental-faq.html'],
+ ['osteoporosis-medication-dental.html','medication-dental-faq.html'],
+ ['diabetes-dental-care.html','systemic-disease-dental-faq.html'],
+ ['heart-disease-dental-care.html','systemic-disease-dental-faq.html']
+]) {
+ const file=join(root,source);
+ if (!existsSync(file) || !readFileSync(file,'utf8').includes('href="/'+faq+'"')) errors.push('전신질환 상세 페이지 FAQ 링크 누락: '+source);
+}
 const adminFile = join(root, 'admin/index.html');
 if (existsSync(adminFile)) {
   const admin = readFileSync(adminFile, 'utf8');
