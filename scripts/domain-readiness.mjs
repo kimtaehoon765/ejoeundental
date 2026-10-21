@@ -73,7 +73,7 @@ for (const filename of seoFiles) {
   else {
     try {
       const parsed = new URL(canonical);
-      if (parsed.origin !== host || parsed.pathname !== '/' + filename || parsed.search || parsed.hash) {
+      if (parsed.origin !== host || parsed.pathname !== (filename === 'index.html' ? '/' : '/' + filename) || parsed.search || parsed.hash) {
         errors.push('Source canonical mismatch: ' + filename + ' -> ' + canonical);
       }
     } catch {
