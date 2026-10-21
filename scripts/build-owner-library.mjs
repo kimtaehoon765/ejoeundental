@@ -32,7 +32,11 @@ for(const name of pages){
  const source=path.join(root,name);
  if(!fs.existsSync(source))throw new Error('Missing owner document: '+name);
  let html=fs.readFileSync(source,'utf8');
- // Original links are absolute-root paths and remain valid at the private site root.
+ // Keep all owner-only documents self-contained at the private host. Remove canonical URLs
+ // pointing to publicly served copies, which otherwise reveal the public location.
+ html=html.replace(/<link\s+[^>]*rel=["']canonical["'][^>]*>/gi,'');
+ // Do not send private library readers to the public home when they select Home.
+ html=html.replace(/<a\s+href=["']\/["']([^>]*)>(홈으로|홈페이지로|홈)<\/a>/gi,'<a href="/"$1>자료실 홈</a>');
  if(!/<meta\s+name=["']robots["']/i.test(html))html=html.replace(/<head>/i,'<head><meta name="robots" content="noindex,nofollow,noarchive">');
  fs.writeFileSync(path.join(out,name),html);
 }
