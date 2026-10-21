@@ -94,7 +94,7 @@
 .care-find-links a{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-height:46px;padding:10px 15px;border:1px solid #c4d9c7;border-radius:10px;background:#fff;color:#174a37;font-weight:700;line-height:1.45;text-decoration:none;text-align:center}
 .care-find-links a:hover{background:#edf5ec}
 .care-find-links a:focus-visible{outline:3px solid #a96b24;outline-offset:3px}
-@media(max-width:600px){.care-find-links{display:grid;grid-template-columns:1fr;gap:9px}.care-find-links a{min-height:50px;font-size:15px}}
+@media(max-width:600px){.care-find-links{display:grid}.care-find-links a{min-height:50px}}
 
 /* Homepage care cards: readable links and mobile tap targets */
 #focus-care .grid>.card,#symptoms .grid>.card,#care .grid>.card{min-width:0;overflow-wrap:anywhere}
