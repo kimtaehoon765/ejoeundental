@@ -5,6 +5,10 @@ on:
     paths:
       - 'index.html'
       - 'visit-guide.html'
+      - '*-faq.html'
+      - 'gum-treatment.html'
+      - 'retreatment.html'
+      - 'insured-care.html'
       - 'sitemap.xml'
       - 'robots.txt'
       - 'build.mjs'
@@ -32,3 +36,9 @@ jobs:
           test -s dist/visit-guide.html
           grep -q 'href="/visit-guide.html"' dist/index.html
           grep -q 'visit-guide.html' dist/sitemap.xml
+          test -s dist/gum-treatment-faq.html
+          test -s dist/root-canal-retreatment-faq.html
+          test -s dist/dental-insurance-faq.html
+          grep -q 'gum-treatment-faq.html' dist/sitemap.xml
+          grep -q 'root-canal-retreatment-faq.html' dist/sitemap.xml
+          grep -q 'dental-insurance-faq.html' dist/sitemap.xml
