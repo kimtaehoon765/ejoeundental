@@ -62,14 +62,6 @@ for (const source of ['index.html','visit-guide.html','medical-safety-guide.html
 for (const source of ['index.html','visit-guide.html','medical-history.html']) {
  if (!read(source).includes('href="/medical-safety-guide.html"')) errors.push('Safety guide navigation missing: '+source);
 }
-console.log('DOMAIN PREFLIGHT (read only)');
-console.log('Target domain:',host,'| Current preview build:',preview);
-console.log('Source sitemap URLs:',urls.length);
-for (const n of notes) console.log('NOTE:',n);
-for (const e of errors) console.error('ERROR:',e);
-console.log('No DNS or domain settings were changed.');
-if (errors.length) process.exitCode=1;
-
 // Explicitly flag all SEO-bearing preview URLs in the generated build.
 // This is advisory until the domain is actually connected.
 const seoFiles = ['index.html','search.html','gum-treatment.html','retreatment.html','cervical-abrasion.html'];
@@ -81,3 +73,12 @@ for (const filename of seoFiles) {
   if (html.includes(preview)) notes.push('Preview URL still referenced in source: ' + filename + '; inspect social and structured metadata at cutover.');
 }
 notes.push('Cutover checklist: confirm Cloudflare custom domain active, HTTPS valid, redirects consistent, generated canonical/OG/schema/sitemap/robots use the final host, then submit sitemap to search engines.');
+
+console.log('DOMAIN PREFLIGHT (read only)');
+console.log('Target domain:',host,'| Current preview build:',preview);
+console.log('Source sitemap URLs:',urls.length);
+for (const n of notes) console.log('NOTE:',n);
+for (const e of errors) console.error('ERROR:',e);
+console.log('No DNS or domain settings were changed.');
+if (errors.length) process.exitCode=1;
+
