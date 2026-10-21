@@ -44,6 +44,14 @@ for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-ins
     if (data.isPartOf?.['@id'] !== host+'/#website') errors.push('FAQ source domain mismatch: '+slug);
   } catch { errors.push('FAQ JSON parse failed: '+slug); }
 }
+// Confirm all patient safety entry points are connected before migration.
+for (const source of ['index.html','visit-guide.html','medical-safety-guide.html']) {
+ const page=read(source);
+ if (!page.includes('href="/previsit-checklist.html"')) errors.push('Checklist navigation missing: '+source);
+}
+for (const source of ['index.html','visit-guide.html','medical-history.html']) {
+ if (!read(source).includes('href="/medical-safety-guide.html"')) errors.push('Safety guide navigation missing: '+source);
+}
 console.log('DOMAIN PREFLIGHT (read only)');
 console.log('Target domain:',host,'| Current preview build:',preview);
 console.log('Source sitemap URLs:',urls.length);
