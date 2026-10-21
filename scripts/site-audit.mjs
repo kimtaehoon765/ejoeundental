@@ -114,6 +114,19 @@ if (existsSync(homepageFile)) {
   if (!homepage.includes('<main id="main-content">')) errors.push('홈페이지 main-content 누락');
   if (!homepage.includes('src="/assets/site.js') || !homepage.includes('defer></script>')) errors.push('홈페이지 스크립트 defer 누락');
 }
+// Keep patient medication warnings and published guide routes intact on the homepage.
+if (existsSync(homepageFile)) {
+  const homepage = readFileSync(homepageFile, 'utf8');
+  const section = homepage.match(/<aside class="symptom-previsit"[\s\S]*?<\/aside>/)?.[0];
+  if (!section) errors.push('홈페이지 방문 전 복용약 안전 안내 누락');
+  else {
+    for (const link of ['/medical-history.html', '/blood-thinners-dental.html', '/osteoporosis-medication-dental.html']) {
+      if (!section.includes('href="' + link + '"')) errors.push('복용약 안전 안내 링크 누락: ' + link);
+      if (!existsSync(join(root, link.slice(1)))) errors.push('복용약 안전 안내 목적지 누락: ' + link);
+    }
+    if (!section.includes('임의로 중단하지')) errors.push('복용약 임의 중단 주의 문구 누락');
+  }
+}
 // Ensure local SEO data is machine-readable and matches the visible clinic identity.
 if (existsSync(homepageFile)) {
   const homepage = readFileSync(homepageFile, 'utf8');
