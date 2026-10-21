@@ -245,3 +245,12 @@
 /* Keep focused homepage search visible below sticky navigation. */
 #home-symptom-query{scroll-margin-top:105px}
 @media(max-width:600px){#home-symptom-query{scroll-margin-top:85px}}
+
+/* Local visit conversion: map and telephone actions remain easy to tap. */
+.place-visit-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0 10px}
+.place-visit-action{display:flex;align-items:center;justify-content:center;min-height:52px;padding:12px 14px;text-align:center;line-height:1.5;border-radius:10px;background:#173e35;color:#fff!important;font-size:14px;font-weight:700;text-decoration:none!important}
+.place-visit-map{background:#e8f1e9;color:#173e35!important;border:1px solid #b8d1be}
+.place-visit-action:hover{filter:brightness(.94)}
+.place-visit-action:focus-visible{outline:3px solid #a47837;outline-offset:3px}
+.place-visit-note{font-size:14px;line-height:1.75;margin:0 0 18px;word-break:keep-all}
+@media(max-width:640px){.place-visit-actions{grid-template-columns:1fr}.place-visit-action{min-height:54px}}
