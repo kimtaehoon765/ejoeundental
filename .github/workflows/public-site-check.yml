@@ -1,0 +1,34 @@
+name: Public website build and quality verification
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'visit-guide.html'
+      - 'sitemap.xml'
+      - 'robots.txt'
+      - 'build.mjs'
+      - 'scripts/site-audit.mjs'
+      - 'package.json'
+      - 'assets/**'
+      - 'health/**'
+      - '.github/workflows/public-site-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build public site and run quality audit
+        run: npm run build:check
+      - name: Verify first-visit page is included
+        run: |
+          test -s dist/visit-guide.html
+          grep -q 'href="/visit-guide.html"' dist/index.html
+          grep -q 'visit-guide.html' dist/sitemap.xml
