@@ -69,3 +69,15 @@ for (const n of notes) console.log('NOTE:',n);
 for (const e of errors) console.error('ERROR:',e);
 console.log('No DNS or domain settings were changed.');
 if (errors.length) process.exitCode=1;
+
+// Explicitly flag all SEO-bearing preview URLs in the generated build.
+// This is advisory until the domain is actually connected.
+const seoFiles = ['index.html','search.html','gum-treatment.html','retreatment.html','cervical-abrasion.html'];
+for (const filename of seoFiles) {
+  if (!existsSync(filename)) continue;
+  const html = read(filename);
+  const canonical = html.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1];
+  if (canonical && !canonical.startsWith(host + '/')) errors.push('Source canonical on unexpected host: ' + filename + ' -> ' + canonical);
+  if (html.includes(preview)) notes.push('Preview URL still referenced in source: ' + filename + '; inspect social and structured metadata at cutover.');
+}
+notes.push('Cutover checklist: confirm Cloudflare custom domain active, HTTPS valid, redirects consistent, generated canonical/OG/schema/sitemap/robots use the final host, then submit sitemap to search engines.');
