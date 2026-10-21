@@ -365,10 +365,10 @@ for (const slug of ['gum-treatment-faq', 'root-canal-retreatment-faq', 'dental-i
   const file = join(root, slug + '.html');
   if (!existsSync(file)) continue;
   const page = readFileSync(file, 'utf8');
-  const jsonMatch = page.match(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/i);
+  const jsonMatch = page.split('<script type="application/ld+json">')[1]?.split('</script>')[0];
   if (!jsonMatch) { errors.push('FAQ JSON-LD 없음: ' + slug); continue; }
   try {
-    const structured = JSON.parse(jsonMatch[1]);
+    const structured = JSON.parse(jsonMatch);
     const questions = structured.mainEntity;
     if (structured['@type'] !== 'FAQPage' || !Array.isArray(questions) || questions.length !== 6) errors.push('FAQ 질문 구조 불일치: ' + slug);
     else for (const question of questions) {
