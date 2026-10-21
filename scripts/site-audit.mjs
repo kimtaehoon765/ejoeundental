@@ -232,6 +232,10 @@ else {
   for (const snippet of ['const matchedTerms=[]', 'matchedTerms.push(term)', 'matchedTerms.join(', 'partialSectionShown']) {
     if (!script.includes(snippet)) errors.push('검색 부분 일치 설명 누락: ' + snippet);
   }
+  // Partial results must explain which terms actually matched.
+  for (const required of ['const matchedTerms=[]', 'matchedTerms.push(term)', 'matchedTerms.join(', 'partialSectionShown', 'exactSectionShown']) {
+    if (!script.includes(required)) errors.push('검색 부분 일치 결과 설명 누락: ' + required);
+  }
   // Search relevance boosts must not masquerade as matches to every typed word.
   if (/matched\\s*=\\s*terms\\.length/.test(script)) errors.push('검색 결과 관련도 계산에서 검색어 일치 수를 강제로 변경함');
   for (const target of ['/medical-history.html', '/dental-equipment.html', '/content/search-index.json']) {
