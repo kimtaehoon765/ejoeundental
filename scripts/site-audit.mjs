@@ -143,6 +143,17 @@ if (existsSync(homepageFile)) {
     }
   }
 }
+// Homepage search must submit to the indexed health-information search without client-side scripts.
+if (existsSync(homepageFile)) {
+  const home = readFileSync(homepageFile, 'utf8');
+  const form = home.match(/<form class="symptom-quick-search"[\s\S]*?<\/form>/)?.[0];
+  if (!form) errors.push('홈페이지 증상 검색 폼 누락');
+  else {
+    for (const detail of ['action="/search.html"', 'method="get"', 'role="search"', 'name="q"', 'type="search"', 'type="submit"', 'for="home-symptom-query"']) {
+      if (!form.includes(detail)) errors.push('홈페이지 증상 검색 폼 구성 누락: ' + detail);
+    }
+  }
+}
 // Ensure local SEO data is machine-readable and matches the visible clinic identity.
 if (existsSync(homepageFile)) {
   const homepage = readFileSync(homepageFile, 'utf8');
