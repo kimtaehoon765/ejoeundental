@@ -4,7 +4,7 @@
 
 ## 확인된 소스 설정
 - GitHub 저장소: `kimtaehoon765/ejoeundental`, 배포 브랜치 후보: `main`
-- `netlify.toml`: `npm run build` / `dist` / Node.js 20
+- `netlify.toml`: `npm run build` / `dist` / Node.js 22
 - 정식 도메인 목표: `ejoeundental.com`
 - `package.json`의 사전 점검: `npm run build:check`, `npm run check:domain`, `npm run build:production:check`
 
