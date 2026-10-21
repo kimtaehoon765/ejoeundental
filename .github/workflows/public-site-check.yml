@@ -14,6 +14,7 @@ on:
       - 'build.mjs'
       - 'scripts/site-audit.mjs'
       - 'package.json'
+      - 'scripts/domain-readiness.mjs'
       - 'assets/**'
       - 'health/**'
       - '.github/workflows/public-site-check.yml'
@@ -29,6 +30,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Read-only target domain readiness check
+        run: npm run check:domain
       - name: Build public site and run quality audit
         run: npm run build:check
       - name: Verify first-visit page is included
