@@ -130,6 +130,19 @@ if (existsSync(homepageFile)) {
     }
   }
 }
+// Validate printable medical-history checklist and homepage deep link.
+if (existsSync(homepageFile)) {
+  const home = readFileSync(homepageFile, 'utf8');
+  const historyFile = join(root, 'medical-history.html');
+  if (!home.includes('href="/medical-history.html#visit-checklist"')) errors.push('홈페이지 인쇄 확인표 연결 누락');
+  if (!existsSync(historyFile)) errors.push('진료 전 확인표 페이지 누락');
+  else {
+    const history = readFileSync(historyFile, 'utf8');
+    for (const detail of ['id="visit-checklist"', 'class="checklist-writing"', 'window.print()', '복용 중인 약·주사 이름과 용량', '약물 알레르기·과거 이상반응']) {
+      if (!history.includes(detail)) errors.push('진료 전 인쇄 확인표 누락: ' + detail);
+    }
+  }
+}
 // Ensure local SEO data is machine-readable and matches the visible clinic identity.
 if (existsSync(homepageFile)) {
   const homepage = readFileSync(homepageFile, 'utf8');
