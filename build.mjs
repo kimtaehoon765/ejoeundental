@@ -101,7 +101,7 @@ if(ownerPrivateReady){
  if(fs.existsSync(mapPath)){
   let xml=fs.readFileSync(mapPath,'utf8');
   for(const name of ownerOnlyFiles){
-   const escaped=name.replace(/[.*+?^${}()|[\]\\]/g,'\\// Match the generated robots sitemap pointer to the current Pages preview output.');
+   const escaped=name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
    xml=xml.replace(new RegExp('\\s*<url>\\s*<loc>https:\\/\\/[^<]+\\/'+escaped+'<\\/loc>\\s*<\\/url>','g'),'');
   }
   fs.writeFileSync(mapPath,xml);
