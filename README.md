@@ -10,7 +10,7 @@
 - `published: true`인 글만 공개 페이지와 사이트맵에 포함됩니다.
 
 ## 빌드
-- Node.js 20 이상
+- Node.js 22 권장
 - 빌드 명령: `npm run build`
 - 결과 폴더: `dist`
 - 빌드 스크립트: `build.mjs`
@@ -25,7 +25,7 @@
 | 브랜치 | `main` (저장소 기본 브랜치, Netlify 연결 확인 필요) |
 | 빌드 명령 | `npm run build` |
 | 배포 디렉터리 | `dist` |
-| Node.js | 20 |
+| Node.js | 22 |
 
 Netlify 연결 및 도메인 이전 절차는 [Netlify 점검 안내](docs/netlify-cutover-guide.md)를 참고하세요.
 
