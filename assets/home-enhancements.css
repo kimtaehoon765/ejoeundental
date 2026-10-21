@@ -325,5 +325,11 @@ html{scroll-padding-top:92px}
 
 /* The three static article tiles act as one large, accessible link target. */
 #stories #post-list article.card h3 a::after{content:"";position:absolute;inset:0;border-radius:inherit}
+/* CMS cards are themselves anchors, so retain the same large-target and focus treatment. */
+#stories #post-list a.post-card{display:flex;flex-direction:column;gap:.45rem;color:inherit;text-decoration:none}
+#stories #post-list a.post-card h3{color:#173e35;text-decoration:underline;text-underline-offset:4px}
+#stories #post-list a.post-card p{flex:1}
+#stories #post-list a.post-card:focus-visible{outline:3px solid #a47837;outline-offset:4px}
+#stories #post-list a.post-card:hover h3{text-decoration-thickness:2px}
 #stories #post-list article.card:focus-within{outline:3px solid #a47837;outline-offset:3px}
 #stories #post-list article.card .article-card-action{pointer-events:none}
