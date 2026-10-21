@@ -1252,6 +1252,9 @@ console.log('Health article safety notices and contact links checked: '+checkedH
 // Optional production cutover: keep preview output unchanged unless explicitly selected.
 // Run with SITE_PUBLIC_ORIGIN=https://ejoeundental.com only after custom-domain readiness is verified.
 const selectedPublicOrigin = process.env.SITE_PUBLIC_ORIGIN || 'https://ejoeundental.pages.dev';
+if (process.env.NETLIFY === 'true' && !process.env.SITE_PUBLIC_ORIGIN) {
+  console.warn('[SEO] Netlify build uses legacy pages.dev canonical URLs. Set SITE_PUBLIC_ORIGIN explicitly after verifying the intended public domain.');
+}
 if (!['https://ejoeundental.pages.dev', 'https://ejoeundental.com'].includes(selectedPublicOrigin)) {
   throw new Error('Unsupported SITE_PUBLIC_ORIGIN: ' + selectedPublicOrigin);
 }
