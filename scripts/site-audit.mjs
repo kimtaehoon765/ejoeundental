@@ -138,7 +138,7 @@ if (existsSync(homepageFile)) {
   if (!existsSync(historyFile)) errors.push('진료 전 확인표 페이지 누락');
   else {
     const history = readFileSync(historyFile, 'utf8');
-    for (const detail of ['id="visit-checklist"', 'class="checklist-writing"', 'window.print()', '복용 중인 약·주사 이름과 용량', '약물 알레르기·과거 이상반응', 'checklist-date', '마지막 투여일 확인', '임의로 중단하지 마세요']) {
+    for (const detail of ['id="visit-checklist"', 'class="checklist-writing"', 'window.print()', '복용 중인 약·주사 이름과 용량', '약물 알레르기·과거 이상반응', 'checklist-date', '마지막 투여일 확인', '임의로 중단하지 마세요', '마지막 투여일 (해당 시)', '담당 진료과 (해당 시)', '처방전이나 약 봉투']) {
       if (!history.includes(detail)) errors.push('진료 전 인쇄 확인표 누락: ' + detail);
     }
   }
