@@ -183,3 +183,10 @@
 .visit-quick-facts strong{font-size:15px;color:#173e35}
 .visit-quick-facts span{font-size:13px;color:#34594a;word-break:keep-all}
 @media(max-width:650px){.visit-quick-facts{grid-template-columns:1fr;gap:8px}.visit-quick-facts>div{flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px;padding:12px 14px}.visit-quick-facts span{text-align:right}}
+
+/* Action links inside the three visit essentials. */
+.visit-quick-facts a{display:inline-block;margin-top:5px;color:#173e35;font-weight:800;text-decoration:underline;text-underline-offset:3px}
+.visit-quick-facts a:hover{color:#285e49}
+.visit-quick-facts a:focus-visible{outline:3px solid #a47837;outline-offset:3px;border-radius:3px}
+#parking-details{scroll-margin-top:110px}
+@media(max-width:600px){#parking-details{scroll-margin-top:88px}.visit-quick-facts span{line-height:1.7}}
