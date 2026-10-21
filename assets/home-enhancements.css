@@ -259,3 +259,14 @@
 .mobile-quick a[href^="https://map.naver.com/"]{order:-2;background:#e5efe7;color:#173e35;font-weight:700;border-radius:8px}
 .mobile-quick a[href="#location"]{order:-1}
 .mobile-quick a.mobile-call{order:0}
+
+/* Gallery feature: shared, maintainable presentation for the clinical archive. */
+.home-archive-gallery{max-width:1080px;margin:50px auto;padding:clamp(28px,5vw,54px);background:linear-gradient(120deg,#f8f6ec 0%,#eaf1e9 100%);border:1px solid #d9dfd6;border-radius:8px;color:#233b33;box-shadow:0 14px 38px rgba(32,56,45,.06)}
+.home-archive-gallery__eyebrow{letter-spacing:.19em;font-size:.75rem;color:#5b7667;margin:0 0 12px}
+.home-archive-gallery h2{font-family:'Noto Serif KR',serif;font-weight:500;font-size:clamp(1.6rem,3vw,2.25rem);margin:0 0 14px;line-height:1.45}
+.home-archive-gallery__intro{max-width:680px;line-height:1.9;margin:0 0 20px;word-break:keep-all}
+.home-archive-gallery__link{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;background:#1e5544;color:#fff!important;padding:12px 20px;border-radius:5px;font-weight:700;text-decoration:none!important}
+.home-archive-gallery__link:hover{background:#143f32}
+.home-archive-gallery__link:focus-visible{outline:3px solid #ad7937;outline-offset:4px}
+@media(max-width:700px){.home-archive-gallery{margin:28px 16px;padding:28px 22px}.home-archive-gallery__link{width:100%;text-align:center}}
+@media(prefers-reduced-motion:reduce){.home-archive-gallery *{scroll-behavior:auto!important}}
