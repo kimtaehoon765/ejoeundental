@@ -30,6 +30,20 @@ for (const slug of ['visit-guide','gum-treatment-faq','root-canal-retreatment-fa
   else if (!read(filename).includes('rel="canonical" href="'+host+'/'+filename+'"')) errors.push('Unexpected source canonical: '+filename);
   if (!urls.includes(host+'/'+filename)) errors.push('Missing sitemap URL: '+filename);
 }
+// Do not mistake a passing preflight for completed migration.
+// These preview-host dependencies must be reviewed together on cutover day.
+const previewReferences = build.split(preview).length - 1;
+if (previewReferences > 0) notes.push('Production build still contains ' + previewReferences + ' preview-host references; review canonical, sitemap, robots, and schema during cutover.');
+for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq']) {
+  const page = read(slug+'.html');
+  const json = page.split('<script type="application/ld+json">')[1]?.split('</script>')[0];
+  if (!json) { errors.push('FAQ structured data missing: '+slug); continue; }
+  try {
+    const data = JSON.parse(json);
+    if (data['@type'] !== 'FAQPage' || !Array.isArray(data.mainEntity) || data.mainEntity.length !== 6) errors.push('FAQ structured data incomplete: '+slug);
+    if (data.isPartOf?.['@id'] !== host+'/#website') errors.push('FAQ source domain mismatch: '+slug);
+  } catch { errors.push('FAQ JSON parse failed: '+slug); }
+}
 console.log('DOMAIN PREFLIGHT (read only)');
 console.log('Target domain:',host,'| Current preview build:',preview);
 console.log('Source sitemap URLs:',urls.length);
