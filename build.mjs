@@ -1276,5 +1276,9 @@ if (selectedPublicOrigin === 'https://ejoeundental.com') {
       !productionSitemap.includes('<loc>https://ejoeundental.com/</loc>')) {
     throw new Error('Production sitemap host verification failed');
   }
+  const productionRobots = fs.readFileSync(path.join(out, 'robots.txt'), 'utf8');
+  if (!/^Sitemap:\s*https:\/\/ejoeundental\.com\/sitemap\.xml\s*$/mi.test(productionRobots)) {
+    throw new Error('Production robots.txt sitemap host verification failed');
+  }
   console.log('Production public origin normalized in', updatedFiles, 'generated files');
 }
