@@ -7,6 +7,7 @@
     "build": "node build.mjs",
     "audit": "node scripts/site-audit.mjs",
     "build:check": "npm run build && npm run audit",
-    "build:owner": "node scripts/build-owner-library.mjs"
+    "build:owner": "node scripts/build-owner-library.mjs",
+    "test:owner": "node scripts/test-owner-library.mjs"
   }
 }
