@@ -24,7 +24,7 @@ if (!robots.includes('Sitemap: '+host+'/sitemap.xml')) errors.push('Source robot
 if (!homepage.includes('rel="canonical"')) errors.push('Homepage canonical missing');
 if (!build.includes(preview)) errors.push('Preview build host configuration changed: inspect before migration');
 if (!build.includes('normalizedSitemap')) errors.push('Preview sitemap normalization changed: inspect before migration');
-for (const slug of ['visit-guide','gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq','medication-dental-faq','systemic-disease-dental-faq']) {
+for (const slug of ['medical-safety-guide','visit-guide','gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq','medication-dental-faq','systemic-disease-dental-faq']) {
   const filename = slug+'.html';
   if (!existsSync(filename)) errors.push('Missing source page: '+filename);
   else if (!read(filename).includes('rel="canonical" href="'+host+'/'+filename+'"')) errors.push('Unexpected source canonical: '+filename);
