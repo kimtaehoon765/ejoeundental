@@ -15,6 +15,12 @@ test('missing or weak secret fails closed for all paths',async()=>{
  }}
  assert.equal(calls,0);
 });
+test('missing asset binding and HTTP transport fail closed',async()=>{
+ assert.equal((await worker.fetch(request('/'),{OWNER_PASSWORD:password})).status,503);
+ const httpRequest=new Request('http://owner.example.test/',{headers:{Authorization:'Basic '+btoa('owner:'+password)}});
+ assert.equal((await worker.fetch(httpRequest,env)).status,403);
+ assert.equal(calls,0);
+});
 test('no credentials cannot reach any asset',async()=>{
  for(const path of paths){const res=await worker.fetch(request(path),env);assert.equal(res.status,401);assert.match(res.headers.get('WWW-Authenticate'),/^Basic /)}
  assert.equal(calls,0);
