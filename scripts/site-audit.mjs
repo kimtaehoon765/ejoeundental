@@ -369,6 +369,7 @@ for (const slug of ['gum-treatment-faq', 'root-canal-retreatment-faq', 'dental-i
   if (!jsonMatch) { errors.push('FAQ JSON-LD 없음: ' + slug); continue; }
   try {
     const structured = JSON.parse(jsonMatch);
+    if (structured.isPartOf?.['@id'] !== 'https://ejoeundental.pages.dev/#website') errors.push('FAQ 미리보기 구조화 데이터 호스트 불일치: ' + slug);
     const questions = structured.mainEntity;
     if (structured['@type'] !== 'FAQPage' || !Array.isArray(questions) || questions.length !== 6) errors.push('FAQ 질문 구조 불일치: ' + slug);
     else for (const question of questions) {
