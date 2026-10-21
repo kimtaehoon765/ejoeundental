@@ -24,7 +24,7 @@ if (!robots.includes('Sitemap: '+host+'/sitemap.xml')) errors.push('Source robot
 if (!homepage.includes('rel="canonical"')) errors.push('Homepage canonical missing');
 if (!build.includes(preview)) errors.push('Preview build host configuration changed: inspect before migration');
 if (!build.includes('normalizedSitemap')) errors.push('Preview sitemap normalization changed: inspect before migration');
-for (const slug of ['visit-guide','gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq']) {
+for (const slug of ['visit-guide','gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq','medication-dental-faq','systemic-disease-dental-faq']) {
   const filename = slug+'.html';
   if (!existsSync(filename)) errors.push('Missing source page: '+filename);
   else if (!read(filename).includes('rel="canonical" href="'+host+'/'+filename+'"')) errors.push('Unexpected source canonical: '+filename);
@@ -34,7 +34,7 @@ for (const slug of ['visit-guide','gum-treatment-faq','root-canal-retreatment-fa
 // These preview-host dependencies must be reviewed together on cutover day.
 const previewReferences = build.split(preview).length - 1;
 if (previewReferences > 0) notes.push('Production build still contains ' + previewReferences + ' preview-host references; review canonical, sitemap, robots, and schema during cutover.');
-for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq']) {
+for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq','medication-dental-faq','systemic-disease-dental-faq']) {
   const page = read(slug+'.html');
   const json = page.split('<script type="application/ld+json">')[1]?.split('</script>')[0];
   if (!json) { errors.push('FAQ structured data missing: '+slug); continue; }
