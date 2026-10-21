@@ -361,7 +361,7 @@ for (const [source, destination] of [
   const file = join(root, source);
   if (!existsSync(file) || !readFileSync(file,'utf8').includes('href="/' + destination + '"')) errors.push('진료 안내와 FAQ 연결 누락: ' + source);
 }
-for (const slug of ['gum-treatment-faq', 'root-canal-retreatment-faq', 'dental-insurance-faq']) {
+for (const slug of ['gum-treatment-faq', 'root-canal-retreatment-faq', 'dental-insurance-faq', 'medication-dental-faq', 'systemic-disease-dental-faq']) {
   const file = join(root, slug + '.html');
   if (!existsSync(file)) continue;
   const page = readFileSync(file, 'utf8');
