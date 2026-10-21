@@ -241,3 +241,7 @@
 .symptom-quick-topics a:hover{background:#e8f3eb;text-decoration:underline}
 .symptom-quick-topics a:focus-visible{outline:3px solid #a47837;outline-offset:3px}
 @media(max-width:560px){.symptom-quick-topics>span{flex-basis:100%}.symptom-quick-topics{gap:6px}}
+
+/* Keep focused homepage search visible below sticky navigation. */
+#home-symptom-query{scroll-margin-top:105px}
+@media(max-width:600px){#home-symptom-query{scroll-margin-top:85px}}
