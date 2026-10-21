@@ -4,6 +4,9 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'search.html'
+      - 'noncovered-fees.html'
+      - 'clinical-archive.html'
       - 'visit-guide.html'
       - '*-faq.html'
       - 'gum-treatment.html'
