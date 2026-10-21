@@ -270,3 +270,17 @@
 .home-archive-gallery__link:focus-visible{outline:3px solid #ad7937;outline-offset:4px}
 @media(max-width:700px){.home-archive-gallery{margin:28px 16px;padding:28px 22px}.home-archive-gallery__link{width:100%;text-align:center}}
 @media(prefers-reduced-motion:reduce){.home-archive-gallery *{scroll-behavior:auto!important}}
+
+/* Patient-first pathways to the clinic's key treatment guides. */
+.home-care-paths{max-width:1080px;margin:44px auto;padding:0 18px;color:#203c32}
+.home-care-paths__eyebrow{font-size:.76rem;letter-spacing:.16em;color:#5b7667;margin:0 0 8px}
+.home-care-paths h2{font-family:'Noto Serif KR',serif;font-weight:500;font-size:clamp(1.55rem,3vw,2.1rem);line-height:1.45;margin:0 0 12px}
+.home-care-paths__intro{max-width:740px;line-height:1.8;word-break:keep-all}
+.home-care-paths__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:22px}
+.home-care-paths__grid a{display:flex;flex-direction:column;gap:10px;padding:25px;background:#fffdf7;border:1px solid #d5dfd3;border-top:4px solid #9bb8a1;border-radius:6px;color:#233b33;text-decoration:none;min-height:175px}
+.home-care-paths__grid strong{font-family:'Noto Serif KR',serif;font-size:1.3rem}
+.home-care-paths__grid span{line-height:1.7;word-break:keep-all}
+.home-care-paths__grid em{font-style:normal;font-weight:700;color:#17654c;margin-top:auto}
+.home-care-paths__grid a:hover{border-color:#69947d;box-shadow:0 10px 24px #20382d14}
+.home-care-paths__grid a:focus-visible{outline:3px solid #ad7937;outline-offset:4px}
+@media(max-width:640px){.home-care-paths{margin:30px auto}.home-care-paths__grid{grid-template-columns:1fr}.home-care-paths__grid a{min-height:0;padding:22px}}
