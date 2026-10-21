@@ -353,3 +353,14 @@ html{scroll-padding-top:92px}
 /* Compact, thumb-friendly quick navigation: avoid a tall five-row stack on phones. */
 @media(max-width:600px){.care-find-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.care-find-links a{min-width:0;padding:10px 8px;text-align:center;font-size:13px;line-height:1.4;overflow-wrap:anywhere}.care-find-links a:last-child:nth-child(odd){grid-column:1/-1}}
 @media(max-width:350px){.care-find-links{grid-template-columns:1fr}.care-find-links a:last-child:nth-child(odd){grid-column:auto}}
+
+/* Mobile accessibility: comfortable targets and reduced animation. */
+@media (max-width: 600px) {
+  .piano-player .pop-menu nav a { min-height: 44px; align-items: center; }
+  .piano-player button, .music-reopen { min-height: 44px; }
+  .piano-player { max-width: calc(100vw - 16px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
