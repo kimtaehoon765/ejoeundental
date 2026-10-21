@@ -52,9 +52,3 @@
   for = "/stories/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
-
-# Explicitly revalidate the generated article index used by homepage search.
-[[headers]]
-  for = "/content/posts-index.json"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
