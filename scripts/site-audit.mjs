@@ -383,7 +383,7 @@ for (const slug of ['visit-guide','gum-treatment-faq','root-canal-retreatment-fa
   const page = readFileSync(file, 'utf8');
   const expectedCanonical = 'https://ejoeundental.com/' + slug + '.html';
   if (!page.includes('rel="canonical" href="' + expectedCanonical + '"')) errors.push('정규 URL 불일치: ' + slug);
-  const links = [...page.matchAll(/href=["'](\\/[^"'#?]+\\.html)(?:[?#][^"']*)?["']/g)].map(match => match[1]);
+  const links = [...page.matchAll(/href="(\/[^"#?]+[.]html)"/g)].map(match => match[1]);
   for (const link of links) if (!paths.has(link)) errors.push('방문 안내/FAQ 내부 링크 누락: ' + slug + ' -> ' + link);
 }
 const adminFile = join(root, 'admin/index.html');
