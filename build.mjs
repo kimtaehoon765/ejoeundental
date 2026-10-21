@@ -172,6 +172,20 @@ function alignCanonicalUrls(folder){
  }
 }
 alignCanonicalUrls(out);
+// Keep structured FAQ URLs on the same host as the preview canonical and sitemap.
+// This only transforms generated output; source pages retain the future custom domain.
+for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq']) {
+ const target=path.join(out,slug+'.html');
+ const html=fs.readFileSync(target,'utf8');
+ const transformed=html.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,(tag,json)=>{
+  const data=JSON.parse(json);
+  if(data['@type']!=='FAQPage')throw new Error('Expected FAQPage JSON-LD: '+slug);
+  const updated=JSON.stringify(data).replace(/https:\/\/ejoeundental\.com\//g,'https://ejoeundental.pages.dev/');
+  return '<script type="application/ld+json">'+updated+'</script>';
+ });
+ fs.writeFileSync(target,transformed);
+}
+
 
 // Mirror only visible homepage FAQs in machine-readable form for answer engines.
 // No extra answers are invented; the source of truth remains the visible FAQ.
