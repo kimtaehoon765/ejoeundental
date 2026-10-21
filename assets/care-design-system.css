@@ -27,3 +27,13 @@
 
 /* Identify the current treatment page for sighted keyboard and touch users. */
 .treatment-quick-links a[aria-current="page"]{background:#173e35;color:#fff;border-color:#173e35;text-decoration:none;pointer-events:none}
+
+/* Keep long clinical terms and navigation labels readable on small screens. */
+@media (max-width: 600px) {
+  .treatment-quick-links, .treatment-hero-actions { min-width: 0; }
+  .treatment-quick-links a, .treatment-hero-actions a {
+    overflow-wrap: anywhere;
+    text-align: center;
+  }
+  .gum-section, .section, .gum-box, .gum-step { min-width: 0; }
+}
