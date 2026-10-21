@@ -233,3 +233,11 @@
 .symptom-quick-search :is(input,button):focus-visible{outline:3px solid #a47837;outline-offset:3px}
 .symptom-quick-search>p{margin:9px 0 0;font-size:13px;line-height:1.6}
 @media(max-width:560px){.symptom-quick-search{padding:13px}.symptom-quick-search-row{flex-direction:column}.symptom-quick-search button{width:100%}}
+
+/* One-tap topic searches, sized for touch and keyboard access. */
+.symptom-quick-topics{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin-top:12px}
+.symptom-quick-topics>span{margin-right:4px;font-size:13px;font-weight:700;color:#34594a}
+.symptom-quick-topics a{display:inline-flex;align-items:center;min-height:44px;padding:7px 12px;border:1px solid #c6dccd;border-radius:999px;background:#fff;color:#173e35;text-decoration:none;font-size:13px;font-weight:650}
+.symptom-quick-topics a:hover{background:#e8f3eb;text-decoration:underline}
+.symptom-quick-topics a:focus-visible{outline:3px solid #a47837;outline-offset:3px}
+@media(max-width:560px){.symptom-quick-topics>span{flex-basis:100%}.symptom-quick-topics{gap:6px}}
