@@ -349,3 +349,7 @@ html{scroll-padding-top:92px}
 /* Copyright belongs below patient information, not between contact details and links. */
 .footer .footer-copyright{max-width:960px;margin:24px auto 0;padding:18px 0 0;border-top:1px solid rgba(23,62,53,.18);text-align:center;font-size:13px}
 @media(max-width:640px){.footer .footer-copyright{margin-left:16px;margin-right:16px}}
+
+/* Compact, thumb-friendly quick navigation: avoid a tall five-row stack on phones. */
+@media(max-width:600px){.care-find-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.care-find-links a{min-width:0;padding:10px 8px;text-align:center;font-size:13px;line-height:1.4;overflow-wrap:anywhere}.care-find-links a:last-child:nth-child(odd){grid-column:1/-1}}
+@media(max-width:350px){.care-find-links{grid-template-columns:1fr}.care-find-links a:last-child:nth-child(odd){grid-column:auto}}
