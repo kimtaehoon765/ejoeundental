@@ -44,6 +44,16 @@ for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-ins
     if (data.isPartOf?.['@id'] !== host+'/#website') errors.push('FAQ source domain mismatch: '+slug);
   } catch { errors.push('FAQ JSON parse failed: '+slug); }
 }
+// Source structured data should already point to the planned custom domain.
+for (const slug of ['medical-safety-guide','previsit-checklist']) {
+ const html=read(slug+'.html');
+ const raw=html.split('<script type="application/ld+json">')[1]?.split('</script>')[0];
+ if (!raw) { errors.push('Missing source WebPage schema: '+slug); continue; }
+ try {
+  const data=JSON.parse(raw);
+  if (data.url!==host+'/'+slug+'.html' || data.isPartOf?.['@id']!==host+'/#website') errors.push('Unexpected source schema URL: '+slug);
+ } catch { errors.push('Invalid source WebPage schema: '+slug); }
+}
 // Confirm all patient safety entry points are connected before migration.
 for (const source of ['index.html','visit-guide.html','medical-safety-guide.html']) {
  const page=read(source);
