@@ -26,6 +26,21 @@ for (const url of urls) {
   if (canonical !== url) throw new Error('Canonical mismatch: ' + url + ' -> ' + canonical);
   if (origin.endsWith('.com') && html.includes(wrongOrigin)) throw new Error('Preview origin remains in published page: ' + url);
 }
+// Check every generated HTML page, not just URLs listed in the sitemap.
+let checkedHtml = 0;
+function checkGeneratedHtml(dir) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const filename = path.join(dir, entry.name);
+    if (entry.isDirectory()) { checkGeneratedHtml(filename); continue; }
+    if (!entry.name.endsWith('.html')) continue;
+    checkedHtml++;
+    const html = fs.readFileSync(filename, 'utf8');
+    if (origin === 'https://ejoeundental.com' && html.includes('https://ejoeundental.pages.dev')) {
+      throw new Error('Preview URL remains in generated HTML: ' + path.relative(dist, filename));
+    }
+  }
+}
+checkGeneratedHtml(dist);
 const robots = fs.readFileSync(path.join(dist, 'robots.txt'), 'utf8');
 if (!robots.includes('Sitemap: ' + origin + '/sitemap.xml')) throw new Error('Robots sitemap origin mismatch');
-console.log('Public origin verified:', origin, '| sitemap pages:', urls.length);
+console.log('Public origin verified:', origin, '| sitemap pages:', urls.length, '| HTML pages:', checkedHtml);
