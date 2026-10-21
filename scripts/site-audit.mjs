@@ -125,6 +125,9 @@ if (existsSync(homepageFile)) {
       if (!existsSync(join(root, link.slice(1)))) errors.push('복용약 안전 안내 목적지 누락: ' + link);
     }
     if (!section.includes('임의로 중단하지')) errors.push('복용약 임의 중단 주의 문구 누락');
+    for (const detail of ['symptom-previsit-checklist', '약의 이름', '약물 알레르기', '처방 의료진']) {
+      if (!section.includes(detail)) errors.push('방문 전 준비 안내 누락: ' + detail);
+    }
   }
 }
 // Ensure local SEO data is machine-readable and matches the visible clinic identity.
