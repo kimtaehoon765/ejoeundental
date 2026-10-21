@@ -62,13 +62,13 @@ for (const source of ['index.html','visit-guide.html','medical-safety-guide.html
 for (const source of ['index.html','visit-guide.html','medical-history.html']) {
  if (!read(source).includes('href="/medical-safety-guide.html"')) errors.push('Safety guide navigation missing: '+source);
 }
-// Explicitly flag all SEO-bearing preview URLs in the generated build.
-// This is advisory until the domain is actually connected.
+// Check SEO-bearing URLs in source files before domain migration.
+// Generated dist URLs require a separate post-build audit.
 const seoFiles = ['index.html','search.html','gum-treatment.html','retreatment.html','cervical-abrasion.html'];
 for (const filename of seoFiles) {
   if (!existsSync(filename)) continue;
   const html = read(filename);
-  const canonical = html.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1];
+  const canonical = html.match(/<link\b[^>]*\brel=["']canonical["'][^>]*\bhref=["']([^"']+)["']/i)?.[1] || html.match(/<link\b[^>]*\bhref=["']([^"']+)["'][^>]*\brel=["']canonical["']/i)?.[1];
   if (canonical && !canonical.startsWith(host + '/')) errors.push('Source canonical on unexpected host: ' + filename + ' -> ' + canonical);
   if (html.includes(preview)) notes.push('Preview URL still referenced in source: ' + filename + '; inspect social and structured metadata at cutover.');
 }
