@@ -41,3 +41,14 @@
   for = "/"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+# Keep deployment-generated JSON and XML metadata fresh after updates.
+[[headers]]
+  for = "/content/*.json"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/stories/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
