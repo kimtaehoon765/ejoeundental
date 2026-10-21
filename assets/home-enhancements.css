@@ -298,3 +298,10 @@
 .hero-principles{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 20px}
 .hero-principles span{display:inline-flex;align-items:center;min-height:36px;padding:8px 12px;background:#eef3e9;border:1px solid #cbdcc9;border-radius:5px;color:#244f3e;font-size:.88rem;font-weight:700;line-height:1.5;word-break:keep-all}
 @media(max-width:600px){.hero-principles{gap:7px}.hero-principles span{font-size:.82rem;padding:7px 10px}}
+
+/* Editorial hero hierarchy: clear diagnosis-first positioning without changing the illustration. */
+.hero #headline{font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;letter-spacing:-.055em;line-height:1.32;text-wrap:balance}
+.hero #intro{max-width:680px;line-height:1.85;word-break:keep-all}
+.hero .kicker{letter-spacing:.15em}
+.hero .hero-actions a:focus-visible,.hero .hero-care-summary a:focus-visible{outline:3px solid #ad7937;outline-offset:4px}
+@media(max-width:640px){.hero #headline{font-size:clamp(1.85rem,7vw,2.7rem);line-height:1.38}.hero #intro{font-size:1rem;line-height:1.8}.hero .hero-actions a{min-height:48px}}
