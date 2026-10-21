@@ -190,3 +190,6 @@
 .visit-quick-facts a:focus-visible{outline:3px solid #a47837;outline-offset:3px;border-radius:3px}
 #parking-details,#weekly-hours{scroll-margin-top:110px}
 @media(max-width:600px){#parking-details,#weekly-hours{scroll-margin-top:88px}.visit-quick-facts span{line-height:1.7}}
+
+/* Comfortable tap targets and readable visit shortcuts on narrow phones. */
+@media(max-width:650px){.visit-quick-facts>div{display:block}.visit-quick-facts strong{display:block;margin-bottom:4px}.visit-quick-facts span{display:block;text-align:left;font-size:14px}.visit-quick-facts a{min-height:44px;display:inline-flex;align-items:center;margin-top:2px;padding:7px 2px;line-height:1.4}}
