@@ -323,6 +323,22 @@ if (existsSync(enhancements)) {
   const css = readFileSync(enhancements, 'utf8');
   if (!css.includes('.visit-quick-facts')) errors.push('방문 핵심정보 스타일 누락');
 }
+// Prevent publishing a navigation link to a page that the production build omitted.
+const visitGuideFile = join(root, 'visit-guide.html');
+if (!existsSync(visitGuideFile)) errors.push('방문 전 확인사항 페이지가 배포 폴더에 없습니다');
+else {
+  const guide = readFileSync(visitGuideFile, 'utf8');
+  for (const detail of ['격주', '3시간 무료', '12:30', '18:00', '임의로 중단하지 마세요', 'href="tel:0325132875"']) {
+    if (!guide.includes(detail)) errors.push('방문 안내 필수정보 누락: ' + detail);
+  }
+  if (!guide.includes('rel="canonical" href="https://ejoeundental.com/visit-guide.html"')) errors.push('방문 안내 canonical 주소 누락');
+}
+if (existsSync(homepageFile)) {
+  const home = readFileSync(homepageFile, 'utf8');
+  if (!home.includes('href="/visit-guide.html"')) errors.push('홈페이지에서 방문 전 안내 연결 누락');
+}
+const sitemapFile = join(root, 'sitemap.xml');
+if (!existsSync(sitemapFile) || !readFileSync(sitemapFile, 'utf8').includes('https://ejoeundental.com/visit-guide.html')) errors.push('방문 안내 사이트맵 누락');
 const adminFile = join(root, 'admin/index.html');
 if (existsSync(adminFile)) {
   const admin = readFileSync(adminFile, 'utf8');
