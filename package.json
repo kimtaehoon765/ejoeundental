@@ -10,6 +10,7 @@
     "build:owner": "node scripts/build-owner-library.mjs",
     "test:owner": "node scripts/test-owner-library.mjs",
     "test:owner:auth": "node --test scripts/test-owner-auth.mjs",
-    "test:owner:all": "npm run test:owner && npm run test:owner:auth"
+    "test:owner:all": "npm run test:owner && npm run test:owner:auth",
+    "check:domain": "node scripts/domain-readiness.mjs"
   }
 }
