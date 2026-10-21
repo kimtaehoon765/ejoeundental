@@ -1247,3 +1247,31 @@ for(const route of healthSitemapRoutes){
  checkedHealthPatientInfo++;
 }
 console.log('Health article safety notices and contact links checked: '+checkedHealthPatientInfo);
+
+
+// Optional production cutover: keep preview output unchanged unless explicitly selected.
+// Run with SITE_PUBLIC_ORIGIN=https://ejoeundental.com only after custom-domain readiness is verified.
+const selectedPublicOrigin = process.env.SITE_PUBLIC_ORIGIN || 'https://ejoeundental.pages.dev';
+if (!['https://ejoeundental.pages.dev', 'https://ejoeundental.com'].includes(selectedPublicOrigin)) {
+  throw new Error('Unsupported SITE_PUBLIC_ORIGIN: ' + selectedPublicOrigin);
+}
+if (selectedPublicOrigin === 'https://ejoeundental.com') {
+  let updatedFiles = 0;
+  function normalizePublishedOrigin(dir) {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const filename = path.join(dir, entry.name);
+      if (entry.isDirectory()) { normalizePublishedOrigin(filename); continue; }
+      if (!/\.(?:html|xml|txt|json|js|mjs|css|webmanifest)$/i.test(entry.name)) continue;
+      const before = fs.readFileSync(filename, 'utf8');
+      const after = before.replaceAll('https://ejoeundental.pages.dev', selectedPublicOrigin);
+      if (after !== before) { fs.writeFileSync(filename, after); updatedFiles++; }
+    }
+  }
+  normalizePublishedOrigin(out);
+  const productionSitemap = fs.readFileSync(path.join(out, 'sitemap.xml'), 'utf8');
+  if (productionSitemap.includes('ejoeundental.pages.dev') ||
+      !productionSitemap.includes('<loc>https://ejoeundental.com/</loc>')) {
+    throw new Error('Production sitemap host verification failed');
+  }
+  console.log('Production public origin normalized in', updatedFiles, 'generated files');
+}
