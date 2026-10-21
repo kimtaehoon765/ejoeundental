@@ -316,7 +316,7 @@ html{scroll-padding-top:92px}
 #stories #post-list .card{position:relative;display:flex;flex-direction:column;gap:.45rem;min-width:0;border:1px solid #dce5dc;border-radius:16px;background:#fffdf8;box-shadow:0 6px 20px rgba(23,62,53,.055);transition:box-shadow .2s ease,transform .2s ease}
 #stories #post-list .card h3{margin:0;line-height:1.5;word-break:keep-all}
 #stories #post-list .card p{margin:.25rem 0 .7rem;flex:1;word-break:keep-all}
-#stories #post-list .card>a:last-child{font-weight:700;color:#173e35;text-decoration:underline;text-underline-offset:4px;align-self:flex-start}
+#stories #post-list .card .article-card-action{font-weight:700;color:#173e35;text-decoration:underline;text-underline-offset:4px;align-self:flex-start}
 #stories #post-list .card a:focus-visible{outline:3px solid #a47837;outline-offset:4px;border-radius:3px}
 @media(hover:hover){#stories #post-list .card:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(23,62,53,.12)}}
 @media(prefers-reduced-motion:reduce){#stories #post-list .card{transition:none}#stories #post-list .card:hover{transform:none}}
