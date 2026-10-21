@@ -28,3 +28,9 @@
   for = "/robots.txt"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+# Versioned static assets can be cached briefly while retaining daily freshness.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
