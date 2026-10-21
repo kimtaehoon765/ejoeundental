@@ -422,6 +422,20 @@ for (const source of ['index.html','visit-guide.html','medical-history.html']) {
  const file=join(root,source);
  if (!existsSync(file) || !readFileSync(file,'utf8').includes('href="/medical-safety-guide.html"')) errors.push('환자 안전정보 모음 진입 링크 누락: '+source);
 }
+// Patient checklist should be present, searchable and linked.
+const checklist=join(root,'previsit-checklist.html');
+if (!existsSync(checklist)) errors.push('방문 체크리스트 배포 누락');
+else {
+ const content=readFileSync(checklist,'utf8');
+ if ((content.match(/type="checkbox"/g)||[]).length<8) errors.push('방문 체크리스트 항목 누락');
+ if (!content.includes('임의로 중단하지 마세요')) errors.push('방문 체크리스트 약물 안전 경고 누락');
+ if (!content.includes('https://ejoeundental.pages.dev/previsit-checklist.html')) errors.push('방문 체크리스트 canonical 불일치');
+}
+if (!existsSync(sitemapFile)||!readFileSync(sitemapFile,'utf8').includes('https://ejoeundental.pages.dev/previsit-checklist.html')) errors.push('방문 체크리스트 사이트맵 누락');
+for (const source of ['index.html','medical-safety-guide.html','visit-guide.html']) {
+ const file=join(root,source);
+ if (!existsSync(file)||!readFileSync(file,'utf8').includes('href="/previsit-checklist.html"')) errors.push('방문 체크리스트 연결 누락: '+source);
+}
 const adminFile = join(root, 'admin/index.html');
 if (existsSync(adminFile)) {
   const admin = readFileSync(adminFile, 'utf8');
