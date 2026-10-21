@@ -1276,6 +1276,11 @@ if (selectedPublicOrigin === 'https://ejoeundental.com') {
       !productionSitemap.includes('<loc>https://ejoeundental.com/</loc>')) {
     throw new Error('Production sitemap host verification failed');
   }
+  const productionHome = fs.readFileSync(path.join(out, 'index.html'), 'utf8');
+  if (!productionHome.includes('<link rel="canonical" href="https://ejoeundental.com/">') ||
+      !productionHome.includes('<meta property="og:url" content="https://ejoeundental.com/">')) {
+    throw new Error('Production homepage canonical and social URL verification failed');
+  }
   const productionRobots = fs.readFileSync(path.join(out, 'robots.txt'), 'utf8');
   if (!/^Sitemap:\s*https:\/\/ejoeundental\.com\/sitemap\.xml\s*$/mi.test(productionRobots)) {
     throw new Error('Production robots.txt sitemap host verification failed');
