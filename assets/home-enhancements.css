@@ -254,3 +254,8 @@
 .place-visit-action:focus-visible{outline:3px solid #a47837;outline-offset:3px}
 .place-visit-note{font-size:14px;line-height:1.75;margin:0 0 18px;word-break:keep-all}
 @media(max-width:640px){.place-visit-actions{grid-template-columns:1fr}.place-visit-action{min-height:54px}}
+
+/* Keep the direct Naver Map action visible next to call on narrow phones. */
+.mobile-quick a[href^="https://map.naver.com/"]{order:-2;background:#e5efe7;color:#173e35;font-weight:700;border-radius:8px}
+.mobile-quick a[href="#location"]{order:-1}
+.mobile-quick a.mobile-call{order:0}
