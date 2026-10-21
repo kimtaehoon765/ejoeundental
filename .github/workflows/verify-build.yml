@@ -11,283 +11,47 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Check out website
         uses: actions/checkout@v4
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      - name: Check build script syntax
-        run: node --check build.mjs
-      - name: Check fee table JavaScript syntax
-        run: node --check assets/fees.js
-      - name: Check homepage CMS JavaScript syntax
-        run: node --check assets/site.js
-      - name: Build website
-        run: npm run build
-      - name: Verify generated site
+          node-version: '22'
+      - name: Validate source JavaScript
         run: |
-          test -f dist/index.html
-          test -f dist/sitemap.xml
-          test -f dist/content/posts-index.json
-          test -f dist/noncovered-fees.html
-          test -f dist/content/fees-index.json
-          test -f dist/assets/fees.js
-          test -f dist/assets/site.js
-          node -e "const fs=require('fs');const html=fs.readFileSync('dist/index.html','utf8');if(!html.includes('id=\"post-list\"')||!html.includes('<noscript>'))process.exit(1)"
-          node -e "const fs=require('fs');const x=JSON.parse(fs.readFileSync('dist/content/fees-index.json','utf8'));if(!Array.isArray(x.items))process.exit(1)"
-          # Guard against regressions in the optional, user-controlled music UI.
-          node <<'NODE'
-          const fs = require("node:fs");
-          const html = fs.readFileSync("dist/index.html", "utf8");
-          const requiredIds = ["music-panel", "music-reopen", "piano-toggle", "piano-volume", "piano-audio", "random-pop", "random-pop-fallback"];
-          for (const id of requiredIds) {
-            if (!html.includes(`id="${id}"`)) throw new Error(`Missing music control: ${id}`);
+          node --check build.mjs
+          node --check assets/site.js
+          node --check assets/fees.js
+          node --check assets/search.js
+      - name: Build and audit
+        run: npm run build:check
+      - name: Verify essential generated files and current patient navigation
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          const required = ['index.html','sitemap.xml','robots.txt','search.html','noncovered-fees.html','clinical-archive.html','gum-treatment.html','retreatment.html','cervical-abrasion.html','insured-care.html','content/posts-index.json','content/fees-index.json','content/search-index.json'];
+          for (const name of required) {
+            if (!fs.existsSync(path.join('dist',name))) throw new Error('Missing generated file: '+name);
           }
-          if (!/<div[^>]*id="music-panel"[^>]*hidden/.test(html)) throw new Error("Music panel must start minimized");
-          if (!/<audio[^>]*id="piano-audio"[^>]*preload="none"/.test(html)) throw new Error("Audio must not preload");
-          if (!fs.readFileSync("dist/assets/music-controls.js", "utf8").includes("setPanelVisibility(false)")) throw new Error("Missing minimized default");
-          if (!html.includes("aria-controls=")) throw new Error("Missing accessible music controls");
-          if (!fs.readFileSync("dist/assets/music-controls.js", "utf8").includes("visibilitychange") || !fs.readFileSync("dist/assets/music-controls.js", "utf8").includes("pagehide")) throw new Error("Missing audio stop lifecycle handlers");
-          console.log("Music controls and safe defaults verified.");
+          for (const name of ['posts-index','fees-index','search-index']) JSON.parse(fs.readFileSync(path.join('dist','content',name+'.json'),'utf8'));
+          const html = fs.readFileSync('dist/index.html','utf8');
+          const ids = new Set([...html.matchAll(/\bid=["']([^"']+)["']/g)].map(m=>m[1]));
+          for (const id of ['philosophy','focus-care','symptoms','visit-guide','when-to-call','faq','location','local-care']) {
+            if (!ids.has(id)) throw new Error('Missing patient section: '+id);
+          }
+          for (const phrase of ['이조은치과','청천동','산곡동','산곡역','세월천로 34','3시간 무료 주차']) {
+            if (!html.includes(phrase)) throw new Error('Missing clinic visit fact: '+phrase);
+          }
+          for (const target of ['/gum-treatment.html','/retreatment.html','/cervical-abrasion.html','/insured-care.html','/noncovered-fees.html','/search.html']) {
+            if (!html.includes('href="'+target+'"')) throw new Error('Missing patient navigation: '+target);
+          }
+          for (const match of html.matchAll(/href=["']#([^"']+)["']/g)) {
+            if (!ids.has(match[1])) throw new Error('Broken homepage anchor: #'+match[1]);
+          }
+          const fees = fs.readFileSync('dist/noncovered-fees.html','utf8');
+          if (!fees.includes('<noscript>')) throw new Error('Missing no-script fee guidance');
+          console.log('Current patient navigation and generated content verified.');
           NODE
-          # Ensure local discovery content remains present and links to real clinic information.
-          node <<'NODE'
-          const fs = require("node:fs");
-          const html = fs.readFileSync("dist/index.html", "utf8");
-          for (const phrase of ["id=\"local-care\"", "청천동", "산곡동", "산곡역", "세월천로 34", "3시간 무료 주차", "/retreatment.html", "/gum-treatment.html"]) {
-            if (!html.includes(phrase)) throw new Error("Missing local discovery content: " + phrase);
-          }
-          for (const href of ["retreatment.html", "gum-treatment.html", "root-canal-health.html"]) {
-            if (!fs.existsSync("dist/" + href)) throw new Error("Broken neighborhood guide target: " + href);
-          }
-          console.log("Local SEO and clinic navigation verified.");
-          NODE
-          # Patient FAQ content should remain discoverable and medically qualified.
-          node <<'NODE'
-          const fs = require("node:fs");
-          const html = fs.readFileSync("dist/index.html", "utf8");
-          const start = html.indexOf('id="treatment-decisions"');
-          const end = html.indexOf('id="visit-guide"', start);
-          if (start < 0 || end < start) throw new Error("Missing treatment decision FAQ section");
-          const section = html.slice(start, end);
-          for (const term of ["잇몸", "재신경치료", "치경부마모증", "건강보험", "검진", "급여 기준"]) {
-            if (!section.includes(term)) throw new Error("Incomplete treatment FAQ: " + term);
-          }
-          for (const target of ["gum-treatment.html", "retreatment.html", "cervical-abrasion.html", "insured-care.html"]) {
-            if (!fs.existsSync("dist/" + target)) throw new Error("Broken treatment FAQ target: " + target);
-          }
-          console.log("Patient treatment decision FAQs verified.");
-          NODE
-          # Verify the doctor-led care pathway and patient contact actions.
-          node <<'NODE'
-          const fs = require("node:fs");
-          const html = fs.readFileSync("dist/index.html", "utf8");
-          const start = html.indexOf('id="care-pathway"');
-          const end = html.indexOf('id="visit-guide"', start);
-          if (start < 0 || end < start) throw new Error("Missing care pathway section");
-          const pathway = html.slice(start, end);
-          for (const term of ["원장", "검진", "자연치아", "보험", "단계적으로", "tel:0325132875", 'href="#location"']) {
-            if (!pathway.includes(term)) throw new Error("Incomplete care pathway: " + term);
-          }
-          console.log("Doctor-led care pathway verified.");
-          NODE
-          # Keep urgent dental symptom guidance visible and linked to emergency help.
-          node <<'NODE'
-          const fs = require("node:fs");
-          const html = fs.readFileSync("dist/index.html", "utf8");
-          const start = html.indexOf('id="when-to-call"');
-          const end = html.indexOf('id="visit-guide"', start);
-          if (start < 0 || end < start) throw new Error("Missing urgent symptom guidance");
-          const section = html.slice(start, end);
-          for (const phrase of ["호흡곤란", "삼킴 곤란", "119", "응급실", "tel:0325132875", "발열"]) {
-            if (!section.includes(phrase)) throw new Error("Missing urgent symptom safety detail: " + phrase);
-          }
-          console.log("Urgent symptom guidance verified.");
-          NODE
-          # Validate pre-visit checklist and key operating details.
-          node <<'NODE'
-          const fs = require("node:fs");
-          const html = fs.readFileSync("dist/index.html", "utf8");
-          const start = html.indexOf('id="appointment-checklist"');
-          const end = html.indexOf('id="visit-guide"', start);
-          if (start < 0 || end < start) throw new Error("Missing pre-visit checklist");
-          const checklist = html.slice(start, end);
-          for (const term of ["격주", "12:30", "18:00", "복용", "알레르기", "3시간 무료", "건강보험", "tel:0325132875"]) {
-            if (!checklist.includes(term)) throw new Error("Incomplete visit checklist: " + term);
-          }
-          console.log("Pre-visit checklist verified.");
-          NODE
-          # Navigation should stay compact while key patient paths remain reachable.
-          node <<'NODE'
-          const fs = require("node:fs");
-          const html = fs.readFileSync("dist/index.html", "utf8");
-          const nav = html.match(/<div class="navlinks">([\s\S]*?)<\/div><\/nav>/);
-          if (!nav) throw new Error("Missing primary navigation");
-          const count = (nav[1].match(/<a\b/g) || []).length;
-          if (count > 10) throw new Error("Desktop navigation is too crowded: " + count + " links");
-          for (const id of ["treatment-decisions", "when-to-call", "appointment-checklist", "location"]) {
-            if (!nav[1].includes('href="#' + id + '"')) throw new Error("Missing important navigation link: " + id);
-          }
-          if (!html.includes('class="mobile-quick"')) throw new Error("Missing mobile shortcuts");
-          console.log("Compact desktop and mobile navigation verified.");
-          NODE
-          # Ensure key pages remain reachable despite the shorter primary menu.
-          node <<'NODE'
-          const fs = require("node:fs");
-          const html = fs.readFileSync("dist/index.html", "utf8");
-          for (const destination of ["/noncovered-fees.html", "/insured-care.html", "#visit-guide", "#care-pathway", "#faq"]) {
-            if (!html.includes('href="' + destination + '"')) throw new Error("Missing internal route: " + destination);
-          }
-          for (const id of ["philosophy", "focus-care", "doctor", "symptom-guide", "treatment-decisions", "appointment-checklist", "when-to-call", "location"]) {
-            if (!html.includes('id="' + id + '"')) throw new Error("Missing primary menu destination: " + id);
-          }
-          console.log("Essential routes remain reachable after menu simplification.");
-          NODE
-          # Audit homepage fragment links and internal HTML routes together.
-          node <<'NODE'
-          const fs = require("node:fs");
-          const path = require("node:path");
-          const html = fs.readFileSync("dist/index.html", "utf8");
-          const ids = new Set([...html.matchAll(/\bid=["']([^"']+)["']/g)].map(match => match[1]));
-          const hrefs = [...html.matchAll(/\bhref=["']([^"']+)["']/g)].map(match => match[1]);
-          const missing = [];
-          for (const href of hrefs) {
-            if (href.startsWith("#")) {
-              const fragment = decodeURIComponent(href.slice(1));
-              if (fragment && !ids.has(fragment)) missing.push("missing anchor: " + href);
-            } else if (href.startsWith("/") && !href.startsWith("//")) {
-              const clean = href.split(/[?#]/, 1)[0];
-              if (!clean || clean === "/") continue;
-              const target = path.resolve("dist", "." + clean);
-              const root = path.resolve("dist") + path.sep;
-              if (!target.startsWith(root)) { missing.push("unsafe internal route: " + href); continue; }
-              if (!fs.existsSync(target) && !fs.existsSync(path.join(target, "index.html"))) {
-                missing.push("missing page: " + href);
-              }
-            }
-          }
-          if (missing.length) throw new Error("Homepage link audit failed:\\n" + [...new Set(missing)].join("\\n"));
-          console.log("Homepage internal links verified:", hrefs.length, "links checked");
-          NODE
-          # Check local navigation in every top-level published HTML page.
-          node <<'NODE'
-          const fs = require("node:fs");
-          const path = require("node:path");
-          const root = path.resolve("dist");
-          const pages = [];
-          function collect(directory) {
-            for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
-              const full = path.join(directory, entry.name);
-              if (entry.isDirectory()) collect(full);
-              else if (entry.isFile() && entry.name.endsWith(".html")) pages.push(path.relative(root, full));
-            }
-          }
-          collect(root);
-          const errors = [];
-          let checked = 0;
-          for (const page of pages) {
-            const html = fs.readFileSync(path.join(root, page), "utf8");
-            const ids = new Set([...html.matchAll(/\bid=["']([^"']+)["']/g)].map(match => match[1]));
-            for (const [, href] of html.matchAll(/\bhref=["']([^"']+)["']/g)) {
-              if (href.startsWith("#")) {
-                const fragment = decodeURIComponent(href.slice(1));
-                if (fragment && !ids.has(fragment)) errors.push(page + ": missing " + href);
-                checked++;
-              } else if (href.startsWith("/") && !href.startsWith("//")) {
-                const targetPath = href.split(/[?#]/, 1)[0];
-                if (!targetPath || targetPath === "/") continue;
-                const resolved = path.resolve(root, "." + targetPath);
-                if (!resolved.startsWith(root + path.sep)) {
-                  errors.push(page + ": unsafe " + href);
-                } else if (!fs.existsSync(resolved) && !fs.existsSync(path.join(resolved, "index.html"))) {
-                  errors.push(page + ": missing " + href);
-                }
-                checked++;
-              }
-            }
-          }
-          if (errors.length) throw new Error("Published page link audit failed:\\n" + [...new Set(errors)].join("\\n"));
-          console.log("Published HTML link audit passed:", pages.length, "pages,", checked, "local links");
-          NODE
-          # Prevent duplicate HTML ids and inaccessible images across generated pages.
-          node <<'NODE'
-          const fs = require("node:fs");
-          const path = require("node:path");
-          const root = path.resolve("dist");
-          const pages = [];
-          function walk(dir) {
-            for (const item of fs.readdirSync(dir, {withFileTypes: true})) {
-              const full = path.join(dir, item.name);
-              if (item.isDirectory()) walk(full);
-              else if (item.isFile() && item.name.endsWith(".html")) pages.push(full);
-            }
-          }
-          walk(root);
-          const errors = [];
-          let images = 0;
-          for (const file of pages) {
-            const html = fs.readFileSync(file, "utf8");
-            const name = path.relative(root, file);
-            const ids = new Set();
-            for (const [, id] of html.matchAll(/\bid=["']([^"']+)["']/g)) {
-              if (ids.has(id)) errors.push(name + ": duplicate id " + id);
-              ids.add(id);
-            }
-            for (const [, attrs] of html.matchAll(/<img\b([^>]*)>/gi)) {
-              images++;
-              if (!/\balt\s*=\s*["'][^"']*["']/i.test(attrs)) errors.push(name + ": image missing alt");
-            }
-          }
-          if (errors.length) throw new Error("Accessibility audit failed:\\n" + errors.slice(0,30).join("\\n"));
-          console.log("HTML accessibility audit passed:", pages.length, "pages,", images, "images");
-          NODE
-          # Audit essential metadata on every generated HTML document.
-          node <<'NODE'
-          const fs = require("node:fs");
-          const path = require("node:path");
-          const root = path.resolve("dist");
-          const pages = [];
-          function walk(dir) {
-            for (const item of fs.readdirSync(dir, {withFileTypes: true})) {
-              const full = path.join(dir, item.name);
-              if (item.isDirectory()) walk(full);
-              else if (item.isFile() && item.name.endsWith(".html")) pages.push(full);
-            }
-          }
-          walk(root);
-          const errors = [];
-          for (const file of pages) {
-            const html = fs.readFileSync(file, "utf8");
-            const name = path.relative(root, file);
-            if (!/<html\b[^>]*\blang=["']ko["']/i.test(html)) errors.push(name + ": missing Korean document language");
-            if (!/<title>\s*[^<\s][\s\S]*?<\/title>/i.test(html)) errors.push(name + ": missing page title");
-            if (!/<meta\s+name=["']viewport["']/i.test(html) && !/<meta\s+content=["'][^"']*width=device-width[^"']*["']\s+name=["']viewport["']/i.test(html)) errors.push(name + ": missing viewport");
-          }
-          if (errors.length) throw new Error("Page metadata audit failed:\\n" + errors.slice(0,30).join("\\n"));
-          console.log("Document language, title and mobile viewport verified:", pages.length, "pages");
-          NODE
-          # Verify search crawler assets reference only published pages.
-          node <<'NODE'
-          const fs = require("node:fs");
-          const path = require("node:path");
-          const sitemap = fs.readFileSync("dist/sitemap.xml", "utf8");
-          const robots = fs.readFileSync("dist/robots.txt", "utf8");
-          const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
-          if (!urls.length) throw new Error("Sitemap contains no URLs");
-          if (new Set(urls).size !== urls.length) throw new Error("Sitemap contains duplicate URLs");
-          if (!/Sitemap:\s*https?:\/\//i.test(robots)) throw new Error("Robots file lacks sitemap reference");
-          const missing = [];
-          for (const url of urls) {
-            const parsed = new URL(url);
-            const relative = decodeURIComponent(parsed.pathname);
-            if (relative.includes("..")) { missing.push("unsafe: " + url); continue; }
-            const candidate = path.join("dist", relative.replace(/^\/+/, ""));
-            if (!fs.existsSync(candidate) && !fs.existsSync(path.join(candidate, "index.html"))) missing.push(url);
-          }
-          if (missing.length) throw new Error("Sitemap references missing generated pages:\\n" + missing.slice(0,20).join("\\n"));
-          console.log("Sitemap and robots verified:", urls.length, "published URLs");
-          NODE
-          test -d dist/health
-          echo "Website build and required files verified."
