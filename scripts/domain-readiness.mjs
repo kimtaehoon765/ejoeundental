@@ -82,10 +82,10 @@ for (const filename of seoFiles) {
   }
   if (html.includes(preview)) notes.push('Preview URL still referenced in source: ' + filename + '; inspect social and structured metadata at cutover.');
 }
-notes.push('Cutover checklist: confirm Cloudflare custom domain active, HTTPS valid, redirects consistent, generated canonical/OG/schema/sitemap/robots use the final host, then submit sitemap to search engines.');
+notes.push('Cutover checklist: confirm Netlify custom domain active, HTTPS valid, redirects consistent, generated canonical/OG/schema/sitemap/robots use the final host, then submit sitemap to search engines.');
 
 console.log('DOMAIN PREFLIGHT (read only)');
-console.log('Target domain:',host,'| Current preview build:',preview);
+console.log('Target domain:',host,'| Legacy preview origin in build:',preview);
 console.log('Source sitemap URLs:',urls.length);
 for (const n of notes) console.log('NOTE:',n);
 for (const e of errors) console.error('ERROR:',e);
