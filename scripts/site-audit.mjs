@@ -92,17 +92,17 @@ for (const f of html) {
     }
   }
 }
-// Catch same-page anchors that point to missing section IDs, especially on mobile navigation.
+// Check local in-page navigation against actual element IDs.
 let checkedPageAnchors = 0;
 for (const file of html) {
   const page = readFileSync(file, 'utf8');
-  const relative = file.slice(root.length + 1).replaceAll('\\\\', '/');
-  const ids = new Set([...page.matchAll(/\\bid=["']([^"']+)["']/gi)].map(m => m[1]));
-  for (const m of page.matchAll(/<a\\b[^>]*\\bhref=["']#([^"']+)["'][^>]*>/gi)) {
+  const relative = file.slice(root.length + 1).replaceAll('\\', '/');
+  const ids = new Set([...page.matchAll(/\bid=["']([^"']+)["']/gi)].map(m => m[1]));
+  for (const match of page.matchAll(/<a\b[^>]*\bhref=["']#([^"']+)["'][^>]*>/gi)) {
     checkedPageAnchors++;
     let fragment;
-    try { fragment = decodeURIComponent(m[1]); }
-    catch { errors.push(relative + ': 잘못된 앵커 인코딩 ' + m[1]); continue; }
+    try { fragment = decodeURIComponent(match[1]); }
+    catch { errors.push(relative + ': 잘못된 앵커 인코딩 ' + match[1]); continue; }
     if (fragment && !ids.has(fragment)) errors.push(relative + ': 연결 대상이 없는 페이지 내 앵커 #' + fragment);
   }
 }
