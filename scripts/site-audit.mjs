@@ -340,7 +340,7 @@ if (existsSync(homepageFile)) {
 const sitemapFile = join(root, 'sitemap.xml');
 if (!existsSync(sitemapFile) || !readFileSync(sitemapFile, 'utf8').includes('https://ejoeundental.pages.dev/visit-guide.html')) errors.push('방문 안내 사이트맵 누락');
 // Keep new patient FAQs published, discoverable, and consistent with on-page answers.
-for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq']) {
+for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq','medication-dental-faq','systemic-disease-dental-faq']) {
   const route = '/' + slug + '.html';
   const target = join(root, slug + '.html');
   if (!existsSync(target)) { errors.push('FAQ 배포 누락: ' + route); continue; }
@@ -386,6 +386,15 @@ for (const slug of ['visit-guide','gum-treatment-faq','root-canal-retreatment-fa
   if (!page.includes('rel="canonical" href="' + expectedCanonical + '"')) errors.push('정규 URL 불일치: ' + slug);
   const links = [...page.matchAll(/href="(\/[^"#?]+[.]html)"/g)].map(match => match[1]);
   for (const link of links) if (!paths.has(link)) errors.push('방문 안내/FAQ 내부 링크 누락: ' + slug + ' -> ' + link);
+}
+// Safety content must be visible and linked from the pre-visit questionnaire.
+for (const slug of ['medication-dental-faq','systemic-disease-dental-faq']) {
+ const file=join(root,slug+'.html');
+ if (!existsSync(file)) continue;
+ const page=readFileSync(file,'utf8');
+ if (!page.includes('임의로 중단하지 마세요')) errors.push('약물 중단 경고 누락: '+slug);
+ if (!existsSync(join(root,'medical-history.html')) || !readFileSync(join(root,'medical-history.html'),'utf8').includes('href="/'+slug+'.html"')) errors.push('문진 안내 FAQ 링크 누락: '+slug);
+ if (!existsSync(join(root,'visit-guide.html')) || !readFileSync(join(root,'visit-guide.html'),'utf8').includes('href="/'+slug+'.html"')) errors.push('방문 안내 FAQ 링크 누락: '+slug);
 }
 const adminFile = join(root, 'admin/index.html');
 if (existsSync(adminFile)) {
