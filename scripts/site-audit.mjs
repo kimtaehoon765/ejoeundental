@@ -378,7 +378,7 @@ for (const slug of ['gum-treatment-faq', 'root-canal-retreatment-faq', 'dental-i
   } catch { errors.push('FAQ JSON-LD 파싱 실패: ' + slug); }
 }
 // Verify FAQ/visit-guide internal HTML links and canonical URL consistency.
-for (const slug of ['visit-guide','gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq']) {
+for (const slug of ['visit-guide','previsit-checklist','medical-safety-guide','gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq','medication-dental-faq','systemic-disease-dental-faq']) {
   const file = join(root, slug + '.html');
   if (!existsSync(file)) continue;
   const page = readFileSync(file, 'utf8');
@@ -386,6 +386,20 @@ for (const slug of ['visit-guide','gum-treatment-faq','root-canal-retreatment-fa
   if (!page.includes('rel="canonical" href="' + expectedCanonical + '"')) errors.push('정규 URL 불일치: ' + slug);
   const links = [...page.matchAll(/href="(\/[^"#?]+[.]html)"/g)].map(match => match[1]);
   for (const link of links) if (!paths.has(link)) errors.push('방문 안내/FAQ 내부 링크 누락: ' + slug + ' -> ' + link);
+}
+// Verify each patient FAQ schema against the visible answer and preview domain.
+for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq','medication-dental-faq','systemic-disease-dental-faq']) {
+ const file=join(root,slug+'.html');
+ if (!existsSync(file)) continue;
+ const page=readFileSync(file,'utf8');
+ const json=page.split('<script type="application/ld+json">')[1]?.split('</script>')[0];
+ if (!json) { errors.push('FAQ JSON-LD 누락: '+slug); continue; }
+ try {
+  const data=JSON.parse(json);
+  if (data.isPartOf?.['@id']!=='https://ejoeundental.pages.dev/#website') errors.push('FAQ 구조화 데이터 도메인 불일치: '+slug);
+  if (data['@type']!=='FAQPage' || data.mainEntity?.length!==6) errors.push('FAQ 문답 수 불일치: '+slug);
+  for (const item of data.mainEntity||[]) if (!page.includes(item.name)||!page.includes(item.acceptedAnswer?.text)) errors.push('FAQ 본문과 구조화 데이터 불일치: '+slug);
+ } catch { errors.push('FAQ JSON-LD 파싱 오류: '+slug); }
 }
 // Safety content must be visible and linked from the pre-visit questionnaire.
 for (const slug of ['medication-dental-faq','systemic-disease-dental-faq']) {
