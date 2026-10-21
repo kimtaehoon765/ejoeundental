@@ -187,6 +187,17 @@ for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-ins
 }
 
 
+// Normalize the safety hub's WebPage schema on the preview deployment too.
+{
+ const file=path.join(out,'medical-safety-guide.html');
+ const html=fs.readFileSync(file,'utf8');
+ const updated=html.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,(tag,json)=>{
+  const data=JSON.parse(json);
+  if(data['@type']!=='WebPage')throw new Error('Expected WebPage JSON-LD: medical-safety-guide');
+  return '<script type="application/ld+json">'+JSON.stringify(data).replace(/https:\/\/ejoeundental\.com\//g,'https://ejoeundental.pages.dev/')+'</script>';
+ });
+ fs.writeFileSync(file,updated);
+}
 // Mirror only visible homepage FAQs in machine-readable form for answer engines.
 // No extra answers are invented; the source of truth remains the visible FAQ.
 const homeFaqPath=path.join(out,'index.html');
