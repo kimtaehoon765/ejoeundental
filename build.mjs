@@ -2,6 +2,8 @@ import fs from 'node:fs';import path from 'node:path';import {createHash} from '
 // Owner-only documents may be omitted ONLY after the authenticated replacement is live.
 // A single environment flag is not proof that migration and backups succeeded.
 const ownerPrivateReady=process.env.OWNER_LIBRARY_PRIVATE_READY==='1';
+const ownerOnlyFiles=["dental-equipment.html","handpiece-maintenance.html","suction-maintenance.html","compressor-maintenance.html","autoclave-maintenance.html","curing-light-maintenance.html","scaler-maintenance.html","dental-chair-maintenance.html","intraoral-camera-maintenance.html","dental-xray-maintenance.html","dental-materials.html","glass-ionomer-guide.html","root-canal-materials-guide.html","composite-bonding-guide.html","impression-materials-guide.html","dental-cements-guide.html","endodontic-instruments-guide.html","periodontal-instruments-guide.html","extraction-instruments-guide.html","equipment-log.html"];
+
 if(ownerPrivateReady && process.env.OWNER_LIBRARY_MIGRATION_VERIFIED!=='YES_PRIVATE_COPY_AND_LOGIN_TESTED'){
  throw new Error('Owner library migration is not verified. Keep the public copy until private files, login, links and CSV backup are confirmed.');
 }
@@ -85,6 +87,26 @@ fs.writeFileSync(path.join(out,'content/search-index-46.json'),JSON.stringify(en
 posts.sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))||a.slug.localeCompare(b.slug));
 fs.writeFileSync(path.join(out,'content/posts-index.json'),JSON.stringify(posts.map(({slug,title,date,summary,image})=>({slug,title,date,summary,image:typeof image==='string'&&/^\/assets\/cms-images\/[\w./%-]+$/i.test(image)&&!image.includes('..')&&!/%2f|%5c|%2e/i.test(image)&&fs.existsSync(path.join(root,image.slice(1)))?image:''})),null,2));
 for(const file of ['sitemap.xml','robots.txt']){const source=path.join(root,file);if(fs.existsSync(source))fs.copyFileSync(source,path.join(out,file))}
+// Once the authenticated owner library has been verified, prevent stale public
+// sitemap/search listings from advertising removed owner-only documents.
+if(ownerPrivateReady){
+ const blocked=new Set(ownerOnlyFiles.map(name=>'/'+name));
+ for(const name of ['search-index.json','search-index-46.json']){
+  const file=path.join(out,'content',name);
+  if(!fs.existsSync(file))continue;
+  const entries=JSON.parse(fs.readFileSync(file,'utf8'));
+  if(Array.isArray(entries))fs.writeFileSync(file,JSON.stringify(entries.filter(item=>!blocked.has(item.url)),null,2));
+ }
+ const mapPath=path.join(out,'sitemap.xml');
+ if(fs.existsSync(mapPath)){
+  let xml=fs.readFileSync(mapPath,'utf8');
+  for(const name of ownerOnlyFiles){
+   const escaped=name.replace(/[.*+?^${}()|[\]\\]/g,'\\// Match the generated robots sitemap pointer to the current Pages preview output.');
+   xml=xml.replace(new RegExp('\\s*<url>\\s*<loc>https:\\/\\/[^<]+\\/'+escaped+'<\\/loc>\\s*<\\/url>','g'),'');
+  }
+  fs.writeFileSync(mapPath,xml);
+ }
+}
 // Match the generated robots sitemap pointer to the current Pages preview output.
 // Keep the source robots.txt and the future custom-domain configuration unchanged.
 const previewRobotsPath=path.join(out,'robots.txt');
