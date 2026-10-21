@@ -16,7 +16,7 @@
 .piano-player .pop-menu nav a{padding:4px 7px;border-radius:6px;background:#e6eee6}
 .piano-player .pop-menu small{display:block;margin-top:6px}
 .piano-player .pop-menu summary:focus-visible,.piano-player input:focus-visible{outline:3px solid #a47837;outline-offset:3px}
-@media(max-width:600px){.music-reopen{bottom:calc(12px + env(safe-area-inset-bottom, 0px))}.piano-player{bottom:calc(8px + env(safe-area-inset-bottom, 0px))}}
+
 .piano-player #random-pop-fallback:not([hidden]){display:block;margin-top:8px;padding:10px;border:2px solid #173e35;border-radius:8px;background:#fff;color:#173e35;font-weight:700}
 @media(max-width:600px){.piano-player .pop-menu nav a,.piano-player #random-pop-fallback:not([hidden]){min-height:44px}}
 .piano-player #random-pop{margin-top:8px}
