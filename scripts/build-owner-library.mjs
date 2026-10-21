@@ -42,8 +42,8 @@ const sections=groups.map(([title,list])=>'<section><h2>'+title+'</h2><ul>'+list
 // Build a lightweight full-text index without external services or subscriptions.
 const index=pages.map(name=>{
  const source=fs.readFileSync(path.join(root,name),'utf8');
- const title=source.match(/<title[^>]*>([\\s\\S]*?)<\\/title>/i)?.[1]||name;
- const body=source.replace(/<script\\b[^>]*>[\\s\\S]*?<\\/script>/gi,' ').replace(/<style\\b[^>]*>[\\s\\S]*?<\\/style>/gi,' ').replace(/<[^>]*>/g,' ').replace(/&nbsp;|&#160;/gi,' ').replace(/&amp;/gi,'&').replace(/\\s+/g,' ').trim();
+ const title=source.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]||name;
+ const body=source.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,' ').replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,' ').replace(/<[^>]*>/g,' ').replace(/&nbsp;|&#160;/gi,' ').replace(/&amp;/gi,'&').replace(/\s+/g,' ').trim();
  return {name,title,body:body.slice(0,60000)};
 });
 fs.writeFileSync(path.join(out,'search-index.json'),JSON.stringify(index));
