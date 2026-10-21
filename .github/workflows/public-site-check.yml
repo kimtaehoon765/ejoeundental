@@ -9,6 +9,8 @@ on:
       - 'gum-treatment.html'
       - 'retreatment.html'
       - 'insured-care.html'
+      - 'medical-history.html'
+      - 'scripts/**'
       - 'sitemap.xml'
       - 'robots.txt'
       - 'build.mjs'
@@ -42,6 +44,12 @@ jobs:
           test -s dist/gum-treatment-faq.html
           test -s dist/root-canal-retreatment-faq.html
           test -s dist/dental-insurance-faq.html
+          test -s dist/medication-dental-faq.html
+          test -s dist/systemic-disease-dental-faq.html
           grep -q 'gum-treatment-faq.html' dist/sitemap.xml
           grep -q 'root-canal-retreatment-faq.html' dist/sitemap.xml
           grep -q 'dental-insurance-faq.html' dist/sitemap.xml
+          grep -q 'medication-dental-faq.html' dist/sitemap.xml
+          grep -q 'systemic-disease-dental-faq.html' dist/sitemap.xml
+          grep -q 'href="/medication-dental-faq.html"' dist/medical-history.html
+          grep -q 'href="/systemic-disease-dental-faq.html"' dist/visit-guide.html
