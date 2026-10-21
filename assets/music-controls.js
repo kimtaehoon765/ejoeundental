@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded',()=>{
+const initializeMusicControls=()=>{
   const button=document.getElementById('piano-toggle');
   const audio=document.getElementById('piano-audio');
   const status=document.getElementById('piano-status');
@@ -116,4 +116,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
   audio.addEventListener('waiting',()=>{if(!audio.paused)status.textContent='음악 불러오는 중…'});
   audio.addEventListener('playing',()=>{status.textContent='쇼팽 · 녹턴'});
-});
+};
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initializeMusicControls,{once:true});
+else initializeMusicControls();
