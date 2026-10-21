@@ -364,3 +364,12 @@ html{scroll-padding-top:92px}
   html { scroll-behavior: auto !important; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* Accessible focus indicators for keyboard navigation. */
+@supports selector(:focus-visible) {
+  a:focus-visible, button:focus-visible, summary:focus-visible,
+  input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 3px solid #a47837;
+    outline-offset: 3px;
+  }
+}
