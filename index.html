@@ -296,7 +296,24 @@
 </div>
 <button type="button" id="music-reopen" class="music-reopen" aria-label="음악 메뉴 열기" aria-controls="music-panel" aria-expanded="false">♫ 음악</button>
 
-<script src="/assets/music-controls.js" defer></script>
+<script>
+/* Load optional music controls only when a visitor requests them. */
+(function(){
+  var trigger=document.getElementById('music-reopen');
+  if(!trigger)return;
+  var loading=false;
+  trigger.addEventListener('click',function(){
+    if(loading)return;
+    loading=true;
+    var script=document.createElement('script');
+    script.src='/assets/music-controls.js';
+    script.onload=function(){trigger.click();};
+    script.onerror=function(){loading=false;trigger.removeAttribute('aria-busy');};
+    trigger.setAttribute('aria-busy','true');
+    document.body.appendChild(script);
+  },{once:true});
+})();
+</script>
 <script src="/assets/site.js?v=20261020-stories2" defer></script>
 </body>
 </html>
