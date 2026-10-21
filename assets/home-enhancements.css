@@ -222,3 +222,14 @@
 .symptom-previsit-print a{display:inline-flex;align-items:center;min-height:44px;padding:8px 12px;border-radius:8px;background:#1f5a47;color:#fff;font-weight:750;text-decoration:none}
 .symptom-previsit-print a:hover{background:#164434;text-decoration:underline}
 .symptom-previsit-print a:focus-visible{outline:3px solid #a47837;outline-offset:3px}
+
+/* Search symptoms directly from the homepage without JavaScript. */
+.symptom-quick-search{margin:18px 0 20px;padding:16px;border:1px solid #d4e4d8;border-radius:12px;background:#f5f9f6}
+.symptom-quick-search>label{display:block;margin-bottom:9px;color:#173e35;font-weight:750}
+.symptom-quick-search-row{display:flex;gap:8px}
+.symptom-quick-search input{flex:1;min-width:0;min-height:48px;padding:11px 13px;border:1px solid #98b3a3;border-radius:8px;background:#fff;color:#173e35;font:inherit}
+.symptom-quick-search button{min-height:48px;padding:10px 17px;border:0;border-radius:8px;background:#1f5a47;color:#fff;font:inherit;font-weight:750;cursor:pointer}
+.symptom-quick-search button:hover{background:#164434}
+.symptom-quick-search :is(input,button):focus-visible{outline:3px solid #a47837;outline-offset:3px}
+.symptom-quick-search>p{margin:9px 0 0;font-size:13px;line-height:1.6}
+@media(max-width:560px){.symptom-quick-search{padding:13px}.symptom-quick-search-row{flex-direction:column}.symptom-quick-search button{width:100%}}
