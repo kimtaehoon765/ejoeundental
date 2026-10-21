@@ -48,8 +48,8 @@
 
 /* Prioritize location and call on narrow mobile screens */
 @media(max-width:600px){
- header .nav .mobile-quick a[href="#location"]{order:-2;background:#e5efe7;color:#173e35;font-weight:700;border-radius:8px}
- header .nav .mobile-quick a.mobile-call{order:-1;background:#173e35;color:#fff;font-weight:700;border-radius:8px}
+ header .nav .mobile-quick a[href="#location"]{background:#e5efe7;color:#173e35;font-weight:700;border-radius:8px}
+ header .nav .mobile-quick a.mobile-call{background:#173e35;color:#fff;font-weight:700;border-radius:8px}
  header .nav .mobile-quick a:focus-visible{outline:3px solid #a96b24;outline-offset:2px}
 }
 
