@@ -293,3 +293,8 @@
 .home-previsit-links a:focus-visible{outline:3px solid #ad7937;outline-offset:3px}
 .home-previsit-links>nav div{gap:10px 18px!important}
 @media(max-width:700px){.home-previsit-links{grid-template-columns:1fr;gap:12px;margin:26px auto 34px}.home-previsit-links>nav[aria-label="자주 묻는 진료 질문"]{grid-column:auto}.home-previsit-links>aside,.home-previsit-links>nav,.home-previsit-links>p{padding:20px!important}}
+
+/* Three concise, verifiable clinic principles above the fold. */
+.hero-principles{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 20px}
+.hero-principles span{display:inline-flex;align-items:center;min-height:36px;padding:8px 12px;background:#eef3e9;border:1px solid #cbdcc9;border-radius:5px;color:#244f3e;font-size:.88rem;font-weight:700;line-height:1.5;word-break:keep-all}
+@media(max-width:600px){.hero-principles{gap:7px}.hero-principles span{font-size:.82rem;padding:7px 10px}}
