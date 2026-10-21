@@ -255,10 +255,12 @@
 .place-visit-note{font-size:14px;line-height:1.75;margin:0 0 18px;word-break:keep-all}
 @media(max-width:640px){.place-visit-actions{grid-template-columns:1fr}.place-visit-action{min-height:54px}}
 
-/* Keep the direct Naver Map action visible next to call on narrow phones. */
-.mobile-quick a[href^="https://map.naver.com/"]{order:-2;background:#e5efe7;color:#173e35;font-weight:700;border-radius:8px}
-.mobile-quick a[href="#location"]{order:-1}
-.mobile-quick a.mobile-call{order:0}
+/* Five mobile shortcuts follow their reading order; location and phone remain visually distinct. */
+@media(max-width:600px){
+ header .nav .mobile-quick a{order:0}
+ header .nav .mobile-quick a[href="#location"]{background:#e5efe7;color:#173e35;font-weight:700;border-radius:8px}
+ header .nav .mobile-quick a.mobile-call{background:#173e35;color:#fff;font-weight:700;border-radius:8px}
+}
 
 /* Gallery feature: shared, maintainable presentation for the clinical archive. */
 .home-archive-gallery{max-width:1080px;margin:50px auto;padding:clamp(28px,5vw,54px);background:linear-gradient(120deg,#f8f6ec 0%,#eaf1e9 100%);border:1px solid #d9dfd6;border-radius:8px;color:#233b33;box-shadow:0 14px 38px rgba(32,56,45,.06)}
