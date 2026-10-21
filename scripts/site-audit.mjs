@@ -352,6 +352,30 @@ for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-ins
   if (!existsSync(sitemapFile) || !readFileSync(sitemapFile,'utf8').includes('https://ejoeundental.com' + route)) errors.push('FAQ 사이트맵 누락: ' + route);
   if (!existsSync(homepageFile) || !readFileSync(homepageFile,'utf8').includes('href="' + route + '"')) errors.push('FAQ 홈페이지 링크 누락: ' + route);
 }
+// Cross-link integrity and FAQ structured-data consistency for patients and search crawlers.
+for (const [source, destination] of [
+  ['gum-treatment.html', 'gum-treatment-faq.html'],
+  ['retreatment.html', 'root-canal-retreatment-faq.html'],
+  ['insured-care.html', 'dental-insurance-faq.html'],
+]) {
+  const file = join(root, source);
+  if (!existsSync(file) || !readFileSync(file,'utf8').includes('href="/' + destination + '"')) errors.push('진료 안내와 FAQ 연결 누락: ' + source);
+}
+for (const slug of ['gum-treatment-faq', 'root-canal-retreatment-faq', 'dental-insurance-faq']) {
+  const file = join(root, slug + '.html');
+  if (!existsSync(file)) continue;
+  const page = readFileSync(file, 'utf8');
+  const jsonMatch = page.match(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/i);
+  if (!jsonMatch) { errors.push('FAQ JSON-LD 없음: ' + slug); continue; }
+  try {
+    const structured = JSON.parse(jsonMatch[1]);
+    const questions = structured.mainEntity;
+    if (structured['@type'] !== 'FAQPage' || !Array.isArray(questions) || questions.length !== 6) errors.push('FAQ 질문 구조 불일치: ' + slug);
+    else for (const question of questions) {
+      if (question['@type'] !== 'Question' || !question.name || !question.acceptedAnswer?.text || !page.includes(question.name) || !page.includes(question.acceptedAnswer.text)) errors.push('FAQ 화면과 구조화 데이터 불일치: ' + slug);
+    }
+  } catch { errors.push('FAQ JSON-LD 파싱 실패: ' + slug); }
+}
 const adminFile = join(root, 'admin/index.html');
 if (existsSync(adminFile)) {
   const admin = readFileSync(adminFile, 'utf8');
