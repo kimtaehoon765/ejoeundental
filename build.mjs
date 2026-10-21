@@ -876,7 +876,7 @@ for(const [label,pattern] of [
  ['symptom guide',/id=["']symptoms["']/],
  ['first visit guide',/id=["']visit-guide["']/],
  ['symptom guide navigation',/href=["']#symptoms["']/],
- ['mobile symptom guide shortcut',/<div class=["']mobile-quick["'][^>]*>[\s\S]*?<a\s+href=["']\/search\.html["'][^>]*aria-label=["']건강정보와 증상 검색["']/],
+ ['mobile symptom guide shortcut',/<div class=["']mobile-quick["'][^>]*>[\s\S]*?<a\s+href=["']#symptom-navigator-title["'][^>]*aria-label=["']증상별 건강정보 바로가기["']/],
  ['first visit navigation',/href=["']#visit-guide["']/],
  ['care principles link',/href=["']#philosophy["']/],
  ['location guide link',/href=["']#location["']/],
