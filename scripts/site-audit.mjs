@@ -436,6 +436,18 @@ for (const source of ['index.html','medical-safety-guide.html','visit-guide.html
  const file=join(root,source);
  if (!existsSync(file)||!readFileSync(file,'utf8').includes('href="/previsit-checklist.html"')) errors.push('방문 체크리스트 연결 누락: '+source);
 }
+// Validate WebPage JSON-LD for the safety hub and printable checklist.
+for (const slug of ['medical-safety-guide','previsit-checklist']) {
+ const file=join(root,slug+'.html');
+ if (!existsSync(file)) continue;
+ const html=readFileSync(file,'utf8');
+ const raw=html.split('<script type="application/ld+json">')[1]?.split('</script>')[0];
+ if (!raw) { errors.push('건강정보 구조화 데이터 누락: '+slug); continue; }
+ try {
+  const data=JSON.parse(raw);
+  if (data['@type']!=='WebPage' || data.url!=='https://ejoeundental.pages.dev/'+slug+'.html' || data.isPartOf?.['@id']!=='https://ejoeundental.pages.dev/#website') errors.push('건강정보 구조화 데이터 주소 불일치: '+slug);
+ } catch { errors.push('건강정보 구조화 데이터 JSON 오류: '+slug); }
+}
 const adminFile = join(root, 'admin/index.html');
 if (existsSync(adminFile)) {
   const admin = readFileSync(adminFile, 'utf8');
