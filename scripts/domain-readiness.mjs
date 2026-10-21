@@ -69,7 +69,17 @@ for (const filename of seoFiles) {
   if (!existsSync(filename)) continue;
   const html = read(filename);
   const canonical = html.match(/<link\b[^>]*\brel=["']canonical["'][^>]*\bhref=["']([^"']+)["']/i)?.[1] || html.match(/<link\b[^>]*\bhref=["']([^"']+)["'][^>]*\brel=["']canonical["']/i)?.[1];
-  if (canonical && !canonical.startsWith(host + '/')) errors.push('Source canonical on unexpected host: ' + filename + ' -> ' + canonical);
+  if (!canonical) errors.push('Source canonical missing: ' + filename);
+  else {
+    try {
+      const parsed = new URL(canonical);
+      if (parsed.origin !== host || parsed.pathname !== '/' + filename || parsed.search || parsed.hash) {
+        errors.push('Source canonical mismatch: ' + filename + ' -> ' + canonical);
+      }
+    } catch {
+      errors.push('Source canonical is invalid: ' + filename + ' -> ' + canonical);
+    }
+  }
   if (html.includes(preview)) notes.push('Preview URL still referenced in source: ' + filename + '; inspect social and structured metadata at cutover.');
 }
 notes.push('Cutover checklist: confirm Cloudflare custom domain active, HTTPS valid, redirects consistent, generated canonical/OG/schema/sitemap/robots use the final host, then submit sitemap to search engines.');
