@@ -339,6 +339,19 @@ if (existsSync(homepageFile)) {
 }
 const sitemapFile = join(root, 'sitemap.xml');
 if (!existsSync(sitemapFile) || !readFileSync(sitemapFile, 'utf8').includes('https://ejoeundental.com/visit-guide.html')) errors.push('방문 안내 사이트맵 누락');
+// Keep new patient FAQs published, discoverable, and consistent with on-page answers.
+for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq']) {
+  const route = '/' + slug + '.html';
+  const target = join(root, slug + '.html');
+  if (!existsSync(target)) { errors.push('FAQ 배포 누락: ' + route); continue; }
+  const page = readFileSync(target, 'utf8');
+  if (!page.includes('https://schema.org') || !page.includes('FAQPage')) errors.push('FAQ 구조화 데이터 누락: ' + route);
+  if ((page.match(/<section class="card">/g) || []).length < 6) errors.push('FAQ 질문 수 부족: ' + route);
+  if (!page.includes('href="tel:0325132875"')) errors.push('FAQ 전화 연결 누락: ' + route);
+  if (!page.includes('일반적인 건강정보')) errors.push('FAQ 건강정보 안내 누락: ' + route);
+  if (!existsSync(sitemapFile) || !readFileSync(sitemapFile,'utf8').includes('https://ejoeundental.com' + route)) errors.push('FAQ 사이트맵 누락: ' + route);
+  if (!existsSync(homepageFile) || !readFileSync(homepageFile,'utf8').includes('href="' + route + '"')) errors.push('FAQ 홈페이지 링크 누락: ' + route);
+}
 const adminFile = join(root, 'admin/index.html');
 if (existsSync(adminFile)) {
   const admin = readFileSync(adminFile, 'utf8');
