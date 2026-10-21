@@ -1,0 +1,32 @@
+name: Owner library build verification
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/build-owner-library.mjs'
+      - 'scripts/test-owner-library.mjs'
+      - 'package.json'
+      - '*maintenance.html'
+      - '*materials*.html'
+      - 'equipment-log.html'
+      - '.github/workflows/owner-library-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify owner-only bundle (never deploy or upload)
+        run: npm run test:owner
+      - name: Confirm private bundle is not tracked
+        run: |
+          if git ls-files --error-unmatch .private-dist/index.html >/dev/null 2>&1; then
+            echo 'Private bundle must not be tracked in the public repository' >&2
+            exit 1
+          fi
