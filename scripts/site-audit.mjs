@@ -120,7 +120,7 @@ if (existsSync(homepageFile)) {
   const section = homepage.match(/<aside class="symptom-previsit"[\s\S]*?<\/aside>/)?.[0];
   if (!section) errors.push('홈페이지 방문 전 복용약 안전 안내 누락');
   else {
-    for (const link of ['/medical-history.html', '/blood-thinners-dental.html', '/osteoporosis-medication-dental.html']) {
+    for (const link of ['/medical-history.html', '/blood-thinners-dental.html', '/osteoporosis-medication-dental.html', '/diabetes-dental-care.html', '/heart-disease-dental-care.html', '/pregnancy-dental-care.html']) {
       if (!section.includes('href="' + link + '"')) errors.push('복용약 안전 안내 링크 누락: ' + link);
       if (!existsSync(join(root, link.slice(1)))) errors.push('복용약 안전 안내 목적지 누락: ' + link);
     }
