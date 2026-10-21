@@ -38,3 +38,9 @@ Cloudflare Pages에서 이 GitHub 저장소를 연결해 배포하는 경우 다
 - `/admin/`은 외부 Pages CMS 안내 페이지이며 자체 로그인 시스템이 아닙니다.
 - 사진이나 글에 환자 개인정보를 게시하지 마세요.
 - `netlify.toml`은 이전 배포 방식의 설정 파일이며, Cloudflare Pages의 빌드 설정은 위 표를 기준으로 확인합니다.
+
+## 원장 전용 자료 공개 주의
+- 현재 `OWNER_LIBRARY_PRIVATE_READY`가 활성화되지 않은 빌드에서는 치과 기구·재료 및 장비 관리 HTML 파일이 `dist`에 복사되어 **공개 웹주소로 접근 가능**합니다. 메뉴에서 숨기거나 `noindex`를 설정하는 것은 비공개 보호가 아닙니다.
+- 따라서 해당 페이지에는 환자 개인정보, 비밀번호, 계정정보, 내부 원가·계약정보 등 비공개 자료를 입력하지 마세요.
+- 비공개 전환은 별도의 인증된 저장 공간에 자료를 이전하고, 로그인·직접 URL 접근 차단·백업을 검증한 후 진행해야 합니다. 확인 전에는 `OWNER_LIBRARY_PRIVATE_READY=1`을 설정하지 마세요.
+- `OWNER_LIBRARY_MIGRATION_VERIFIED=YES_PRIVATE_COPY_AND_LOGIN_TESTED`는 실제 검증을 마친 경우에만 설정해야 합니다. 환경변수 자체는 보안을 제공하지 않습니다.
