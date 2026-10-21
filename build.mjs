@@ -919,7 +919,7 @@ for(const match of auditedFragmentLinks){
 const auditedRequiredPages=['/gum-treatment.html','/retreatment.html','/cervical-abrasion.html','/insured-care.html','/noncovered-fees.html','/search.html'];
 const auditedLinkedPages=new Set(auditedHomepageLocalPages);
 for(const requiredPage of auditedRequiredPages){if(!auditedLinkedPages.has(requiredPage))throw new Error('Homepage lost key patient information link: '+requiredPage);}
-const auditedVisitAnchors=['location','symptom-guide','visit-guide','faq'];
+const auditedVisitAnchors=['location','symptoms','visit-guide','faq'];
 for(const sectionId of auditedVisitAnchors){if(!auditedHomepageIdSet.has(sectionId))throw new Error('Homepage lost essential patient section: '+sectionId);}
 // Social share previews must point at the same published homepage as canonical.
 const auditedHomepageCanonical=homeAuditHtml.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
