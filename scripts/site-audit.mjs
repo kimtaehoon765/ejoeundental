@@ -117,14 +117,27 @@ const sitemap = join(root, 'sitemap.xml');
 if (!existsSync(sitemap)) errors.push('sitemap.xml 누락');
 else {
   const xml = readFileSync(sitemap, 'utf8');
-  for (const m of xml.matchAll(/<loc>https?:\/\/[^/]+(\/[^<]*)<\/loc>/g)) {
+  const sitemapUrls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1].trim());
+  if (!sitemapUrls.length) errors.push('사이트맵 URL 목록이 비어 있음');
+  if (new Set(sitemapUrls).size !== sitemapUrls.length) errors.push('사이트맵에 중복 URL 존재');
+  for (const value of sitemapUrls) {
+    let parsed;
+    try { parsed = new URL(value); }
+    catch { errors.push('사이트맵 URL 형식 오류: ' + value); continue; }
+    if (parsed.origin !== publicOrigin || parsed.search || parsed.hash) {
+      errors.push('사이트맵 도메인 또는 URL 형식 불일치: ' + value);
+      continue;
+    }
     let p;
-    try { p = decodeURIComponent(m[1]); }
-    catch { errors.push('사이트맵 URL 인코딩 오류: ' + m[1]); continue; }
-    if (p !== '/' && !paths.has(p.slice(0, 1) === '/' ? p : '/' + p) && !paths.has(p + 'index.html')) {
+    try { p = decodeURIComponent(parsed.pathname); }
+    catch { errors.push('사이트맵 URL 인코딩 오류: ' + value); continue; }
+    if (p === '/') {
+      if (!paths.has('/index.html')) errors.push('사이트맵 홈페이지 파일 누락');
+    } else if (!paths.has(p) && !paths.has(p.replace(/\/$/, '') + '/index.html')) {
       errors.push('사이트맵 대상 파일 누락: ' + p);
     }
   }
+  console.log('Sitemap URLs checked:', sitemapUrls.length);
 }
 // Guard mobile rendering and private admin indexability on every deployment.
 const homepageFile = join(root, 'index.html');
