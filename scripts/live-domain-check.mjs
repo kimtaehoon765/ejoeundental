@@ -37,6 +37,7 @@ const urls = [
   { label: '잇몸치료 상세 페이지', url: origin + '/gum-treatment.html' },
   { label: '통합 검색 모바일 배치', url: origin + '/search.html' },
   { label: '검색 결과 더 보기 동작 코드', url: origin + '/assets/search.js' },
+  { label: '통합 검색 실제 문서 색인', url: origin + '/content/search-index.json' },
   { label: '검색 결과 더 보기 버튼 스타일', url: origin + '/assets/search-page.css' },
   { label: '없는 페이지 404 상태', url: origin + '/__missing-page-check-20261023' }
 ];
@@ -90,6 +91,18 @@ await Promise.all(urls.map(async ({label,url}) => {
       const suggestions = body.indexOf('<p class="search-suggestions"');
       const good = form >= 0 && results > form && suggestions > results;
       info.push(good ? '입력·결과가 추천 검색어보다 먼저 표시됨' : '입력·결과 배치 확인 필요');
+    } else if (label === '통합 검색 실제 문서 색인') {
+      let entries=[];
+      try { entries=JSON.parse(body); } catch { info.push('검색 색인 JSON 확인 불가'); }
+      if(Array.isArray(entries)&&entries.length){
+        const gum=entries.find(x=>x.url==='/health/gum-bleeding.html');
+        const noNavigation=Boolean(gum?.body&&!gum.body.includes('이 글의 목차')&&!gum.body.includes('이조은치과 홈'));
+        const newest=entries.find(x=>x.url==='/gum-treatment.html');
+        const correctCare=String(newest?.title||'').includes('인천 잇몸치료');
+        info.push('문서 '+entries.length+'개');
+        info.push(noNavigation?'공통 메뉴 제외된 임상 본문 확인':'공통 메뉴 제외 여부 확인 필요');
+        info.push(correctCare?'주요 진료 검색 제목 최신':'주요 진료 검색 제목 확인 필요');
+      }
     } else if (label === '검색 결과 더 보기 동작 코드') {
       info.push(body.includes("showMore.addEventListener('click'") && body.includes('renderMatches(batch,extraResults)') ? '20개씩 검색 결과 펼치기 코드 반영' : '더 보기 코드 반영 확인 필요');
       const improvedSymptoms = body.includes('const symptomBoosts=') && body.includes("'치은퇴축'") && body.includes("'잇몸출혈'");
