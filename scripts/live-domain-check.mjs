@@ -77,6 +77,13 @@ await Promise.all(urls.map(async ({label,url}) => {
       const callFirst = hero.indexOf('class="hero-actions"')>=0 && hero.indexOf('class="hero-actions"')<hero.indexOf('class="hero-care-summary"');
       const careFold = hero.includes('class="hero-more-care"') && hero.includes('다른 진료·건강정보 5개 더 보기');
       info.push('모바일 진료·전화 우선 배치: ' + (callFirst&&careFold?'반영':'반영 확인 필요'));
+      const careStart=body.indexOf('<section class="section" id="care">');
+      const careEnd=body.indexOf('</section>',careStart);
+      const care=careStart>=0&&careEnd>careStart?body.slice(careStart,careEnd):'';
+      const serviceFold=care.includes('<details class="care-more-details">') &&
+        care.includes('다른 진료 8가지 더 보기') &&
+        care.includes('class="grid care-more-grid"') && care.includes('href="/denture.html"');
+      info.push('전체 진료 모바일 5+8 펼치기: '+(serviceFold?'반영':'확인 필요'));
 
     } else if (label === '검색엔진 robots') {
       const sitemapValue = body.split('Sitemap: ')[1]?.split('\n')[0]?.trim() || '(없음)';
@@ -98,6 +105,9 @@ await Promise.all(urls.map(async ({label,url}) => {
       const expectedCare = label.includes('잇몸') ? '/gum-treatment.html' : '/retreatment.html';
       const usable = carePanel.includes('href="'+expectedCare+'"') && carePanel.includes('href="/#location"') && carePanel.includes('href="tel:0325132875"') && carePanel.includes('실제 치료 필요성은 진찰 결과에 따라 달라집니다');
       info.push(usable ? '진료 안내·위치·전화 연결 정상' : '진료 안내·전화 버튼 반영 확인 필요');
+      const toc=body.match(/<nav class="article-toc"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+      const foldedToc=toc.includes('<details class="article-toc-details">')&&toc.includes('<summary>이 글의 목차 펼치기');
+      info.push(foldedToc?'목차 접기/펼치기(자바스크립트 없이) 반영':'목차 접기/펼치기 확인 필요');
     } else if (label === '통합 검색 모바일 배치') {
       const form = body.indexOf('<form class="search-form"');
       const results = body.indexOf('<section id="results"');
