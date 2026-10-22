@@ -25,6 +25,8 @@ jobs:
           node --check build.mjs
           node --check assets/search.js
           node --check assets/site.js
+      - name: Test website search results and keyboard-accessible pagination
+        run: node --test scripts/test-search-results.mjs
       - name: Build and audit website
         run: npm run build:check
       - name: Verify output
