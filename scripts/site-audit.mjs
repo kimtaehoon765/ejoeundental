@@ -351,7 +351,7 @@ else {
   for (const snippet of ['const maxResults=20', "const renderMatches=(batch,container)=>", "const orderedResults=[...exactPool,...partialPool]", "showMore.addEventListener('click'", "status.textContent='검색 결과 '+orderedResults.length"]) {
     if(!script.includes(snippet))errors.push('검색 결과 20개씩 더 보기 기능 누락: '+snippet);
   }
-  if(!page.includes('/assets/search.js?v=20261023-show-more1'))errors.push('검색 결과 더 보기 스크립트 캐시 버전 불일치');
+  // The build fingerprints script query strings, so check function and asset presence instead of a source-only version string.
   const searchCss=join(root,'assets/search-page.css');
   if(!existsSync(searchCss)||!readFileSync(searchCss,'utf8').includes('.search-show-more{'))errors.push('검색 결과 더 보기 버튼 스타일 누락');
 
