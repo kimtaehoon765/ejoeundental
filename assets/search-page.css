@@ -14,3 +14,19 @@
 .search-help{font-size:14px;line-height:1.7;color:#37584b}.search-form input::-webkit-search-cancel-button{cursor:pointer}@media(max-width:600px){.search-form{align-items:stretch}.search-form input{flex-basis:calc(100% - 95px)}.search-form button{min-width:82px}.search-suggestions{gap:9px}.search-suggestions a{min-height:44px;display:inline-flex;align-items:center}}
 .professional-resources{margin:20px 0 26px;padding:18px 20px;border:1px solid #cbd9df;border-radius:10px;background:#f5f8fa}.professional-resources h2{margin:0 0 8px;font-size:19px;color:#244652}.professional-resources p{margin:0 0 12px;line-height:1.7}.professional-resource-links{display:flex;flex-wrap:wrap;gap:10px}.professional-resource-links a{display:inline-flex;align-items:center;min-height:44px;padding:8px 12px;border:1px solid #a8c0ca;border-radius:7px;background:white;color:#244652;font-weight:700;text-decoration:none}.professional-resource-links a:focus-visible{outline:3px solid #507a60;outline-offset:3px}@media(max-width:600px){.professional-resources{padding:16px}.professional-resource-links{display:grid;grid-template-columns:1fr}.professional-resource-links a{justify-content:center}}
 html{scroll-padding-top:24px}#symptom-search{scroll-margin-top:24px}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* Patients see search immediately, ahead of long keyword examples and reference links. */
+.search-primary{margin:19px 0 26px}
+.search-primary .search-form{margin:12px 0 12px}
+.search-primary .search-label{font-size:16px}
+.search-primary .search-form input{min-height:50px;border-color:#86a496;border-radius:8px;background:#fff}
+.search-primary .search-form button{min-height:50px;border-radius:8px;font-weight:750}
+.search-primary #status{margin:10px 0 8px;color:#244f3e;font-size:14px;font-weight:650;line-height:1.65}
+.search-primary #results:not(:empty){margin:12px 0 26px;padding-top:6px;border-top:2px solid #d3e3d8}
+.search-primary #results .search-result-section:first-child{margin-top:14px}
+@media(max-width:600px){
+ .search-primary{margin:14px 0 22px}
+ .search-primary .search-form{margin:10px 0 9px}
+ .search-primary .search-form input,.search-primary .search-form button{min-height:50px}
+ .search-primary #status{font-size:14px}
+}
