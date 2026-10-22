@@ -555,6 +555,12 @@ for (const slug of ['gum-treatment-faq', 'root-canal-retreatment-faq', 'dental-i
      !page.includes('/assets/treatment-breadcrumbs.css?v=20261023-care-trail1')){
    errors.push('진료 이동 경로의 홈·현재 진료·다른 진료 연결 오류: '+file);
   }
+  const mainTags=[...page.matchAll(/<main\b[^>]*>/gi)].map(m=>m[0]);
+  const keyboardLinks=[...page.matchAll(/<a\b[^>]*class="(?:page-skip-link|treatment-skip-link)"[^>]*>/gi)].map(m=>m[0]);
+  if(mainTags.length!==1||!mainTags[0].includes('id="main-content"')||
+    keyboardLinks.length!==1||!keyboardLinks[0].includes('href="#main-content"')){
+   errors.push('진료 페이지 키보드 본문 건너뛰기/이동 대상 누락 또는 중복: '+file);
+  }
   const mainPos=page.search(/<main\b/i),trailPos=page.indexOf(trail[0]),headingPos=page.search(/<h1\b/i);
   if(mainPos<0||trailPos<mainPos||headingPos<trailPos){
    errors.push('진료 이동 경로가 제목보다 먼저 보이지 않음: '+file);
