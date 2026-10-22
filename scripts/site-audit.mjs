@@ -484,6 +484,16 @@ for (const slug of ['medical-safety-guide','previsit-checklist']) {
   if (data['@type']!=='WebPage' || data.url!==expectedOrigin+'/'+slug+'.html' || data.isPartOf?.['@id']!==expectedOrigin+'/#website') errors.push('건강정보 구조화 데이터 주소 불일치: '+slug);
  } catch { errors.push('건강정보 구조화 데이터 JSON 오류: '+slug); }
 }
+// 정적 404 오류페이지는 Cloudflare Pages의 잘못된 주소 200 반환(SPA fallback)을 막습니다.
+const notFoundFile=join(root,'404.html');
+if(!existsSync(notFoundFile))errors.push('404.html 배포 누락: 없는 페이지에 홈페이지가 표시될 수 있음');
+else{
+ const notFound=readFileSync(notFoundFile,'utf8');
+ if(!/<meta\s+name="robots"\s+content="noindex,follow"/i.test(notFound))errors.push('404.html 검색 제외(noindex) 누락');
+ if(!notFound.includes('href="/search.html"')&& !notFound.includes('action="/search.html"'))errors.push('404.html 건강정보 검색 연결 누락');
+ if(!notFound.includes('href="/gum-treatment.html"')||!notFound.includes('href="/retreatment.html"'))errors.push('404.html 핵심 진료 이동 링크 누락');
+}
+
 const adminFile = join(root, 'admin/index.html');
 if (existsSync(adminFile)) {
   const admin = readFileSync(adminFile, 'utf8');
