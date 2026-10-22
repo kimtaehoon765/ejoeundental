@@ -194,6 +194,16 @@ await Promise.all(urls.map(async ({label,url}) => {
         const newest=entries.find(x=>x.url==='/gum-treatment.html');
         const correctCare=String(newest?.title||'').includes('인천 잇몸치료');
         info.push('문서 '+entries.length+'개');
+        const newlyFindable=['/visit-guide.html','/medical-safety-guide.html','/previsit-checklist.html',
+          '/gum-treatment-faq.html','/root-canal-retreatment-faq.html','/dental-insurance-faq.html',
+          '/medical-history.html','/osteoporosis-medication-dental.html','/blood-thinners-dental.html',
+          '/diabetes-dental-care.html','/heart-disease-dental-care.html','/kidney-disease-dental-care.html',
+          '/liver-disease-dental-care.html','/cancer-immunosuppression-dental-care.html',
+          '/pregnancy-dental-care.html','/noncovered-fees.html','/medication-dental-faq.html',
+          '/systemic-disease-dental-faq.html','/clinical-archive.html'];
+        const added=entries.filter(row=>newlyFindable.includes(row.url)&&String(row.body||'').length>=100);
+        info.push('신규 환자 FAQ·안전자료 검색: '+added.length+'/'+newlyFindable.length+'개');
+        info.push('공개 사이트맵 85개 페이지 검색: '+(entries.length===85?'전체 적용':'검색 범위 확인 필요'));
         info.push(noNavigation?'공통 메뉴 제외된 임상 본문 확인':'공통 메뉴 제외 여부 확인 필요');
         info.push(correctCare?'주요 진료 검색 제목 최신':'주요 진료 검색 제목 확인 필요');
       }
