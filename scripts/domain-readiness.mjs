@@ -14,6 +14,23 @@ const preview = 'https://ejoeundental.pages.dev';
 const urls = [...source.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
 if (!urls.length) errors.push('Source sitemap is empty');
 if (new Set(urls).size !== urls.length) errors.push('Source sitemap has duplicate URLs');
+// Private owner references must never be advertised in the public sitemap.
+const ownerOnlyPaths = [
+  'dental-equipment.html', 'handpiece-maintenance.html', 'suction-maintenance.html',
+  'compressor-maintenance.html', 'autoclave-maintenance.html', 'curing-light-maintenance.html',
+  'scaler-maintenance.html', 'dental-chair-maintenance.html', 'intraoral-camera-maintenance.html',
+  'dental-xray-maintenance.html', 'dental-materials.html', 'glass-ionomer-guide.html',
+  'root-canal-materials-guide.html', 'composite-bonding-guide.html',
+  'impression-materials-guide.html', 'dental-cements-guide.html',
+  'endodontic-instruments-guide.html', 'periodontal-instruments-guide.html',
+  'extraction-instruments-guide.html', 'equipment-log.html'
+];
+const ownerOnlySet = new Set(ownerOnlyPaths.map(name => '/' + name));
+for (const url of urls) {
+  try {
+    if (ownerOnlySet.has(new URL(url).pathname)) errors.push('Private owner page exposed in public sitemap: ' + url);
+  } catch { /* Malformed URLs are reported by the validation loop below. */ }
+}
 for (const url of urls) {
   // URL() normalizes dot segments; inspect the original path first so traversal
   // attempts cannot disappear before validation.
