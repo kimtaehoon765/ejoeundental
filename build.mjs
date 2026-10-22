@@ -1507,6 +1507,48 @@ if(selectedPublicOrigin==='https://ejoeundental.com'){
  console.log('Final health canonical URLs aligned:',healthFilenames.length,'articles and',changed,'updated public files');
 }
 
+// Live HTTP checks confirm that these seven public patient resources (not only
+// treatment pages) redirect /file.html to /file. Publish their *final* URL in
+// canonical, Open Graph, structured data and sitemap; keep relative navigation
+// and the source .html filenames intact for compatibility and preview builds.
+if(selectedPublicOrigin==='https://ejoeundental.com'){
+ const patientInfoSlugs=[
+  'gum-health','root-canal-health','insurance-health','additional-health',
+  'visit-guide','medical-safety-guide','previsit-checklist'
+ ];
+ let affectedFiles=0;
+ function normalizePatientInformationUrls(dir){
+  for(const entry of fs.readdirSync(dir,{withFileTypes:true})){
+   const filename=path.join(dir,entry.name);
+   if(entry.isDirectory()){normalizePatientInformationUrls(filename);continue}
+   if(!/\.(?:html|xml|txt|json|js|mjs|css|webmanifest)$/i.test(entry.name))continue;
+   let output=fs.readFileSync(filename,'utf8');
+   const prior=output;
+   for(const slug of patientInfoSlugs){
+    output=output.replaceAll('https://ejoeundental.com/'+slug+'.html',
+                             'https://ejoeundental.com/'+slug);
+   }
+   if(output!==prior){fs.writeFileSync(filename,output);affectedFiles++}
+  }
+ }
+ normalizePatientInformationUrls(out);
+ const sitemap=fs.readFileSync(path.join(out,'sitemap.xml'),'utf8');
+ for(const slug of patientInfoSlugs){
+  const canonicalUrl='https://ejoeundental.com/'+slug;
+  const page=fs.readFileSync(path.join(out,slug+'.html'),'utf8');
+  if(!sitemap.includes('<loc>'+canonicalUrl+'</loc>')||
+     !page.includes('<link rel="canonical" href="'+canonicalUrl+'">')||
+     sitemap.includes('<loc>'+canonicalUrl+'.html</loc>')){
+   throw new Error('Patient information canonical or sitemap still points through a redirect: '+slug);
+  }
+  const oldOrigin='https://ejoeundental.com/'+slug+'.html';
+  if(page.includes(oldOrigin)){
+   throw new Error('Patient information metadata still references .html: '+slug);
+  }
+ }
+ console.log('Remaining seven verified patient-information URLs aligned:',patientInfoSlugs.length,'pages;',affectedFiles,'output text files refreshed');
+}
+
 // Cloudflare Pages: revalidate HTML on each navigation so old homepage versions do not linger.
 // Fingerprinted static assets may still be cached by the browser and CDN.
 fs.writeFileSync(path.join(out,'_headers'),`/*.html\n  Cache-Control: public, max-age=0, must-revalidate\n/\n  Cache-Control: public, max-age=0, must-revalidate\n`);
