@@ -1577,6 +1577,42 @@ if(selectedPublicOrigin==='https://ejoeundental.com'){
  console.log('Remaining seven verified patient-information URLs aligned:',patientInfoSlugs.length,'pages;',affectedFiles,'output text files refreshed');
 }
 
+// All 16 remaining standalone pages in the sitemap were verified over HTTPS:
+// Cloudflare serves each under the extensionless URL after .html redirection.
+// Align *absolute* canonical, Open Graph and structured-data references while
+// retaining existing .html files and internal links for backward compatibility.
+if(selectedPublicOrigin==='https://ejoeundental.com'){
+ const remainingPublishedSlugs=["gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive"];
+ let updated=0;
+ function normalizeRemainingPublishedUrls(dir){
+  for(const entry of fs.readdirSync(dir,{withFileTypes:true})){
+   const file=path.join(dir,entry.name);
+   if(entry.isDirectory()){normalizeRemainingPublishedUrls(file);continue}
+   if(!/\.(?:html|xml|txt|json|js|mjs|css|webmanifest)$/i.test(entry.name))continue;
+   let html=fs.readFileSync(file,'utf8');
+   const before=html;
+   for(const slug of remainingPublishedSlugs){
+    html=html.replaceAll('https://ejoeundental.com/'+slug+'.html',
+                         'https://ejoeundental.com/'+slug);
+   }
+   if(html!==before){fs.writeFileSync(file,html);updated++}
+  }
+ }
+ normalizeRemainingPublishedUrls(out);
+ const sitemap=fs.readFileSync(path.join(out,'sitemap.xml'),'utf8');
+ for(const slug of remainingPublishedSlugs){
+  const finalUrl='https://ejoeundental.com/'+slug;
+  const page=fs.readFileSync(path.join(out,slug+'.html'),'utf8');
+  if(!sitemap.includes('<loc>'+finalUrl+'</loc>')||
+     sitemap.includes('<loc>'+finalUrl+'.html</loc>')||
+     !page.includes('<link rel="canonical" href="'+finalUrl+'">')||
+     page.includes('https://ejoeundental.com/'+slug+'.html')){
+   throw new Error('Unaligned final URL for remaining patient resource: '+slug);
+  }
+ }
+ console.log('Last 16 clinic and patient-safety page URLs aligned:',remainingPublishedSlugs.length,'pages;',updated,'public text assets');
+}
+
 // Cloudflare Pages: revalidate HTML on each navigation so old homepage versions do not linger.
 // Fingerprinted static assets may still be cached by the browser and CDN.
 fs.writeFileSync(path.join(out,'_headers'),`/*.html\n  Cache-Control: public, max-age=0, must-revalidate\n/\n  Cache-Control: public, max-age=0, must-revalidate\n`);
