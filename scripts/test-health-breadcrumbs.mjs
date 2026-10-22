@@ -30,6 +30,18 @@ test('all 46 health pages have truthful, visible three-level breadcrumbs',()=>{
   counts.set(hub,counts.get(hub)+1);
   const crumb=html.match(/<nav class="crumb health-breadcrumb" aria-label="현재 위치">([\s\S]*?)<\/nav>/)?.[1];
   assert.ok(crumb,filename+' breadcrumb missing from visible page');
+  // The original section headings stay reachable, but the long navigation is
+  // collapsed natively until requested. No client-side script is required.
+  const toc=html.match(/<nav class="article-toc" aria-label="이 글의 목차">([\s\S]*?)<\/nav>/)?.[1];
+  assert.ok(toc,filename+' section index missing');
+  assert.match(toc,/<details class="article-toc-details">/,filename+' collapsible outline missing');
+  assert.ok(!toc.includes('<details class="article-toc-details" open'),filename+' outline should not occupy first screen by default');
+  assert.ok(toc.includes('<summary>이 글의 목차 펼치기'),filename+' accessible expand label missing');
+  const tocAnchors=[...toc.matchAll(/<a href="#(section-\d+)"/g)].map(m=>m[1]);
+  const h2Anchors=[...html.matchAll(/<h2\b[^>]*id="(section-\d+)"[^>]*>/g)].map(m=>m[1]);
+  assert.ok(tocAnchors.length>=3,filename+' outline unexpectedly short');
+  assert.deepEqual(tocAnchors,h2Anchors,filename+' hidden links no longer match the article sections');
+
   assert.ok(crumb.includes('<a href="/">이조은치과 홈</a>'),filename+' home link missing');
   assert.ok(crumb.includes('<a href="'+hub+'">'+hubLabel+'</a>'),filename+' article hub missing');
   assert.ok(crumb.includes('aria-current="page"'),filename+' current page not marked');
