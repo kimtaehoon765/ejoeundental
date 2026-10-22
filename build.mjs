@@ -1249,12 +1249,11 @@ for(const route of healthSitemapRoutes){
 console.log('Health article safety notices and contact links checked: '+checkedHealthPatientInfo);
 
 
-// Optional production cutover: keep preview output unchanged unless explicitly selected.
-// Run with SITE_PUBLIC_ORIGIN=https://ejoeundental.com only after custom-domain readiness is verified.
-const selectedPublicOrigin = process.env.SITE_PUBLIC_ORIGIN || 'https://ejoeundental.pages.dev';
-if (process.env.NETLIFY === 'true' && !process.env.SITE_PUBLIC_ORIGIN) {
-  console.warn('[SEO] Netlify build uses legacy pages.dev canonical URLs. Set SITE_PUBLIC_ORIGIN explicitly after verifying the intended public domain.');
-}
+// Always serve canonical URLs for the live custom domain unless a preview origin is explicitly selected.
+// The preview transform happens during initial generation; production URLs are normalized below.
+const selectedPublicOrigin = process.env.SITE_PUBLIC_ORIGIN || 'https://ejoeundental.com';
+// Production is the default now that the public custom domain is serving the website.
+// Set SITE_PUBLIC_ORIGIN explicitly to build for the pages.dev preview when needed.
 if (!['https://ejoeundental.pages.dev', 'https://ejoeundental.com'].includes(selectedPublicOrigin)) {
   throw new Error('Unsupported SITE_PUBLIC_ORIGIN: ' + selectedPublicOrigin);
 }
