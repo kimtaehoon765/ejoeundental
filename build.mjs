@@ -1363,6 +1363,42 @@ if (selectedPublicOrigin === 'https://ejoeundental.com') {
  console.log('Core care SEO URLs aligned to final published routes:',cleanCareSlugs.length,'pages;',changed,'updated output files');
 }
 
+// The live Cloudflare domain redirects /health/article.html to /health/article.
+// Every published article must declare its actual final URL in canonical,
+// social metadata, BreadcrumbList schema, and the sitemap (not a redirect URL).
+// Keep source filenames and relative internal links unchanged for compatibility.
+if(selectedPublicOrigin==='https://ejoeundental.com'){
+ const healthFilenames=fs.readdirSync(path.join(out,'health')).filter(filename=>filename.endsWith('.html'));
+ if(healthFilenames.length!==46)throw new Error('Expected 46 patient health guides for final URL normalization');
+ const healthPairs=healthFilenames.map(filename=>[
+  'https://ejoeundental.com/health/'+filename,
+  'https://ejoeundental.com/health/'+filename.slice(0,-5)
+ ]);
+ let changed=0;
+ function normalizeHealthCanonicalUrls(dir){
+  for(const entry of fs.readdirSync(dir,{withFileTypes:true})){
+   const filename=path.join(dir,entry.name);
+   if(entry.isDirectory()){normalizeHealthCanonicalUrls(filename);continue}
+   if(!/\.(?:html|xml|txt|json|js|mjs|css|webmanifest)$/i.test(entry.name))continue;
+   const before=fs.readFileSync(filename,'utf8');
+   let after=before;
+   for(const [oldUrl,finalUrl] of healthPairs){after=after.replaceAll(oldUrl,finalUrl)}
+   if(after!==before){fs.writeFileSync(filename,after);changed++}
+  }
+ }
+ normalizeHealthCanonicalUrls(out);
+ const sitemap=fs.readFileSync(path.join(out,'sitemap.xml'),'utf8');
+ for(const filename of healthFilenames){
+  const finalUrl='https://ejoeundental.com/health/'+filename.slice(0,-5);
+  if(!sitemap.includes('<loc>'+finalUrl+'</loc>'))throw new Error('Final health sitemap URL missing: '+filename);
+  const html=fs.readFileSync(path.join(out,'health',filename),'utf8');
+  if(!html.includes('<link rel="canonical" href="'+finalUrl+'">'))throw new Error('Final health canonical missing: '+filename);
+  if(!html.includes('"item":"'+finalUrl+'"'))throw new Error('Final health breadcrumb schema URL missing: '+filename);
+  if(html.includes('https://ejoeundental.com/health/'+filename))throw new Error('Legacy health HTML URL remains: '+filename);
+ }
+ console.log('Final health canonical URLs aligned:',healthFilenames.length,'articles and',changed,'updated public files');
+}
+
 // Cloudflare Pages: revalidate HTML on each navigation so old homepage versions do not linger.
 // Fingerprinted static assets may still be cached by the browser and CDN.
 fs.writeFileSync(path.join(out,'_headers'),`/*.html\n  Cache-Control: public, max-age=0, must-revalidate\n/\n  Cache-Control: public, max-age=0, must-revalidate\n`);
