@@ -62,9 +62,9 @@ test('20 results render first; subsequent results are shown in batches',async()=
 });
 
 test('full-match and partial-match section headings are not duplicated across batches',async()=>{
- const exact=makeEntries(22,'잇몸 출혈');
- const partial=makeEntries(17,'잇몸');
- const {results}=await search('잇몸 출혈',[...exact,...partial]);
+ const exact=makeEntries(22,'잇몸 출혈 심화');
+ const partial=makeEntries(17,'잇몸 출혈');
+ const {results}=await search('잇몸 출혈 심화',[...exact,...partial]);
  assert.equal(walk(results,x=>x.className==='result').length,20);
  const button=walk(results,x=>x.className==='search-show-more')[0];
  assert.ok(button);
