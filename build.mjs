@@ -681,47 +681,35 @@ if(brokenLinks.size){
  console.warn('Missing local link targets ('+brokenLinks.size+'):');
  for(const link of [...brokenLinks].slice(0,80))console.warn(' - '+link);
 }
-// Verify that every health search result with a clear topic has its care guide link.
+// Audit the unified navigation on all 46 articles, preserving treatment-topic
+// relevance, mobile call access, and the reminder that an exam guides care.
 const topicGuideRules=[
  {pattern:/^(?:gum-|swollen-gums|periodontal-|scaling-|root-planing|curette-|receding-gums|loose-tooth)/,guide:'/gum-treatment.html'},
- {pattern:/^root-canal-(?:retreatment|after-pain|or-extraction|reinfection)/,guide:'/retreatment.html'},
+ {pattern:/^root-canal-(?:retreatment|after-pain|or-extraction|reinfection|lesion)/,guide:'/retreatment.html'},
  {pattern:/^(?:abrasion-|cervical-)/,guide:'/cervical-abrasion.html'},
  {pattern:/^insurance-/,guide:'/insured-care.html'}
 ];
-let verifiedTopicGuides=0;
+let checkedPatientJourneys=0;
 for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
+ const html=fs.readFileSync(path.join(healthDir,filename),'utf8');
+ const blocks=[...html.matchAll(/<nav class="patient-care-journey"[^>]*>([\s\S]*?)<\/nav>/g)];
+ if(blocks.length!==1)throw new Error('Missing or duplicate patient care navigation: '+filename);
+ const panel=blocks[0][1];
  const rule=topicGuideRules.find(x=>x.pattern.test(filename));
- if(!rule)continue;
- const html=fs.readFileSync(path.join(healthDir,filename),'utf8');
- const careStart=html.indexOf('<div data-care-link="true"');
- const careEnd=careStart<0?-1:html.indexOf('</div>',careStart);
- const careBlock=careEnd<0?'':html.slice(careStart,careEnd+6);
- if(!careBlock||!careBlock.includes('href="'+rule.guide+'"')){
-  throw new Error('Health article missing matching care guide: '+filename+' -> '+rule.guide);
+ if(rule&&!panel.includes('href="'+rule.guide+'"'))throw new Error('Health article missing matching care guide: '+filename+' -> '+rule.guide);
+ if(!panel.includes('class="patient-care-journey-links"')||
+    !panel.includes('href="tel:0325132875"')||
+    !panel.includes('href="/#location"')||
+    !panel.includes('실제 치료 필요성은 진찰 결과에 따라 달라집니다')){
+  throw new Error('Health article missing patient-safe contact navigation: '+filename);
  }
- if(!careBlock.includes('href="/#philosophy"')||!careBlock.includes('href="tel:0325132875"')||!careBlock.includes('href="/#location"')||!careBlock.includes('검사와 진찰 결과')){
-  throw new Error('Health article missing philosophy or examination notice: '+filename);
- }
- if(html.indexOf('data-care-link="true"')!==html.lastIndexOf('data-care-link="true"')){
-  throw new Error('Duplicate health article care guide: '+filename);
- }
- verifiedTopicGuides++;
-}
-console.log('Health-to-care navigation audit passed:',verifiedTopicGuides,'topic-matched articles');
-// Keep mobile contact buttons functional on all topic-matched health pages.
-for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
- const html=fs.readFileSync(path.join(healthDir,filename),'utf8');
- if(!html.includes('data-care-link="true"'))continue;
  if(!html.includes('name="viewport"')||!html.includes('/assets/style.css?v=')){
   throw new Error('Health article missing mobile viewport or versioned CSS: '+filename);
  }
- const careStart=html.indexOf('<div data-care-link="true"');
- const careEnd=html.indexOf('</div>',careStart);
- const panel=careEnd<0?'':html.slice(careStart,careEnd+6);
- if(!panel.includes('class="health-care-actions"')||!panel.includes('href="tel:0325132875"')||!panel.includes('href="/#location"')){
-  throw new Error('Health article missing mobile contact actions: '+filename);
- }
+ checkedPatientJourneys++;
 }
+if(checkedPatientJourneys!==46)throw new Error('Missing patient health care journeys: '+checkedPatientJourneys);
+console.log('Clinical-topic care navigation, mobile links and exam qualification checked:',checkedPatientJourneys,'health guides');
 
 // Verify every searchable destination exists and the main care journeys remain connected.
 const searchDestinations=JSON.parse(fs.readFileSync(path.join(out,'content/search-index-46.json'),'utf8'));
