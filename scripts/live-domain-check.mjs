@@ -139,6 +139,14 @@ await Promise.all(urls.map(async ({label,url}) => {
       const resultSuffix=response.url===finalUrl?'확장자 없는 최종 주소':'최종 주소 확인 필요';
       info.push(resultSuffix);
       info.push(canonical===response.url?'canonical 이미 일치':'canonical 수정 필요 ('+canonical+')');
+      const hubs={'gum-health':'/gum-treatment.html','root-canal-health':'/retreatment.html',
+        'insurance-health':'/insured-care.html','additional-health':'/cervical-abrasion.html'};
+      if(hubs[slug]){
+        const visible=body.includes('<nav class="hub-top-trail" aria-label="현재 건강정보와 관련 진료">') &&
+          body.includes('href="'+hubs[slug]+'"') && body.includes('aria-current="page"');
+        info.push(visible?'건강정보 위치·진료 바로가기 반영':'건강정보 이동 경로 확인 필요');
+      }
+
     } else if (label === '통합 검색 모바일 배치') {
       const form = body.indexOf('<form class="search-form"');
       const results = body.indexOf('<section id="results"');
