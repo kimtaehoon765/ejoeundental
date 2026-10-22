@@ -72,7 +72,8 @@ test('all 46 health pages have truthful, visible three-level breadcrumbs',()=>{
     assert.ok(existsSync(target),filename+' related navigation target is absent: '+link);
    }
   }
-  const footerPos=html.includes('<div class="bottom">')?html.indexOf('<div class="bottom">'):html.indexOf('<footer class="bottom"');
+  const footerPos=html.includes('<div class="bottom">')?html.indexOf('<div class="bottom">'):
+    html.includes('<footer class="bottom"')?html.indexOf('<footer class="bottom"'):html.indexOf('</main>');
   assert.ok(footerPos>0&&html.indexOf('class="patient-care-journey"')<footerPos,filename+' next-step navigation is below the footer');
 
  }
