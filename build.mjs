@@ -1613,6 +1613,95 @@ if(selectedPublicOrigin==='https://ejoeundental.com'){
  console.log('Last 16 clinic and patient-safety page URLs aligned:',remainingPublishedSlugs.length,'pages;',updated,'public text assets');
 }
 
+// 16 standalone public pages were missing consistent navigation between FAQs,
+// medical safety, pricing and the underlying clinic information. Give each an
+// accessible location trail, keyboard skip link and matching BreadcrumbList
+// (unless the page already publishes one). Medical advice itself stays unchanged.
+const standalonePatientPages=[
+ ['gum-treatment-faq','gum-treatment','잇몸치료'],
+ ['root-canal-retreatment-faq','retreatment','재신경치료'],
+ ['dental-insurance-faq','insured-care','건강보험 진료'],
+ ['medical-history',null,null],
+ ['osteoporosis-medication-dental','medical-history','복용약·전신질환 안내'],
+ ['blood-thinners-dental','medical-history','복용약·전신질환 안내'],
+ ['diabetes-dental-care','medical-history','복용약·전신질환 안내'],
+ ['heart-disease-dental-care','medical-history','복용약·전신질환 안내'],
+ ['kidney-disease-dental-care','medical-history','복용약·전신질환 안내'],
+ ['liver-disease-dental-care','medical-history','복용약·전신질환 안내'],
+ ['cancer-immunosuppression-dental-care','medical-history','복용약·전신질환 안내'],
+ ['pregnancy-dental-care','medical-history','복용약·전신질환 안내'],
+ ['noncovered-fees',null,null],
+ ['medication-dental-faq','medical-history','복용약·전신질환 안내'],
+ ['systemic-disease-dental-faq','medical-history','복용약·전신질환 안내'],
+ ['clinical-archive',null,null]
+];
+let standalonePatientNavCount=0;
+for(const [slug,parentSlug,parentLabel] of standalonePatientPages){
+ const filename=slug+'.html';
+ const target=path.join(out,filename);
+ let html=fs.readFileSync(target,'utf8');
+ if(html.includes('class="patient-standalone-trail"'))throw new Error('Duplicate standalone patient navigation: '+slug);
+ const mainTag=html.match(/<main\b[^>]*>/i)?.[0];
+ const h1=html.match(/<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/i)?.[1]?.replace(/<[^>]*>/g,'').trim();
+ const canonical=html.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1];
+ if(!mainTag||!h1||!canonical)throw new Error('Missing standalone main, title or canonical: '+slug);
+ const expectedUrl=selectedPublicOrigin+'/'+slug+(selectedPublicOrigin.endsWith('.com')?'':'.html');
+ if(canonical!==expectedUrl)throw new Error('Standalone breadcrumb URL does not match canonical: '+slug);
+ const existingTrails=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(match=>JSON.parse(match[1])).filter(item=>item['@type']==='BreadcrumbList');
+ if(existingTrails.length>1)throw new Error('Duplicate pre-existing breadcrumb schemas: '+slug);
+ const existing=existingTrails[0]?.itemListElement;
+ const homeLabel=existing?.[0]?.name||'이조은치과 홈';
+ const currentLabel=existing?.[existing.length-1]?.name||h1;
+ if(existingTrails.length===1&&parentSlug)throw new Error('Unexpected parent route on pre-existing breadcrumb: '+slug);
+ const crumbItems=[{'@type':'ListItem',position:1,name:homeLabel,item:selectedPublicOrigin+'/'}];
+ let parentLink='';
+ if(parentSlug){
+  const parentFile=fs.readFileSync(path.join(out,parentSlug+'.html'),'utf8');
+  const parentUrl=parentFile.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1];
+  if(!parentUrl||!parentUrl.startsWith(selectedPublicOrigin+'/')){
+   throw new Error('Related standalone page has no valid parent canonical: '+slug);
+  }
+  crumbItems.push({'@type':'ListItem',position:2,name:parentLabel,item:parentUrl});
+  parentLink='<span class="separator" aria-hidden="true">›</span><a href="/'+parentSlug+(selectedPublicOrigin.endsWith('.com')?'':'.html')+'">'+escapeBreadcrumbText(parentLabel)+'</a>';
+ }
+ crumbItems.push({'@type':'ListItem',position:crumbItems.length+1,name:currentLabel,item:canonical});
+ if(existingTrails.length===1){
+  if(JSON.stringify(existing)!==JSON.stringify(crumbItems))throw new Error('Standalone existing breadcrumb does not match visible route: '+slug);
+ }else{
+  const schema={'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:crumbItems};
+  html=html.replace(/<\/head>/i,'<script type="application/ld+json">'+
+   JSON.stringify(schema).replace(/</g,'\\u003c')+'</script></head>');
+ }
+ const trail='<nav class="patient-standalone-trail" aria-label="현재 위치">'+
+   '<a href="/">'+escapeBreadcrumbText(homeLabel)+'</a>'+parentLink+
+   '<span class="separator" aria-hidden="true">›</span>'+
+   '<span aria-current="page">'+escapeBreadcrumbText(currentLabel)+'</span></nav>';
+ const id=mainTag.match(/\bid="([^"]+)"/)?.[1]||'patient-main';
+ if(!mainTag.includes('id="')){
+  html=html.replace(mainTag,mainTag.replace(/<main/i,'<main id="patient-main"'));
+ }
+ const finalOpening=html.match(/<main\b[^>]*>/i)?.[0];
+ html=html.replace(finalOpening,finalOpening+trail);
+ const existingSkip=[...html.matchAll(/<a\b[^>]*href="#([^"]+)"[^>]*>[^<]*본문[^<]*<\/a>/gi)]
+   .find(x=>x[1]===id);
+ if(!existingSkip){
+  if(html.includes('class="patient-standalone-skip"'))throw new Error('Duplicate standalone skip: '+slug);
+  html=html.replace(/<body\b[^>]*>/i,match=>match+
+   '<a class="patient-standalone-skip" href="#'+id+'">본문으로 바로가기</a>');
+ }
+ html=html.replace(/<\/head>/i,
+  '<link rel="stylesheet" href="/assets/patient-page-navigation.css?v=20261023-1"></head>');
+ if(!html.includes('href="#'+id+'"')||
+    (html.match(/class="patient-standalone-trail"/g)||[]).length!==1){
+  throw new Error('Standalone breadcrumb or keyboard skip invalid: '+slug);
+ }
+ fs.writeFileSync(target,html);
+ standalonePatientNavCount++;
+}
+if(standalonePatientNavCount!==16)throw new Error('Incomplete standalone patient navigation');
+console.log('Standalone patient-page visible navigation checked:',standalonePatientNavCount,'pages');
+
 // Cloudflare Pages: revalidate HTML on each navigation so old homepage versions do not linger.
 // Fingerprinted static assets may still be cached by the browser and CDN.
 fs.writeFileSync(path.join(out,'_headers'),`/*.html\n  Cache-Control: public, max-age=0, must-revalidate\n/\n  Cache-Control: public, max-age=0, must-revalidate\n`);
