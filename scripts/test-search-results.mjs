@@ -23,7 +23,7 @@ function walk(node, predicate){
  scan(node);
  return found;
 }
-async function search(q,pages,{fail=false}={}){
+async function search(q,pages,{fail=false,hostname='ejoeundental.pages.dev'}={}){
  const input=new Element('input');
  const status=new Element('p');
  const results=new Element('section');
@@ -33,7 +33,7 @@ async function search(q,pages,{fail=false}={}){
   createElement:tag=>new Element(tag)
  };
  const fetch=async()=>fail?{ok:false}: {ok:true,json:async()=>pages};
- const sandbox={document,location:{search:'?q='+encodeURIComponent(q)},URLSearchParams,fetch,AbortController,setTimeout,clearTimeout,console};
+ const sandbox={document,location:{search:'?q='+encodeURIComponent(q),hostname},URLSearchParams,fetch,AbortController,setTimeout,clearTimeout,console};
  const execution=runInNewContext(script,sandbox,{timeout:5000});
  await execution;
  return {results,status,input};
@@ -156,4 +156,41 @@ test('real clinic safety and appointment searches retrieve standalone pages',asy
  const {results}=await search('혈액희석제',[...curated,...additional]);
  const target=walk(results,x=>x.className==='result').find(x=>x.href==='/blood-thinners-dental.html');
  assert.equal(target?.children[0]?.dataset?.category,'medical','medication advice needs a medical information label');
+});
+
+
+test('rendered result paths match public canonical URLs, while previews retain HTML',async()=>{
+ const page={url:'/health/gum-bleeding.html',title:'잇몸 출혈',description:'잇몸 출혈 환자 안내',body:'잇몸 출혈 검진 안내'};
+ for(const [hostname,expected] of [
+  ['ejoeundental.com','/health/gum-bleeding'],
+  ['www.ejoeundental.com','https://ejoeundental.com/health/gum-bleeding'],
+  ['ejoeundental.pages.dev','/health/gum-bleeding.html']
+ ]){
+  const {results}=await search('잇몸 출혈',[page],{hostname});
+  const result=walk(results,node=>node.className==='result')[0];
+  assert.equal(result.href,expected,hostname+' should avoid unwanted redirection');
+  assert.equal(result.children.find(node=>node.tagName==='small')?.textContent,expected);
+  const nextLinks=walk(results,node=>node.tagName==='a'&&node!==result&&node.href);
+  assert.ok(nextLinks.some(node=>node.href===expected.replace(/health\/gum-bleeding(?:\.html)?$/,'gum-treatment'+(hostname.endsWith('.pages.dev')?'.html':''))),
+   hostname+' health result should link to matching treatment under final URL');
+ }
+});
+
+test('show the relevant article passage for body-only matches without HTML injection',async()=>{
+ const entry={
+  url:'/health/periodontal-pocket.html',
+  title:'잇몸 건강검진 정보',
+  description:'치과에서 확인하는 잇몸 상태에 관한 일반적인 안내.',
+  body:'잇몸 건강은 상태에 따라 확인합니다. 치주낭이 깊으면 잇몸 아래 치석과 염증 상태를 확인할 수 있습니다. 치료 여부는 진찰 결과에 따라 결정됩니다.'
+ };
+ const {results}=await search('치주낭',[entry]);
+ const result=walk(results,node=>node.className==='result')[0];
+ const excerpt=result.children.find(x=>x.tagName==='p')?.textContent||'';
+ assert.match(excerpt,/본문 관련 내용:.*치주낭/);
+ assert.ok(excerpt.length<165,'matched passage should be concise');
+ assert.ok(!excerpt.includes('<script>'),'excerpts must stay plain text');
+ const withRelevantDescription={...entry,description:'치주낭의 의미와 확인 방법'};
+ const second=(await search('치주낭',[withRelevantDescription])).results;
+ const summary=walk(second,node=>node.className==='result')[0].children.find(x=>x.tagName==='p')?.textContent;
+ assert.equal(summary,'치주낭의 의미와 확인 방법','retain relevant editor-authored descriptions');
 });
