@@ -349,7 +349,7 @@ else {
   for (const detail of ['격주', '3시간 무료', '12:30', '18:00', '임의로 중단하지 마세요', 'href="tel:0325132875"']) {
     if (!guide.includes(detail)) errors.push('방문 안내 필수정보 누락: ' + detail);
   }
-  if (!guide.includes('rel="canonical" href="https://ejoeundental.pages.dev/visit-guide.html"')) errors.push('방문 안내 canonical 주소 누락');
+  if (!guide.includes(('rel="canonical" href="' + publicOrigin + '/visit-guide.html"'))) errors.push('방문 안내 canonical 주소 누락');
 }
 if (existsSync(homepageFile)) {
   const home = readFileSync(homepageFile, 'utf8');
@@ -400,7 +400,7 @@ for (const slug of ['visit-guide','previsit-checklist','medical-safety-guide','g
   const file = join(root, slug + '.html');
   if (!existsSync(file)) continue;
   const page = readFileSync(file, 'utf8');
-  const expectedCanonical = 'https://ejoeundental.pages.dev/' + slug + '.html';
+  const expectedCanonical = publicOrigin + '/' + slug + '.html';
   if (!page.includes('rel="canonical" href="' + expectedCanonical + '"')) errors.push('정규 URL 불일치: ' + slug);
   const links = [...page.matchAll(/href="(\/[^"#?]+[.]html)"/g)].map(match => match[1]);
   for (const link of links) if (!paths.has(link)) errors.push('방문 안내/FAQ 내부 링크 누락: ' + slug + ' -> ' + link);
