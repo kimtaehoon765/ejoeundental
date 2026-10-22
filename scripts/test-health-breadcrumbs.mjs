@@ -51,7 +51,8 @@ test('all 46 health pages have truthful, visible three-level breadcrumbs',()=>{
   const steps=trail[0].itemListElement;
   assert.deepEqual(steps.map(x=>x.position),[1,2,3],filename+' positions wrong');
   assert.deepEqual(steps.map(x=>x.name),['이조은치과 홈',hubLabel,heading],filename+' labels differ from visible page');
-  assert.deepEqual(steps.map(x=>x.item),[origin+'/',origin+hub,canonical],filename+' URL or canonical mismatch');
+  const finalHub=origin==='https://ejoeundental.com'?hub.replace(/\.html$/,''):hub;
+  assert.deepEqual(steps.map(x=>x.item),[origin+'/',origin+finalHub,canonical],filename+' URL or canonical mismatch');
   const clinical=schemas.filter(s=>['WebPage','MedicalWebPage'].includes(s['@type']));
   assert.equal(clinical.length,1,filename+' lost clinical page structured data');
   const journeyNodes=[...html.matchAll(/<nav class="patient-care-journey" data-patient-care-journey="true" aria-label="이 건강정보와 관련된 진료 및 방문 안내">([\s\S]*?)<\/nav>/g)];
