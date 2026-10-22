@@ -46,17 +46,23 @@ await Promise.all(urls.map(async ({label,url}) => {
     });
     const body = await response.text();
     const info = ['HTTP ' + response.status, '최종 주소: ' + response.url];
+    const server = response.headers.get('server');
+    if (server) info.push('서버: ' + server);
     if (label === '정식 도메인 첫 화면') {
       const hasCanonical = body.includes('<link rel="canonical" href="' + origin + '/">');
       const hasClinic = body.includes('이조은치과');
       const hasCompactJournal = body.includes('owner-stories-more');
       info.push('치과명: ' + (hasClinic?'있음':'없음'));
-      info.push('대표주소: ' + (hasCanonical?'일치':'불일치'));
+      const canonicalValue = body.match(/<link\\s+rel=["']canonical["']\\s+href=["']([^"']+)/i)?.[1] || '(없음)';
+      info.push('대표주소: ' + (hasCanonical?'일치':'불일치') + ' (' + canonicalValue + ')');
       info.push('8+22 글목록: ' + (hasCompactJournal?'확인':'미확인'));
     } else if (label === '검색엔진 robots') {
-      info.push('사이트맵: ' + (body.includes('Sitemap: ' + origin + '/sitemap.xml')?'정상':'확인 필요'));
+      const sitemapValue = body.match(/^Sitemap:\\s*(\\S+)/mi)?.[1] || '(없음)';
+      info.push('사이트맵: ' + sitemapValue);
     } else if (label === '검색엔진 sitemap') {
+      const firstLoc = body.match(/<loc>([^<]+)<\\/loc>/)?.[1] || '(없음)';
       info.push('정식 도메인 홈페이지: ' + (body.includes('<loc>' + origin + '/</loc>')?'포함':'확인 필요'));
+      info.push('첫 URL: ' + firstLoc);
     } else if (label === '잇몸치료 상세 페이지') {
       info.push('치료정보: ' + (body.includes('잇몸치료')?'있음':'미확인'));
     }
