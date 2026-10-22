@@ -52,9 +52,9 @@ jobs:
           test -s dist/medical-safety-guide.html
           test -s dist/visit-guide.html
           grep -q 'href="/visit-guide.html"' dist/index.html
-          grep -q 'visit-guide.html' dist/sitemap.xml
-          grep -q 'medical-safety-guide.html' dist/sitemap.xml
-          grep -q 'previsit-checklist.html' dist/sitemap.xml
+          grep -q '<loc>https://ejoeundental.com/visit-guide</loc>' dist/sitemap.xml
+          grep -q '<loc>https://ejoeundental.com/medical-safety-guide</loc>' dist/sitemap.xml
+          grep -q '<loc>https://ejoeundental.com/previsit-checklist</loc>' dist/sitemap.xml
           grep -q 'href="/medical-safety-guide.html"' dist/index.html
           test -s dist/gum-treatment-faq.html
           test -s dist/root-canal-retreatment-faq.html
