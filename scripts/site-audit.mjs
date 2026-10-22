@@ -83,7 +83,7 @@ for (const f of html) {
     const tag = anchor[0];
     if (!/\btarget\s*=\s*["']_blank["']/i.test(tag)) continue;
     const rel = tag.match(/\brel\s*=\s*["']([^"']*)["']/i)?.[1] || '';
-    if (!/\bnoopener\b/i.test(rel)) errors.push(relative + ': 새 창 링크에 noopener 누락');
+    if (!/\b(?:noopener|noreferrer)\b/i.test(rel)) errors.push(relative + ': 새 창 링크에 noopener 또는 noreferrer 누락');
   }
   for (const match of body.matchAll(/\b(?:href|src)=["'](\/[^"'?#]*)/gi)) {
     let target;
@@ -300,12 +300,9 @@ else {
   for (const snippet of ['const matchedTerms=[]', 'matchedTerms.push(term)', 'matchedTerms.join(', 'partialSectionShown']) {
     if (!script.includes(snippet)) errors.push('검색 부분 일치 설명 누락: ' + snippet);
   }
-  // Partial results must explain which terms actually matched.
-  for (const required of ['const matchedTerms=[]', 'matchedTerms.push(term)', 'matchedTerms.join(', 'partialSectionShown', 'exactSectionShown']) {
-    if (!script.includes(required)) errors.push('검색 부분 일치 결과 설명 누락: ' + required);
-  }
+  if (!script.includes('exactSectionShown')) errors.push('검색 완전 일치 결과 설명 누락: exactSectionShown');
   // Search relevance boosts must not masquerade as matches to every typed word.
-  if (/matched\\s*=\\s*terms\\.length/.test(script)) errors.push('검색 결과 관련도 계산에서 검색어 일치 수를 강제로 변경함');
+  if (/matched\s*=\s*terms\.length/.test(script)) errors.push('검색 결과 관련도 계산에서 검색어 일치 수를 강제로 변경함');
   for (const target of ['/medical-history.html', '/dental-equipment.html', '/content/search-index.json']) {
     if (!script.includes(target)) errors.push('검색 안전정보 연결 누락: ' + target);
   }
