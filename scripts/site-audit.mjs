@@ -672,6 +672,30 @@ if (existsSync(adminFile)) {
   if (!admin.includes('name="robots" content="noindex')) errors.push('관리자 페이지 noindex 누락');
 }
 
+// Topic collections must show the same actual clinic navigation to patients
+// that search engines find through the four child article categories.
+{
+ const collections=[
+  ['gum-health.html','잇몸 건강정보','/gum-treatment.html'],
+  ['root-canal-health.html','신경치료·재신경치료 건강정보','/retreatment.html'],
+  ['insurance-health.html','건강보험 치과진료 정보','/insured-care.html'],
+  ['additional-health.html','치과 건강정보 더 보기','/cervical-abrasion.html']
+ ];
+ for(const [file,label,related] of collections){
+  const page=readFileSync(join(root,file),'utf8');
+  const nav=page.match(/<nav class="hub-top-trail" aria-label="현재 건강정보와 관련 진료">([\s\S]*?)<\/nav>/g)||[];
+  if(nav.length!==1||!nav[0].includes('href="/">이조은치과 홈</a>')||
+     !nav[0].includes('aria-current="page">'+label+'</span>')||
+     !nav[0].includes('href="'+related+'"')||
+     page.includes('<div class="crumb">PATIENT EDUCATION</div>')){
+   errors.push('건강정보 모음 현재 위치·관련 진료 연결 누락: '+file);
+  }
+ }
+ const css=readFileSync(join(root,'assets/style.css'),'utf8');
+ if(!css.includes('.article .hub-top-trail{'))errors.push('건강정보 모음 모바일 이동 경로 스타일 누락');
+ console.log('Visible collection navigation checked:',collections.length);
+}
+
 // Seven health collection and patient-visit pages must publish their true final
 // URLs on the production domain, while retaining .html in the preview build.
 for(const slug of [
