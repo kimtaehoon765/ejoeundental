@@ -1287,3 +1287,7 @@ if (selectedPublicOrigin === 'https://ejoeundental.com') {
   }
   console.log('Production public origin normalized in', updatedFiles, 'generated files');
 }
+
+// Cloudflare Pages: revalidate HTML on each navigation so old homepage versions do not linger.
+// Fingerprinted static assets may still be cached by the browser and CDN.
+fs.writeFileSync(path.join(out,'_headers'),`/*.html\n  Cache-Control: public, max-age=0, must-revalidate\n/\n  Cache-Control: public, max-age=0, must-revalidate\n`);
