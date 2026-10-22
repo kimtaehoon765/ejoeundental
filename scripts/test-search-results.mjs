@@ -10,6 +10,7 @@ class Element {
   append(...children){for(const child of children){if(child&&typeof child==='object')child.parent=this;this.children.push(child);}}
   setAttribute(name,value){this.attrs[name]=String(value);}
   addEventListener(name,fn){this.handlers[name]=fn;}
+  focus(){}
   remove(){if(this.parent)this.parent.children=this.parent.children.filter(x=>x!==this);}
 }
 function walk(node, predicate){
@@ -38,7 +39,7 @@ async function search(q,pages,{fail=false}={}){
  return {results,status,input};
 }
 const makeEntries=(n,word)=>Array.from({length:n},(_,i)=>({
- url:'/health/'+word.replace(/\s/g,'-')+'-'+(i+1)+'.html',
+ url:'/health/search-case-'+(i+1)+'.html',
  title:word+' 건강정보 '+(i+1),
  description:word+' 검사와 관리 안내',
  body:word+' 관련 설명'
