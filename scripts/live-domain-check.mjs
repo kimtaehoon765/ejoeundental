@@ -53,6 +53,22 @@ const urls = [
   { label: 'public route visit-guide', url: origin + '/visit-guide.html' },
   { label: 'public route medical-safety-guide', url: origin + '/medical-safety-guide.html' },
   { label: 'public route previsit-checklist', url: origin + '/previsit-checklist.html' },
+  { label: 'remaining route gum-treatment-faq', url: origin + '/gum-treatment-faq.html' },
+  { label: 'remaining route root-canal-retreatment-faq', url: origin + '/root-canal-retreatment-faq.html' },
+  { label: 'remaining route dental-insurance-faq', url: origin + '/dental-insurance-faq.html' },
+  { label: 'remaining route medical-history', url: origin + '/medical-history.html' },
+  { label: 'remaining route osteoporosis-medication-dental', url: origin + '/osteoporosis-medication-dental.html' },
+  { label: 'remaining route blood-thinners-dental', url: origin + '/blood-thinners-dental.html' },
+  { label: 'remaining route diabetes-dental-care', url: origin + '/diabetes-dental-care.html' },
+  { label: 'remaining route heart-disease-dental-care', url: origin + '/heart-disease-dental-care.html' },
+  { label: 'remaining route kidney-disease-dental-care', url: origin + '/kidney-disease-dental-care.html' },
+  { label: 'remaining route liver-disease-dental-care', url: origin + '/liver-disease-dental-care.html' },
+  { label: 'remaining route cancer-immunosuppression-dental-care', url: origin + '/cancer-immunosuppression-dental-care.html' },
+  { label: 'remaining route pregnancy-dental-care', url: origin + '/pregnancy-dental-care.html' },
+  { label: 'remaining route noncovered-fees', url: origin + '/noncovered-fees.html' },
+  { label: 'remaining route medication-dental-faq', url: origin + '/medication-dental-faq.html' },
+  { label: 'remaining route systemic-disease-dental-faq', url: origin + '/systemic-disease-dental-faq.html' },
+  { label: 'remaining route clinical-archive', url: origin + '/clinical-archive.html' },
   { label: '통합 검색 모바일 배치', url: origin + '/search.html' },
   { label: '검색 결과 더 보기 동작 코드', url: origin + '/assets/search.js' },
   { label: '통합 검색 실제 문서 색인', url: origin + '/content/search-index.json' },
@@ -147,6 +163,12 @@ await Promise.all(urls.map(async ({label,url}) => {
         info.push(visible?'건강정보 위치·진료 바로가기 반영':'건강정보 이동 경로 확인 필요');
       }
 
+    } else if (label.startsWith('remaining route ')) {
+      const slug=label.slice('remaining route '.length);
+      const desired=origin+'/'+slug;
+      const canonical=body.match(/<link\\b[^>]*rel="canonical"[^>]*href="([^"]+)"/i)?.[1]||'';
+      info.push(response.url===desired?'최종 접속 경로 확인':'최종 경로 재점검 필요');
+      info.push(canonical===desired?'대표주소 이미 일치':'대표주소가 최종 URL과 다름: '+canonical);
     } else if (label === '통합 검색 모바일 배치') {
       const form = body.indexOf('<form class="search-form"');
       const results = body.indexOf('<section id="results"');
