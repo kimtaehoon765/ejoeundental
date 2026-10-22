@@ -803,6 +803,35 @@ for(const [filename,careLabel] of coreCareBreadcrumbs){
 if(visibleCareBreadcrumbCount!==8)throw new Error('Treatment page visible breadcrumbs incomplete');
 console.log('Visible care breadcrumbs generated:',visibleCareBreadcrumbCount,'treatment guides');
 
+// On smaller treatment pages, keyboard users otherwise tab through the full header
+// before reaching the clinical explanation. Preserve existing skip links and only
+// add one when needed. Every skip destination has a single valid main landmark.
+let skipLinkCount=0;
+for(const [filename] of coreCareBreadcrumbs){
+ const file=path.join(out,filename);
+ let html=fs.readFileSync(file,'utf8');
+ const opening=html.match(/<main\b[^>]*>/i)?.[0];
+ if(!opening)throw new Error('Missing main on treatment guide: '+filename);
+ if(!/\bid="main-content"/.test(opening)){
+  if(/\bid=/.test(opening))throw new Error('Unrecognized main target on treatment guide: '+filename);
+  html=html.replace(opening,opening.replace(/<main/i,'<main id="main-content"'));
+ }
+ if(!/<a\b[^>]*class="(?:page-skip-link|treatment-skip-link)"[^>]*href="#main-content"/i.test(html)&&
+    !/<a\b[^>]*href="#main-content"[^>]*class="(?:page-skip-link|treatment-skip-link)"/i.test(html)){
+  html=html.replace(/<body\b[^>]*>/i,match=>match+
+   '<a class="treatment-skip-link" href="#main-content">진료 안내 본문으로 건너뛰기</a>');
+ }
+ if((html.match(/<main\b[^>]*id="main-content"/g)||[]).length!==1||
+    !html.includes('href="#main-content"')){
+  throw new Error('Treatment keyboard skip link or destination invalid: '+filename);
+ }
+ fs.writeFileSync(file,html);
+ skipLinkCount++;
+}
+if(skipLinkCount!==8)throw new Error('Incomplete treatment keyboard navigation');
+console.log('Treatment keyboard skip navigation checked:',skipLinkCount,'guides');
+
+
 
 const searchPageHtml=fs.readFileSync(path.join(out,'search.html'),'utf8');
 if(!/<form\b[^>]*role=["']search["'][^>]*>/.test(searchPageHtml))throw new Error('Search page missing search landmark');
