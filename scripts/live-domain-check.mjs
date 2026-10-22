@@ -64,6 +64,13 @@ await Promise.all(urls.map(async ({label,url}) => {
       const canonicalValue = body.split('rel="canonical" href="')[1]?.split('"')[0] || '(없음)';
       info.push('대표주소: ' + (hasCanonical?'일치':'불일치') + ' (' + canonicalValue + ')');
       info.push('8+22 글목록: ' + (hasCompactJournal?'확인':'미확인'));
+      const heroStart = body.indexOf('<section class="hero wrap">');
+      const heroEnd = body.indexOf('</section>',heroStart);
+      const hero = heroStart>=0&&heroEnd>heroStart ? body.slice(heroStart,heroEnd) : '';
+      const callFirst = hero.indexOf('class="hero-actions"')>=0 && hero.indexOf('class="hero-actions"')<hero.indexOf('class="hero-care-summary"');
+      const careFold = hero.includes('class="hero-more-care"') && hero.includes('다른 진료·건강정보 5개 더 보기');
+      info.push('모바일 진료·전화 우선 배치: ' + (callFirst&&careFold?'반영':'반영 확인 필요'));
+
     } else if (label === '검색엔진 robots') {
       const sitemapValue = body.split('Sitemap: ')[1]?.split('\n')[0]?.trim() || '(없음)';
       info.push('사이트맵: ' + sitemapValue);
