@@ -276,11 +276,34 @@ for (const file of html) {
    !reveal.includes('class="grid care-more-grid"')||reveal.includes('<details class="care-more-details" open')){
   errors.push('모바일 전체 진료 더 보기 단추·기본 닫힘 상태 누락');
  }
- if(!home.includes('/assets/home-enhancements.css?v=20261023-care-directory-compact')){
+ if(!home.includes('/assets/home-enhancements.css?v=20261023-focus-nav-compact')){
   errors.push('홈페이지 진료목록 반응형 CSS 캐시 버전 누락');
  }
  for(const url of ['/implant.html','/cavity-treatment.html','/wisdom-tooth.html','/tmj-care.html','/denture.html','/pediatric-orthodontics.html','/pediatric-dentistry.html']){
   if(!reveal.includes('href="'+url+'"'))errors.push('추가 진료 바로가기 링크 누락: '+url);
+ }
+}
+
+// 집중 진료 빠른 안내 섹션: 긴 반복 진료 설명을 제거하되,
+// 환자가 찾는 다섯 핵심 진료와 기존 검색·FAQ·방문 연결은 유지합니다.
+{
+ const home=readFileSync(join(root,'index.html'),'utf8');
+ const overview=home.match(/<section class="section light" id="focus-care">([\s\S]*?)<\/section>/)?.[1]||'';
+ const nav=overview.match(/<nav class="focus-care-shortcuts" aria-label="원장이 중점적으로 안내하는 진료">([\s\S]*?)<\/nav>/)?.[1]||'';
+ const primaryRoutes=['/gum-treatment.html','/retreatment.html','/cervical-abrasion.html','/insured-care.html','/scaling.html'];
+ const links=[...nav.matchAll(/<a href="([^"]+)"><strong>([^<]+)<\/strong><span>([^<]+)<\/span><\/a>/g)];
+ if(links.length!==5||links.some((m,i)=>m[1]!==primaryRoutes[i])||new Set(links.map(m=>m[1])).size!==5){
+  errors.push('집중 진료 빠른 안내 5개 진료 링크가 올바르지 않음');
+ }
+ if(overview.includes('<div class="card"')||overview.length>1600){
+  errors.push('집중 진료 안내에 반복적인 긴 설명 카드가 남아 있음');
+ }
+ for(const href of ['#symptoms','#care','/search.html','#faq','#visit-guide']){
+  if(!overview.includes('href="'+href+'"'))errors.push('집중 진료 빠른 찾기 연결 누락: '+href);
+ }
+ const css=join(root,'assets/home-enhancements.css');
+ if(!existsSync(css)||!readFileSync(css,'utf8').includes('#focus-care .focus-care-shortcuts{')){
+  errors.push('집중 진료 컴팩트 바로가기 반응형 CSS 누락');
  }
 }
 
