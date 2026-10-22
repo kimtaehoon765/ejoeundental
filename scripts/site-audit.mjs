@@ -303,6 +303,17 @@ else {
   const script = readFileSync(searchScript, 'utf8');
   if (!page.includes('id="q"') || !page.includes('id="results"') || !page.includes('id="status"')) errors.push('검색 입력 또는 결과 표시 영역 누락');
   if (!page.includes('/assets/search.js')) errors.push('검색 스크립트 연결 누락');
+  // Search input and results must appear before the long topic lists on narrow screens.
+  const searchStart=page.indexOf('<main id="main-content"');
+  const searchFormPos=page.indexOf('<form class="search-form"',searchStart);
+  const searchStatusPos=page.indexOf('<p id="status"',searchStart);
+  const searchResultsPos=page.indexOf('<section id="results"',searchStart);
+  const firstSuggestionsPos=page.indexOf('<p class="search-suggestions"',searchStart);
+  const symptomExplorerPos=page.indexOf('id="symptom-search"',searchStart);
+  if ([searchStart,searchFormPos,searchStatusPos,searchResultsPos,firstSuggestionsPos,symptomExplorerPos].some(pos=>pos<0)||
+      !(searchStart<searchFormPos&&searchFormPos<searchStatusPos&&searchStatusPos<searchResultsPos&&searchResultsPos<firstSuggestionsPos&&firstSuggestionsPos<symptomExplorerPos)) errors.push('모바일 검색 입력·결과를 추천 검색어보다 먼저 표시해야 합니다');
+  if (!page.includes('class="search-primary"')||!page.includes('search-page.css?v=20261023-search-first')) errors.push('검색 화면 우선 배치 스타일 누락');
+
   if (!page.includes('<meta name="robots" content="noindex,follow">')) errors.push('검색 결과 페이지 검색엔진 색인 제한 누락');
   if (!page.includes('<form class="search-form" role="search"') || !page.includes('action="/search.html" method="get"')) errors.push('검색 양식 기본 동작 누락');
   if (!page.includes('name="q" type="search"') || !page.includes('aria-describedby="search-help"')) errors.push('검색 입력 접근성 안내 누락');
