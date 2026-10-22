@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const origin = process.env.SITE_PUBLIC_ORIGIN || 'https://ejoeundental.pages.dev';
+const origin = process.env.SITE_PUBLIC_ORIGIN || 'https://ejoeundental.com';
 const allowed = new Set(['https://ejoeundental.pages.dev', 'https://ejoeundental.com']);
 if (!allowed.has(origin)) throw new Error('Invalid SITE_PUBLIC_ORIGIN: ' + origin);
 const dist = path.resolve('dist');
