@@ -174,7 +174,7 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push(canonical===desired?'대표주소 이미 일치':'대표주소가 최종 URL과 다름: '+canonical);
       const breadcrumb=body.includes('<nav class="patient-standalone-trail" aria-label="현재 위치">') &&
         body.includes('aria-current="page"');
-      const pageMain=body.match(/<main\\b[^>]*id="([^"]+)"/)?.[1]||'';
+      const pageMain=body.match(/<main\b[^>]*id="([^"]+)"/)?.[1]||'';
       const keyboard=Boolean(pageMain&&body.includes('href="#'+pageMain+'"'));
       const seoTrail=body.includes('"@type":"BreadcrumbList"')&&body.includes('"item":"'+desired+'"');
       info.push(breadcrumb&&keyboard&&seoTrail?
