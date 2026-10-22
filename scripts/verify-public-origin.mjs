@@ -15,8 +15,10 @@ if (urls.length !== new Set(urls).size) throw new Error('Duplicate sitemap URLs'
 const wrongOrigin = origin === 'https://ejoeundental.com' ? 'https://ejoeundental.pages.dev' : 'https://ejoeundental.com';
 for (const url of urls) {
   if (!url.startsWith(origin + '/')) throw new Error('Sitemap URL uses wrong origin: ' + url);
-  const relative = decodeURIComponent(url.slice(origin.length + 1));
-  if (relative.includes('..') || relative.includes('?') || relative.includes('#')) throw new Error('Invalid sitemap path: ' + url);
+  let relative;
+  try { relative = decodeURIComponent(url.slice(origin.length + 1)); }
+  catch { throw new Error('Malformed sitemap URL encoding: ' + url); }
+  if (relative.includes('..') || relative.includes('?') || relative.includes('#') || relative.includes('\\\\') || relative.startsWith('/')) throw new Error('Invalid sitemap path: ' + url);
   const filename = path.join(dist, relative || 'index.html');
   const page = fs.existsSync(filename) && fs.statSync(filename).isFile() ? filename : path.join(filename, 'index.html');
   if (!fs.existsSync(page)) throw new Error('Missing sitemap page: ' + url);
