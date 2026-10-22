@@ -18,7 +18,8 @@ test('all 46 health pages have truthful, visible three-level breadcrumbs',()=>{
  for(const filename of pages){
   const html=readFileSync(new URL(filename,dist),'utf8');
   const canonical=html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
-  assert.ok(canonical?.endsWith('/health/'+filename),filename+' canonical missing');
+  const expectedPath=process.env.SITE_PUBLIC_ORIGIN==='https://ejoeundental.pages.dev' ? '/health/'+filename : '/health/'+filename.slice(0,-5);
+  assert.ok(canonical?.endsWith(expectedPath),filename+' canonical points through a redirect');
   const origin=new URL(canonical).origin;
   const heading=html.match(/<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/i)?.[1]?.replace(/<[^>]*>/g,'').trim();
   assert.ok(heading,filename+' H1 missing');
