@@ -10,6 +10,11 @@ on:
 permissions:
   contents: read
 
+# Avoid redundant runs when several commits are pushed in quick succession.
+concurrency:
+  group: website-quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   preview:
     name: Preview build and SEO audit
