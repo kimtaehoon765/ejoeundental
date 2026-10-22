@@ -508,6 +508,20 @@ for (const name of ['gum-treatment.html','retreatment.html','cervical-abrasion.h
      !page.includes('/assets/care-design-system.css')) errors.push('모바일 진료 이동 안내 누락: '+name);
 }
 
+
+// 홈페이지 원장 이야기 목록 보호: 모바일에서 8편만 보이고, 22편은 펼치면 읽을 수 있어야 합니다.
+{
+ const homepage=readFileSync(join(root,'index.html'),'utf8');
+ const section=homepage.match(/<section\b[^>]*id="stories"[\s\S]*?<\/section>/i)?.[0]||'';
+ const first=section.match(/<div class="owner-stories-grid" aria-label="원장의 치과 이야기 최신 8편">([\s\S]*?)<\/div>\s*<details class="owner-stories-more">/i)?.[1]||'';
+ const extra=section.match(/<details class="owner-stories-more">([\s\S]*?)<\/details>/i)?.[1]||'';
+ const firstLinks=[...first.matchAll(/<a\b[^>]*href="(https:\/\/blog\.naver\.com\/[^"]+)"[^>]*>/gi)].map(m=>m[1]);
+ const extraLinks=[...extra.matchAll(/<a\b[^>]*href="(https:\/\/blog\.naver\.com\/[^"]+)"[^>]*>/gi)].map(m=>m[1]);
+ if(firstLinks.length!==8||extraLinks.length!==22||new Set([...firstLinks,...extraLinks]).size!==30)errors.push('원장 이야기 8+22편 링크 또는 중복 오류');
+ if(!extra.includes('<summary>치과 이야기 나머지 22편 보기')||!extra.includes('class="owner-stories-grid"'))errors.push('모바일 원장 이야기 펼치기 기능 누락');
+ if(!homepage.includes('"numberOfItems": 30'))errors.push('원장 이야기 검색 구조화 데이터 30편 불일치');
+}
+
 if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);
