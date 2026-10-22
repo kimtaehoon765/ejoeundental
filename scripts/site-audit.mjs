@@ -4,7 +4,7 @@ import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 const root = resolve('dist');
-const publicOrigin = process.env.SITE_PUBLIC_ORIGIN || 'https://ejoeundental.pages.dev';
+const publicOrigin = process.env.SITE_PUBLIC_ORIGIN || 'https://ejoeundental.com';
 if (!['https://ejoeundental.pages.dev', 'https://ejoeundental.com'].includes(publicOrigin)) {
   throw new Error('Unsupported SITE_PUBLIC_ORIGIN: ' + publicOrigin);
 }
