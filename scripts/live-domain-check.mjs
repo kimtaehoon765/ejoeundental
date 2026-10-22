@@ -157,7 +157,7 @@ await Promise.all(urls.map(async ({label,url}) => {
         body.includes('class="treatment-breadcrumb-current" aria-current="page"')&&
         body.includes('href="/#care"');
       const keyboard=body.includes('class="treatment-skip-link" href="#main-content"')&&
-        /<main\\b[^>]*id="main-content"/.test(body);
+        /<main\b[^>]*id="main-content"/.test(body);
       info.push(finalRoute?'최종경로 확장자 없음 확인':'최종경로 확인 필요: '+response.url);
       info.push(visible&&keyboard?'환자 위치 표시·키보드 바로가기 적용':'이동 경로·키보드 접근 확인 필요');
     } else if (label === '잇몸치료 상세 페이지') {
