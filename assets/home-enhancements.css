@@ -408,3 +408,31 @@ html{scroll-padding-top:92px}
  #main-content>.hero .hero-more-care summary{min-height:48px;padding:11px 13px}
 }
 @media(prefers-reduced-motion:reduce){#main-content>.hero .hero-more-care summary span{transition:none}}
+
+/* Compact the extensive twelve-service directory without hiding or deleting pages.
+   Five primary cards remain visible; eight secondary cards expand natively. */
+#care .care-more-details{margin:14px 0 0;min-width:0}
+#care .care-more-details summary{
+ display:flex;align-items:center;justify-content:space-between;gap:10px;
+ box-sizing:border-box;min-height:52px;padding:14px 18px;
+ border:1px solid #b6d1c1;border-radius:10px;
+ color:#173e35;background:#edf5ec;
+ font-size:16px;font-weight:750;line-height:1.55;
+ cursor:pointer;list-style:none;word-break:keep-all
+}
+#care .care-more-details summary::-webkit-details-marker{display:none}
+#care .care-more-details summary span{flex-shrink:0;transition:transform .15s ease}
+#care .care-more-details[open] summary span{transform:rotate(180deg)}
+#care .care-more-details summary:focus-visible{
+ outline:3px solid #a47837;outline-offset:3px
+}
+#care .care-more-grid{margin-top:15px}
+#care .care-more-grid .card{min-width:0}
+@media(max-width:600px){
+ #care .care-more-details{margin-top:11px}
+ #care .care-more-details summary{min-height:52px;padding:12px 14px;font-size:15px}
+ #care .care-more-grid{margin-top:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ #care .care-more-details summary span{transition:none}
+}
