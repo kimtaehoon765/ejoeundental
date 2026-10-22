@@ -35,6 +35,7 @@ const urls = [
   { label: '검색엔진 robots', url: origin + '/robots.txt' },
   { label: '검색엔진 sitemap', url: origin + '/sitemap.xml' },
   { label: '잇몸치료 상세 페이지', url: origin + '/gum-treatment.html' },
+  { label: '통합 검색 모바일 배치', url: origin + '/search.html' },
   { label: '없는 페이지 404 상태', url: origin + '/__missing-page-check-20261023' }
 ];
 
@@ -81,6 +82,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       const careSlugs = ['gum-treatment','retreatment','cervical-abrasion','insured-care'];
       const finalCount = careSlugs.filter(slug => body.includes('<loc>' + origin + '/' + slug + '</loc>')).length;
       info.push('핵심 진료 최종 URL: ' + finalCount + '/4');
+    } else if (label === '통합 검색 모바일 배치') {
+      const form = body.indexOf('<form class="search-form"');
+      const results = body.indexOf('<section id="results"');
+      const suggestions = body.indexOf('<p class="search-suggestions"');
+      const good = form >= 0 && results > form && suggestions > results;
+      info.push(good ? '입력·결과가 추천 검색어보다 먼저 표시됨' : '입력·결과 배치 확인 필요');
     } else if (label === '없는 페이지 404 상태') {
       info.push(response.status === 404 ? '404 정상 응답' : '주의: 404 대신 '+response.status);
       info.push(body.includes('요청하신 페이지를 찾을 수 없습니다') ? '오류 안내 화면 확인' : '오류 안내 화면 확인 필요');
