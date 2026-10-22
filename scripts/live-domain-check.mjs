@@ -84,6 +84,15 @@ await Promise.all(urls.map(async ({label,url}) => {
         care.includes('다른 진료 8가지 더 보기') &&
         care.includes('class="grid care-more-grid"') && care.includes('href="/denture.html"');
       info.push('전체 진료 모바일 5+8 펼치기: '+(serviceFold?'반영':'확인 필요'));
+      const focusStart=body.indexOf('<section class="section light" id="focus-care">');
+      const focusEnd=body.indexOf('</section>',focusStart);
+      const focus=focusStart>=0&&focusEnd>focusStart?body.slice(focusStart,focusEnd):'';
+      const shortcuts=focus.match(/<nav class="focus-care-shortcuts"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+      const expected=['/gum-treatment.html','/retreatment.html','/cervical-abrasion.html','/insured-care.html','/scaling.html'];
+      const focusReady=expected.every(url=>shortcuts.includes('href="'+url+'"')) &&
+        (shortcuts.match(/<a href=/g)||[]).length===5 && !focus.includes('<div class="card"');
+      info.push('집중 진료 중복 설명 축소·5개 바로가기: '+(focusReady?'반영':'확인 필요'));
+      info.push('모바일 최적화 CSS: '+(body.includes('home-enhancements.css?v=20261023-focus-nav-compact')?'최신':'버전 확인 필요'));
 
     } else if (label === '검색엔진 robots') {
       const sitemapValue = body.split('Sitemap: ')[1]?.split('\n')[0]?.trim() || '(없음)';
