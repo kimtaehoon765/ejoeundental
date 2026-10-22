@@ -15,6 +15,16 @@ const urls = [...source.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
 if (!urls.length) errors.push('Source sitemap is empty');
 if (new Set(urls).size !== urls.length) errors.push('Source sitemap has duplicate URLs');
 for (const url of urls) {
+  // URL() normalizes dot segments; inspect the original path first so traversal
+  // attempts cannot disappear before validation.
+  const rawPath = url.match(/^https?:\/\/[^/?#]+([^?#]*)/i)?.[1] ?? '';
+  let decodedRawPath;
+  try { decodedRawPath = decodeURIComponent(rawPath); }
+  catch { errors.push('Malformed sitemap URL encoding: '+url); continue; }
+  if (decodedRawPath.includes('\\\\') || decodedRawPath.split('/').some(segment => segment === '.' || segment === '..')) {
+    errors.push('Unsafe raw sitemap path: '+url);
+    continue;
+  }
   let parsed;
   try { parsed = new URL(url); }
   catch { errors.push('Malformed source sitemap URL: '+url); continue; }
