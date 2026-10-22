@@ -525,6 +525,53 @@ for (const slug of ['gum-treatment-faq', 'root-canal-retreatment-faq', 'dental-i
     }
   } catch { errors.push('FAQ JSON-LD 파싱 실패: ' + slug); }
 }
+// Verify patients see the same care breadcrumb names used in search metadata.
+// This makes the location trail navigable instead of JSON-LD-only.
+{
+ const carePages=[
+  ['gum-treatment.html','잇몸치료'],
+  ['retreatment.html','재신경치료'],
+  ['cervical-abrasion.html','치경부마모증·GI 수복'],
+  ['insured-care.html','건강보험 진료'],
+  ['tmj-care.html','턱관절 진료'],
+  ['wisdom-tooth.html','사랑니 발치'],
+  ['implant.html','임플란트 진료'],
+  ['pediatric-orthodontics.html','어린이 교정·성장기 치열 상담']
+ ];
+ const trailStyles=join(root,'assets/treatment-breadcrumbs.css');
+ if(!existsSync(trailStyles)||!readFileSync(trailStyles,'utf8').includes('.treatment-breadcrumb-inner')){
+  errors.push('치료별 모바일 이동 경로 스타일 파일 누락');
+ }
+ for(const [file,label] of carePages){
+  const filepath=join(root,file);
+  if(!existsSync(filepath)){errors.push('진료 이동 경로 대상 페이지 누락: '+file);continue}
+  const page=readFileSync(filepath,'utf8');
+  const trail=page.match(/<nav class="treatment-breadcrumb" aria-label="현재 위치">([\s\S]*?)<\/nav>/g)||[];
+  if(trail.length!==1){errors.push('진료 이동 경로가 누락되거나 중복됨: '+file);continue}
+  const visible=trail[0];
+  if(!visible.includes('href="/">이조은치과 홈</a>')||
+     !visible.includes('aria-current="page">'+label+'</span>')||
+     !visible.includes('href="/#care"')||
+     !page.includes('/assets/treatment-breadcrumbs.css?v=20261023-care-trail1')){
+   errors.push('진료 이동 경로의 홈·현재 진료·다른 진료 연결 오류: '+file);
+  }
+  const mainPos=page.search(/<main\b/i),trailPos=page.indexOf(trail[0]),headingPos=page.search(/<h1\b/i);
+  if(mainPos<0||trailPos<mainPos||headingPos<trailPos){
+   errors.push('진료 이동 경로가 제목보다 먼저 보이지 않음: '+file);
+  }
+  let breadcrumbs=[];
+  for(const match of page.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)){
+   try{const data=JSON.parse(match[1]);if(data['@type']==='BreadcrumbList')breadcrumbs.push(data)}
+   catch{errors.push('진료 구조화 데이터 파싱 오류: '+file)}
+  }
+  if(breadcrumbs.length!==1||breadcrumbs[0]?.itemListElement?.length!==2||
+     breadcrumbs[0]?.itemListElement?.[1]?.name!==label){
+   errors.push('진료 이동 경로와 검색 구조화 데이터 이름 불일치: '+file);
+  }
+ }
+ console.log('Treatment visible breadcrumbs audited:',carePages.length,'patient care guides');
+}
+
 // Verify FAQ/visit-guide internal HTML links and canonical URL consistency.
 for (const slug of ['visit-guide','previsit-checklist','medical-safety-guide','gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq','medication-dental-faq','systemic-disease-dental-faq']) {
   const file = join(root, slug + '.html');
