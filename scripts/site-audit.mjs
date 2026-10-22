@@ -187,7 +187,7 @@ if (existsSync(homepageFile)) {
   }
   const website = structured.find(data => data['@type'] === 'WebSite');
   const searchAction = website?.potentialAction;
-  if (searchAction?.['@type'] !== 'SearchAction' || searchAction?.target?.urlTemplate !== 'https://ejoeundental.com/search.html?q={search_term_string}' || searchAction?.['query-input'] !== 'required name=search_term_string') errors.push('홈페이지 통합 검색 구조화 데이터 불일치');
+  if (searchAction?.['@type'] !== 'SearchAction' || searchAction?.target?.urlTemplate !== publicOrigin + '/search.html?q={search_term_string}' || searchAction?.['query-input'] !== 'required name=search_term_string') errors.push('홈페이지 통합 검색 구조화 데이터 불일치');
   const clinic = structured.find(data => data['@type'] === 'Dentist');
   if (!clinic) errors.push('치과 구조화 데이터 누락');
   else {
