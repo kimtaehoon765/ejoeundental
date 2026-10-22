@@ -92,6 +92,8 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push(good ? '입력·결과가 추천 검색어보다 먼저 표시됨' : '입력·결과 배치 확인 필요');
     } else if (label === '검색 결과 더 보기 동작 코드') {
       info.push(body.includes("showMore.addEventListener('click'") && body.includes('renderMatches(batch,extraResults)') ? '20개씩 검색 결과 펼치기 코드 반영' : '더 보기 코드 반영 확인 필요');
+      const improvedSymptoms = body.includes('const symptomBoosts=') && body.includes("'치은퇴축'") && body.includes("'잇몸출혈'");
+      info.push(improvedSymptoms ? '환자 증상·동의어 검색 개선 반영' : '증상·동의어 검색 개선 확인 필요');
     } else if (label === '검색 결과 더 보기 버튼 스타일') {
       info.push(body.includes('.search-show-more{') ? '모바일 더 보기 버튼 스타일 반영' : '버튼 스타일 반영 확인 필요');
     } else if (label === '없는 페이지 404 상태') {
