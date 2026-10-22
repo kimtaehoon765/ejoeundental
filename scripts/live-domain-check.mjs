@@ -160,6 +160,10 @@ await Promise.all(urls.map(async ({label,url}) => {
         /<main\b[^>]*id="main-content"/.test(body);
       info.push(finalRoute?'최종경로 확장자 없음 확인':'최종경로 확인 필요: '+response.url);
       info.push(visible&&keyboard?'환자 위치 표시·키보드 바로가기 적용':'이동 경로·키보드 접근 확인 필요');
+      const canonical=body.match(/<link\b[^>]*rel="canonical"[^>]*href="([^"]+)"/)?.[1]||'';
+      const canonicalAligned=canonical===response.url;
+      const schemaAligned=body.includes('"item":"'+response.url+'"');
+      info.push(canonicalAligned&&schemaAligned?'진료 canonical·실제 최종주소·경로 구조화 데이터 일치':'진료 canonical·구조화 데이터 확인 필요 ('+canonical+')');
     } else if (label === '잇몸치료 상세 페이지') {
       info.push('치료정보: ' + (body.includes('잇몸치료')?'있음':'미확인'));
       const canonicalValue = body.split('rel="canonical" href="')[1]?.split('"')[0] || '(없음)';
