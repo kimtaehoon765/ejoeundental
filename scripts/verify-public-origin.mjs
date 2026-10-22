@@ -20,7 +20,8 @@ for (const url of urls) {
   catch { throw new Error('Malformed sitemap URL encoding: ' + url); }
   if (relative.includes('..') || relative.includes('?') || relative.includes('#') || relative.includes('\\') || relative.startsWith('/') || relative.split('/').includes('.')) throw new Error('Invalid sitemap path: ' + url);
   const filename = path.join(dist, relative || 'index.html');
-  const page = fs.existsSync(filename) && fs.statSync(filename).isFile() ? filename : path.join(filename, 'index.html');
+  const page = fs.existsSync(filename) && fs.statSync(filename).isFile() ? filename :
+    fs.existsSync(filename + '.html') ? filename + '.html' : path.join(filename, 'index.html');
   if (!fs.existsSync(page)) throw new Error('Missing sitemap page: ' + url);
   const html = fs.readFileSync(page, 'utf8');
   const canonical = html.match(/<link\b[^>]*\brel=["']canonical["'][^>]*\bhref=["']([^"']+)["']/i)?.[1]
