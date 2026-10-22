@@ -1435,10 +1435,10 @@ if (selectedPublicOrigin === 'https://ejoeundental.com') {
 }
 
 // Live hosts serve /treatment.html as /treatment (HTTP redirect).
-// Publish the final extensionless URLs for the four main care guides in SEO metadata.
+// Publish redirect-free canonical URLs for eight verified live treatment guides.
 // Keep source HTML filenames and relative links unchanged for compatibility.
 if (selectedPublicOrigin === 'https://ejoeundental.com') {
- const cleanCareSlugs=['gum-treatment','retreatment','cervical-abrasion','insured-care'];
+ const cleanCareSlugs=['gum-treatment','retreatment','cervical-abrasion','insured-care','tmj-care','wisdom-tooth','implant','pediatric-orthodontics'];
  let changed=0;
  function normalizeCareUrls(dir) {
   for (const entry of fs.readdirSync(dir,{withFileTypes:true})) {
