@@ -239,6 +239,24 @@ for (const file of html) {
     ids.add(id);
   }
 }
+// 첫 화면 핵심 진료의 4+5개 링크와 연락처 우선 배치를 보호합니다.
+{
+ const homepage=readFileSync(join(root,'index.html'),'utf8');
+ const hero=homepage.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
+ const nav=hero.match(/<nav class="hero-care-summary"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ const details=nav.match(/<details class="hero-more-care">([\s\S]*?)<\/details>/)?.[0]||'';
+ const primary=nav.replace(details,'');
+ const mainHrefs=[...primary.matchAll(/<a\b[^>]*href="(\/[^"]+\.html)"/gi)].map(x=>x[1]);
+ const extraHrefs=[...details.matchAll(/<a\b[^>]*href="(\/[^"]+\.html)"/gi)].map(x=>x[1]);
+ const expectedPriority=['/gum-treatment.html','/retreatment.html','/cervical-abrasion.html','/insured-care.html'];
+ const allHrefs=[...mainHrefs,...extraHrefs];
+ if(mainHrefs.length!==4||extraHrefs.length!==5||expectedPriority.some(x=>!mainHrefs.includes(x))||new Set(allHrefs).size!==9)errors.push('첫 화면 진료 링크 4+5개 구성 오류');
+ if(!details.includes('<summary>다른 진료·건강정보 5개 더 보기'))errors.push('첫 화면 진료 메뉴 펼치기 누락');
+ if(hero.indexOf('class="hero-actions"')<0||hero.indexOf('class="hero-actions"')>hero.indexOf('class="hero-care-summary"'))errors.push('첫 화면 전화·진료시간 문의가 진료 메뉴보다 아래에 있음');
+ if(!hero.includes('href="tel:0325132875"'))errors.push('첫 화면 전화 문의 연결 누락');
+ if(!homepage.includes('home-enhancements.css?v=20261023-hero-action-first'))errors.push('홈페이지 개선 스타일 캐시 버전 불일치');
+}
+
 // Homepage in-page navigation must point to an existing section or landmark.
 if (existsSync(homepageFile)) {
   const home = readFileSync(homepageFile, 'utf8');
