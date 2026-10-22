@@ -5,6 +5,9 @@ import { spawnSync } from 'node:child_process';
 
 const root = resolve('dist');
 const publicOrigin = process.env.SITE_PUBLIC_ORIGIN || 'https://ejoeundental.pages.dev';
+if (!['https://ejoeundental.pages.dev', 'https://ejoeundental.com'].includes(publicOrigin)) {
+  throw new Error('Unsupported SITE_PUBLIC_ORIGIN: ' + publicOrigin);
+}
 if (!existsSync(root)) {
   console.error('dist 폴더가 없습니다. 먼저 npm run build를 실행하세요.');
   process.exit(1);
