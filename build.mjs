@@ -777,6 +777,33 @@ for(const [page,label] of coreCareBreadcrumbs){
 }
 console.log('All eight treatment breadcrumb GEO audits passed');
 
+// Keep the patient-visible location trail in sync with existing two-level
+// BreadcrumbList data. Every route stays reachable, including on small phones.
+let visibleCareBreadcrumbCount=0;
+for(const [filename,careLabel] of coreCareBreadcrumbs){
+ const target=path.join(out,filename);
+ let html=fs.readFileSync(target,'utf8');
+ if(html.includes('class="treatment-breadcrumb"'))throw new Error('Duplicate visible treatment breadcrumb: '+filename);
+ if(!/<main\b[^>]*>/i.test(html)||!/<\/head>/i.test(html))throw new Error('Missing main or head on treatment page: '+filename);
+ const breadcrumb='<nav class="treatment-breadcrumb" aria-label="현재 위치">'+
+   '<div class="treatment-breadcrumb-inner">'+
+   '<a href="/">이조은치과 홈</a>'+
+   '<span class="treatment-breadcrumb-separator" aria-hidden="true">›</span>'+
+   '<span class="treatment-breadcrumb-current" aria-current="page">'+escapeBreadcrumbText(careLabel)+'</span>'+
+   '<a class="treatment-breadcrumb-directory" href="/#care">다른 진료 보기 →</a>'+
+   '</div></nav>';
+ html=html.replace(/<main\b[^>]*>/i,match=>match+breadcrumb);
+ html=html.replace(/<\/head>/i,'<link rel="stylesheet" href="/assets/treatment-breadcrumbs.css?v=20261023-care-trail1">\n</head>');
+ if(!html.includes('aria-current="page">'+escapeBreadcrumbText(careLabel)+'</span>')){
+  throw new Error('Patient breadcrumb label differs from structured data: '+filename);
+ }
+ fs.writeFileSync(target,html);
+ visibleCareBreadcrumbCount++;
+}
+if(visibleCareBreadcrumbCount!==8)throw new Error('Treatment page visible breadcrumbs incomplete');
+console.log('Visible care breadcrumbs generated:',visibleCareBreadcrumbCount,'treatment guides');
+
+
 const searchPageHtml=fs.readFileSync(path.join(out,'search.html'),'utf8');
 if(!/<form\b[^>]*role=["']search["'][^>]*>/.test(searchPageHtml))throw new Error('Search page missing search landmark');
 if(!/<input\b[^>]*id=["']q["'][^>]*aria-describedby=["']search-help["']/.test(searchPageHtml))throw new Error('Search field missing accessible help reference');
