@@ -65,7 +65,7 @@ test('all 46 health pages have truthful, visible three-level breadcrumbs',()=>{
     filename.startsWith('tooth-')?'/retreatment.html':null;
   assert.equal(links[0],expectedFirst,filename+' links patients to an unrelated clinical page');
   for(const link of links.slice(0,2)){
-   assert.match(link,/^\/(?!\/)[a-z0-9/_-]+(?:\.html)?(?:#[a-z0-9_-]+)?$/i,filename+' points to a malformed related page');
+   assert.match(link,/^\/(?!\/)(?:[a-z0-9/_-]+(?:\.html)?)?(?:#[a-z0-9_-]+)?$/i,filename+' points to a malformed related page');
    const route=link.split('#')[0];
    if(route!=='/'){
     const target=new URL('../dist'+route,import.meta.url);
