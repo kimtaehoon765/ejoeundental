@@ -46,6 +46,13 @@ const urls = [
   { label: '잇몸 건강정보 탐색 경로', url: origin + '/health/gum-bleeding.html' },
   { label: '신경치료 건강정보 탐색 경로', url: origin + '/health/root-canal-after-pain.html' },
   { label: '자연치아 건강정보 진료 연결', url: origin + '/health/tooth-crack.html' },
+  { label: 'public route gum-health', url: origin + '/gum-health.html' },
+  { label: 'public route root-canal-health', url: origin + '/root-canal-health.html' },
+  { label: 'public route insurance-health', url: origin + '/insurance-health.html' },
+  { label: 'public route additional-health', url: origin + '/additional-health.html' },
+  { label: 'public route visit-guide', url: origin + '/visit-guide.html' },
+  { label: 'public route medical-safety-guide', url: origin + '/medical-safety-guide.html' },
+  { label: 'public route previsit-checklist', url: origin + '/previsit-checklist.html' },
   { label: '통합 검색 모바일 배치', url: origin + '/search.html' },
   { label: '검색 결과 더 보기 동작 코드', url: origin + '/assets/search.js' },
   { label: '통합 검색 실제 문서 색인', url: origin + '/content/search-index.json' },
@@ -125,6 +132,13 @@ await Promise.all(urls.map(async ({label,url}) => {
       const toc=body.match(/<nav class="article-toc"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
       const foldedToc=toc.includes('<details class="article-toc-details">')&&toc.includes('<summary>이 글의 목차 펼치기');
       info.push(foldedToc?'목차 접기/펼치기(자바스크립트 없이) 반영':'목차 접기/펼치기 확인 필요');
+    } else if (label.startsWith('public route ')) {
+      const slug=label.slice('public route '.length);
+      const canonical=body.match(/<link\\b[^>]*rel="canonical"[^>]*href="([^"]+)"/)?.[1]||'';
+      const finalUrl=origin+'/'+slug;
+      const resultSuffix=response.url===finalUrl?'확장자 없는 최종 주소':'최종 주소 확인 필요';
+      info.push(resultSuffix);
+      info.push(canonical===response.url?'canonical 이미 일치':'canonical 수정 필요 ('+canonical+')');
     } else if (label === '통합 검색 모바일 배치') {
       const form = body.indexOf('<form class="search-form"');
       const results = body.indexOf('<section id="results"');
