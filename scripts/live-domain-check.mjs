@@ -134,7 +134,7 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push(foldedToc?'목차 접기/펼치기(자바스크립트 없이) 반영':'목차 접기/펼치기 확인 필요');
     } else if (label.startsWith('public route ')) {
       const slug=label.slice('public route '.length);
-      const canonical=body.match(/<link\\b[^>]*rel="canonical"[^>]*href="([^"]+)"/)?.[1]||'';
+      const canonical=body.match(/<link\b[^>]*rel="canonical"[^>]*href="([^"]+)"/)?.[1]||'';
       const finalUrl=origin+'/'+slug;
       const resultSuffix=response.url===finalUrl?'확장자 없는 최종 주소':'최종 주소 확인 필요';
       info.push(resultSuffix);
