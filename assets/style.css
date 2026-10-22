@@ -621,3 +621,20 @@ main.article .note a[href^="tel:"]:focus-visible,
 main.article .note a[href="/#location"]:focus-visible{
  outline:3px solid #a96b24;outline-offset:2px;border-radius:4px
 }
+
+/* All 46 patient health guides: consistent navigable trail and readable mobile labels. */
+.article .health-breadcrumb{
+ display:flex;align-items:center;flex-wrap:wrap;column-gap:9px;row-gap:5px;
+ margin:0 0 14px;color:#456b58;line-height:1.55;word-break:keep-all
+}
+.article .health-breadcrumb a{
+ display:inline-flex;align-items:center;min-height:44px;
+ color:#1e6049;font-weight:700;text-decoration:underline;
+ text-underline-offset:3px;overflow-wrap:anywhere
+}
+.article .health-breadcrumb a:focus-visible{
+ outline:3px solid #a47837;outline-offset:3px;border-radius:3px
+}
+.article .health-breadcrumb span[aria-current="page"]{color:#294838;font-weight:650;overflow-wrap:anywhere}
+.article .health-breadcrumb span[aria-hidden="true"]{color:#779388}
+@media(max-width:600px){.article .health-breadcrumb{column-gap:7px;font-size:13px!important}}
