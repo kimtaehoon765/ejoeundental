@@ -1188,6 +1188,28 @@ for(const htmlFile of publicHtmlFiles){
 }
 console.log('Public HTML asset references checked: '+checkedAssets+' across '+publicHtmlFiles.length+' pages');
 
+// Long multi-section patient articles should not start with a screenful of navigation.
+// A native, closed-by-default <details> lets readers expand the section links without
+// JavaScript. The original anchors and headings stay present in the HTML for everyone.
+let compactedHealthTocs=0;
+for(const filename of fs.readdirSync(healthDir).filter(name=>name.endsWith('.html'))){
+ const target=path.join(healthDir,filename);
+ const original=fs.readFileSync(target,'utf8');
+ const toc=original.match(/<nav class="article-toc" aria-label="이 글의 목차"><strong>이 글의 목차<\/strong>(<ul>[\s\S]*?<\/ul>)<\/nav>/);
+ if(!toc)throw new Error('Expected standard patient article table of contents: '+filename);
+ if(original.includes('article-toc-details'))throw new Error('Repeated patient table-of-contents disclosure: '+filename);
+ const compact='<nav class="article-toc" aria-label="이 글의 목차">'+
+  '<details class="article-toc-details">'+
+  '<summary>이 글의 목차 펼치기 <span aria-hidden="true">▾</span></summary>'+
+  toc[1]+'</details></nav>';
+ const changed=original.replace(toc[0],compact);
+ if(changed===original)throw new Error('Unable to compact patient article TOC: '+filename);
+ fs.writeFileSync(target,changed);
+ compactedHealthTocs++;
+}
+if(compactedHealthTocs!==46)throw new Error('Patient TOCs not compacted on all 46 guides');
+console.log('Mobile article contents compacted:',compactedHealthTocs,'patient guides (no JavaScript required)');
+
 // Validate article table-of-contents links against actual heading IDs.
 let checkedArticleToc=0;
 for(const htmlFile of publicHtmlFiles){
