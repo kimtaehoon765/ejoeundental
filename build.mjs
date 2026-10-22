@@ -68,6 +68,37 @@ for(const entry of entries){
  const htmlFile=path.join(out,local);
  if(fs.existsSync(htmlFile)&&htmlFile.endsWith('.html'))entry.body=extractSearchText(fs.readFileSync(htmlFile,'utf8'));
 }
+// The public sitemap includes 19 standalone FAQ, safety and visit pages that
+// were missing from the website's own search. Add only this explicit allowlist:
+// never sweep admin, owner-only maintenance files, or unpublished documents into
+// the public index. Article text comes from <main>, not global navigation.
+const publicStandaloneSearchSlugs=["visit-guide","medical-safety-guide","previsit-checklist","gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive"];
+const sourceSitemapForSearch=fs.readFileSync(path.join(root,'sitemap.xml'),'utf8');
+for(const slug of publicStandaloneSearchSlugs){
+ const sourceUrl='https://ejoeundental.com/'+slug+'.html';
+ if(!sourceSitemapForSearch.includes('<loc>'+sourceUrl+'</loc>')){
+  throw new Error('Cannot index standalone content absent from the public sitemap: '+slug);
+ }
+ const indexUrl='/'+slug+'.html';
+ if(entries.some(item=>item.url===indexUrl)){
+  throw new Error('Duplicate curated and standalone public search URL: '+indexUrl);
+ }
+ const file=path.join(out,slug+'.html');
+ if(!fs.existsSync(file))throw new Error('Missing public standalone search page: '+slug);
+ const page=fs.readFileSync(file,'utf8');
+ if(/<meta\s+name="robots"\s+content="[^"]*noindex/i.test(page)){
+  throw new Error('Refusing to index noindex standalone page: '+slug);
+ }
+ const title=page.match(/<title>([^<]+)<\/title>/i)?.[1]?.trim();
+ const description=page.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1]?.trim();
+ const body=extractSearchText(page);
+ if(!title||!description||body.length<100){
+  throw new Error('Missing real public patient search content: '+slug);
+ }
+ entries.push({url:indexUrl,title,description,body});
+}
+console.log('Public patient FAQ and safety pages indexed:',publicStandaloneSearchSlugs.length,'pages');
+
 // Include every published journal article in on-site search, not just the curated static pages.
 const searchUrls=new Set(entries.map(entry=>entry.url));
 if(searchUrls.size!==entries.length)throw new Error('Duplicate URL in curated search index');
