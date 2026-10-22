@@ -61,10 +61,10 @@ jobs:
           test -s dist/dental-insurance-faq.html
           test -s dist/medication-dental-faq.html
           test -s dist/systemic-disease-dental-faq.html
-          grep -q 'gum-treatment-faq.html' dist/sitemap.xml
-          grep -q 'root-canal-retreatment-faq.html' dist/sitemap.xml
-          grep -q 'dental-insurance-faq.html' dist/sitemap.xml
-          grep -q 'medication-dental-faq.html' dist/sitemap.xml
-          grep -q 'systemic-disease-dental-faq.html' dist/sitemap.xml
+          grep -q '<loc>https://ejoeundental.com/gum-treatment-faq</loc>' dist/sitemap.xml
+          grep -q '<loc>https://ejoeundental.com/root-canal-retreatment-faq</loc>' dist/sitemap.xml
+          grep -q '<loc>https://ejoeundental.com/dental-insurance-faq</loc>' dist/sitemap.xml
+          grep -q '<loc>https://ejoeundental.com/medication-dental-faq</loc>' dist/sitemap.xml
+          grep -q '<loc>https://ejoeundental.com/systemic-disease-dental-faq</loc>' dist/sitemap.xml
           grep -q 'href="/medication-dental-faq.html"' dist/medical-history.html
           grep -q 'href="/systemic-disease-dental-faq.html"' dist/visit-guide.html
