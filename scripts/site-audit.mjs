@@ -137,7 +137,7 @@ else {
     }
     if (p === '/') {
       if (!paths.has('/index.html')) errors.push('사이트맵 홈페이지 파일 누락');
-    } else if (!paths.has(p) && !paths.has(p.replace(/\/$/, '') + '/index.html')) {
+    } else if (!paths.has(p) && !paths.has(p + '.html') && !paths.has(p.replace(/\/$/, '') + '/index.html')) {
       errors.push('사이트맵 대상 파일 누락: ' + p);
     }
   }
@@ -488,6 +488,16 @@ const adminFile = join(root, 'admin/index.html');
 if (existsSync(adminFile)) {
   const admin = readFileSync(adminFile, 'utf8');
   if (!admin.includes('name="robots" content="noindex')) errors.push('관리자 페이지 noindex 누락');
+}
+
+// Published care canonical and sitemap URLs must resolve without an extra HTML redirect.
+for (const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-care']) {
+ const expected=publicOrigin+'/'+slug+(publicOrigin.endsWith('.com')?'':'.html');
+ const page=readFileSync(join(root,slug+'.html'),'utf8');
+ const canonical=page.match(/<link\b[^>]*rel="canonical"[^>]*href="([^"]+)"/i)?.[1];
+ if(canonical!==expected)errors.push('핵심 진료 최종 canonical 불일치: '+slug+' -> '+canonical);
+ const xml=existsSync(sitemap)?readFileSync(sitemap,'utf8'):'';
+ if(!xml.includes('<loc>'+expected+'</loc>'))errors.push('핵심 진료 최종 사이트맵 경로 누락: '+slug);
 }
 
 // Guard consistent patient-facing search titles and navigation on the four primary guides.
