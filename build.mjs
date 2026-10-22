@@ -1666,12 +1666,17 @@ for(const [slug,parentSlug,parentLabel] of standalonePatientPages){
   parentLink='<span class="separator" aria-hidden="true">›</span><a href="/'+parentSlug+(selectedPublicOrigin.endsWith('.com')?'':'.html')+'">'+escapeBreadcrumbText(parentLabel)+'</a>';
  }
  crumbItems.push({'@type':'ListItem',position:crumbItems.length+1,name:currentLabel,item:canonical});
+ const schema={'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:crumbItems};
+ const schemaTag='<script type="application/ld+json">'+JSON.stringify(schema).replace(/</g,'\\u003c')+'</script>';
  if(existingTrails.length===1){
-  if(JSON.stringify(existing)!==JSON.stringify(crumbItems))throw new Error('Standalone existing breadcrumb does not match visible route: '+slug);
+  // Legacy metadata may use the production host even in preview builds.
+  // Rebuild just its BreadcrumbList while leaving MedicalWebPage data intact.
+  const priorTag=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .find(match=>JSON.parse(match[1])['@type']==='BreadcrumbList')?.[0];
+  if(!priorTag)throw new Error('Standalone prior breadcrumb tag missing: '+slug);
+  html=html.replace(priorTag,schemaTag);
  }else{
-  const schema={'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:crumbItems};
-  html=html.replace(/<\/head>/i,'<script type="application/ld+json">'+
-   JSON.stringify(schema).replace(/</g,'\\u003c')+'</script></head>');
+  html=html.replace(/<\/head>/i,schemaTag+'</head>');
  }
  const trail='<nav class="patient-standalone-trail" aria-label="현재 위치">'+
    '<a href="/">'+escapeBreadcrumbText(homeLabel)+'</a>'+parentLink+
