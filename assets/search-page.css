@@ -30,3 +30,15 @@ html{scroll-padding-top:24px}#symptom-search{scroll-margin-top:24px}@media(prefe
  .search-primary .search-form input,.search-primary .search-form button{min-height:50px}
  .search-primary #status{font-size:14px}
 }
+
+/* Search result paging keeps phones fast and offers remaining matches on demand. */
+.search-additional-results{margin:0;padding:0}
+.search-show-more{
+ display:block;width:100%;min-height:50px;margin:24px 0 28px;padding:13px 16px;
+ border:1px solid #829f8e;border-radius:9px;background:#e8f3eb;
+ color:#173e35;font:inherit;font-weight:750;line-height:1.5;
+ cursor:pointer;text-align:center;word-break:keep-all
+}
+.search-show-more:hover{background:#dceee2;border-color:#426c55}
+.search-show-more:focus-visible{outline:3px solid #a47837;outline-offset:3px}
+@media(max-width:600px){.search-show-more{min-height:52px;margin:20px 0 26px;font-size:15px}}
