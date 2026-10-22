@@ -380,3 +380,31 @@ html{scroll-padding-top:92px}
   main p, main li, main a, .footer a { overflow-wrap: break-word; }
   img, video, iframe { max-width: 100%; }
 }
+
+/* First-screen contact is visible before the optional treatment directory.
+   Native <details> avoids JavaScript, retains all care links in crawlable HTML. */
+#main-content>.hero .hero-care-summary>.hero-more-care{
+ grid-column:1/-1;min-width:0;margin:0;
+}
+#main-content>.hero .hero-more-care summary{
+ display:flex;align-items:center;justify-content:space-between;gap:10px;
+ box-sizing:border-box;min-height:48px;padding:11px 15px;
+ border:1px solid #c4d5c5;border-radius:9px;
+ background:#edf5ec;color:#173e35;font-size:14px;font-weight:750;
+ line-height:1.55;word-break:keep-all;cursor:pointer;list-style:none;
+}
+#main-content>.hero .hero-more-care summary::-webkit-details-marker{display:none}
+#main-content>.hero .hero-more-care summary span{flex-shrink:0;transition:transform .15s ease}
+#main-content>.hero .hero-more-care[open] summary span{transform:rotate(180deg)}
+#main-content>.hero .hero-more-care summary:focus-visible{outline:3px solid #a47837;outline-offset:3px}
+#main-content>.hero .hero-more-care-links{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;
+ margin:10px 0 0;
+}
+#main-content>.hero .hero-more-care-links a{min-width:0}
+@media(max-width:600px){
+ #main-content>.hero .hero-care-summary{margin:12px 0}
+ #main-content>.hero .hero-more-care-links{grid-template-columns:minmax(0,1fr);gap:7px}
+ #main-content>.hero .hero-more-care summary{min-height:48px;padding:11px 13px}
+}
+@media(prefers-reduced-motion:reduce){#main-content>.hero .hero-more-care summary span{transition:none}}
