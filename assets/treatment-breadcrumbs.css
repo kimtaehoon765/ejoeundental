@@ -1,0 +1,38 @@
+/* Patient-visible navigation matches each treatment page's BreadcrumbList data. */
+main .treatment-breadcrumb{
+  box-sizing:border-box;display:block;max-width:100%;
+  background:#f0f6f1;color:#24483c;border-bottom:1px solid #d6e3d8;
+  font-family:system-ui,-apple-system,'Malgun Gothic',sans-serif;
+  font-size:14px;line-height:1.6;word-break:keep-all
+}
+main .treatment-breadcrumb-inner{
+  box-sizing:border-box;display:flex;align-items:center;flex-wrap:wrap;
+  column-gap:10px;row-gap:5px;max-width:1160px;margin:auto;
+  padding:9px 22px
+}
+main .treatment-breadcrumb a{
+  display:inline-flex;align-items:center;min-height:44px;
+  color:#1c6046;text-decoration:underline;text-underline-offset:3px;font-weight:700;
+  overflow-wrap:anywhere
+}
+main .treatment-breadcrumb .treatment-breadcrumb-current{
+  color:#234237;font-weight:700;overflow-wrap:anywhere
+}
+main .treatment-breadcrumb .treatment-breadcrumb-separator{color:#84998c}
+main .treatment-breadcrumb .treatment-breadcrumb-directory{
+  margin-left:auto;font-size:13px
+}
+main .treatment-breadcrumb a:focus-visible{
+  outline:3px solid #ad7937;outline-offset:3px;border-radius:4px
+}
+@media(max-width:600px){
+ main .treatment-breadcrumb{font-size:13px}
+ main .treatment-breadcrumb-inner{padding:6px 18px;gap:5px 8px}
+ main .treatment-breadcrumb a{min-height:44px}
+ main .treatment-breadcrumb .treatment-breadcrumb-directory{
+   flex-basis:100%;margin-left:0;min-height:40px
+ }
+}
+@media print{
+ main .treatment-breadcrumb{display:none!important}
+}
