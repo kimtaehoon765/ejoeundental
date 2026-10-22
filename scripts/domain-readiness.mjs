@@ -22,7 +22,7 @@ for (const url of urls) {
   let pathname;
   try { pathname = decodeURIComponent(parsed.pathname); }
   catch { errors.push('Malformed sitemap URL encoding: '+url); continue; }
-  if (pathname.includes('\\\\') || pathname.split('/').some(segment => segment === '.' || segment === '..')) {
+  if (pathname.includes('\\') || pathname.split('/').some(segment => segment === '.' || segment === '..')) {
     errors.push('Unsafe sitemap path: '+pathname);
     continue;
   }
