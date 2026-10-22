@@ -1,0 +1,40 @@
+/* Lightweight site-independent navigation for FAQ and medical safety guides.
+   The pages use self-contained styles, so this sheet stays intentionally scoped. */
+.patient-standalone-trail{
+ box-sizing:border-box;display:flex;align-items:center;flex-wrap:wrap;
+ gap:5px 9px;max-width:100%;margin:0 0 18px;padding:8px 10px;
+ border:1px solid #d1e2d9;border-radius:8px;background:#edf6f1;
+ color:#2f5345;font:600 14px/1.6 system-ui,-apple-system,'Malgun Gothic',sans-serif;
+ word-break:keep-all
+}
+.patient-standalone-trail a{
+ display:inline-flex;align-items:center;box-sizing:border-box;
+ min-height:44px;padding:5px 3px;color:#155641!important;
+ text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere
+}
+.patient-standalone-trail [aria-current="page"]{
+ font-weight:750;overflow-wrap:anywhere
+}
+.patient-standalone-trail .separator{color:#799c87;font-weight:400}
+.patient-standalone-trail a:focus-visible{
+ outline:3px solid #a47837;outline-offset:2px;border-radius:3px
+}
+.patient-standalone-skip{
+ position:absolute;z-index:10000;left:10px;top:-180px;
+ display:inline-flex;align-items:center;justify-content:center;
+ box-sizing:border-box;min-height:48px;max-width:calc(100vw - 20px);
+ padding:10px 16px;border:2px solid #fff;border-radius:7px;
+ background:#153f35;color:#fff!important;
+ font:700 15px/1.5 system-ui,-apple-system,'Malgun Gothic',sans-serif;
+ text-decoration:none
+}
+.patient-standalone-skip:focus,.patient-standalone-skip:focus-visible{
+ top:8px;outline:3px solid #a47837;outline-offset:2px
+}
+@media(max-width:600px){
+ .patient-standalone-trail{font-size:13px;gap:3px 7px;padding:6px 9px;margin-bottom:14px}
+ .patient-standalone-trail a{min-height:44px}
+}
+@media print{
+ .patient-standalone-trail,.patient-standalone-skip{display:none!important}
+}
