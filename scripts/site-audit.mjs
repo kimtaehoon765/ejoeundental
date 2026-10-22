@@ -696,6 +696,71 @@ if (existsSync(adminFile)) {
  console.log('Visible collection navigation checked:',collections.length);
 }
 
+// Every standalone patient-facing FAQ, medicine guide, fee page and archive
+// needs a visible parent route, one truthful breadcrumb schema and a working
+// keyboard shortcut to the main content. Never alter the medical advice text.
+{
+ const routes=[
+  ['gum-treatment-faq','gum-treatment'],
+  ['root-canal-retreatment-faq','retreatment'],
+  ['dental-insurance-faq','insured-care'],
+  ['medical-history',null],
+  ['osteoporosis-medication-dental','medical-history'],
+  ['blood-thinners-dental','medical-history'],
+  ['diabetes-dental-care','medical-history'],
+  ['heart-disease-dental-care','medical-history'],
+  ['kidney-disease-dental-care','medical-history'],
+  ['liver-disease-dental-care','medical-history'],
+  ['cancer-immunosuppression-dental-care','medical-history'],
+  ['pregnancy-dental-care','medical-history'],
+  ['noncovered-fees',null],
+  ['medication-dental-faq','medical-history'],
+  ['systemic-disease-dental-faq','medical-history'],
+  ['clinical-archive',null]
+ ];
+ const stylePath=join(root,'assets/patient-page-navigation.css');
+ if(!existsSync(stylePath)||!readFileSync(stylePath,'utf8').includes('.patient-standalone-trail')){
+  errors.push('환자 안내 현재 위치 이동경로 스타일 누락');
+ }
+ const preview=publicOrigin.endsWith('.pages.dev');
+ for(const [slug,parent] of routes){
+  const html=readFileSync(join(root,slug+'.html'),'utf8');
+  const current=publicOrigin+'/'+slug+(preview?'.html':'');
+  const main=html.match(/<main\b[^>]*>/i)?.[0];
+  const mainId=main?.match(/\bid="([^"]+)"/)?.[1];
+  const trails=[...html.matchAll(/<nav class="patient-standalone-trail" aria-label="현재 위치">([\s\S]*?)<\/nav>/g)];
+  if(!mainId||trails.length!==1||!html.includes('href="#'+mainId+'"')){
+   errors.push('환자 안내 본문 바로가기 또는 이동경로 누락: '+slug);continue
+  }
+  const trail=trails[0][1];
+  const canonical=html.match(/<link\b[^>]*rel="canonical"[^>]*href="([^"]+)"/i)?.[1];
+  if(canonical!==current||!trail.includes('href="/"')||!trail.includes('aria-current="page"')){
+   errors.push('환자 안내 현재 위치 URL 또는 접근성 누락: '+slug);
+  }
+  const breadcrumbNodes=[];
+  for(const match of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)){
+   try{const data=JSON.parse(match[1]);if(data['@type']==='BreadcrumbList')breadcrumbNodes.push(data)}
+   catch{errors.push('환자 안내 구조화 데이터 오류: '+slug)}
+  }
+  const items=breadcrumbNodes[0]?.itemListElement||[];
+  if(breadcrumbNodes.length!==1||items.length!==(parent?3:2)||
+     items[0]?.item!==publicOrigin+'/'||items[items.length-1]?.item!==canonical){
+   errors.push('환자 안내 BreadcrumbList 구조화 데이터 경로 불일치: '+slug);
+  }
+  if(parent){
+   const parentUrl=publicOrigin+'/'+parent+(preview?'.html':'');
+   const parentHref='/'+parent+(preview?'.html':'');
+   if(items[1]?.item!==parentUrl||!trail.includes('href="'+parentHref+'"')){
+    errors.push('환자 안내 관련 진료/약물 정보 바로가기 누락: '+slug);
+   }
+  }
+  if(!html.includes('/assets/patient-page-navigation.css?v=20261023-1')){
+   errors.push('환자 안내 이동경로 반응형 스타일 로딩 누락: '+slug);
+  }
+ }
+ console.log('Patient standalone visible breadcrumb audit:',routes.length,'public guides');
+}
+
 // Last 16 standalone care and safety page sitemap checks: no canonical,
 // social URL or public WebPage schema should point to a redirect on production.
 {
