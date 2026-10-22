@@ -671,3 +671,30 @@ main.article .note a[href="/#location"]:focus-visible{
  .article .patient-care-journey-links{grid-template-columns:1fr;gap:8px}
  .article .patient-care-journey-links a{min-height:50px;font-size:15px}
 }
+
+/* Collapsible contents: keep clinical page text close to the top on phones. */
+.article .article-toc{padding:9px 13px;margin:18px 0 26px}
+.article .article-toc-details summary{
+ box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;
+ min-height:48px;gap:12px;padding:9px 6px;
+ color:#173e35;font-size:16px;font-weight:750;line-height:1.5;
+ list-style:none;cursor:pointer;word-break:keep-all
+}
+.article .article-toc-details summary::-webkit-details-marker{display:none}
+.article .article-toc-details summary span{flex:0 0 auto;transition:transform .15s ease}
+.article .article-toc-details[open] summary span{transform:rotate(180deg)}
+.article .article-toc-details summary:focus-visible{
+ outline:3px solid #a47837;outline-offset:3px;border-radius:5px
+}
+.article .article-toc-details[open] ul{
+ margin-top:8px;padding-top:10px;border-top:1px solid #c5d8cb
+}
+@media(max-width:600px){
+ .article .article-toc{padding:7px 11px;margin:16px 0 22px}
+ .article .article-toc-details summary{min-height:50px;font-size:15px}
+ .article .article-toc-details[open] ul{padding-left:19px}
+ .article .article-toc-details li a{min-height:46px}
+}
+@media(prefers-reduced-motion:reduce){
+ .article .article-toc-details summary span{transition:none}
+}
