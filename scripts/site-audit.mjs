@@ -536,7 +536,11 @@ for (const slug of ['gum-treatment-faq', 'root-canal-retreatment-faq', 'dental-i
   ['tmj-care.html','턱관절 진료'],
   ['wisdom-tooth.html','사랑니 발치'],
   ['implant.html','임플란트 진료'],
-  ['pediatric-orthodontics.html','어린이 교정·성장기 치열 상담']
+  ['pediatric-orthodontics.html','어린이 교정·성장기 치열 상담'],
+  ['scaling.html','스케일링'],
+  ['cavity-treatment.html','충치치료'],
+  ['denture.html','청천동 틀니 진료 안내'],
+  ['pediatric-dentistry.html','어린이 치과진료']
  ];
  const trailStyles=join(root,'assets/treatment-breadcrumbs.css');
  if(!existsSync(trailStyles)||!readFileSync(trailStyles,'utf8').includes('.treatment-breadcrumb-inner')){
@@ -557,8 +561,9 @@ for (const slug of ['gum-treatment-faq', 'root-canal-retreatment-faq', 'dental-i
   }
   const mainTags=[...page.matchAll(/<main\b[^>]*>/gi)].map(m=>m[0]);
   const keyboardLinks=[...page.matchAll(/<a\b[^>]*class="(?:page-skip-link|treatment-skip-link)"[^>]*>/gi)].map(m=>m[0]);
-  if(mainTags.length!==1||!mainTags[0].includes('id="main-content"')||
-    keyboardLinks.length!==1||!keyboardLinks[0].includes('href="#main-content"')){
+  const mainId=mainTags[0]?.match(/\bid="([^"]+)"/)?.[1];
+  if(mainTags.length!==1||!mainId||
+    keyboardLinks.length!==1||!keyboardLinks[0].includes('href="#'+mainId+'"')){
    errors.push('진료 페이지 키보드 본문 건너뛰기/이동 대상 누락 또는 중복: '+file);
   }
   const mainPos=page.search(/<main\b/i),trailPos=page.indexOf(trail[0]),headingPos=page.search(/<h1\b/i);
