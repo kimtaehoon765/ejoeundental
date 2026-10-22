@@ -310,6 +310,51 @@ console.log('Health SEO metadata audit:',46,'pages,',healthMetadataIssues.length
 for(const issue of healthMetadataIssues.slice(0,30))console.warn('Health SEO:',issue);
 
 
+// Patient-readable breadcrumbs and matching BreadcrumbList JSON-LD on all 46
+// clinical guides. Derive the category from the page's *existing* header links.
+// This avoids inventing affiliations, bylines or review dates.
+const healthHubNames=new Map([
+ ['/gum-health.html','잇몸 건강정보'],
+ ['/root-canal-health.html','신경치료·재신경치료 건강정보'],
+ ['/insurance-health.html','건강보험 치과진료 정보'],
+ ['/additional-health.html','치과 건강정보 더 보기']
+]);
+const escapeBreadcrumbText=s=>String(s).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+let healthBreadcrumbCount=0;
+for(const filename of fs.readdirSync(healthSchemaDir).filter(name=>name.endsWith('.html'))){
+ const target=path.join(healthSchemaDir,filename);
+ let html=fs.readFileSync(target,'utf8');
+ const header=html.match(/<header\b[^>]*>[\s\S]*?<\/header>/i)?.[0]||'';
+ const hubRoutes=[...healthHubNames.keys()].filter(url=>header.includes('href="'+url+'"'));
+ if(hubRoutes.length!==1)throw new Error('Unable to determine unique health hub: '+filename+' ('+hubRoutes.length+')');
+ const hubRoute=hubRoutes[0],hubName=healthHubNames.get(hubRoute);
+ const canonical=html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
+ const pageTitle=html.match(/<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/i)?.[1]?.replace(/<[^>]+>/g,'').trim();
+ if(!canonical||!pageTitle||!canonical.endsWith('/health/'+filename))throw new Error('Health breadcrumb title/URL missing: '+filename);
+ const origin=new URL(canonical).origin;
+ const oldCrumb=/<div class="crumb">[^<]*<\/div>/;
+ if(!oldCrumb.test(html))throw new Error('Missing original health breadcrumb: '+filename);
+ const visibleCrumb='<nav class="crumb health-breadcrumb" aria-label="현재 위치">'+
+  '<a href="/">이조은치과 홈</a><span aria-hidden="true">›</span>'+
+  '<a href="'+hubRoute+'">'+escapeBreadcrumbText(hubName)+'</a><span aria-hidden="true">›</span>'+
+  '<span aria-current="page">'+escapeBreadcrumbText(pageTitle)+'</span></nav>';
+ html=html.replace(oldCrumb,visibleCrumb);
+ const breadcrumb={
+  '@context':'https://schema.org',
+  '@type':'BreadcrumbList',
+  itemListElement:[
+   {'@type':'ListItem',position:1,name:'이조은치과 홈',item:origin+'/'},
+   {'@type':'ListItem',position:2,name:hubName,item:origin+hubRoute},
+   {'@type':'ListItem',position:3,name:pageTitle,item:canonical}
+  ]
+ };
+ html=html.replace(/<\/head>/i,'<script type="application/ld+json">'+JSON.stringify(breadcrumb).replace(/</g,'\\u003c')+'</script>\n</head>');
+ fs.writeFileSync(target,html);
+ healthBreadcrumbCount++;
+}
+if(healthBreadcrumbCount!==46)throw new Error('Incomplete health breadcrumbs: '+healthBreadcrumbCount);
+console.log('Health breadcrumb navigation and schema generated:',healthBreadcrumbCount,'articles');
+
 // Replace internal article-link slug labels with readable Korean titles across all health pages.
 const healthTitles=new Map(entries.filter(e=>e.url&&e.title).map(e=>[e.url,e.title]));
 const healthDir=path.join(out,'health');
