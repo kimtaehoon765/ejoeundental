@@ -34,7 +34,8 @@ const urls = [
   { label: 'www HTTPS 연결', url: 'https://www.' + apex + '/' },
   { label: '검색엔진 robots', url: origin + '/robots.txt' },
   { label: '검색엔진 sitemap', url: origin + '/sitemap.xml' },
-  { label: '잇몸치료 상세 페이지', url: origin + '/gum-treatment.html' }
+  { label: '잇몸치료 상세 페이지', url: origin + '/gum-treatment.html' },
+  { label: '없는 페이지 404 상태', url: origin + '/__missing-page-check-20261023' }
 ];
 
 await Promise.all(urls.map(async ({label,url}) => {
@@ -73,12 +74,15 @@ await Promise.all(urls.map(async ({label,url}) => {
       const careSlugs = ['gum-treatment','retreatment','cervical-abrasion','insured-care'];
       const finalCount = careSlugs.filter(slug => body.includes('<loc>' + origin + '/' + slug + '</loc>')).length;
       info.push('핵심 진료 최종 URL: ' + finalCount + '/4');
+    } else if (label === '없는 페이지 404 상태') {
+      info.push(response.status === 404 ? '404 정상 응답' : '주의: 404 대신 '+response.status);
+      info.push(body.includes('요청하신 페이지를 찾을 수 없습니다') ? '오류 안내 화면 확인' : '오류 안내 화면 확인 필요');
     } else if (label === '잇몸치료 상세 페이지') {
       info.push('치료정보: ' + (body.includes('잇몸치료')?'있음':'미확인'));
       const canonicalValue = body.split('rel="canonical" href="')[1]?.split('"')[0] || '(없음)';
       info.push('실제 최종 주소와 canonical: ' + (canonicalValue === response.url ? '일치' : '불일치') + ' (' + canonicalValue + ')');
     }
-    const result = label === 'www HTTPS 연결' ? (response.status === 301 && (response.headers.get('location') || '').includes('ejoeundental.com') && !(response.headers.get('location') || '').includes('www.ejoeundental.com') ? '대표 주소 통일' : '추가 설정 필요') : response.ok?'접속':'응답 점검 필요';
+    const result = label === '없는 페이지 404 상태' ? (response.status === 404 ? '정상 404' : '주의: 잘못된 응답') : label === 'www HTTPS 연결' ? (response.status === 301 && (response.headers.get('location') || '').includes('ejoeundental.com') && !(response.headers.get('location') || '').includes('www.ejoeundental.com') ? '대표 주소 통일' : '추가 설정 필요') : response.ok?'접속':'응답 점검 필요';
     add(label, result, info.join(' · '));
   } catch (e) {
     add(label, '접속 확인 불가', shortError(e));
