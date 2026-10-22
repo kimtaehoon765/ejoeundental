@@ -135,6 +135,9 @@ await Promise.all(urls.map(async ({label,url}) => {
       const careSlugs = ['gum-treatment','retreatment','cervical-abrasion','insured-care','tmj-care','wisdom-tooth','implant','pediatric-orthodontics','scaling','cavity-treatment','denture','pediatric-dentistry'];
       const finalCount = careSlugs.filter(slug => body.includes('<loc>' + origin + '/' + slug + '</loc>')).length;
       info.push('주요 진료 최종 URL: ' + finalCount + '/12');
+      const remainingSlugs=["gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive"];
+      const remainingFinalCount=remainingSlugs.filter(slug=>body.includes('<loc>'+origin+'/'+slug+'</loc>')).length;
+      info.push('나머지 FAQ·의료안전·정보 페이지 최종 URL: '+remainingFinalCount+'/16');
     } else if (label === '잇몸 건강정보 탐색 경로' || label === '신경치료 건강정보 탐색 경로' || label === '자연치아 건강정보 진료 연결') {
       const correctHub = label.includes('잇몸') ? '/gum-health.html' : label.includes('신경치료') ? '/root-canal-health.html' : '/additional-health.html';
       const hasVisible = body.includes('<nav class="crumb health-breadcrumb" aria-label="현재 위치">') && body.includes('href="'+correctHub+'"');
@@ -166,7 +169,7 @@ await Promise.all(urls.map(async ({label,url}) => {
     } else if (label.startsWith('remaining route ')) {
       const slug=label.slice('remaining route '.length);
       const desired=origin+'/'+slug;
-      const canonical=body.match(/<link\\b[^>]*rel="canonical"[^>]*href="([^"]+)"/i)?.[1]||'';
+      const canonical=body.match(/<link\b[^>]*rel="canonical"[^>]*href="([^"]+)"/i)?.[1]||'';
       info.push(response.url===desired?'최종 접속 경로 확인':'최종 경로 재점검 필요');
       info.push(canonical===desired?'대표주소 이미 일치':'대표주소가 최종 URL과 다름: '+canonical);
     } else if (label === '통합 검색 모바일 배치') {
