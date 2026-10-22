@@ -53,14 +53,14 @@ await Promise.all(urls.map(async ({label,url}) => {
       const hasClinic = body.includes('이조은치과');
       const hasCompactJournal = body.includes('owner-stories-more');
       info.push('치과명: ' + (hasClinic?'있음':'없음'));
-      const canonicalValue = body.match(/<link\\s+rel=["']canonical["']\\s+href=["']([^"']+)/i)?.[1] || '(없음)';
+      const canonicalValue = body.split('rel="canonical" href="')[1]?.split('"')[0] || '(없음)';
       info.push('대표주소: ' + (hasCanonical?'일치':'불일치') + ' (' + canonicalValue + ')');
       info.push('8+22 글목록: ' + (hasCompactJournal?'확인':'미확인'));
     } else if (label === '검색엔진 robots') {
-      const sitemapValue = body.match(/^Sitemap:\\s*(\\S+)/mi)?.[1] || '(없음)';
+      const sitemapValue = body.split('Sitemap: ')[1]?.split('\n')[0]?.trim() || '(없음)';
       info.push('사이트맵: ' + sitemapValue);
     } else if (label === '검색엔진 sitemap') {
-      const firstLoc = body.match(/<loc>([^<]+)<\\/loc>/)?.[1] || '(없음)';
+      const firstLoc = body.split('<loc>')[1]?.split('</loc>')[0] || '(없음)';
       info.push('정식 도메인 홈페이지: ' + (body.includes('<loc>' + origin + '/</loc>')?'포함':'확인 필요'));
       info.push('첫 URL: ' + firstLoc);
     } else if (label === '잇몸치료 상세 페이지') {
