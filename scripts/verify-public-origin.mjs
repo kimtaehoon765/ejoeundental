@@ -18,7 +18,7 @@ for (const url of urls) {
   let relative;
   try { relative = decodeURIComponent(url.slice(origin.length + 1)); }
   catch { throw new Error('Malformed sitemap URL encoding: ' + url); }
-  if (relative.includes('..') || relative.includes('?') || relative.includes('#') || relative.includes('\\\\') || relative.startsWith('/')) throw new Error('Invalid sitemap path: ' + url);
+  if (relative.includes('..') || relative.includes('?') || relative.includes('#') || relative.includes('\\') || relative.startsWith('/') || relative.split('/').includes('.')) throw new Error('Invalid sitemap path: ' + url);
   const filename = path.join(dist, relative || 'index.html');
   const page = fs.existsSync(filename) && fs.statSync(filename).isFile() ? filename : path.join(filename, 'index.html');
   if (!fs.existsSync(page)) throw new Error('Missing sitemap page: ' + url);
