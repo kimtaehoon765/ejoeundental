@@ -347,6 +347,14 @@ else {
     if (!script.includes(snippet)) errors.push('검색 부분 일치 설명 누락: ' + snippet);
   }
   if (!script.includes('exactSectionShown')) errors.push('검색 완전 일치 결과 설명 누락: exactSectionShown');
+  // Do not silently lose matches after the 20th result. Keep a keyboard-usable button.
+  for (const snippet of ['const maxResults=20', "const renderMatches=(batch,container)=>", "const orderedResults=[...exactPool,...partialPool]", "showMore.addEventListener('click'", "status.textContent='검색 결과 '+orderedResults.length"]) {
+    if(!script.includes(snippet))errors.push('검색 결과 20개씩 더 보기 기능 누락: '+snippet);
+  }
+  if(!page.includes('/assets/search.js?v=20261023-show-more1'))errors.push('검색 결과 더 보기 스크립트 캐시 버전 불일치');
+  const searchCss=join(root,'assets/search-page.css');
+  if(!existsSync(searchCss)||!readFileSync(searchCss,'utf8').includes('.search-show-more{'))errors.push('검색 결과 더 보기 버튼 스타일 누락');
+
   // Search relevance boosts must not masquerade as matches to every typed word.
   if (/matched\s*=\s*terms\.length/.test(script)) errors.push('검색 결과 관련도 계산에서 검색어 일치 수를 강제로 변경함');
   for (const target of ['/medical-history.html', '/dental-equipment.html', '/content/search-index.json']) {
