@@ -759,7 +759,11 @@ const coreCareBreadcrumbs=[
   ['tmj-care.html','턱관절 진료'],
   ['wisdom-tooth.html','사랑니 발치'],
   ['implant.html','임플란트 진료'],
-  ['pediatric-orthodontics.html','어린이 교정·성장기 치열 상담']
+  ['pediatric-orthodontics.html','어린이 교정·성장기 치열 상담'],
+  ['scaling.html','스케일링'],
+  ['cavity-treatment.html','충치치료'],
+  ['denture.html','청천동 틀니 진료 안내'],
+  ['pediatric-dentistry.html','어린이 치과진료']
 ];
 for(const [page,label] of coreCareBreadcrumbs){
  const careHtml=fs.readFileSync(path.join(out,page),'utf8');
@@ -775,7 +779,7 @@ for(const [page,label] of coreCareBreadcrumbs){
   if(!['https://ejoeundental.com'+expectedPath,'https://ejoeundental.pages.dev'+expectedPath].includes(item))throw new Error('Treatment breadcrumb URL mismatch: '+page);
  }
 }
-console.log('All eight treatment breadcrumb GEO audits passed');
+console.log('Treatment breadcrumb GEO audits passed:',coreCareBreadcrumbs.length,'pages');
 
 // Keep the patient-visible location trail in sync with existing two-level
 // BreadcrumbList data. Every route stays reachable, including on small phones.
@@ -800,7 +804,7 @@ for(const [filename,careLabel] of coreCareBreadcrumbs){
  fs.writeFileSync(target,html);
  visibleCareBreadcrumbCount++;
 }
-if(visibleCareBreadcrumbCount!==8)throw new Error('Treatment page visible breadcrumbs incomplete');
+if(visibleCareBreadcrumbCount!==coreCareBreadcrumbs.length)throw new Error('Treatment page visible breadcrumbs incomplete');
 console.log('Visible care breadcrumbs generated:',visibleCareBreadcrumbCount,'treatment guides');
 
 // On smaller treatment pages, keyboard users otherwise tab through the full header
@@ -812,23 +816,26 @@ for(const [filename] of coreCareBreadcrumbs){
  let html=fs.readFileSync(file,'utf8');
  const opening=html.match(/<main\b[^>]*>/i)?.[0];
  if(!opening)throw new Error('Missing main on treatment guide: '+filename);
- if(!/\bid="main-content"/.test(opening)){
-  if(/\bid=/.test(opening))throw new Error('Unrecognized main target on treatment guide: '+filename);
+ let mainId=opening.match(/\bid="([^"]+)"/)?.[1];
+ if(!mainId){
+  mainId='main-content';
   html=html.replace(opening,opening.replace(/<main/i,'<main id="main-content"'));
  }
- if(!/<a\b[^>]*class="(?:page-skip-link|treatment-skip-link)"[^>]*href="#main-content"/i.test(html)&&
-    !/<a\b[^>]*href="#main-content"[^>]*class="(?:page-skip-link|treatment-skip-link)"/i.test(html)){
+ const existingSkip=html.match(/<a\b[^>]*class="(?:page-skip-link|treatment-skip-link)"[^>]*>/i)?.[0];
+ if(!existingSkip){
   html=html.replace(/<body\b[^>]*>/i,match=>match+
-   '<a class="treatment-skip-link" href="#main-content">진료 안내 본문으로 건너뛰기</a>');
+   '<a class="treatment-skip-link" href="#'+mainId+'">진료 안내 본문으로 건너뛰기</a>');
+ }else if(!existingSkip.includes('href="#'+mainId+'"')){
+  throw new Error('Treatment existing keyboard skip link does not target its main: '+filename);
  }
- if((html.match(/<main\b[^>]*id="main-content"/g)||[]).length!==1||
-    !html.includes('href="#main-content"')){
+ if((html.match(new RegExp('<main\\b[^>]*id="'+mainId+'"','g'))||[]).length!==1||
+    !html.includes('href="#'+mainId+'"')){
   throw new Error('Treatment keyboard skip link or destination invalid: '+filename);
  }
  fs.writeFileSync(file,html);
  skipLinkCount++;
 }
-if(skipLinkCount!==8)throw new Error('Incomplete treatment keyboard navigation');
+if(skipLinkCount!==coreCareBreadcrumbs.length)throw new Error('Incomplete treatment keyboard navigation');
 console.log('Treatment keyboard skip navigation checked:',skipLinkCount,'guides');
 
 
