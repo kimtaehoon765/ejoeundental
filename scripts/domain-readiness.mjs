@@ -21,7 +21,7 @@ for (const url of urls) {
   let decodedRawPath;
   try { decodedRawPath = decodeURIComponent(rawPath); }
   catch { errors.push('Malformed sitemap URL encoding: '+url); continue; }
-  if (decodedRawPath.includes('\\\\') || decodedRawPath.split('/').some(segment => segment === '.' || segment === '..')) {
+  if (decodedRawPath.includes('\\') || decodedRawPath.split('/').some(segment => segment === '.' || segment === '..')) {
     errors.push('Unsafe raw sitemap path: '+url);
     continue;
   }
