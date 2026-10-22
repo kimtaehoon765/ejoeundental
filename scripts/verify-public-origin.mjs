@@ -49,7 +49,7 @@ if (origin === 'https://ejoeundental.com') {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       const filename = path.join(dir, entry.name);
       if (entry.isDirectory()) { checkProductionText(filename); continue; }
-      if (!/\\.(?:html|xml|txt|json|js|mjs|css|webmanifest)$/i.test(entry.name)) continue;
+      if (!/\.(?:html|xml|txt|json|js|mjs|css|webmanifest)$/i.test(entry.name)) continue;
       checkedTextFiles++;
       if (fs.readFileSync(filename, 'utf8').includes('https://ejoeundental.pages.dev')) {
         throw new Error('Preview URL remains in production output: ' + path.relative(dist, filename));
