@@ -361,6 +361,32 @@ else {
     if (!script.includes(target)) errors.push('검색 안전정보 연결 누락: ' + target);
   }
 }
+// Published internal search cards must describe the *current* primary care pages,
+// rather than an older title/snippet that was renamed in a recent SEO release.
+{
+ const indexFile=join(root,'content/search-index.json');
+ if(!existsSync(indexFile))errors.push('홈페이지 통합 검색 색인 누락');
+ else{
+  let rows;
+  try{rows=JSON.parse(readFileSync(indexFile,'utf8'))}
+  catch{errors.push('홈페이지 통합 검색 색인 JSON 오류');rows=[]}
+  if(!Array.isArray(rows)){errors.push('홈페이지 통합 검색 색인 배열 형식 오류');rows=[]}
+  for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-care']){
+   const matches=rows.filter(row=>row?.url==='/'+slug+'.html');
+   if(matches.length!==1){errors.push('주요 진료 검색 카드 누락·중복: '+slug);continue}
+   const pageFile=join(root,slug+'.html');
+   if(!existsSync(pageFile)){errors.push('주요 진료 안내 파일 누락: '+slug);continue}
+   const page=readFileSync(pageFile,'utf8');
+   const visibleTitle=page.match(/<title>([^<]+)<\/title>/i)?.[1];
+   const visibleDescription=page.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1];
+   if(!visibleTitle||!visibleDescription||
+      matches[0].title!==visibleTitle||matches[0].description!==visibleDescription){
+    errors.push('주요 진료 검색 제목·설명과 실제 페이지 불일치: '+slug);
+   }
+  }
+ }
+}
+
 // Patient-facing pages should not lose the canonical clinic identity or mobile support.
 const patientPages = ['index.html', 'gum-treatment.html', 'retreatment.html', 'cervical-abrasion.html', 'insured-care.html', 'medical-history.html', 'search.html'];
 for (const name of patientPages) {
