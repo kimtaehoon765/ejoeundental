@@ -698,3 +698,29 @@ main.article .note a[href="/#location"]:focus-visible{
 @media(prefers-reduced-motion:reduce){
  .article .article-toc-details summary span{transition:none}
 }
+
+/* Compact clinic breadcrumb at the top of four health topic collections. */
+.article .hub-top-trail{
+ display:flex;align-items:center;flex-wrap:wrap;gap:5px 10px;
+ margin:0 0 14px;padding:5px 0;color:#496a57;
+ font-size:14px;line-height:1.55;word-break:keep-all
+}
+.article .hub-top-trail a{
+ box-sizing:border-box;display:inline-flex;align-items:center;
+ min-height:44px;color:#1d5c47;font-weight:700;
+ text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere
+}
+.article .hub-top-trail .hub-top-current{font-weight:750;color:#264b3c}
+.article .hub-top-trail .hub-top-treatment{
+ margin-left:auto;padding:5px 12px;
+ border:1px solid #bbd3c3;border-radius:8px;
+ background:#edf5ee;color:#1b5944;text-decoration:none
+}
+.article .hub-top-trail a:hover{text-decoration:underline}
+.article .hub-top-trail a:focus-visible{
+ outline:3px solid #a47837;outline-offset:3px;border-radius:4px
+}
+@media(max-width:600px){
+ .article .hub-top-trail{font-size:13px;gap:4px 8px;margin-bottom:10px}
+ .article .hub-top-trail .hub-top-treatment{margin-left:0;flex-basis:100%;max-width:max-content}
+}
