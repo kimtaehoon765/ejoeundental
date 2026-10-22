@@ -1287,6 +1287,36 @@ if (selectedPublicOrigin === 'https://ejoeundental.com') {
   console.log('Production public origin normalized in', updatedFiles, 'generated files');
 }
 
+// Live hosts serve /treatment.html as /treatment (HTTP redirect).
+// Publish the final extensionless URLs for the four main care guides in SEO metadata.
+// Keep source HTML filenames and relative links unchanged for compatibility.
+if (selectedPublicOrigin === 'https://ejoeundental.com') {
+ const cleanCareSlugs=['gum-treatment','retreatment','cervical-abrasion','insured-care'];
+ let changed=0;
+ function normalizeCareUrls(dir) {
+  for (const entry of fs.readdirSync(dir,{withFileTypes:true})) {
+   const filename=path.join(dir,entry.name);
+   if(entry.isDirectory()){normalizeCareUrls(filename);continue;}
+   if(!/\.(?:html|xml|txt|json|js|mjs|css|webmanifest)$/i.test(entry.name))continue;
+   const before=fs.readFileSync(filename,'utf8');
+   let after=before;
+   for(const slug of cleanCareSlugs){
+    after=after.replaceAll('https://ejoeundental.com/'+slug+'.html','https://ejoeundental.com/'+slug);
+   }
+   if(after!==before){fs.writeFileSync(filename,after);changed++;}
+  }
+ }
+ normalizeCareUrls(out);
+ const xml=fs.readFileSync(path.join(out,'sitemap.xml'),'utf8');
+ for(const slug of cleanCareSlugs){
+  const finalUrl='https://ejoeundental.com/'+slug;
+  if(!xml.includes('<loc>'+finalUrl+'</loc>'))throw new Error('Final care URL absent from sitemap: '+slug);
+  const html=fs.readFileSync(path.join(out,slug+'.html'),'utf8');
+  if(!html.includes('<link rel="canonical" href="'+finalUrl+'">'))throw new Error('Final care canonical mismatch: '+slug);
+ }
+ console.log('Core care SEO URLs aligned to final published routes:',cleanCareSlugs.length,'pages;',changed,'updated output files');
+}
+
 // Cloudflare Pages: revalidate HTML on each navigation so old homepage versions do not linger.
 // Fingerprinted static assets may still be cached by the browser and CDN.
 fs.writeFileSync(path.join(out,'_headers'),`/*.html\n  Cache-Control: public, max-age=0, must-revalidate\n/\n  Cache-Control: public, max-age=0, must-revalidate\n`);
