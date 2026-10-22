@@ -672,7 +672,7 @@ if (existsSync(adminFile)) {
 }
 
 // Published care canonical and sitemap URLs must resolve without an extra HTML redirect.
-for (const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-care','tmj-care','wisdom-tooth','implant','pediatric-orthodontics']) {
+for (const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-care','tmj-care','wisdom-tooth','implant','pediatric-orthodontics','scaling','cavity-treatment','denture','pediatric-dentistry']) {
  const expected=publicOrigin+'/'+slug+(publicOrigin.endsWith('.com')?'':'.html');
  const page=readFileSync(join(root,slug+'.html'),'utf8');
  const canonical=page.match(/<link\b[^>]*rel="canonical"[^>]*href="([^"]+)"/i)?.[1];
