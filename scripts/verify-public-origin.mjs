@@ -41,6 +41,24 @@ function checkGeneratedHtml(dir) {
   }
 }
 checkGeneratedHtml(dist);
+// Production builds must not leak preview URLs through structured data,
+// runtime JSON, JavaScript, or crawler-facing text files.
+if (origin === 'https://ejoeundental.com') {
+  let checkedTextFiles = 0;
+  function checkProductionText(dir) {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const filename = path.join(dir, entry.name);
+      if (entry.isDirectory()) { checkProductionText(filename); continue; }
+      if (!/\\.(?:html|xml|txt|json|js|mjs|css|webmanifest)$/i.test(entry.name)) continue;
+      checkedTextFiles++;
+      if (fs.readFileSync(filename, 'utf8').includes('https://ejoeundental.pages.dev')) {
+        throw new Error('Preview URL remains in production output: ' + path.relative(dist, filename));
+      }
+    }
+  }
+  checkProductionText(dist);
+  console.log('Production text assets checked for preview URLs:', checkedTextFiles);
+}
 const robots = fs.readFileSync(path.join(dist, 'robots.txt'), 'utf8');
 if (!robots.includes('Sitemap: ' + origin + '/sitemap.xml')) throw new Error('Robots sitemap origin mismatch');
 console.log('Public origin verified:', origin, '| sitemap pages:', urls.length, '| HTML pages:', checkedHtml);
