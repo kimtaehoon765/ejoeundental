@@ -25,6 +25,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Validate build and maintenance script syntax
+        run: |
+          node --check build.mjs
+          for script in scripts/*.mjs; do node --check "$script"; done
       - name: Build and validate preview
         run: npm run build:preview:check
       - name: Check domain migration readiness
