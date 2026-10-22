@@ -254,7 +254,7 @@ for (const file of html) {
  if(!details.includes('<summary>다른 진료·건강정보 5개 더 보기'))errors.push('첫 화면 진료 메뉴 펼치기 누락');
  if(hero.indexOf('class="hero-actions"')<0||hero.indexOf('class="hero-actions"')>hero.indexOf('class="hero-care-summary"'))errors.push('첫 화면 전화·진료시간 문의가 진료 메뉴보다 아래에 있음');
  if(!hero.includes('href="tel:0325132875"'))errors.push('첫 화면 전화 문의 연결 누락');
- if(!homepage.includes('home-enhancements.css?v=20261023-hero-action-first'))errors.push('홈페이지 개선 스타일 캐시 버전 불일치');
+ if(!homepage.includes('href="/assets/home-enhancements.css'))errors.push('홈페이지 공통 개선 스타일 누락');
 }
 
 // 홈페이지 전체 진료 5+8: 환자 우선 4개 진료와 자연치아 보존 원칙은
