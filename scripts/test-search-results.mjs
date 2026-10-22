@@ -87,3 +87,38 @@ test('failed search index loads retain direct links to the primary care guides',
  assert.match(status.textContent,/불러오지 못했습니다/);
  assert.ok(walk(results,x=>x.href==='/gum-treatment.html').length);
 });
+
+
+test('patient symptom queries rank the corresponding health guide before generic care pages',async()=>{
+ const published=JSON.parse(readFileSync(new URL('../content/search-index-46.json',import.meta.url),'utf8'));
+ const cases=[
+  ['양치할 때 피가 나요','/health/gum-bleeding.html'],
+  ['잇몸 출혈','/health/gum-bleeding.html'],
+  ['잇몸이 부었어요','/health/swollen-gums.html'],
+  ['잇몸에 고름','/health/gum-pus.html'],
+  ['치은퇴축','/health/receding-gums.html'],
+  ['치아가 길어졌어요','/health/receding-gums.html'],
+  ['신경치료 후 통증','/health/root-canal-after-pain.html'],
+  ['찬물에 이가 시려요','/health/abrasion-sensitive.html'],
+  ['틀니가 헐거워요','/health/denture-loose.html']
+ ];
+ for(const [query,wanted] of cases){
+  const {results}=await search(query,published);
+  const first=walk(results,x=>x.className==='result')[0]?.href;
+  assert.equal(first,wanted,query+' should prioritize the matching patient guide');
+ }
+});
+
+test('searching for a local treatment still links to the primary care guide',async()=>{
+ const published=JSON.parse(readFileSync(new URL('../content/search-index-46.json',import.meta.url),'utf8'));
+ for(const [query,expected] of [
+  ['인천 잇몸치료','/gum-treatment.html'],
+  ['산곡역 재신경치료','/retreatment.html'],
+  ['부평 치경부마모증','/cervical-abrasion.html'],
+  ['인천 건강보험','/insured-care.html']
+ ]){
+  const {results}=await search(query,published);
+  const topFive=walk(results,x=>x.className==='result').slice(0,5).map(x=>x.href);
+  assert.ok(topFive.includes(expected),query+' must include its guide within the top five');
+ }
+});
