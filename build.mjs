@@ -355,6 +355,34 @@ for(const filename of fs.readdirSync(healthSchemaDir).filter(name=>name.endsWith
 if(healthBreadcrumbCount!==46)throw new Error('Incomplete health breadcrumbs: '+healthBreadcrumbCount);
 console.log('Health breadcrumb navigation and schema generated:',healthBreadcrumbCount,'articles');
 
+// The four 10/16-article collections used a decorative "PATIENT EDUCATION"
+// label instead of navigation. Replace it with one concise keyboard-accessible
+// clinic breadcrumb and a route to the matching care page, for easier visits
+// from search engines and patient articles on mobile.
+const collectionNavigation=new Map([
+ ['gum-health.html',['잇몸 건강정보','/gum-treatment.html','잇몸치료 안내']],
+ ['root-canal-health.html',['신경치료·재신경치료 건강정보','/retreatment.html','재신경치료 안내']],
+ ['insurance-health.html',['건강보험 치과진료 정보','/insured-care.html','건강보험 진료 안내']],
+ ['additional-health.html',['치과 건강정보 더 보기','/cervical-abrasion.html','치경부마모증·GI 안내']]
+]);
+for(const [filename,[label,careHref,careLabel]] of collectionNavigation){
+ const target=path.join(out,filename);
+ let page=fs.readFileSync(target,'utf8');
+ const old='<div class="crumb">PATIENT EDUCATION</div>';
+ if(page.split(old).length!==2)throw new Error('Missing unique health collection heading: '+filename);
+ if(!fs.existsSync(path.join(out,careHref.slice(1))))throw new Error('Missing linked clinic care guide: '+careHref);
+ const nav='<nav class="hub-top-trail" aria-label="현재 건강정보와 관련 진료">'+
+  '<a class="hub-top-home" href="/">이조은치과 홈</a>'+
+  '<span aria-hidden="true">›</span>'+
+  '<span class="hub-top-current" aria-current="page">'+escapeBreadcrumbText(label)+'</span>'+
+  '<a class="hub-top-treatment" href="'+careHref+'">'+escapeBreadcrumbText(careLabel)+' →</a>'+
+  '</nav>';
+ page=page.replace(old,nav);
+ fs.writeFileSync(target,page);
+}
+console.log('Health topic hubs now have clickable clinic breadcrumbs:',collectionNavigation.size);
+
+
 // Replace internal article-link slug labels with readable Korean titles across all health pages.
 const healthTitles=new Map(entries.filter(e=>e.url&&e.title).map(e=>[e.url,e.title]));
 const healthDir=path.join(out,'health');
