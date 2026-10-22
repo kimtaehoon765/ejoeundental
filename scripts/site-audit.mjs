@@ -462,7 +462,8 @@ for (const slug of ['medical-safety-guide','previsit-checklist']) {
  if (!raw) { errors.push('건강정보 구조화 데이터 누락: '+slug); continue; }
  try {
   const data=JSON.parse(raw);
-  if (data['@type']!=='WebPage' || data.url!=='https://ejoeundental.pages.dev/'+slug+'.html' || data.isPartOf?.['@id']!=='https://ejoeundental.pages.dev/#website') errors.push('건강정보 구조화 데이터 주소 불일치: '+slug);
+  const expectedOrigin = process.env.SITE_PUBLIC_ORIGIN || 'https://ejoeundental.pages.dev';
+  if (data['@type']!=='WebPage' || data.url!==expectedOrigin+'/'+slug+'.html' || data.isPartOf?.['@id']!==expectedOrigin+'/#website') errors.push('건강정보 구조화 데이터 주소 불일치: '+slug);
  } catch { errors.push('건강정보 구조화 데이터 JSON 오류: '+slug); }
 }
 const adminFile = join(root, 'admin/index.html');
