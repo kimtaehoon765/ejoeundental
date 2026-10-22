@@ -37,3 +37,10 @@
   }
   .gum-section, .section, .gum-box, .gum-step { min-width: 0; }
 }
+
+/* Keep the mobile treatment carousel understandable without hiding other options. */
+.treatment-scroll-hint{display:none}
+@media(max-width:600px){
+ .treatment-quick-links{scroll-padding-inline:14px;-webkit-overflow-scrolling:touch}
+ .treatment-scroll-hint{display:block;margin:0;padding:6px 14px 8px;background:#f7f4ec;border-bottom:1px solid #dbe4d9;color:#355e4f;text-align:center;font-size:12px;line-height:1.5;word-break:keep-all}
+}
