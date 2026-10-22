@@ -82,7 +82,10 @@ for (const filename of seoFiles) {
   }
   if (html.includes(preview)) notes.push('Preview URL still referenced in source: ' + filename + '; inspect social and structured metadata at cutover.');
 }
-notes.push('Cutover checklist: confirm Netlify custom domain active, HTTPS valid, redirects consistent, generated canonical/OG/schema/sitemap/robots use the final host, then submit sitemap to search engines.');
+notes.push('Cloudflare Pages cutover checklist (manual): confirm Name.com nameservers match Cloudflare assignment and Cloudflare zone is Active.');
+notes.push('Before nameserver switch: preserve required TXT/MX verification and mail records, and check Cloudflare DNS A/CNAME records are ready for Pages rather than old Netlify IPs.');
+notes.push('In Cloudflare Pages > Custom domains: add ejoeundental.com and www.ejoeundental.com as needed, verify Active and HTTPS, then check redirects and final-host canonical/OG/schema/sitemap/robots.');
+notes.push('Keep Netlify hosting active until both apex and www work on Cloudflare Pages; only then update search-engine sitemap submissions.');
 
 console.log('DOMAIN PREFLIGHT (read only)');
 console.log('Target domain:',host,'| Legacy preview origin in build:',preview);
