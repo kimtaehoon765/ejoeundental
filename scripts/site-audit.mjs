@@ -131,6 +131,10 @@ else {
     let p;
     try { p = decodeURIComponent(parsed.pathname); }
     catch { errors.push('사이트맵 URL 인코딩 오류: ' + value); continue; }
+    if (p.includes('\\\\') || p.split('/').some(segment => segment === '.' || segment === '..') || p.includes('?') || p.includes('#')) {
+      errors.push('사이트맵에 안전하지 않은 경로 존재: ' + value);
+      continue;
+    }
     if (p === '/') {
       if (!paths.has('/index.html')) errors.push('사이트맵 홈페이지 파일 누락');
     } else if (!paths.has(p) && !paths.has(p.replace(/\/$/, '') + '/index.html')) {
