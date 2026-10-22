@@ -312,7 +312,7 @@ else {
   const symptomExplorerPos=page.indexOf('id="symptom-search"',searchStart);
   if ([searchStart,searchFormPos,searchStatusPos,searchResultsPos,firstSuggestionsPos,symptomExplorerPos].some(pos=>pos<0)||
       !(searchStart<searchFormPos&&searchFormPos<searchStatusPos&&searchStatusPos<searchResultsPos&&searchResultsPos<firstSuggestionsPos&&firstSuggestionsPos<symptomExplorerPos)) errors.push('모바일 검색 입력·결과를 추천 검색어보다 먼저 표시해야 합니다');
-  if (!page.includes('class="search-primary"')||!page.includes('search-page.css?v=20261023-search-first')) errors.push('검색 화면 우선 배치 스타일 누락');
+  if (!page.includes('class="search-primary"')||!page.includes('/assets/search-page.css')) errors.push('검색 화면 우선 배치 스타일 누락');
 
   if (!page.includes('<meta name="robots" content="noindex,follow">')) errors.push('검색 결과 페이지 검색엔진 색인 제한 누락');
   if (!page.includes('<form class="search-form" role="search"') || !page.includes('action="/search.html" method="get"')) errors.push('검색 양식 기본 동작 누락');
