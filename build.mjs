@@ -484,37 +484,69 @@ for(const [filename,href,label] of treatmentGuides){
  fs.writeFileSync(target,html);
 }
 
-// Add contextual navigation between detailed health articles and the main care pages.
-const careLinks=[
- {prefix:'root-canal-retreatment',href:'/retreatment.html',label:'재신경치료 진료 안내'},
- {prefix:'root-canal-after-pain',href:'/retreatment.html',label:'신경치료 후 통증·재신경치료 안내'},
- {prefix:'root-canal-or-extraction',href:'/retreatment.html',label:'자연치아 보존과 재신경치료 안내'},
- {prefix:'root-canal-reinfection',href:'/retreatment.html',label:'재신경치료 진료 안내'},
- {prefix:'root-canal-',href:'/root-canal-health.html',label:'신경치료 건강정보 더 보기'},
- {prefix:'insurance-',href:'/insured-care.html',label:'건강보험 진료 안내'},
- {prefix:'abrasion-',href:'/cervical-abrasion.html',label:'치경부마모증 진료 안내'},
- {prefix:'gum-',href:'/gum-treatment.html',label:'잇몸치료 진료 안내'},
- {prefix:'swollen-gums',href:'/gum-treatment.html',label:'잇몸치료 진료 안내'},
- {prefix:'periodontal-',href:'/gum-treatment.html',label:'잇몸치료 진료 안내'},
- {prefix:'scaling-',href:'/gum-treatment.html',label:'잇몸치료 진료 안내'},
- {prefix:'root-planing',href:'/gum-treatment.html',label:'잇몸치료 진료 안내'},
- {prefix:'curette-',href:'/gum-treatment.html',label:'잇몸치료 진료 안내'},
- {prefix:'receding-gums',href:'/gum-treatment.html',label:'잇몸치료 진료 안내'},
- {prefix:'loose-tooth',href:'/gum-treatment.html',label:'잇몸치료 진료 안내'}
-];
+// Give every health article a short, condition-specific route to a relevant care
+// page and clear clinic contact. These are navigation links, not diagnoses or
+// recommendations to undergo a specific treatment.
+const healthCareDestinations = {
+  'insurance-scaling.html': ['/insured-care.html','건강보험 진료 기준','/scaling.html','스케일링 진료 안내'],
+  'insurance-periodontal.html': ['/insured-care.html','건강보험 진료 기준','/gum-treatment.html','잇몸치료 진료 안내'],
+  'insurance-cervical.html': ['/insured-care.html','건강보험 진료 기준','/cervical-abrasion.html','치경부마모증 진료 안내'],
+  'insurance-cavity.html': ['/insured-care.html','건강보험 진료 기준','/cavity-treatment.html','충치치료 진료 안내'],
+  'insurance-root-canal.html': ['/insured-care.html','건강보험 진료 기준','/root-canal-health.html','신경치료 건강정보'],
+  'insurance-extraction.html': ['/insured-care.html','건강보험 진료 기준','/health/tooth-preservation.html','발치 전 자연치아 보존 안내'],
+  'insurance-denture.html': ['/insured-care.html','건강보험 진료 기준','/denture.html','틀니 진료 안내'],
+  'insurance-implant.html': ['/insured-care.html','건강보험 진료 기준','/implant.html','임플란트 진료 안내'],
+  'insurance-checkup.html': ['/insured-care.html','건강보험 진료 기준','/visit-guide.html','처음 방문 안내'],
+  'insurance-priority.html': ['/insured-care.html','건강보험 진료 기준','/#philosophy','필요한 진료부터 설명하는 원칙']
+};
+let careJourneyCount=0;
 for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
- const match=careLinks.find(x=>filename.startsWith(x.prefix));
- if(!match)continue;
- const target=path.join(healthDir,filename);
- let html=fs.readFileSync(target,'utf8');
- if(html.includes('data-care-link="true"'))continue;
- const link='<div data-care-link="true" style="margin:26px 0;padding:16px 20px;background:#f0f5ef;border-radius:12px;line-height:1.8"><strong style="display:block;margin-bottom:6px">증상에 맞는 진료를 알아보세요</strong><a href="'+match.href+'" style="font-weight:700;color:#173e35">관련 진료 안내: '+match.label+' →</a><br><a href="/#philosophy" style="color:#285447">원장이 직접 진단하고 필요한 치료부터 안내하는 진료 원칙 →</a><br><span class="health-care-actions"><a href="tel:0325132875">전화 문의 032-513-2875 →</a><a href="/#location">진료시간·오시는 길 →</a></span><p style="font-size:13px;margin:8px 0 0">치료 여부는 검사와 진찰 결과에 따라 달라집니다. 방문 전 진료시간을 전화로 확인해 주세요.</p></div>';
- if(html.includes('<div class="bottom">'))html=html.replace('<div class="bottom">',link+'<div class="bottom">');
- else if(html.includes('</article>'))html=html.replace('</article>',link+'</article>');
- else if(html.includes('</main>'))html=html.replace('</main>',link+'</main>');
- else continue;
- fs.writeFileSync(target,html);
+  const specific=healthCareDestinations[filename];
+  const isGum=/^(gum-|swollen-gums|periodontal-|scaling-|root-planing|curette-|receding-gums|loose-tooth)/.test(filename);
+  const isRoot=filename.startsWith('root-canal-');
+  const isRootRevisit=isRoot&&/(?:retreatment|after-pain|or-extraction|lesion)/.test(filename);
+  const isDenture=filename.startsWith('denture-');
+  const isAbrasion=filename.startsWith('abrasion-');
+  const isCavity=filename.startsWith('cavity-');
+  const isTooth=filename.startsWith('tooth-');
+  const targetRoutes=specific||
+    (isGum?['/gum-treatment.html','잇몸치료 진료 안내','/scaling.html','스케일링 진료 안내']:
+    isRootRevisit?['/retreatment.html','재신경치료 가능성·한계 안내','/root-canal-health.html','신경치료 건강정보']:
+    isRoot?['/root-canal-health.html','신경치료 건강정보','/retreatment.html','재신경치료 안내(재치료가 필요한 경우)']:
+    isDenture?['/denture.html','틀니 진료 안내','/health/insurance-denture.html','틀니 건강보험 안내']:
+    isAbrasion?['/cervical-abrasion.html','치경부마모증·GI 진료 안내','/health/insurance-cervical.html','GI 수복 건강보험 안내']:
+    isCavity?['/cavity-treatment.html','충치치료 진료 안내','/health/tooth-preservation.html','자연치아 보존 건강정보']:
+    isTooth?['/retreatment.html','자연치아 보존·재신경치료 안내','/cavity-treatment.html','충치치료 진료 안내']:
+    null);
+  if(!targetRoutes)throw new Error('No context-specific care navigation available for '+filename);
+  const [primary,primaryLabel,secondary,secondaryLabel]=targetRoutes;
+  if(primary===secondary)throw new Error('Duplicate care journey destination for '+filename);
+  for(const href of [primary,secondary]){
+    const relative=href.split('#')[0];
+    if(relative==='/'||!relative)continue;
+    if(!relative.startsWith('/')||!fs.existsSync(path.join(out,relative.slice(1)))){
+      throw new Error('Related care page missing: '+filename+' -> '+href);
+    }
+  }
+  const filepath=path.join(healthDir,filename);
+  let html=fs.readFileSync(filepath,'utf8');
+  if(html.includes('data-patient-care-journey='))throw new Error('Repeated patient care navigation: '+filename);
+  const section='<nav class="patient-care-journey" data-patient-care-journey="true" aria-label="이 건강정보와 관련된 진료 및 방문 안내">'+
+    '<h2>관련 진료와 다음 단계</h2>'+
+    '<p>이 글을 읽고 궁금한 점이 있다면 관련 안내를 살펴보세요. 실제 치료 필요성은 진찰 결과에 따라 달라집니다.</p>'+
+    '<div class="patient-care-journey-links">'+
+    '<a class="patient-care-journey-primary" href="'+primary+'">'+escapeBreadcrumbText(primaryLabel)+' →</a>'+
+    '<a href="'+secondary+'">'+escapeBreadcrumbText(secondaryLabel)+' →</a>'+
+    '<a href="/#location">진료시간·오시는 길 →</a>'+
+    '<a href="tel:0325132875">☎ 032-513-2875 전화 문의</a>'+
+    '</div></nav>';
+  if(!html.includes('<div class="bottom">'))throw new Error('Health page missing navigation insertion point: '+filename);
+  html=html.replace('<div class="bottom">',section+'<div class="bottom">');
+  fs.writeFileSync(filepath,html);
+  careJourneyCount++;
 }
+if(careJourneyCount!==46)throw new Error('Incomplete health care navigation: '+careJourneyCount);
+console.log('Condition-specific care journeys added:',careJourneyCount,'health guides');
 
 // Give every health article a consistent route to its parent topic hub.
 // This helps visitors and crawlers traverse the 46-page information library.
