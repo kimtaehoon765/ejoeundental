@@ -36,3 +36,20 @@ main .treatment-breadcrumb a:focus-visible{
 @media print{
  main .treatment-breadcrumb{display:none!important}
 }
+
+/* Shown only on keyboard focus, before the site's full navigation. */
+.treatment-skip-link{
+ position:absolute;top:-160px;left:12px;z-index:10000;
+ display:inline-flex;align-items:center;justify-content:center;
+ box-sizing:border-box;min-height:48px;max-width:calc(100vw - 24px);
+ padding:11px 18px;border-radius:8px;background:#173e35;color:#fff;
+ font:700 15px/1.5 system-ui,-apple-system,'Malgun Gothic',sans-serif;
+ text-decoration:none;box-shadow:0 4px 12px #173e3540
+}
+.treatment-skip-link:focus,.treatment-skip-link:focus-visible{
+ top:10px;color:#fff;outline:3px solid #ad7937;outline-offset:2px
+}
+@media(max-width:600px){
+ .treatment-skip-link{left:8px;right:8px;max-width:none}
+}
+@media print{.treatment-skip-link{display:none!important}}
