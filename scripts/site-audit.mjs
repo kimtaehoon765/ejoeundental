@@ -497,7 +497,7 @@ for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-ins
   if ((page.match(/<section class="card">/g) || []).length < 6) errors.push('FAQ 질문 수 부족: ' + route);
   if (!page.includes('href="tel:0325132875"')) errors.push('FAQ 전화 연결 누락: ' + route);
   if (!page.includes('일반적인 건강정보')) errors.push('FAQ 건강정보 안내 누락: ' + route);
-  if (!existsSync(sitemapFile) || !readFileSync(sitemapFile,'utf8').includes(publicOrigin + route)) errors.push('FAQ 사이트맵 누락: ' + route);
+  if (!existsSync(sitemapFile) || !readFileSync(sitemapFile,'utf8').includes(publicOrigin + '/' + slug + (publicOrigin.endsWith('.com')?'':'.html'))) errors.push('FAQ 사이트맵 누락: ' + route);
   if (!existsSync(homepageFile) || !readFileSync(homepageFile,'utf8').includes('href="' + route + '"')) errors.push('FAQ 홈페이지 링크 누락: ' + route);
 }
 // Cross-link integrity and FAQ structured-data consistency for patients and search crawlers.
@@ -588,7 +588,7 @@ for (const slug of ['visit-guide','previsit-checklist','medical-safety-guide','g
   const file = join(root, slug + '.html');
   if (!existsSync(file)) continue;
   const page = readFileSync(file, 'utf8');
-  const cleanPatientResource = new Set(['visit-guide','previsit-checklist','medical-safety-guide']).has(slug) && publicOrigin.endsWith('.com');
+  const cleanPatientResource = publicOrigin.endsWith('.com');
   const expectedCanonical = publicOrigin + '/' + slug + (cleanPatientResource?'':'.html');
   if (!page.includes('rel="canonical" href="' + expectedCanonical + '"')) errors.push('정규 URL 불일치: ' + slug);
   const links = [...page.matchAll(/href="(\/[^"#?]+[.]html)"/g)].map(match => match[1]);
@@ -694,6 +694,29 @@ if (existsSync(adminFile)) {
  const css=readFileSync(join(root,'assets/style.css'),'utf8');
  if(!css.includes('.article .hub-top-trail{'))errors.push('건강정보 모음 모바일 이동 경로 스타일 누락');
  console.log('Visible collection navigation checked:',collections.length);
+}
+
+// Last 16 standalone care and safety page sitemap checks: no canonical,
+// social URL or public WebPage schema should point to a redirect on production.
+{
+ const audited=["gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive"];
+ const xml=readFileSync(join(root,'sitemap.xml'),'utf8');
+ for(const slug of audited){
+  const url=publicOrigin+'/'+slug+(publicOrigin.endsWith('.com')?'':'.html');
+  const file=readFileSync(join(root,slug+'.html'),'utf8');
+  const canonical=file.match(/<link\b[^>]*rel="canonical"[^>]*href="([^"]+)"/)?.[1];
+  if(canonical!==url||!xml.includes('<loc>'+url+'</loc>'))
+   errors.push('환자 진료·안전 안내 최종 URL 불일치: '+slug+' -> '+canonical);
+  const share=file.match(/<meta\s+property="og:url"\s+content="([^"]+)"/)?.[1];
+  if(share&&share!==url)errors.push('환자 진료·안전 안내 공유 URL 불일치: '+slug);
+  for(const match of file.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)){
+   let object;
+   try{object=JSON.parse(match[1])}catch{errors.push('환자 안내 JSON-LD 파싱 실패: '+slug);continue}
+   if(object.url?.startsWith(publicOrigin+'/')&&object.url!==url)
+    errors.push('환자 안내 JSON-LD 문서 URL 불일치: '+slug);
+  }
+ }
+ console.log('Last 16 standalone care and safety page sitemap checks passed:',audited.length);
 }
 
 // Seven health collection and patient-visit pages must publish their true final
