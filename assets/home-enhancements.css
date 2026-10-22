@@ -436,3 +436,63 @@ html{scroll-padding-top:92px}
 @media(prefers-reduced-motion:reduce){
  #care .care-more-details summary span{transition:none}
 }
+
+/* The overview is a navigation hub; detailed explanations remain in #care and the
+   individual treatment pages, eliminating five duplicate blocks on the homepage. */
+#focus-care .focus-care-shortcuts{
+ display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
+ gap:10px;margin:22px 0 18px
+}
+#focus-care .focus-care-shortcuts a{
+ box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;
+ gap:5px;min-width:0;min-height:82px;padding:13px 12px;
+ background:#fffdf8;border:1px solid #c8dacb;border-radius:9px;
+ color:#173e35;text-decoration:none;line-height:1.45;word-break:keep-all
+}
+#focus-care .focus-care-shortcuts a strong{
+ display:block;font-size:16px;font-weight:750;overflow-wrap:anywhere
+}
+#focus-care .focus-care-shortcuts a span{
+ display:block;font-size:12px;color:#4e6d5b;overflow-wrap:anywhere
+}
+#focus-care .focus-care-shortcuts a:hover{
+ border-color:#568575;background:#fff
+}
+#focus-care .focus-care-shortcuts a:focus-visible{
+ outline:3px solid #a47837;outline-offset:3px
+}
+#focus-care .care-find-links{margin-top:16px}
+@media(max-width:980px){
+ #focus-care .focus-care-shortcuts{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:600px){
+ #main-content>#focus-care,#main-content>#care,
+ #main-content>#health-info,#main-content>#local-care,
+ #main-content>#stories{padding-top:34px;padding-bottom:34px}
+ #main-content>#focus-care .focus-care-shortcuts{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;margin:17px 0 12px
+ }
+ #main-content>#focus-care .focus-care-shortcuts a{
+  min-height:72px;padding:10px 12px;gap:4px
+ }
+ #main-content>#focus-care .focus-care-shortcuts a:last-child:nth-child(odd){
+  grid-column:1/-1
+ }
+ #main-content>#focus-care .focus-care-shortcuts a strong{font-size:15px}
+ #main-content>#focus-care .focus-care-shortcuts a span{font-size:12px}
+ #main-content>#focus-care .care-find-links{margin-top:10px}
+ #main-content>#focus-care h2,#main-content>#care h2,
+ #main-content>#health-info h2,#main-content>#local-care h2,
+ #main-content>#stories h2{margin-bottom:15px}
+ #main-content>#care .grid,#main-content>#health-info .grid,
+ #main-content>#local-care .grid{margin-top:18px}
+}
+@media(max-width:360px){
+ #main-content>#focus-care .focus-care-shortcuts{
+  grid-template-columns:minmax(0,1fr)
+ }
+ #main-content>#focus-care .focus-care-shortcuts a:last-child:nth-child(odd){
+  grid-column:auto
+ }
+}
