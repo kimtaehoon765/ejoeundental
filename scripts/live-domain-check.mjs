@@ -35,6 +35,8 @@ const urls = [
   { label: '검색엔진 robots', url: origin + '/robots.txt' },
   { label: '검색엔진 sitemap', url: origin + '/sitemap.xml' },
   { label: '잇몸치료 상세 페이지', url: origin + '/gum-treatment.html' },
+  { label: '잇몸 건강정보 탐색 경로', url: origin + '/health/gum-bleeding.html' },
+  { label: '신경치료 건강정보 탐색 경로', url: origin + '/health/root-canal-after-pain.html' },
   { label: '통합 검색 모바일 배치', url: origin + '/search.html' },
   { label: '검색 결과 더 보기 동작 코드', url: origin + '/assets/search.js' },
   { label: '통합 검색 실제 문서 색인', url: origin + '/content/search-index.json' },
@@ -85,6 +87,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       const careSlugs = ['gum-treatment','retreatment','cervical-abrasion','insured-care'];
       const finalCount = careSlugs.filter(slug => body.includes('<loc>' + origin + '/' + slug + '</loc>')).length;
       info.push('핵심 진료 최종 URL: ' + finalCount + '/4');
+    } else if (label === '잇몸 건강정보 탐색 경로' || label === '신경치료 건강정보 탐색 경로') {
+      const correctHub = label.includes('잇몸') ? '/gum-health.html' : '/root-canal-health.html';
+      const hasVisible = body.includes('<nav class="crumb health-breadcrumb" aria-label="현재 위치">') && body.includes('href="'+correctHub+'"');
+      const hasBreadcrumbSchema = body.includes('"@type":"BreadcrumbList"') && body.includes('"' + origin + correctHub + '"');
+      const hasCanonical = body.includes('<link rel="canonical" href="' + response.url + '">');
+      info.push(hasVisible&&hasBreadcrumbSchema&&hasCanonical ? '홈→건강정보→글 이동 및 구조화 데이터 일치' : '탐색 경로 반영 확인 필요');
     } else if (label === '통합 검색 모바일 배치') {
       const form = body.indexOf('<form class="search-form"');
       const results = body.indexOf('<section id="results"');
