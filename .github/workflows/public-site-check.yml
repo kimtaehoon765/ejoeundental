@@ -39,6 +39,11 @@ jobs:
           node-version: '22'
       - name: Read-only target domain readiness check
         run: npm run check:domain
+      - name: Check live domain, DNS and indexing entry points (read-only)
+        continue-on-error: true
+        run: |
+          node --check scripts/live-domain-check.mjs
+          node scripts/live-domain-check.mjs
       - name: Build public site and run quality audit
         run: npm run build:check
       - name: Verify first-visit page is included
