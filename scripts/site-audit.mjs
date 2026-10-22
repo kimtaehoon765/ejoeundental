@@ -4,6 +4,7 @@ import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 const root = resolve('dist');
+const publicOrigin = process.env.SITE_PUBLIC_ORIGIN || 'https://ejoeundental.pages.dev';
 if (!existsSync(root)) {
   console.error('dist 폴더가 없습니다. 먼저 npm run build를 실행하세요.');
   process.exit(1);
@@ -355,7 +356,7 @@ if (existsSync(homepageFile)) {
   if (!home.includes('href="/visit-guide.html"')) errors.push('홈페이지에서 방문 전 안내 연결 누락');
 }
 const sitemapFile = join(root, 'sitemap.xml');
-if (!existsSync(sitemapFile) || !readFileSync(sitemapFile, 'utf8').includes('https://ejoeundental.pages.dev/visit-guide.html')) errors.push('방문 안내 사이트맵 누락');
+if (!existsSync(sitemapFile) || !readFileSync(sitemapFile, 'utf8').includes((publicOrigin + '/visit-guide.html'))) errors.push('방문 안내 사이트맵 누락');
 // Keep new patient FAQs published, discoverable, and consistent with on-page answers.
 for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq','medication-dental-faq','systemic-disease-dental-faq']) {
   const route = '/' + slug + '.html';
@@ -366,7 +367,7 @@ for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-ins
   if ((page.match(/<section class="card">/g) || []).length < 6) errors.push('FAQ 질문 수 부족: ' + route);
   if (!page.includes('href="tel:0325132875"')) errors.push('FAQ 전화 연결 누락: ' + route);
   if (!page.includes('일반적인 건강정보')) errors.push('FAQ 건강정보 안내 누락: ' + route);
-  if (!existsSync(sitemapFile) || !readFileSync(sitemapFile,'utf8').includes('https://ejoeundental.pages.dev' + route)) errors.push('FAQ 사이트맵 누락: ' + route);
+  if (!existsSync(sitemapFile) || !readFileSync(sitemapFile,'utf8').includes(publicOrigin + route)) errors.push('FAQ 사이트맵 누락: ' + route);
   if (!existsSync(homepageFile) || !readFileSync(homepageFile,'utf8').includes('href="' + route + '"')) errors.push('FAQ 홈페이지 링크 누락: ' + route);
 }
 // Cross-link integrity and FAQ structured-data consistency for patients and search crawlers.
@@ -386,7 +387,7 @@ for (const slug of ['gum-treatment-faq', 'root-canal-retreatment-faq', 'dental-i
   if (!jsonMatch) { errors.push('FAQ JSON-LD 없음: ' + slug); continue; }
   try {
     const structured = JSON.parse(jsonMatch);
-    if (structured.isPartOf?.['@id'] !== 'https://ejoeundental.pages.dev/#website') errors.push('FAQ 미리보기 구조화 데이터 호스트 불일치: ' + slug);
+    if (structured.isPartOf?.['@id'] !== (publicOrigin + '/#website')) errors.push('FAQ 미리보기 구조화 데이터 호스트 불일치: ' + slug);
     const questions = structured.mainEntity;
     if (structured['@type'] !== 'FAQPage' || !Array.isArray(questions) || questions.length !== 6) errors.push('FAQ 질문 구조 불일치: ' + slug);
     else for (const question of questions) {
@@ -432,9 +433,9 @@ else {
   if (!hub.includes('href="/'+target+'"')) errors.push('환자 안전정보 모음 링크 누락: '+target);
  }
  if (!hub.includes('임의로 중단하지 마세요')) errors.push('환자 안전정보 모음 복용약 경고 누락');
- if (!hub.includes('https://ejoeundental.pages.dev/medical-safety-guide.html')) errors.push('환자 안전정보 모음 canonical 불일치');
+ if (!hub.includes((publicOrigin + '/medical-safety-guide.html'))) errors.push('환자 안전정보 모음 canonical 불일치');
 }
-if (!existsSync(sitemapFile) || !readFileSync(sitemapFile,'utf8').includes('https://ejoeundental.pages.dev/medical-safety-guide.html')) errors.push('환자 안전정보 모음 사이트맵 누락');
+if (!existsSync(sitemapFile) || !readFileSync(sitemapFile,'utf8').includes((publicOrigin + '/medical-safety-guide.html'))) errors.push('환자 안전정보 모음 사이트맵 누락');
 for (const source of ['index.html','visit-guide.html','medical-history.html']) {
  const file=join(root,source);
  if (!existsSync(file) || !readFileSync(file,'utf8').includes('href="/medical-safety-guide.html"')) errors.push('환자 안전정보 모음 진입 링크 누락: '+source);
@@ -446,9 +447,9 @@ else {
  const content=readFileSync(checklist,'utf8');
  if ((content.match(/type="checkbox"/g)||[]).length<8) errors.push('방문 체크리스트 항목 누락');
  if (!content.includes('임의로 중단하지 마세요')) errors.push('방문 체크리스트 약물 안전 경고 누락');
- if (!content.includes('https://ejoeundental.pages.dev/previsit-checklist.html')) errors.push('방문 체크리스트 canonical 불일치');
+ if (!content.includes((publicOrigin + '/previsit-checklist.html'))) errors.push('방문 체크리스트 canonical 불일치');
 }
-if (!existsSync(sitemapFile)||!readFileSync(sitemapFile,'utf8').includes('https://ejoeundental.pages.dev/previsit-checklist.html')) errors.push('방문 체크리스트 사이트맵 누락');
+if (!existsSync(sitemapFile)||!readFileSync(sitemapFile,'utf8').includes((publicOrigin + '/previsit-checklist.html'))) errors.push('방문 체크리스트 사이트맵 누락');
 for (const source of ['index.html','medical-safety-guide.html','visit-guide.html']) {
  const file=join(root,source);
  if (!existsSync(file)||!readFileSync(file,'utf8').includes('href="/previsit-checklist.html"')) errors.push('방문 체크리스트 연결 누락: '+source);
@@ -462,7 +463,7 @@ for (const slug of ['medical-safety-guide','previsit-checklist']) {
  if (!raw) { errors.push('건강정보 구조화 데이터 누락: '+slug); continue; }
  try {
   const data=JSON.parse(raw);
-  const expectedOrigin = process.env.SITE_PUBLIC_ORIGIN || 'https://ejoeundental.pages.dev';
+  const expectedOrigin = publicOrigin;
   if (data['@type']!=='WebPage' || data.url!==expectedOrigin+'/'+slug+'.html' || data.isPartOf?.['@id']!==expectedOrigin+'/#website') errors.push('건강정보 구조화 데이터 주소 불일치: '+slug);
  } catch { errors.push('건강정보 구조화 데이터 JSON 오류: '+slug); }
 }
