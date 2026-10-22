@@ -257,6 +257,33 @@ for (const file of html) {
  if(!homepage.includes('home-enhancements.css?v=20261023-hero-action-first'))errors.push('홈페이지 개선 스타일 캐시 버전 불일치');
 }
 
+// 홈페이지 전체 진료 5+8: 환자 우선 4개 진료와 자연치아 보존 원칙은
+// 바로 보이고, 나머지 8개는 자바스크립트 없이 펼쳐져야 합니다.
+{
+ const home=readFileSync(join(root,'index.html'),'utf8');
+ const care=home.match(/<section class="section" id="care">([\s\S]*?)<\/section>/)?.[1]||'';
+ const reveal=care.match(/<details class="care-more-details">([\s\S]*?)<\/details>/)?.[0]||'';
+ const first=care.split('<details class="care-more-details">')[0];
+ const baseCards=[...first.matchAll(/<div class="card(?: [^"]+)?">/g)].length;
+ const extraCards=[...reveal.matchAll(/<div class="card(?: [^"]+)?">/g)].length;
+ const expectedMain=['자연치아를 살리는 치료부터','잇몸치료','재신경치료','치경부마모증 · GI','건강보험 진료'];
+ const expectedExtra=['임플란트','충치치료','사랑니 발치','턱관절 치료','스케일링','틀니치료','어린이 교정','어린이 치과진료'];
+ if(baseCards!==5||extraCards!==8||expectedMain.some(x=>!first.includes('<h3>'+x+'</h3>'))||
+   expectedExtra.some(x=>!reveal.includes('<h3>'+x+'</h3>'))){
+  errors.push('홈페이지 전체 진료 5+8개 묶음/진료명 누락');
+ }
+ if(!reveal.includes('<summary>임플란트·충치·틀니 등 다른 진료 8가지 더 보기')||
+   !reveal.includes('class="grid care-more-grid"')||reveal.includes('<details class="care-more-details" open')){
+  errors.push('모바일 전체 진료 더 보기 단추·기본 닫힘 상태 누락');
+ }
+ if(!home.includes('/assets/home-enhancements.css?v=20261023-care-directory-compact')){
+  errors.push('홈페이지 진료목록 반응형 CSS 캐시 버전 누락');
+ }
+ for(const url of ['/implant.html','/cavity-treatment.html','/wisdom-tooth.html','/tmj-care.html','/denture.html','/pediatric-orthodontics.html','/pediatric-dentistry.html']){
+  if(!reveal.includes('href="'+url+'"'))errors.push('추가 진료 바로가기 링크 누락: '+url);
+ }
+}
+
 // Homepage in-page navigation must point to an existing section or landmark.
 if (existsSync(homepageFile)) {
   const home = readFileSync(homepageFile, 'utf8');
