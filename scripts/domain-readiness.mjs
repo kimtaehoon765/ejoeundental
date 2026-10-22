@@ -15,9 +15,17 @@ const urls = [...source.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
 if (!urls.length) errors.push('Source sitemap is empty');
 if (new Set(urls).size !== urls.length) errors.push('Source sitemap has duplicate URLs');
 for (const url of urls) {
-  if (!url.startsWith(host+'/')) errors.push('Non-target domain in source sitemap: '+url);
-  const pathname = new URL(url).pathname;
-  if (pathname.includes('..')) errors.push('Unsafe sitemap path: '+pathname);
+  let parsed;
+  try { parsed = new URL(url); }
+  catch { errors.push('Malformed source sitemap URL: '+url); continue; }
+  if (parsed.origin !== host || parsed.search || parsed.hash) errors.push('Non-target or noncanonical URL in source sitemap: '+url);
+  let pathname;
+  try { pathname = decodeURIComponent(parsed.pathname); }
+  catch { errors.push('Malformed sitemap URL encoding: '+url); continue; }
+  if (pathname.includes('\\\\') || pathname.split('/').some(segment => segment === '.' || segment === '..')) {
+    errors.push('Unsafe sitemap path: '+pathname);
+    continue;
+  }
   if (!existsSync('.'+pathname) && !pathname.startsWith('/stories/')) notes.push('Dynamic or generated page, verify in build: '+pathname);
 }
 if (!robots.includes('Sitemap: '+host+'/sitemap.xml')) errors.push('Source robots sitemap is not on target domain');
