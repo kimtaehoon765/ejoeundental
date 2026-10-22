@@ -588,7 +588,8 @@ for (const slug of ['visit-guide','previsit-checklist','medical-safety-guide','g
   const file = join(root, slug + '.html');
   if (!existsSync(file)) continue;
   const page = readFileSync(file, 'utf8');
-  const expectedCanonical = publicOrigin + '/' + slug + '.html';
+  const cleanPatientResource = new Set(['visit-guide','previsit-checklist','medical-safety-guide']).has(slug) && publicOrigin.endsWith('.com');
+  const expectedCanonical = publicOrigin + '/' + slug + (cleanPatientResource?'':'.html');
   if (!page.includes('rel="canonical" href="' + expectedCanonical + '"')) errors.push('정규 URL 불일치: ' + slug);
   const links = [...page.matchAll(/href="(\/[^"#?]+[.]html)"/g)].map(match => match[1]);
   for (const link of links) if (!paths.has(link)) errors.push('방문 안내/FAQ 내부 링크 누락: ' + slug + ' -> ' + link);
@@ -652,7 +653,7 @@ for (const slug of ['medical-safety-guide','previsit-checklist']) {
  try {
   const data=JSON.parse(raw);
   const expectedOrigin = publicOrigin;
-  if (data['@type']!=='WebPage' || data.url!==expectedOrigin+'/'+slug+'.html' || data.isPartOf?.['@id']!==expectedOrigin+'/#website') errors.push('건강정보 구조화 데이터 주소 불일치: '+slug);
+  if (data['@type']!=='WebPage' || data.url!==expectedOrigin+'/'+slug+(expectedOrigin.endsWith('.com')?'':'.html') || data.isPartOf?.['@id']!==expectedOrigin+'/#website') errors.push('건강정보 구조화 데이터 주소 불일치: '+slug);
  } catch { errors.push('건강정보 구조화 데이터 JSON 오류: '+slug); }
 }
 // 정적 404 오류페이지는 Cloudflare Pages의 잘못된 주소 200 반환(SPA fallback)을 막습니다.
