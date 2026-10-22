@@ -479,14 +479,14 @@ else {
   for (const detail of ['격주', '3시간 무료', '12:30', '18:00', '임의로 중단하지 마세요', 'href="tel:0325132875"']) {
     if (!guide.includes(detail)) errors.push('방문 안내 필수정보 누락: ' + detail);
   }
-  if (!guide.includes(('rel="canonical" href="' + publicOrigin + '/visit-guide.html"'))) errors.push('방문 안내 canonical 주소 누락');
+  if (!guide.includes(('rel="canonical" href="' + publicOrigin + '/visit-guide' + (publicOrigin.endsWith('.pages.dev')?'.html':'') + '"'))) errors.push('방문 안내 canonical 주소 누락');
 }
 if (existsSync(homepageFile)) {
   const home = readFileSync(homepageFile, 'utf8');
   if (!home.includes('href="/visit-guide.html"')) errors.push('홈페이지에서 방문 전 안내 연결 누락');
 }
 const sitemapFile = join(root, 'sitemap.xml');
-if (!existsSync(sitemapFile) || !readFileSync(sitemapFile, 'utf8').includes((publicOrigin + '/visit-guide.html'))) errors.push('방문 안내 사이트맵 누락');
+if (!existsSync(sitemapFile) || !readFileSync(sitemapFile, 'utf8').includes((publicOrigin + '/visit-guide' + (publicOrigin.endsWith('.pages.dev')?'.html':'')))) errors.push('방문 안내 사이트맵 누락');
 // Keep new patient FAQs published, discoverable, and consistent with on-page answers.
 for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq','medication-dental-faq','systemic-disease-dental-faq']) {
   const route = '/' + slug + '.html';
@@ -621,9 +621,9 @@ else {
   if (!hub.includes('href="/'+target+'"')) errors.push('환자 안전정보 모음 링크 누락: '+target);
  }
  if (!hub.includes('임의로 중단하지 마세요')) errors.push('환자 안전정보 모음 복용약 경고 누락');
- if (!hub.includes((publicOrigin + '/medical-safety-guide.html'))) errors.push('환자 안전정보 모음 canonical 불일치');
+ if (!hub.includes((publicOrigin + '/medical-safety-guide' + (publicOrigin.endsWith('.pages.dev')?'.html':'')))) errors.push('환자 안전정보 모음 canonical 불일치');
 }
-if (!existsSync(sitemapFile) || !readFileSync(sitemapFile,'utf8').includes((publicOrigin + '/medical-safety-guide.html'))) errors.push('환자 안전정보 모음 사이트맵 누락');
+if (!existsSync(sitemapFile) || !readFileSync(sitemapFile,'utf8').includes((publicOrigin + '/medical-safety-guide' + (publicOrigin.endsWith('.pages.dev')?'.html':'')))) errors.push('환자 안전정보 모음 사이트맵 누락');
 for (const source of ['index.html','visit-guide.html','medical-history.html']) {
  const file=join(root,source);
  if (!existsSync(file) || !readFileSync(file,'utf8').includes('href="/medical-safety-guide.html"')) errors.push('환자 안전정보 모음 진입 링크 누락: '+source);
@@ -635,9 +635,9 @@ else {
  const content=readFileSync(checklist,'utf8');
  if ((content.match(/type="checkbox"/g)||[]).length<8) errors.push('방문 체크리스트 항목 누락');
  if (!content.includes('임의로 중단하지 마세요')) errors.push('방문 체크리스트 약물 안전 경고 누락');
- if (!content.includes((publicOrigin + '/previsit-checklist.html'))) errors.push('방문 체크리스트 canonical 불일치');
+ if (!content.includes((publicOrigin + '/previsit-checklist' + (publicOrigin.endsWith('.pages.dev')?'.html':'')))) errors.push('방문 체크리스트 canonical 불일치');
 }
-if (!existsSync(sitemapFile)||!readFileSync(sitemapFile,'utf8').includes((publicOrigin + '/previsit-checklist.html'))) errors.push('방문 체크리스트 사이트맵 누락');
+if (!existsSync(sitemapFile)||!readFileSync(sitemapFile,'utf8').includes((publicOrigin + '/previsit-checklist' + (publicOrigin.endsWith('.pages.dev')?'.html':'')))) errors.push('방문 체크리스트 사이트맵 누락');
 for (const source of ['index.html','medical-safety-guide.html','visit-guide.html']) {
  const file=join(root,source);
  if (!existsSync(file)||!readFileSync(file,'utf8').includes('href="/previsit-checklist.html"')) errors.push('방문 체크리스트 연결 누락: '+source);
@@ -669,6 +669,23 @@ const adminFile = join(root, 'admin/index.html');
 if (existsSync(adminFile)) {
   const admin = readFileSync(adminFile, 'utf8');
   if (!admin.includes('name="robots" content="noindex')) errors.push('관리자 페이지 noindex 누락');
+}
+
+// Seven health collection and patient-visit pages must publish their true final
+// URLs on the production domain, while retaining .html in the preview build.
+for(const slug of [
+ 'gum-health','root-canal-health','insurance-health','additional-health',
+ 'visit-guide','medical-safety-guide','previsit-checklist'
+]){
+ const expected=publicOrigin+'/'+slug+(publicOrigin.endsWith('.pages.dev')?'.html':'');
+ const page=readFileSync(join(root,slug+'.html'),'utf8');
+ const canonical=page.match(/<link\b[^>]*rel="canonical"[^>]*href="([^"]+)"/i)?.[1];
+ const sitemapXml=existsSync(sitemap)?readFileSync(sitemap,'utf8'):'';
+ if(canonical!==expected||!sitemapXml.includes('<loc>'+expected+'</loc>')){
+  errors.push('건강정보·방문 준비 최종 URL/사이트맵 불일치: '+slug+' -> '+canonical);
+ }
+ const og=page.match(/<meta\s+property="og:url"\s+content="([^"]+)"/i)?.[1];
+ if(og&&og!==expected)errors.push('건강정보·방문 준비 공유 URL 불일치: '+slug+' -> '+og);
 }
 
 // Published care canonical and sitemap URLs must resolve without an extra HTML redirect.
