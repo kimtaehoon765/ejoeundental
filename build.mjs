@@ -540,8 +540,10 @@ for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
     '<a href="/#location">진료시간·오시는 길 →</a>'+
     '<a href="tel:0325132875">☎ 032-513-2875 전화 문의</a>'+
     '</div></nav>';
-  if(!html.includes('<div class="bottom">'))throw new Error('Health page missing navigation insertion point: '+filename);
-  html=html.replace('<div class="bottom">',section+'<div class="bottom">');
+  const insertionPoint=html.includes('<div class="bottom">')?'<div class="bottom">':
+    html.includes('<footer class="bottom"')?'<footer class="bottom"':null;
+  if(!insertionPoint)throw new Error('Health page missing navigation insertion point: '+filename);
+  html=html.replace(insertionPoint,section+insertionPoint);
   fs.writeFileSync(filepath,html);
   careJourneyCount++;
 }
