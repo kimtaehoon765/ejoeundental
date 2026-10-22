@@ -24,6 +24,8 @@ jobs:
         run: npm run build:preview:check
       - name: Check domain migration readiness
         run: npm run check:domain
+      - name: Test private reference bundle and authentication
+        run: npm run test:owner:all
 
   production:
     name: Production origin build and SEO audit
