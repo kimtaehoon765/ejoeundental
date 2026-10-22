@@ -24,7 +24,17 @@ jobs:
         run: npm run build:preview:check
       - name: Check domain migration readiness
         run: npm run check:domain
-      - name: Test private reference bundle and authentication
+
+  owner-security:
+    name: Owner library and authentication security tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate owner library and authentication
         run: npm run test:owner:all
 
   production:
