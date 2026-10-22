@@ -105,9 +105,9 @@ await Promise.all(urls.map(async ({label,url}) => {
       const firstLoc = body.split('<loc>')[1]?.split('</loc>')[0] || '(없음)';
       info.push('정식 도메인 홈페이지: ' + (body.includes('<loc>' + origin + '/</loc>')?'포함':'확인 필요'));
       info.push('첫 URL: ' + firstLoc);
-      const careSlugs = ['gum-treatment','retreatment','cervical-abrasion','insured-care','tmj-care','wisdom-tooth','implant','pediatric-orthodontics'];
+      const careSlugs = ['gum-treatment','retreatment','cervical-abrasion','insured-care','tmj-care','wisdom-tooth','implant','pediatric-orthodontics','scaling','cavity-treatment','denture','pediatric-dentistry'];
       const finalCount = careSlugs.filter(slug => body.includes('<loc>' + origin + '/' + slug + '</loc>')).length;
-      info.push('주요 진료 최종 URL: ' + finalCount + '/8');
+      info.push('주요 진료 최종 URL: ' + finalCount + '/12');
     } else if (label === '잇몸 건강정보 탐색 경로' || label === '신경치료 건강정보 탐색 경로' || label === '자연치아 건강정보 진료 연결') {
       const correctHub = label.includes('잇몸') ? '/gum-health.html' : label.includes('신경치료') ? '/root-canal-health.html' : '/additional-health.html';
       const hasVisible = body.includes('<nav class="crumb health-breadcrumb" aria-label="현재 위치">') && body.includes('href="'+correctHub+'"');
