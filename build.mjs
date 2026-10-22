@@ -344,20 +344,20 @@ console.log('Local care navigation generated:',localCarePages.length,'treatment 
 // Make local treatment-page search snippets specific without misrepresenting the clinic location.
 const localCareMeta={
  'gum-treatment.html':{
-  title:'청천동·산곡동 인근 잇몸치료 | 이조은치과',
-  description:'인천 부평구 청천동 이조은치과. 산곡동·산곡역 주변에서 잇몸치료를 알아보신다면 위치를 확인하세요. 원장이 직접 진단하고 치주낭 검사, 치근활택술 등 필요한 치료를 안내합니다.'
+  title:'인천 잇몸치료·스케일링 차이 | 부평구 이조은치과',
+  description:'인천 부평구 청천동·산곡동·산곡역 인근 잇몸치료 안내. 스케일링과 잇몸치료의 차이, 치주낭 검사, 큐렛 치료, 건강보험 적용 기준을 원장이 직접 설명합니다.'
  },
  'retreatment.html':{
-  title:'청천동·산곡역 인근 재신경치료 | 이조은치과',
-  description:'인천 부평구 청천동 이조은치과. 산곡동·산곡역 주변에서 재신경치료를 알아보신다면 위치를 확인하세요. 원장이 직접 검사하고 자연치아 보존과 근관 재치료 가능성을 설명합니다.'
+  title:'인천 재신경치료·신경치료 후 통증 | 부평구 이조은치과',
+  description:'인천 부평구 청천동·산곡동·산곡역 인근 재신경치료 안내. 신경치료 후 통증이 다시 생긴 이유와 재치료 가능성, 치아 균열·뿌리 상태·자연치아 보존의 한계를 원장이 직접 설명합니다.'
  },
  'cervical-abrasion.html':{
-  title:'부평 청천동 치경부마모증·GI 수복 | 이조은치과',
-  description:'인천 부평구 청천동 이조은치과. 산곡동·산곡역 주변에서도 위치를 확인하고 방문하실 수 있습니다. 시린 이와 치경부마모증을 검사하고 GI 수복 등 필요한 치료를 안내합니다.'
+  title:'인천 치경부마모증·시린 이·GI 수복 | 부평구 이조은치과',
+  description:'인천 부평구 청천동·산곡동·산곡역 인근 시린 이·치경부마모증 안내. 치아 목 부분 마모의 원인, GI 수복과 치료 필요성, 건강보험 적용 여부를 실제 진료·급여 기준에 따라 설명합니다.'
  },
  'insured-care.html':{
-  title:'부평 청천동 건강보험 치과진료 | 이조은치과',
-  description:'인천 부평구 청천동 이조은치과. 산곡동·산곡역 주변에서 방문을 고려하신다면 위치를 확인하세요. 건강보험 적용 가능 진료를 설명하며 실제 급여 여부는 기준과 진찰 결과에 따릅니다.'
+  title:'인천 치과 건강보험 진료·스케일링 | 부평구 이조은치과',
+  description:'인천 부평구 청천동·산곡동·산곡역 인근 건강보험 치과진료 안내. 스케일링, 잇몸치료, 치경부마모증 GI 수복 등 적용 가능성과 본인부담금은 진단과 실제 급여 기준에 따라 확인합니다.'
  }
 };
 for(const [filename,meta] of Object.entries(localCareMeta)){
