@@ -6,8 +6,11 @@ const allowed = new Set(['https://ejoeundental.pages.dev', 'https://ejoeundental
 if (!allowed.has(origin)) throw new Error('Invalid SITE_PUBLIC_ORIGIN: ' + origin);
 const dist = path.resolve('dist');
 if (!fs.existsSync(dist)) throw new Error('Missing dist directory: run npm run build first');
-const required = ['index.html', 'sitemap.xml', 'robots.txt'];
+const required = ['index.html', '404.html', 'sitemap.xml', 'robots.txt'];
 for (const name of required) if (!fs.existsSync(path.join(dist, name))) throw new Error('Missing output: ' + name);
+const notFound = fs.readFileSync(path.join(dist, '404.html'), 'utf8');
+if (!notFound.includes('name="robots" content="noindex,follow"')) throw new Error('404 page must be noindex');
+if (!notFound.includes('action="/search.html"')) throw new Error('404 page must link to dental health search');
 const sitemap = fs.readFileSync(path.join(dist, 'sitemap.xml'), 'utf8');
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1]);
 if (!urls.length || !urls.includes(origin + '/')) throw new Error('Missing homepage in sitemap');
