@@ -35,6 +35,10 @@ const urls = [
   { label: '검색엔진 robots', url: origin + '/robots.txt' },
   { label: '검색엔진 sitemap', url: origin + '/sitemap.xml' },
   { label: '잇몸치료 상세 페이지', url: origin + '/gum-treatment.html' },
+  { label: 'care route implant', url: origin + '/implant.html' },
+  { label: 'care route tmj', url: origin + '/tmj-care.html' },
+  { label: 'care route wisdom', url: origin + '/wisdom-tooth.html' },
+  { label: 'care route pediatric', url: origin + '/pediatric-orthodontics.html' },
   { label: '잇몸 건강정보 탐색 경로', url: origin + '/health/gum-bleeding.html' },
   { label: '신경치료 건강정보 탐색 경로', url: origin + '/health/root-canal-after-pain.html' },
   { label: '자연치아 건강정보 진료 연결', url: origin + '/health/tooth-crack.html' },
@@ -144,6 +148,18 @@ await Promise.all(urls.map(async ({label,url}) => {
     } else if (label === '없는 페이지 404 상태') {
       info.push(response.status === 404 ? '404 정상 응답' : '주의: 404 대신 '+response.status);
       info.push(body.includes('요청하신 페이지를 찾을 수 없습니다') ? '오류 안내 화면 확인' : '오류 안내 화면 확인 필요');
+    } else if (label.startsWith('care route ')) {
+      const routes={implant:'implant',tmj:'tmj-care',wisdom:'wisdom-tooth',pediatric:'pediatric-orthodontics'};
+      const slug=routes[label.slice('care route '.length)];
+      const target=origin+'/'+slug;
+      const finalRoute=response.url===target;
+      const visible=body.includes('<nav class="treatment-breadcrumb" aria-label="현재 위치">')&&
+        body.includes('class="treatment-breadcrumb-current" aria-current="page"')&&
+        body.includes('href="/#care"');
+      const keyboard=body.includes('class="treatment-skip-link" href="#main-content"')&&
+        /<main\\b[^>]*id="main-content"/.test(body);
+      info.push(finalRoute?'최종경로 확장자 없음 확인':'최종경로 확인 필요: '+response.url);
+      info.push(visible&&keyboard?'환자 위치 표시·키보드 바로가기 적용':'이동 경로·키보드 접근 확인 필요');
     } else if (label === '잇몸치료 상세 페이지') {
       info.push('치료정보: ' + (body.includes('잇몸치료')?'있음':'미확인'));
       const canonicalValue = body.split('rel="canonical" href="')[1]?.split('"')[0] || '(없음)';
