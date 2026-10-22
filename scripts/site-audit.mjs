@@ -489,6 +489,25 @@ if (existsSync(adminFile)) {
   const admin = readFileSync(adminFile, 'utf8');
   if (!admin.includes('name="robots" content="noindex')) errors.push('관리자 페이지 noindex 누락');
 }
+
+// Guard consistent patient-facing search titles and navigation on the four primary guides.
+for (const name of ['gum-treatment.html','retreatment.html','cervical-abrasion.html','insured-care.html']) {
+ const file=join(root,name);
+ if (!existsSync(file)) { errors.push('주요 진료 페이지 누락: '+name); continue; }
+ const page=readFileSync(file,'utf8');
+ const title=page.match(/<title>([^<]+)<\/title>/i)?.[1]?.trim();
+ const ogTitle=page.match(/<meta\s+property="og:title"\s+content="([^"]+)"/i)?.[1]?.trim();
+ const block=page.match(/<script\s+type="application\/ld\+json">([\s\S]*?)<\/script>/i)?.[1];
+ let schemaTitle;
+ try { schemaTitle=JSON.parse(block||'{}').name; } catch { errors.push('구조화 데이터 JSON 오류: '+name); }
+ if (!title || title!==ogTitle || title!==schemaTitle) errors.push('검색 제목·공유 제목·구조화 데이터 불일치: '+name);
+ const current=page.match(/<nav class="treatment-quick-links"[^>]*>([\s\S]*?)<\/nav>/i)?.[1];
+ if (!current || !current.includes('href="/'+name+'" aria-current="page"') ||
+     (current.match(/aria-current="page"/g)||[]).length!==1) errors.push('모바일 진료 메뉴 현재 위치 오류: '+name);
+ if (!page.includes('class="treatment-scroll-hint"') ||
+     !page.includes('/assets/care-design-system.css')) errors.push('모바일 진료 이동 안내 누락: '+name);
+}
+
 if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);
