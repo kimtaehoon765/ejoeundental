@@ -122,3 +122,38 @@ test('searching for a local treatment still links to the primary care guide',asy
   assert.ok(topFive.includes(expected),query+' must include its guide within the top five');
  }
 });
+
+
+test('real clinic safety and appointment searches retrieve standalone pages',async()=>{
+ const {extractSearchText}=await import('./search-content-extractor.mjs');
+ const curated=JSON.parse(readFileSync(new URL('../content/search-index-46.json',import.meta.url),'utf8'));
+ const slugs=['medical-history','medical-safety-guide','previsit-checklist',
+  'blood-thinners-dental','osteoporosis-medication-dental','diabetes-dental-care',
+  'heart-disease-dental-care','pregnancy-dental-care','noncovered-fees',
+  'medication-dental-faq','systemic-disease-dental-faq'];
+ const additional=slugs.map(slug=>{
+  const html=readFileSync(new URL('../'+slug+'.html',import.meta.url),'utf8');
+  return {
+   url:'/'+slug+'.html',
+   title:html.match(/<title>([^<]+)<\/title>/i)?.[1]||'',
+   description:html.match(/<meta name="description" content="([^"]+)"/i)?.[1]||'',
+   body:extractSearchText(html)
+  };
+ });
+ for(const [query,expected] of [
+  ['혈액희석제','/blood-thinners-dental.html'],
+  ['골다공증 약','/osteoporosis-medication-dental.html'],
+  ['당뇨병','/diabetes-dental-care.html'],
+  ['임신 중 치과치료','/pregnancy-dental-care.html'],
+  ['비급여 진료비','/noncovered-fees.html'],
+  ['치과 방문 전 체크리스트','/previsit-checklist.html'],
+  ['복용약','/medical-history.html']
+ ]){
+  const {results}=await search(query,[...curated,...additional]);
+  const topFive=walk(results,x=>x.className==='result').slice(0,5).map(x=>x.href);
+  assert.ok(topFive.includes(expected),query+' should find its existing patient resource: '+JSON.stringify(topFive));
+ }
+ const {results}=await search('혈액희석제',[...curated,...additional]);
+ const target=walk(results,x=>x.className==='result').find(x=>x.href==='/blood-thinners-dental.html');
+ assert.equal(target?.children[0]?.dataset?.category,'medical','medication advice needs a medical information label');
+});
