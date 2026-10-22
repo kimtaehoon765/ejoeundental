@@ -16,6 +16,11 @@
 - 빌드 스크립트: `build.mjs`
 - 생성 결과: 정적 페이지, 건강정보, 공개 게시글 상세 페이지, 게시글 목록 JSON, 사이트맵
 
+## Cloudflare Pages 무료 이전 (현재 우선 작업)
+Netlify 배포 한도 문제로 **Cloudflare Pages로 이전**하는 것이 현재 계획입니다. [Cloudflare Pages 이전 안내](docs/cloudflare-pages-migration.md)를 기준으로 진행합니다. 기존 Netlify 및 DNS는 새 Pages 배포와 정식 도메인 검증이 끝날 때까지 유지합니다.
+
+Cloudflare Pages의 Git 연동 설정은 `main` / 프레임워크 `None` / `npm run build` / 출력 폴더 `dist` / `NODE_VERSION=22`입니다. 기존 Pages 프로젝트가 있다면 중복 생성하지 않습니다. **Cloudflare 실제 프로젝트·배포 상태와 DNS 연결은 아직 확인되지 않았습니다.** 특히 `build.mjs`에 과거 `ejoeundental.pages.dev` 주소가 직접 포함되어 있어, 실제 임시 도메인과 정식 도메인에 맞는 SEO 주소 출력은 별도 검증이 필요합니다.
+
 ## Netlify 배포 설정 (소스 기준)
 현재 확인된 `netlify.toml` 설정은 다음과 같습니다. 실제 Netlify 프로젝트의 연결·배포 성공 여부는 별도로 확인해야 합니다.
 
