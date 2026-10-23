@@ -472,7 +472,7 @@ else {
     'aria-pressed','results.append(filterBar)','listArea.replaceChildren()']){
    if(!script.includes(fragment))errors.push('검색 결과 유형별 필터 기능 누락: '+fragment);
   }
-  if(!page.includes('/assets/search-page.css?v=20261023-expert-shortcuts'))
+  if(!page.includes('/assets/search-page.css?v=20261023-visit-card1'))
    errors.push('검색 유형별 필터 CSS 새 버전 연결 누락');
   if(!existsSync(searchCss)||!readFileSync(searchCss,'utf8').includes('.search-category-filter[aria-pressed="true"]'))
    errors.push('검색 결과 선택된 유형 표시 스타일 누락');
@@ -533,6 +533,42 @@ else {
     }
     if(!script.includes('pattern.test(clinicalQuery)'))errors.push('인근 지역 증상 검색의 관련 글 우선 표시 누락');
   }catch(e){errors.push('인근 지역 검색어 자동 테스트 오류: '+e.message);}
+
+  // Run clinic/parking intent cases through the shipped search logic and real generated index.
+  for(const snippet of ['const localityOnlyIntent=', 'const visitIntent=', 'if(visitIntent){',
+    'className=\u0027search-visit-answer\u0027','href="/visit-guide.html"']){
+   if(!script.includes(snippet) && !page.includes(snippet))errors.push('방문 정보 검색 기능 누락: '+snippet);
+  }
+  if(!page.includes('class="search-visit-examples"')||!page.includes('산곡역 치과'))errors.push('모바일 검색 방문 안내 예시 누락');
+  if(!existsSync(searchCss)||!readFileSync(searchCss,'utf8').includes('.search-visit-answer{')||
+     !readFileSync(searchCss,'utf8').includes('.search-visit-actions>a:focus-visible')){
+    errors.push('검색 방문 안내 카드 접근성·모바일 디자인 누락');
+  }
+  try{
+   const coreStart=script.indexOf('const aliases=');
+   const coreEnd=script.indexOf('const resultSummary=',coreStart);
+   if(coreStart<0||coreEnd<=coreStart)throw new Error('검색 관련도 코드 위치 인식 불가');
+   const evaluate=new Function('q','pages',script.slice(coreStart,coreEnd)+
+    'return {localityOnlyIntent,visitIntent,displayCount:displayResults.length,top:displayResults[0]?.url};');
+   const indexFile=join(root,'content','search-index.json');
+   const index=JSON.parse(readFileSync(indexFile,'utf8'));
+   if(!Array.isArray(index)||!index.length)throw new Error('검색 색인 비어 있음');
+   for(const [q,expectedLocalOnly,expectedVisit,top] of [
+    ['산곡역 치과',true,true,null],
+    ['청천동 치과',true,true,null],
+    ['갈산동 치과 위치',true,true,null],
+    ['이조은치과 진료시간',false,true,null],
+    ['주차',false,true,null],
+    ['산곡역 근처 치과 재신경치료',false,false,'/retreatment.html'],
+    ['갈산동 잇몸치료',false,false,'/gum-treatment.html']
+   ]){
+    const found=evaluate(q,index);
+    if(found.localityOnlyIntent!==expectedLocalOnly||found.visitIntent!==expectedVisit||
+      (expectedLocalOnly&&found.displayCount!==0)||(top&&found.top!==top)){
+     errors.push('주소·진료시간·주차 검색 결과 오류: '+q+' '+JSON.stringify(found));
+    }
+   }
+  }catch(e){errors.push('방문 검색 통합 테스트 실행 오류: '+e.message);}
 
   // Search relevance boosts must not masquerade as matches to every typed word.
   if (/matched\s*=\s*terms\.length/.test(script)) errors.push('검색 결과 관련도 계산에서 검색어 일치 수를 강제로 변경함');
