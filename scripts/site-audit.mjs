@@ -1453,3 +1453,34 @@ if (errors.length) process.exitCode = 1;
    errors.push('치과 신경치료 서비스 구조화 데이터 및 건강정보 연결 누락');
  }
 }
+
+
+// Separate primary endodontic guidance from repeat-treatment decisions in every
+// patient journey. FAQs retain the six originally reviewed questions and JSON-LD.
+{
+ const hub=readFileSync(join(root,'root-canal-health.html'),'utf8');
+ const faq=readFileSync(join(root,'root-canal-retreatment-faq.html'),'utf8');
+ const searchPage=readFileSync(join(root,'search.html'),'utf8');
+ const style=readFileSync(join(root,'assets/style.css'),'utf8');
+ const topicNav=hub.match(/<nav class="root-topic-choices" aria-label="신경치료 상황별 안내">([\s\S]*?)<\/nav>/)?.[1]||'';
+ for(const target of ['/health/root-canal-why.html','/health/root-canal-after-pain.html','/root-canal-retreatment-faq.html']){
+  if(!topicNav.includes('href="'+target+'"')) errors.push('신경치료 증상별 바로가기 누락: '+target);
+ }
+ if(!hub.includes('href="/root-canal-retreatment-faq.html"')||
+    !faq.includes('href="/root-canal-health.html"')||
+    !searchPage.includes('href="/root-canal-health.html">신경치료(근관치료) →</a> · <a href="/retreatment.html"')||
+    !style.includes('.article .root-topic-choices a:focus-visible')){
+  errors.push('신경치료 초진·재치료 관련 안내 연결 및 모바일 접근성 누락');
+ }
+ const prep=faq.match(/<section class="retreatment-previsit"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ for(const term of ['처방약은 의료진과 상의하지 않고 임의로 중단하지 마세요','즉시 119',
+   '/medical-history.html','/previsit-checklist.html','/visit-guide.html']){
+  if(!prep.includes(term))errors.push('재신경치료 진료 준비·응급 안내 누락: '+term);
+ }
+ const schemaText=faq.split('<script type="application/ld+json">')[1]?.split('</script>')[0]||'';
+ let ld;try{ld=JSON.parse(schemaText);}catch{errors.push('재신경치료 FAQ 구조화 데이터 오류');}
+ if(ld && (ld['@type']!=='FAQPage'||ld.mainEntity?.length!==6||
+    !ld.mainEntity.every(q=>faq.includes('<h2>'+q.name+'</h2>')&&faq.includes('<p>'+q.acceptedAnswer.text+'</p>')))){
+  errors.push('재신경치료 FAQ 여섯 가지 기존 답변·구조화 데이터 불일치');
+ }
+}
