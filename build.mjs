@@ -672,8 +672,8 @@ const ownerBlogItems=[...ownerStoriesSection.matchAll(/<div class="card owner-st
   url,
   title:label.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").trim()
  }));
-if(ownerBlogItems.length!==35||new Set(ownerBlogItems.map(item=>item.url)).size!==35){
- throw new Error('The clinical archive must mirror exactly 35 original owner blog links');
+if(ownerBlogItems.length!==40||new Set(ownerBlogItems.map(item=>item.url)).size!==40){
+ throw new Error('The clinical archive must mirror exactly 40 original owner blog links');
 }
 const clinicalArchiveGroups=[
  {id:'gum',name:'잇몸치료·스케일링',url:'/gum-health.html',label:'잇몸 건강정보 10편 더 읽기',
