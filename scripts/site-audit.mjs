@@ -1161,6 +1161,48 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
   errors.push('404페이지는 noindex로 유지하고 canonical을 지정하지 않아야 함');
  }
 }
+// Prioritize genuine Incheon and Bupyeong periodontal-care queries in a
+// single treatment landing page, supported by the clinic's REAL Cheongcheon
+// address and ten existing health articles (no duplicate keyword-only pages).
+{
+ const periodontal=readFileSync(join(root,'gum-treatment.html'),'utf8');
+ const hub=readFileSync(join(root,'gum-health.html'),'utf8');
+ const homepage=readFileSync(join(root,'index.html'),'utf8');
+ const title=periodontal.match(/<title>([^<]+)<\/title>/)?.[1]||'';
+ const desc=periodontal.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+ const pageSchemas=[...periodontal.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
+ const medical=pageSchemas.find(x=>x['@type']==='MedicalWebPage');
+ for(const term of ['인천 잇몸치료','부평 잇몸치료']){
+  if(!title.includes(term)||!desc.includes(term))errors.push('지역 잇몸치료 검색어 누락: '+term);
+ }
+ if(!periodontal.includes('id="gum-main-title">인천·부평 잇몸치료,')||
+    !periodontal.includes('인천 잇몸치료·부평 잇몸치료 안내 — 청천동·산곡역 인근')||
+    !periodontal.includes('세월천로 34')){
+  errors.push('인천·부평 잇몸치료의 진료 내용·실제 청천동 주소 일치 실패');
+ }
+ if(!medical||medical.name!==title||medical.description!==desc||
+    !periodontal.includes('property="og:title" content="'+title+'"')||
+    !periodontal.includes('property="og:description" content="'+desc+'"')){
+  errors.push('잇몸치료 검색 설명·공유 정보·의료구조화데이터 불일치');
+ }
+ const hubTitle=hub.match(/<title>([^<]+)<\/title>/)?.[1]||'';
+ const hubDesc=hub.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+ const hubSchemas=[...hub.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
+ const collection=hubSchemas.find(x=>x['@type']==='CollectionPage');
+ if(!collection||collection.name!==hubTitle||collection.description!==hubDesc||
+    collection.mainEntity?.numberOfItems!==10||collection.mainEntity?.itemListElement?.length!==10||
+    !hub.includes('href="/gum-treatment.html"')||
+    !hubDesc.includes('인천 잇몸치료')||!hubDesc.includes('부평 잇몸치료')){
+  errors.push('지역 잇몸 건강정보 10편·진료 연결·메타데이터 일치 실패');
+ }
+ const hero=homepage.match(/<nav class="hero-care-summary"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ const focus=homepage.match(/<section class="section light" id="focus-care">([\s\S]*?)<\/section>/)?.[1]||'';
+ if(!hero.includes('href="/gum-treatment.html">인천·부평 잇몸치료')||
+    !focus.includes('인천 잇몸치료·부평 잇몸치료')||
+    !focus.includes('href="/gum-treatment.html"')){
+  errors.push('홈페이지 핵심 잇몸치료 검색어 및 실제 진료 링크 누락');
+ }
+}
 // Public health information should disclose general-information limits and link to the actual dentist.
 {
  const hubs=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
