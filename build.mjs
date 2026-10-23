@@ -34,6 +34,34 @@ for(let i=0;i<retreatmentImageKeys.length;i++){
 if(appliedIllustrations)fs.writeFileSync(retreatmentPath,retreatmentMarkup);
 console.log('Retreatment illustrations resolved at build time:',appliedIllustrations,'CMS overrides; no runtime swap request');
 cp('tmj-care.html','tmj-care.html');cp('wisdom-tooth.html','wisdom-tooth.html');for(const page of ['implant.html','denture.html','pediatric-orthodontics.html','pediatric-dentistry.html'])cp(page,page);cp('assets','assets');for(const page of ['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'])cp(page,page);cp('health','health');cp('noncovered-fees.html','noncovered-fees.html');
+
+// Patient-first reading accessibility: progressive enhancement for all 46
+// health articles and four topic indexes. No server calls or visitor tracking.
+// Keep ordinary browser zoom intact and leave every article readable without JS.
+{
+ const readingPanel='<div class="reading-controls" role="group" aria-label="본문 글자 크기 조절">'+
+  '<span class="reading-label" aria-hidden="true">글자 크기</span>'+
+  '<button type="button" data-reading-size="normal" aria-pressed="true">기본</button>'+
+  '<button type="button" data-reading-size="large" aria-pressed="false">크게</button>'+
+  '<button type="button" data-reading-size="extra" aria-pressed="false">아주 크게</button></div>';
+ const readingScriptFile=path.join(out,'assets/reading-controls.js');
+ const scriptHash=createHash('sha256').update(fs.readFileSync(readingScriptFile)).digest('hex').slice(0,12);
+ const hubs=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
+ const healthArticles=fs.readdirSync(path.join(out,'health')).filter(name=>name.endsWith('.html')).map(name=>'health/'+name);
+ if(healthArticles.length!==46)throw new Error('Unexpected count of patient health articles for reading accessibility: '+healthArticles.length);
+ for(const relative of [...hubs,...healthArticles]){
+  const filename=path.join(out,relative);
+  let html=fs.readFileSync(filename,'utf8');
+  const main=html.match(/<main\b[^>]*class=["']article["'][^>]*>/i)?.[0];
+  if(!main || html.includes('class="reading-controls"'))throw new Error('Patient reading control target is missing or duplicated: '+relative);
+  html=html.replace(main,main+readingPanel);
+  html=html.replace('</head>','<link rel="stylesheet" href="/assets/reading-controls.css"></head>');
+  html=html.replace('</body>','<script defer src="/assets/reading-controls.js?v='+scriptHash+'"></script></body>');
+  fs.writeFileSync(filename,html);
+ }
+ console.log('Accessible optional reading-size controls added:',hubs.length,'topic hubs and',healthArticles.length,'health guides');
+}
+
 // Generate a public fee list only from explicitly published, complete entries.
 const feeFolder=path.join(root,'content/fees');
 const feeSources=fs.existsSync(feeFolder)?fs.readdirSync(feeFolder).filter(n=>n.endsWith('.json')).map(name=>({name,row:JSON.parse(fs.readFileSync(path.join(feeFolder,name),'utf8'))})):[];
