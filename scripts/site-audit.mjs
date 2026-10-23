@@ -89,6 +89,43 @@ for (const file of javascriptFiles) {
   if (check.error || check.status !== 0) errors.push('JavaScript 문법 오류: ' + file.slice(root.length + 1) + ' ' + (check.stderr || check.error?.message || '').trim().slice(0, 300));
 }
 console.log('JavaScript syntax checked:', javascriptFiles.length);
+ 
+// New reading accessibility: 46 guides + four category pages, progressively
+// enhanced. Keep all text fully available if JavaScript or storage is blocked.
+{
+ const cssFile=join(root,'assets/reading-controls.css');
+ const jsFile=join(root,'assets/reading-controls.js');
+ if(!existsSync(cssFile)||!existsSync(jsFile)){
+  errors.push('환자용 글자 크기 조절 CSS/JS 누락');
+ }else{
+  const css=readFileSync(cssFile,'utf8');
+  const js=readFileSync(jsFile,'utf8');
+  const cssHash=createHash('sha256').update(css).digest('hex').slice(0,12);
+  const jsHash=createHash('sha256').update(js).digest('hex').slice(0,12);
+  const hubs=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
+  const guides=html.filter(file=>file.includes('/health/')).map(file=>file.slice(root.length+1));
+  if(guides.length!==46)errors.push('글자 크기 조절 대상 건강정보 글 수 오류: '+guides.length);
+  if(!css.includes('.reading-controls.is-ready{display:flex}')||
+     !css.includes('.article[data-reading-size="extra"]')||
+     !js.includes("window.localStorage.setItem(storageKey,value)")||
+     !js.includes('panel.classList.add(\'is-ready\')')){
+   errors.push('환자 글자 조절 실행/비활성 상태 안전성 누락');
+  }
+  for(const relative of [...hubs,...guides]){
+   const page=readFileSync(join(root,relative),'utf8');
+   const panels=page.match(/class="reading-controls"/g)||[];
+   if(panels.length!==1 ||
+      !page.includes('role="group" aria-label="본문 글자 크기 조절"') ||
+      !['normal','large','extra'].every(size=>page.includes('data-reading-size="'+size+'"')) ||
+      !page.includes('/assets/reading-controls.css?v='+cssHash+'"') ||
+      !page.includes('/assets/reading-controls.js?v='+jsHash+'"')){
+    errors.push('환자용 글자 확대 버튼 또는 캐시 연결 오류: '+relative);
+   }
+  }
+  console.log('Patient reading accessibility audited:',guides.length,'health guides +',hubs.length,'topic hubs');
+ }
+}
+
 
 // Check local CSS and JavaScript references as build-breaking errors.
 let checkedAssetReferences = 0;
