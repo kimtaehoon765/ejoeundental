@@ -172,6 +172,35 @@ if(!feesHome.includes('href="/noncovered-fees.html"')){
 }
 fs.mkdirSync(path.join(out,'content'),{recursive:true});cp('content/site.json','content/site.json');
 
+// Contact and Naver blog destinations are published directly in HTML so
+// visitors have correct information even with JavaScript disabled. Reject any
+// profile drift at build time instead of fetching site.json on every page view.
+{
+ const config=JSON.parse(fs.readFileSync(path.join(out,'content/site.json'),'utf8'));
+ const page=fs.readFileSync(path.join(out,'index.html'),'utf8');
+ const check=(valid,detail)=>{if(!valid)throw new Error('Homepage static contact mismatch: '+detail);};
+ const address=String(config.address||'').trim();
+ const phone=String(config.phone||'').trim();
+ const telDigits=phone.replace(/\D/g,'');
+ check(address.length>10&&phone.length>8,'verified clinic fields missing');
+ for(const id of ['address','footer_address']){
+  check(page.includes('<p id="'+id+'">'+address+'</p>'),id+' differs from content/site.json');
+ }
+ check(page.includes('<a id="phone" href="tel:'+telDigits+'">'+phone+'</a>'),'main telephone text or link differs');
+ for(let i=1;i<=3;i++){
+  const blog=String(config['blog'+i]||'');
+  let url;
+  try{url=new URL(blog);}catch{throw new Error('Invalid clinic blog URL: blog'+i);}
+  check(url.protocol==='https:'&&!url.username&&!url.password&&
+   (url.hostname==='naver.com'||url.hostname.endsWith('.naver.com')),
+   'blog'+i+' is not a safe Naver URL');
+  check(page.includes('<a id="blog'+i+'" href="'+blog+'"'),
+   'blog'+i+' HTML destination differs from verified clinic profile');
+ }
+ check(!page.includes('src="/assets/site.js'), 'unnecessary runtime settings fetch still loaded');
+ console.log('Verified first-paint clinic contact and three Naver blogs without runtime fetch');
+}
+
 // Downloadable clinic contact card: always derive phone and physical address
 // from the checked-in verified clinic profile, never duplicate stale details.
 // VCF is static, needs no cookies, scripts, external apps or paid services.
