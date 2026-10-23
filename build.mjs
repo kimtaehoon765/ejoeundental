@@ -133,6 +133,35 @@ cp('tmj-care.html','tmj-care.html');cp('wisdom-tooth.html','wisdom-tooth.html');
  console.log('Optional link sharing enabled for',articles.length,'health guides and',topics.length,'patient hubs');
 }
 
+// The first viewport on mobile should show the article title and clinical
+// summary, not a stack of utility controls before the title. Keep both optional
+// toolbars available directly after the introductory paragraph instead.
+{
+ const hubs=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
+ const articles=fs.readdirSync(path.join(out,'health')).filter(x=>x.endsWith('.html')).map(x=>'health/'+x);
+ if(articles.length!==46)throw new Error('Unexpected patient first-screen layout article count: '+articles.length);
+ let moved=0;
+ for(const relative of [...hubs,...articles]){
+  const target=path.join(out,relative);
+  let html=fs.readFileSync(target,'utf8');
+  const panelPattern=/(<main\b[^>]*class=["']article["'][^>]*>)(<div class="article-share-actions"[\s\S]*?<\/div>)(<div class="reading-controls"[\s\S]*?<\/div>)/;
+  const panels=html.match(panelPattern);
+  if(!panels)throw new Error('Expected stacked controls directly after article main: '+relative);
+  html=html.replace(panelPattern,panels[1]);
+  const mainStart=html.indexOf(panels[1]);
+  const headingClose=html.indexOf('</h1>',mainStart);
+  if(headingClose<mainStart||headingClose-mainStart>2400)throw new Error('Patient article heading missing: '+relative);
+  const intro=html.slice(headingClose+5).match(/^\s*<p(?:\s[^>]*)?>[\s\S]*?<\/p>/i);
+  if(!intro || intro[0].length>1800)throw new Error('Patient article opening summary missing: '+relative);
+  const at=headingClose+5+intro[0].length;
+  const controls=panels[3]+panels[2]; // Reading size, then article sharing.
+  html=html.slice(0,at)+controls+html.slice(at);
+  fs.writeFileSync(target,html);
+  moved++;
+ }
+ console.log('Patient-first mobile reading layout: opening summary precedes tools on',moved,'pages');
+}
+
 // Generate a public fee list only from explicitly published, complete entries.
 const feeFolder=path.join(root,'content/fees');
 const feeSources=fs.existsSync(feeFolder)?fs.readdirSync(feeFolder).filter(n=>n.endsWith('.json')).map(name=>({name,row:JSON.parse(fs.readFileSync(path.join(feeFolder,name),'utf8'))})):[];
