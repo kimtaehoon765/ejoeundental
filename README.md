@@ -16,10 +16,13 @@
 - 빌드 스크립트: `build.mjs`
 - 생성 결과: 정적 페이지, 건강정보, 공개 게시글 상세 페이지, 게시글 목록 JSON, 사이트맵
 
-## Cloudflare Pages 무료 이전 (현재 우선 작업)
-Netlify 배포 한도 문제로 **Cloudflare Pages로 이전**하는 것이 현재 계획입니다. [Cloudflare Pages 이전 안내](docs/cloudflare-pages-migration.md)를 기준으로 진행합니다. 기존 Netlify 및 DNS는 새 Pages 배포와 정식 도메인 검증이 끝날 때까지 유지합니다.
+## 정식 도메인 운영 및 남은 www 301 작업 (2026-10-23 검증)
 
-Cloudflare Pages의 Git 연동 설정은 `main` / 프레임워크 `None` / `npm run build` / 출력 폴더 `dist` / `NODE_VERSION=22`입니다. 기존 Pages 프로젝트가 있다면 중복 생성하지 않습니다. **Cloudflare 실제 프로젝트·배포 상태와 DNS 연결은 아직 확인되지 않았습니다.** 특히 `build.mjs`에 과거 `ejoeundental.pages.dev` 주소가 직접 포함되어 있어, 실제 임시 도메인과 정식 도메인에 맞는 SEO 주소 출력은 별도 검증이 필요합니다.
+GitHub Actions가 실제 `https://ejoeundental.com/`을 읽기 전용으로 검사해 **HTTP 200 / Cloudflare 응답 / canonical 일치 / 공개 페이지 및 검색·사이트맵 접속**을 확인했습니다. 최신 `main`의 미리보기·정식 도메인 기준 빌드 및 소스 품질 검사도 통과했습니다. 이 사실은 **실제 도메인이 온라인**이라는 뜻이지, Cloudflare Pages 프로젝트의 Git 연동이나 Netlify의 폐쇄 여부를 직접 확인했다는 뜻은 아닙니다.
+
+**남은 항목:** `https://www.ejoeundental.com/`이 **HTTP 200으로 별도 열리고 301 이동하지 않음**. Cloudflare 영역의 리디렉션 규칙을 통해 `www` → `https://ejoeundental.com`으로 통일할 필요가 있습니다. GitHub의 HTML 또는 `_redirects` 편집만으로는 도메인 수준 규칙을 적용할 수 없습니다. 추가 과금 없이 적용 가능한 대시보드 절차 및 하위 경로·쿼리 검증은 **[www 301 설정 안내](docs/www-301-redirect.md)**를 참고하세요. **아직 Cloudflare 설정은 변경되지 않았습니다.**
+
+Cloudflare Pages 빌드 설정(확인이 필요한 경우): `main`, 프레임워크 `None`, `npm run build`, 출력 폴더 `dist`, `NODE_VERSION=22`. [과거 이전 절차](docs/cloudflare-pages-migration.md)는 신규 프로젝트를 중복으로 만드는 용도가 아닙니다.
 
 ## Netlify 배포 설정 (소스 기준)
 현재 확인된 `netlify.toml` 설정은 다음과 같습니다. 실제 Netlify 프로젝트의 연결·배포 성공 여부는 별도로 확인해야 합니다.
