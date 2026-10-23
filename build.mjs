@@ -556,8 +556,8 @@ console.log('Local care navigation generated:',localCarePages.length,'treatment 
 // Make local treatment-page search snippets specific without misrepresenting the clinic location.
 const localCareMeta={
  'gum-treatment.html':{
-  title:'인천 잇몸치료·스케일링 차이 | 부평구 이조은치과',
-  description:'인천 부평구 청천동·산곡동·산곡역 인근 잇몸치료 안내. 스케일링과 잇몸치료의 차이, 치주낭 검사, 큐렛 치료, 건강보험 적용 기준을 원장이 직접 설명합니다.'
+  title:'인천 잇몸치료·부평 잇몸치료 | 청천동 이조은치과',
+  description:'인천 잇몸치료·부평 잇몸치료 안내. 이조은치과는 인천 부평구 청천동에 있으며 산곡동·산곡역에서도 방문할 수 있습니다. 원장이 치주낭·출혈을 검사하고 스케일링과 큐렛 잇몸치료의 차이, 건강보험 적용 기준을 설명합니다.'
  },
  'retreatment.html':{
   title:'인천 재신경치료·신경치료 후 통증 | 부평구 이조은치과',
