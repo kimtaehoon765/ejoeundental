@@ -1000,6 +1000,23 @@ for (const name of ['gum-treatment.html','retreatment.html','cervical-abrasion.h
 }
 
 
+// The 10 CMS-editable retreatment illustrations should not require a per-visit
+// JSON request, and a CMS replacement should be visible in the initial HTML.
+{
+ const html=readFileSync(join(root,'retreatment.html'),'utf8');
+ const config=JSON.parse(readFileSync(resolve('assets','retreatment-images.json'),'utf8'));
+ const keys=['hero','reason1','reason2','reason3','reason4','step1','step2','step3','step4','closing'];
+ const images=[...html.matchAll(/<img\b[^>]*\bsrc="([^"]+)"[^>]*>/g)];
+ if(images.length!==keys.length)errors.push('재신경치료 일러스트 10개 구조 누락');
+ if(html.includes('retreatment-image-manager.js')||html.includes('retreatment-images.json')){
+  errors.push('재신경치료 이미지의 불필요한 방문 시점 요청이 재추가됨');
+ }
+ keys.forEach((key,i)=>{
+  const override=config[key];
+  const expected=override||('/assets/retreatment/illustration-'+String(i+1).padStart(2,'0')+'.webp');
+  if(images[i]?.[1]!==expected)errors.push('재신경치료 이미지 빌드·CMS 설정 불일치: '+key);
+ });
+}
 // Keep treatment FAQs concise and reachable by touch, keyboard and deep links.
 for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-care']){
  const htmlFile=join(root,slug+'.html'),cssFile=join(root,'assets',slug+'.css');
