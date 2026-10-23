@@ -7,7 +7,7 @@ const css=readFileSync('dist/assets/home-enhancements.css','utf8');
 const artwork=readFileSync('dist/assets/impressionist-water-garden.svg','utf8');
 
 test('the mobile homepage shows original painterly artwork after credentials and before the long clinical description',()=>{
- const hero=home.match(/<section class="hero wrap">([\\s\\S]*?)<\\/section>/)?.[1]||'';
+ const hero=home.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
  const h1=hero.indexOf('id="headline"');
  const degree=hero.indexOf('고려대학교 의학박사');
  const specialist=hero.indexOf('통합치의학과 전문의');
@@ -22,15 +22,15 @@ test('the mobile homepage shows original painterly artwork after credentials and
 });
 
 test('original gallery and responsive accent are local, cached, and accessible',()=>{
- assert.match(home,/home-enhancements\\.css\\?v=20261024-impressionist-oil1/);
- assert.match(css,/@media\\(max-width:600px\\)/);
- assert.match(css,/\\.hero-gallery-window\\{[\\s\\S]*?display:block/);
- assert.match(css,/background-image:url\\("\\/assets\\/impressionist-water-garden\\.svg"\\)/);
- assert.match(artwork,/<title id="t">이조은치과 인상주의 수련 연못 정원<\\/title>/);
+ assert.match(home,/home-enhancements\.css\?v=20261024-impressionist-oil1/);
+ assert.match(css,/@media\(max-width:600px\)/);
+ assert.match(css,/\.hero-gallery-window\{[\s\S]*?display:block/);
+ assert.match(css,/background-image:url\("\/assets\/impressionist-water-garden\.svg"\)/);
+ assert.match(artwork,/<title id="t">이조은치과 인상주의 수련 연못 정원<\/title>/);
  assert.match(artwork,/id="impressionist-pigment"/);
- assert.match(artwork,/이조은치과<\\/text>/);
+ assert.match(artwork,/이조은치과<\/text>/);
  assert.match(artwork,/Original white, fluffy clinic cat/);
- const pigmentCount=(artwork.match(/stroke-linecap="round"\\/>/g)||[]).length;
+ const pigmentCount=(artwork.match(/stroke-linecap="round"\/>/g)||[]).length;
  assert.ok(pigmentCount>=1200,'Should have layered artistically varied brushwork');
  assert.ok(artwork.length<280000,'Keep original SVG art small enough for a mobile-first website');
  assert.ok(!/<image[^>]+(?:https?:|data:)/.test(artwork),'Avoid external and embedded raster image requests');
