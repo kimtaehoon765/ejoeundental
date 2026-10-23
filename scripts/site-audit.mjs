@@ -141,6 +141,17 @@ else {
       errors.push('사이트맵 대상 파일 누락: ' + p);
     }
   }
+  // A lastmod date is only useful when it reflects significant page changes.
+  const entryRows=[...xml.matchAll(/<url>\s*<loc>([^<]+)<\/loc>(?:<lastmod>([^<]+)<\/lastmod>)?\s*<\/url>/g)];
+  const futureLimit=new Date(Date.now()+24*60*60*1000).toISOString().slice(0,10);
+  for(const row of entryRows){
+    const lastmod=row[2];
+    if(!lastmod)continue;
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(lastmod)||Number.isNaN(Date.parse(lastmod))||lastmod>futureLimit){
+      errors.push('사이트맵 lastmod 날짜 유효성 오류: '+row[1]);
+    }
+  }
+  console.log('Sitemap lastmod values checked:',entryRows.filter(row=>row[2]).length);
   console.log('Sitemap URLs checked:', sitemapUrls.length);
 }
 // Guard mobile rendering and private admin indexability on every deployment.
@@ -261,6 +272,7 @@ for (const treatment of ['gum-treatment.html', 'retreatment.html', 'cervical-abr
   if (!page.includes('href="/visit-guide.html"')) errors.push(treatment + ': 산곡역 방면 상세 방문안내 연결 누락');
   if (!page.includes('class="treatment-area-note"')) errors.push(treatment + ': 주변 지역 진료·방문 안내 누락');
   if (!page.includes('청천동 세월천로 34')) errors.push(treatment + ': 실제 청천동 주소 안내 누락');
+  if (!page.includes('href="/#doctor"')) errors.push(treatment + ': 의료진 소개 링크 누락');
 }
 // The insured care page is also one of the main entrances for regional searches.
 {
@@ -268,10 +280,16 @@ for (const treatment of ['gum-treatment.html', 'retreatment.html', 'cervical-abr
  if(!existsSync(insured))errors.push('건강보험 진료 페이지 누락');
  else {
   const text=readFileSync(insured,'utf8');
-  for(const expected of ['href="/visit-guide.html"','건강보험 적용','청천동 세월천로 34']){
+  for(const expected of ['href="/visit-guide.html"','href="/#doctor"','건강보험 적용','청천동 세월천로 34']){
    if(!text.includes(expected))errors.push('건강보험 방문·지역 정보 누락: '+expected);
   }
  }
+}
+// Patients should be able to check the real clinic director behind major educational advice.
+for(const pageName of ['health/gum-bleeding.html','health/root-canal-after-pain.html','health/tooth-preservation.html']){
+ const pageFile=join(root,pageName);
+ if(!existsSync(pageFile)){errors.push('임상 건강정보 페이지 누락: '+pageName);continue;}
+ if(!readFileSync(pageFile,'utf8').includes('href="/#doctor"'))errors.push('건강정보 의료진 소개 링크 누락: '+pageName);
 }
 // Catch duplicate IDs that make in-page navigation ambiguous.
 for (const file of html) {
