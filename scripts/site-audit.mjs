@@ -404,6 +404,17 @@ else {
   // The build fingerprints script query strings, so check function and asset presence instead of a source-only version string.
   const searchCss=join(root,'assets/search-page.css');
   if(!existsSync(searchCss)||!readFileSync(searchCss,'utf8').includes('.search-show-more{'))errors.push('검색 결과 더 보기 버튼 스타일 누락');
+  // Mixed patient search results must remain accessible by type without hiding
+  // lower-ranked documents or losing the 20-at-a-time pagination.
+  for(const fragment of ['const searchCategory=p=>','const showResults=type=>','className=\'search-category-filters\'',
+    'aria-pressed','results.append(filterBar)','listArea.replaceChildren()']){
+   if(!script.includes(fragment))errors.push('검색 결과 유형별 필터 기능 누락: '+fragment);
+  }
+  if(!page.includes('/assets/search-page.css?v=20261023-search-category-filters'))
+   errors.push('검색 유형별 필터 CSS 새 버전 연결 누락');
+  if(!existsSync(searchCss)||!readFileSync(searchCss,'utf8').includes('.search-category-filter[aria-pressed="true"]'))
+   errors.push('검색 결과 선택된 유형 표시 스타일 누락');
+
 
   // Search relevance boosts must not masquerade as matches to every typed word.
   if (/matched\s*=\s*terms\.length/.test(script)) errors.push('검색 결과 관련도 계산에서 검색어 일치 수를 강제로 변경함');
