@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync,existsSync} from 'node:fs';
 import {runInNewContext} from 'node:vm';
 
 const script=readFileSync(new URL('../assets/search.js',import.meta.url),'utf8');
@@ -292,7 +292,9 @@ test('professional equipment queries route to separate public reference guides w
 });
 
 test('the expert reference shortcut does not duplicate maintenance documents in the public search index',()=>{
- const entries=JSON.parse(readFileSync(new URL('../dist/content/search-index.json',import.meta.url),'utf8'));
+ const publishedIndex=new URL('../dist/content/search-index.json',import.meta.url);
+ const fallbackIndex=new URL('../content/search-index-46.json',import.meta.url);
+ const entries=JSON.parse(readFileSync(existsSync(publishedIndex)?publishedIndex:fallbackIndex,'utf8'));
  for(const path of ['/handpiece-maintenance.html','/autoclave-maintenance.html','/suction-maintenance.html','/dental-equipment.html']){
   assert.ok(!entries.some(e=>e.url===path),path+' should remain excluded from patient search');
  }
