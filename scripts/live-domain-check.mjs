@@ -127,6 +127,14 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push(ok ? 'www 경로·쿼리 유지 301 정상' : 'www 하위 페이지 301 또는 쿼리 유지 미설정 (Cloudflare 규칙 필요)');
       if (location) info.push('이동 위치: ' + location);
     } else if (label === '정식 도메인 첫 화면') {
+      // Identify HTTP/3 advertisement for real-device intermittent QUIC errors.
+      // This request may use HTTP/1.1/2 and CANNOT validate QUIC itself.
+      // Cloudflare zone HTTP/3 is changed only in the provider dashboard.
+      const altSvc=String(response.headers.get('alt-svc')||'');
+      const advertisesHttp3=/(?:^|[,\\s])h3(?:-[0-9]+)?\\s*=/.test(altSvc);
+      info.push('HTTP/3(QUIC) 사용 안내 헤더: '+(advertisesHttp3
+        ?'h3 광고 확인 — 모바일 ERR_QUIC_PROTOCOL_ERROR가 반복되면 Cloudflare Speed > Settings > Protocol Optimization에서 HTTP/3 임시 해제 후 비교'
+        :altSvc?'Alt-Svc 다른 프로토콜 광고 / HTTP/3 헤더 미검출':'h3 광고 헤더 미검출 — 다른 연결·DNS 레코드 또는 브라우저 캐시 확인 필요'));
       // Read the response already fetched, without extra network requests.
       // Missing headers are deployment signals, never claims of compromise.
       const securityKeys=['x-frame-options','x-content-type-options',
