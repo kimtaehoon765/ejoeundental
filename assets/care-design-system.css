@@ -44,3 +44,40 @@
  .treatment-quick-links{scroll-padding-inline:14px;-webkit-overflow-scrolling:touch}
  .treatment-scroll-hint{display:block;margin:0;padding:6px 14px 8px;background:#f7f4ec;border-bottom:1px solid #dbe4d9;color:#355e4f;text-align:center;font-size:12px;line-height:1.5;word-break:keep-all}
 }
+
+
+/* Short, semantic topic navigation for long clinical pages. No JavaScript needed. */
+.treatment-page-toc{
+ box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;gap:9px;
+ max-width:1080px;margin:18px auto 24px;padding:14px 18px;
+ border:1px solid #cbded0;border-radius:14px;background:#f3f8f4;
+ color:#173e35;overflow-wrap:anywhere
+}
+.treatment-page-toc strong{flex:0 0 100%;font-size:16px;line-height:1.5}
+.treatment-page-toc a{
+ box-sizing:border-box;display:inline-flex;justify-content:center;align-items:center;
+ min-height:46px;padding:10px 13px;border:1px solid #adcdbb;border-radius:9px;
+ background:#fff;color:#164b3c;font-size:15px;font-weight:700;line-height:1.5;
+ text-align:center;text-decoration:none;word-break:keep-all
+}
+.treatment-page-toc a:hover,.treatment-back-top a:hover{background:#e1ede5;text-decoration:underline}
+.treatment-page-toc a:focus-visible,.treatment-back-top a:focus-visible{outline:3px solid #a47837;outline-offset:3px}
+.treatment-back-top{box-sizing:border-box;max-width:1080px;margin:22px auto;padding:12px 20px;text-align:right}
+.treatment-back-top a{
+ display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;
+ min-height:48px;padding:9px 16px;border:1px solid #b8d1bf;border-radius:9px;
+ background:#f3f8f4;color:#173e35;font-size:15px;font-weight:700;text-decoration:none
+}
+main [id="gum-scaling-difference"],main [id="gum-aftercare"],
+main [id="retreatment-procedure"],main [id="retreatment-outcomes-heading"],
+main [id="cervical-care-decisions"],main [id="cervical-gi-restoration"],
+main [id="insured-coverage-criteria"],main [id="insurance-first-visit"],
+main [id="patient-questions"]{scroll-margin-top:24px}
+@media(max-width:600px){
+ .treatment-page-toc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:14px 14px 22px;padding:13px}
+ .treatment-page-toc strong{grid-column:1/-1;font-size:15px}
+ .treatment-page-toc a{min-width:0;min-height:50px;padding:9px 7px;font-size:14px}
+ .treatment-back-top{margin:14px 14px 26px;padding:6px 0}
+ .treatment-back-top a{min-height:50px}
+}
+@media(max-width:340px){.treatment-page-toc{grid-template-columns:1fr}}
