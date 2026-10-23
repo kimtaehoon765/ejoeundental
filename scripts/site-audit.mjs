@@ -89,6 +89,46 @@ for (const file of javascriptFiles) {
   if (check.error || check.status !== 0) errors.push('JavaScript 문법 오류: ' + file.slice(root.length + 1) + ' ' + (check.stderr || check.error?.message || '').trim().slice(0, 300));
 }
 console.log('JavaScript syntax checked:', javascriptFiles.length);
+
+// Optional address-copy buttons use existing address text; do not introduce
+// a second, potentially stale location, fake booking, or a clipboard permission
+// request on initial page load.
+{
+ const jsFile=join(root,'assets/address-copy.js');
+ const cssFile=join(root,'assets/address-copy.css');
+ if(!existsSync(jsFile)||!existsSync(cssFile)){
+  errors.push('환자용 주소 복사 기능 파일 누락');
+ }else{
+  const script=readFileSync(jsFile,'utf8');
+  const css=readFileSync(cssFile,'utf8');
+  const hash=createHash('sha256').update(css).digest('hex').slice(0,12);
+  const pages=[
+   ['index.html','address','copy-address-status-home'],
+   ['visit-guide.html','visit-clinic-address','copy-address-status-visit']
+  ];
+  for(const [name,addressId,statusId] of pages){
+   const markup=readFileSync(join(root,name),'utf8');
+   if((markup.match(/class="clinic-copy-row"/g)||[]).length!==1||
+      !markup.includes('id="'+addressId+'"')||
+      !markup.includes('data-copy-source="'+addressId+'"')||
+      !markup.includes('aria-describedby="'+statusId+'"')||
+      !markup.includes('id="'+statusId+'" role="status" aria-live="polite"')||
+      !markup.includes('class="clinic-copy-row" hidden')||
+      !markup.includes('/assets/address-copy.css?v='+hash+'"')||
+      !markup.includes('src="/assets/address-copy.js" defer')){
+    errors.push('주소 복사 접근성·실제 주소 연결·반응형 캐시 누락: '+name);
+   }
+  }
+  if(!script.includes('navigator.clipboard.writeText(address)')||
+     !script.includes('source.textContent')||
+     !css.includes('min-height:44px')||
+     !css.includes('.clinic-copy-row[hidden]{display:none!important}')){
+   errors.push('주소 복사 버튼 사용자 선택·안전한 실패 안내 기능 누락');
+  }
+  console.log('Clinic address copy accessibility audited: homepage and visit guide');
+ }
+}
+
  
 // New reading accessibility: 46 guides + four category pages, progressively
 // enhanced. Keep all text fully available if JavaScript or storage is blocked.
