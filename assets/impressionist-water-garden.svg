@@ -6,7 +6,7 @@
  <linearGradient id="pond" x2=".2" y2="1"><stop stop-color="#a7c4be"/><stop offset=".42" stop-color="#9aadb1"/><stop offset=".75" stop-color="#b3b7b3"/><stop offset="1" stop-color="#637f77"/></linearGradient>
  <radialGradient id="sun"><stop stop-color="#fff7da" stop-opacity=".88"/><stop offset=".5" stop-color="#f8e4c4" stop-opacity=".35"/><stop offset="1" stop-color="#fff7da" stop-opacity="0"/></radialGradient>
  <filter id="soft"><feGaussianBlur stdDeviation="11"/></filter>
- <filter id="paper"><feTurbulence type="fractalNoise" baseFrequency=".012 .03" numOctaves="2" seed="8" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".08"/></feComponentTransfer></filter>
+ 
 </defs>
 <rect width="1400" height="720" fill="url(#sky)"/>
 <ellipse cx="1030" cy="95" rx="340" ry="260" fill="url(#sun)"/>
@@ -1895,7 +1895,7 @@
  <path d="M63 102l-34-8 M65 111l-32 4 M153 102l34-8 M153 111l32 4" stroke="#e7e3df" stroke-width="3" stroke-linecap="round"/>
  <ellipse cx="87" cy="182" rx="22" ry="16" fill="#fffdfa"/><ellipse cx="141" cy="182" rx="22" ry="16" fill="#fffdfa"/>
 </g>
-<rect width="1400" height="720" fill="#fff1e4" opacity=".08" filter="url(#paper)"/>
+<rect width="1400" height="720" fill="#fff1e4" opacity=".025" pointer-events="none"/>
 <g font-family="Georgia,'Noto Serif KR',serif" font-size="27" fill="#284c42" letter-spacing="2">
  <rect x="34" y="25" width="186" height="52" rx="6" fill="#fcf5e8" opacity=".75"/>
  <text x="49" y="60">이조은치과</text>
