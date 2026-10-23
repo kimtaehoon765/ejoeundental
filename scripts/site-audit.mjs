@@ -1324,3 +1324,28 @@ for (const e of errors) console.error('ERROR', e);
 for (const w of [...new Set(warnings)].slice(0, 100)) console.warn('WARN', w);
 if (warnings.length > 100) console.warn('추가 경고:', warnings.length - 100);
 if (errors.length) process.exitCode = 1;
+
+// Periodontal patient symptom guide: keep medically cautious content accessible,
+// linkable from the treatment hero, and discoverable in static HTML without JS.
+{
+ const faq=readFileSync(join(root,'gum-treatment-faq.html'),'utf8');
+ const treatment=readFileSync(join(root,'gum-treatment.html'),'utf8');
+ const css=readFileSync(join(root,'assets/gum-treatment.css'),'utf8');
+ const requiredPaths=['/health/gum-bleeding.html','/health/gum-pus.html','/health/loose-tooth.html','/medical-history.html','/visit-guide.html'];
+ if(!faq.includes('id="gum-symptom-guide"') ||
+    !faq.includes('aria-labelledby="gum-symptom-heading"') ||
+    !requiredPaths.every(url=>faq.includes('href="'+url+'"')) ||
+    !faq.includes('처방약은 임의로 중단하지 마세요') ||
+    !faq.includes('즉시 119') ||
+    !treatment.includes('href="/gum-treatment-faq.html#gum-symptom-guide"') ||
+    !css.includes('.gum-hero-related a:focus-visible')){
+   errors.push('잇몸치료 FAQ 증상별 안내·응급 경고·방문 전 확인·접근성 연결 누락');
+ }
+ const h1=faq.match(/<h1[^>]*>([^<]+)<\/h1>/)?.[1];
+ const title=faq.match(/<title>([^<]+)<\/title>/)?.[1]||'';
+ const description=faq.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+ if(!h1?.includes('잇몸치료') || !title.includes('부평 잇몸치료') ||
+   !description.includes('인천 잇몸치료') || !description.includes('부평 잇몸치료')){
+   errors.push('잇몸치료 FAQ 지역·치료 주제 정보 누락');
+ }
+}

@@ -53,3 +53,8 @@ nav[aria-label="이조은치과 주요 진료 안내"] a:focus-visible{outline:3
 #patient-questions details[open]{background:#f1f8f2}
 #patient-questions details p{padding:0 8px 12px;word-break:keep-all}
 @media(max-width:600px){#patient-questions summary{min-height:52px;font-size:16px}}
+
+/* A concise, keyboard-accessible symptom guide link immediately below the periodontal hero. */
+.gum-hero .gum-hero-related{margin:4px 0 18px;font-size:16px;line-height:1.7}
+.gum-hero-related a{display:inline-flex;align-items:center;min-height:44px;color:#17634e;font-weight:700;text-underline-offset:4px;word-break:keep-all}
+.gum-hero-related a:focus-visible{outline:3px solid #17634e;outline-offset:3px;border-radius:4px}
