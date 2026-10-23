@@ -1484,3 +1484,45 @@ if (errors.length) process.exitCode = 1;
   errors.push('재신경치료 FAQ 여섯 가지 기존 답변·구조화 데이터 불일치');
  }
 }
+
+// Local endodontic search relevance: an unspecific request for 신경치료 should
+// lead to the introductory 10-guide hub, not an arbitrary "after-care" chapter.
+// Pain or repeat-treatment intent must still lead to its clinically relevant
+// guide. These checks execute the actual shipping scorer against the built index.
+{
+ const script=readFileSync(join(root,'assets/search.js'),'utf8');
+ const document=readFileSync(join(root,'search.html'),'utf8');
+ const from=script.indexOf('const aliases=');
+ const to=script.indexOf('const resultSummary=',from);
+ if(from<0||to<=from){ errors.push('홈페이지 신경치료 통합 검색 테스트 실행 위치 누락'); }
+ else {
+  try{
+   const run=new Function('q','pages',script.slice(from,to)+
+      'return {top:scored[0]?.url,primaryRootCanalIntent,retreatmentIntent,clinicalQuery};');
+   const index=JSON.parse(readFileSync(join(root,'content/search-index.json'),'utf8'));
+   for(const [query,expectedTop] of [
+     ['신경치료','/root-canal-health.html'],
+     ['근관치료','/root-canal-health.html'],
+     ['인천 신경치료','/root-canal-health.html'],
+     ['부평 신경치료','/root-canal-health.html'],
+     ['청천동 신경치료','/root-canal-health.html'],
+     ['산곡역 근처 치과 신경치료','/root-canal-health.html'],
+     ['인천 신경치료 잘하는 곳','/root-canal-health.html'],
+     ['인천 근관치료','/root-canal-health.html'],
+     ['부평 재신경치료','/retreatment.html'],
+     ['인천 재신경치료 잘하는 곳','/retreatment.html'],
+     ['부평 신경치료 후 통증','/health/root-canal-after-pain.html'],
+     ['산곡역 근처 치과 재신경치료','/retreatment.html']
+   ]){
+    const actual=run(query,index);
+    if(actual.top!==expectedTop){
+      errors.push('신경치료 지역·증상 검색의 정확한 안내 페이지 선택 실패: '+query+' -> '+actual.top+' (expected '+expectedTop+')');
+    }
+   }
+  }catch(error){ errors.push('신경치료 검색 관련도 실행 오류: '+error.message); }
+ }
+ if(!document.includes('인천 신경치료</a>') || !document.includes('부평 신경치료</a>')||
+    !document.includes('href="/root-canal-health.html">신경치료')){
+   errors.push('홈페이지 검색의 인천·부평 신경치료 및 무자바스크립트 이동 링크 누락');
+ }
+}
