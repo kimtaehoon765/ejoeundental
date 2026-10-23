@@ -40,7 +40,7 @@ Netlify 연결 및 도메인 이전 절차는 [Netlify 점검 안내](docs/netli
 ## 정식 도메인·미리보기 주소 구분
 정식 홈페이지 `https://ejoeundental.com`은 **이미 HTTPS로 서비스 중**이며, `build.mjs`의 기본 `SITE_PUBLIC_ORIGIN`도 정식 주소입니다. 별도 미리보기 빌드에서는 `SITE_PUBLIC_ORIGIN=https://ejoeundental.pages.dev`를 사용하며, 두 빌드의 SEO 메타데이터와 사이트맵은 각각 검사합니다.
 
-도메인 관련 남은 작업은 **www → 비-www 301 통일**입니다. 이는 GitHub의 HTML이나 Pages `_redirects`로는 적용할 수 없고 Cloudflare 영역의 Redirect Rule에서 설정해야 합니다. [2026-10-23 도메인 실측과 운영 점검표](DOMAIN-MIGRATION-CHECKLIST.md) 및 [무료 www 301 안내](docs/www-301-redirect.md)를 참고하세요. 변경 전 원본 Netlify 연결 상태를 확인하고 기존 DNS나 호스팅을 삭제하지 않습니다.
+도메인 관련 남은 작업은 **www → 비-www 301 통일**입니다. 이는 GitHub의 HTML이나 Pages `_redirects`로는 적용할 수 없고 Cloudflare 영역의 Redirect Rule에서 설정해야 합니다. [2026-10-23 도메인 실측과 운영 점검표](DOMAIN-MIGRATION-CHECKLIST.md) 및 [무료 www 301 안내](docs/www-301-redirect.md)와 [정식 도메인 네이버·구글 색인 점검표](docs/search-indexing-checklist.md)를 참고하세요. 변경 전 원본 Netlify 연결 상태를 확인하고 기존 DNS나 호스팅을 삭제하지 않습니다.
 
 ## 참고
 - `/admin/`은 외부 Pages CMS 안내 페이지이며 자체 로그인 시스템이 아닙니다.

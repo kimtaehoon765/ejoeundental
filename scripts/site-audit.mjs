@@ -25,6 +25,25 @@ const html = files.filter(f => f.endsWith('.html'));
 const errors = [];
 const warnings = [];
 const paths = new Set(files.map(f => '/' + f.slice(root.length + 1).replaceAll('\\', '/')));
+// Keep the clinic visit page actionable on a phone and the long root-canal
+// guide skimmable. These are functional HTML checks, not SEO ranking claims.
+{
+ const visit=readFileSync(join(root,'visit-guide.html'),'utf8');
+ const actions=visit.match(/<nav class="visit-quick-actions"[^>]*>([\\s\\S]*?)<\\/nav>/)?.[1]||'';
+ if(!actions.includes('href="tel:0325132875"')||
+    !actions.includes('href="https://map.naver.com/p/search/')||
+    !actions.includes('rel="noopener noreferrer"')||
+    !visit.includes('.visit-quick-actions a{display:flex;')){
+   errors.push('방문 안내 모바일 전화·네이버 지도 빠른 버튼 누락');
+ }
+ const rootHub=readFileSync(join(root,'root-canal-health.html'),'utf8');
+ if(!rootHub.includes('href="#root-canal-articles"')||
+    !rootHub.includes('<section id="root-canal-articles"><h2>')||
+    rootHub.includes('aria-label="증상별 읽기 안내"')||
+    rootHub.includes('aria-label="신경치료 증상별 바로가기"')){
+   errors.push('신경치료 글모음 10문답 바로가기·중복 안내 정리 오류');
+ }
+}
 // CI must parse deployed JavaScript, not merely check that script files exist.
 const javascriptFiles = files.filter(f => f.endsWith('.js') || f.endsWith('.mjs'));
 for (const file of javascriptFiles) {
