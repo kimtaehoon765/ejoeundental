@@ -52,6 +52,41 @@ for(const {name,row} of feeSources){
 }
 fs.mkdirSync(path.join(out,'content'),{recursive:true});
 feeEntries.sort((a,b)=>a.category.localeCompare(b.category,'ko')||a.item.localeCompare(b.item,'ko'));fs.writeFileSync(path.join(out,'content/fees-index.json'),JSON.stringify({items:feeEntries,updated:''},null,2));
+// Publish clinic-confirmed fees in the initial HTML so visitors, screen readers,
+// and search engines do not depend on a late JavaScript fetch to see prices.
+{
+ const feePage=path.join(out,'noncovered-fees.html');
+ let feeHtml=fs.readFileSync(feePage,'utf8');
+ const feeMarker='<!-- BUILD_FEE_TABLES -->';
+ if(feeHtml.split(feeMarker).length!==2)throw new Error('Fee page HTML placeholder missing');
+ if(feeHtml.includes('src="/assets/fees.js"'))throw new Error('Runtime fee fetch must not overwrite static disclosure');
+ const escapeFee=str=>String(str??'').replace(/[&<>"']/g,char=>({
+  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+ }[char]));
+ const groups=new Map();
+ for(const row of feeEntries){
+  if(!groups.has(row.category))groups.set(row.category,[]);
+  groups.get(row.category).push(row);
+ }
+ const feeTables=[...groups.entries()].map(([category,rows])=>{
+  const id=category==='제증명수수료'?' id="fees-certificates"':'';
+  const cells=rows.map(row=>'<tr><th scope="row">'+escapeFee(row.item)+'</th><td>'+
+    escapeFee(row.detail||'—')+'</td><td class="price">'+escapeFee(row.price)+'</td></tr>'+
+    (row.note?'<tr><td colspan="3" class="fees-row-note">※ '+escapeFee(row.note)+'</td></tr>':'')).join('');
+  return '<section class="fees-category" aria-label="'+escapeFee(category)+' 비용 안내">'+
+   '<h2'+id+'>'+escapeFee(category)+'</h2>'+
+   '<table class="fees-table"><caption class="sr-only">'+escapeFee(category)+' 비용 안내</caption>'+
+   '<thead><tr><th scope="col">항목</th><th scope="col">내용</th><th scope="col">비용</th></tr></thead>'+
+   '<tbody>'+cells+'</tbody></table></section>';
+ }).join('');
+ if(!feeTables.includes('id="fees-certificates"'))throw new Error('No published certificate fees in output');
+ feeHtml=feeHtml.replace(feeMarker,feeTables);
+ feeHtml=feeHtml.replace('공개된 비급여 비용을 안내합니다.','공개된 비급여 비용 및 제증명수수료 '+feeEntries.length+'개 항목을 안내합니다.');
+ if(feeHtml.includes(feeMarker))throw new Error('Unrendered fee table placeholder');
+ fs.writeFileSync(feePage,feeHtml);
+ console.log('Static price disclosure rendered:',feeEntries.length,'fee items in',groups.size,'categories');
+}
+
 // Link to the public fee disclosure from the homepage without disturbing the design.
 const feesHomePath=path.join(out,'index.html');
 let feesHome=fs.readFileSync(feesHomePath,'utf8');
