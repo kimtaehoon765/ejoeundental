@@ -57,3 +57,5 @@ jobs:
           node-version: '22'
       - name: Build and validate production origin
         run: npm run build:production:check
+      - name: Exercise patient site search queries and document indexing
+        run: node --test scripts/test-search-results.mjs scripts/test-search-content.mjs
