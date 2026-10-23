@@ -465,7 +465,11 @@ if (existsSync(homepageFile)) {
   if (!homepage.includes('name="viewport"') || !homepage.includes('width=device-width')) errors.push('홈페이지 모바일 viewport 누락');
   if (!homepage.includes('class="skip-link" href="#main-content"')) errors.push('홈페이지 본문 건너뛰기 링크 누락');
   if (!homepage.includes('<main id="main-content">')) errors.push('홈페이지 main-content 누락');
-  if (!homepage.includes('src="/assets/site.js') || !homepage.includes('defer></script>')) errors.push('홈페이지 스크립트 defer 누락');
+  // Patient contact, clinic hours and verified blog links are already present
+  // in the built HTML; loading site.js would repeat a network request.
+  if (homepage.includes('src="/assets/site.js')) errors.push('홈페이지 불필요한 사이트 설정 요청 스크립트 남음');
+  if (!homepage.includes('src="/assets/address-copy.js" defer></script>'))
+    errors.push('홈페이지 주소 복사 기능 defer 스크립트 누락');
 }
 // Keep patient medication warnings and published guide routes intact on the homepage.
 if (existsSync(homepageFile)) {
