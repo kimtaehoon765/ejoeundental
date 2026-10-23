@@ -505,6 +505,32 @@ else {
    if(!page.includes(area))errors.push('주변 지역 진료 검색 예시 누락: '+area);
   }
 
+  // Exercise the actual locality and filler regexps from the shipped search script.
+  // A neighborhood + "근처 치과" should resolve to a clinical subject rather than zero results.
+  const localityRaw=script.match(/const localityPattern=(\/[^;\n]+\/);const locationPrefix=/)?.[1];
+  const fillerRaw=script.match(/const clinicalQuery=locationPrefix\.replace\((\/[^;\n]+\/), ''\)/)?.[1];
+  const literalRegexp=raw=>{
+    const parts=raw?.match(/^\/(.*)\/([gimsuy]*)$/);
+    if(!parts)throw new Error('검색 필터 정규표현식 인식 실패');
+    return new RegExp(parts[1],parts[2]);
+  };
+  try{
+    const locality=literalRegexp(localityRaw),filler=literalRegexp(fillerRaw);
+    for(const [query,expected] of [
+      ['산곡역 근처 치과 잇몸치료','잇몸치료'],
+      ['인천 부평구 치과 재신경치료','재신경치료'],
+      ['갈산동 주변 GI 보험','gi보험'],
+      ['청천동 잇몸에서 피가 나요','잇몸에서피가나요'],
+      ['부평구청역 잘하는곳 치경부마모증','치경부마모증'],
+      ['세월천사거리 근처 치과 스케일링','스케일링']
+    ]){
+      const normalized=query.toLocaleLowerCase('ko').replace(/\s+/g,'');
+      const clinical=normalized.replace(locality,'').replace(filler,'');
+      if(clinical!==expected)errors.push('인근 지역 진료 검색에서 핵심 치료명이 사라짐: '+query+' => '+clinical);
+    }
+    if(!script.includes('pattern.test(clinicalQuery)'))errors.push('인근 지역 증상 검색의 관련 글 우선 표시 누락');
+  }catch(e){errors.push('인근 지역 검색어 자동 테스트 오류: '+e.message);}
+
   // Search relevance boosts must not masquerade as matches to every typed word.
   if (/matched\s*=\s*terms\.length/.test(script)) errors.push('검색 결과 관련도 계산에서 검색어 일치 수를 강제로 변경함');
   for (const target of ['/medical-history.html', '/dental-equipment.html', '/content/search-index.json']) {
