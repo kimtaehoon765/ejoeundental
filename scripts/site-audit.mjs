@@ -1079,6 +1079,38 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
   if(!meta||meta!==og||collection?.description!==meta)errors.push(name+': 건강정보 검색 설명·공유 미리보기·구조화 데이터 불일치');
  }
 }
+// The three evergreen symptom guides must remain visible without scripts;
+// CMS journal cards are generated in HTML, never swapped in after paint.
+{
+ const homepage=readFileSync(join(root,'index.html'),'utf8');
+ const guides=homepage.match(/<div class="grid" id="post-list"[^>]*>([\s\S]*?)<\/div>/)?.[1]||'';
+ const guidePaths=['/health/gum-bleeding.html','/health/root-canal-after-pain.html','/health/abrasion-sensitive.html'];
+ if((guides.match(/<article class="card"/g)||[]).length!==3||
+    guidePaths.some(path=>!guides.includes('href="'+path+'"'))){
+  errors.push('홈페이지 주요 증상 3편이 초기 HTML에서 누락됨');
+ }
+ const postList=JSON.parse(readFileSync(join(root,'content','posts-index.json'),'utf8'));
+ const cardContent=homepage.match(/<div id="published-story-items" class="grid"[^>]*>([\s\S]*?)<\/div>/)?.[1]||'';
+ const homeCards=[...cardContent.matchAll(/<a class="card post-card" href="([^"]+)"/g)].map(m=>m[1]);
+ const expected=postList.slice(0,6).map(post=>'/stories/'+encodeURIComponent(post.slug)+'/');
+ if(homeCards.length!==expected.length||expected.some((url,i)=>homeCards[i]!==url)){
+  errors.push('원장의 홈페이지 글 서버 렌더링 개수·순서 불일치');
+ }
+ if(homepage.includes('BUILD_PUBLIC_STORIES')||
+    !homepage.includes('class="clinic-native-stories"')){
+  errors.push('원장의 홈페이지 글 접기/펼치기 영역 생성 실패');
+ }
+ const browserScript=readFileSync(join(root,'assets','site.js'),'utf8');
+ if(browserScript.includes('posts-index.json')||browserScript.includes('post-list')||
+    browserScript.includes('replaceChildren(fragment)')){
+  errors.push('홈페이지 초기 건강정보 링크가 JavaScript로 교체됨');
+ }
+ const journalCss=readFileSync(join(root,'assets','home-enhancements.css'),'utf8');
+ if(!journalCss.includes('#stories .clinic-native-stories>summary:focus-visible')||
+    !journalCss.includes('.clinic-native-stories .post-card')){
+  errors.push('홈페이지 치과 이야기 모바일·키보드 스타일 누락');
+ }
+}
 // Clinic landing snippets should agree across standard search and link-preview metadata.
 {
  const homepage=readFileSync(join(root,'index.html'),'utf8');
