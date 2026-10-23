@@ -36,6 +36,7 @@ const urls = [
   { label: '검색엔진 robots', url: origin + '/robots.txt' },
   { label: '검색엔진 sitemap', url: origin + '/sitemap.xml' },
   { label: '잇몸치료 상세 페이지', url: origin + '/gum-treatment.html' },
+  { label: '재신경치료 이미지 초기 표시', url: origin + '/retreatment.html' },
   { label: 'care route implant', url: origin + '/implant.html' },
   { label: 'care route tmj', url: origin + '/tmj-care.html' },
   { label: 'care route wisdom', url: origin + '/wisdom-tooth.html' },
@@ -283,6 +284,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       const canonicalAligned=canonical===response.url;
       const schemaAligned=body.includes('"item":"'+response.url+'"');
       info.push(canonicalAligned&&schemaAligned?'진료 canonical·실제 최종주소·경로 구조화 데이터 일치':'진료 canonical·구조화 데이터 확인 필요 ('+canonical+')');
+    } else if (label === '재신경치료 이미지 초기 표시') {
+      const allImages=[...body.matchAll(/<img\b[^>]*\bsrc="(\/assets\/(?:retreatment|cms-images)\/[^"]+)"[^>]*>/g)];
+      const direct=allImages.length===10 && !body.includes('src="/assets/retreatment-image-manager.js"');
+      const hasDimensions=allImages.length===10 && allImages.every(x=>/\bwidth="\d+"/.test(x[0])&&/\bheight="\d+"/.test(x[0]));
+      info.push(direct?'이미지 10개 첫 HTML 반영·추가 JSON 요청 제거':'실시간 그림 교체 스크립트 또는 개수 확인 필요');
+      info.push(hasDimensions?'이미지 원본 크기 지정 확인':'이미지 크기 정보 확인 필요');
     } else if (label === '잇몸치료 상세 페이지') {
       info.push('치료정보: ' + (body.includes('잇몸치료')?'있음':'미확인'));
       const canonicalValue = body.split('rel="canonical" href="')[1]?.split('"')[0] || '(없음)';
