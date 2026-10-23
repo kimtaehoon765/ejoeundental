@@ -266,3 +266,34 @@ test('small or single-category searches do not add unnecessary filter controls',
   assert.equal(walk(results,x=>x.className==='search-category-filter').length,0);
  }
 });
+
+
+test('professional equipment queries route to separate public reference guides without contaminating search matches',async()=>{
+ const guideCases=[
+  ['핸드피스','/handpiece-maintenance.html'],
+  ['멸균기','/autoclave-maintenance.html'],
+  ['석션','/suction-maintenance.html'],
+  ['컴프레서','/compressor-maintenance.html'],
+  ['인상재','/impression-materials-guide.html']
+ ];
+ for(const [query,wanted] of guideCases){
+  const {results,status}=await search(query,[]);
+  const panels=walk(results,x=>x.className==='search-expert-direct-links');
+  assert.equal(panels.length,1,query+' needs a prominent expert-only route');
+  const direct=walk(panels[0],x=>x.tagName==='a').map(x=>x.href);
+  assert.deepEqual(direct,[wanted,'/dental-equipment.html','/dental-materials.html'],
+    query+' should show the matching expert guide and both reference indexes');
+  assert.ok(status.textContent.includes('별도 전문가 참고자료'),query+' must explain why the patient index is empty');
+  assert.equal(walk(results,x=>x.className==='result').length,0,'professional pages must not be added to the public index');
+ }
+ const medical=await search('혈액희석제',[{url:'/blood-thinners-dental.html',title:'혈액희석제',description:'혈액희석제 복용 안내',body:'항응고제'}]);
+ assert.equal(walk(medical.results,x=>x.className==='search-expert-direct-links').length,0,
+  'medical searches must not be mistaken for equipment-reference searches');
+});
+
+test('the expert reference shortcut does not duplicate maintenance documents in the public search index',()=>{
+ const entries=JSON.parse(readFileSync(new URL('../dist/content/search-index.json',import.meta.url),'utf8'));
+ for(const path of ['/handpiece-maintenance.html','/autoclave-maintenance.html','/suction-maintenance.html','/dental-equipment.html']){
+  assert.ok(!entries.some(e=>e.url===path),path+' should remain excluded from patient search');
+ }
+});
