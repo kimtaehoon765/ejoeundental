@@ -225,6 +225,28 @@ if (existsSync(homepageFile)) {
   if(!homePage.includes(landmark))errors.push('실제 인근 생활권 안내 누락: '+landmark);
  }
 }
+// Public transit details should stay accurate, visible and mutually linked.
+{
+ const home=readFileSync(join(root,'index.html'),'utf8');
+ const guideFile=join(root,'visit-guide.html');
+ if(!existsSync(guideFile)) errors.push('방문 안내 페이지 누락');
+ else {
+  const guide=readFileSync(guideFile,'utf8');
+  for(const detail of ['산곡역','도보 약 10분','세월천사거리','대우프라자 305호','/#location']){
+   if(!guide.includes(detail))errors.push('방문 안내 길찾기 정보 누락: '+detail);
+  }
+  if(!guide.includes('https://map.naver.com/p/search/'))errors.push('방문 안내 네이버 지도 연결 누락');
+ }
+ for(const detail of ['class="local-transit-hint"','/visit-guide.html','산곡역에서 도보 약 10분']){
+  if(!home.includes(detail))errors.push('홈페이지 산곡역 접근 안내 누락: '+detail);
+ }
+ const faqChunks=[...home.matchAll(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/g)];
+ try{
+  const data=faqChunks.map(m=>JSON.parse(m[1])).find(item=>item['@type']==='FAQPage');
+  const stationFaq=data?.mainEntity?.find(item=>String(item.name||'').includes('산곡역에서 어떻게 찾아가나요?'));
+  if(!stationFaq||!String(stationFaq.acceptedAnswer?.text||'').includes('산곡역에서 도보 약 10분'))errors.push('산곡역 FAQ 구조화 데이터 설명 불일치');
+ }catch{errors.push('홈페이지 FAQ JSON-LD 문법 오류');}
+}
 // Core treatment pages must provide useful routes to related care and clinic access.
 for (const treatment of ['gum-treatment.html', 'retreatment.html', 'cervical-abrasion.html']) {
   const file = join(root, treatment);
