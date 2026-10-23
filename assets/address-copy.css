@@ -1,0 +1,10 @@
+/* Progressive enhancement: hide unavailable clipboard actions. */
+.clinic-copy-row[hidden]{display:none!important}
+.clinic-copy-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+.clinic-copy-row .clinic-copy-button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;box-sizing:border-box;padding:10px 16px;border:1px solid #39765f;border-radius:9px;background:#f1f8f3;color:#17533d;font:700 15px/1.4 system-ui,sans-serif;cursor:pointer}
+.clinic-copy-row .clinic-copy-button:hover{background:#e2f2e6}
+.clinic-copy-row .clinic-copy-button:focus-visible{outline:3px solid #a47837;outline-offset:3px}
+.clinic-copy-row .clinic-copy-button:disabled{opacity:.7;cursor:progress}
+.clinic-copy-row .clinic-copy-status{font-size:14px;line-height:1.6;color:#255743;overflow-wrap:anywhere}
+@media(max-width:500px){.clinic-copy-row{gap:8px}.clinic-copy-row .clinic-copy-button{min-width:125px}.clinic-copy-row .clinic-copy-status{flex-basis:100%}}
+@media print{.clinic-copy-row{display:none!important}}
