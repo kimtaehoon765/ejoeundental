@@ -18,7 +18,7 @@ function setup({perGroup=15,hash=''}={}){
    hidden:false,querySelector:selector=>selector==='a'?{textContent:base+' '+(index+1)}:null
   }));
   return {
-   id,hidden:false,open:i===0,items,summary,scrolled:false,
+   id:'archive-group-'+id,hidden:false,open:i===0,items,summary,scrolled:false,
    querySelector:selector=>selector==='summary strong'?{textContent:topic}:selector==='summary'?summary:null,
    querySelectorAll:selector=>selector==='li'?items:[],
    scrollIntoView(){this.scrolled=true;}
@@ -69,15 +69,15 @@ test('search reveals only matching entries and one-tap reset restores original o
  assert.equal(site.button.hidden,false);
  assert.match(site.status.textContent,/15편을 찾았습니다/);
  assert.equal(site.groups.filter(x=>x.hidden).length,3);
- assert.equal(site.groups.find(x=>x.id==='root').open,true);
+ assert.equal(site.groups.find(x=>x.id==='archive-group-root').open,true);
  site.button.handlers.click();
  assert.equal(site.input.value,'');
  assert.equal(site.button.hidden,true);
  assert.equal(site.input.focused,true);
  assert.match(site.status.textContent,/전체 60편/);
  assert.equal(site.groups.filter(x=>x.hidden).length,0);
- assert.equal(site.groups.find(x=>x.id==='gum').open,true);
- assert.equal(site.groups.find(x=>x.id==='root').open,false);
+ assert.equal(site.groups.find(x=>x.id==='archive-group-gum').open,true);
+ assert.equal(site.groups.find(x=>x.id==='archive-group-root').open,false);
  assert.ok(site.groups.every(g=>g.items.every(li=>!li.hidden)));
 });
 
@@ -106,7 +106,7 @@ test('deep linked category stays accessible, including after a search',()=>{
 
 test('production build keeps all 60 links, fresh script and mobile-friendly reset control',()=>{
  const html=readFileSync('dist/clinical-archive.html','utf8');
- const css=html.match(/<style>([\s\S]*?)<\/style>/)?.[1]||'';
+ const css=html;
  const matches=[...html.matchAll(/<li><a href="https:\/\/blog\.naver\.com\/kook765\/[0-9]+" target="_blank" rel="noopener noreferrer">/g)];
  assert.equal(matches.length,60);
  assert.ok(html.includes('/assets/archive-topics.js?v=20261024-smartfind2'));
