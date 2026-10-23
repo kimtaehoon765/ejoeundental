@@ -22,7 +22,7 @@ test('the mobile homepage shows original painterly artwork after credentials and
 });
 
 test('original gallery and responsive accent are local, cached, and accessible',()=>{
- assert.match(home,/home-enhancements\.css\?v=20261024-impressionist-oil1/);
+ assert.match(home,/home-enhancements\.css\?v=[0-9a-f]{12}/,'Build should fingerprint CSS without stale cache keys');
  assert.match(css,/@media\(max-width:600px\)/);
  assert.match(css,/\.hero-gallery-window\{[\s\S]*?display:block/);
  assert.match(css,/background-image:url\("\/assets\/impressionist-water-garden\.svg"\)/);
