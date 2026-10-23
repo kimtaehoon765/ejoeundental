@@ -1560,3 +1560,32 @@ if (errors.length) process.exitCode = 1;
   }
  }
 }
+
+
+// Health-insurance questions belong in the same first-treatment patient route,
+// without suggesting every retreatment/restoration is covered or publishing fees.
+{
+ const hub=readFileSync(join(root,'root-canal-health.html'),'utf8');
+ const insurance=readFileSync(join(root,'health','insurance-root-canal.html'),'utf8');
+ const process=readFileSync(join(root,'health','root-canal-process.html'),'utf8');
+ const css=readFileSync(join(root,'assets/style.css'),'utf8');
+ const cards=hub.match(/<nav class="root-topic-choices"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ const urls=[...cards.matchAll(/<a href="([^"]+)"/g)].map(m=>m[1]);
+ if(urls.length!==4||new Set(urls).size!==4||
+   !urls.includes('/health/insurance-root-canal.html')||
+   !css.includes('.article .root-topic-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))')||
+   !css.includes('@media(max-width:640px){.article .root-topic-choices{grid-template-columns:1fr')){
+    errors.push('신경치료 증상·재치료·보험 네가지 모바일 탐색 항목 오류');
+ }
+ const section=hub.match(/<section class="note" id="root-canal-insurance"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ for(const text of ['신경치료 건강보험 적용과 최종 수복','진료 당시 기준에 따라 달라집니다',
+   '모든 치아에 크라운이 필요한 것은 아니므로',
+   'href="/health/insurance-root-canal.html"',
+   'href="/health/root-canal-crown.html"']){
+  if(!section.includes(text))errors.push('신경치료 급여와 보철 구분 안내 누락: '+text);
+ }
+ if(!insurance.includes('href="/root-canal-health.html"')||
+    !process.includes('href="/health/insurance-root-canal.html"')){
+  errors.push('근관치료 과정·보험 안내와 신경치료 10편 양방향 연결 누락');
+ }
+}

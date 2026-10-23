@@ -219,6 +219,8 @@ await Promise.all(urls.map(async ({label,url}) => {
         const regionReady=phrases.every(term=>pageTitle.includes(term)&&pageDescription.includes(term))&&
           body.includes('신경치료와 재신경치료는 어떻게 다를까요?');
         info.push(regionReady?'인천·부평 신경치료 검색 정보·일반/재치료 구분 반영':'신경치료 지역 검색 문구 배포 확인 필요');
+        const coverageReady=body.includes('id="root-canal-insurance"')&&body.includes('href="/health/insurance-root-canal.html"');
+        info.push(coverageReady?'신경치료 보험 안내·최종 수복 구분·연결 반영':'신경치료 보험 안내 신규 배포 확인 필요');
       }
       const hubs={'gum-health':'/gum-treatment.html','root-canal-health':'/retreatment.html',
         'insurance-health':'/insured-care.html','additional-health':'/cervical-abrasion.html'};

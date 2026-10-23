@@ -748,7 +748,7 @@ main.article .note a[href="/#location"]:focus-visible{
 
 /* Readable first-treatment vs recurrent-root-canal navigation on phones.
    Static anchors need no JavaScript and preserve accessible search links. */
-.article .root-topic-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:22px 0 24px}
+.article .root-topic-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:22px 0 24px}
 .article .root-topic-choices a{min-width:0;box-sizing:border-box;padding:16px 13px;border:1px solid #c8dcd1;border-radius:12px;background:#f4faf5;color:#245d4b;text-decoration:none;display:flex;flex-direction:column;gap:7px;line-height:1.5;word-break:keep-all}
 .article .root-topic-choices strong{font-size:15px;line-height:1.55}
 .article .root-topic-choices span{font-size:13px;line-height:1.6}
