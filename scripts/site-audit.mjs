@@ -213,10 +213,17 @@ if (existsSync(homepageFile)) {
   else {
     if (clinic.name !== '이조은치과' || clinic.telephone !== '+82-32-513-2875') errors.push('치과 이름 또는 전화번호 구조화 데이터 불일치');
     const areas = (clinic.areaServed || []).map(place => place.name || '');
-    for (const area of ['청천동', '산곡동', '산곡역']) {
+    for (const area of ['청천동', '산곡동', '산곡역', '세월천사거리', '갈산역']) {
       if (!areas.some(name => name.includes(area))) errors.push('지역 구조화 데이터 누락: ' + area);
     }
   }
+}
+// Keep local landing information grounded in verified real geography rather than an artificial keyword list.
+{
+ const homePage=readFileSync(join(root,'index.html'),'utf8');
+ for(const landmark of ['청천푸르지오','부평캐슬앤더샵퍼스트','e편한세상 부평그랑힐스','세월천사거리']){
+  if(!homePage.includes(landmark))errors.push('실제 인근 생활권 안내 누락: '+landmark);
+ }
 }
 // Core treatment pages must provide useful routes to related care and clinic access.
 for (const treatment of ['gum-treatment.html', 'retreatment.html', 'cervical-abrasion.html']) {
@@ -434,6 +441,14 @@ else {
   }
 
 
+
+  // Geographic search filters should retain the clinical subject (e.g. 갈산역 잇몸치료 -> 잇몸치료).
+  for (const area of ['갈산역','부평구청역','세월천사거리','청천푸르지오','부평캐슬앤더샵퍼스트','e편한세상부평그랑힐스','효성동','작전동','계산동']){
+   if(!script.includes(area))errors.push('주변 지역 검색어 인식 누락: '+area);
+  }
+  for (const area of ['청천동 잇몸치료','산곡역 재신경치료','갈산동 잇몸치료']){
+   if(!page.includes(area))errors.push('주변 지역 진료 검색 예시 누락: '+area);
+  }
 
   // Search relevance boosts must not masquerade as matches to every typed word.
   if (/matched\s*=\s*terms\.length/.test(script)) errors.push('검색 결과 관련도 계산에서 검색어 일치 수를 강제로 변경함');
