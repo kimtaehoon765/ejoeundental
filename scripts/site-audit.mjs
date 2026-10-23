@@ -1617,9 +1617,9 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  const extra=section.match(/<details class="owner-stories-more">([\s\S]*?)<\/details>/i)?.[1]||'';
  const firstLinks=[...first.matchAll(/<a\b[^>]*href="(https:\/\/blog\.naver\.com\/[^"]+)"[^>]*>/gi)].map(m=>m[1]);
  const extraLinks=[...extra.matchAll(/<a\b[^>]*href="(https:\/\/blog\.naver\.com\/[^"]+)"[^>]*>/gi)].map(m=>m[1]);
- if(firstLinks.length!==8||extraLinks.length!==92||new Set([...firstLinks,...extraLinks]).size!==100)errors.push('원장 이야기 8+92편 링크 또는 중복 오류');
- if(!extra.includes('<summary>치과 이야기 나머지 92편 보기')||!extra.includes('class="owner-stories-grid"'))errors.push('모바일 원장 이야기 펼치기 기능 누락');
- if(!homepage.includes('"numberOfItems": 100'))errors.push('원장 이야기 검색 구조화 데이터 100편 불일치');
+ if(firstLinks.length!==8||extraLinks.length!==120||new Set([...firstLinks,...extraLinks]).size!==128)errors.push('원장 이야기 8+120편 링크 또는 중복 오류');
+ if(!extra.includes('<summary>치과 이야기 나머지 120편 보기')||!extra.includes('class="owner-stories-grid"'))errors.push('모바일 원장 이야기 펼치기 기능 누락');
+ if(!homepage.includes('"numberOfItems": 128'))errors.push('원장 이야기 검색 구조화 데이터 128편 불일치');
 }
 
 if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
@@ -1890,7 +1890,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  }
 }
 
-// Homepage 100 owner blog entries and archive topic rows must be the exact
+// Homepage 128 owner blog entries and archive topic rows must be the exact
 // same verified links/titles, not invented duplicate articles or dated claims.
 {
  const homepage=readFileSync(join(root,'index.html'),'utf8');
@@ -1902,33 +1902,33 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const homeUrls=new Set(original.map(item=>item[0]));
  const archiveUrls=new Set(entries.map(item=>item[0]));
  const expected=new Map(original);
- if(original.length!==100||entries.length!==100||homeUrls.size!==100||archiveUrls.size!==100||
+ if(original.length!==128||entries.length!==128||homeUrls.size!==128||archiveUrls.size!==128||
    entries.some(([url,title])=>expected.get(url)!==title)){
-  errors.push('원장 블로그 100편 홈페이지·임상 아카이브 글 제목/원문 주소 불일치');
+  errors.push('원장 블로그 128편 홈페이지·임상 아카이브 글 제목/원문 주소 불일치');
  }
  const groups=[...archive.matchAll(/<details class="archive-blog-group" id="archive-group-([^"]+)">([\s\S]*?)<\/details>/g)];
- if(groups.length!==4||groups.map(m=>m[1]).join(',')!=='gum,root,ethics,other'||
+ if(groups.length!==5||groups.map(m=>m[1]).join(',')!=='gum,root,ethics,med,other'||
     groups.some(m=>!m[2].includes('<ol>')||!m[2].includes('class="archive-blog-related"'))){
-  errors.push('원장 블로그 100편 주제별 모바일 펼치기 항목 구성이 잘못됨');
+  errors.push('원장 블로그 128편 주제별 모바일 펼치기 항목 구성이 잘못됨');
  }
  if(!archive.includes('id="archive-blog-posts"')||
    !archive.includes('href="#archive-blog-posts"')||
    !archive.includes('aria-label="주제별 원장 네이버 글 모음"')||
    archive.includes('BUILD_OWNER_ARCHIVE_GROUPS')||
    !homepage.includes('href="/clinical-archive.html#archive-blog-posts"')){
-  errors.push('원장 블로그 100편 홈페이지↔아카이브 이동 경로·서버 렌더링 누락');
+  errors.push('원장 블로그 128편 홈페이지↔아카이브 이동 경로·서버 렌더링 누락');
  }
  const schema=[...archive.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
   .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
   .find(data=>data?.['@type']==='CollectionPage');
  const elems=schema?.mainEntity?.itemListElement||[];
- if(schema?.mainEntity?.numberOfItems!==100||elems.length!==100||
+ if(schema?.mainEntity?.numberOfItems!==128||elems.length!==128||
    elems.some((entry,i)=>entry.position!==i+1||
      entry.url!==original[i]?.[0]||entry.name!==original[i]?.[1])){
-   errors.push('원장 원문 100편 ItemList 구조화 데이터·홈페이지 원문 순서 불일치');
+   errors.push('원장 원문 128편 ItemList 구조화 데이터·홈페이지 원문 순서 불일치');
  }
- if(!archive.includes('원장이 직접 쓴 네이버 치과 이야기 100편')||
-    !archive.includes('홈페이지에 소개한 네이버 글 100편을')||
+ if(!archive.includes('원장이 직접 쓴 네이버 치과 이야기 128편')||
+    !archive.includes('홈페이지에 소개한 네이버 글 128편을')||
     !archive.includes('href="https://m.blog.naver.com/tele654"')||
     !archive.includes('href="https://m.blog.naver.com/radio654"')||
     !archive.includes('.archive-blog-group>summary:') &&
@@ -1945,10 +1945,10 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const stories=[...home.matchAll(/<div class="card owner-story-card"><h3><a href="(https:\/\/blog\.naver\.com\/[a-zA-Z0-9_-]+\/\d+)" target="_blank" rel="noopener noreferrer">([^<]+) ↗<\/a><\/h3><\/div>/g)]
   .map(m=>({url:m[1],title:m[2]}));
  const known=new Map(stories.map(p=>[p.url,p.title]));
- if(stories.length!==100||known.size!==100)errors.push('네이버 원장 글 인증된 100편 목록 불일치');
+ if(stories.length!==128||known.size!==128)errors.push('네이버 원장 글 인증된 128편 목록 불일치');
  for(const [hub,slug,care,ids,expectedTotal] of [
-   ['gum-health.html','gum','gum-treatment.html',['224422601718','224400753947','224405321060'],'28편'],
-   ['root-canal-health.html','root','retreatment.html',['224415452757','224417329329','224421350291'],'22편']
+   ['gum-health.html','gum','gum-treatment.html',['224422601718','224400753947','224405321060'],'39편'],
+   ['root-canal-health.html','root','retreatment.html',['224415452757','224417329329','224421350291'],'23편']
  ]){
   const page=readFileSync(join(root,hub),'utf8');
   const carePage=readFileSync(join(root,care),'utf8');
@@ -2008,7 +2008,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
    if(!client.includes(needle))errors.push('원장 블로그 검색·주제 자동 펼치기 기능 누락: '+needle);
   }
  }
- if(!archive.includes('<script defer src="/assets/archive-topics.js?v=20261024-smartfind2"></script>'))
+ if(!archive.includes('<script defer src="/assets/archive-topics.js?v=20261024-smartfind3"></script>'))
    errors.push('원장 글 빠른 검색 자바스크립트 로딩 누락');
  if(!archive.includes('.archive-blog-group[hidden],.archive-blog-group li[hidden]{display:none!important}')||
     !archive.includes('.archive-blog-group:target>summary')||
@@ -2283,7 +2283,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const og=page.match(/<meta property="og:description" content="([^"]+)"/)?.[1]||'';
  const schema=[...page.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
    .map(x=>JSON.parse(x[1])).find(x=>x['@type']==='CollectionPage');
- if(!desc.includes('부평치과')||!desc.includes('원장의 네이버 글 100편')||
+ if(!desc.includes('부평치과')||!desc.includes('원장의 네이버 글 128편')||
     desc!==og||desc!==twitter||desc!==schema?.description){
    errors.push('부평치과 선택 원장 아카이브 검색 설명·공유 카드 정합성 누락');
  }
