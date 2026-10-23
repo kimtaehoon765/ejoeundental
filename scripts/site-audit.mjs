@@ -1768,3 +1768,67 @@ if (errors.length) process.exitCode = 1;
    errors.push('잇몸 증상별 첫 안내·응급 설명·모바일 카드 중 일부 누락');
  }
 }
+
+
+// Exact-location generic search phrase: use one truthful clinic homepage
+// instead of a competing doorway page or an inaccurate central-Bupyeong claim.
+{
+ const home=readFileSync(join(root,'index.html'),'utf8');
+ const visit=readFileSync(join(root,'visit-guide.html'),'utf8');
+ const qpage=readFileSync(join(root,'search.html'),'utf8');
+ const index=JSON.parse(readFileSync(join(root,'content/search-index.json'),'utf8'));
+ const settings=JSON.parse(readFileSync(join(root,'content/site.json'),'utf8'));
+ const name=home.match(/<title>([^<]+)<\/title>/)?.[1]||'';
+ const meta=home.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+ const og=home.match(/<meta property="og:description" content="([^"]+)"/)?.[1]||'';
+ const tw=home.match(/<meta name="twitter:description" content="([^"]+)"/)?.[1]||'';
+ const titleOg=home.match(/<meta property="og:title" content="([^"]+)"/)?.[1]||'';
+ const titleTw=home.match(/<meta name="twitter:title" content="([^"]+)"/)?.[1]||'';
+ const row=index.filter(x=>x.url==='/');
+ if(!name.startsWith('부평치과 |')||!name.includes('이조은치과')||
+   !home.includes('<link rel="canonical" href="'+publicOrigin+'/">')||
+   name!==titleOg||name!==titleTw||meta!==og||meta!==tw||
+   !meta.includes('부평치과')||meta.length>190||
+   !['인천 잇몸치료','부평 잇몸치료','인천 신경치료','부평 신경치료'].every(x=>meta.includes(x))){
+  errors.push('부평치과 대표 홈페이지 검색 제목·소개·정식 주소 불일치');
+ }
+ if(!home.includes('id="intro">부평치과를 찾는 분께')||
+   !home.includes('청천동에서 2003년부터 진료해 온 이조은치과')||
+   !settings.intro.startsWith('부평치과를 찾는 분께')||
+   row.length!==1||row[0].title!==name||
+   !row[0].description.includes('부평치과')||
+   !row[0].body.includes('부평치과')||
+   !qpage.includes('>부평치과</a>')){
+  errors.push('부평치과 실제 지역정보·원장 진료원칙·환자 검색 연결 누락');
+ }
+ const vDesc=visit.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+ const vOg=visit.match(/<meta property="og:description" content="([^"]+)"/)?.[1]||'';
+ const vTw=visit.match(/<meta name="twitter:description" content="([^"]+)"/)?.[1]||'';
+ const vSchema=[...visit.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(x=>JSON.parse(x[1])).find(x=>x['@type']==='MedicalWebPage');
+ if(vDesc!==vOg||vDesc!==vTw||vDesc!==vSchema?.description||
+   !vDesc.includes('부평치과')||!visit.includes('부평치과를 찾는 분께 실제 진료 위치를 안내합니다')||
+   !visit.includes('세월천로 34')||!visit.includes('3시간 무료')){
+  errors.push('부평치과 방문·주차 상세 설명과 검색·공유 데이터 불일치');
+ }
+ const client=readFileSync(join(root,'assets/search.js'),'utf8');
+ const start=client.indexOf('const aliases='),end=client.indexOf('const resultSummary=',start);
+ if(start<0||end<start)errors.push('부평치과 실제 방문 정보 검색 알고리즘 누락');
+ else{
+  try{
+   const query=new Function('q','pages',client.slice(start,end)+
+     'return {visitOnlyIntent,visitIntent,clinicalQuery,top:scored[0]?.url};');
+   for(const term of ['부평치과','부평 치과','부평구치과','인천부평치과']){
+    const got=query(term,index);
+    if(!got.visitOnlyIntent||!got.visitIntent||got.clinicalQuery)
+      errors.push('부평치과 일반 검색에 실제 치과 방문 안내가 우선 표시되지 않음: '+term);
+   }
+   for(const [term,expected] of [['부평치과 잇몸치료','/gum-treatment.html'],
+       ['부평치과 재신경치료','/retreatment.html']]){
+    const got=query(term,index);
+    if(got.visitOnlyIntent||got.top!==expected)
+      errors.push('부평치과 진료별 검색에 맞지 않는 페이지를 표시함: '+term+' '+got.top);
+   }
+  }catch(e){errors.push('부평치과 통합 검색 검사 오류: '+e.message);}
+ }
+}

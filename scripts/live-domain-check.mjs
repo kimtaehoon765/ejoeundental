@@ -122,6 +122,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       const ogDescription=body.match(/<meta property="og:description" content="([^"]+)"/)?.[1]||'';
       const twitterDescription=body.match(/<meta name="twitter:description" content="([^"]+)"/)?.[1]||'';
       info.push('검색·공유 소개 문구: '+(pageDescription&&pageDescription===ogDescription&&pageDescription===twitterDescription?'일치':'불일치 또는 누락'));
+      const localClinicTitle=body.match(/<title>([^<]+)<\/title>/)?.[1]||'';
+      const localSearchReady=localClinicTitle.startsWith('부평치과 |')&&
+        body.includes('id="intro">부평치과를 찾는 분께')&&
+        pageDescription.includes('부평치과')&&
+        body.includes('property="og:title" content="'+localClinicTitle+'"');
+      info.push(localSearchReady?'부평치과 대표 검색 제목·원장 진료 소개 최신 반영':'부평치과 대표 검색어 홈페이지 신규 배포 확인 필요');
       const visibleStories=body.match(/<section class="section light" id="stories">([\s\S]*?)<\/section>/)?.[1]||'';
       const storyCards=(visibleStories.match(/class="card owner-story-card"/g)||[]).length;
       const hiddenCopies=/(?:원장이 작성한 네이버 블로그 글입니다|#stories .owner-story-card p\{display:none\})/.test(body);
@@ -402,6 +408,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       const newSearchReady=body.includes('scalingComparisonIntent')&&body.includes('scalingOnlyIntent')&&
         body.includes('치주낭치료')&&body.includes('신경치료비용');
       info.push(newSearchReady?'치주치료·스케일링·잇몸 증상 검색 관련도 개선 반영':'치주·스케일링 자연어 검색 개선 신규 배포 확인 필요');
+    }
+    if(label==='public route visit-guide'){
+      const desc=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+      info.push(desc.includes('부평치과')&&body.includes('부평치과를 찾는 분께 실제 진료 위치를 안내합니다')
+        ?'부평치과 진료시간·방문정보 신규 검색 안내 반영'
+        :'부평치과 진료시간·방문정보 신규 배포 확인 필요');
     }
     // Reuse already-fetched 19 public patient resources: no additional requests.
     // Keep social previews, medical schema and search snippets consistent in production.
