@@ -257,6 +257,21 @@ for (const treatment of ['gum-treatment.html', 'retreatment.html', 'cervical-abr
   }
   if (!page.includes('032-513-2875') || !page.includes('세월천로 34')) errors.push(treatment + ': 방문 안내 정보 누락');
   if (!page.includes('/#location')) errors.push(treatment + ': 진료시간 안내 링크 누락');
+  // Regional content should help patients reach the clinic, not just repeat nearby keywords.
+  if (!page.includes('href="/visit-guide.html"')) errors.push(treatment + ': 산곡역 방면 상세 방문안내 연결 누락');
+  if (!page.includes('class="treatment-area-note"')) errors.push(treatment + ': 주변 지역 진료·방문 안내 누락');
+  if (!page.includes('청천동 세월천로 34')) errors.push(treatment + ': 실제 청천동 주소 안내 누락');
+}
+// The insured care page is also one of the main entrances for regional searches.
+{
+ const insured=join(root,'insured-care.html');
+ if(!existsSync(insured))errors.push('건강보험 진료 페이지 누락');
+ else {
+  const text=readFileSync(insured,'utf8');
+  for(const expected of ['href="/visit-guide.html"','건강보험 적용','청천동 세월천로 34']){
+   if(!text.includes(expected))errors.push('건강보험 방문·지역 정보 누락: '+expected);
+  }
+ }
 }
 // Catch duplicate IDs that make in-page navigation ambiguous.
 for (const file of html) {
