@@ -291,6 +291,11 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push(improvedSymptoms ? '환자 증상·동의어 검색 개선 반영' : '증상·동의어 검색 개선 확인 필요');
       const visitPanel=body.includes('const localityOnlyIntent=') && body.includes('const visitIntent=') && body.includes('className=\'search-visit-answer\'');
       info.push(visitPanel ? '치과 주소·진료시간·주차 검색 바로 표시 기능 반영' : '방문 검색 기능 반영 확인 필요');
+      const localClinicDiscovery=body.includes('const clinicDiscoveryIntent=')&&
+        body.includes('search-clinic-introduction')&&
+        body.includes('부평구 청천동 이조은치과 안내')&&
+        body.includes("['잇몸치료 안내',publishedHref('/gum-treatment.html')]");
+      info.push(localClinicDiscovery?'부평치과·청천동치과 소개와 주요 진료 링크 최신 반영':'부평치과 지역 치과 안내 신규 배포 확인 필요');
       const canonicalSearchLinks = body.includes('const publishedHref=') &&
         body.includes("host==='ejoeundental.com'") &&
         body.includes('a.href=publishedHref(p.url)');

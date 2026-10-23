@@ -1832,3 +1832,48 @@ if (errors.length) process.exitCode = 1;
   }catch(e){errors.push('부평치과 통합 검색 검사 오류: '+e.message);}
  }
 }
+
+
+// Generic 부평치과 is a clinic-discovery intent, not a symptom. Ensure patient
+// search identifies this real clinic in 청천동 and links directly to its own
+// homepage, care pages, doctor principles and accurate visiting information.
+// No fabricated "best dental clinic" ranking or duplicate doorway landing page.
+{
+ const code=readFileSync(join(root,'assets/search.js'),'utf8');
+ const start=code.indexOf('const aliases=');
+ const stop=code.indexOf('const resultSummary=',start);
+ if(start<0||stop<=start)errors.push('부평치과 일반 검색 판단 함수 누락');
+ else {
+  try{
+   const lookup=new Function('q','pages',code.slice(start,stop)+
+    'return {clinicDiscoveryIntent,visitOnlyIntent,visitIntent,clinicalQuery,top:scored[0]?.url};');
+   const pages=JSON.parse(readFileSync(join(root,'content/search-index.json'),'utf8'));
+   for(const term of ['부평치과','부평 치과','부평구치과','인천부평치과',
+     '청천동치과','산곡동 치과','부평 치과 추천','이조은치과']){
+    const out=lookup(term,pages);
+    if(!out.clinicDiscoveryIntent||!out.visitOnlyIntent||!out.visitIntent)
+      errors.push('부평치과·인근 일반 치과 검색 소개 경로 누락: '+term);
+   }
+   for(const term of ['부평치과 위치','청천동 치과 진료시간','산곡역 근처 치과 주차']){
+    const out=lookup(term,pages);
+    if(out.clinicDiscoveryIntent||!out.visitIntent)
+      errors.push('부평치과 위치·운영시간 검색에서 소개와 방문 목적 혼동: '+term);
+   }
+   for(const [term,expected] of [['부평치과 잇몸치료','/gum-treatment.html'],
+    ['부평치과 신경치료','/root-canal-health.html'],['부평치과 재신경치료','/retreatment.html']]){
+     const out=lookup(term,pages);
+     if(out.clinicDiscoveryIntent||out.visitOnlyIntent||out.top!==expected)
+       errors.push('부평치과 진료별 검색은 의학정보부터 연결해야 함: '+term+' => '+out.top);
+   }
+  }catch(error){errors.push('부평치과 지역·진료 검색 실제 실행 오류: '+error.message);}
+ }
+ for(const text of ["clinicIntroduction.className='search-clinic-introduction'",
+    "부평구 청천동 이조은치과 안내",
+    "clinicDiscoveryIntent?'부평구 청천동",
+    "['이조은치과 진료 철학·원장 소개','/#philosophy']",
+    "['잇몸치료 안내',publishedHref('/gum-treatment.html')]",
+    "['신경치료·재신경치료 안내',publishedHref('/root-canal-health.html')]",
+    "['원장 진료 철학','/#philosophy']"]){
+    if(!code.includes(text))errors.push('부평치과 안내·진료 연결 실행 코드 누락: '+text);
+ }
+}
