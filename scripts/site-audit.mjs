@@ -2439,7 +2439,8 @@ if (errors.length) process.exitCode = 1;
  const expected='/assets/ejoeundental-hero-cat.webp';
  const title='이조은치과를 상징하는 치과의사와 하얀 고양이 일러스트';
  if(!heroSection.includes('<img src="'+expected+'" width="650" height="543" alt="'+title+'"')||
-    !heroSection.includes('loading="eager" fetchpriority="high" decoding="async"')||
+    !heroSection.includes('loading="lazy" decoding="async"')||
+    !hero.includes('<link rel="preload" as="image" type="image/webp" media="(min-width: 601px)" href="'+expected+'">')||
     heroSection.includes('class="flower"')||
     !hero.includes('property="og:image" content="https://ejoeundental.com'+expected+'"')||
     !hero.includes('name="twitter:card" content="summary_large_image"')||

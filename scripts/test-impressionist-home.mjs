@@ -17,6 +17,13 @@ test('the mobile homepage shows original painterly artwork after credentials and
  assert.ok(h1>=0&&degree>h1&&specialist>degree&&preview>specialist&&intro>preview);
  assert.match(hero,/href="tel:0325132875"/);
  assert.match(hero,/class="art hero-artwork"/);
+ assert.ok(hero.includes('loading="lazy" decoding="async"'),
+  'Second portrait should not compete with the first mobile painting');
+ assert.ok(!hero.includes('fetchpriority="high"'),
+  'A below-the-fold portrait must not steal mobile first-screen bandwidth');
+ assert.ok(home.includes('<link rel="preload" as="image" type="image/webp" media="(min-width: 601px)" href="/assets/ejoeundental-hero-cat.webp">'),
+  'Desktop visitors should still get a fast loading portrait');
+
  assert.match(home,/class="monet-interlude"/);
  assert.match(home,/aria-labelledby="monet-interlude-title"/);
  assert.equal((hero.match(/class="hero-gallery-window"/g)||[]).length,1);
