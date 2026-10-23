@@ -1,5 +1,5 @@
-// Read-only preflight for the planned domain migration.
-// Does not change DNS, hosting configuration, or any files.
+// Read-only source preflight for the currently active production domain.
+// Does not verify live DNS, change DNS, hosting configuration, or any files.
 import { readFileSync, existsSync } from 'node:fs';
 const errors = [];
 const notes = [];
@@ -57,7 +57,8 @@ for (const url of urls) {
 }
 if (!robots.includes('Sitemap: '+host+'/sitemap.xml')) errors.push('Source robots sitemap is not on target domain');
 if (!homepage.includes('rel="canonical"')) errors.push('Homepage canonical missing');
-if (!build.includes(preview)) errors.push('Preview build host configuration changed: inspect before migration');
+if (!build.includes(preview)) errors.push('Preview build host configuration changed: review separate preview output');
+if (!build.includes("const selectedPublicOrigin = process.env.SITE_PUBLIC_ORIGIN || 'https://ejoeundental.com'")) errors.push('Production build no longer defaults to verified domain');
 if (!build.includes('normalizedSitemap')) errors.push('Preview sitemap normalization changed: inspect before migration');
 for (const slug of ['previsit-checklist','medical-safety-guide','visit-guide','gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq','medication-dental-faq','systemic-disease-dental-faq']) {
   const filename = slug+'.html';
@@ -65,10 +66,10 @@ for (const slug of ['previsit-checklist','medical-safety-guide','visit-guide','g
   else if (!read(filename).includes('rel="canonical" href="'+host+'/'+filename+'"')) errors.push('Unexpected source canonical: '+filename);
   if (!urls.includes(host+'/'+filename)) errors.push('Missing sitemap URL: '+filename);
 }
-// Do not mistake a passing preflight for completed migration.
-// These preview-host dependencies must be reviewed together on cutover day.
+// Source validation alone does not verify deployment, redirect, or DNS.
+// Preview references remain necessary for the supported separate preview build.
 const previewReferences = build.split(preview).length - 1;
-if (previewReferences > 0) notes.push('Production build still contains ' + previewReferences + ' preview-host references; review canonical, sitemap, robots, and schema during cutover.');
+if (previewReferences > 0) notes.push('Build includes ' + previewReferences + ' preview-host references; production and preview build outputs are validated separately.');
 for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq','medication-dental-faq','systemic-disease-dental-faq']) {
   const page = read(slug+'.html');
   const json = page.split('<script type="application/ld+json">')[1]?.split('</script>')[0];
@@ -117,12 +118,12 @@ for (const filename of seoFiles) {
   }
   if (html.includes(preview)) notes.push('Preview URL still referenced in source: ' + filename + '; inspect social and structured metadata at cutover.');
 }
-notes.push('Cloudflare Pages cutover checklist (manual): confirm Name.com nameservers match Cloudflare assignment and Cloudflare zone is Active.');
-notes.push('Before nameserver switch: preserve required TXT/MX verification and mail records, and check Cloudflare DNS A/CNAME records are ready for Pages rather than old Netlify IPs.');
-notes.push('In Cloudflare Pages > Custom domains: add ejoeundental.com and www.ejoeundental.com as needed, verify Active and HTTPS, then check redirects and final-host canonical/OG/schema/sitemap/robots.');
-notes.push('Keep Netlify hosting active until both apex and www work on Cloudflare Pages; only then update search-engine sitemap submissions.');
+notes.push('Production domain was reachable on 2026-10-23; do not restart nameserver migration or create a duplicate Pages project.');
+notes.push('To check current HTTP, DNS and www 301, run node scripts/live-domain-check.mjs (read only).');
+notes.push('If www still returns 200, follow docs/www-301-redirect.md for a free Cloudflare Zone Redirect Rule.');
+notes.push('Do not delete Netlify or existing DNS records without identifying the currently active origin.');
 
-console.log('DOMAIN PREFLIGHT (read only)');
+console.log('DOMAIN SOURCE PREFLIGHT (read only; NOT a live redirect check)');
 console.log('Target domain:',host,'| Legacy preview origin in build:',preview);
 console.log('Source sitemap URLs:',urls.length);
 for (const n of notes) console.log('NOTE:',n);
