@@ -240,7 +240,7 @@ if (existsSync(homepageFile)) {
  for(const detail of ['class="local-transit-hint"','/visit-guide.html','산곡역에서 도보 약 10분']){
   if(!home.includes(detail))errors.push('홈페이지 산곡역 접근 안내 누락: '+detail);
  }
- const faqChunks=[...home.matchAll(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/g)];
+ const faqChunks=[...home.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
  try{
   const data=faqChunks.map(m=>JSON.parse(m[1])).find(item=>item['@type']==='FAQPage');
   const stationFaq=data?.mainEntity?.find(item=>String(item.name||'').includes('산곡역에서 어떻게 찾아가나요?'));
