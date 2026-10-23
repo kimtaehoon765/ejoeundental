@@ -35,6 +35,48 @@ if(appliedIllustrations)fs.writeFileSync(retreatmentPath,retreatmentMarkup);
 console.log('Retreatment illustrations resolved at build time:',appliedIllustrations,'CMS overrides; no runtime swap request');
 cp('tmj-care.html','tmj-care.html');cp('wisdom-tooth.html','wisdom-tooth.html');for(const page of ['implant.html','denture.html','pediatric-orthodontics.html','pediatric-dentistry.html'])cp(page,page);cp('assets','assets');for(const page of ['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'])cp(page,page);cp('health','health');cp('noncovered-fees.html','noncovered-fees.html');
 
+// Provide text-only link previews derived from each real medical article.
+// Never invent article images, author reviews or treatment outcomes.
+{
+ const hubs=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
+ const articles=fs.readdirSync(path.join(out,'health')).filter(name=>name.endsWith('.html')).map(name=>'health/'+name);
+ if(articles.length!==46)throw new Error('Unexpected health article count for social previews: '+articles.length);
+ const safeValue=value=>value.replace(/"/g,'&quot;');
+ for(const page of [...hubs,...articles]){
+  const file=path.join(out,page);
+  let html=fs.readFileSync(file,'utf8');
+  const title=html.match(/<title>([^<]+)<\/title>/i)?.[1];
+  const description=html.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1];
+  const canonical=html.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1];
+  if(!title||!description||!/^https:\/\/ejoeundental\.com\/[a-z0-9/_-]+\.html$/i.test(canonical)){
+   throw new Error('Missing authentic page info for social preview: '+page);
+  }
+  const fields=[
+   ['property','og:type','article'],
+   ['property','og:locale','ko_KR'],
+   ['property','og:site_name','이조은치과'],
+   ['property','og:title',title],
+   ['property','og:description',description],
+   ['property','og:url',canonical],
+   ['name','twitter:card','summary'],
+   ['name','twitter:title',title],
+   ['name','twitter:description',description]
+  ];
+  let additions='';
+  for(const [attr,name,value] of fields){
+   const matches=[...html.matchAll(new RegExp('<meta\\s+'+attr+'="'+name+'"\\s+content="[^"]*"\\s*\\/?>','gi'))];
+   if(matches.length>1)throw new Error('Duplicate social meta: '+page+' '+name);
+   if(matches.length===0)additions+='<meta '+attr+'="'+name+'" content="'+safeValue(value)+'">';
+  }
+  if(additions){
+   if(!html.includes('</head>'))throw new Error('Missing head in '+page);
+   html=html.replace('</head>',additions+'</head>');
+   fs.writeFileSync(file,html);
+  }
+ }
+ console.log('Social link previews checked for',articles.length,'patient articles and',hubs.length,'topic hubs');
+}
+
 // Patient-first reading accessibility: progressive enhancement for all 46
 // health articles and four topic indexes. No server calls or visitor tracking.
 // Keep ordinary browser zoom intact and leave every article readable without JS.
