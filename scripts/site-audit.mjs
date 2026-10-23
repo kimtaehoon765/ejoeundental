@@ -1023,6 +1023,17 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
   }
  }
 }
+// Clinic landing snippets should agree across standard search and link-preview metadata.
+{
+ const homepage=readFileSync(join(root,'index.html'),'utf8');
+ const standard=homepage.match(/<meta name="description" content="([^"]+)"/)?.[1];
+ const social=homepage.match(/<meta property="og:description" content="([^"]+)"/)?.[1];
+ const twitter=homepage.match(/<meta name="twitter:description" content="([^"]+)"/)?.[1];
+ if(!standard||standard!==social||standard!==twitter)errors.push('홈페이지 메타·공유 미리보기 설명이 서로 다름');
+ if(!standard?.includes('청천동 세월천로 34') || !standard?.includes('산곡역'))errors.push('홈페이지 지역·실제 주소 검색 설명 누락');
+ if(homepage.includes('#stories .owner-story-card p{display:none}'))errors.push('원장 이야기 카드에 숨김 텍스트 스타일이 남아 있음');
+ if(/원장이 작성한 네이버 블로그 글입니다/.test(homepage))errors.push('원장 이야기 카드의 반복 문구가 다시 추가됨');
+}
 // 홈페이지 원장 이야기 목록 보호: 모바일에서 8편만 보이고, 22편은 펼치면 읽을 수 있어야 합니다.
 {
  const homepage=readFileSync(join(root,'index.html'),'utf8');
