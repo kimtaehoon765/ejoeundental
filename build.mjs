@@ -377,11 +377,18 @@ const faqSchema={
   acceptedAnswer:{'@type':'Answer',text:stripFaqHtml(answer)}
  }))
 };
-if(!homeFaqHtml.includes('"@type": "FAQPage"')){
- homeFaqHtml=homeFaqHtml.replace(/<\/head>/i,'<script type="application/ld+json">'+JSON.stringify(faqSchema).replace(/</g,'\\u003c')+'</script>\n</head>');
- fs.writeFileSync(homeFaqPath,homeFaqHtml);
-}
-console.log('Visible homepage FAQ structured data generated:',faqPairs.length,'questions');
+// Refresh an existing FAQPage as well as new FAQs on every build.
+// Otherwise a homepage copy edit could silently leave obsolete FAQ answers in JSON-LD.
+let updatedHomepageFaqBlocks=0;
+homeFaqHtml=homeFaqHtml.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,(tag,json)=>{
+ const data=JSON.parse(json);
+ if(data['@type']!=='FAQPage')return tag;
+ updatedHomepageFaqBlocks++;
+ return '<script type="application/ld+json">'+JSON.stringify(faqSchema).replace(/</g,'\\u003c')+'</script>';
+});
+if(updatedHomepageFaqBlocks!==1)throw new Error('Expected exactly one homepage FAQPage JSON-LD block, found '+updatedHomepageFaqBlocks);
+fs.writeFileSync(homeFaqPath,homeFaqHtml);
+console.log('Visible homepage FAQ structured data synchronized:',faqPairs.length,'questions');
 
 
 // Single-source catalog: mirror the exact 30 published Naver titles and links
