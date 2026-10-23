@@ -122,6 +122,13 @@ await Promise.all(urls.map(async ({label,url}) => {
       const storyCards=(visibleStories.match(/class="card owner-story-card"/g)||[]).length;
       const hiddenCopies=/(?:원장이 작성한 네이버 블로그 글입니다|#stories .owner-story-card p\{display:none\})/.test(body);
       info.push('원장 글 30편 제목 링크·중복 문구 정리: '+(storyCards===30&&!hiddenCopies?'확인':'재점검 필요'));
+      const symptomSection=visibleStories.match(/<div class="grid" id="post-list"[^>]*>([\s\S]*?)<\/div>/)?.[1]||'';
+      const symptomCount=(symptomSection.match(/<article class="card"/g)||[]).length;
+      const publishedSection=visibleStories.match(/<div id="published-story-items" class="grid"[^>]*>([\s\S]*?)<\/div>/)?.[1]||'';
+      const publishedCards=(publishedSection.match(/<a class="card post-card" href="\/stories\//g)||[]).length;
+      info.push('진료 증상 글 3편 첫 HTML 유지: '+(symptomCount===3?'확인':'확인 필요'));
+      info.push('홈페이지 공개 글 서버 출력: '+(publishedCards>0&&body.includes('class="clinic-native-stories"')?publishedCards+'편 반영':'확인 필요'));
+
       const heroStart = body.indexOf('<section class="hero wrap">');
       const heroEnd = body.indexOf('</section>',heroStart);
       const hero = heroStart>=0&&heroEnd>heroStart ? body.slice(heroStart,heroEnd) : '';
