@@ -611,3 +611,61 @@ html{scroll-padding-top:92px}
 #doctor .doctor-direct-care{margin:9px 0 12px;color:#f5f1db;font-size:17px;line-height:1.5}
 #doctor #doctor_degree,#doctor .doctor-specialist-pill{border:1px solid #c8e1cd;background:#2c5546;color:#fff;font-size:14px;font-weight:700}
 @media(max-width:600px){.hero .hero-doctor-credentials{gap:5px 8px;margin:-5px 0 11px}.hero-doctor-credentials strong{font-size:14px}.hero-doctor-credentials a{flex-basis:100%;width:max-content}}
+
+
+/* Monet-inspired homepage gallery (2026-10-24).
+ * Original impressionist artwork; no third-party image request, no animation or layout JS.
+ * Key medical/SEO text and accessible patient navigation remain unchanged.
+ */
+:root{--monet-paper:#faf6ef;--monet-lilac:#d9cce0;--monet-pond:#a0c5bf;--monet-sage:#8da797;--monet-ink:#254b44}
+#main-content>.hero{position:relative;isolation:isolate;border-radius:0 0 28px 28px}
+#main-content>.hero::before{content:"";position:absolute;z-index:0;inset:2px 0 4px;pointer-events:none;border-radius:28px;background:linear-gradient(90deg,rgba(250,248,242,.98) 0%,rgba(250,248,242,.96) 47%,rgba(250,248,242,.69) 100%),url("/assets/impressionist-water-garden.svg") center center/cover no-repeat;box-shadow:inset 0 0 0 1px rgba(159,177,158,.24)}
+#main-content>.hero>div{position:relative;z-index:1;min-width:0}
+#main-content>.hero .hero-artwork{border:9px solid #fcf9f2;outline:1px solid #b8b6a6;box-shadow:0 18px 32px rgba(45,69,59,.14),10px 14px 0 #dadbd0;transform:rotate(.3deg)}
+#main-content>.hero .hero-artwork img{border-radius:10px}
+#main-content>.hero .kicker{color:#557d70}
+#main-content>.hero #headline{color:#23473c;text-shadow:0 1px 0 rgba(255,255,255,.65)}
+#main-content>.hero .hero-principles span{background:rgba(255,253,249,.87);border-color:#c5d6ca}
+#main-content>.hero .hero-care-summary{background:rgba(252,250,245,.76);border-color:#d1dccc;border-radius:14px}
+#main-content>.hero .hero-care-summary a{background:rgba(255,255,255,.86);border-color:#c9d8cd}
+#main-content>.hero .hero-care-summary a:hover{background:#eef4ec;border-color:#729582}
+#main-content>.hero .hero-visit-note{background:rgba(253,250,244,.78);border-radius:9px;padding:8px 10px}
+.monet-interlude{position:relative;padding:46px 0 60px;background:linear-gradient(180deg,#faf8f3 0%,#f4f1e9 100%);overflow:hidden}
+.monet-interlude::before{content:"";position:absolute;pointer-events:none;inset:auto -7% -140px; height:250px;background:radial-gradient(ellipse at 10% 80%,rgba(188,200,181,.21),transparent 57%),radial-gradient(ellipse at 75% 80%,rgba(212,196,215,.24),transparent 61%)}
+.monet-interlude__inner{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);align-items:center;gap:clamp(22px,5vw,78px)}
+.monet-interlude__painting{min-width:0;margin:0;padding:10px 10px 0;background:#fffdf7;border:1px solid #b9b3a3;box-shadow:0 16px 34px rgba(42,68,58,.13),6px 6px 0 #e5ddd1;transform:rotate(-.65deg)}
+.monet-interlude__painting img{display:block;width:100%;height:auto;aspect-ratio:1400/720;object-fit:cover;background:#d5ded2}
+.monet-interlude__painting figcaption{font-size:12px;line-height:1.45;padding:10px 6px;color:#557166;text-align:center}
+.monet-interlude__copy{position:relative;z-index:1;min-width:0}
+.monet-interlude__eyebrow{margin:0 0 16px;color:#688477;font-size:11px;letter-spacing:.13em;line-height:1.55;font-weight:750;overflow-wrap:anywhere}
+.monet-interlude__copy h2{margin:0 0 18px;font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;font-size:clamp(26px,3vw,39px);font-weight:600;line-height:1.5;letter-spacing:-.045em;color:#244a41;word-break:keep-all}
+.monet-interlude__copy>p:not(.monet-interlude__eyebrow){font-size:15px;line-height:1.9;color:#415e55;word-break:keep-all;margin:0 0 20px}
+.monet-interlude__links{display:flex;gap:10px 22px;flex-wrap:wrap}
+.monet-interlude__links a{color:#1e594a;font-weight:700;text-decoration:underline;text-decoration-color:#9eb9a9;text-underline-offset:5px;min-height:44px;display:inline-flex;align-items:center;font-size:14px}
+.monet-interlude__links a:hover{color:#0b4432;text-decoration-color:currentColor}
+.monet-interlude__links a:focus-visible{outline:3px solid #a47837;outline-offset:4px}
+#main-content>#philosophy{background:radial-gradient(ellipse at 10% 5%,#e6e8da 0%,transparent 55%),radial-gradient(ellipse at 95% 80%,#ede3e9 0%,transparent 51%),#f1f2e9}
+#main-content>#philosophy .card,#main-content>#focus-care .card,#main-content>#stories .owner-story-card{background:#fffefa;border-color:#e0e1d2;box-shadow:0 8px 22px rgba(35,70,54,.045)}
+#main-content>#stories{background:#fbf9f4}
+@media(max-width:820px){
+ #main-content>.hero::before{inset:0;opacity:.76}
+ #main-content>.hero .hero-artwork{transform:none;border-width:6px}
+ .monet-interlude{padding:32px 0 40px}
+ .monet-interlude__inner{grid-template-columns:minmax(0,1fr);gap:23px}
+ .monet-interlude__painting{max-width:740px;margin:0 auto;transform:none}
+ .monet-interlude__copy{max-width:740px;margin:0 auto}
+}
+@media(max-width:600px){
+ #main-content>.hero::before{background:linear-gradient(180deg,rgba(250,248,242,.98) 0%,rgba(250,248,242,.95) 60%,rgba(250,248,242,.82) 100%),url("/assets/impressionist-water-garden.svg") 52% center/cover no-repeat;border-radius:15px}
+ #main-content>.hero .hero-artwork{max-width:100%;box-shadow:5px 8px 0 #e3e1d5}
+ #main-content>.hero .hero-visit-note{padding:8px}
+ .monet-interlude__inner{padding-left:16px;padding-right:16px}
+ .monet-interlude__painting{padding:7px 7px 0}
+ .monet-interlude__painting figcaption{font-size:11px}
+ .monet-interlude__eyebrow{font-size:10px}
+ .monet-interlude__copy h2{font-size:clamp(25px,6.5vw,30px)}
+ .monet-interlude__copy>p:not(.monet-interlude__eyebrow){font-size:14px;line-height:1.85}
+ .monet-interlude__links{flex-direction:column;gap:4px}
+ .monet-interlude__links a{font-size:13px}
+}
+@media(prefers-reduced-motion:reduce){#main-content>.hero .hero-artwork{transform:none}.monet-interlude__painting{transform:none}}
