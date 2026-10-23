@@ -32,6 +32,7 @@ for (const [label, host, method] of [
 const urls = [
   { label: '정식 도메인 첫 화면', url: origin + '/' },
   { label: 'www HTTPS 연결', url: 'https://www.' + apex + '/' },
+  { label: 'www 하위 경로·쿼리 리디렉션', url: 'https://www.' + apex + '/gum-treatment?utm_source=redirect_check' },
   { label: '검색엔진 robots', url: origin + '/robots.txt' },
   { label: '검색엔진 sitemap', url: origin + '/sitemap.xml' },
   { label: '잇몸치료 상세 페이지', url: origin + '/gum-treatment.html' },
@@ -79,7 +80,7 @@ const urls = [
 await Promise.all(urls.map(async ({label,url}) => {
   try {
     const response = await fetch(url, {
-      redirect: label === 'www HTTPS 연결' ? 'manual' : 'follow',
+      redirect: label.startsWith('www ') ? 'manual' : 'follow',
       signal: AbortSignal.timeout(8000),
       headers: { 'User-Agent': 'EjoeunDentalReadOnlyHealthCheck/1.0' }
     });
@@ -93,6 +94,16 @@ await Promise.all(urls.map(async ({label,url}) => {
       const is301 = response.status === 301;
       const correctHost = destination?.origin === origin;
       info.push(is301 && correctHost ? 'www → 대표 주소 301 이동 정상' : 'www 301 대표 주소 이동 미설정');
+      if (location) info.push('이동 위치: ' + location);
+    } else if (label === 'www 하위 경로·쿼리 리디렉션') {
+      const location = response.headers.get('location') || '';
+      let destination;
+      try { destination = location ? new URL(location, url) : null; } catch { destination = null; }
+      const ok = response.status === 301 &&
+        destination?.origin === origin &&
+        destination.pathname === '/gum-treatment' &&
+        destination.search === '?utm_source=redirect_check';
+      info.push(ok ? 'www 경로·쿼리 유지 301 정상' : 'www 하위 페이지 301 또는 쿼리 유지 미설정 (Cloudflare 규칙 필요)');
       if (location) info.push('이동 위치: ' + location);
     } else if (label === '정식 도메인 첫 화면') {
       const hasCanonical = body.includes('<link rel="canonical" href="' + origin + '/">');
