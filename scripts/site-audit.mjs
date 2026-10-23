@@ -973,6 +973,27 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
   if(!page.includes('/assets/care-design-system.css?v=20261023-topic-nav1'))errors.push('모바일 진료 목차 디자인 캐시 갱신 누락: '+slug);
  }
 }
+// Public health information should disclose general-information limits and link to the actual dentist.
+{
+ const hubs=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
+ const shared=readFileSync(join(root,'assets/style.css'),'utf8');
+ if(!shared.includes('.article .hub-editorial-note')||!shared.includes('.hub-editorial-note a:focus-visible')){
+  errors.push('건강정보 글모음 작성 책임·접근성 스타일 누락');
+ }
+ for(const name of hubs){
+  const page=readFileSync(join(root,name),'utf8');
+  if((page.match(/class="hub-editorial-note"/g)||[]).length!==1)errors.push(name+': 진료정보 이용 안내 개수 오류');
+  if(!page.includes('이 페이지는 일반적인 건강정보')||!page.includes('href="/#doctor"'))errors.push(name+': 일반 건강정보 한계 또는 원장 소개 연결 누락');
+  const schemas=[...page.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
+  const collection=schemas.find(schema=>schema['@type']==='CollectionPage');
+  if(!collection || collection.mainEntity?.numberOfItems!==(name==='additional-health.html'?16:10))errors.push(name+': 건강정보 글모음 구조화 데이터 누락');
+  if(name==='insurance-health.html'||name==='additional-health.html'){
+    const meta=page.match(/<meta name="description" content="([^"]+)"/)?.[1];
+    const og=page.match(/<meta property="og:description" content="([^"]+)"/)?.[1];
+    if(!meta||meta!==og||collection?.description!==meta)errors.push(name+': 의료정보 페이지 검색 설명과 구조화 데이터 불일치');
+  }
+ }
+}
 // 홈페이지 원장 이야기 목록 보호: 모바일에서 8편만 보이고, 22편은 펼치면 읽을 수 있어야 합니다.
 {
  const homepage=readFileSync(join(root,'index.html'),'utf8');
