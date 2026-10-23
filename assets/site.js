@@ -1,3 +1,36 @@
-const set=(id,value)=>{const el=document.getElementById(id);if(el&&(typeof value==='string'||typeof value==='number'))el.textContent=String(value)};
-(async()=>{try{const list=document.getElementById('post-list');const postsRequest=list?fetch('/content/posts-index.json'):null;let s={};try{const configResponse=await fetch('/content/site.json');if(!configResponse.ok)throw new Error('Site config HTTP '+configResponse.status);const config=await configResponse.json();if(config&&typeof config==='object'&&!Array.isArray(config))s=config;else throw new Error('Invalid site settings')}catch(configError){console.warn('Using static clinic details because site settings could not load:',configError)}// Keep carefully edited page copy in HTML so readers and search engines see the same text. Only contact details are populated from site settings.
-['address','phone'].forEach(k=>set(k,s[k]));set('footer_address',s.address);for(let i=1;i<=3;i++){const a=document.getElementById('blog'+i);if(a){const url=s['blog'+i]||a.getAttribute('href');let parsed;try{parsed=new URL(url,location.origin)}catch{}if(parsed?.protocol==='https:'&&parsed.username===''&&parsed.password===''&&(parsed.hostname==='naver.com'||parsed.hostname.endsWith('.naver.com'))){a.href=parsed.href;a.hidden=false}else{a.removeAttribute('href');a.hidden=true}}}if(!list)return;const response=await postsRequest;if(!response.ok)throw new Error('Post index HTTP '+response.status);const posts=await response.json();if(!Array.isArray(posts))throw new Error('Invalid post index');const seenSlugs=new Set();const validPosts=posts.filter(post=>{if(!post||typeof post!=='object'||typeof post.slug!=='string'||!/^[a-z0-9][a-z0-9_-]*$/i.test(post.slug)||typeof post.title!=='string'||!post.title.trim()||seenSlugs.has(post.slug.toLowerCase()))return false;seenSlugs.add(post.slug.toLowerCase());return true});const safePosts=validPosts.slice(0,24);if(safePosts.length===0){list.setAttribute('aria-busy','false');return}const fragment=document.createDocumentFragment();for(const post of safePosts){const a=document.createElement('a');a.className='card post-card';a.href='/stories/'+encodeURIComponent(post.slug)+'/';const date=document.createElement('time');date.className='date';if(typeof post.date==='string'){date.textContent=post.date;if(/^\d{4}-\d{2}-\d{2}$/.test(post.date)){const [y,m,d]=post.date.split('-').map(Number);if(y>=100&&y<=9999){const actual=new Date(Date.UTC(y,m-1,d));if(actual.getUTCFullYear()===y&&actual.getUTCMonth()===m-1&&actual.getUTCDate()===d)date.dateTime=post.date}}}const h=document.createElement('h3');h.textContent=post.title;const p=document.createElement('p');p.textContent=typeof post.summary==='string'?post.summary.trim().slice(0,240):'';a.append(date,h,p);fragment.append(a)}list.setAttribute('aria-live','polite');list.setAttribute('aria-busy','false');list.replaceChildren(fragment);const previousNote=document.getElementById('post-preview-note');if(previousNote)previousNote.remove();if(validPosts.length>safePosts.length){const note=document.createElement('p');note.id='post-preview-note';note.className='notice';note.append('홈페이지에는 치과 이야기 일부만 표시됩니다. ');const more=document.createElement('a');more.href='/search.html';more.textContent='홈페이지에서 더 검색하기 →';note.append(more);list.after(note)}}catch(err){console.error(err);const list=document.getElementById('post-list');if(list){const previousNote=document.getElementById('post-preview-note');if(previousNote)previousNote.remove();list.setAttribute('aria-busy','false');if(list.querySelector('.card'))return;list.replaceChildren();const p=document.createElement('p');p.setAttribute('role','status');p.append('치과 이야기 목록을 불러오지 못했습니다. ');for(const [label,url] of [['잇몸 건강정보','/gum-health.html'],['신경치료 건강정보','/root-canal-health.html'],['건강보험 진료','/insurance-health.html'],['홈페이지 검색','/search.html']]){const a=document.createElement('a');a.href=url;a.textContent=label+' →';a.style.marginRight='12px';p.append(a)}list.append(p)}}})();
+// Preserve the three patient-education links in the initial HTML.
+// Published journal cards are rendered during the static build, not fetched
+// and swapped into the page after a mobile visitor starts reading.
+const set=(id,value)=>{
+ const el=document.getElementById(id);
+ if(el&&(typeof value==='string'||typeof value==='number'))el.textContent=String(value);
+};
+(async()=>{
+ let settings={};
+ try{
+  const response=await fetch('/content/site.json');
+  if(!response.ok)throw new Error('Site config HTTP '+response.status);
+  const data=await response.json();
+  if(!data||typeof data!=='object'||Array.isArray(data))throw new Error('Invalid site settings');
+  settings=data;
+ }catch(error){
+  console.warn('Using static clinic contact details because site settings did not load:',error);
+ }
+ ['address','phone'].forEach(key=>set(key,settings[key]));
+ set('footer_address',settings.address);
+ for(let i=1;i<=3;i++){
+  const link=document.getElementById('blog'+i);
+  if(!link)continue;
+  const url=settings['blog'+i]||link.getAttribute('href');
+  let parsed;
+  try{parsed=new URL(url,location.origin)}catch{}
+  if(parsed?.protocol==='https:'&&!parsed.username&&!parsed.password&&
+    (parsed.hostname==='naver.com'||parsed.hostname.endsWith('.naver.com'))){
+   link.href=parsed.href;
+   link.hidden=false;
+  }else{
+   link.removeAttribute('href');
+   link.hidden=true;
+  }
+ }
+})();
