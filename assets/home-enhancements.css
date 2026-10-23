@@ -496,3 +496,38 @@ html{scroll-padding-top:92px}
   grid-column:auto
  }
 }
+
+
+/* Homepage: an optional, compact index of locally published journal stories.
+   Core symptom-based education cards stay in place when the section is closed. */
+#stories .clinic-native-stories{
+ box-sizing:border-box;margin:18px 0 22px;padding:0 17px;
+ border:1px solid #c9ddd0;border-radius:12px;background:#f4f8f4;color:#173e35
+}
+#stories .clinic-native-stories>summary{
+ box-sizing:border-box;cursor:pointer;min-height:52px;padding:13px 4px;
+ font-weight:700;line-height:1.65;word-break:keep-all
+}
+#stories .clinic-native-stories>summary span{float:right}
+#stories .clinic-native-stories>summary:focus-visible,
+#stories .clinic-native-stories .post-card:focus-visible{outline:3px solid #a47837;outline-offset:2px}
+#stories .clinic-native-stories .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px;padding:0 0 16px}
+#stories .clinic-native-stories .post-card{
+ box-sizing:border-box;display:flex;flex-direction:column;gap:7px;min-width:0;
+ padding:17px;border:1px solid #d9e6db;border-radius:10px;
+ background:#fff;color:#173e35;text-decoration:none;overflow-wrap:anywhere
+}
+#stories .clinic-native-stories .post-card h3{
+ font-size:17px;line-height:1.55;margin:0;color:#173e35;text-decoration:underline;
+ text-decoration-thickness:1px;text-underline-offset:3px;word-break:keep-all
+}
+#stories .clinic-native-stories .post-card .date{font-size:13px;color:#51695d}
+#stories .clinic-native-stories .post-card p{font-size:14px;line-height:1.7;margin:0;word-break:keep-all}
+#stories .clinic-native-stories .post-card:hover{background:#edf4ee}
+#stories .clinic-native-note,#stories .clinic-native-empty{font-size:13px;line-height:1.7;color:#50645b;margin:0 0 14px}
+@media(max-width:600px){
+ #stories .clinic-native-stories{margin:12px 0 19px;padding:0 13px}
+ #stories .clinic-native-stories>summary{min-height:54px;font-size:15px}
+ #stories .clinic-native-stories .grid{grid-template-columns:1fr;gap:9px}
+ #stories .clinic-native-stories .post-card{padding:15px;min-height:54px}
+}
