@@ -109,6 +109,16 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push(ok ? 'www 경로·쿼리 유지 301 정상' : 'www 하위 페이지 301 또는 쿼리 유지 미설정 (Cloudflare 규칙 필요)');
       if (location) info.push('이동 위치: ' + location);
     } else if (label === '정식 도메인 첫 화면') {
+      // Read the response already fetched, without extra network requests.
+      // Missing headers are deployment signals, never claims of compromise.
+      const securityKeys=['x-frame-options','x-content-type-options',
+       'referrer-policy','permissions-policy'];
+      const missingHeaders=securityKeys.filter(name=>!response.headers.get(name));
+      info.push(missingHeaders.length===0
+       ? 'Cloudflare Pages 응답 보안 헤더 4종 반영'
+       : '응답 보안 헤더 누락·신규 배포 확인 필요: '+missingHeaders.join(', '));
+      const publicNoindex=String(response.headers.get('x-robots-tag')||'').toLowerCase().includes('noindex');
+      info.push(publicNoindex?'주의: 정식 도메인 응답에 noindex 헤더 확인됨':'정식 도메인 noindex 응답 없음');
       const hasCanonical = body.includes('<link rel="canonical" href="' + origin + '/">');
       const hasClinic = body.includes('이조은치과');
       const hasCompactJournal = body.includes('owner-stories-more');

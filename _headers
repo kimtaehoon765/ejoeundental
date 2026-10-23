@@ -1,0 +1,29 @@
+# Static response headers for Cloudflare Pages; build.mjs copies this into dist.
+# On Netlify, netlify.toml remains the source for deployment headers.
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# Prevent indexing the parallel Pages production and branch-preview hosts.
+# Never apply X-Robots-Tag: noindex to the ejoeundental.com clinic domain.
+https://ejoeundental.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:branch.ejoeundental.pages.dev/*
+  X-Robots-Tag: noindex
+
+# Patient page snippets, crawl discovery files and search content stay fresh.
+/sitemap.xml
+  Cache-Control: public, max-age=0, must-revalidate
+
+/robots.txt
+  Cache-Control: public, max-age=0, must-revalidate
+
+/content/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Clinical article styles and scripts refresh on a modest browser TTL.
+/assets/*
+  Cache-Control: public, max-age=3600, must-revalidate

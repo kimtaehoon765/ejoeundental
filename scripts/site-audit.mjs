@@ -2008,3 +2008,50 @@ if (errors.length) process.exitCode = 1;
    errors.push('부평치과 정보 탐색 4개 정확한 이동 경로·실제 진료 위치·모바일 링크 누락');
  }
 }
+
+
+// Cloudflare Pages does not read Netlify-only netlify.toml. Keep a checked-in
+// _headers document in the actual build output so patient pages have the same
+// safe HTTP headers on Pages. Preview hosts must not compete with the canonical
+// clinic domain in search engines; do not apply noindex to the live apex host.
+{
+ const file=join(root,'_headers');
+ if(!existsSync(file))errors.push('Cloudflare Pages 배포 _headers 파일 누락');
+ else {
+  const txt=readFileSync(file,'utf8');
+  const lines=txt.split(/\r?\n/);
+  const rules=[];
+  for(const line of lines){
+   const trimmed=line.trim();
+   if(!trimmed||trimmed.startsWith('#'))continue;
+   if(line===trimmed){rules.push({path:trimmed,headers:new Map()});continue;}
+   if(!rules.length||!/^ {2}[^:]+:/.test(line)) {
+    errors.push('Cloudflare Pages _headers 들여쓰기·문법 오류: '+line.slice(0,100));continue;
+   }
+   const index=trimmed.indexOf(':');
+   const key=trimmed.slice(0,index),value=trimmed.slice(index+1).trim();
+   if(!key||!value||rules.at(-1).headers.has(key))
+    errors.push('Cloudflare Pages _headers 중복·비어있는 헤더: '+key);
+   rules.at(-1).headers.set(key,value);
+  }
+  const byPath=path=>rules.filter(rule=>rule.path===path);
+  if(byPath('/*').length!==1||
+     !['X-Frame-Options','X-Content-Type-Options','Referrer-Policy','Permissions-Policy'].every(key=>byPath('/*')[0]?.headers.has(key))){
+    errors.push('Cloudflare Pages 보안·개인정보 보호 기본 응답 헤더 누락');
+  }
+  for(const host of ['https://ejoeundental.pages.dev/*',
+                      'https://:branch.ejoeundental.pages.dev/*']){
+   if(byPath(host).length!==1||byPath(host)[0].headers.get('X-Robots-Tag')!=='noindex')
+    errors.push('Cloudflare Pages 임시/프리뷰 주소 색인 차단 헤더 누락: '+host);
+  }
+  if(rules.some(rule=>(rule.path==='/*'||rule.path.includes('ejoeundental.com'))&&
+       rule.headers.has('X-Robots-Tag')))
+     errors.push('정식 ejoeundental.com 도메인은 색인 차단하면 안 됩니다');
+  for(const route of ['/sitemap.xml','/robots.txt','/content/*','/assets/*']){
+   if(byPath(route).length!==1||!byPath(route)[0].headers.get('Cache-Control')?.includes('must-revalidate'))
+    errors.push('Cloudflare Pages 검색/진료 자료 갱신 헤더 누락: '+route);
+  }
+  if(rules.length!==7)errors.push('Cloudflare Pages 예상 응답 헤더 규칙 수 불일치: '+rules.length);
+  if(txt.length>14000)errors.push('Cloudflare Pages 응답 헤더 파일이 불필요하게 큼');
+ }
+}
