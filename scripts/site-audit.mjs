@@ -50,7 +50,7 @@ const paths = new Set(files.map(f => '/' + f.slice(root.length + 1).replaceAll('
 {
  const css=readFileSync(join(root,'assets/style.css'),'utf8');
  if(!css.includes('.mobile-quick + .navlinks{display:none}')||
-    css.includes(' .navlinks{display:none}')||
+    /^\s*\.navlinks\{display:none\}/m.test(css)||
     !css.includes('.navlinks a.call{display:inline-flex;order:-1')){
    errors.push('환자용 건강정보 모바일 전화·길찾기 메뉴가 숨겨질 수 있습니다');
  }
