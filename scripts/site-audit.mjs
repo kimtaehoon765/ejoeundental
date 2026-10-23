@@ -410,10 +410,26 @@ else {
     'aria-pressed','results.append(filterBar)','listArea.replaceChildren()']){
    if(!script.includes(fragment))errors.push('검색 결과 유형별 필터 기능 누락: '+fragment);
   }
-  if(!page.includes('/assets/search-page.css?v=20261023-search-category-filters'))
+  if(!page.includes('/assets/search-page.css?v=20261023-expert-shortcuts'))
    errors.push('검색 유형별 필터 CSS 새 버전 연결 누락');
   if(!existsSync(searchCss)||!readFileSync(searchCss,'utf8').includes('.search-category-filter[aria-pressed="true"]'))
    errors.push('검색 결과 선택된 유형 표시 스타일 누락');
+
+  // 일반 검색과 전문가용 참고자료의 경계를 분명히 표시하고, 장비 문의에
+  // 실패한 환자용 검색 목록 대신 관련 실무 가이드 바로가기를 제공한다.
+  for(const term of ['search-expert-direct-links','search-expert-direct-actions',
+    '/dental-equipment.html','/dental-materials.html','/handpiece-maintenance.html',
+    '/autoclave-maintenance.html','/suction-maintenance.html','/compressor-maintenance.html']){
+   if(!script.includes(term))errors.push('치과 전문가용 장비 별도 안내 누락: '+term);
+  }
+  if(!page.includes('장비·재료 검색어는 별도 전문가용 참고자료')||
+     !page.includes('핸드피스·멸균기 등 장비 검색어는 별도 전문가용 참고자료')){
+   errors.push('환자 통합 검색과 전문가용 장비 자료 구분 설명 누락');
+  }
+  if(!existsSync(searchCss)||!readFileSync(searchCss,'utf8').includes('.search-expert-direct-links{')){
+   errors.push('전문가용 장비 별도 안내 모바일 CSS 누락');
+  }
+
 
 
   // Search relevance boosts must not masquerade as matches to every typed word.
