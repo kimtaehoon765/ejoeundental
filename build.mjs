@@ -85,7 +85,7 @@ feeEntries.sort((a,b)=>a.category.localeCompare(b.category,'ko')||a.item.localeC
    '<tbody>'+cells+'</tbody></table></section>';
  }).join('');
  if(!feeTables.includes('id="fees-certificates"')||!feeTables.includes('id="fees-treatments"'))throw new Error('Treatment or certificate fee section not rendered');
- if(!feeTables.at(-1)?.startsWith('<section class="fees-category" aria-label="제증명수수료 비용 안내">'))throw new Error('Certificate fees must appear after treatment fees');
+ if(orderedFeeGroups.at(-1)?.[0]!=='제증명수수료'||orderedFeeGroups[0]?.[0]==='제증명수수료')throw new Error('Certificate fees must appear after treatment fees');
  feeHtml=feeHtml.replace(feeMarker,feeTables);
  feeHtml=feeHtml.replace('공개된 비급여 비용을 안내합니다.','공개된 비급여 비용 및 제증명수수료 '+feeEntries.length+'개 항목을 안내합니다.');
  if(feeHtml.includes(feeMarker))throw new Error('Unrendered fee table placeholder');
