@@ -1526,3 +1526,37 @@ if (errors.length) process.exitCode = 1;
    errors.push('홈페이지 검색의 인천·부평 신경치료 및 무자바스크립트 이동 링크 누락');
  }
 }
+
+// Medical shares should show the visible article title, accurate clinic
+// attribution and one final URL rather than stale preview-domain snippets.
+{
+ const targets=[
+  ...readdirSync(join(root,'health')).filter(f=>f.endsWith('.html')).map(f=>'health/'+f),
+  'gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html',
+  'gum-treatment.html','retreatment.html','cervical-abrasion.html','insured-care.html'
+ ];
+ if(targets.length!==54)errors.push('공개 의학정보 공유 페이지 54개 누락');
+ for(const relative of targets){
+  const body=readFileSync(join(root,relative),'utf8');
+  const title=body.match(/<title>([^<]+)<\/title>/i)?.[1]||'';
+  const description=body.match(/<meta name="description" content="([^"]+)"/i)?.[1]||'';
+  const canonical=body.match(/<link rel="canonical" href="([^"]+)"/i)?.[1]||'';
+  const hub=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'].includes(relative);
+  const pairs=[
+   ['property','og:type',hub?'website':'article'],
+   ['property','og:title',title],['property','og:description',description],
+   ['property','og:url',canonical],['property','og:site_name','이조은치과'],
+   ['property','og:locale','ko_KR'],['name','twitter:card','summary'],
+   ['name','twitter:title',title],['name','twitter:description',description]
+  ];
+  for(const [kind,key,value] of pairs){
+   const tag='<meta '+kind+'="'+key+'" content="'+value+'">';
+   if(body.split(tag).length!==2){
+    errors.push('의학정보 공유·SEO 메타 설명 누락 또는 중복: '+relative+' / '+key);
+   }
+  }
+  if(!canonical.startsWith(publicOrigin+'/')){
+   errors.push('의학정보 공유 canonical 실제 대표주소 불일치: '+relative);
+  }
+ }
+}

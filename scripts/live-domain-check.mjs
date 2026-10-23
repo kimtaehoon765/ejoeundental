@@ -344,6 +344,26 @@ await Promise.all(urls.map(async ({label,url}) => {
         body.includes('인천·부평 잇몸치료,') && body.includes('세월천로 34');
       info.push(present?'인천·부평 잇몸치료 검색 제목·설명·실제 주소 반영':'지역 잇몸치료 검색 문구 최신 배포 확인 필요');
     }
+    // Reuse fetched pages: check actual public metadata without another request.
+    if(['public route gum-health','public route root-canal-health',
+        'public route insurance-health','public route additional-health',
+        '재신경치료 이미지 초기 표시','잇몸치료 상세 페이지',
+        '잇몸 건강정보 탐색 경로','신경치료 건강정보 탐색 경로'].includes(label)){
+      const title=body.match(/<title>([^<]+)<\/title>/)?.[1]||'';
+      const summary=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+      const canonical=body.match(/<link rel="canonical" href="([^"]+)"/)?.[1]||'';
+      const checks=[
+        ['property','og:title',title],['property','og:description',summary],
+        ['property','og:url',canonical],['name','twitter:card','summary'],
+        ['name','twitter:title',title],['name','twitter:description',summary]
+      ];
+      const verified=Boolean(title&&summary&&canonical&&canonical===response.url)&&
+        checks.every(([kind,key,value])=>{
+          const tag='<meta '+kind+'="'+key+'" content="'+value+'">';
+          return body.split(tag).length===2;
+        });
+      info.push(verified?'의학정보 제목·소개·대표주소·공유 미리보기 일치':'의학정보 공유 카드 최신 반영 확인 필요');
+    }
     // Reuse already-fetched 19 public patient resources: no additional requests.
     // Keep social previews, medical schema and search snippets consistent in production.
     if(label.startsWith('remaining route ')||

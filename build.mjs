@@ -1856,6 +1856,57 @@ if(standalonePatientNavCount!==16)throw new Error('Incomplete standalone patient
 console.log('Standalone patient-page visible navigation checked:',standalonePatientNavCount,'pages');
 
 
+
+// Keep each patient article's search snippet, Open Graph and messaging-card
+// metadata in sync with its real, redirect-free, published canonical URL.
+// This applies only to public clinical education and four main care guides,
+// never private clinic-reference pages, admin, search results or fee listings.
+const clinicalSharingFiles=[
+ ...fs.readdirSync(path.join(out,'health')).filter(f=>f.endsWith('.html')).map(f=>'health/'+f),
+ 'gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html',
+ 'gum-treatment.html','retreatment.html','cervical-abrasion.html','insured-care.html'
+];
+if(clinicalSharingFiles.length!==54||new Set(clinicalSharingFiles).size!==54){
+ throw new Error('Expected 54 unique public clinical pages for social preview metadata');
+}
+const escapeSharingValue=value=>String(value)
+ .replace(/&(?!#\d+;|#x[\da-f]+;|[a-z][a-z\d]+;)/gi,'&amp;')
+ .replace(/"/g,'&quot;').replace(/</g,'&lt;');
+let clinicalSharingCount=0;
+for(const relative of clinicalSharingFiles){
+ const target=path.join(out,relative);
+ let html=fs.readFileSync(target,'utf8');
+ const title=html.match(/<title>([^<]+)<\/title>/i)?.[1]?.trim();
+ const description=html.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i)?.[1]?.trim();
+ const canonical=html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
+ if(!title||!description||!canonical||!canonical.startsWith(selectedPublicOrigin+'/')){
+  throw new Error('Clinical preview missing trustworthy title, description or canonical: '+relative);
+ }
+ const isHub=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'].includes(relative);
+ const expected=[
+  ['property','og:type',isHub?'website':'article'],
+  ['property','og:title',title],['property','og:description',description],
+  ['property','og:url',canonical],['property','og:site_name','이조은치과'],
+  ['property','og:locale','ko_KR'],['name','twitter:card','summary'],
+  ['name','twitter:title',title],['name','twitter:description',description]
+ ];
+ for(const [kind,key,value] of expected){
+  const matching=[...html.matchAll(/<meta\b[^>]*>/gi)]
+    .filter(m=>m[0].includes(kind+'="'+key+'"')||m[0].includes(kind+"='"+key+"'"));
+  if(matching.length>1)throw new Error('Duplicate share-card field '+key+': '+relative);
+  const correct='<meta '+kind+'="'+key+'" content="'+escapeSharingValue(value)+'">';
+  if(matching.length===1)html=html.replace(matching[0][0],correct);
+  else html=html.replace(/<\/head>/i,correct+'</head>');
+ }
+ for(const [kind,key,value] of expected){
+  const expectedMarkup='<meta '+kind+'="'+key+'" content="'+escapeSharingValue(value)+'">';
+  if(html.split(expectedMarkup).length!==2)throw new Error('Incorrect clinical sharing field '+key+': '+relative);
+ }
+ fs.writeFileSync(target,html);
+ clinicalSharingCount++;
+}
+console.log('Clinical education sharing metadata aligned:',clinicalSharingCount,'public pages.');
+
 // Brand favicon: one lightweight local SVG shared by all generated HTML pages.
 // Includes nested /health/ and /stories/ pages, plus the 404 page. Do not
 // rewrite canonical metadata, indexability or document contents.
