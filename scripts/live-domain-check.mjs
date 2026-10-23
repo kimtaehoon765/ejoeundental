@@ -126,6 +126,10 @@ await Promise.all(urls.map(async ({label,url}) => {
       const footerOk=['이조은치과의원','세월천로 34','대우프라자 305호',
         'tel:0325132875','3시간 무료','격주 진료','Copyright'].every(term=>clinicFooter.includes(term));
       info.push(footerOk?'하단 의료기관 정보·주소·전화·진료시간·주차 반영':'하단 의료기관 정보 배포 확인 필요');
+      const feeFooterLinks=(body.match(/href="\/noncovered-fees\.html"/g)||[]).length;
+      const discreetFeeLink=clinicFooter.includes('class="footer-fee-disclosure"')&&
+        clinicFooter.includes('href="/noncovered-fees.html"')&&feeFooterLinks===1;
+      info.push(discreetFeeLink?'수가 안내를 홈페이지 맨 아래 작은 링크 한 곳에 표시':'수가 안내 링크 위치 점검 필요');
 
       const symptomSection=visibleStories.match(/<div class="grid" id="post-list"[^>]*>([\s\S]*?)<\/div>/)?.[1]||'';
       const symptomCount=(symptomSection.match(/<article class="card"/g)||[]).length;
@@ -328,10 +332,10 @@ await Promise.all(urls.map(async ({label,url}) => {
     if(label==='remaining route noncovered-fees'){
       const expected=['보험사 양식 치료확인서','병원 발급 진단서',
         '차트 복사(진료기록 사본 1~5매)','파노라마 인쇄본'];
-      const certificatesFirst=body.indexOf('<section class="fees-category"')===
+      const certificatesLast=body.lastIndexOf('<section class="fees-category"')===
         body.indexOf('<section class="fees-category" aria-label="제증명수수료 비용 안내">');
-      const ready=certificatesFirst && body.includes('id="fees-certificates"') &&
-        body.includes('id="fees-treatments"') && body.includes('class="fees-quick-nav"') &&
+      const ready=certificatesLast && body.includes('id="fees-certificates"') &&
+        body.includes('id="fees-treatments"') && !body.includes('class="fees-quick-nav"') &&
         expected.every(t=>body.includes(t)) &&
         !body.includes('<!-- BUILD_FEE_TABLES -->') &&
         !body.includes('src="/assets/fees.js"') &&
