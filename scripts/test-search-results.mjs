@@ -8,6 +8,7 @@ const script=readFileSync(new URL('../assets/search.js',import.meta.url),'utf8')
 class Element {
   constructor(tag){this.tagName=tag;this.children=[];this.dataset={};this.handlers={};this.attrs={};}
   append(...children){for(const child of children){if(child&&typeof child==='object')child.parent=this;this.children.push(child);}}
+  replaceChildren(...children){for(const child of this.children)if(child&&typeof child==='object')child.parent=null;this.children=[];this.append(...children);}
   setAttribute(name,value){this.attrs[name]=String(value);}
   addEventListener(name,fn){this.handlers[name]=fn;}
   focus(){}
@@ -193,4 +194,75 @@ test('show the relevant article passage for body-only matches without HTML injec
  const second=(await search('치주낭',[withRelevantDescription])).results;
  const summary=walk(second,node=>node.className==='result')[0].children.find(x=>x.tagName==='p')?.textContent;
  assert.equal(summary,'치주낭의 의미와 확인 방법','retain relevant editor-authored descriptions');
+});
+
+
+test('patients can filter mixed results by health, treatment and medication type',async()=>{
+ const pages=[
+  ...makeEntries(15,'잇몸'),
+  {url:'/gum-treatment.html',title:'잇몸치료 안내',description:'잇몸치료 상담',body:'잇몸 상태 검사'},
+  {url:'/retreatment.html',title:'잇몸 관련 진료 안내',description:'잇몸 정보',body:'잇몸 설명'},
+  {url:'/medical-history.html',title:'잇몸치료 전 복용약 확인',description:'잇몸 진료시 복용약',body:'잇몸 상태'},
+  {url:'/blood-thinners-dental.html',title:'잇몸 출혈 시 혈액희석제',description:'잇몸 출혈',body:'잇몸 상태'},
+  {url:'/stories/gum-tips/',title:'잇몸 건강 이야기',description:'잇몸 관리',body:'잇몸 건강'}
+ ];
+ const {results,status}=await search('잇몸',pages);
+ const buttons=walk(results,x=>x.className==='search-category-filter');
+ assert.ok(buttons.length>=4,'mixed result types should offer category filters');
+ const byText=snippet=>buttons.find(b=>b.textContent.includes(snippet));
+ const health=byText('치과 건강정보');
+ const medical=byText('복용약·전신질환');
+ const all=byText('전체');
+ assert.ok(health&&medical&&all);
+ assert.equal(all.attrs['aria-pressed'],'true');
+ health.handlers.click();
+ assert.equal(health.attrs['aria-pressed'],'true');
+ assert.equal(all.attrs['aria-pressed'],'false');
+ const healthResults=walk(results,x=>x.className==='result');
+ assert.equal(healthResults.length,15);
+ assert.ok(healthResults.every(x=>x.href.startsWith('/health/')));
+ assert.match(status.textContent,/치과 건강정보 15개/);
+ medical.handlers.click();
+ const medicalResults=walk(results,x=>x.className==='result');
+ assert.equal(medicalResults.length,2);
+ assert.ok(medicalResults.every(x=>x.href.includes('medical-history')||x.href.includes('blood-thinners')));
+ assert.equal(walk(results,x=>x.className==='search-show-more').length,0);
+ all.handlers.click();
+ assert.equal(walk(results,x=>x.className==='result').length,20);
+ assert.equal(walk(results,x=>x.className==='search-show-more').length,0);
+});
+test('filtered long search result lists still expand in batches, without duplicates',async()=>{
+ const pages=[
+  ...Array.from({length:44},(_,i)=>({url:'/health/periodontal-'+(i+1)+'.html',title:'잇몸 건강 '+(i+1),description:'잇몸 상태',body:'잇몸 진료'})),
+  {url:'/gum-treatment.html',title:'잇몸 진료 안내',description:'잇몸치료',body:'잇몸'},
+  {url:'/medical-history.html',title:'잇몸 진료 복용약 안내',description:'잇몸 약',body:'잇몸'}
+ ];
+ const {results}=await search('잇몸',pages);
+ const buttons=walk(results,x=>x.className==='search-category-filter');
+ const health=buttons.find(x=>x.textContent.includes('치과 건강정보'));
+ assert.ok(health);
+ health.handlers.click();
+ let shown=walk(results,x=>x.className==='result');
+ assert.equal(shown.length,20);
+ let more=walk(results,x=>x.className==='search-show-more')[0];
+ assert.ok(more);
+ more.handlers.click();
+ assert.equal(walk(results,x=>x.className==='result').length,40);
+ more.handlers.click();
+ shown=walk(results,x=>x.className==='result');
+ assert.equal(shown.length,44);
+ assert.equal(new Set(shown.map(x=>x.href)).size,44);
+ assert.equal(walk(results,x=>x.className==='search-show-more').length,0);
+ buttons.find(x=>x.textContent.includes('전체')).handlers.click();
+ assert.equal(walk(results,x=>x.className==='result').length,20);
+ assert.ok(walk(results,x=>x.className==='search-show-more')[0]);
+});
+test('small or single-category searches do not add unnecessary filter controls',async()=>{
+ for(const pages of [
+  makeEntries(3,'잇몸'),
+  makeEntries(27,'잇몸')
+ ]){
+  const {results}=await search('잇몸',pages);
+  assert.equal(walk(results,x=>x.className==='search-category-filter').length,0);
+ }
 });
