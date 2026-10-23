@@ -1399,3 +1399,57 @@ if (errors.length) process.exitCode = 1;
   }
  }
 }
+
+// 인천·부평 신경치료: use a genuinely useful 10-article information hub for
+// first-time treatment queries and a separate page for repeat endodontic care.
+{
+ const home=readFileSync(join(root,'index.html'),'utf8');
+ const hub=readFileSync(join(root,'root-canal-health.html'),'utf8');
+ const retreat=readFileSync(join(root,'retreatment.html'),'utf8');
+ const index=JSON.parse(readFileSync(join(root,'content/search-index.json'),'utf8'));
+ const canonicalHost=publicOrigin;
+ const meta=(s,attr)=>s.match(new RegExp('<meta name="'+attr+'" content="([^"]+)"'))?.[1]||'';
+ const og=(s,attr)=>s.match(new RegExp('<meta property="'+attr+'" content="([^"]+)"'))?.[1]||'';
+ const title=(s)=>s.match(/<title>([^<]+)<\/title>/)?.[1]||'';
+ const schemas=(s)=>[...s.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
+ const keywords=['인천 신경치료','부평 신경치료'];
+ if(keywords.some(word=>!meta(home,'description').includes(word) ||
+   !home.includes('href="/root-canal-health.html"')) ||
+   meta(home,'description')!==og(home,'og:description') ||
+   meta(home,'description')!==meta(home,'twitter:description')){
+   errors.push('홈페이지 인천·부평 신경치료 안내·공유 설명 불일치');
+ }
+ const hubSchema=schemas(hub).find(s=>s['@type']==='CollectionPage');
+ if(keywords.some(word=>!title(hub).includes(word)||!meta(hub,'description').includes(word))||
+   !hub.includes('<h1>인천·부평 신경치료·재신경치료 건강정보</h1>')||
+   !hub.includes('세월천로 34, 대우프라자 305호')||
+   !hub.includes('신경치료와 재신경치료는 어떻게 다를까요?')||
+   !hub.includes('href="/retreatment.html"')||
+   hubSchema?.name!==title(hub)||hubSchema?.description!==meta(hub,'description')||
+   hubSchema?.mainEntity?.numberOfItems!==10||
+   og(hub,'og:title')!==title(hub)||og(hub,'og:description')!==meta(hub,'description')){
+   errors.push('인천·부평 신경치료 건강정보의 진료 안내·SEO·구조화 데이터 불일치');
+ }
+ const retreatSchema=schemas(retreat).find(s=>s['@type']==='MedicalWebPage');
+ if(!title(retreat).includes('인천 재신경치료')||!title(retreat).includes('부평 재신경치료')||
+   keywords.some(word=>!meta(retreat,'description').includes(word))||
+   !retreat.includes('href="/root-canal-health.html"')||
+   retreatSchema?.name!==title(retreat)||retreatSchema?.description!==meta(retreat,'description')||
+   og(retreat,'og:title')!==title(retreat)||og(retreat,'og:description')!==meta(retreat,'description')){
+   errors.push('지역 재신경치료 안내·신경치료 연결·검색 설명 불일치');
+ }
+ for(const [url,expectedTitle] of [['/root-canal-health.html',title(hub)],['/retreatment.html',title(retreat)]]){
+   const hits=index.filter(item=>item.url===url);
+   if(hits.length!==1||hits[0].title!==expectedTitle ||
+     !keywords.every(word=>String(hits[0].body+' '+hits[0].description).includes(word))){
+     errors.push('홈페이지 내부 검색 신경치료 색인 제목·지역어 불일치: '+url);
+   }
+ }
+ const siteSchemas=schemas(home);
+ const clinic=siteSchemas.find(s=>s['@type']==='Dentist');
+ const site=siteSchemas.find(s=>s['@type']==='WebSite');
+ if(!clinic?.availableService?.some(x=>x.name==='신경치료(근관치료)')||
+    !site?.hasPart?.some(x=>x.url===canonicalHost+'/root-canal-health'+(canonicalHost.endsWith('.com')?'':'.html'))){
+   errors.push('치과 신경치료 서비스 구조화 데이터 및 건강정보 연결 누락');
+ }
+}
