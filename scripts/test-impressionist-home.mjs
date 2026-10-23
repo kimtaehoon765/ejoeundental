@@ -52,3 +52,17 @@ test('patients retain key phone, navigation, SEO and degree information',()=>{
  const headlineCount=(home.match(/<h1 id="headline">/g)||[]).length;
  assert.equal(headlineCount,1);
 });
+
+test('mobile music remains opt-in without overlapping the Monet picture or care text',()=>{
+ const nav=home.slice(home.indexOf('<header><nav'),home.indexOf('</nav></header>'));
+ assert.ok(nav.includes('id="music-header-button"'), 'Music shortcut must be in the header');
+ assert.equal((home.match(/id="music-header-button"/g)||[]).length,1);
+ assert.ok(home.includes("headerMusic.addEventListener('click',function(){trigger.click()})"),
+  'Header shortcut must use the same lazy-loaded music player');
+ assert.match(css,/body\.home-page #music-reopen\{display:none!important\}/);
+ assert.match(css,/body\.home-page header \.music-header-button\{[\s\S]*?position:absolute/);
+ assert.match(css,/html\.home-scrolled body\.home-page header \.music-header-button\{display:none\}/);
+ const player=readFileSync('dist/assets/music-controls.js','utf8');
+ assert.ok(player.includes("getElementById('music-header-button')"));
+ assert.ok(player.includes('trigger.hidden=isOpen'));
+});
