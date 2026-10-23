@@ -170,7 +170,43 @@ if(!feesHome.includes('href="/noncovered-fees.html"')){
  feesHome=feesHome.replace(/<\/footer>/i,'<p style="text-align:center;padding:12px"><a href="/noncovered-fees.html">비급여 진료비용 및 제증명수수료 안내</a></p></footer>');
  fs.writeFileSync(feesHomePath,feesHome);
 }
-fs.mkdirSync(path.join(out,'content'),{recursive:true});cp('content/site.json','content/site.json');cp('admin','admin');const dir=path.join(root,'content/posts'),posts=[];const publishedSources=fs.readdirSync(dir).filter(x=>x.endsWith('.json')).map(name=>({name,post:JSON.parse(fs.readFileSync(path.join(dir,name),'utf8'))})).filter(({post})=>post.published===true).sort((a,b)=>String(a.post.date||'').localeCompare(String(b.post.date||''))||a.name.localeCompare(b.name));for(const {name,post} of publishedSources){const slug=path.basename(name,'.json');
+fs.mkdirSync(path.join(out,'content'),{recursive:true});cp('content/site.json','content/site.json');
+
+// Downloadable clinic contact card: always derive phone and physical address
+// from the checked-in verified clinic profile, never duplicate stale details.
+// VCF is static, needs no cookies, scripts, external apps or paid services.
+{
+ const profile=JSON.parse(fs.readFileSync(path.join(root,'content/site.json'),'utf8'));
+ const name='이조은치과의원';
+ const phone=String(profile.phone||'').trim();
+ const address=String(profile.address||'').trim();
+ if(!/^0[0-9-]{7,15}$/.test(phone)||
+    !address.includes('세월천로 34')||!address.includes('대우프라자 305호')){
+  throw new Error('Verified clinic contact details required for downloadable contact card');
+ }
+ const escapeField=value=>String(value).replace(/\\/g,'\\\\').replace(/\r?\n/g,'\\n').replace(/;/g,'\\;').replace(/,/g,'\\,');
+ const fields=[
+  'BEGIN:VCARD','VERSION:3.0','FN:'+escapeField(name),
+  'N:'+escapeField(name)+';;;;','ORG:'+escapeField(name),
+  'TEL;TYPE=WORK,VOICE:'+phone,
+  'ADR;TYPE=WORK:;;'+escapeField(address)+';;;;대한민국',
+  'URL:https://ejoeundental.com/','END:VCARD'
+ ];
+ // Fold at UTF-8 character boundaries to meet the vCard 75-octet line limit.
+ function foldVcard(line){
+  let segments=[''];
+  for(const character of line){
+   const current=segments.length-1;
+   if(Buffer.byteLength(segments[current]+character,'utf8')>73){
+    segments.push(' '+character);
+   }else segments[current]+=character;
+  }
+  return segments.join('\r\n');
+ }
+ fs.writeFileSync(path.join(out,'clinic-contact.vcf'),fields.map(foldVcard).join('\r\n')+'\r\n','utf8');
+ console.log('Clinic vCard generated from verified name, address and phone');
+}
+cp('admin','admin');const dir=path.join(root,'content/posts'),posts=[];const publishedSources=fs.readdirSync(dir).filter(x=>x.endsWith('.json')).map(name=>({name,post:JSON.parse(fs.readFileSync(path.join(dir,name),'utf8'))})).filter(({post})=>post.published===true).sort((a,b)=>String(a.post.date||'').localeCompare(String(b.post.date||''))||a.name.localeCompare(b.name));for(const {name,post} of publishedSources){const slug=path.basename(name,'.json');
 if(!/^[a-zA-Z0-9][a-zA-Z0-9_-]*$/.test(slug))throw new Error('Invalid published journal filename: '+name);
 if(typeof post.title!=='string'||!post.title.trim()||typeof post.body!=='string'||!post.body.trim())throw new Error('Published journal article requires title and body: '+name);
 if(post.date){
