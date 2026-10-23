@@ -148,8 +148,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push('나머지 FAQ·의료안전·정보 페이지 최종 URL: '+remainingFinalCount+'/16');
     } else if (label === '잇몸 건강정보 탐색 경로' || label === '신경치료 건강정보 탐색 경로' || label === '자연치아 건강정보 진료 연결') {
       const correctHub = label.includes('잇몸') ? '/gum-health.html' : label.includes('신경치료') ? '/root-canal-health.html' : '/additional-health.html';
-      const hasVisible = body.includes('<nav class="crumb health-breadcrumb" aria-label="현재 위치">') && body.includes('href="'+correctHub+'"');
-      const hasBreadcrumbSchema = body.includes('"@type":"BreadcrumbList"') && body.includes('"' + origin + correctHub + '"');
+      // Cloudflare publishes /gum-health while source anchors can use /gum-health.html.
+      const correctHubPublished=correctHub.slice(0,-5);
+      const hasVisible=body.includes('<nav class="crumb health-breadcrumb" aria-label="현재 위치">') &&
+        [correctHub,correctHubPublished].some(route=>body.includes('href="'+route+'"'));
+      const hasBreadcrumbSchema=body.includes('"@type":"BreadcrumbList"') &&
+        [correctHub,correctHubPublished].some(route=>body.includes('"'+origin+route+'"'));
       const hasCanonical = body.includes('<link rel="canonical" href="' + response.url + '">');
       info.push(hasVisible&&hasBreadcrumbSchema&&hasCanonical ? '홈→건강정보→글 이동 및 구조화 데이터 일치' : '탐색 경로 반영 확인 필요');
       const carePanel = body.match(/<nav class="patient-care-journey"[^>]*>([\s\S]*?)<\/nav>/)?.[1] || '';
