@@ -90,7 +90,11 @@ for (const f of html) {
     try { target = decodeURIComponent(match[1]); }
     catch { errors.push(relative + ': 잘못된 URL 인코딩 ' + match[1]); continue; }
     if (target.startsWith('//') || target === '/') continue;
-    if (!paths.has(target) && !paths.has(target + 'index.html') && !paths.has(target + '/index.html')) {
+    // The published Cloudflare site serves /care-guide for /care-guide.html.
+    // Check the real local file rather than warning on a valid extensionless link.
+    const finalHtmlTarget=/^\/[a-z0-9/_-]+\/?$/i.test(target)
+      ?target.replace(/\/$/,'')+'.html':null;
+    if (!paths.has(target) && !paths.has(target + 'index.html') && !paths.has(target + '/index.html') && (!finalHtmlTarget || !paths.has(finalHtmlTarget))) {
       const message = relative + ': 내부 경로 확인 ' + target;
       if (/\.(?:html|js|mjs|css)$/i.test(target)) errors.push(message);
       else warnings.push(message);
