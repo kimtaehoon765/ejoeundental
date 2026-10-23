@@ -212,6 +212,14 @@ await Promise.all(urls.map(async ({label,url}) => {
       const resultSuffix=response.url===finalUrl?'확장자 없는 최종 주소':'최종 주소 확인 필요';
       info.push(resultSuffix);
       info.push(canonical===response.url?'canonical 이미 일치':'canonical 수정 필요 ('+canonical+')');
+      if(slug==='root-canal-health'){
+        const pageTitle=body.match(/<title>([^<]+)<\/title>/)?.[1]||'';
+        const pageDescription=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+        const phrases=['인천 신경치료','부평 신경치료'];
+        const regionReady=phrases.every(term=>pageTitle.includes(term)&&pageDescription.includes(term))&&
+          body.includes('신경치료와 재신경치료는 어떻게 다를까요?');
+        info.push(regionReady?'인천·부평 신경치료 검색 정보·일반/재치료 구분 반영':'신경치료 지역 검색 문구 배포 확인 필요');
+      }
       const hubs={'gum-health':'/gum-treatment.html','root-canal-health':'/retreatment.html',
         'insurance-health':'/insured-care.html','additional-health':'/cervical-abrasion.html'};
       if(hubs[slug]){
@@ -325,13 +333,6 @@ await Promise.all(urls.map(async ({label,url}) => {
       const hasDimensions=allImages.length===10 && allImages.every(x=>/\bwidth="\d+"/.test(x[0])&&/\bheight="\d+"/.test(x[0]));
       info.push(direct?'이미지 10개 첫 HTML 반영·추가 JSON 요청 제거':'실시간 그림 교체 스크립트 또는 개수 확인 필요');
       info.push(hasDimensions?'이미지 원본 크기 지정 확인':'이미지 크기 정보 확인 필요');
-    } else if (label === 'public route root-canal-health') {
-      const pageTitle=body.match(/<title>([^<]+)<\/title>/)?.[1]||'';
-      const pageDescription=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
-      const phrases=['인천 신경치료','부평 신경치료'];
-      const isVisible=phrases.every(term=>pageTitle.includes(term)&&pageDescription.includes(term))&&
-        body.includes('신경치료와 재신경치료는 어떻게 다를까요?');
-      info.push(isVisible?'인천·부평 신경치료 검색 정보·일반/재치료 구분 반영':'신경치료 지역 검색 문구 배포 확인 필요');
     } else if (label === '잇몸치료 상세 페이지') {
       info.push('치료정보: ' + (body.includes('잇몸치료')?'있음':'미확인'));
       const canonicalValue = body.split('rel="canonical" href="')[1]?.split('"')[0] || '(없음)';
