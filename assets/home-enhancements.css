@@ -790,3 +790,30 @@ body.home-page .hero-gallery-window{display:none}
      url("/assets/impressionist-water-garden.svg") center/cover no-repeat;
  }
 }
+
+/* Mobile visual QA after patient screenshot on 2026-10-24:
+ * Audio remains opt-in but no longer sits over the hero or patient explanation.
+ * Desktop keeps the existing compact floating audio control.
+ */
+body.home-page .music-header-button{display:none}
+@media(max-width:600px){
+ body.home-page header .nav{position:relative}
+ body.home-page header .music-header-button{
+  position:absolute;top:8px;right:12px;z-index:2;
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:60px;min-height:44px;
+  box-sizing:border-box;padding:6px 9px;
+  font:700 13px/1.25 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  color:#315b4c;background:#fffdf7;
+  border:1px solid #cddace;border-radius:14px;
+  box-shadow:0 2px 6px rgba(21,57,43,.08);
+  cursor:pointer;
+ }
+ body.home-page header .music-header-button:focus-visible{
+  outline:3px solid #a47837;outline-offset:2px;
+ }
+ body.home-page header .music-header-button[hidden]{display:none!important}
+ /* Do not leave a second floating music button over medical content. */
+ body.home-page #music-reopen{display:none!important}
+ html.home-scrolled body.home-page header .music-header-button{display:none}
+}

@@ -28,11 +28,13 @@ const initializeMusicControls=()=>{
   });
   const player=document.querySelector('.piano-player');
   const reopen=document.getElementById('music-reopen');
+  const mobileReopen=document.getElementById('music-header-button');
   const setPanelVisibility=(isOpen)=>{
     if(player)player.hidden=!isOpen;
-    if(reopen){
-      reopen.hidden=isOpen;
-      reopen.setAttribute('aria-expanded',String(isOpen));
+    for(const trigger of [reopen,mobileReopen]){
+      if(!trigger)continue;
+      trigger.hidden=isOpen;
+      trigger.setAttribute('aria-expanded',String(isOpen));
     }
   };
   const popMenu=document.querySelector('.pop-menu');
@@ -46,7 +48,14 @@ const initializeMusicControls=()=>{
     if(popMenu)popMenu.open=false;
     if(randomResult)randomResult.hidden=true;
     setPanelVisibility(false);
-    reopen?.focus();
+    // Return focus to a visible control. The mobile shortcut is docked in
+    // the header and intentionally hidden when the page has been scrolled.
+    const onPhone=window.matchMedia('(max-width: 600px)').matches;
+    const headerVisible=mobileReopen&&!mobileReopen.hidden&&getComputedStyle(mobileReopen).display!=='none';
+    if(onPhone){
+      if(headerVisible)mobileReopen.focus();
+      else document.querySelector('header .nav .logo')?.focus();
+    }else reopen?.focus();
   });
   reopen?.addEventListener('click',()=>{
     setPanelVisibility(true);
