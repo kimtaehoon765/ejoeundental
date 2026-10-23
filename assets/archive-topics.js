@@ -6,7 +6,7 @@
   const collection = document.getElementById('archive-blog-collections');
   if (!section || !collection) return;
   const groups = [...collection.querySelectorAll('details.archive-blog-group')];
-  if (groups.length !== 4) return;
+  if (groups.length === 0) return;
 
   const normalize = value => String(value || '')
     .toLocaleLowerCase('ko-KR').replace(/[^\p{L}\p{N}]/gu, '');
