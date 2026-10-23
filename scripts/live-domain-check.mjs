@@ -206,6 +206,11 @@ await Promise.all(urls.map(async ({label,url}) => {
         info.push(visible?'건강정보 위치·진료 바로가기 반영':'건강정보 이동 경로 확인 필요');
         const editorial = body.includes('class="hub-editorial-note"') && body.includes('href="/#doctor"') && body.includes('이 페이지는 일반적인 건강정보');
         info.push(editorial?'건강정보 이용 한계·원장 소개 연결 반영':'건강정보 의료진 소개·이용 한계 반영 확인 필요');
+        if(slug==='gum-health'){
+          const hubDescription=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+          const updated=['인천 잇몸치료','부평 잇몸치료'].every(term=>hubDescription.includes(term));
+          info.push(updated?'인천·부평 잇몸 건강정보 검색 설명 반영':'지역 잇몸 건강정보 미리보기 확인 필요');
+        }
       }
 
     } else if (label.startsWith('remaining route ')) {
@@ -310,6 +315,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push('치료정보: ' + (body.includes('잇몸치료')?'있음':'미확인'));
       const canonicalValue = body.split('rel="canonical" href="')[1]?.split('"')[0] || '(없음)';
       info.push('실제 최종 주소와 canonical: ' + (canonicalValue === response.url ? '일치' : '불일치') + ' (' + canonicalValue + ')');
+      const gumTitle=body.match(/<title>([^<]+)<\/title>/)?.[1]||'';
+      const gumDescription=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+      const bothAreas=['인천 잇몸치료','부평 잇몸치료'];
+      const present=bothAreas.every(term=>gumTitle.includes(term)&&gumDescription.includes(term)) &&
+        body.includes('인천·부평 잇몸치료,') && body.includes('세월천로 34');
+      info.push(present?'인천·부평 잇몸치료 검색 제목·설명·실제 주소 반영':'지역 잇몸치료 검색 문구 최신 배포 확인 필요');
     }
     // Reuse already-fetched 19 public patient resources: no additional requests.
     // Keep social previews, medical schema and search snippets consistent in production.
