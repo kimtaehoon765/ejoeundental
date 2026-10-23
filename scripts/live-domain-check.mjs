@@ -171,7 +171,7 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push('치과명: ' + (hasClinic?'있음':'없음'));
       const canonicalValue = body.split('rel="canonical" href="')[1]?.split('"')[0] || '(없음)';
       info.push('대표주소: ' + (hasCanonical?'일치':'불일치') + ' (' + canonicalValue + ')');
-      info.push('8+92 글목록: ' + (hasCompactJournal?'확인':'미확인'));
+      info.push('8+120 글목록: ' + (hasCompactJournal?'확인':'미확인'));
       info.push(body.includes('<link rel="icon" type="image/svg+xml" href="/favicon.svg">')?
         '브랜드 파비콘 연결 확인':'브랜드 파비콘 연결 미반영 (배포 상태 확인 필요)');
       const pageDescription=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
@@ -193,7 +193,7 @@ await Promise.all(urls.map(async ({label,url}) => {
       const visibleStories=body.match(/<section class="section light" id="stories">([\s\S]*?)<\/section>/)?.[1]||'';
       const storyCards=(visibleStories.match(/class="card owner-story-card"/g)||[]).length;
       const hiddenCopies=/(?:원장이 작성한 네이버 블로그 글입니다|#stories .owner-story-card p\{display:none\})/.test(body);
-      info.push('원장 글 100편 제목 링크·중복 문구 정리: '+(storyCards===100&&!hiddenCopies?'확인':'재점검 필요'));
+      info.push('원장 글 128편 제목 링크·중복 문구 정리: '+(storyCards===128&&!hiddenCopies?'확인':'재점검 필요'));
       const clinicFooter=body.match(/<section class="footer-business" aria-label="이조은치과 의료기관 정보">([\s\S]*?)<\/section>/)?.[1]||'';
       const footerOk=['이조은치과의원','세월천로 34','대우프라자 305호',
         'tel:0325132875','3시간 무료','격주 진료','Copyright'].every(term=>clinicFooter.includes(term));
@@ -486,8 +486,8 @@ await Promise.all(urls.map(async ({label,url}) => {
       const collection=body.match(/<script type="application\/ld\+json">([^<]+)<\/script>/)?.[1];
       let items=0;
       try{items=JSON.parse(collection)?.mainEntity?.numberOfItems||0}catch{}
-      const ready=groups===4&&links.length===100&&new Set(links).size===100&&items===100&&body.includes('id="archive-blog-posts"');
-      info.push(ready?'원장 네이버 원문 100편·주제별 4묶음·검색 구조화 데이터 반영':'원장 글 100편 주제별 아카이브 신규 배포 확인 필요');
+      const ready=groups===5&&links.length===128&&new Set(links).size===128&&items===128&&body.includes('id="archive-blog-posts"');
+      info.push(ready?'원장 네이버 원문 128편·주제별 5묶음·검색 구조화 데이터 반영':'원장 글 128편 주제별 아카이브 신규 배포 확인 필요');
       info.push(body.includes('src="/assets/archive-topics.js?v=20261024-smartfind2"')
         ?'원장 글 제목 검색·주제 자동 펼침 스크립트 연결 반영'
         :'원장 글 제목 검색·주제 자동 펼침 신규 배포 확인 필요');
