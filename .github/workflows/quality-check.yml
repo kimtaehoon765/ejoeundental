@@ -58,4 +58,4 @@ jobs:
       - name: Build and validate production origin
         run: npm run build:production:check
       - name: Exercise patient site search queries and document indexing
-        run: node --test scripts/test-search-results.mjs scripts/test-search-content.mjs scripts/test-address-copy.mjs scripts/test-contact-card.mjs scripts/test-homepage-static-contact.mjs scripts/test-article-sharing.mjs scripts/test-faq-deep-links.mjs scripts/test-patient-first-layout.mjs scripts/test-archive-topics.mjs
+        run: node --test scripts/test-search-results.mjs scripts/test-search-content.mjs scripts/test-address-copy.mjs scripts/test-contact-card.mjs scripts/test-homepage-static-contact.mjs scripts/test-article-sharing.mjs scripts/test-faq-deep-links.mjs scripts/test-patient-first-layout.mjs scripts/test-archive-topics.mjs scripts/test-doctor-credentials.mjs

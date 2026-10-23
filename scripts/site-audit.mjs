@@ -2388,3 +2388,42 @@ for (const e of errors) console.error('ERROR', e);
 for (const w of [...new Set(warnings)].slice(0, 100)) console.warn('WARN', w);
 if (warnings.length > 100) console.warn('추가 경고:', warnings.length - 100);
 if (errors.length) process.exitCode = 1;
+
+
+/* Credential fidelity: the owner's confirmed degree and professional specialty
+   must remain visible, accurate and linked, not limited to CMS-only JSON. */
+{
+ const home=readFileSync(join(root,'index.html'),'utf8');
+ const gum=readFileSync(join(root,'gum-treatment.html'),'utf8');
+ const retreat=readFileSync(join(root,'retreatment.html'),'utf8');
+ const homeCss=readFileSync(join(root,'assets/home-enhancements.css'),'utf8');
+ const careCss=readFileSync(join(root,'assets/care-design-system.css'),'utf8');
+ const expected='고려대학교 의학박사';
+ const specialist='통합치의학과 전문의';
+ const hero=home.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
+ const doctor=home.match(/<section class="section dark" id="doctor">([\s\S]*?)<\/section>/)?.[1]||'';
+ const jsonlds=[...home.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>{try{return JSON.parse(m[1])}catch{return null}});
+ const dentist=jsonlds.find(x=>x?.['@type']==='Dentist');
+ if(!hero.includes('class="hero-doctor-credentials"')||!hero.includes(expected)||
+    !hero.includes(specialist)||!hero.includes('href="#doctor"')||
+    !doctor.includes('<h2 id="doctor_title">'+expected+' · '+specialist+'</h2>')||
+    !doctor.includes('id="doctor_degree"')||
+    !doctor.includes('doctor-specialist-pill')||
+    !doctor.includes('원장이 직접 검진하고 진단합니다')||
+    !dentist?.additionalProperty?.some(x=>x.name==='원장 학위'&&x.value===expected)||
+    !dentist?.additionalProperty?.some(x=>x.name==='원장 전문의 자격'&&x.value===specialist)||
+    !home.includes('/assets/home-enhancements.css?v=20261024-credentials')||
+    !homeCss.includes('.hero-doctor-credentials a:focus-visible')){
+   errors.push('원장 의학박사·통합치의학과 전문의 첫 화면·의료진 소개·구조화 데이터 불일치');
+ }
+ for(const [page,label] of [[gum,'잇몸치료'],[retreat,'재신경치료']]){
+  if(!page.includes('<p class="treatment-doctor-credentials">')||
+     !page.includes(expected+' · '+specialist)||
+     !page.includes('href="/#doctor"')||
+     !page.includes('/assets/care-design-system.css?v=20261024-credentials'))
+    errors.push(label+' 전문의 정보·의료진 연결 오류');
+ }
+ if(!careCss.includes('.treatment-doctor-credentials a:focus-visible'))
+  errors.push('의료진 전문의 소개 모바일·키보드 스타일 누락');
+}
