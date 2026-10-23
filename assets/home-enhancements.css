@@ -857,3 +857,43 @@ body.home-page #main-content>.hero .hero-actions{margin:17px 0 12px}
   body.home-page #main-content>.hero #intro{font-size:15px;line-height:1.8;margin:17px 0 13px}
   body.home-page #main-content>.hero .hero-principles{margin:12px 0 16px}
 }
+
+/* Visual QA, Galaxy mobile screenshot 2026-10-24 at 07:06.
+ * Earlier absolute-positioned music button touched/overlaid the Call shortcut.
+ * Use two real grid rows instead, and explicitly fix CSS visual link ordering.
+ */
+@media(max-width:600px){
+  html:not(.home-scrolled) body.home-page header .nav{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto!important;
+    grid-template-rows:auto auto;
+    align-items:center;
+    column-gap:10px;
+    row-gap:9px;
+    padding:10px 12px 11px;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .logo{
+    grid-column:1;grid-row:1;
+    margin:0;justify-self:start;
+    min-width:0;line-height:1.4;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .music-header-button{
+    position:static;top:auto;right:auto;
+    grid-column:2;grid-row:1;
+    justify-self:end;align-self:center;
+    margin:0;min-width:63px;min-height:44px;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick{
+    grid-column:1/-1;grid-row:2;
+    width:100%;min-width:0;
+    margin:0;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+  }
+  /* Earlier generic mobile CSS assigns order=0 to the map, so the
+     map appeared immediately after the phone, above symptoms and hours.
+     Set a definitive order that matches the accessible HTML source. */
+  body.home-page #main-content>.hero .hero-actions .hero-call{order:0;grid-column:1/-1}
+  body.home-page #main-content>.hero .hero-actions .hero-symptoms{order:1;grid-column:1/-1}
+  body.home-page #main-content>.hero .hero-actions .hero-hours{order:2;grid-column:1}
+  body.home-page #main-content>.hero .hero-actions .hero-map{order:3;grid-column:2}
+}
