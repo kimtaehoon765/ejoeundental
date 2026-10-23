@@ -162,6 +162,28 @@ journalHomeHtml=journalHomeHtml.replace(journalMarker,journalCards||
 fs.writeFileSync(journalHomePath,journalHomeHtml);
 console.log('Homepage journal cards rendered without browser fetch:',latestJournal.length,'of',posts.length);
 
+// Render only clinic-verified legal identifiers in the footer.
+// Missing values are intentionally omitted rather than invented or published as placeholders.
+{
+ const siteIdentity=JSON.parse(fs.readFileSync(path.join(root,'content/site.json'),'utf8'));
+ const representative=String(siteIdentity.footer_representative||'').trim();
+ const registration=String(siteIdentity.footer_business_registration||'').trim();
+ if(representative.length>80 || /[<>]/.test(representative))throw new Error('Invalid verified clinic representative');
+ if(registration && !/^\d{3}-\d{2}-\d{5}$/.test(registration))throw new Error('Use verified business registration format 000-00-00000');
+ const safe=s=>String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+ const identityRows=[
+  representative?'<div><dt>대표자</dt><dd>'+safe(representative)+'</dd></div>':'',
+  registration?'<div><dt>사업자등록번호</dt><dd>'+safe(registration)+'</dd></div>':''
+ ].join('');
+ const footerFile=path.join(out,'index.html');
+ const footerHtml=fs.readFileSync(footerFile,'utf8');
+ const marker='<!-- VERIFIED_CLINIC_OPERATOR_DETAILS -->';
+ if(footerHtml.split(marker).length!==2)throw new Error('Missing verified clinic footer identifier slot');
+ fs.writeFileSync(footerFile,footerHtml.replace(marker,identityRows));
+ console.log('Homepage verified clinic footer data:',[representative&&'representative',registration&&'registration'].filter(Boolean).join(', ')||'basic confirmed details only');
+}
+
+
 fs.writeFileSync(path.join(out,'content/posts-index.json'),JSON.stringify(posts.map(({slug,title,date,summary,image})=>({slug,title,date,summary,image:typeof image==='string'&&/^\/assets\/cms-images\/[\w./%-]+$/i.test(image)&&!image.includes('..')&&!/%2f|%5c|%2e/i.test(image)&&fs.existsSync(path.join(root,image.slice(1)))?image:''})),null,2));
 for(const file of ['sitemap.xml','robots.txt']){const source=path.join(root,file);if(fs.existsSync(source))fs.copyFileSync(source,path.join(out,file))}
 // Once the authenticated owner library has been verified, prevent stale public
