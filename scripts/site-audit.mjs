@@ -219,6 +219,58 @@ for(const file of html){
 }
 console.log('Cross-page section anchors checked:',verifiedCrossDocumentAnchors,'across',html.length,'published HTML files');
 
+// Accessible clinic navigation requires unique element IDs and valid ID-based
+// relationships. A broken aria-labelledby/for/aria-controls reference can make
+// patient search, hours, and dentist information harder to use with assistive
+// technology, even when the href itself works.
+let auditedIdReferences=0;
+let auditedHtmlIdentifiers=0;
+for(const file of html){
+ const relative=file.slice(root.length+1).replaceAll('\\','/');
+ const markup=readFileSync(file,'utf8');
+ // Work with actual HTML opening tags rather than unanchored /id=/ (which also
+ // matches "data-id"). Restrict this to static HTML as delivered by the build.
+ const tags=[...markup.matchAll(/<[a-z][^>]*>/gi)].map(m=>m[0]);
+ const counts=new Map();
+ for(const tag of tags){
+  const m=tag.match(/(?:\s)id=["']([^"']+)["']/i);
+  if(m){
+   auditedHtmlIdentifiers++;
+   counts.set(m[1],(counts.get(m[1])||0)+1);
+  }
+ }
+ for(const [id,count] of counts){
+  if(count>1)errors.push(relative+': 중복 HTML id "'+id+'" ('+count+'개)');
+ }
+ for(const tag of tags){
+  // Token lists in these ARIA attributes must refer to IDs in the *same*
+  // document. This also verifies that interactive tab/search regions retain
+  // labels after responsive and build-time markup edits.
+  for(const attr of ['aria-labelledby','aria-describedby','aria-controls']){
+   const m=tag.match(new RegExp('(?:\\s)'+attr+'=["\\']([^"\\']*)["\\']','i'));
+   if(!m)continue;
+   const refs=m[1].trim().split(/\s+/).filter(Boolean);
+   if(refs.length===0)errors.push(relative+': 빈 '+attr+' 참조');
+   for(const id of refs){
+    auditedIdReferences++;
+    if(!counts.has(id))errors.push(relative+': '+attr+' 대상 id 없음: '+id);
+   }
+  }
+  if(/^<(?:label|output)\b/i.test(tag)){
+   const m=tag.match(/(?:\s)for=["']([^"']+)["']/i);
+   if(m){
+    for(const id of m[1].trim().split(/\s+/).filter(Boolean)){
+     auditedIdReferences++;
+     if(!counts.has(id))errors.push(relative+': '+(tag.startsWith('<label')?'label':'output')+' for 대상 id 없음: '+id);
+    }
+   }
+  }
+ }
+}
+console.log('Published HTML IDs checked:',auditedHtmlIdentifiers,
+ 'ARIA/label references checked:',auditedIdReferences);
+
+
 
 // Guard search indexing against duplicate public page identities. Technical
 // maintenance/owner-only and interactive search pages may be noindex and are
