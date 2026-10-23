@@ -73,3 +73,19 @@ test('mobile music remains opt-in without overlapping the Monet picture or care 
  assert.ok(player.includes("getElementById('music-header-button')"));
  assert.ok(player.includes('trigger.hidden=isOpen'));
 });
+
+test('patients see actions and real treatment destinations before long homepage narrative',()=>{
+ const hero=home.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
+ const sequence=['class="hero-gallery-window"','class="hero-actions"','class="hero-care-prompt"',
+   'class="hero-care-summary"','id="intro"','class="hero-principles"','class="hero-visit-note"'];
+ const positions=sequence.map(marker=>hero.indexOf(marker));
+ assert.ok(positions.every(x=>x>=0),'Missing patient-first navigation block');
+ assert.ok(positions.every((x,i)=>i===0||x>positions[i-1]),
+   'Monet gallery, contact, care choices and full introduction must be in patient-first order');
+ const main=hero.slice(hero.indexOf('<nav class="hero-care-summary"'),hero.indexOf('</nav>',hero.indexOf('<nav class="hero-care-summary"')));
+ for(const href of ['/gum-treatment.html','/retreatment.html','/cervical-abrasion.html','/insured-care.html'])
+   assert.ok(main.includes('href="'+href+'"'),'Missing direct major care option '+href);
+ assert.match(css,/body\.home-page #main-content>\.hero \.hero-actions \.hero-call,/);
+ assert.match(css,/body\.home-page #main-content>\.hero \.hero-actions \.hero-symptoms\{grid-column:1\/-1\}/);
+ assert.match(css,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+});
