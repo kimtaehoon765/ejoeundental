@@ -272,16 +272,25 @@ if(fs.existsSync(sitemapPath)){
  fs.writeFileSync(sitemapPath,sitemap);
 }
 
-// Ensure every published page (including all 46 health articles) loads the latest shared mobile CSS.
-// Versioning is done at build time, so older cached stylesheets cannot override new typography.
-const cssVersion=createHash('sha256').update(fs.readFileSync(path.join(out,'assets/style.css'))).digest('hex').slice(0,12);
+// Fingerprint every first-party stylesheet in built HTML, including the homepage,
+// health hubs, mobile navigation, search and clinical topic CSS. A CSS update should
+// not require a hand-edited ?v= string or leave phones using an old cached style.
+const stylesheetHashCache=new Map();
 function versionStylesheets(folder){
  for(const item of fs.readdirSync(folder,{withFileTypes:true})){
   const target=path.join(folder,item.name);
   if(item.isDirectory()){versionStylesheets(target);continue}
   if(!item.isFile()||!item.name.endsWith('.html'))continue;
   const original=fs.readFileSync(target,'utf8');
-  const updated=original.replace(/(href=["']\/assets\/style\.css)(?:\?[^"']*)?(["'])/g,(_,start,end)=>start+'?v='+cssVersion+end);
+  const updated=original.replace(/(href=["'])(\/assets\/[\w/-]+\.css)(?:\?[^"']*)?(["'])/g,(tag,start,asset,end)=>{
+   const assetFile=path.join(out,asset.slice(1));
+   if(!fs.existsSync(assetFile))return tag;
+   if(!stylesheetHashCache.has(asset)){
+    const hash=createHash('sha256').update(fs.readFileSync(assetFile)).digest('hex').slice(0,12);
+    stylesheetHashCache.set(asset,hash);
+   }
+   return start+asset+'?v='+stylesheetHashCache.get(asset)+end;
+  });
   if(updated!==original)fs.writeFileSync(target,updated);
  }
 }
