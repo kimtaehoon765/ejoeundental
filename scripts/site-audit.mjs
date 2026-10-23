@@ -942,6 +942,37 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  if(!css.includes('#patient-questions summary:focus-visible')||!css.includes('min-height:52px'))errors.push('진료 FAQ 모바일 터치·키보드 스타일 누락: '+slug);
  if(!page.includes('/assets/'+slug+'.css?v=20261023-faq-mobile2'))errors.push('진료 FAQ 스타일 버전 갱신 누락: '+slug);
 }
+// Patient topic shortcuts must point to real content and remain usable without scripts.
+{
+ const tocTargets={
+  'gum-treatment':['gum-scaling-difference','gum-aftercare','patient-questions'],
+  'retreatment':['retreatment-procedure','retreatment-outcomes-heading','patient-questions'],
+  'cervical-abrasion':['cervical-care-decisions','cervical-gi-restoration','patient-questions'],
+  'insured-care':['insured-coverage-criteria','insurance-first-visit','patient-questions']
+ };
+ const sharedCssFile=join(root,'assets','care-design-system.css');
+ if(!existsSync(sharedCssFile))errors.push('공통 모바일 진료 디자인 파일 누락');
+ else{
+  const css=readFileSync(sharedCssFile,'utf8');
+  for(const term of ['.treatment-page-toc','.treatment-back-top','.treatment-page-toc a:focus-visible','@media(max-width:340px)']){
+   if(!css.includes(term))errors.push('모바일 진료 목차 스타일 누락: '+term);
+  }
+ }
+ for(const [slug,anchors] of Object.entries(tocTargets)){
+  const page=readFileSync(join(root,slug+'.html'),'utf8');
+  const toc=page.match(/<nav class="treatment-page-toc"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+  if(!toc.includes('이 페이지에서 바로 찾기'))errors.push('모바일 진료 목차 누락: '+slug);
+  if((toc.match(/<a\b/g)||[]).length!==4)errors.push('모바일 진료 목차 링크 개수 오류: '+slug);
+  if(!toc.includes('href="/visit-guide.html"'))errors.push('모바일 진료 목차 길찾기 누락: '+slug);
+  for(const target of anchors){
+   if(!toc.includes('href="#'+target+'"') || !page.includes('id="'+target+'"')){
+    errors.push('모바일 진료 목차 연결 오류: '+slug+' #'+target);
+   }
+  }
+  if(!page.includes('href="#main-content"')||!page.includes('class="treatment-back-top"'))errors.push('진료 페이지 맨 위 이동 링크 누락: '+slug);
+  if(!page.includes('/assets/care-design-system.css?v=20261023-topic-nav1'))errors.push('모바일 진료 목차 디자인 캐시 갱신 누락: '+slug);
+ }
+}
 // 홈페이지 원장 이야기 목록 보호: 모바일에서 8편만 보이고, 22편은 펼치면 읽을 수 있어야 합니다.
 {
  const homepage=readFileSync(join(root,'index.html'),'utf8');
