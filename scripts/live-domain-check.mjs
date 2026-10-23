@@ -225,8 +225,16 @@ await Promise.all(urls.map(async ({label,url}) => {
         body.includes('const showResults=type=>') &&
         body.includes('listArea.replaceChildren()');
       info.push(categoriesApplied?'유형별 검색 결과 필터·키보드 전환 반영':'유형별 검색 필터 확인 필요');
+      const equipmentRoutes=body.includes('className=\'search-expert-direct-links\'') &&
+        body.includes('className=\'search-expert-direct-actions\'') &&
+        body.includes('/dental-equipment.html') &&
+        body.includes('/dental-materials.html') &&
+        body.includes("equipmentIntent?[]");
+      info.push(equipmentRoutes?'장비 자료 바로가기·일반 환자 검색 분리 반영':'전문가 참고자료 분리 확인 필요');
     } else if (label === '검색 결과 더 보기 버튼 스타일') {
       info.push(body.includes('.search-show-more{') ? '모바일 더 보기 버튼 스타일 반영' : '버튼 스타일 반영 확인 필요');
+      info.push(body.includes('.search-expert-direct-links{')&&body.includes('.search-expert-direct-actions{')?
+        '장비 참고자료 모바일 바로가기 스타일 반영':'장비 참고자료 모바일 스타일 확인 필요');
     } else if (label === '없는 페이지 404 상태') {
       info.push(response.status === 404 ? '404 정상 응답' : '주의: 404 대신 '+response.status);
       info.push(body.includes('요청하신 페이지를 찾을 수 없습니다') ? '오류 안내 화면 확인' : '오류 안내 화면 확인 필요');
