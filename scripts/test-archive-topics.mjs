@@ -104,11 +104,14 @@ test('deep linked category stays accessible, including after a search',()=>{
  assert.equal(site.groups[1].summary.focused,true);
 });
 
-test('production build keeps all 60 links, fresh script and mobile-friendly reset control',()=>{
+test('production build keeps all 65 links, fresh script and mobile-friendly reset control',()=>{
  const html=readFileSync('dist/clinical-archive.html','utf8');
  const css=html;
  const matches=[...html.matchAll(/<li><a href="https:\/\/blog\.naver\.com\/kook765\/[0-9]+" target="_blank" rel="noopener noreferrer">/g)];
- assert.equal(matches.length,60);
+ assert.equal(matches.length,65);
+ for(const id of ['224351181693','224350565399','224349488410','224348923668','224347627046']){
+  assert.ok(html.includes('https://blog.naver.com/kook765/'+id), 'New owner Naver article not found: '+id);
+ }
  assert.ok(html.includes('/assets/archive-topics.js?v=20261024-smartfind2'));
  assert.match(css,/\.archive-search \.archive-search-clear\[hidden\]\{display:none!important\}/);
  assert.match(css,/\.archive-search \.archive-search-clear\{[^}]*min-height:44px/);
