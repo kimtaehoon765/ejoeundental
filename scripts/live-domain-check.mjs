@@ -145,6 +145,14 @@ await Promise.all(urls.map(async ({label,url}) => {
         body.includes('통합치의학과 전문의');
       info.push('모네풍 디자인 HTML 배포: '+(monetOnPage?'확인':'미반영 — GitHub 최신 코드와 실제 홈페이지 다름'));
       info.push('최신 원장 소개·의료진 자격 메인 반영: '+(currentFirstScreen?'확인':'미반영 — 배포 연결/캐시 확인 필요'));
+      const heroMarkup=body.match(/<section class="hero wrap">([\\s\\S]*?)<\\/section>/)?.[1]||'';
+      const credentialAt=heroMarkup.indexOf('고려대학교 의학박사');
+      const galleryAt=heroMarkup.indexOf('class="hero-gallery-window"');
+      const introAt=heroMarkup.indexOf('id="intro"');
+      const firstScreenGallery=credentialAt>=0&&galleryAt>credentialAt&&introAt>galleryAt;
+      info.push('모바일 첫 화면 수련 그림: '+(firstScreenGallery?'자격 소개 다음·진료 설명 앞 배치 확인':'신규 모바일 수련 그림 미반영'));
+      const fingerprint=body.match(/href="\\/assets\\/home-enhancements\\.css\\?v=([a-f0-9]{12})"/)?.[1]||'';
+      info.push('모바일 디자인 CSS 버전: '+(fingerprint?'자동 버전('+fingerprint+') 적용':'버전 자동갱신 미확인'));
       const hasCanonical = body.includes('<link rel="canonical" href="' + origin + '/">');
       const hasClinic = body.includes('이조은치과');
       const hasCompactJournal = body.includes('owner-stories-more');
@@ -217,7 +225,9 @@ await Promise.all(urls.map(async ({label,url}) => {
       const focusReady=expected.every(url=>shortcuts.includes('href="'+url+'"')) &&
         (shortcuts.match(/<a href=/g)||[]).length===5 && !focus.includes('<div class="card"');
       info.push('집중 진료 중복 설명 축소·5개 바로가기: '+(focusReady?'반영':'확인 필요'));
-      info.push('모바일 최적화 CSS: '+(body.includes('home-enhancements.css?v=20261023-bupyeong-choice')?'최신':'버전 확인 필요'));
+      // CSS is content-hashed during production build. Avoid comparing against
+      // obsolete fixed version strings, which falsely report deployment errors.
+      info.push('모바일 최적화 CSS: '+(/home-enhancements\\.css\\?v=[a-f0-9]{12}/.test(body)?'자동 갱신 버전 확인':'갱신 버전 확인 필요'));
       const localCare=body.match(/<section[^>]*id="local-care"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
       const localPanel=localCare.match(/<nav class="bupyeong-choice-links"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
       const goodLocalLinks=['#doctor','/gum-treatment.html','/retreatment.html','/visit-guide.html'].every(ref=>localPanel.includes('href="'+ref+'"'));
@@ -228,10 +238,16 @@ await Promise.all(urls.map(async ({label,url}) => {
       const valid=response.status===200 && body.includes('이조은치과 인상주의 수련 연못 정원') &&
         body.includes('하얀 복슬복슬한 고양이');
       info.push(valid?'창작 수련 연못 그림 실서버 게시됨':'최신 그림 실서버 미게시 (배포 상태 확인 필요)');
+      const optimized=valid&&body.includes('id="impressionist-pigment" aria-hidden="true" fill="none" stroke-linecap="round"') &&
+        body.length<190000;
+      info.push('모네풍 그림 경량화: '+(optimized?'붓질 유지·전송 텍스트 190KB 미만':'이미지 크기 최적화 배포 확인 필요'));
     } else if (label === '모네풍 갤러리 CSS 공개 확인') {
       const valid=response.status===200 && body.includes('Monet-inspired homepage gallery') &&
         body.includes('.monet-interlude__inner');
       info.push(valid?'모네풍 미술관 CSS 실서버 게시됨':'최신 미술관 CSS 실서버 미게시 (배포 상태 확인 필요)');
+      const mobileGallery=valid&&body.includes('Homepage first-glance painting') &&
+        body.includes('Screenshot follow-up')&&body.includes('body.home-page .hero-gallery-window');
+      info.push('휴대전화 액자·상단 메뉴 스타일: '+(mobileGallery?'최신 디자인 CSS 확인':'신규 모바일 디자인 CSS 배포 확인 필요'));
     } else if (label === '브랜드 파비콘 SVG') {
       const branded=response.status===200 && body.includes('<svg') &&
         body.includes('이조은치과') && body.includes('#173e35');
