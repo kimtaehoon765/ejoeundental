@@ -794,6 +794,12 @@ function auditSeo(folder){
   const relative=path.relative(out,file);
   if(relative.startsWith('admin'+path.sep))continue;
   const html=fs.readFileSync(file,'utf8');
+  // A genuine HTTP 404 is intentionally noindex and must not have a canonical URL.
+  if(relative==='404.html'){
+   if(!html.includes('name="robots" content="noindex,follow"'))seoWarnings.push('404.html: missing noindex');
+   if(/<link\s+rel="canonical"/i.test(html))seoWarnings.push('404.html: unexpected canonical');
+   continue;
+  }
   const title=html.match(/<title>([^<]*)<\/title>/i)?.[1]?.trim();
   const description=html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i)?.[1]?.trim();
   const canonical=html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']*)["']/i)?.[1];

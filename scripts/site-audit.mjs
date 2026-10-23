@@ -1140,6 +1140,24 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
   }
  }
 }
+// Verify clinic publisher attribution without inventing a personal medical reviewer.
+{
+ const slugs=["clinical-archive","medical-history","gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medication-dental-faq","systemic-disease-dental-faq","medical-safety-guide","previsit-checklist","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care"];
+ for(const slug of slugs){
+  const html=readFileSync(join(root,slug+'.html'),'utf8');
+  const schemas=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(m=>JSON.parse(m[1])).filter(o=>['MedicalWebPage','WebPage','FAQPage','CollectionPage'].includes(o['@type']));
+  if(schemas.length!==1||schemas[0].publisher?.['@id']!=='https://ejoeundental.com/#clinic'||
+     !schemas[0].isPartOf||schemas[0].inLanguage!=='ko-KR'){
+   errors.push('치과 의료정보 게시기관·언어 연결 누락: '+slug);
+  }
+ }
+ const notFound=readFileSync(join(root,'404.html'),'utf8');
+ if(!notFound.includes('name="robots" content="noindex,follow"')||
+    /rel="canonical"/.test(notFound)){
+  errors.push('404페이지는 noindex로 유지하고 canonical을 지정하지 않아야 함');
+ }
+}
 // Public health information should disclose general-information limits and link to the actual dentist.
 {
  const hubs=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
