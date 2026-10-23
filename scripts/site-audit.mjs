@@ -1060,6 +1060,36 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
   if(!page.includes('/assets/care-design-system.css?v=20261023-topic-nav1'))errors.push('모바일 진료 목차 디자인 캐시 갱신 누락: '+slug);
  }
 }
+// Photo-supplied certificate fees must be visible in initial HTML without JavaScript.
+// Do not publish a non-standard confirmation letter at 20,000 won before confirming
+// its legal distinction from the capped ordinary treatment confirmation form.
+{
+ const feeIndex=JSON.parse(readFileSync(join(root,'content','fees-index.json'),'utf8'));
+ const feeHtml=readFileSync(join(root,'noncovered-fees.html'),'utf8');
+ const expected=[
+  ['보험사 양식 치료확인서','3,000원'],
+  ['병원 발급 진단서','20,000원'],
+  ['차트 복사(진료기록 사본 1~5매)','1,000원'],
+  ['파노라마 인쇄본','1,000원']
+ ];
+ if(!Array.isArray(feeIndex.items))errors.push('비급여 수가표 데이터 형식 오류');
+ else{
+  for(const [name,price] of expected){
+   const rows=feeIndex.items.filter(row=>row.category==='제증명수수료'&&row.item===name);
+   if(rows.length!==1||rows[0]?.price!==price)errors.push('제증명수수료 금액·게시 누락: '+name);
+   if(!feeHtml.includes(name)||!feeHtml.includes(price))errors.push('제증명수수료가 초기 HTML에 없음: '+name);
+  }
+  if(feeIndex.items.some(row=>row.item==='병원 발급 치료확인서')){
+   errors.push('일반 진료확인서와 구별되지 않은 20,000원 서류가 공개됨');
+  }
+ }
+ if(!feeHtml.includes('id="fees-certificates"')||
+    feeHtml.includes('BUILD_FEE_TABLES')||
+    feeHtml.includes('src="/assets/fees.js"')||
+    !feeHtml.includes('6매부터는')){
+  errors.push('제증명 가격표 첫 화면·기록 복사 수수료 안내 오류');
+ }
+}
 // Every public safety, visit, FAQ and fee page should state the same facts in
 // the HTML snippet, link-share cards and medical WebPage structured data.
 // SEO labels must not silently diverge from the medically reviewed page.
