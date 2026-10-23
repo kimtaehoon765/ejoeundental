@@ -125,3 +125,18 @@ html{scroll-padding-top:24px}#symptom-search{scroll-margin-top:24px}@media(prefe
  .search-visit-actions{grid-template-columns:1fr;gap:7px}
  .search-visit-actions>a{min-height:52px;font-size:15px}
 }
+
+
+.search-visit-examples{
+ display:flex;flex-wrap:wrap;align-items:center;gap:8px;
+ margin:8px 0 17px;padding:10px 0;line-height:1.6;color:#2b5141
+}
+.search-visit-examples strong{font-size:14px}
+.search-visit-examples a{
+ display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;
+ padding:8px 11px;border:1px solid #c4d9cc;border-radius:8px;
+ background:#fff;color:#225842;text-decoration:none;font-size:14px;font-weight:700
+}
+.search-visit-examples a:hover{background:#e8f2eb;text-decoration:underline}
+.search-visit-examples a:focus-visible{outline:3px solid #a47837;outline-offset:2px}
+@media(max-width:600px){.search-visit-examples{gap:7px}.search-visit-examples a{min-height:48px}}
