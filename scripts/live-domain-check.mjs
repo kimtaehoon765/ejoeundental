@@ -387,6 +387,11 @@ await Promise.all(urls.map(async ({label,url}) => {
         ?'원장 글 제목 검색·주제 자동 펼침 스크립트 연결 반영'
         :'원장 글 제목 검색·주제 자동 펼침 신규 배포 확인 필요');
     }
+    if(label==='검색 결과 더 보기 동작 코드'){
+      const newSearchReady=body.includes('scalingComparisonIntent')&&body.includes('scalingOnlyIntent')&&
+        body.includes('치주낭치료')&&body.includes('신경치료비용');
+      info.push(newSearchReady?'치주치료·스케일링·잇몸 증상 검색 관련도 개선 반영':'치주·스케일링 자연어 검색 개선 신규 배포 확인 필요');
+    }
     // Reuse already-fetched 19 public patient resources: no additional requests.
     // Keep social previews, medical schema and search snippets consistent in production.
     if(label.startsWith('remaining route ')||

@@ -1713,3 +1713,24 @@ if (errors.length) process.exitCode = 1;
  if(archive.includes('BUILD_OWNER_ARCHIVE_GROUPS'))
    errors.push('원장 글 서버 출력 누락');
 }
+
+// Check natural patient terminology and symptom relevance against the actual
+// generated search index, not a simplified stub or a stale source index file.
+{
+ const src=readFileSync(join(root,'assets/search.js'),'utf8');
+ const page=readFileSync(join(root,'search.html'),'utf8');
+ const start=src.indexOf('const aliases='),stop=src.indexOf('const resultSummary=',start);
+ if(start<0||stop<=start)errors.push('치주치료·스케일링 검색 점검 코드 위치 누락');
+ else{
+  try{
+   const runner=new Function('q','pages',src.slice(start,stop)+'return scored[0]?.url;');
+   const built=JSON.parse(readFileSync(join(root,'content/search-index.json'),'utf8'));
+   for(const [query,target] of [["인천 잇몸치료","/gum-treatment.html"],["부평 잇몸치료","/gum-treatment.html"],["산곡역 근처 잇몸치료","/gum-treatment.html"],["치주치료","/gum-treatment.html"],["인천 치주치료","/gum-treatment.html"],["부평 치주낭 치료","/health/periodontal-pocket.html"],["잇몸에서 피가 나요","/health/gum-bleeding.html"],["잇몸이 아파요","/health/swollen-gums.html"],["잇몸이 부었어요","/health/swollen-gums.html"],["잇몸이 내려갔어요","/health/receding-gums.html"],["치아 흔들림","/health/loose-tooth.html"],["치아가 흔들려요","/health/loose-tooth.html"],["잇몸에서 고름","/health/gum-pus.html"],["스케일링","/scaling.html"],["부평 스케일링","/scaling.html"],["작전동 스케일링","/scaling.html"],["스케일링과 잇몸치료 차이","/health/scaling-vs-periodontal.html"],["스케일링 보험","/health/insurance-scaling.html"],["신경치료","/root-canal-health.html"],["인천 신경치료","/root-canal-health.html"],["부평 재신경치료","/retreatment.html"],["부평 신경치료 후 통증","/health/root-canal-after-pain.html"],["신경치료 비용","/health/insurance-root-canal.html"],["부평 신경치료 비용","/health/insurance-root-canal.html"],["신경치료 건강보험","/health/insurance-root-canal.html"]]){
+    const top=runner(query,built);
+    if(top!==target)errors.push('치과 검색 결과 틀림: '+query+' => '+top+' / '+target);
+   }
+  }catch(e){errors.push('치과 검색 실제 관련도 검사 오류: '+e.message);}
+ }
+ if(!page.includes('>치주치료</a>')||!page.includes('>스케일링과 잇몸치료 차이</a>'))
+  errors.push('스케일링 및 치주치료 검색 바로가기 누락');
+}
