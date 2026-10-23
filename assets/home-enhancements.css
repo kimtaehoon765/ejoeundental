@@ -726,3 +726,67 @@ html{scroll-padding-top:92px}
   /* Expanded music controls still show complete labels when requested. */
   body.home-page .piano-player button{font-size:13px}
 }
+
+/* Homepage first-glance painting (2026-10-24):
+ * The complete garden appears in the opening mobile viewport, without
+ * displacing the clinical H1, verifiable credentials or primary contact CTA.
+ * The full accessible figure and alt text remain in the main gallery below.
+ */
+body.home-page .hero-gallery-window{display:none}
+@media(max-width:600px){
+ body.home-page #main-content>.hero{
+   background:#f9f6ee;
+   border:1px solid #e7e1d4;
+   border-radius:14px;
+ }
+ body.home-page #main-content>.hero::before{
+   opacity:.58;
+   background:linear-gradient(170deg,rgba(251,247,239,.96),rgba(252,249,242,.94)),
+     url("/assets/impressionist-water-garden.svg") center/cover no-repeat;
+ }
+ body.home-page #main-content>.hero .hero-gallery-window{
+   position:relative;
+   display:block;
+   box-sizing:border-box;
+   width:100%;
+   aspect-ratio:1.95/1;
+   min-height:155px;
+   max-height:245px;
+   margin:12px 0 18px;
+   border:6px solid #fffdf7;
+   outline:1px solid #b3b8a8;
+   border-radius:4px;
+   background-color:#96aba6;
+   background-image:url("/assets/impressionist-water-garden.svg");
+   background-repeat:no-repeat;
+   background-position:center center;
+   background-size:cover;
+   box-shadow:4px 7px 0 #e9e3d6,0 10px 20px rgba(41,74,59,.13);
+   overflow:hidden;
+ }
+ body.home-page .hero-gallery-window span{
+   position:absolute;right:9px;bottom:8px;
+   max-width:90%;
+   padding:4px 9px;
+   border-radius:3px;
+   background:rgba(253,250,240,.92);
+   color:#315649;
+   font:600 11px/1.6 'Noto Serif KR','Apple SD Gothic Neo',serif;
+   letter-spacing:-.025em;
+ }
+ body.home-page #main-content>.hero #headline{
+   margin-bottom:15px;
+ }
+ body.home-page #main-content>.hero .hero-doctor-credentials{
+   margin-bottom:9px;
+ }
+ body.home-page #main-content>.hero .hero-artwork{
+   border-color:#fffdf7;
+ }
+}
+@media(min-width:601px){
+ body.home-page #main-content>.hero::before{
+   background:linear-gradient(100deg,rgba(250,248,242,.97),rgba(250,248,242,.80) 57%,rgba(250,248,242,.50)),
+     url("/assets/impressionist-water-garden.svg") center/cover no-repeat;
+ }
+}
