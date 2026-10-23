@@ -164,6 +164,8 @@ await Promise.all(urls.map(async ({label,url}) => {
         const visible=body.includes('<nav class="hub-top-trail" aria-label="현재 건강정보와 관련 진료">') &&
           body.includes('href="'+hubs[slug]+'"') && body.includes('aria-current="page"');
         info.push(visible?'건강정보 위치·진료 바로가기 반영':'건강정보 이동 경로 확인 필요');
+        const editorial = body.includes('class="hub-editorial-note"') && body.includes('href="/#doctor"') && body.includes('이 페이지는 일반적인 건강정보');
+        info.push(editorial?'건강정보 이용 한계·원장 소개 연결 반영':'건강정보 의료진 소개·이용 한계 반영 확인 필요');
       }
 
     } else if (label.startsWith('remaining route ')) {
@@ -203,7 +205,7 @@ await Promise.all(urls.map(async ({label,url}) => {
           '/systemic-disease-dental-faq.html','/clinical-archive.html'];
         const added=entries.filter(row=>newlyFindable.includes(row.url)&&String(row.body||'').length>=100);
         info.push('신규 환자 FAQ·안전자료 검색: '+added.length+'/'+newlyFindable.length+'개');
-        info.push('공개 사이트맵 85개 페이지 검색: '+(entries.length===85?'전체 적용':'검색 범위 확인 필요'));
+        info.push('공개 검색 문서 수: '+entries.length+'개 (게시글 공개 여부에 따라 변동)');
         info.push(noNavigation?'공통 메뉴 제외된 임상 본문 확인':'공통 메뉴 제외 여부 확인 필요');
         info.push(correctCare?'주요 진료 검색 제목 최신':'주요 진료 검색 제목 확인 필요');
       }
