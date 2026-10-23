@@ -34,6 +34,7 @@ const urls = [
   { label: '정식 도메인 첫 화면', url: origin + '/' },
   { label: 'www HTTPS 연결', url: 'https://www.' + apex + '/' },
   { label: 'www 하위 경로·쿼리 리디렉션', url: 'https://www.' + apex + '/gum-treatment?utm_source=redirect_check' },
+  { label: '브랜드 파비콘 SVG', url: origin + '/favicon.svg' },
   { label: '검색엔진 robots', url: origin + '/robots.txt' },
   { label: '검색엔진 sitemap', url: origin + '/sitemap.xml' },
   { label: '잇몸치료 상세 페이지', url: origin + '/gum-treatment.html' },
@@ -115,6 +116,8 @@ await Promise.all(urls.map(async ({label,url}) => {
       const canonicalValue = body.split('rel="canonical" href="')[1]?.split('"')[0] || '(없음)';
       info.push('대표주소: ' + (hasCanonical?'일치':'불일치') + ' (' + canonicalValue + ')');
       info.push('8+22 글목록: ' + (hasCompactJournal?'확인':'미확인'));
+      info.push(body.includes('<link rel="icon" type="image/svg+xml" href="/favicon.svg">')?
+        '브랜드 파비콘 연결 확인':'브랜드 파비콘 연결 미반영 (배포 상태 확인 필요)');
       const pageDescription=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
       const ogDescription=body.match(/<meta property="og:description" content="([^"]+)"/)?.[1]||'';
       const twitterDescription=body.match(/<meta name="twitter:description" content="([^"]+)"/)?.[1]||'';
@@ -168,6 +171,10 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push('집중 진료 중복 설명 축소·5개 바로가기: '+(focusReady?'반영':'확인 필요'));
       info.push('모바일 최적화 CSS: '+(body.includes('home-enhancements.css?v=20261023-focus-nav-compact')?'최신':'버전 확인 필요'));
 
+    } else if (label === '브랜드 파비콘 SVG') {
+      const branded=response.status===200 && body.includes('<svg') &&
+        body.includes('이조은치과') && body.includes('#173e35');
+      info.push(branded?'이조은치과 SVG 아이콘 공개 확인':'브랜드 SVG 아이콘 최신 배포 확인 필요');
     } else if (label === '검색엔진 robots') {
       const sitemapValue = body.split('Sitemap: ')[1]?.split('\n')[0]?.trim() || '(없음)';
       info.push('사이트맵: ' + sitemapValue);
