@@ -68,13 +68,13 @@ feeEntries.sort((a,b)=>a.category.localeCompare(b.category,'ko')||a.item.localeC
   if(!groups.has(row.category))groups.set(row.category,[]);
   groups.get(row.category).push(row);
  }
- // Put the four confirmed certificate fees first, then keep the existing
- // category order for other published fees. Do not alter any fee or publication flag.
+ // Keep the standard treatment prices first and the less-used certificates
+ // at the end. Both categories remain published in the same accessible HTML.
  const orderedFeeGroups=[...groups.entries()].sort(([a],[b])=>
-  Number(b==='제증명수수료')-Number(a==='제증명수수료'));
+  Number(a==='제증명수수료')-Number(b==='제증명수수료'));
  const feeTables=orderedFeeGroups.map(([category,rows],index)=>{
   const id=category==='제증명수수료'?' id="fees-certificates"':
-   index===1?' id="fees-treatments"':'';
+   index===0?' id="fees-treatments"':'';
   const cells=rows.map(row=>'<tr><th scope="row">'+escapeFee(row.item)+'</th><td>'+
     escapeFee(row.detail||'—')+'</td><td class="price">'+escapeFee(row.price)+'</td></tr>'+
     (row.note?'<tr><td colspan="3" class="fees-row-note">※ '+escapeFee(row.note)+'</td></tr>':'')).join('');
@@ -84,8 +84,8 @@ feeEntries.sort((a,b)=>a.category.localeCompare(b.category,'ko')||a.item.localeC
    '<thead><tr><th scope="col">항목</th><th scope="col">내용</th><th scope="col">비용</th></tr></thead>'+
    '<tbody>'+cells+'</tbody></table></section>';
  }).join('');
- if(!feeTables.includes('id="fees-certificates"')||!feeTables.includes('id="fees-treatments"'))throw new Error('Certificate or treatment fee shortcuts have no destination');
- if(!feeTables.startsWith('<section class="fees-category" aria-label="제증명수수료 비용 안내">'))throw new Error('Certificate fees are not the first visible category');
+ if(!feeTables.includes('id="fees-certificates"')||!feeTables.includes('id="fees-treatments"'))throw new Error('Treatment or certificate fee section not rendered');
+ if(!feeTables.at(-1)?.startsWith('<section class="fees-category" aria-label="제증명수수료 비용 안내">'))throw new Error('Certificate fees must appear after treatment fees');
  feeHtml=feeHtml.replace(feeMarker,feeTables);
  feeHtml=feeHtml.replace('공개된 비급여 비용을 안내합니다.','공개된 비급여 비용 및 제증명수수료 '+feeEntries.length+'개 항목을 안내합니다.');
  if(feeHtml.includes(feeMarker))throw new Error('Unrendered fee table placeholder');
