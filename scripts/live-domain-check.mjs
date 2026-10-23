@@ -102,6 +102,14 @@ await Promise.all(urls.map(async ({label,url}) => {
       const canonicalValue = body.split('rel="canonical" href="')[1]?.split('"')[0] || '(없음)';
       info.push('대표주소: ' + (hasCanonical?'일치':'불일치') + ' (' + canonicalValue + ')');
       info.push('8+22 글목록: ' + (hasCompactJournal?'확인':'미확인'));
+      const pageDescription=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+      const ogDescription=body.match(/<meta property="og:description" content="([^"]+)"/)?.[1]||'';
+      const twitterDescription=body.match(/<meta name="twitter:description" content="([^"]+)"/)?.[1]||'';
+      info.push('검색·공유 소개 문구: '+(pageDescription&&pageDescription===ogDescription&&pageDescription===twitterDescription?'일치':'불일치 또는 누락'));
+      const visibleStories=body.match(/<section class="section light" id="stories">([\s\S]*?)<\/section>/)?.[1]||'';
+      const storyCards=(visibleStories.match(/class="card owner-story-card"/g)||[]).length;
+      const hiddenCopies=/(?:원장이 작성한 네이버 블로그 글입니다|#stories .owner-story-card p\{display:none\})/.test(body);
+      info.push('원장 글 30편 제목 링크·중복 문구 정리: '+(storyCards===30&&!hiddenCopies?'확인':'재점검 필요'));
       const heroStart = body.indexOf('<section class="hero wrap">');
       const heroEnd = body.indexOf('</section>',heroStart);
       const hero = heroStart>=0&&heroEnd>heroStart ? body.slice(heroStart,heroEnd) : '';
