@@ -1016,11 +1016,9 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
   const schemas=[...page.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
   const collection=schemas.find(schema=>schema['@type']==='CollectionPage');
   if(!collection || collection.mainEntity?.numberOfItems!==(name==='additional-health.html'?16:10))errors.push(name+': 건강정보 글모음 구조화 데이터 누락');
-  if(name==='insurance-health.html'||name==='additional-health.html'){
-    const meta=page.match(/<meta name="description" content="([^"]+)"/)?.[1];
-    const og=page.match(/<meta property="og:description" content="([^"]+)"/)?.[1];
-    if(!meta||meta!==og||collection?.description!==meta)errors.push(name+': 의료정보 페이지 검색 설명과 구조화 데이터 불일치');
-  }
+  const meta=page.match(/<meta name="description" content="([^"]+)"/)?.[1];
+  const og=page.match(/<meta property="og:description" content="([^"]+)"/)?.[1];
+  if(!meta||meta!==og||collection?.description!==meta)errors.push(name+': 건강정보 검색 설명·공유 미리보기·구조화 데이터 불일치');
  }
 }
 // Clinic landing snippets should agree across standard search and link-preview metadata.
