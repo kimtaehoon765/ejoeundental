@@ -127,7 +127,8 @@ test('searching for a local treatment still links to the primary care guide',asy
 
 
 test('no-space regional searches find the actual clinic treatment pages',async()=>{
- const index=JSON.parse(readFileSync(new URL('../dist/content/search-index.json',import.meta.url),'utf8'));
+ const builtIndex=new URL('../dist/content/search-index.json',import.meta.url);
+ const index=JSON.parse(readFileSync(existsSync(builtIndex)?builtIndex:new URL('../content/search-index-46.json',import.meta.url),'utf8'));
  const cases=[
   ['인천신경치료','/root-canal-health.html'],
   ['부평신경치료','/root-canal-health.html'],
@@ -148,7 +149,8 @@ test('no-space regional searches find the actual clinic treatment pages',async()
 });
 
 test('local clinic discovery without a symptom shows verified visit details instead of unrelated treatments',async()=>{
- const index=JSON.parse(readFileSync(new URL('../dist/content/search-index.json',import.meta.url),'utf8'));
+ const builtIndex=new URL('../dist/content/search-index.json',import.meta.url);
+ const index=JSON.parse(readFileSync(existsSync(builtIndex)?builtIndex:new URL('../content/search-index-46.json',import.meta.url),'utf8'));
  for(const query of ['부평치과','청천동치과','산곡역 치과']){
   const {results}=await search(query,index);
   const visits=walk(results,x=>x.className==='search-visit-answer');
