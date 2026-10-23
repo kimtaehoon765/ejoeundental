@@ -447,7 +447,10 @@ section[aria-label="진료 문의 및 방문 안내"] a:focus-visible{outline:3p
  .nav{grid-template-columns:minmax(0,1fr);row-gap:8px}
  .nav .logo{margin:0;font-size:21px;line-height:1.35}
  .mobile-quick{grid-column:1;grid-row:2;margin:0}
- .navlinks{display:none}
+ .mobile-quick + .navlinks{display:none}
+ /* On all health guides and care pages, keep the navigation accessible.
+    Only the homepage has a separate five-button mobile shortcut row. */
+ .nav:not(:has(.mobile-quick)) .navlinks a.call{display:inline-flex;order:-1;align-items:center;justify-content:center;min-height:44px;padding:8px 12px}
  header{backdrop-filter:none}
  html{scroll-padding-top:142px}
  #philosophy,#focus-care,#symptom-guide,#care,#doctor,#health-info,#more-health,#stories,#faq,#location,#neighborhood-guide,#treatment-decisions,#care-pathway,#when-to-call,#appointment-checklist,#visit-guide{scroll-margin-top:142px}

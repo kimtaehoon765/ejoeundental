@@ -44,6 +44,34 @@ const paths = new Set(files.map(f => '/' + f.slice(root.length + 1).replaceAll('
    errors.push('신경치료 글모음 10문답 바로가기·중복 안내 정리 오류');
  }
 }
+// All four patient topic hubs and all 46 medical articles share the same
+// mobile navigation rail. Hiding .navlinks globally used to remove their phone,
+// visit and topic links on phones; hide it ONLY after the homepage shortcut row.
+{
+ const css=readFileSync(join(root,'assets/style.css'),'utf8');
+ if(!css.includes('.mobile-quick + .navlinks{display:none}')||
+    css.includes(' .navlinks{display:none}')||
+    !css.includes('.nav:not(:has(.mobile-quick)) .navlinks a.call{display:inline-flex;order:-1')){
+   errors.push('환자용 건강정보 모바일 전화·길찾기 메뉴가 숨겨질 수 있습니다');
+ }
+ const hubs=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
+ for(const pageName of hubs){
+   const page=readFileSync(join(root,pageName),'utf8');
+   if(!page.includes('<a class="article-skip-link" href="#health-hub-main">본문 바로가기</a>')||
+      !page.includes('<main class="article" id="health-hub-main" tabindex="-1">')||
+      !page.includes('href="tel:0325132875"')||
+      !page.includes('href="/#location"')||
+      !page.includes('<div class="navlinks">')){
+      errors.push(pageName+': 모바일 메뉴·본문 건너뛰기 접근성 누락');
+   }
+ }
+ for(const file of html.filter(f=>f.includes('/health/'))){
+   const page=readFileSync(file,'utf8');
+   if(!page.includes('<div class="navlinks">')||!page.includes('href="tel:0325132875"')){
+     errors.push('건강정보 아티클 모바일 메뉴 연락처 누락: '+file.slice(root.length+1));
+   }
+ }
+}
 // CI must parse deployed JavaScript, not merely check that script files exist.
 const javascriptFiles = files.filter(f => f.endsWith('.js') || f.endsWith('.mjs'));
 for (const file of javascriptFiles) {
