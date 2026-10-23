@@ -1085,21 +1085,18 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  }
  if(!feeHtml.includes('id="fees-certificates"')||
     !feeHtml.includes('id="fees-treatments"')||
-    !feeHtml.includes('class="fees-quick-nav"')||
+    feeHtml.includes('class="fees-quick-nav"')||
     !feeHtml.includes('@media print{')||
     feeHtml.includes('BUILD_FEE_TABLES')||
     feeHtml.includes('src="/assets/fees.js"')||
     !feeHtml.includes('6매부터는')){
-  errors.push('제증명·비급여 바로가기, 종이 인쇄 또는 첫 HTML 수수료 안내 오류');
+  errors.push('수가표에서 항목 누락, 눈에 띄는 단축 버튼, 인쇄 또는 초기 HTML 오류');
  }
- const feeFirst=feeHtml.indexOf('<section class="fees-category"');
- const certificateSection=feeHtml.indexOf('<section class="fees-category" aria-label="제증명수수료 비용 안내">');
- if(feeFirst<0||certificateSection!==feeFirst)errors.push('제증명 수수료가 비급여 목록 앞에 표시되지 않음');
- const topLinks=feeHtml.match(/<nav class="fees-quick-nav"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
- for(const id of ['fees-certificates','fees-treatments']){
-  if(!topLinks.includes('href="#'+id+'"')||!feeHtml.includes('id="'+id+'"')){
-   errors.push('비급여 메뉴 안에서 목적지가 없는 링크: '+id);
-  }
+ const firstGroup=feeHtml.indexOf('<section class="fees-category"');
+ const lastGroup=feeHtml.lastIndexOf('<section class="fees-category"');
+ const certificateGroup=feeHtml.indexOf('<section class="fees-category" aria-label="제증명수수료 비용 안내">');
+ if(firstGroup<0||lastGroup<=firstGroup||certificateGroup!==lastGroup){
+  errors.push('제증명 수수료는 비급여 진료비용 아래쪽에 안내해야 함');
  }
 }
 // Every public safety, visit, FAQ and fee page should state the same facts in
@@ -1192,6 +1189,24 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  if(!journalCss.includes('#stories .clinic-native-stories>summary:focus-visible')||
     !journalCss.includes('.clinic-native-stories .post-card')){
   errors.push('홈페이지 치과 이야기 모바일·키보드 스타일 누락');
+ }
+}
+// Keep legal fee prices findable via a single unobtrusive lower-footer link,
+// without presenting certificates as a prominent clinic treatment option.
+{
+ const homepage=readFileSync(join(root,'index.html'),'utf8');
+ const links=[...homepage.matchAll(/href="\/noncovered-fees\.html"/g)];
+ const footer=homepage.match(/<section class="footer-business" aria-label="이조은치과 의료기관 정보">([\s\S]*?)<\/section>/)?.[1]||'';
+ const footCss=readFileSync(join(root,'assets','home-enhancements.css'),'utf8');
+ if(links.length!==1||
+    !footer.includes('class="footer-fee-disclosure"')||
+    !footer.includes('href="/noncovered-fees.html"')||
+    !footer.includes('footer-copyright')){
+  errors.push('수가 안내는 홈페이지 마지막 의료기관 정보의 작은 링크 한 곳에만 배치');
+ }
+ if(homepage.includes('비급여 진료비용 · 제증명수수료 안내 →')||
+    !footCss.includes('.footer-fee-disclosure:focus-visible')){
+  errors.push('비급여 안내가 강조되거나 작은 링크의 키보드 접근성이 손상됨');
  }
 }
 // Verified institution information belongs at the very end of the public homepage.
