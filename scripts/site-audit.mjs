@@ -247,9 +247,10 @@ for(const file of html){
   // document. This also verifies that interactive tab/search regions retain
   // labels after responsive and build-time markup edits.
   for(const attr of ['aria-labelledby','aria-describedby','aria-controls']){
-   const m=tag.match(new RegExp('(?:\\s)'+attr+'=["\\']([^"\\']*)["\\']','i'));
+   const m=[...tag.matchAll(/\s(aria-labelledby|aria-describedby|aria-controls)=["']([^"']*)["']/gi)]
+    .find(match=>match[1].toLowerCase()===attr);
    if(!m)continue;
-   const refs=m[1].trim().split(/\s+/).filter(Boolean);
+   const refs=m[2].trim().split(/\s+/).filter(Boolean);
    if(refs.length===0)errors.push(relative+': 빈 '+attr+' 참조');
    for(const id of refs){
     auditedIdReferences++;
