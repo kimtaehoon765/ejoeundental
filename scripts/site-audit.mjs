@@ -419,7 +419,10 @@ else {
   // 실패한 환자용 검색 목록 대신 관련 실무 가이드 바로가기를 제공한다.
   for(const term of ['search-expert-direct-links','search-expert-direct-actions',
     '/dental-equipment.html','/dental-materials.html','/handpiece-maintenance.html',
-    '/autoclave-maintenance.html','/suction-maintenance.html','/compressor-maintenance.html']){
+    '/autoclave-maintenance.html','/suction-maintenance.html','/compressor-maintenance.html',
+    '/scaler-maintenance.html','/curing-light-maintenance.html','/dental-chair-maintenance.html',
+    '/intraoral-camera-maintenance.html','/dental-xray-maintenance.html',
+    '/dental-cements-guide.html','/equipment-log.html']){
    if(!script.includes(term))errors.push('치과 전문가용 장비 별도 안내 누락: '+term);
   }
   if(!page.includes('장비·재료 검색어는 별도 전문가용 참고자료')||
