@@ -724,3 +724,23 @@ main.article .note a[href="/#location"]:focus-visible{
  .article .hub-top-trail{font-size:13px;gap:4px 8px;margin-bottom:10px}
  .article .hub-top-trail .hub-top-treatment{margin-left:0;flex-basis:100%;max-width:max-content}
 }
+
+
+/* Concise editorial context on the four clinical patient-education collections. */
+.article .hub-editorial-note{
+ box-sizing:border-box;margin:18px 0 30px;padding:16px 20px;
+ border:1px solid #bed5c5;border-left:4px solid #28765c;border-radius:10px;
+ background:#f4f9f5;color:#24483f;word-break:keep-all
+}
+.article .hub-editorial-note strong{display:block;font-size:16px;line-height:1.6}
+.article .hub-editorial-note p{margin:6px 0 0;font-size:15px;line-height:1.8}
+.article .hub-editorial-note a{
+ display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;
+ padding:6px 2px;color:#165b44;font-weight:700;text-decoration:underline;text-underline-offset:3px
+}
+.article .hub-editorial-note a:focus-visible{outline:3px solid #a47837;outline-offset:3px}
+@media(max-width:600px){
+ .article .hub-editorial-note{margin:14px 0 23px;padding:13px 15px}
+ .article .hub-editorial-note p{font-size:15px;line-height:1.75}
+ .article .hub-editorial-note a{min-height:48px}
+}
