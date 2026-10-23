@@ -930,6 +930,18 @@ for (const name of ['gum-treatment.html','retreatment.html','cervical-abrasion.h
 }
 
 
+// Keep treatment FAQs concise and reachable by touch, keyboard and deep links.
+for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-care']){
+ const htmlFile=join(root,slug+'.html'),cssFile=join(root,'assets',slug+'.css');
+ if(!existsSync(htmlFile)||!existsSync(cssFile)){errors.push('진료 FAQ 파일 누락: '+slug);continue;}
+ const page=readFileSync(htmlFile,'utf8');
+ const css=readFileSync(cssFile,'utf8');
+ const faq=page.match(/<section\b[^>]*\bid="patient-questions"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ if((page.match(/\bid="patient-questions"/g)||[]).length!==1)errors.push('진료 FAQ 앵커 중복 또는 누락: '+slug);
+ if((faq.match(/<details\b/g)||[]).length<4 || (faq.match(/<summary\b/g)||[]).length<4)errors.push('진료 FAQ 모바일 접이식 질문 부족: '+slug);
+ if(!css.includes('#patient-questions summary:focus-visible')||!css.includes('min-height:52px'))errors.push('진료 FAQ 모바일 터치·키보드 스타일 누락: '+slug);
+ if(!page.includes('/assets/'+slug+'.css?v=20261023-faq-mobile2'))errors.push('진료 FAQ 스타일 버전 갱신 누락: '+slug);
+}
 // 홈페이지 원장 이야기 목록 보호: 모바일에서 8편만 보이고, 22편은 펼치면 읽을 수 있어야 합니다.
 {
  const homepage=readFileSync(join(root,'index.html'),'utf8');
