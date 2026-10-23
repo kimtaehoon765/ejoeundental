@@ -364,6 +364,70 @@ if(!homeFaqHtml.includes('"@type": "FAQPage"')){
 }
 console.log('Visible homepage FAQ structured data generated:',faqPairs.length,'questions');
 
+
+// Single-source catalog: mirror the exact 30 published Naver titles and links
+// from the homepage into a compact, searchable, topic-based clinical archive.
+// Never guess blog post URLs, reviews, dates, diagnoses or patient identities.
+const archiveCatalogFile=path.join(out,'clinical-archive.html');
+let archiveCatalogHtml=fs.readFileSync(archiveCatalogFile,'utf8');
+const archivePostMarker='<!-- BUILD_OWNER_ARCHIVE_GROUPS -->';
+if(archiveCatalogHtml.split(archivePostMarker).length!==2){
+ throw new Error('Expected one owner-blog archive placeholder');
+}
+const ownerStoriesHtml=fs.readFileSync(path.join(out,'index.html'),'utf8');
+const ownerStoriesSection=ownerStoriesHtml.match(/<section class="section light" id="stories">([\s\S]*?)<\/section>/)?.[1]||'';
+const ownerBlogItems=[...ownerStoriesSection.matchAll(/<div class="card owner-story-card"><h3><a href="(https:\/\/blog\.naver\.com\/[a-zA-Z0-9_-]+\/[0-9]+)" target="_blank" rel="noopener noreferrer">([^<]+?) ↗<\/a><\/h3><\/div>/g)]
+ .map(([,url,label])=>({
+  url,
+  title:label.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").trim()
+ }));
+if(ownerBlogItems.length!==30||new Set(ownerBlogItems.map(item=>item.url)).size!==30){
+ throw new Error('The clinical archive must mirror exactly 30 original owner blog links');
+}
+const clinicalArchiveGroups=[
+ {id:'gum',name:'잇몸치료·스케일링',url:'/gum-health.html',label:'잇몸 건강정보 10편 더 읽기',
+  test:title=>/잇몸|스케일링|치주|풍치/.test(title)},
+ {id:'root',name:'신경치료·재신경치료',url:'/root-canal-health.html',label:'신경치료 건강정보 10편 더 읽기',
+  test:title=>/신경치료|재신경치료|근관치료/.test(title)},
+ {id:'ethics',name:'치과 선택과 진료 원칙',url:'/#philosophy',label:'이조은치과 진료 원칙 보기',
+  test:title=>/리뷰|양심|과잉진료|많은 치료|비보험|좋은치과|좋은 치과|가격이 싼/.test(title)},
+ {id:'other',name:'충치·시린 이·기타',url:'/additional-health.html',label:'충치·자연치아 건강정보 더 읽기',
+  test:()=>true}
+];
+for(const group of clinicalArchiveGroups)group.items=[];
+for(const item of ownerBlogItems){
+ const category=clinicalArchiveGroups.find(group=>group.test(item.title));
+ category.items.push(item);
+}
+if(clinicalArchiveGroups.some(group=>!group.items.length))throw new Error('An original owner-blog topic became empty');
+const escArchive=value=>String(value).replace(/[&<>"']/g,char=>
+  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+const archiveGroupsMarkup=clinicalArchiveGroups.map(group=>
+ '<details class="archive-blog-group" id="archive-group-'+group.id+'">'+
+ '<summary><strong>'+escArchive(group.name)+'</strong><span class="archive-blog-count">'+group.items.length+'편</span><span class="archive-blog-plus" aria-hidden="true">＋</span></summary>'+
+ '<ol>'+group.items.map(item=>
+  '<li><a href="'+item.url+'" target="_blank" rel="noopener noreferrer">'+escArchive(item.title)+' ↗</a></li>').join('')+'</ol>'+
+ '<p class="archive-blog-related"><a href="'+group.url+'">'+group.label+' →</a></p>'+
+ '</details>'
+).join('');
+archiveCatalogHtml=archiveCatalogHtml.replace(archivePostMarker,archiveGroupsMarkup);
+const originalArchiveSchema=archiveCatalogHtml.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+if(!originalArchiveSchema)throw new Error('Archive CollectionPage schema missing');
+const parsedArchiveSchema=JSON.parse(originalArchiveSchema[1]);
+if(parsedArchiveSchema['@type']!=='CollectionPage')throw new Error('Archive schema type mismatch');
+parsedArchiveSchema.mainEntity={
+ '@type':'ItemList',numberOfItems:ownerBlogItems.length,
+ itemListElement:ownerBlogItems.map((item,index)=>({
+  '@type':'ListItem',position:index+1,name:item.title,url:item.url
+ }))
+};
+archiveCatalogHtml=archiveCatalogHtml.replace(originalArchiveSchema[0],
+ '<script type="application/ld+json">'+JSON.stringify(parsedArchiveSchema).replace(/</g,'\\u003c')+'</script>');
+fs.writeFileSync(archiveCatalogFile,archiveCatalogHtml);
+console.log('Original owner Naver articles grouped without duplication:',
+ ownerBlogItems.length,'posts across',clinicalArchiveGroups.length,'mobile disclosure sections:',
+ clinicalArchiveGroups.map(group=>group.name+' '+group.items.length+'편').join(' · '));
+
 // Supply canonical URLs for legacy pages that do not declare one in their source HTML.
 for(const page of ['implant.html','pediatric-dentistry.html','pediatric-orthodontics.html','search.html']){
  const target=path.join(out,page);

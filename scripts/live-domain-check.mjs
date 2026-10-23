@@ -366,6 +366,15 @@ await Promise.all(urls.map(async ({label,url}) => {
         });
       info.push(verified?'의학정보 제목·소개·대표주소·공유 미리보기 일치':'의학정보 공유 카드 최신 반영 확인 필요');
     }
+    if(label==='remaining route clinical-archive'){
+      const groups=(body.match(/class="archive-blog-group"/g)||[]).length;
+      const links=[...body.matchAll(/<li><a href="(https:\/\/blog\.naver\.com\/[^"]+)" target="_blank" rel="noopener noreferrer">/g)].map(m=>m[1]);
+      const collection=body.match(/<script type="application\/ld\+json">([^<]+)<\/script>/)?.[1];
+      let items=0;
+      try{items=JSON.parse(collection)?.mainEntity?.numberOfItems||0}catch{}
+      const ready=groups===4&&links.length===30&&new Set(links).size===30&&items===30&&body.includes('id="archive-blog-posts"');
+      info.push(ready?'원장 네이버 원문 30편·주제별 4묶음·검색 구조화 데이터 반영':'원장 글 30편 주제별 아카이브 신규 배포 확인 필요');
+    }
     // Reuse already-fetched 19 public patient resources: no additional requests.
     // Keep social previews, medical schema and search snippets consistent in production.
     if(label.startsWith('remaining route ')||

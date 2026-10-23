@@ -1589,3 +1589,50 @@ if (errors.length) process.exitCode = 1;
   errors.push('근관치료 과정·보험 안내와 신경치료 10편 양방향 연결 누락');
  }
 }
+
+// Homepage 30 owner blog entries and archive topic rows must be the exact
+// same verified links/titles, not invented duplicate articles or dated claims.
+{
+ const homepage=readFileSync(join(root,'index.html'),'utf8');
+ const archive=readFileSync(join(root,'clinical-archive.html'),'utf8');
+ const original=[...homepage.matchAll(/<div class="card owner-story-card"><h3><a href="(https:\/\/blog\.naver\.com\/[a-zA-Z0-9_-]+\/[0-9]+)" target="_blank" rel="noopener noreferrer">([^<]+?) ↗<\/a><\/h3><\/div>/g)]
+  .map(([,url,label])=>[url,label.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").trim()]);
+ const entries=[...archive.matchAll(/<li><a href="(https:\/\/blog\.naver\.com\/[a-zA-Z0-9_-]+\/[0-9]+)" target="_blank" rel="noopener noreferrer">([^<]+?) ↗<\/a><\/li>/g)]
+  .map(([,url,label])=>[url,label.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").trim()]);
+ const homeUrls=new Set(original.map(item=>item[0]));
+ const archiveUrls=new Set(entries.map(item=>item[0]));
+ const expected=new Map(original);
+ if(original.length!==30||entries.length!==30||homeUrls.size!==30||archiveUrls.size!==30||
+   entries.some(([url,title])=>expected.get(url)!==title)){
+  errors.push('원장 블로그 30편 홈페이지·임상 아카이브 글 제목/원문 주소 불일치');
+ }
+ const groups=[...archive.matchAll(/<details class="archive-blog-group" id="archive-group-([^"]+)">([\s\S]*?)<\/details>/g)];
+ if(groups.length!==4||groups.map(m=>m[1]).join(',')!=='gum,root,ethics,other'||
+    groups.some(m=>!m[2].includes('<ol>')||!m[2].includes('class="archive-blog-related"'))){
+  errors.push('원장 블로그 30편 주제별 모바일 펼치기 항목 구성이 잘못됨');
+ }
+ if(!archive.includes('id="archive-blog-posts"')||
+   !archive.includes('href="#archive-blog-posts"')||
+   !archive.includes('aria-label="주제별 원장 네이버 글 모음"')||
+   archive.includes('BUILD_OWNER_ARCHIVE_GROUPS')||
+   !homepage.includes('href="/clinical-archive.html#archive-blog-posts"')){
+  errors.push('원장 블로그 30편 홈페이지↔아카이브 이동 경로·서버 렌더링 누락');
+ }
+ const schema=[...archive.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
+  .find(data=>data?.['@type']==='CollectionPage');
+ const elems=schema?.mainEntity?.itemListElement||[];
+ if(schema?.mainEntity?.numberOfItems!==30||elems.length!==30||
+   elems.some((entry,i)=>entry.position!==i+1||
+     entry.url!==original[i]?.[0]||entry.name!==original[i]?.[1])){
+   errors.push('원장 원문 30편 ItemList 구조화 데이터·홈페이지 원문 순서 불일치');
+ }
+ if(!archive.includes('원장이 직접 쓴 네이버 치과 이야기 30편')||
+    !archive.includes('홈페이지에 소개한 네이버 글 30편을')||
+    !archive.includes('href="https://m.blog.naver.com/tele654"')||
+    !archive.includes('href="https://m.blog.naver.com/radio654"')||
+    !archive.includes('.archive-blog-group>summary:') &&
+    !archive.includes('.archive-blog-group summary:focus-visible')){
+  errors.push('원장 네이버 글 출처 3곳·모바일 키보드 공개 안내 누락');
+ }
+}
