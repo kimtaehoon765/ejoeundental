@@ -2018,6 +2018,6 @@ if(!fs.existsSync(path.join(out,'favicon.svg')) || brandedDocumentCount < 70){
 }
 console.log('Accessible clinic tab icon included on',brandedDocumentCount,'static HTML pages.');
 
-// Cloudflare Pages: revalidate HTML on each navigation so old homepage versions do not linger.
-// Fingerprinted static assets may still be cached by the browser and CDN.
-fs.writeFileSync(path.join(out,'_headers'),`/*.html\n  Cache-Control: public, max-age=0, must-revalidate\n/\n  Cache-Control: public, max-age=0, must-revalidate\n`);
+// Keep the checked-in _headers rules unchanged in dist.
+// In particular do not overwrite security headers or pages.dev noindex rules.
+// All HTML cache rules live in the same source _headers document.

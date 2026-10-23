@@ -1424,11 +1424,7 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
 }
 
 if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
-console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
-for (const e of errors) console.error('ERROR', e);
-for (const w of [...new Set(warnings)].slice(0, 100)) console.warn('WARN', w);
-if (warnings.length > 100) console.warn('추가 경고:', warnings.length - 100);
-if (errors.length) process.exitCode = 1;
+
 
 // Periodontal patient symptom guide: keep medically cautious content accessible,
 // linkable from the treatment hero, and discoverable in static HTML without JS.
@@ -2152,11 +2148,18 @@ if (errors.length) process.exitCode = 1;
   if(rules.some(rule=>(rule.path==='/*'||rule.path.includes('ejoeundental.com'))&&
        rule.headers.has('X-Robots-Tag')))
      errors.push('정식 ejoeundental.com 도메인은 색인 차단하면 안 됩니다');
-  for(const route of ['/sitemap.xml','/robots.txt','/content/*','/assets/*']){
+  for(const route of ['/sitemap.xml','/robots.txt','/content/*','/assets/*','/*.html','/']){
    if(byPath(route).length!==1||!byPath(route)[0].headers.get('Cache-Control')?.includes('must-revalidate'))
     errors.push('Cloudflare Pages 검색/진료 자료 갱신 헤더 누락: '+route);
   }
-  if(rules.length!==7)errors.push('Cloudflare Pages 예상 응답 헤더 규칙 수 불일치: '+rules.length);
+  if(rules.length!==9)errors.push('Cloudflare Pages 예상 응답 헤더 규칙 수 불일치: '+rules.length);
   if(txt.length>14000)errors.push('Cloudflare Pages 응답 헤더 파일이 불필요하게 큼');
  }
 }
+
+// Report every audit error, including the checks above this final line.
+console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
+for (const e of errors) console.error('ERROR', e);
+for (const w of [...new Set(warnings)].slice(0, 100)) console.warn('WARN', w);
+if (warnings.length > 100) console.warn('추가 경고:', warnings.length - 100);
+if (errors.length) process.exitCode = 1;
