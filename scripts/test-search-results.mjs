@@ -285,6 +285,10 @@ test('professional equipment queries route to separate public reference guides w
     query+' should show the matching expert guide and both reference indexes');
   assert.ok(status.textContent.includes('별도 전문가 참고자료'),query+' must explain why the patient index is empty');
   assert.equal(walk(results,x=>x.className==='result').length,0,'professional pages must not be added to the public index');
+  const allResourceLinks=walk(results,x=>x.tagName==='a'&&x.href).map(x=>x.href);
+  assert.equal(allResourceLinks.length,3,query+' must not repeat the same reference links below the results');
+  assert.equal(new Set(allResourceLinks).size,3,query+' must not create duplicate expert shortcuts');
+
  }
  const medical=await search('혈액희석제',[{url:'/blood-thinners-dental.html',title:'혈액희석제',description:'혈액희석제 복용 안내',body:'항응고제'}]);
  assert.equal(walk(medical.results,x=>x.className==='search-expert-direct-links').length,0,
