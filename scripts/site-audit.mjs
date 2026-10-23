@@ -1375,3 +1375,27 @@ if (errors.length) process.exitCode = 1;
    errors.push('잇몸 건강정보 허브 진료정보 한계 안내 누락');
  }
 }
+
+// A consistent local SVG tab icon improves site recognizability on phones,
+// bookmarks and desktop tabs without a third-party image request.
+{
+ const icon='/favicon.svg';
+ const file=join(root,'favicon.svg');
+ if(!paths.has(icon)||!existsSync(file)){
+  errors.push('이조은치과 파비콘 파일 배포 누락');
+ }else{
+  const svg=readFileSync(file,'utf8');
+  if(!svg.includes('viewBox="0 0 64 64"') ||
+     !svg.includes('<title id="icon-title">이조은치과</title>') ||
+     !svg.includes('#173e35')){
+   errors.push('브랜드 파비콘 SVG 구조 및 의료기관명 확인 필요');
+  }
+ }
+ const link='<link rel="icon" type="image/svg+xml" href="/favicon.svg">';
+ for(const file of html){
+  const text=readFileSync(file,'utf8');
+  if(!text.includes(link)||(text.split(link).length-1)!==1){
+   errors.push('환자 공개 HTML 파비콘 링크 누락 또는 중복: '+file.slice(root.length+1));
+  }
+ }
+}
