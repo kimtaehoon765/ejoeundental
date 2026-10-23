@@ -9,6 +9,7 @@ class Element {
   constructor(tag){this.tagName=tag;this.children=[];this.dataset={};this.handlers={};this.attrs={};}
   append(...children){for(const child of children){if(child&&typeof child==='object')child.parent=this;this.children.push(child);}}
   replaceChildren(...children){for(const child of this.children)if(child&&typeof child==='object')child.parent=null;this.children=[];this.append(...children);}
+  insertBefore(child,before){const i=this.children.indexOf(before);if(i<0)throw Error('Reference child not found');this.children.splice(i,0,child);child.parent=this;}
   setAttribute(name,value){this.attrs[name]=String(value);}
   addEventListener(name,fn){this.handlers[name]=fn;}
   focus(){}
@@ -121,6 +122,39 @@ test('searching for a local treatment still links to the primary care guide',asy
   const {results}=await search(query,published);
   const topFive=walk(results,x=>x.className==='result').slice(0,5).map(x=>x.href);
   assert.ok(topFive.includes(expected),query+' must include its guide within the top five');
+ }
+});
+
+
+test('no-space regional searches find the actual clinic treatment pages',async()=>{
+ const index=JSON.parse(readFileSync(new URL('../dist/content/search-index.json',import.meta.url),'utf8'));
+ const cases=[
+  ['인천신경치료','/root-canal-health.html'],
+  ['부평신경치료','/root-canal-health.html'],
+  ['산곡역신경치료','/root-canal-health.html'],
+  ['인천잇몸치료','/gum-treatment.html'],
+  ['부평잇몸치료','/gum-treatment.html'],
+  ['산곡동잇몸치료','/gum-treatment.html'],
+  ['산곡역재신경치료','/retreatment.html'],
+  ['부평구청역신경치료','/root-canal-health.html'],
+  ['인천치경부마모증','/cervical-abrasion.html']
+ ];
+ for(const [query,expected] of cases){
+  const {results,status}=await search(query,index);
+  const ranked=walk(results,x=>x.className==='result').slice(0,5).map(x=>x.href);
+  assert.ok(ranked.includes(expected),query+' must find the matching clinical guide; found '+JSON.stringify(ranked));
+  assert.ok(!/불러오지 못했습니다/.test(status.textContent),query+' should not trigger a search error');
+ }
+});
+
+test('local clinic discovery without a symptom shows verified visit details instead of unrelated treatments',async()=>{
+ const index=JSON.parse(readFileSync(new URL('../dist/content/search-index.json',import.meta.url),'utf8'));
+ for(const query of ['부평치과','청천동치과','산곡역 치과']){
+  const {results}=await search(query,index);
+  const visits=walk(results,x=>x.className==='search-visit-answer');
+  assert.equal(visits.length,1,query+' should show one useful clinic visit panel');
+  assert.ok(walk(visits[0],x=>String(x.textContent||'').includes('세월천로 34')).length,query+' needs the real clinic address');
+  assert.ok(walk(visits[0],x=>x.href==='tel:0325132875').length,query+' needs a one-tap phone link');
  }
 });
 
