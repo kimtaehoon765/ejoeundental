@@ -122,6 +122,11 @@ await Promise.all(urls.map(async ({label,url}) => {
       const storyCards=(visibleStories.match(/class="card owner-story-card"/g)||[]).length;
       const hiddenCopies=/(?:원장이 작성한 네이버 블로그 글입니다|#stories .owner-story-card p\{display:none\})/.test(body);
       info.push('원장 글 30편 제목 링크·중복 문구 정리: '+(storyCards===30&&!hiddenCopies?'확인':'재점검 필요'));
+      const clinicFooter=body.match(/<section class="footer-business" aria-label="이조은치과 의료기관 정보">([\s\S]*?)<\/section>/)?.[1]||'';
+      const footerOk=['이조은치과의원','세월천로 34','대우프라자 305호',
+        'tel:0325132875','3시간 무료','격주 진료','Copyright'].every(term=>clinicFooter.includes(term));
+      info.push(footerOk?'하단 의료기관 정보·주소·전화·진료시간·주차 반영':'하단 의료기관 정보 배포 확인 필요');
+
       const symptomSection=visibleStories.match(/<div class="grid" id="post-list"[^>]*>([\s\S]*?)<\/div>/)?.[1]||'';
       const symptomCount=(symptomSection.match(/<article class="card"/g)||[]).length;
       const publishedSection=visibleStories.match(/<div id="published-story-items" class="grid"[^>]*>([\s\S]*?)<\/div>/)?.[1]||'';
