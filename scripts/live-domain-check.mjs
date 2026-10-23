@@ -78,6 +78,7 @@ const urls = [
   { label: '검색 결과 더 보기 동작 코드', url: origin + '/assets/search.js' },
   { label: '통합 검색 실제 문서 색인', url: origin + '/content/search-index.json' },
   { label: '검색 결과 더 보기 버튼 스타일', url: origin + '/assets/search-page.css' },
+  { label: '환자용 모바일 전화·이동 메뉴 CSS', url: origin + '/assets/style.css' },
   { label: '없는 페이지 404 상태', url: origin + '/__missing-page-check-20261023' }
 ];
 
@@ -447,6 +448,14 @@ await Promise.all(urls.map(async ({label,url}) => {
       const newSearchReady=body.includes('scalingComparisonIntent')&&body.includes('scalingOnlyIntent')&&
         body.includes('치주낭치료')&&body.includes('신경치료비용');
       info.push(newSearchReady?'치주치료·스케일링·잇몸 증상 검색 관련도 개선 반영':'치주·스케일링 자연어 검색 개선 신규 배포 확인 필요');
+    }
+    if(label==='환자용 모바일 전화·이동 메뉴 CSS'){
+      const homepageOnly=body.includes('.mobile-quick + .navlinks{display:none}');
+      const allGuidesCall=body.includes('.navlinks a.call{display:inline-flex;order:-1');
+      const globalHide=/^\s*\.navlinks\{display:none\}/m.test(body);
+      info.push(homepageOnly&&allGuidesCall&&!globalHide
+        ?'모바일 건강정보 메뉴·전화 버튼 표시 CSS 최신 배포 확인'
+        :'모바일 건강정보 메뉴 CSS 신규 배포 반영 확인 필요');
     }
     if(label==='public route visit-guide'){
       const desc=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
