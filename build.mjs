@@ -320,12 +320,14 @@ alignCanonicalUrls(out);
  let count=0;
  const after=before.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,(tag,json)=>{
   const schema=JSON.parse(json);
+  // Preserve the original formatting and author-article catalog of other blocks.
+  if(!['WebSite','Dentist'].includes(schema['@type']))return tag;
   count++;
   return '<script type="application/ld+json">'+
    JSON.stringify(schema).replaceAll('https://ejoeundental.com/','https://ejoeundental.pages.dev/')+
    '</script>';
  });
- if(count<4)throw new Error('Homepage structured identity blocks unexpectedly missing: '+count);
+ if(count!==2)throw new Error('Homepage WebSite and Dentist identity blocks missing: '+count);
  fs.writeFileSync(file,after);
 }
 // Keep structured FAQ URLs on the same host as the preview canonical and sitemap.
