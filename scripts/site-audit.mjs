@@ -29,7 +29,7 @@ const paths = new Set(files.map(f => '/' + f.slice(root.length + 1).replaceAll('
 // guide skimmable. These are functional HTML checks, not SEO ranking claims.
 {
  const visit=readFileSync(join(root,'visit-guide.html'),'utf8');
- const actions=visit.match(/<nav class="visit-quick-actions"[^>]*>([\\s\\S]*?)<\\/nav>/)?.[1]||'';
+ const actions=visit.match(/<nav class="visit-quick-actions"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
  if(!actions.includes('href="tel:0325132875"')||
     !actions.includes('href="https://map.naver.com/p/search/')||
     !actions.includes('rel="noopener noreferrer"')||
