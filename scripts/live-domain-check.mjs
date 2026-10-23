@@ -328,7 +328,10 @@ await Promise.all(urls.map(async ({label,url}) => {
     if(label==='remaining route noncovered-fees'){
       const expected=['보험사 양식 치료확인서','병원 발급 진단서',
         '차트 복사(진료기록 사본 1~5매)','파노라마 인쇄본'];
-      const ready=body.includes('id="fees-certificates"') &&
+      const certificatesFirst=body.indexOf('<section class="fees-category"')===
+        body.indexOf('<section class="fees-category" aria-label="제증명수수료 비용 안내">');
+      const ready=certificatesFirst && body.includes('id="fees-certificates"') &&
+        body.includes('id="fees-treatments"') && body.includes('class="fees-quick-nav"') &&
         expected.every(t=>body.includes(t)) &&
         !body.includes('<!-- BUILD_FEE_TABLES -->') &&
         !body.includes('src="/assets/fees.js"') &&
