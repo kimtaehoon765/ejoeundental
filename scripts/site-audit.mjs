@@ -1349,3 +1349,29 @@ if (errors.length) process.exitCode = 1;
    errors.push('잇몸치료 FAQ 지역·치료 주제 정보 누락');
  }
 }
+
+// Ensure the periodontal topic cluster has meaningful two-way patient navigation.
+// Keep symptom answers and treatments on separate pages; do not keyword-stuff or
+// create misleading local business locations for neighboring districts.
+{
+ const home=readFileSync(join(root,'index.html'),'utf8');
+ const hub=readFileSync(join(root,'gum-health.html'),'utf8');
+ const faq=readFileSync(join(root,'gum-treatment-faq.html'),'utf8');
+ const treatment=readFileSync(join(root,'gum-treatment.html'),'utf8');
+ if(!home.includes('href="/gum-treatment-faq.html#gum-symptom-guide"') ||
+    !hub.includes('class="gum-learning-nav"') ||
+    !hub.includes('href="/gum-treatment-faq.html#gum-symptom-guide"') ||
+    !hub.includes('href="/health/periodontal-insurance.html"') ||
+    !hub.includes('href="/visit-guide.html"') ||
+    !hub.includes('.gum-learning-nav a:focus-visible') ||
+    !faq.includes('href="/gum-health.html"') ||
+    !treatment.includes('href="/gum-treatment-faq.html#gum-symptom-guide"')){
+   errors.push('잇몸치료 홈페이지→FAQ→건강정보 허브 양방향 이동 경로 누락');
+ }
+ if(!faq.includes('id="gum-symptom-guide"')){
+   errors.push('연결 대상 잇몸 증상별 안내 앵커가 없음');
+ }
+ if(!hub.includes('이 페이지는 일반적인 건강정보')){
+   errors.push('잇몸 건강정보 허브 진료정보 한계 안내 누락');
+ }
+}
