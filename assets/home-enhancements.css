@@ -563,3 +563,24 @@ html{scroll-padding-top:92px}
  .footer .footer-business-facts dt{min-width:58px}
  .footer .footer-business-visit{font-size:12px}
 }
+
+
+/* Compliance information stays reachable but is not a promotional homepage CTA. */
+.footer .footer-business .footer-copyright .footer-fee-disclosure{
+ display:inline-flex;align-items:center;box-sizing:border-box;
+ min-height:44px;padding:8px 4px;margin-left:11px;
+ color:#c5d8c9;font-size:12px;font-weight:400;line-height:1.5;
+ text-decoration:underline;text-decoration-color:rgba(197,216,201,.65);
+ text-underline-offset:3px
+}
+.footer .footer-business .footer-copyright .footer-fee-disclosure:hover{
+ color:#fff;text-decoration-color:#fff
+}
+.footer .footer-business .footer-copyright .footer-fee-disclosure:focus-visible{
+ outline:3px solid #f5c986;outline-offset:2px
+}
+@media(max-width:640px){
+ .footer .footer-business .footer-copyright .footer-fee-disclosure{
+  margin:6px 0 0 7px;min-height:48px
+ }
+}
