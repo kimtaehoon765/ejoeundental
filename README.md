@@ -37,8 +37,10 @@ Cloudflare Pages 빌드 설정(확인이 필요한 경우): `main`, 프레임워
 
 Netlify 연결 및 도메인 이전 절차는 [Netlify 점검 안내](docs/netlify-cutover-guide.md)를 참고하세요.
 
-## 도메인 이전
-목표 정식 주소는 `https://ejoeundental.com`입니다. 일부 빌드 스크립트에는 과거 Cloudflare 미리보기 주소 `https://ejoeundental.pages.dev`가 기본값으로 남아 있습니다. 이 주소를 현재 Netlify 배포 주소로 간주하지 마세요. 정식 도메인 연결 전에 Netlify 실제 배포 주소와 `SITE_PUBLIC_ORIGIN` 값을 확인해야 합니다. DNS 설정은 기존 서비스 상태를 검증하기 전 변경하지 않습니다.
+## 정식 도메인·미리보기 주소 구분
+정식 홈페이지 `https://ejoeundental.com`은 **이미 HTTPS로 서비스 중**이며, `build.mjs`의 기본 `SITE_PUBLIC_ORIGIN`도 정식 주소입니다. 별도 미리보기 빌드에서는 `SITE_PUBLIC_ORIGIN=https://ejoeundental.pages.dev`를 사용하며, 두 빌드의 SEO 메타데이터와 사이트맵은 각각 검사합니다.
+
+도메인 관련 남은 작업은 **www → 비-www 301 통일**입니다. 이는 GitHub의 HTML이나 Pages `_redirects`로는 적용할 수 없고 Cloudflare 영역의 Redirect Rule에서 설정해야 합니다. [2026-10-23 도메인 실측과 운영 점검표](DOMAIN-MIGRATION-CHECKLIST.md) 및 [무료 www 301 안내](docs/www-301-redirect.md)를 참고하세요. 변경 전 원본 Netlify 연결 상태를 확인하고 기존 DNS나 호스팅을 삭제하지 않습니다.
 
 ## 참고
 - `/admin/`은 외부 Pages CMS 안내 페이지이며 자체 로그인 시스템이 아닙니다.
