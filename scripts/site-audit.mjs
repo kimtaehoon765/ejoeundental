@@ -549,7 +549,7 @@ else {
    const coreEnd=script.indexOf('const resultSummary=',coreStart);
    if(coreStart<0||coreEnd<=coreStart)throw new Error('검색 관련도 코드 위치 인식 불가');
    const evaluate=new Function('q','pages',script.slice(coreStart,coreEnd)+
-    'return {localityOnlyIntent,visitIntent,visitOnlyIntent,displayCount:displayResults.length,top:displayResults[0]?.url};');
+    'return {localityOnlyIntent,visitIntent,visitOnlyIntent,displayCount:visitOnlyIntent?0:scored.length,top:visitOnlyIntent?undefined:scored[0]?.url};');
    const indexFile=join(root,'content','search-index.json');
    const index=JSON.parse(readFileSync(indexFile,'utf8'));
    if(!Array.isArray(index)||!index.length)throw new Error('검색 색인 비어 있음');
