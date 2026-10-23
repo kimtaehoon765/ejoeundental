@@ -1084,10 +1084,22 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
   }
  }
  if(!feeHtml.includes('id="fees-certificates"')||
+    !feeHtml.includes('id="fees-treatments"')||
+    !feeHtml.includes('class="fees-quick-nav"')||
+    !feeHtml.includes('@media print{')||
     feeHtml.includes('BUILD_FEE_TABLES')||
     feeHtml.includes('src="/assets/fees.js"')||
     !feeHtml.includes('6매부터는')){
-  errors.push('제증명 가격표 첫 화면·기록 복사 수수료 안내 오류');
+  errors.push('제증명·비급여 바로가기, 종이 인쇄 또는 첫 HTML 수수료 안내 오류');
+ }
+ const feeFirst=feeHtml.indexOf('<section class="fees-category"');
+ const certificateSection=feeHtml.indexOf('<section class="fees-category" aria-label="제증명수수료 비용 안내">');
+ if(feeFirst<0||certificateSection!==feeFirst)errors.push('제증명 수수료가 비급여 목록 앞에 표시되지 않음');
+ const topLinks=feeHtml.match(/<nav class="fees-quick-nav"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ for(const id of ['fees-certificates','fees-treatments']){
+  if(!topLinks.includes('href="#'+id+'"')||!feeHtml.includes('id="'+id+'"')){
+   errors.push('비급여 메뉴 안에서 목적지가 없는 링크: '+id);
+  }
  }
 }
 // Every public safety, visit, FAQ and fee page should state the same facts in
