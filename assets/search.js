@@ -107,7 +107,7 @@ const showResults=type=>{
  status.textContent=type!=='all'?'검색 결과 중 '+searchLabels[type]+' '+selected.length+'개를 찾았습니다'+countMessage+'.':
   isPartial?'모든 검색어와 일치하는 결과가 없어 일부 검색어와 관련된 '+displayResults.length+'개 결과를 찾았습니다'+countMessage+'.':
   displayResults.length?(terms.length===1?'검색 결과 '+displayResults.length+'개를 찾았습니다'+countMessage+'.':
-   exactResults.length+'개의 전체 검색어 일치 결과와 '+(displayResults.length-exactResults.length)+'개의 부분 일치 결과를 찾았습니다'+countMessage+'.'):'검색 결과가 없습니다.';
+   exactResults.length+'개의 전체 검색어 일치 결과와 '+(displayResults.length-exactResults.length)+'개의 부분 일치 결과를 찾았습니다'+countMessage+'.'):(equipmentIntent?'환자용 검색 결과는 없지만 별도 전문가 참고자료를 바로 이용할 수 있습니다.':'검색 결과가 없습니다.');
  renderMatches(visibleResults,listArea);
  if(orderedResults.length>maxResults){
   let displayed=visibleResults.length;
