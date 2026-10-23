@@ -54,6 +54,42 @@ if(hasCategories){
  }
  results.append(filterBar);
 }
+// Professional maintenance resources intentionally remain outside the patient
+// search index. Give equipment searches a direct, clearly labeled route rather
+// than misrepresenting the 85-page public index as a repair manual search.
+if(equipmentIntent){
+ const professional=document.createElement('aside');
+ professional.className='search-expert-direct-links';
+ professional.setAttribute('aria-label','별도 치과 전문가용 장비·재료 참고자료');
+ const heading=document.createElement('strong');
+ heading.textContent='치과 장비·재료는 전문가용 참고자료에서 확인하세요';
+ const message=document.createElement('p');
+ message.textContent='장비 점검·재료 문서는 일반 환자용 건강정보 검색과 별도로 제공됩니다. 아래 자료를 바로 열 수 있습니다.';
+ const options=[
+  [/핸드피스/,['핸드피스 점검 안내','/handpiece-maintenance.html']],
+  [/멸균기|오토클레이브/,['멸균기 점검 안내','/autoclave-maintenance.html']],
+  [/석션/,['석션 점검 안내','/suction-maintenance.html']],
+  [/콤프레서|컴프레서/,['콤프레서 점검 안내','/compressor-maintenance.html']],
+  [/스케일러/,['초음파 스케일러 점검 안내','/scaler-maintenance.html']],
+  [/인상재/,['인상재·모형재 안내','/impression-materials-guide.html']],
+  [/근관파일/,['근관기구 안내','/endodontic-instruments-guide.html']],
+  [/큐렛기구/,['치주기구 안내','/periodontal-instruments-guide.html']]
+ ].filter(([pattern])=>pattern.test(normalizedQuery)).map(([,link])=>link);
+ const guides=[...options,
+  ['치과 장비·기구 전체 안내','/dental-equipment.html'],
+  ['치과 재료 전체 안내','/dental-materials.html']
+ ];
+ const buttons=document.createElement('div');
+ buttons.className='search-expert-direct-actions';
+ for(const [label,url] of guides){
+  const link=document.createElement('a');
+  link.href=publishedHref(url);
+  link.textContent=label+' →';
+  buttons.append(link);
+ }
+ professional.append(heading,message,buttons);
+ results.append(professional);
+}
 results.append(listArea);
 const showResults=type=>{
  const selected=type==='all'?displayResults:displayResults.filter(p=>searchCategory(p)===type);
@@ -95,4 +131,4 @@ const showResults=type=>{
  }
 };
 showResults('all');
-if(!displayResults.length){const p=document.createElement('p');p.textContent='검색 결과가 없습니다. 아래 관련 안내에서 찾아보시거나 다른 표현으로 다시 검색해 보세요.';results.append(p);const suggestions=safetyIntent?[['치과치료 전 복용약·전신질환 안내','/medical-history.html'],['혈액희석제 복용 안내','/blood-thinners-dental.html'],['골다공증 약 복용 안내','/osteoporosis-medication-dental.html']]:equipmentIntent?[['치과 장비·기구 안내','/dental-equipment.html'],['핸드피스 관리 안내','/handpiece-maintenance.html'],['멸균기 관리 안내','/autoclave-maintenance.html']]:[['잇몸치료','/gum-treatment.html'],['재신경치료','/retreatment.html'],['치경부마모증','/cervical-abrasion.html'],['건강보험 진료','/insured-care.html']];const links=document.createElement('p');links.className='search-fallback';for(const [label,url] of suggestions){const a=document.createElement('a');a.href=publishedHref(url);a.textContent=label+' →';links.append(a)}results.append(links);const retry=document.createElement('p');retry.className='search-retry';retry.textContent='검색어를 바꿔 다시 찾아보세요: ';for(const term of (safetyIntent?['혈액희석제','골다공증 약','당뇨병']:equipmentIntent?['핸드피스','멸균기','석션']:['잇몸 출혈','신경치료 후 통증','치아 시림'])){const a=document.createElement('a');a.href='/search.html?q='+encodeURIComponent(term);a.textContent=term;retry.append(a)}results.append(retry)}}catch(e){console.error(e);status.textContent='검색 자료를 불러오지 못했습니다. 아래 주요 진료 안내를 이용해 주세요.';const links=document.createElement('p');links.className='search-fallback';for(const [label,url] of (/(복용약|약물|혈액희석|항응고|골다공증|당뇨|심장|투석|임신|항암)/.test(q)?[['복용약·전신질환 안내','/medical-history.html'],['혈액희석제 안내','/blood-thinners-dental.html']]:/(핸드피스|멸균기|석션|스케일러|장비|기구)/.test(q)?[['치과 장비 안내','/dental-equipment.html'],['핸드피스 관리 안내','/handpiece-maintenance.html']]:[['잇몸치료','/gum-treatment.html'],['재신경치료','/retreatment.html'],['치경부마모증','/cervical-abrasion.html'],['건강보험 진료','/insured-care.html']])){const a=document.createElement('a');a.href=publishedHref(url);a.textContent=label+' →';links.append(a)}results.append(links)}})();
+if(!displayResults.length){const p=document.createElement('p');p.textContent=equipmentIntent?'이 검색어에 맞는 일반 환자용 글은 없습니다. 위의 전문가용 참고자료 또는 아래 관련 안내를 이용해 주세요.':'검색 결과가 없습니다. 아래 관련 안내에서 찾아보시거나 다른 표현으로 다시 검색해 보세요.';results.append(p);const suggestions=safetyIntent?[['치과치료 전 복용약·전신질환 안내','/medical-history.html'],['혈액희석제 복용 안내','/blood-thinners-dental.html'],['골다공증 약 복용 안내','/osteoporosis-medication-dental.html']]:equipmentIntent?[['치과 장비·기구 안내','/dental-equipment.html'],['핸드피스 관리 안내','/handpiece-maintenance.html'],['멸균기 관리 안내','/autoclave-maintenance.html']]:[['잇몸치료','/gum-treatment.html'],['재신경치료','/retreatment.html'],['치경부마모증','/cervical-abrasion.html'],['건강보험 진료','/insured-care.html']];const links=document.createElement('p');links.className='search-fallback';for(const [label,url] of suggestions){const a=document.createElement('a');a.href=publishedHref(url);a.textContent=label+' →';links.append(a)}results.append(links);const retry=document.createElement('p');retry.className='search-retry';retry.textContent='검색어를 바꿔 다시 찾아보세요: ';for(const term of (safetyIntent?['혈액희석제','골다공증 약','당뇨병']:equipmentIntent?['핸드피스','멸균기','석션']:['잇몸 출혈','신경치료 후 통증','치아 시림'])){const a=document.createElement('a');a.href='/search.html?q='+encodeURIComponent(term);a.textContent=term;retry.append(a)}results.append(retry)}}catch(e){console.error(e);status.textContent='검색 자료를 불러오지 못했습니다. 아래 주요 진료 안내를 이용해 주세요.';const links=document.createElement('p');links.className='search-fallback';for(const [label,url] of (/(복용약|약물|혈액희석|항응고|골다공증|당뇨|심장|투석|임신|항암)/.test(q)?[['복용약·전신질환 안내','/medical-history.html'],['혈액희석제 안내','/blood-thinners-dental.html']]:/(핸드피스|멸균기|석션|스케일러|장비|기구)/.test(q)?[['치과 장비 안내','/dental-equipment.html'],['핸드피스 관리 안내','/handpiece-maintenance.html']]:[['잇몸치료','/gum-treatment.html'],['재신경치료','/retreatment.html'],['치경부마모증','/cervical-abrasion.html'],['건강보험 진료','/insured-care.html']])){const a=document.createElement('a');a.href=publishedHref(url);a.textContent=label+' →';links.append(a)}results.append(links)}})();
