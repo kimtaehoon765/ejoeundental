@@ -104,6 +104,35 @@ cp('tmj-care.html','tmj-care.html');cp('wisdom-tooth.html','wisdom-tooth.html');
  console.log('Accessible optional reading-size controls added:',hubs.length,'topic hubs and',healthArticles.length,'health guides');
 }
 
+// Optional native sharing and article link copy for every patient guide.
+// Never require a login, open a third-party tracker, or auto-copy any data.
+{
+ const markup='<div class="article-share-actions" role="group" aria-label="이 건강정보 공유하기" hidden>'+
+  '<button type="button" data-article-action="share" hidden>📤 글 공유하기</button>'+
+  '<button type="button" data-article-action="copy" hidden>🔗 글 링크 복사</button>'+
+  '<span class="article-share-status" role="status" aria-live="polite"></span></div>';
+ const script=path.join(out,'assets/article-sharing.js');
+ const fingerprint=createHash('sha256').update(fs.readFileSync(script)).digest('hex').slice(0,12);
+ const topics=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
+ const articles=fs.readdirSync(path.join(out,'health')).filter(x=>x.endsWith('.html')).map(x=>'health/'+x);
+ if(articles.length!==46)throw new Error('Unexpected patient share page count: '+articles.length);
+ for(const relative of [...topics,...articles]){
+  const filename=path.join(out,relative);
+  let html=fs.readFileSync(filename,'utf8');
+  const main=html.match(/<main\b[^>]*class=["']article["'][^>]*>/i)?.[0];
+  const canonical=html.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1];
+  if(!main||!canonical?.startsWith('https://ejoeundental.com/')||
+     html.includes('class="article-share-actions"')){
+   throw new Error('Missing or duplicate canonical sharing target: '+relative);
+  }
+  html=html.replace(main,main+markup);
+  html=html.replace('</head>','<link rel="stylesheet" href="/assets/article-sharing.css"></head>');
+  html=html.replace('</body>','<script defer src="/assets/article-sharing.js?v='+fingerprint+'"></script></body>');
+  fs.writeFileSync(filename,html);
+ }
+ console.log('Optional link sharing enabled for',articles.length,'health guides and',topics.length,'patient hubs');
+}
+
 // Generate a public fee list only from explicitly published, complete entries.
 const feeFolder=path.join(root,'content/fees');
 const feeSources=fs.existsSync(feeFolder)?fs.readdirSync(feeFolder).filter(n=>n.endsWith('.json')).map(name=>({name,row:JSON.parse(fs.readFileSync(path.join(feeFolder,name),'utf8'))})):[];
