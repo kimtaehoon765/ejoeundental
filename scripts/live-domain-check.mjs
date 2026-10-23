@@ -32,6 +32,8 @@ for (const [label, host, method] of [
 
 const urls = [
   { label: '정식 도메인 첫 화면', url: origin + '/' },
+  { label: '모네풍 갤러리 SVG 공개 확인', url: origin + '/assets/impressionist-water-garden.svg' },
+  { label: '모네풍 갤러리 CSS 공개 확인', url: origin + '/assets/home-enhancements.css' },
   { label: 'www HTTPS 연결', url: 'https://www.' + apex + '/' },
   { label: 'Cloudflare Pages 임시주소 색인 확인', url: 'https://ejoeundental.pages.dev/' },
   { label: 'www 하위 경로·쿼리 리디렉션', url: 'https://www.' + apex + '/gum-treatment?utm_source=redirect_check' },
@@ -135,6 +137,14 @@ await Promise.all(urls.map(async ({label,url}) => {
        : '응답 보안 헤더 누락·신규 배포 확인 필요: '+missingHeaders.join(', '));
       const publicNoindex=String(response.headers.get('x-robots-tag')||'').toLowerCase().includes('noindex');
       info.push(publicNoindex?'주의: 정식 도메인 응답에 noindex 헤더 확인됨':'정식 도메인 noindex 응답 없음');
+      // Compare the deployed first-screen content with the latest committed design.
+      const monetOnPage=body.includes('class="monet-interlude"') &&
+        body.includes('/assets/impressionist-water-garden.svg');
+      const currentFirstScreen=body.includes('id="headline">원장이 직접 진단하고,') &&
+        body.includes('고려대학교 의학박사') &&
+        body.includes('통합치의학과 전문의');
+      info.push('모네풍 디자인 HTML 배포: '+(monetOnPage?'확인':'미반영 — GitHub 최신 코드와 실제 홈페이지 다름'));
+      info.push('최신 원장 소개·의료진 자격 메인 반영: '+(currentFirstScreen?'확인':'미반영 — 배포 연결/캐시 확인 필요'));
       const hasCanonical = body.includes('<link rel="canonical" href="' + origin + '/">');
       const hasClinic = body.includes('이조은치과');
       const hasCompactJournal = body.includes('owner-stories-more');
@@ -214,6 +224,14 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push(goodLocalLinks&&localCare.includes('href="/clinical-archive.html#archive-choosing-dentist"')
         ?'부평치과 환자용 의료진·진료·길찾기 4개 연결 배포 반영':'부평치과 환자용 진료·위치 안내 신규 배포 확인 필요');
 
+    } else if (label === '모네풍 갤러리 SVG 공개 확인') {
+      const valid=response.status===200 && body.includes('이조은치과 인상주의 수련 연못 정원') &&
+        body.includes('하얀 복슬복슬한 고양이');
+      info.push(valid?'창작 수련 연못 그림 실서버 게시됨':'최신 그림 실서버 미게시 (배포 상태 확인 필요)');
+    } else if (label === '모네풍 갤러리 CSS 공개 확인') {
+      const valid=response.status===200 && body.includes('Monet-inspired homepage gallery') &&
+        body.includes('.monet-interlude__inner');
+      info.push(valid?'모네풍 미술관 CSS 실서버 게시됨':'최신 미술관 CSS 실서버 미게시 (배포 상태 확인 필요)');
     } else if (label === '브랜드 파비콘 SVG') {
       const branded=response.status===200 && body.includes('<svg') &&
         body.includes('이조은치과') && body.includes('#173e35');
