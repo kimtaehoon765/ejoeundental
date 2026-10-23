@@ -219,6 +219,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push(canonicalSearchLinks&&relevantExcerpt ?
         '검색 결과 최종주소 링크·본문 관련 내용 미리보기 반영' :
         '검색 결과 링크·본문 발췌 기능 확인 필요');
+      const categoriesApplied=body.includes('const searchCategory=p=>') &&
+        body.includes("filterBar.setAttribute('role','group')") &&
+        body.includes("button.setAttribute('aria-pressed'") &&
+        body.includes('const showResults=type=>') &&
+        body.includes('listArea.replaceChildren()');
+      info.push(categoriesApplied?'유형별 검색 결과 필터·키보드 전환 반영':'유형별 검색 필터 확인 필요');
     } else if (label === '검색 결과 더 보기 버튼 스타일') {
       info.push(body.includes('.search-show-more{') ? '모바일 더 보기 버튼 스타일 반영' : '버튼 스타일 반영 확인 필요');
     } else if (label === '없는 페이지 404 상태') {
