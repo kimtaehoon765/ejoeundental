@@ -90,6 +90,33 @@ for (const file of javascriptFiles) {
 }
 console.log('JavaScript syntax checked:', javascriptFiles.length);
 
+// Verify that every patient health page has a complete, unique social sharing
+// preview. Metadata comes from the actual document, never from a fake review.
+{
+ const hubs=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
+ const guides=html.filter(file=>file.includes('/health/')).map(file=>file.slice(root.length+1));
+ if(guides.length!==46)errors.push('공개 건강정보 글 수가 예상과 다름: '+guides.length);
+ for(const relative of [...hubs,...guides]){
+  const markup=readFileSync(join(root,relative),'utf8');
+  const canonical=markup.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1];
+  for(const [type,name] of [
+   ['property','og:type'],['property','og:locale'],['property','og:site_name'],
+   ['property','og:title'],['property','og:description'],['property','og:url'],
+   ['name','twitter:card'],['name','twitter:title'],['name','twitter:description']
+  ]){
+   const matches=[...markup.matchAll(new RegExp('<meta\\s+'+type+'="'+name+'"\\s+content="([^"]*)"\\s*\\/?>','gi'))];
+   if(matches.length!==1||!matches[0][1].trim())
+    errors.push(relative+': 소셜 공유 미리보기 정보 없거나 중복됨: '+name);
+   if(name==='og:url'&&matches.length===1&&matches[0][1]!==canonical)
+    errors.push(relative+': 소셜 공유 URL이 표준 URL과 다름');
+   if(name==='twitter:card'&&matches.length===1&&matches[0][1]!=='summary')
+    errors.push(relative+': 글 요약 공유 카드 설정 오류');
+  }
+ }
+ console.log('Patient social preview metadata audited:',guides.length,'health guides +',hubs.length,'topic hubs');
+}
+
+
 // Optional address-copy buttons use existing address text; do not introduce
 // a second, potentially stale location, fake booking, or a clipboard permission
 // request on initial page load.
