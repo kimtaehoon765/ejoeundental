@@ -817,3 +817,43 @@ body.home-page .music-header-button{display:none}
  body.home-page #music-reopen{display:none!important}
  html.home-scrolled body.home-page header .music-header-button{display:none}
 }
+
+/* Patient-first Monet homepage (2026-10-24).
+ * Read the art and credentials, then see real patient actions and four direct
+ * treatment pages before the longer SEO introduction. No hidden JS navigation.
+ */
+body.home-page #main-content>.hero .hero-care-prompt{
+  box-sizing:border-box;max-width:100%;margin:18px 0 11px;
+  color:#375e51;font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+  font-size:clamp(15px,1.6vw,18px);font-weight:650;line-height:1.7;
+  letter-spacing:-.025em;word-break:keep-all;
+}
+body.home-page #main-content>.hero .hero-care-summary{
+  padding:12px;border:1px solid #d4ded0;
+  background:rgba(250,249,242,.89);
+  box-shadow:0 8px 20px rgba(36,71,56,.045);
+}
+body.home-page #main-content>.hero #intro{margin-top:23px}
+body.home-page #main-content>.hero .hero-actions{margin:17px 0 12px}
+@media(max-width:600px){
+  /* Contact and symptom links get the full width. Practical visit buttons
+     share one row so that treatment choices are reached sooner. */
+  body.home-page #main-content>.hero .hero-actions{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    column-gap:8px;row-gap:8px;margin:14px 0 10px;
+  }
+  body.home-page #main-content>.hero .hero-actions .hero-call,
+  body.home-page #main-content>.hero .hero-actions .hero-symptoms{grid-column:1/-1}
+  body.home-page #main-content>.hero .hero-actions .hero-hours,
+  body.home-page #main-content>.hero .hero-actions .hero-map{
+    font-size:13px;line-height:1.45;padding:10px 7px;min-height:54px;
+    word-break:keep-all;
+  }
+  body.home-page #main-content>.hero .hero-care-prompt{font-size:15px;margin:16px 0 9px}
+  body.home-page #main-content>.hero .hero-care-summary{margin:0 0 17px;padding:9px;gap:7px}
+  body.home-page #main-content>.hero .hero-care-summary>a{
+    padding:10px 12px;min-height:46px;line-height:1.55;
+  }
+  body.home-page #main-content>.hero #intro{font-size:15px;line-height:1.8;margin:17px 0 13px}
+  body.home-page #main-content>.hero .hero-principles{margin:12px 0 16px}
+}
