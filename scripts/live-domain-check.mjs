@@ -151,6 +151,10 @@ await Promise.all(urls.map(async ({label,url}) => {
       const introAt=heroMarkup.indexOf('id="intro"');
       const firstScreenGallery=credentialAt>=0&&galleryAt>credentialAt&&introAt>galleryAt;
       info.push('모바일 첫 화면 수련 그림: '+(firstScreenGallery?'자격 소개 다음·진료 설명 앞 배치 확인':'신규 모바일 수련 그림 미반영'));
+      const phoneGardenFirst=heroMarkup.includes('loading="lazy" decoding="async"') &&
+        !heroMarkup.includes('fetchpriority="high"') &&
+        body.includes('<link rel="preload" as="image" type="image/webp" media="(min-width: 601px)" href="/assets/ejoeundental-hero-cat.webp">');
+      info.push('모네 그림 모바일 우선 로딩: '+(phoneGardenFirst?'모바일 후순위 의사 그림·데스크톱 사진 프리로드 확인':'새로운 우선 로딩 설정의 실서버 적용 확인 필요'));
       const fingerprint=body.match(/href="\/assets\/home-enhancements\.css\?v=([a-f0-9]{12})"/)?.[1]||'';
       info.push('모바일 디자인 CSS 버전: '+(fingerprint?'자동 버전('+fingerprint+') 적용':'버전 자동갱신 미확인'));
       const hasCanonical = body.includes('<link rel="canonical" href="' + origin + '/">');
