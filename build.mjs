@@ -1144,11 +1144,15 @@ console.log('Robots crawl audit passed:',sitemapUrls.length,'sitemap pages allow
 const publishedFeePage=fs.readFileSync(path.join(out,'noncovered-fees.html'),'utf8');
 const publishedHome=fs.readFileSync(path.join(out,'index.html'),'utf8');
 if(!publishedHome.includes('href="/noncovered-fees.html"'))throw new Error('Homepage missing noncovered fee disclosure link');
-if(!publishedFeePage.includes('/assets/fees.js'))throw new Error('Fee disclosure page missing its data renderer');
+
 if(!publishedFeePage.includes('href="#main-content"')||!publishedFeePage.includes('id="main-content"'))throw new Error('Fee disclosure keyboard skip link is missing');
-if(!publishedFeePage.includes('<noscript>'))throw new Error('Fee disclosure page lacks JavaScript-disabled guidance');
+
 if(!publishedFeePage.includes('id="fees-status"'))throw new Error('Fee disclosure page lacks loading status announcement');
-if(!fs.existsSync(path.join(out,'assets/fees.js')))throw new Error('Fee disclosure renderer missing from output');
+if(!publishedFeePage.includes('id="fees-certificates"') || publishedFeePage.includes('BUILD_FEE_TABLES'))throw new Error('Static certificate fee table not generated');
+if(publishedFeePage.includes('src="/assets/fees.js"'))throw new Error('Fee HTML unnecessarily fetches browser renderer');
+const initialFeeRows=(publishedFeePage.match(/<th scope="row">/g)||[]).length;
+if(initialFeeRows!==feeEntries.length)throw new Error('Static fee disclosure row mismatch: '+initialFeeRows+' vs '+feeEntries.length);
+
 const publishedFeeData=JSON.parse(fs.readFileSync(path.join(out,'content/fees-index.json'),'utf8'));
 if(!Array.isArray(publishedFeeData.items)||publishedFeeData.items.length!==feeEntries.length)throw new Error('Published fee data does not match approved entries');
 for(const row of publishedFeeData.items){if(!row.item.trim()||!row.price.trim())throw new Error('Published fee item is incomplete');}
