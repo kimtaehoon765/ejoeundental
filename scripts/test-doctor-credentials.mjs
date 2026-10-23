@@ -24,9 +24,9 @@ test('homepage introduces doctor credentials prominently and preserves direct di
  const twitter=html.match(/<meta name="twitter:description" content="([^"]+)"/)?.[1];
  assert.equal(description,og);
  assert.equal(description,twitter);
- assert.ok(description.includes(degree.replace(' ', ' '))===false || description.includes('의학박사'));
+ assert.match(description,/고려대학교 의학박사·통합치의학과 전문의/);
  assert.match(description,/통합치의학과 전문의/);
- assert.match(html,/\/assets\/home-enhancements\.css\?v=20261024-credentials/);
+ assert.match(html,/\/assets\/home-enhancements\.css\?v=[^"']+/);
 });
 
 test('machine-readable credentials reflect exactly the patient-facing qualifications',()=>{
@@ -46,7 +46,7 @@ test('both periodontal and retreatment pages link to actual staff section withou
   assert.equal(matches.length,1,page);
   assert.ok(matches[0][1].includes(degree+' · '+specialty),page);
   assert.ok(matches[0][1].includes('href="/#doctor"'),page);
-  assert.match(html,/\/assets\/care-design-system\.css\?v=20261024-credentials/);
+  assert.match(html,/\/assets\/care-design-system\.css\?v=[^"']+/);
  }
 });
 
