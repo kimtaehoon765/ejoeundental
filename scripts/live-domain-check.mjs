@@ -195,6 +195,7 @@ await Promise.all(urls.map(async ({label,url}) => {
       const suggestions = body.indexOf('<p class="search-suggestions"');
       const good = form >= 0 && results > form && suggestions > results;
       info.push(good ? '입력·결과가 추천 검색어보다 먼저 표시됨' : '입력·결과 배치 확인 필요');
+      info.push(body.includes('class="search-visit-examples"') ? '산곡역·진료시간·주차 빠른 검색 반영' : '방문 정보 검색 바로가기 반영 확인 필요');
     } else if (label === '통합 검색 실제 문서 색인') {
       let entries=[];
       try { entries=JSON.parse(body); } catch { info.push('검색 색인 JSON 확인 불가'); }
@@ -221,6 +222,8 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push(body.includes("showMore.addEventListener('click'") && body.includes('renderMatches(batch,extraResults)') ? '20개씩 검색 결과 펼치기 코드 반영' : '더 보기 코드 반영 확인 필요');
       const improvedSymptoms = body.includes('const symptomBoosts=') && body.includes("'치은퇴축'") && body.includes("'잇몸출혈'");
       info.push(improvedSymptoms ? '환자 증상·동의어 검색 개선 반영' : '증상·동의어 검색 개선 확인 필요');
+      const visitPanel=body.includes('const localityOnlyIntent=') && body.includes('const visitIntent=') && body.includes('className=\'search-visit-answer\'');
+      info.push(visitPanel ? '치과 주소·진료시간·주차 검색 바로 표시 기능 반영' : '방문 검색 기능 반영 확인 필요');
       const canonicalSearchLinks = body.includes('const publishedHref=') &&
         body.includes("host==='ejoeundental.com'") &&
         body.includes('a.href=publishedHref(p.url)');
