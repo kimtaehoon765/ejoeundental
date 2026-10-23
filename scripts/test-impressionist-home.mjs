@@ -30,9 +30,11 @@ test('original gallery and responsive accent are local, cached, and accessible',
  assert.match(artwork,/id="impressionist-pigment"/);
  assert.match(artwork,/이조은치과<\/text>/);
  assert.match(artwork,/Original white, fluffy clinic cat/);
- const pigmentCount=(artwork.match(/stroke-linecap="round"\/>/g)||[]).length;
- assert.ok(pigmentCount>=1200,'Should have layered artistically varied brushwork');
- assert.ok(artwork.length<280000,'Keep original SVG art small enough for a mobile-first website');
+ const pigmentGroup=artwork.split('id="impressionist-pigment"')[1]?.split('</g>')[0]||'';
+ const pigmentCount=(pigmentGroup.match(/<path /g)||[]).length;
+ assert.ok(pigmentCount>=1200,'Should retain layered artistically varied brushwork');
+ assert.match(artwork,/id="impressionist-pigment"[^>]+fill="none" stroke-linecap="round"/);
+ assert.ok(artwork.length<190000,'Keep original SVG painterly artwork optimized for mobile delivery');
  assert.ok(!/<image[^>]+(?:https?:|data:)/.test(artwork),'Avoid external and embedded raster image requests');
  assert.match(home,/loading="lazy" decoding="async" alt="부드러운 햇빛 아래 수련/);
 });
