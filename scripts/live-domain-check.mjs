@@ -36,6 +36,7 @@ const urls = [
   { label: 'Cloudflare Pages 임시주소 색인 확인', url: 'https://ejoeundental.pages.dev/' },
   { label: 'www 하위 경로·쿼리 리디렉션', url: 'https://www.' + apex + '/gum-treatment?utm_source=redirect_check' },
   { label: '브랜드 파비콘 SVG', url: origin + '/favicon.svg' },
+  { label: '연락처 저장 vCard 배포', url: origin + '/clinic-contact.vcf' },
   { label: '검색엔진 robots', url: origin + '/robots.txt' },
   { label: '검색엔진 sitemap', url: origin + '/sitemap.xml' },
   { label: '잇몸치료 상세 페이지', url: origin + '/gum-treatment.html' },
@@ -93,7 +94,13 @@ await Promise.all(urls.map(async ({label,url}) => {
     const info = ['HTTP ' + response.status, '최종 주소: ' + response.url];
     const server = response.headers.get('server');
     if (server) info.push('서버: ' + server);
-    if (label === 'Cloudflare Pages 임시주소 색인 확인') {
+    if (label === '연락처 저장 vCard 배포') {
+      const valid=response.status===200&&body.startsWith('BEGIN:VCARD\r\nVERSION:3.0\r\n')&&
+       body.includes('FN:이조은치과의원')&&
+       body.includes('TEL;TYPE=WORK,VOICE:'+verifiedClinic.phone)&&
+       body.includes('URL:'+origin+'/')&&body.includes('END:VCARD');
+      info.push(valid?'환자용 연락처 저장 파일 배포 확인':'연락처 저장 파일 운영 사이트 배포 확인 필요');
+    } else if (label === 'Cloudflare Pages 임시주소 색인 확인') {
       const robotsTag=String(response.headers.get('x-robots-tag')||'').toLowerCase();
       info.push(robotsTag.split(',').some(x=>x.trim().startsWith('noindex'))
         ?'Pages 임시 주소 검색 제외(noindex) 응답 확인'
