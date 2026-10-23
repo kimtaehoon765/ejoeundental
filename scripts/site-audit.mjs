@@ -2185,7 +2185,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
 {
  const document=readFileSync(join(root,'index.html'),'utf8');
  const faqHtml=document.match(/<section[^>]*id="faq"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
- const visible=[...faqHtml.matchAll(/<details>\s*<summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>\s*<\/details>/gi)];
+ const visible=[...faqHtml.matchAll(/<details(?: id="faq-[a-z-]+")?>\s*<summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>\s*<\/details>/gi)];
  const clean=s=>s.replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim();
  const structured=[...document.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
   .map(m=>{try{return JSON.parse(m[1]);}catch{return null;}}).find(o=>o?.['@type']==='FAQPage');
@@ -2212,6 +2212,28 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  }
 }
 
+
+// Each FAQ can be opened directly by a shareable URL without exposing any
+// patient information or changing the clinically reviewed answer text.
+{
+ const page=readFileSync(join(root,'index.html'),'utf8');
+ const faq=page.match(/<section[^>]*id="faq"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ const ids=[...faq.matchAll(/<details id="(faq-[a-z-]+)">\s*<summary>/g)].map(m=>m[1]);
+ const quickNav=faq.match(/<nav class="faq-quick-links" aria-label="자주 묻는 질문 주제 바로가기">([\s\S]*?)<\/nav>/)?.[1]||'';
+ const links=[...quickNav.matchAll(/<a href="#(faq-[a-z-]+)">[^<]+<\/a>/g)].map(m=>m[1]);
+ if(ids.length!==11||new Set(ids).size!==11||
+    links.length!==7||links.some(id=>!ids.includes(id))||
+    !links.includes('faq-gum-bleeding')||!links.includes('faq-alternating-hours')||
+    !page.includes('src="/assets/faq-deep-links.js?v=')||
+    !hasFreshCss(page,'faq-deep-links')){
+   errors.push('FAQ 문답 바로가기 주소·반응형 버튼·자산 캐시 검증 실패');
+ }
+ const js=readFileSync(join(root,'assets/faq-deep-links.js'),'utf8');
+ if(!js.includes("window.addEventListener('hashchange',reveal)")||
+    !js.includes('question.open=true')){
+   errors.push('FAQ 링크로 열린 질문을 표시하는 스크립트 누락');
+ }
+}
 
 // "부평치과 진료시간" should lead to this genuinely local clinic, not to an
 // artificial city-wide door page. The visit guide must be useful on mobile,

@@ -1,0 +1,9 @@
+/* Short patient FAQ topic links and accessible deep-link highlight. */
+#faq .faq-quick-links{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:14px 0 17px}
+#faq .faq-quick-links a{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-height:44px;padding:9px 12px;border:1px solid #b4cfc1;border-radius:8px;background:#f3faf4;color:#184d3a;font-weight:700;font-size:14px;line-height:1.45;text-underline-offset:3px}
+#faq .faq-quick-links a:hover{background:#e6f4e9;border-color:#6f9b80}
+#faq .faq-quick-links a:focus-visible{outline:3px solid #a47837;outline-offset:3px}
+#faq .faq-list details[id^="faq-"]{scroll-margin-top:90px}
+#faq .faq-list details[id^="faq-"]:target{outline:3px solid #a47837;outline-offset:3px;border-radius:8px}
+@media(max-width:600px){#faq .faq-quick-links{gap:6px;margin:12px 0 16px}#faq .faq-quick-links a{font-size:13px;padding:9px 11px}}
+@media print{#faq .faq-quick-links{display:none!important}}

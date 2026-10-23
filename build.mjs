@@ -561,6 +561,56 @@ homeFaqHtml=homeFaqHtml.replace(/<script type="application\/ld\+json">([\s\S]*?)
 });
 if(updatedHomepageFaqBlocks!==1)throw new Error('Expected exactly one homepage FAQPage JSON-LD block, found '+updatedHomepageFaqBlocks);
 fs.writeFileSync(homeFaqPath,homeFaqHtml);
+// Stable, patient-shareable FAQ anchors. The questions and answers are
+// untouched, preserving the exact visible FAQPage schema synchronization.
+{
+ const markers=[
+  ['부평치과를 알아볼 때','faq-choose-clinic'],
+  ['원장님이 직접','faq-direct-diagnosis'],
+  ['잇몸에서 피가 나면','faq-gum-bleeding'],
+  ['신경치료 후 다시 아픈','faq-root-retreatment'],
+  ['치경부마모증은 GI','faq-cervical-gi'],
+  ['스케일링이나 잇몸치료도','faq-insured-care'],
+  ['치아를 뽑기 전에','faq-save-teeth'],
+  ['금요일과 토요일은','faq-alternating-hours'],
+  ['산곡역에서 어떻게','faq-sangok-station'],
+  ['주차는 가능한가요','faq-parking'],
+  ['접수는 진료 종료시간까지','faq-reception-cutoff']
+ ];
+ if(markers.length!==faqPairs.length)throw new Error('Homepage FAQ anchor map must match real question count');
+ for(let index=0;index<markers.length;index++){
+  if(!stripFaqHtml(faqPairs[index][1]).startsWith(markers[index][0])){
+   throw new Error('Homepage FAQ question changed: verify stable anchor '+markers[index][1]);
+  }
+ }
+ const list=homeFaqHtml.match(/<div class="faq-list">([\s\S]*?)<\/div>/);
+ if(!list)throw new Error('FAQ list missing when adding deep links');
+ let next=0;
+ const updated=list[1].replace(/<details><summary>/g,()=>{
+  const marker=markers[next++];
+  if(!marker)throw new Error('FAQ count exceeds anchor map');
+  return '<details id="'+marker[1]+'"><summary>';
+ });
+ if(next!==markers.length)throw new Error('Homepage FAQ anchor count differs: '+next);
+ homeFaqHtml=homeFaqHtml.replace(list[0],'<div class="faq-list">'+updated+'</div>');
+ const shortcuts=[
+  ['faq-choose-clinic','치과 선택'],
+  ['faq-direct-diagnosis','원장 직접 진단'],
+  ['faq-gum-bleeding','잇몸치료'],
+  ['faq-root-retreatment','재신경치료'],
+  ['faq-insured-care','건강보험'],
+  ['faq-alternating-hours','진료시간'],
+  ['faq-parking','주차']
+ ];
+ const nav='<nav class="faq-quick-links" aria-label="자주 묻는 질문 주제 바로가기">'+
+  shortcuts.map(([id,label])=>'<a href="#'+id+'">'+label+'</a>').join('')+'</nav>';
+ homeFaqHtml=homeFaqHtml.replace('<div class="faq-list">',nav+'<div class="faq-list">');
+ const scriptPath=path.join(out,'assets/faq-deep-links.js');
+ const hash=createHash('sha256').update(fs.readFileSync(scriptPath)).digest('hex').slice(0,12);
+ homeFaqHtml=homeFaqHtml.replace('</head>','<link rel="stylesheet" href="/assets/faq-deep-links.css"></head>');
+ homeFaqHtml=homeFaqHtml.replace('</body>','<script defer src="/assets/faq-deep-links.js?v='+hash+'"></script></body>');
+}
+fs.writeFileSync(homeFaqPath,homeFaqHtml);
 console.log('Visible homepage FAQ structured data synchronized:',faqPairs.length,'questions');
 
 
