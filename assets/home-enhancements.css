@@ -669,3 +669,60 @@ html{scroll-padding-top:92px}
  .monet-interlude__links a{font-size:13px}
 }
 @media(prefers-reduced-motion:reduce){#main-content>.hero .hero-artwork{transform:none}.monet-interlude__painting{transform:none}}
+
+
+/* Screenshot follow-up (2026-10-24): mobile gallery reading comfort.
+ * The originally translucent sticky header let moving page text show through,
+ * and the large fixed music button covered the painting and paragraph.
+ * Keep all five primary shortcuts at the top; after scrolling, retain
+ * accessible Search and Call alongside the brand in one opaque header row.
+ */
+@media(max-width:600px){
+  body.home-page header{
+    background:#faf8f2;
+    -webkit-backdrop-filter:none;
+    backdrop-filter:none;
+    box-shadow:0 2px 10px rgba(31,67,50,.10);
+  }
+  body.home-page header .nav{padding:12px 12px 9px}
+  html.home-scrolled body.home-page header .nav{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,164px)!important;
+    align-items:center;
+    row-gap:0;
+    padding:7px 12px;
+  }
+  html.home-scrolled body.home-page header .nav .logo{
+    grid-column:1;grid-row:1;
+    margin:0;font-size:20px;line-height:1.35;
+  }
+  html.home-scrolled body.home-page header .nav .mobile-quick{
+    grid-column:2;grid-row:1;
+    width:100%;margin:0;gap:5px;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  html.home-scrolled body.home-page header .nav .mobile-quick a{display:none}
+  html.home-scrolled body.home-page header .nav .mobile-quick a[href="#home-symptom-query"],
+  html.home-scrolled body.home-page header .nav .mobile-quick a.mobile-call{
+    display:flex;min-height:44px;padding:4px 2px;
+    font-size:11px;line-height:1.2;
+  }
+  html.home-scrolled body.home-page{scroll-margin-top:68px}
+  html.home-scrolled{scroll-padding-top:72px}
+  body.home-page #music-reopen{
+    box-sizing:border-box;
+    width:48px;height:48px;min-height:48px;
+    padding:0;right:10px;
+    border-radius:50%;
+    font-size:0;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 3px 10px rgba(24,53,42,.2);
+  }
+  body.home-page #music-reopen::before{
+    content:"♫";
+    font-size:25px;
+    color:#fff;
+  }
+  /* Expanded music controls still show complete labels when requested. */
+  body.home-page .piano-player button{font-size:13px}
+}
