@@ -1617,7 +1617,7 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  const extra=section.match(/<details class="owner-stories-more">([\s\S]*?)<\/details>/i)?.[1]||'';
  const firstLinks=[...first.matchAll(/<a\b[^>]*href="(https:\/\/blog\.naver\.com\/[^"]+)"[^>]*>/gi)].map(m=>m[1]);
  const extraLinks=[...extra.matchAll(/<a\b[^>]*href="(https:\/\/blog\.naver\.com\/[^"]+)"[^>]*>/gi)].map(m=>m[1]);
- if(firstLinks.length!==8||extraLinks.length!==52||new Set([...firstLinks,...extraLinks]).size!==65)errors.push('원장 이야기 8+57편 링크 또는 중복 오류');
+ if(firstLinks.length!==8||extraLinks.length!==57||new Set([...firstLinks,...extraLinks]).size!==65)errors.push('원장 이야기 8+57편 링크 또는 중복 오류');
  if(!extra.includes('<summary>치과 이야기 나머지 57편 보기')||!extra.includes('class="owner-stories-grid"'))errors.push('모바일 원장 이야기 펼치기 기능 누락');
  if(!homepage.includes('"numberOfItems": 65'))errors.push('원장 이야기 검색 구조화 데이터 65편 불일치');
 }
