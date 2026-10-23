@@ -549,7 +549,7 @@ else {
    const coreEnd=script.indexOf('const resultSummary=',coreStart);
    if(coreStart<0||coreEnd<=coreStart)throw new Error('검색 관련도 코드 위치 인식 불가');
    const evaluate=new Function('q','pages',script.slice(coreStart,coreEnd)+
-    'return {localityOnlyIntent,visitIntent,displayCount:displayResults.length,top:displayResults[0]?.url};');
+    'return {localityOnlyIntent,visitIntent,visitOnlyIntent,displayCount:displayResults.length,top:displayResults[0]?.url};');
    const indexFile=join(root,'content','search-index.json');
    const index=JSON.parse(readFileSync(indexFile,'utf8'));
    if(!Array.isArray(index)||!index.length)throw new Error('검색 색인 비어 있음');
@@ -559,12 +559,13 @@ else {
     ['갈산동 치과 위치',true,true,null],
     ['이조은치과 진료시간',false,true,null],
     ['주차',false,true,null],
+    ['이조은치과',false,true,null],
     ['산곡역 근처 치과 재신경치료',false,false,'/retreatment.html'],
     ['갈산동 잇몸치료',false,false,'/gum-treatment.html']
    ]){
     const found=evaluate(q,index);
     if(found.localityOnlyIntent!==expectedLocalOnly||found.visitIntent!==expectedVisit||
-      (expectedLocalOnly&&found.displayCount!==0)||(top&&found.top!==top)){
+      ((expectedLocalOnly||/^(?:이조은치과|이조은치과 진료시간|주차)$/.test(q))&&(found.displayCount!==0||!found.visitOnlyIntent))||(top&&found.top!==top)){
      errors.push('주소·진료시간·주차 검색 결과 오류: '+q+' '+JSON.stringify(found));
     }
    }
