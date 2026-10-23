@@ -181,7 +181,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       const focusReady=expected.every(url=>shortcuts.includes('href="'+url+'"')) &&
         (shortcuts.match(/<a href=/g)||[]).length===5 && !focus.includes('<div class="card"');
       info.push('집중 진료 중복 설명 축소·5개 바로가기: '+(focusReady?'반영':'확인 필요'));
-      info.push('모바일 최적화 CSS: '+(body.includes('home-enhancements.css?v=20261023-focus-nav-compact')?'최신':'버전 확인 필요'));
+      info.push('모바일 최적화 CSS: '+(body.includes('home-enhancements.css?v=20261023-bupyeong-choice')?'최신':'버전 확인 필요'));
+      const localCare=body.match(/<section[^>]*id="local-care"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+      const localPanel=localCare.match(/<nav class="bupyeong-choice-links"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+      const goodLocalLinks=['#doctor','/gum-treatment.html','/retreatment.html','/visit-guide.html'].every(ref=>localPanel.includes('href="'+ref+'"'));
+      info.push(goodLocalLinks&&localCare.includes('href="/clinical-archive.html#archive-choosing-dentist"')
+        ?'부평치과 환자용 의료진·진료·길찾기 4개 연결 배포 반영':'부평치과 환자용 진료·위치 안내 신규 배포 확인 필요');
 
     } else if (label === '브랜드 파비콘 SVG') {
       const branded=response.status===200 && body.includes('<svg') &&

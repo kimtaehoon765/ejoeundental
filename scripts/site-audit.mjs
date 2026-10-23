@@ -342,7 +342,7 @@ for (const file of html) {
    !reveal.includes('class="grid care-more-grid"')||reveal.includes('<details class="care-more-details" open')){
   errors.push('모바일 전체 진료 더 보기 단추·기본 닫힘 상태 누락');
  }
- if(!home.includes('/assets/home-enhancements.css?v=20261023-focus-nav-compact')){
+ if(!home.includes('/assets/home-enhancements.css?v=20261023-bupyeong-choice')){
   errors.push('홈페이지 진료목록 반응형 CSS 캐시 버전 누락');
  }
  for(const url of ['/implant.html','/cavity-treatment.html','/wisdom-tooth.html','/tmj-care.html','/denture.html','/pediatric-orthodontics.html','/pediatric-dentistry.html']){
@@ -1982,5 +1982,29 @@ if (errors.length) process.exitCode = 1;
  if(!sourceGroup.includes('치과 선택과 진료 원칙')||
     (sourceGroup.match(/<li><a href="https:\/\/blog\.naver\.com\//g)||[]).length<5){
    errors.push('원장 치과 선택 원문 모음 연결 누락 또는 기존 자료 손실');
+ }
+}
+
+// A citywide 부평치과 query must lead to a real clinic profile and clinical
+// context, with accessible navigation. Do not create a duplicate doorway page.
+{
+ const homepage=readFileSync(join(root,'index.html'),'utf8');
+ const style=readFileSync(join(root,'assets/home-enhancements.css'),'utf8');
+ const section=homepage.match(/<section[^>]*id="local-care"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ const panel=section.match(/<aside class="bupyeong-choice-panel"[^>]*>([\s\S]*?)<\/aside>/)?.[1]||'';
+ const nav=panel.match(/<nav class="bupyeong-choice-links"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ const found=[...nav.matchAll(/<a href="([^"]+)"/g)].map(m=>m[1]);
+ const expected=['#doctor','/gum-treatment.html','/retreatment.html','/visit-guide.html'];
+ if(!panel.includes('부평치과를 알아보실 때')||
+    !panel.includes('실제 진료 위치')||
+    !panel.includes('원장이 직접 검진한 뒤 필요한 치료부터')||
+    !section.includes('청천동 세월천로 34')||
+    !homepage.includes('id="doctor"')||
+    found.length!==4||expected.some((href,i)=>href!==found[i])||
+    !panel.includes('href="/clinical-archive.html#archive-choosing-dentist"')||
+    !style.includes('#local-care .bupyeong-choice-links a:focus-visible')||
+    !style.includes('@media(max-width:540px){#local-care .bupyeong-choice-panel')||
+    !homepage.includes('/assets/home-enhancements.css?v=20261023-bupyeong-choice')){
+   errors.push('부평치과 정보 탐색 4개 정확한 이동 경로·실제 진료 위치·모바일 링크 누락');
  }
 }
