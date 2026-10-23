@@ -51,14 +51,14 @@ const paths = new Set(files.map(f => '/' + f.slice(root.length + 1).replaceAll('
  const css=readFileSync(join(root,'assets/style.css'),'utf8');
  if(!css.includes('.mobile-quick + .navlinks{display:none}')||
     css.includes(' .navlinks{display:none}')||
-    !css.includes('.nav:not(:has(.mobile-quick)) .navlinks a.call{display:inline-flex;order:-1')){
+    !css.includes('.navlinks a.call{display:inline-flex;order:-1')){
    errors.push('환자용 건강정보 모바일 전화·길찾기 메뉴가 숨겨질 수 있습니다');
  }
  const hubs=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
  for(const pageName of hubs){
    const page=readFileSync(join(root,pageName),'utf8');
-   if(!page.includes('<a class="article-skip-link" href="#health-hub-main">본문 바로가기</a>')||
-      !page.includes('<main class="article" id="health-hub-main" tabindex="-1">')||
+   if(!page.includes('<a class="health-hub-skip" href="#health-hub-main">건강정보 본문으로 바로가기</a>')||
+      !page.includes('<main class="article" id="health-hub-main">')||
       !page.includes('href="tel:0325132875"')||
       !page.includes('href="/#location"')||
       !page.includes('<div class="navlinks">')){
