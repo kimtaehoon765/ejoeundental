@@ -2,8 +2,9 @@
 // This intentionally never changes DNS, hosting, indexing settings, or website files.
 // A missing live domain must NOT turn a passing source build into a failure.
 import dns from 'node:dns/promises';
-import { appendFileSync } from 'node:fs';
+import { appendFileSync, readFileSync } from 'node:fs';
 
+const verifiedClinic = JSON.parse(readFileSync(new URL('../content/site.json', import.meta.url), 'utf8'));
 const apex = 'ejoeundental.com';
 const origin = 'https://' + apex;
 const rows = [];
@@ -126,6 +127,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       const footerOk=['이조은치과의원','세월천로 34','대우프라자 305호',
         'tel:0325132875','3시간 무료','격주 진료','Copyright'].every(term=>clinicFooter.includes(term));
       info.push(footerOk?'하단 의료기관 정보·주소·전화·진료시간·주차 반영':'하단 의료기관 정보 배포 확인 필요');
+      const repName=String(verifiedClinic.footer_representative||'').trim();
+      const businessNumber=String(verifiedClinic.footer_business_registration||'').trim();
+      const verifiedLegal=Boolean(repName&&businessNumber) &&
+        clinicFooter.includes('<dt>대표자</dt><dd>'+repName+'</dd>') &&
+        clinicFooter.includes('<dt>사업자등록번호</dt><dd>'+businessNumber+'</dd>');
+      info.push(verifiedLegal?'검증된 대표자·사업자등록번호 하단 표시 확인':'하단 대표자·사업자등록번호 공개 상태 점검 필요');
       const feeFooterLinks=(body.match(/href="\/noncovered-fees\.html"/g)||[]).length;
       const discreetFeeLink=clinicFooter.includes('class="footer-fee-disclosure"')&&
         clinicFooter.includes('href="/noncovered-fees.html"')&&feeFooterLinks===1;
