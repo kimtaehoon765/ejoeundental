@@ -1152,6 +1152,28 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
   errors.push('홈페이지 치과 이야기 모바일·키보드 스타일 누락');
  }
 }
+// Verified institution information belongs at the very end of the public homepage.
+// Never accidentally copy another dental office's registration or publish placeholders.
+{
+ const homepage=readFileSync(join(root,'index.html'),'utf8');
+ const config=JSON.parse(readFileSync(join(root,'content','site.json'),'utf8'));
+ const box=homepage.match(/<section class="footer-business" aria-label="이조은치과 의료기관 정보">([\s\S]*?)<\/section>/)?.[1]||'';
+ const expected=['이조은치과의원','대우프라자 305호','세월천로 34',
+  'tel:0325132875','3시간 무료','격주 진료','footer-copyright'];
+ if(!box||expected.some(k=>!box.includes(k)))errors.push('홈페이지 하단 의료기관 신원·주소·전화·주차 안내 누락');
+ if(homepage.includes('VERIFIED_CLINIC_OPERATOR_DETAILS'))errors.push('치과 사업자 정보 미입력 표시가 공개됨');
+ const representative=String(config.footer_representative||'').trim();
+ const registration=String(config.footer_business_registration||'').trim();
+ if(representative && !box.includes('<dt>대표자</dt>'))errors.push('확인된 치과 대표자명 표기 누락');
+ if(!representative && box.includes('<dt>대표자</dt>'))errors.push('미확인 대표자명이 홈페이지에 노출됨');
+ if(registration && (!box.includes('<dt>사업자등록번호</dt>')||
+    !box.includes(registration)))errors.push('확인된 사업자등록번호 표기 누락');
+ if(!registration && box.includes('<dt>사업자등록번호</dt>'))errors.push('미확인 사업자등록번호가 공개됨');
+ const footerStyle=readFileSync(join(root,'assets','home-enhancements.css'),'utf8');
+ if(!footerStyle.includes('.footer .footer-business{')||
+    !footerStyle.includes('.footer .footer-business-facts a:focus-visible')||
+    !footerStyle.includes('@media(max-width:640px)'))errors.push('의료기관 정보 하단 모바일·키보드 스타일 누락');
+}
 // Clinic landing snippets should agree across standard search and link-preview metadata.
 {
  const homepage=readFileSync(join(root,'index.html'),'utf8');
