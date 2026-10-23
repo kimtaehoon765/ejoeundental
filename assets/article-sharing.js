@@ -5,7 +5,8 @@
  'use strict';
  const nativeShare=typeof navigator!=='undefined'&&typeof navigator.share==='function';
  const canCopy=typeof navigator!=='undefined'&&!!navigator.clipboard&&typeof navigator.clipboard.writeText==='function';
- if(!nativeShare&&!canCopy)return;
+ const canPrint=typeof window!=='undefined'&&typeof window.print==='function';
+ if(!nativeShare&&!canCopy&&!canPrint)return;
  const link=document.querySelector('link[rel="canonical"]');
  if(!link)return;
  let pageUrl;
@@ -17,7 +18,8 @@
   const status=controls.querySelector('.article-share-status');
   const shareButton=controls.querySelector('[data-article-action="share"]');
   const copyButton=controls.querySelector('[data-article-action="copy"]');
-  if(!status||!shareButton||!copyButton)continue;
+  const printButton=controls.querySelector('[data-article-action="print"]');
+  if(!status||!shareButton||!copyButton||!printButton)continue;
   if(nativeShare){
    shareButton.hidden=false;
    shareButton.addEventListener('click',async()=>{
@@ -40,6 +42,13 @@
     }catch(_){
      status.textContent='자동 복사가 차단되었습니다. 주소창의 링크를 직접 복사해 주세요.';
     }finally{copyButton.disabled=false;}
+   });
+  }
+  if(canPrint){
+   printButton.hidden=false;
+   printButton.addEventListener('click',()=>{
+    status.textContent='';
+    window.print();
    });
   }
   controls.hidden=false;

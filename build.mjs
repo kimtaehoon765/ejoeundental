@@ -110,6 +110,7 @@ cp('tmj-care.html','tmj-care.html');cp('wisdom-tooth.html','wisdom-tooth.html');
  const markup='<div class="article-share-actions" role="group" aria-label="이 건강정보 공유하기" hidden>'+
   '<button type="button" data-article-action="share" hidden>📤 글 공유하기</button>'+
   '<button type="button" data-article-action="copy" hidden>🔗 글 링크 복사</button>'+
+  '<button type="button" data-article-action="print" hidden>🖨 건강정보 인쇄</button>'+
   '<span class="article-share-status" role="status" aria-live="polite"></span></div>';
  const script=path.join(out,'assets/article-sharing.js');
  const fingerprint=createHash('sha256').update(fs.readFileSync(script)).digest('hex').slice(0,12);
@@ -127,6 +128,16 @@ cp('tmj-care.html','tmj-care.html');cp('wisdom-tooth.html','wisdom-tooth.html');
   }
   html=html.replace(main,main+markup);
   html=html.replace('</head>','<link rel="stylesheet" href="/assets/article-sharing.css"></head>');
+  const isArticle=relative.startsWith('health/');
+  const returnTarget=isArticle?'article-main':'health-hub-main';
+  const backLabel=isArticle?'글 처음으로 돌아가기':'건강정보 목록 처음으로 돌아가기';
+  if(html.includes('class="article-return-nav"')||
+     html.split('</main>').length!==2){
+   throw new Error('Patient article return navigation is missing or duplicated: '+relative);
+  }
+  html=html.replace('</main>',
+   '<nav class="article-return-nav" aria-label="건강정보 탐색">'+
+   '<a href="#'+returnTarget+'">↑ '+backLabel+'</a></nav></main>');
   html=html.replace('</body>','<script defer src="/assets/article-sharing.js?v='+fingerprint+'"></script></body>');
   fs.writeFileSync(filename,html);
  }
