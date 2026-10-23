@@ -488,7 +488,7 @@ await Promise.all(urls.map(async ({label,url}) => {
       try{items=JSON.parse(collection)?.mainEntity?.numberOfItems||0}catch{}
       const ready=groups===5&&links.length===128&&new Set(links).size===128&&items===128&&body.includes('id="archive-blog-posts"');
       info.push(ready?'원장 네이버 원문 128편·주제별 5묶음·검색 구조화 데이터 반영':'원장 글 128편 주제별 아카이브 신규 배포 확인 필요');
-      info.push(body.includes('src="/assets/archive-topics.js?v=20261024-smartfind2"')
+      info.push(body.includes('src="/assets/archive-topics.js?v=20261024-smartfind3"')
         ?'원장 글 제목 검색·주제 자동 펼침 스크립트 연결 반영'
         :'원장 글 제목 검색·주제 자동 펼침 신규 배포 확인 필요');
       const dentistChoiceReady=body.includes('id="archive-choosing-dentist"')&&
