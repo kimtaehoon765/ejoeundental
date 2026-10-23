@@ -145,13 +145,13 @@ await Promise.all(urls.map(async ({label,url}) => {
         body.includes('통합치의학과 전문의');
       info.push('모네풍 디자인 HTML 배포: '+(monetOnPage?'확인':'미반영 — GitHub 최신 코드와 실제 홈페이지 다름'));
       info.push('최신 원장 소개·의료진 자격 메인 반영: '+(currentFirstScreen?'확인':'미반영 — 배포 연결/캐시 확인 필요'));
-      const heroMarkup=body.match(/<section class="hero wrap">([\\s\\S]*?)<\\/section>/)?.[1]||'';
+      const heroMarkup=body.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
       const credentialAt=heroMarkup.indexOf('고려대학교 의학박사');
       const galleryAt=heroMarkup.indexOf('class="hero-gallery-window"');
       const introAt=heroMarkup.indexOf('id="intro"');
       const firstScreenGallery=credentialAt>=0&&galleryAt>credentialAt&&introAt>galleryAt;
       info.push('모바일 첫 화면 수련 그림: '+(firstScreenGallery?'자격 소개 다음·진료 설명 앞 배치 확인':'신규 모바일 수련 그림 미반영'));
-      const fingerprint=body.match(/href="\\/assets\\/home-enhancements\\.css\\?v=([a-f0-9]{12})"/)?.[1]||'';
+      const fingerprint=body.match(/href="\/assets\/home-enhancements\.css\?v=([a-f0-9]{12})"/)?.[1]||'';
       info.push('모바일 디자인 CSS 버전: '+(fingerprint?'자동 버전('+fingerprint+') 적용':'버전 자동갱신 미확인'));
       const hasCanonical = body.includes('<link rel="canonical" href="' + origin + '/">');
       const hasClinic = body.includes('이조은치과');
@@ -227,7 +227,7 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push('집중 진료 중복 설명 축소·5개 바로가기: '+(focusReady?'반영':'확인 필요'));
       // CSS is content-hashed during production build. Avoid comparing against
       // obsolete fixed version strings, which falsely report deployment errors.
-      info.push('모바일 최적화 CSS: '+(/home-enhancements\\.css\\?v=[a-f0-9]{12}/.test(body)?'자동 갱신 버전 확인':'갱신 버전 확인 필요'));
+      info.push('모바일 최적화 CSS: '+(/home-enhancements\.css\?v=[a-f0-9]{12}/.test(body)?'자동 갱신 버전 확인':'갱신 버전 확인 필요'));
       const localCare=body.match(/<section[^>]*id="local-care"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
       const localPanel=localCare.match(/<nav class="bupyeong-choice-links"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
       const goodLocalLinks=['#doctor','/gum-treatment.html','/retreatment.html','/visit-guide.html'].every(ref=>localPanel.includes('href="'+ref+'"'));
