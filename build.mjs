@@ -311,6 +311,23 @@ function alignCanonicalUrls(folder){
  }
 }
 alignCanonicalUrls(out);
+// The copied homepage contains schema.org URLs written for the public domain.
+// During a preview build, align all homepage JSON-LD references with the
+// preview canonical as well; production later restores the public domain.
+{
+ const file=path.join(out,'index.html');
+ const before=fs.readFileSync(file,'utf8');
+ let count=0;
+ const after=before.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,(tag,json)=>{
+  const schema=JSON.parse(json);
+  count++;
+  return '<script type="application/ld+json">'+
+   JSON.stringify(schema).replaceAll('https://ejoeundental.com/','https://ejoeundental.pages.dev/')+
+   '</script>';
+ });
+ if(count<4)throw new Error('Homepage structured identity blocks unexpectedly missing: '+count);
+ fs.writeFileSync(file,after);
+}
 // Keep structured FAQ URLs on the same host as the preview canonical and sitemap.
 // This only transforms generated output; source pages retain the future custom domain.
 for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq','medication-dental-faq','systemic-disease-dental-faq']) {
