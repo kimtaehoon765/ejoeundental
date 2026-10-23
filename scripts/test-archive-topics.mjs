@@ -10,6 +10,7 @@ function setup({perGroup=15,hash=''}={}){
   ['gum','잇몸치료·스케일링','잇몸 출혈'],
   ['root','신경치료·재신경치료','신경치료 경과'],
   ['ethics','치과 선택과 진료 원칙','양심 진료'],
+  ['med','치과 약물·전신질환','항응고제 관리'],
   ['other','충치·시린 이·기타','충치 치료']
  ];
  const groups=groupDefs.map(([id,topic,base],i)=>{
@@ -52,13 +53,13 @@ function setup({perGroup=15,hash=''}={}){
 test('archive search shows the actual number of links, never an outdated 30-post total',()=>{
  const site=setup();
  assert.equal(site.section.search.className,'archive-search');
- assert.match(site.label.textContent,/60편/);
- assert.match(site.status.textContent,/전체 60편/);
- assert.match(site.section.search.attributes['aria-label'],/60편/);
+ assert.match(site.label.textContent,/75편/);
+ assert.match(site.status.textContent,/전체 75편/);
+ assert.match(site.section.search.attributes['aria-label'],/75편/);
  assert.equal(site.button.hidden,true);
  const grown=setup({perGroup:18});
- assert.match(grown.label.textContent,/72편/);
- assert.match(grown.status.textContent,/전체 72편/);
+ assert.match(grown.label.textContent,/90편/);
+ assert.match(grown.status.textContent,/전체 90편/);
  assert.doesNotMatch(script,/30편/);
 });
 
@@ -68,13 +69,13 @@ test('search reveals only matching entries and one-tap reset restores original o
  site.input.handlers.input();
  assert.equal(site.button.hidden,false);
  assert.match(site.status.textContent,/15편을 찾았습니다/);
- assert.equal(site.groups.filter(x=>x.hidden).length,3);
+ assert.equal(site.groups.filter(x=>x.hidden).length,4);
  assert.equal(site.groups.find(x=>x.id==='archive-group-root').open,true);
  site.button.handlers.click();
  assert.equal(site.input.value,'');
  assert.equal(site.button.hidden,true);
  assert.equal(site.input.focused,true);
- assert.match(site.status.textContent,/전체 60편/);
+ assert.match(site.status.textContent,/전체 75편/);
  assert.equal(site.groups.filter(x=>x.hidden).length,0);
  assert.equal(site.groups.find(x=>x.id==='archive-group-gum').open,true);
  assert.equal(site.groups.find(x=>x.id==='archive-group-root').open,false);
@@ -86,7 +87,7 @@ test('nonmatching query is clearly announced and can be cleared',()=>{
  site.input.value='없는검색어';
  site.input.handlers.input();
  assert.match(site.status.textContent,/일치하는 원장 글이 없습니다/);
- assert.equal(site.groups.filter(x=>x.hidden).length,4);
+ assert.equal(site.groups.filter(x=>x.hidden).length,5);
  site.button.handlers.click();
  assert.equal(site.groups.filter(x=>x.hidden).length,0);
 });
@@ -104,14 +105,17 @@ test('deep linked category stays accessible, including after a search',()=>{
  assert.equal(site.groups[1].summary.focused,true);
 });
 
-test('production build keeps all 100 links, fresh script and mobile-friendly reset control',()=>{
+test('production build keeps all 128 links, fresh script and mobile-friendly reset control',()=>{
  const html=readFileSync('dist/clinical-archive.html','utf8');
  const css=html;
  const matches=[...html.matchAll(/<li><a href="https:\/\/blog\.naver\.com\/kook765\/[0-9]+" target="_blank" rel="noopener noreferrer">/g)];
- assert.equal(matches.length,100);
- for(const id of ["224351181693","224350565399","224349488410","224348923668","224347627046","224346767351","224345605594","224344449540","224343576204","224342362813","224340539370","224339649746","224338216768","224336919095","224336313791","224335801481","224334694345","224333455599","224332017324","224331110284","224329576885","224329145895","224328506244","224327443401","224326276050","224325023545","224323897424","224322516968","224322081993","224320994972","224320266015","224317876370","224316966811","224315798257","224315011800","224314366210","224313019345","224311977947","224311067641","224309977228"]){
+ assert.equal(matches.length,128);
+ for(const id of ["224351181693","224350565399","224349488410","224348923668","224347627046","224346767351","224345605594","224344449540","224343576204","224342362813","224340539370","224339649746","224338216768","224336919095","224336313791","224335801481","224334694345","224333455599","224332017324","224331110284","224329576885","224329145895","224328506244","224327443401","224326276050","224325023545","224323897424","224322516968","224322081993","224320994972","224320266015","224317876370","224316966811","224315798257","224315011800","224314366210","224313019345","224311977947","224311067641","224309977228","224308488636","224307323645","224306244253","224305030119","224304247968","224303231242","224298846717","224297070925","224292617811","224291112270","224288489890","224287365726","224286252895","224284648154","224284054623","223517564607","223516136069","223515214832","223514920490","223514001922","223513923975","223511239719","223510937991","223510841022","223510589800","223509416446","223508191462","223507562346"]){
   assert.ok(html.includes('https://blog.naver.com/kook765/'+id), 'New owner Naver article not found: '+id);
  }
+ assert.ok(html.includes('id="archive-group-med"'));
+ assert.ok(html.includes('치과 약물·전신질환'));
+ assert.ok(html.includes('인천잇몸치료 양치할 때 피가 나요'));
  assert.ok(html.includes('/assets/archive-topics.js?v=20261024-smartfind2'));
  assert.match(css,/\.archive-search \.archive-search-clear\[hidden\]\{display:none!important\}/);
  assert.match(css,/\.archive-search \.archive-search-clear\{[^}]*min-height:44px/);
