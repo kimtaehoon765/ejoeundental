@@ -128,6 +128,12 @@ await Promise.all(urls.map(async ({label,url}) => {
         pageDescription.includes('부평치과')&&
         body.includes('property="og:title" content="'+localClinicTitle+'"');
       info.push(localSearchReady?'부평치과 대표 검색 제목·원장 진료 소개 최신 반영':'부평치과 대표 검색어 홈페이지 신규 배포 확인 필요');
+      const localFaq=body.match(/<section[^>]*id="faq"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+      const faqChoiceReady=localFaq.includes('부평치과를 알아볼 때 무엇부터 확인하면 좋을까요?')&&
+        localFaq.includes('청천동 세월천로 34')&&
+        localFaq.includes('href="/insured-care.html"')&&
+        (localFaq.match(/<details>/g)||[]).length===11;
+      info.push(faqChoiceReady?'부평치과 선택 기준·원장 직접 진단 11문답 반영':'부평치과 선택 기준·FAQ 추가 배포 확인 필요');
       const visibleStories=body.match(/<section class="section light" id="stories">([\s\S]*?)<\/section>/)?.[1]||'';
       const storyCards=(visibleStories.match(/class="card owner-story-card"/g)||[]).length;
       const hiddenCopies=/(?:원장이 작성한 네이버 블로그 글입니다|#stories .owner-story-card p\{display:none\})/.test(body);
