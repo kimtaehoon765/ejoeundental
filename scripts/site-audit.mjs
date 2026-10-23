@@ -2427,3 +2427,33 @@ if (errors.length) process.exitCode = 1;
  if(!careCss.includes('.treatment-doctor-credentials a:focus-visible'))
   errors.push('의료진 전문의 소개 모바일·키보드 스타일 누락');
 }
+
+/* Homepage hero photo/art source: preserve the actual owner-supplied illustration.
+ * Fail the build if an accidental reversion replaces it with stock decor or a broken image.
+ */
+{
+ const hero=readFileSync(join(root,'index.html'),'utf8');
+ const image=join(root,'assets/ejoeundental-hero-cat.webp');
+ const css=readFileSync(join(root,'assets/style.css'),'utf8');
+ const heroSection=hero.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
+ const expected='/assets/ejoeundental-hero-cat.webp';
+ const title='이조은치과를 상징하는 치과의사와 하얀 고양이 일러스트';
+ if(!heroSection.includes('<img src="'+expected+'" width="650" height="543" alt="'+title+'"')||
+    !heroSection.includes('loading="eager" fetchpriority="high" decoding="async"')||
+    heroSection.includes('class="flower"')||
+    !hero.includes('property="og:image" content="https://ejoeundental.com'+expected+'"')||
+    !hero.includes('name="twitter:card" content="summary_large_image"')||
+    !css.includes('.hero .art.hero-artwork')||
+    !css.includes('.hero .hero-artwork img')){
+  errors.push('원장 제공 치과의사·흰 고양이 대표 일러스트, 첫 화면 이미지 또는 소셜 공유 카드 누락');
+ }
+ if(!existsSync(image)){
+  errors.push('이조은치과 첫 화면 실제 일러스트 이미지 파일 누락');
+ }else{
+  const body=readFileSync(image);
+  const validHeader=body.toString('ascii',0,4)==='RIFF'&&body.toString('ascii',8,12)==='WEBP';
+  if(!validHeader||body.length<12000||body.length>300000){
+   errors.push('대표 일러스트 이미지 형식이나 크기 오류');
+  }
+ }
+}

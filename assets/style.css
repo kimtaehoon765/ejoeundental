@@ -801,3 +801,11 @@ main.article .note a[href="/#location"]:focus-visible{
  .article .gum-symptom-choices strong{font-size:15px}
  .article .gum-symptom-choices span{font-size:13px}
 }
+
+/* Owner-provided original hero illustration: real artwork, not a decorative placeholder.
+ * Explicit image aspect ratio prevents layout shifts; retain visible in-image signature.
+ */
+.hero .art.hero-artwork{height:auto;width:100%;aspect-ratio:650 / 543;max-width:650px;border-radius:18px;background:#f7f5ed;box-shadow:12px 16px 0 #e9e7d9;line-height:0}
+.hero .art.hero-artwork::before{content:none;display:none}
+.hero .hero-artwork img{display:block;width:100%;height:auto;aspect-ratio:650 / 543;object-fit:cover;border-radius:18px}
+@media(max-width:600px){.hero .art.hero-artwork{height:auto;max-width:340px;box-shadow:8px 10px 0 #e9e7d9}.hero .hero-artwork img{border-radius:15px}}
