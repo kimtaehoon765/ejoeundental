@@ -1636,3 +1636,46 @@ if (errors.length) process.exitCode = 1;
   errors.push('원장 네이버 글 출처 3곳·모바일 키보드 공개 안내 누락');
  }
 }
+
+
+// Genuine owner-authored source links strengthen topical navigation without
+// copying blog articles, fabricating case reports, or adding unverified reviews.
+{
+ const home=readFileSync(join(root,'index.html'),'utf8');
+ const stories=[...home.matchAll(/<div class="card owner-story-card"><h3><a href="(https:\/\/blog\.naver\.com\/[a-zA-Z0-9_-]+\/\d+)" target="_blank" rel="noopener noreferrer">([^<]+) ↗<\/a><\/h3><\/div>/g)]
+  .map(m=>({url:m[1],title:m[2]}));
+ const known=new Map(stories.map(p=>[p.url,p.title]));
+ if(stories.length!==30||known.size!==30)errors.push('네이버 원장 글 인증된 30편 목록 불일치');
+ for(const [hub,slug,care,ids,expectedTotal] of [
+   ['gum-health.html','gum','gum-treatment.html',['224422601718','224400753947','224405321060'],'10편'],
+   ['root-canal-health.html','root','retreatment.html',['224415452757','224417329329','224421350291'],'7편']
+ ]){
+  const page=readFileSync(join(root,hub),'utf8');
+  const carePage=readFileSync(join(root,care),'utf8');
+  const section=page.match(new RegExp('<section class="owner-originals" id="owner-originals-'+slug+'"[^>]*>([\\s\\S]*?)<\\/section>'))?.[1]||'';
+  const links=[...section.matchAll(/<li><a href="(https:\/\/blog\.naver\.com\/[^"]+)" target="_blank" rel="noopener noreferrer"><strong>([^<]+)<\/strong>/g)]
+    .map(m=>({url:m[1],title:m[2]}));
+  if(links.length!==3||new Set(links.map(p=>p.url)).size!==3||
+   links.some(item=>known.get(item.url)!==item.title)||
+   links.some((item,i)=>!item.url.endsWith('/'+ids[i]))){
+   errors.push('환자 주제별 원장 블로그 글 제목·원문 3편 불일치: '+hub);
+  }
+  if(!section.includes('글 내용은 일반적인 설명이며 진단을 대신하지 않습니다')||
+     !section.includes('href="/clinical-archive.html#archive-group-'+slug+'"')||
+     !carePage.includes('href="/clinical-archive.html#archive-group-'+slug+'"')||
+     !carePage.includes('원장의 ')||
+     !carePage.includes(' 글 '+expectedTotal+' 보기')||
+     page.includes('href="/clinical-archive.html"')){
+    errors.push('주제별 원장 블로그 전체 목록·진료 연결·건강정보 주의문 누락: '+hub);
+  }
+ }
+ const css=readFileSync(join(root,'assets/style.css'),'utf8');
+ for(const selector of ['.article .owner-originals{','.article .owner-originals li a:focus-visible',
+  '@media(max-width:700px){.article .owner-originals{','.article .owner-originals ul{grid-template-columns:1fr']){
+  if(!css.includes(selector))errors.push('원장 블로그 진료별 카드 모바일·키보드 스타일 누락: '+selector);
+ }
+ const archive=readFileSync(join(root,'clinical-archive.html'),'utf8');
+ if(!archive.includes('id="archive-group-gum"')||!archive.includes('id="archive-group-root"')){
+  errors.push('원장 블로그 연결 대상 잇몸·신경치료 주제 모음 누락');
+ }
+}

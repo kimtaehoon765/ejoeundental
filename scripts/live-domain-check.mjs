@@ -346,6 +346,15 @@ await Promise.all(urls.map(async ({label,url}) => {
         body.includes('인천·부평 잇몸치료,') && body.includes('세월천로 34');
       info.push(present?'인천·부평 잇몸치료 검색 제목·설명·실제 주소 반영':'지역 잇몸치료 검색 문구 최신 배포 확인 필요');
     }
+    // Show deployment status for the verified original-author links.
+    if(['public route gum-health','public route root-canal-health'].includes(label)){
+      const gum=label==='public route gum-health';
+      const slug=gum?'gum':'root';
+      const region=body.match(new RegExp('<section class="owner-originals" id="owner-originals-'+slug+'"[^>]*>([\\s\\S]*?)<\\/section>'))?.[1]||'';
+      const posts=[...region.matchAll(/<li><a href="https:\/\/blog\.naver\.com\/[^"]+" target="_blank" rel="noopener noreferrer">/g)];
+      const good=posts.length===3&&region.includes('href="/clinical-archive.html#archive-group-'+slug+'"');
+      info.push(good?'원장이 쓴 네이버 원문 3편·주제별 자료 연결 반영':'원장 원문 3편 안내 신규 배포 확인 필요');
+    }
     // Reuse fetched pages: check actual public metadata without another request.
     if(['public route gum-health','public route root-canal-health',
         'public route insurance-health','public route additional-health',

@@ -755,3 +755,20 @@ main.article .note a[href="/#location"]:focus-visible{
 .article .root-topic-choices a:hover{border-color:#5e9a7b;background:#e7f2e9}
 .article .root-topic-choices a:focus-visible{outline:3px solid #287d60;outline-offset:3px}
 @media(max-width:640px){.article .root-topic-choices{grid-template-columns:1fr;gap:8px;margin:16px 0 21px}.article .root-topic-choices a{min-height:60px;padding:12px 14px;gap:3px}.article .root-topic-choices strong{font-size:15px}.article .root-topic-choices span{font-size:13px}}
+
+
+/* Clearly credited, source-verified Naver posts on the two local clinical
+   education hubs. Genuine HTML links work even without JavaScript. */
+.article .owner-originals{box-sizing:border-box;margin:32px 0 28px;padding:20px 21px;border:1px solid #bcd6c5;border-radius:14px;background:#f4f8f2;color:#173e35;word-break:keep-all}
+.article .owner-originals h2{font-size:clamp(21px,3.2vw,27px);line-height:1.4;margin:0 0 12px;color:#173e35}
+.article .owner-originals>p{font-size:15px;line-height:1.75;margin:0 0 15px}
+.article .owner-originals ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0 14px;padding:0;list-style:none}
+.article .owner-originals li{margin:0;padding:0;min-width:0}
+.article .owner-originals li a{display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;gap:12px;height:100%;min-height:120px;padding:16px 13px;border:1px solid #cce0d0;border-radius:10px;background:#fff;color:#174a37;line-height:1.55;text-decoration:none;overflow-wrap:anywhere}
+.article .owner-originals li a strong{font-size:15px;font-weight:650}
+.article .owner-originals li a span{font-size:13px;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.article .owner-originals li a:hover{background:#ecf5ed;border-color:#7ab292}
+.article .owner-originals li a:focus-visible,.article .owner-originals-more a:focus-visible{outline:3px solid #a47837;outline-offset:3px}
+.article .owner-originals .owner-originals-more{margin:12px 0 0}
+.article .owner-originals-more a{display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;padding:6px 2px;color:#165b44;font-weight:750;text-underline-offset:3px}
+@media(max-width:700px){.article .owner-originals{padding:16px 14px;margin:22px 0}.article .owner-originals ul{grid-template-columns:1fr;gap:8px}.article .owner-originals li a{min-height:62px;padding:12px 14px;gap:6px}.article .owner-originals li a strong{font-size:15px}.article .owner-originals-more a{min-height:48px}}
