@@ -1147,7 +1147,10 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
   const html=readFileSync(join(root,slug+'.html'),'utf8');
   const schemas=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
    .map(m=>JSON.parse(m[1])).filter(o=>['MedicalWebPage','WebPage','FAQPage','CollectionPage'].includes(o['@type']));
-  if(schemas.length!==1||schemas[0].publisher?.['@id']!=='https://ejoeundental.com/#clinic'||
+  // Preview HTML correctly rewrites JSON-LD clinic IDs to pages.dev.
+  const publisherId=schemas[0]?.publisher?.['@id'];
+  const validPublisher=['https://ejoeundental.com/#clinic','https://ejoeundental.pages.dev/#clinic'].includes(publisherId);
+  if(schemas.length!==1||!validPublisher||
      !schemas[0].isPartOf||schemas[0].inLanguage!=='ko-KR'){
    errors.push('치과 의료정보 게시기관·언어 연결 누락: '+slug);
   }
