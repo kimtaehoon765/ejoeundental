@@ -33,6 +33,7 @@ for (const [label, host, method] of [
 const urls = [
   { label: '정식 도메인 첫 화면', url: origin + '/' },
   { label: 'www HTTPS 연결', url: 'https://www.' + apex + '/' },
+  { label: 'Cloudflare Pages 임시주소 색인 확인', url: 'https://ejoeundental.pages.dev/' },
   { label: 'www 하위 경로·쿼리 리디렉션', url: 'https://www.' + apex + '/gum-treatment?utm_source=redirect_check' },
   { label: '브랜드 파비콘 SVG', url: origin + '/favicon.svg' },
   { label: '검색엔진 robots', url: origin + '/robots.txt' },
@@ -91,7 +92,14 @@ await Promise.all(urls.map(async ({label,url}) => {
     const info = ['HTTP ' + response.status, '최종 주소: ' + response.url];
     const server = response.headers.get('server');
     if (server) info.push('서버: ' + server);
-    if (label === 'www HTTPS 연결') {
+    if (label === 'Cloudflare Pages 임시주소 색인 확인') {
+      const robotsTag=String(response.headers.get('x-robots-tag')||'').toLowerCase();
+      info.push(robotsTag.split(',').some(x=>x.trim().startsWith('noindex'))
+        ?'Pages 임시 주소 검색 제외(noindex) 응답 확인'
+        :'Pages 임시 주소 noindex 응답 확인 필요');
+      const previewCanonical=body.match(/<link rel="canonical" href="([^"]+)"/)?.[1]||'';
+      if(previewCanonical)info.push('임시 주소 대표문서: '+previewCanonical);
+    } else if (label === 'www HTTPS 연결') {
       const location = response.headers.get('location') || '';
       const destination = location ? new URL(location, url) : null;
       const is301 = response.status === 301;

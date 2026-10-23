@@ -172,6 +172,37 @@ for(const file of html){
 }
 console.log('Cross-page section anchors checked:',verifiedCrossDocumentAnchors,'across',html.length,'published HTML files');
 
+
+// Guard search indexing against duplicate public page identities. Technical
+// maintenance/owner-only and interactive search pages may be noindex and are
+// excluded; only truly indexable published HTML pages are compared. This catches
+// cloned <title>, description and canonical URLs across the dental information
+// site before search engines have to choose which duplicate to show.
+{
+ const seenTitles=new Map(), seenDescriptions=new Map(),seenCanonicals=new Map();
+ let auditedIndexable=0;
+ for(const file of html){
+  const relative=file.slice(root.length+1).replaceAll('\\','/');
+  const page=readFileSync(file,'utf8');
+  if(/<meta\s+name=["']robots["']\s+content=["'][^"']*noindex/i.test(page)||
+      relative==='404.html'||relative.startsWith('admin/'))continue;
+  const title=page.match(/<title>([^<]+)<\/title>/i)?.[1]?.trim()||'';
+  const desc=page.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i)?.[1]?.trim()||'';
+  const canonical=page.match(/<link\b[^>]*rel=["']canonical["'][^>]*href=["']([^"']+)["']/i)?.[1]||'';
+  auditedIndexable++;
+  for(const [field,value,seen] of [
+    ['title',title,seenTitles],['description',desc,seenDescriptions],
+    ['canonical',canonical,seenCanonicals]
+  ]){
+   if(!value)continue; // Existing audits already check missing values.
+   if(seen.has(value)&&seen.get(value)!==relative){
+    errors.push('공개 치과 자료 SEO '+field+' 중복: '+seen.get(value)+' / '+relative);
+   }else seen.set(value,relative);
+  }
+ }
+ console.log('Unique indexed clinic page titles, descriptions and canonicals checked:',auditedIndexable);
+}
+
 const sitemap = join(root, 'sitemap.xml');
 if (!existsSync(sitemap)) errors.push('sitemap.xml 누락');
 else {
@@ -2094,8 +2125,8 @@ if (errors.length) process.exitCode = 1;
      !['X-Frame-Options','X-Content-Type-Options','Referrer-Policy','Permissions-Policy'].every(key=>byPath('/*')[0]?.headers.has(key))){
     errors.push('Cloudflare Pages 보안·개인정보 보호 기본 응답 헤더 누락');
   }
-  for(const host of ['https://ejoeundental.pages.dev/*',
-                      'https://:branch.ejoeundental.pages.dev/*']){
+  for(const host of ['https://:project.pages.dev/*',
+                      'https://:version.:project.pages.dev/*']){
    if(byPath(host).length!==1||byPath(host)[0].headers.get('X-Robots-Tag')!=='noindex')
     errors.push('Cloudflare Pages 임시/프리뷰 주소 색인 차단 헤더 누락: '+host);
   }

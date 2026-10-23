@@ -8,10 +8,10 @@
 
 # Prevent indexing the parallel Pages production and branch-preview hosts.
 # Never apply X-Robots-Tag: noindex to the ejoeundental.com clinic domain.
-https://ejoeundental.pages.dev/*
+https://:project.pages.dev/*
   X-Robots-Tag: noindex
 
-https://:branch.ejoeundental.pages.dev/*
+https://:version.:project.pages.dev/*
   X-Robots-Tag: noindex
 
 # Patient page snippets, crawl discovery files and search content stay fresh.

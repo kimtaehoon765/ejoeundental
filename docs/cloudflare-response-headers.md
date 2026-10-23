@@ -13,3 +13,5 @@
 공식 문서: https://developers.cloudflare.com/pages/configuration/headers/
 
 보안 주의: 위 응답 헤더는 `noindex`나 인증 기능을 대신하지 않습니다. 원장 전용 자료는 공개 저장소·정적 사이트가 아닌 별도의 인증된 공간에 보관해야 합니다.
+
+2026-10-23 보강: `_headers`의 임시 주소 조건은 Cloudflare 공식 안내에 따른 `https://:project.pages.dev/*` 및 `https://:version.:project.pages.dev/*`로 지정했습니다. 이 규칙은 프로젝트 이름과 브랜치·배포 ID의 변화에도 적용되며, 일반 정식 도메인에는 매칭되지 않습니다. https://developers.cloudflare.com/pages/configuration/headers/
