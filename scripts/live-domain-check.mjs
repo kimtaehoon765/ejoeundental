@@ -302,6 +302,24 @@ await Promise.all(urls.map(async ({label,url}) => {
       const canonicalValue = body.split('rel="canonical" href="')[1]?.split('"')[0] || '(없음)';
       info.push('실제 최종 주소와 canonical: ' + (canonicalValue === response.url ? '일치' : '불일치') + ' (' + canonicalValue + ')');
     }
+    // Reuse already-fetched 19 public patient resources: no additional requests.
+    // Keep social previews, medical schema and search snippets consistent in production.
+    if(label.startsWith('remaining route ')||
+       ['public route visit-guide','public route medical-safety-guide','public route previsit-checklist'].includes(label)){
+      const read=(key,type='name')=>body.match(new RegExp('<meta '+type+'="'+key+'" content="([^"]+)"'))?.[1]||'';
+      const desc=read('description'),ogDesc=read('og:description','property');
+      const twDesc=read('twitter:description'),title=body.match(/<title>([^<]+)<\/title>/)?.[1]||'';
+      const ogTitle=read('og:title','property'),twTitle=read('twitter:title');
+      const canonical=body.match(/<link rel="canonical" href="([^"]+)"/)?.[1]||'';
+      const socialUrl=read('og:url','property');
+      const same=Boolean(desc&&title&&canonical&&desc===ogDesc&&desc===twDesc&&
+        title===ogTitle&&title===twTitle&&canonical===socialUrl);
+      info.push(same?'의료정보 검색·공유 문구 일치':'의료정보 SEO 설명·공유 카드 확인 필요');
+      const webSchema=[...body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+       .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
+       .find(d=>['MedicalWebPage','WebPage','CollectionPage'].includes(d?.['@type']));
+      if(webSchema)info.push(webSchema.description===desc?'의료정보 구조화 설명 일치':'구조화 설명 불일치');
+    }
     const result = label === '없는 페이지 404 상태' ? (response.status === 404 ? '정상 404' : '주의: 잘못된 응답') : label === 'www HTTPS 연결' ? (response.status === 301 && (response.headers.get('location') || '').includes('ejoeundental.com') && !(response.headers.get('location') || '').includes('www.ejoeundental.com') ? '대표 주소 통일' : '추가 설정 필요') : response.ok?'접속':'응답 점검 필요';
     add(label, result, info.join(' · '));
   } catch (e) {
