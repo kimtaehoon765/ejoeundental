@@ -24,25 +24,75 @@ const resultSummary=page=>{
   return '본문 관련 내용: '+preview;
  }
  return fallback;
-};const exactResults=scored.filter(p=>p.matched===terms.length);const isPartial=!exactResults.length&&terms.length>1;const displayResults=terms.length>1&&exactResults.length?[...exactResults,...scored.filter(p=>p.matched<terms.length)]:isPartial?scored:exactResults;const maxResults=20;const exactPool=displayResults.filter(p=>p.matched===terms.length);const partialPool=displayResults.filter(p=>p.matched<terms.length);const orderedResults=[...exactPool,...partialPool];const visibleResults=orderedResults.slice(0,maxResults);const countMessage=displayResults.length>visibleResults.length?' (먼저 '+visibleResults.length+'개 표시, 나머지는 아래에서 보기)':'';status.textContent=isPartial?'모든 검색어와 일치하는 결과가 없어 일부 검색어와 관련된 '+displayResults.length+'개 결과를 찾았습니다'+countMessage+'.':displayResults.length?(terms.length===1?'검색 결과 '+displayResults.length+'개를 찾았습니다'+countMessage+'.':exactResults.length+'개의 전체 검색어 일치 결과와 '+(displayResults.length-exactResults.length)+'개의 부분 일치 결과를 찾았습니다'+countMessage+'.'):'검색 결과가 없습니다.';const fullVisibleCount=exactPool.length;const partialVisibleCount=partialPool.length;let partialSectionShown=false;let exactSectionShown=false;const renderMatches=(batch,container)=>{for(const p of batch){if(terms.length>1){if(p.matched===terms.length&&!exactSectionShown){const heading=document.createElement('h2');heading.className='search-result-section';heading.textContent='모든 검색어와 일치하는 결과 ('+fullVisibleCount+'개)';container.append(heading);exactSectionShown=true}else if(p.matched<terms.length&&!partialSectionShown){const heading=document.createElement('h2');heading.className='search-result-section';heading.textContent='일부 검색어와 일치하는 결과 ('+partialVisibleCount+'개)';container.append(heading);partialSectionShown=true}}const a=document.createElement('a');a.className='result';a.href=publishedHref(p.url);const kind=document.createElement('span');kind.className='result-kind';const medicalGuide=/^\/(?:health\/)?(?:medical-history|osteoporosis-medication-dental|blood-thinners-dental|diabetes-dental-care|heart-disease-dental-care|kidney-disease-dental-care|liver-disease-dental-care|cancer-immunosuppression-dental-care|pregnancy-dental-care|medical-safety-guide|previsit-checklist|medication-dental-faq|systemic-disease-dental-faq)\.html$/.test(p.url);const equipmentGuide=/^\/(?:health\/)?(?:dental-equipment|handpiece-maintenance|autoclave-maintenance|compressor-maintenance|suction-maintenance|dental-materials|glass-ionomer-guide|composite-bonding-guide|dental-cements-guide|impression-materials-guide|root-canal-materials-guide|curing-light-maintenance|dental-chair-maintenance|dental-xray-maintenance|endodontic-instruments-guide|equipment-log|extraction-instruments-guide|intraoral-camera-maintenance|periodontal-instruments-guide|scaler-maintenance)\.html$/.test(p.url);const category=p.url.startsWith('/stories/')?'story':medicalGuide?'medical':equipmentGuide?'equipment':p.url.startsWith('/health/')?'health':'guide';kind.dataset.category=category;kind.textContent=({story:'치과 이야기',health:'치과 건강정보',medical:'복용약·전신질환 안내',equipment:'치과 장비·재료 안내',guide:'진료·홈페이지 안내'})[category];const h=document.createElement('h2');h.textContent=p.title;const desc=document.createElement('p');const summary=resultSummary(p);desc.textContent=summary.length>155?summary.slice(0,152).trimEnd()+'…':summary;const url=document.createElement('small');url.textContent=publishedHref(p.url);a.append(kind,h,desc,url);if(terms.length>1&&p.matched<terms.length){const partial=document.createElement('span');partial.className='result-match-note';partial.textContent='일부 검색어 일치 ('+p.matched+'/'+terms.length+'): '+p.matchedTerms.join(', ');a.append(partial)}container.append(a);if(category==='medical'||category==='equipment'){const overview=category==='medical'?['치과치료 전 복용약·전신질환 종합 안내','/medical-history.html']:['치과 장비·기구 종합 안내','/dental-equipment.html'];if(p.url!==overview[1]){const related=document.createElement('p');related.className='result-next';const link=document.createElement('a');link.href=publishedHref(overview[1]);link.textContent=overview[0]+' →';related.append(link);container.append(related)}}if((p.url.startsWith('/health/')&&category==='health')||p.url.startsWith('/stories/')){const topicText=norm([p.title,p.description].join(' '));const pathText=String(p.url||'');const guides=[['잇몸치료 안내','/gum-treatment.html',/잇몸|치주|스케일링|치석|큐렛/],['재신경치료 안내','/retreatment.html',/신경치료|근관|재신경|치수/],['치경부마모증 안내','/cervical-abrasion.html',/치경부|시린|마모|글라스아이오노머|지아이/],['건강보험 진료 안내','/insured-care.html',/건강보험|보험적용|보험진료/]];const rootCanalOverview=['신경치료 건강정보','/root-canal-health.html',/신경치료|근관/];const guide=pathText.includes('denture-')?['틀니 건강정보','/additional-health.html#dentures',/틀니/]:pathText.includes('cavity-')?['충치 건강정보','/additional-health.html#cavities',/충치/]:pathText.includes('tooth-')?['자연치아 보존 안내','/health/tooth-preservation.html',/치아/]:pathText.includes('root-canal-retreatment')||pathText.includes('root-canal-after-pain')||pathText.includes('root-canal-or-extraction')?guides[1]:pathText.includes('root-canal-')?rootCanalOverview:pathText.includes('abrasion-')||pathText.includes('cervical-')?guides[2]:pathText.includes('insurance-')?guides[3]:pathText.includes('gum-')||pathText.includes('periodontal-')||pathText.includes('scaling-')||pathText.includes('root-planing')||pathText.includes('curette-')||pathText.includes('swollen-gums')?guides[0]:guides.find(([, ,pattern])=>pattern.test(topicText));if(guide){const next=document.createElement('p');next.className='result-next';const relatedGuides=pathText.includes('insurance-cervical')?[guides[2],guides[3]]:pathText.includes('insurance-periodontal')||pathText.includes('insurance-scaling')?[guides[0],guides[3]]:pathText.includes('insurance-root-canal')?[rootCanalOverview,guides[3]]:pathText.includes('insurance-priority')?[guides[3]]:pathText.includes('root-canal-after-pain')||pathText.includes('root-canal-retreatment')?[guides[1],rootCanalOverview]:pathText.includes('abrasion-gi')?[guides[2],guides[3]]:pathText.includes('denture-')?[guide,['틀니 건강보험 안내','/health/insurance-denture.html']]:pathText.includes('cavity-')?[guide,['충치치료 건강보험 안내','/health/insurance-cavity.html']]:[guide];const uniqueGuides=[...new Map(relatedGuides.filter(item=>item&&item[1]!==p.url).map(item=>[item[1],item])).values()];for(const related of uniqueGuides){const link=document.createElement('a');link.href=publishedHref(related[1]);link.textContent='관련 '+related[0]+' →';next.append(link)}container.append(next)}}}};renderMatches(visibleResults,results);
-if(orderedResults.length>maxResults){
- let displayed=visibleResults.length;
- const extraResults=document.createElement('div');
- extraResults.className='search-additional-results';
- results.append(extraResults);
- const showMore=document.createElement('button');
- showMore.type='button';
- showMore.className='search-show-more';
- showMore.textContent='검색 결과 '+Math.min(maxResults,orderedResults.length-displayed)+'개 더 보기 ('+displayed+'/'+orderedResults.length+'개 표시)';
- showMore.setAttribute('aria-controls','results');
- showMore.addEventListener('click',()=>{
-  const batch=orderedResults.slice(displayed,displayed+maxResults);
-  renderMatches(batch,extraResults);
-  displayed+=batch.length;
-  status.textContent='검색 결과 '+orderedResults.length+'개 중 '+displayed+'개 표시 중입니다.';
-  if(displayed>=orderedResults.length)showMore.remove();
-  else showMore.textContent='검색 결과 '+Math.min(maxResults,orderedResults.length-displayed)+'개 더 보기 ('+displayed+'/'+orderedResults.length+'개 표시)';
- });
- results.append(showMore);
+};const exactResults=scored.filter(p=>p.matched===terms.length);const isPartial=!exactResults.length&&terms.length>1;const displayResults=terms.length>1&&exactResults.length?[...exactResults,...scored.filter(p=>p.matched<terms.length)]:isPartial?scored:exactResults;const maxResults=20;
+const searchLabels={all:'전체',health:'치과 건강정보',guide:'진료·방문 안내',medical:'복용약·전신질환',story:'원장의 치과 이야기',equipment:'치과 장비·재료'};
+const searchCategory=p=>{const medicalGuide=/^\/(?:health\/)?(?:medical-history|osteoporosis-medication-dental|blood-thinners-dental|diabetes-dental-care|heart-disease-dental-care|kidney-disease-dental-care|liver-disease-dental-care|cancer-immunosuppression-dental-care|pregnancy-dental-care|medical-safety-guide|previsit-checklist|medication-dental-faq|systemic-disease-dental-faq)\.html$/.test(p.url);const equipmentGuide=/^\/(?:health\/)?(?:dental-equipment|handpiece-maintenance|autoclave-maintenance|compressor-maintenance|suction-maintenance|dental-materials|glass-ionomer-guide|composite-bonding-guide|dental-cements-guide|impression-materials-guide|root-canal-materials-guide|curing-light-maintenance|dental-chair-maintenance|dental-xray-maintenance|endodontic-instruments-guide|equipment-log|extraction-instruments-guide|intraoral-camera-maintenance|periodontal-instruments-guide|scaler-maintenance)\.html$/.test(p.url);const category=p.url.startsWith('/stories/')?'story':medicalGuide?'medical':equipmentGuide?'equipment':p.url.startsWith('/health/')?'health':'guide';return category;};
+let fullVisibleCount=0,partialVisibleCount=0,partialSectionShown=false,exactSectionShown=false;
+const renderMatches=(batch,container)=>{for(const p of batch){if(terms.length>1){if(p.matched===terms.length&&!exactSectionShown){const heading=document.createElement('h2');heading.className='search-result-section';heading.textContent='모든 검색어와 일치하는 결과 ('+fullVisibleCount+'개)';container.append(heading);exactSectionShown=true}else if(p.matched<terms.length&&!partialSectionShown){const heading=document.createElement('h2');heading.className='search-result-section';heading.textContent='일부 검색어와 일치하는 결과 ('+partialVisibleCount+'개)';container.append(heading);partialSectionShown=true}}const a=document.createElement('a');a.className='result';a.href=publishedHref(p.url);const kind=document.createElement('span');kind.className='result-kind';const category=searchCategory(p);kind.dataset.category=category;kind.textContent=({story:'치과 이야기',health:'치과 건강정보',medical:'복용약·전신질환 안내',equipment:'치과 장비·재료 안내',guide:'진료·홈페이지 안내'})[category];const h=document.createElement('h2');h.textContent=p.title;const desc=document.createElement('p');const summary=resultSummary(p);desc.textContent=summary.length>155?summary.slice(0,152).trimEnd()+'…':summary;const url=document.createElement('small');url.textContent=publishedHref(p.url);a.append(kind,h,desc,url);if(terms.length>1&&p.matched<terms.length){const partial=document.createElement('span');partial.className='result-match-note';partial.textContent='일부 검색어 일치 ('+p.matched+'/'+terms.length+'): '+p.matchedTerms.join(', ');a.append(partial)}container.append(a);if(category==='medical'||category==='equipment'){const overview=category==='medical'?['치과치료 전 복용약·전신질환 종합 안내','/medical-history.html']:['치과 장비·기구 종합 안내','/dental-equipment.html'];if(p.url!==overview[1]){const related=document.createElement('p');related.className='result-next';const link=document.createElement('a');link.href=publishedHref(overview[1]);link.textContent=overview[0]+' →';related.append(link);container.append(related)}}if((p.url.startsWith('/health/')&&category==='health')||p.url.startsWith('/stories/')){const topicText=norm([p.title,p.description].join(' '));const pathText=String(p.url||'');const guides=[['잇몸치료 안내','/gum-treatment.html',/잇몸|치주|스케일링|치석|큐렛/],['재신경치료 안내','/retreatment.html',/신경치료|근관|재신경|치수/],['치경부마모증 안내','/cervical-abrasion.html',/치경부|시린|마모|글라스아이오노머|지아이/],['건강보험 진료 안내','/insured-care.html',/건강보험|보험적용|보험진료/]];const rootCanalOverview=['신경치료 건강정보','/root-canal-health.html',/신경치료|근관/];const guide=pathText.includes('denture-')?['틀니 건강정보','/additional-health.html#dentures',/틀니/]:pathText.includes('cavity-')?['충치 건강정보','/additional-health.html#cavities',/충치/]:pathText.includes('tooth-')?['자연치아 보존 안내','/health/tooth-preservation.html',/치아/]:pathText.includes('root-canal-retreatment')||pathText.includes('root-canal-after-pain')||pathText.includes('root-canal-or-extraction')?guides[1]:pathText.includes('root-canal-')?rootCanalOverview:pathText.includes('abrasion-')||pathText.includes('cervical-')?guides[2]:pathText.includes('insurance-')?guides[3]:pathText.includes('gum-')||pathText.includes('periodontal-')||pathText.includes('scaling-')||pathText.includes('root-planing')||pathText.includes('curette-')||pathText.includes('swollen-gums')?guides[0]:guides.find(([, ,pattern])=>pattern.test(topicText));if(guide){const next=document.createElement('p');next.className='result-next';const relatedGuides=pathText.includes('insurance-cervical')?[guides[2],guides[3]]:pathText.includes('insurance-periodontal')||pathText.includes('insurance-scaling')?[guides[0],guides[3]]:pathText.includes('insurance-root-canal')?[rootCanalOverview,guides[3]]:pathText.includes('insurance-priority')?[guides[3]]:pathText.includes('root-canal-after-pain')||pathText.includes('root-canal-retreatment')?[guides[1],rootCanalOverview]:pathText.includes('abrasion-gi')?[guides[2],guides[3]]:pathText.includes('denture-')?[guide,['틀니 건강보험 안내','/health/insurance-denture.html']]:pathText.includes('cavity-')?[guide,['충치치료 건강보험 안내','/health/insurance-cavity.html']]:[guide];const uniqueGuides=[...new Map(relatedGuides.filter(item=>item&&item[1]!==p.url).map(item=>[item[1],item])).values()];for(const related of uniqueGuides){const link=document.createElement('a');link.href=publishedHref(related[1]);link.textContent='관련 '+related[0]+' →';next.append(link)}container.append(next)}}}};
+const listArea=document.createElement('div');
+listArea.className='search-result-list';
+const counts={};
+for(const p of displayResults){const type=searchCategory(p);counts[type]=(counts[type]||0)+1}
+const choices=["health","guide","medical","story","equipment"].filter(type=>counts[type]>0);
+const hasCategories=displayResults.length>=6&&choices.length>=2;
+let buttons=[];
+if(hasCategories){
+ const filterBar=document.createElement('div');
+ filterBar.className='search-category-filters';
+ filterBar.setAttribute('role','group');
+ filterBar.setAttribute('aria-label','검색 결과 종류별 보기');
+ for(const type of ['all',...choices]){
+  const button=document.createElement('button');
+  button.type='button';
+  button.className='search-category-filter';
+  button.dataset.searchType=type;
+  button.setAttribute('aria-pressed',type==='all'?'true':'false');
+  button.textContent=searchLabels[type]+' ('+(type==='all'?displayResults.length:counts[type])+')';
+  button.addEventListener('click',()=>showResults(type));
+  filterBar.append(button);
+  buttons.push(button);
+ }
+ results.append(filterBar);
 }
+results.append(listArea);
+const showResults=type=>{
+ const selected=type==='all'?displayResults:displayResults.filter(p=>searchCategory(p)===type);
+ const exactPool=selected.filter(p=>p.matched===terms.length);
+ const partialPool=selected.filter(p=>p.matched<terms.length);
+ const orderedResults=[...exactPool,...partialPool];
+ const visibleResults=orderedResults.slice(0,maxResults);
+ fullVisibleCount=exactPool.length;
+ partialVisibleCount=partialPool.length;
+ partialSectionShown=false;
+ exactSectionShown=false;
+ listArea.replaceChildren();
+ for(const button of buttons){button.setAttribute('aria-pressed',button.dataset.searchType===type?'true':'false')}
+ const countMessage=selected.length>visibleResults.length?' (먼저 '+visibleResults.length+'개 표시, 나머지는 아래에서 보기)':'';
+ status.textContent=type!=='all'?'검색 결과 중 '+searchLabels[type]+' '+selected.length+'개를 찾았습니다'+countMessage+'.':
+  isPartial?'모든 검색어와 일치하는 결과가 없어 일부 검색어와 관련된 '+displayResults.length+'개 결과를 찾았습니다'+countMessage+'.':
+  displayResults.length?(terms.length===1?'검색 결과 '+displayResults.length+'개를 찾았습니다'+countMessage+'.':
+   exactResults.length+'개의 전체 검색어 일치 결과와 '+(displayResults.length-exactResults.length)+'개의 부분 일치 결과를 찾았습니다'+countMessage+'.'):'검색 결과가 없습니다.';
+ renderMatches(visibleResults,listArea);
+ if(orderedResults.length>maxResults){
+  let displayed=visibleResults.length;
+  const extraResults=document.createElement('div');
+  extraResults.className='search-additional-results';
+  listArea.append(extraResults);
+  const showMore=document.createElement('button');
+  showMore.type='button';
+  showMore.className='search-show-more';
+  showMore.textContent='검색 결과 '+Math.min(maxResults,orderedResults.length-displayed)+'개 더 보기 ('+displayed+'/'+orderedResults.length+'개 표시)';
+  showMore.setAttribute('aria-controls','results');
+  showMore.addEventListener('click',()=>{
+   const batch=orderedResults.slice(displayed,displayed+maxResults);
+   renderMatches(batch,extraResults);
+   displayed+=batch.length;
+   status.textContent='검색 결과 '+orderedResults.length+'개 중 '+displayed+'개 표시 중입니다.';
+   if(displayed>=orderedResults.length)showMore.remove();
+   else showMore.textContent='검색 결과 '+Math.min(maxResults,orderedResults.length-displayed)+'개 더 보기 ('+displayed+'/'+orderedResults.length+'개 표시)';
+  });
+  listArea.append(showMore);
+ }
+};
+showResults('all');
 if(!displayResults.length){const p=document.createElement('p');p.textContent='검색 결과가 없습니다. 아래 관련 안내에서 찾아보시거나 다른 표현으로 다시 검색해 보세요.';results.append(p);const suggestions=safetyIntent?[['치과치료 전 복용약·전신질환 안내','/medical-history.html'],['혈액희석제 복용 안내','/blood-thinners-dental.html'],['골다공증 약 복용 안내','/osteoporosis-medication-dental.html']]:equipmentIntent?[['치과 장비·기구 안내','/dental-equipment.html'],['핸드피스 관리 안내','/handpiece-maintenance.html'],['멸균기 관리 안내','/autoclave-maintenance.html']]:[['잇몸치료','/gum-treatment.html'],['재신경치료','/retreatment.html'],['치경부마모증','/cervical-abrasion.html'],['건강보험 진료','/insured-care.html']];const links=document.createElement('p');links.className='search-fallback';for(const [label,url] of suggestions){const a=document.createElement('a');a.href=publishedHref(url);a.textContent=label+' →';links.append(a)}results.append(links);const retry=document.createElement('p');retry.className='search-retry';retry.textContent='검색어를 바꿔 다시 찾아보세요: ';for(const term of (safetyIntent?['혈액희석제','골다공증 약','당뇨병']:equipmentIntent?['핸드피스','멸균기','석션']:['잇몸 출혈','신경치료 후 통증','치아 시림'])){const a=document.createElement('a');a.href='/search.html?q='+encodeURIComponent(term);a.textContent=term;retry.append(a)}results.append(retry)}}catch(e){console.error(e);status.textContent='검색 자료를 불러오지 못했습니다. 아래 주요 진료 안내를 이용해 주세요.';const links=document.createElement('p');links.className='search-fallback';for(const [label,url] of (/(복용약|약물|혈액희석|항응고|골다공증|당뇨|심장|투석|임신|항암)/.test(q)?[['복용약·전신질환 안내','/medical-history.html'],['혈액희석제 안내','/blood-thinners-dental.html']]:/(핸드피스|멸균기|석션|스케일러|장비|기구)/.test(q)?[['치과 장비 안내','/dental-equipment.html'],['핸드피스 관리 안내','/handpiece-maintenance.html']]:[['잇몸치료','/gum-treatment.html'],['재신경치료','/retreatment.html'],['치경부마모증','/cervical-abrasion.html'],['건강보험 진료','/insured-care.html']])){const a=document.createElement('a');a.href=publishedHref(url);a.textContent=label+' →';links.append(a)}results.append(links)}})();
