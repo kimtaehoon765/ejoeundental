@@ -1060,6 +1060,47 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
   if(!page.includes('/assets/care-design-system.css?v=20261023-topic-nav1'))errors.push('모바일 진료 목차 디자인 캐시 갱신 누락: '+slug);
  }
 }
+// Every public safety, visit, FAQ and fee page should state the same facts in
+// the HTML snippet, link-share cards and medical WebPage structured data.
+// SEO labels must not silently diverge from the medically reviewed page.
+{
+ const slugs=['visit-guide','clinical-archive','medical-history',
+  'gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq',
+  'medication-dental-faq','systemic-disease-dental-faq','medical-safety-guide',
+  'previsit-checklist','osteoporosis-medication-dental','blood-thinners-dental',
+  'diabetes-dental-care','heart-disease-dental-care','kidney-disease-dental-care',
+  'liver-disease-dental-care','cancer-immunosuppression-dental-care',
+  'pregnancy-dental-care','noncovered-fees'];
+ for(const slug of slugs){
+  const page=readFileSync(join(root,slug+'.html'),'utf8');
+  const attr=(name,property=false)=>{
+   const key=property?'property':'name';
+   return page.match(new RegExp('<meta '+key+'="'+name+'" content="([^"]+)"'))?.[1]||'';
+  };
+  const title=page.match(/<title>([^<]+)<\/title>/)?.[1]||'';
+  const desc=attr('description');
+  const social=attr('og:description',true);
+  const twitter=attr('twitter:description');
+  const ogTitle=attr('og:title',true);
+  const twTitle=attr('twitter:title');
+  const canonical=page.match(/<link rel="canonical" href="([^"]+)"/)?.[1]||'';
+  const ogUrl=attr('og:url',true);
+  if(!desc || desc!==social || desc!==twitter || title!==ogTitle ||
+     title!==twTitle || canonical!==ogUrl || attr('twitter:card')!=='summary'){
+   errors.push('의료정보 공유·검색 설명 불일치: '+slug);
+  }
+  const ld=[...page.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(m=>JSON.parse(m[1]));
+  const webPage=ld.find(o=>['MedicalWebPage','WebPage','CollectionPage'].includes(o['@type']));
+  if(webPage && webPage.description!==desc){
+   errors.push('의료정보 구조화 데이터 설명 불일치: '+slug);
+  }
+  if(slug==='noncovered-fees' && (!desc.includes('수가표에 없는 비용') ||
+      !desc.includes('032-513-2875'))){
+   errors.push('비급여 미공개 수가 문의 안내 검색 정보 누락');
+  }
+ }
+}
 // Public health information should disclose general-information limits and link to the actual dentist.
 {
  const hubs=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
