@@ -54,3 +54,11 @@ nav[aria-label="이조은치과 주요 진료 안내"] a:focus-visible{outline:3
 .treatment-quick-links a:hover{background:#e4eee6}
 .treatment-quick-links a:focus-visible{outline:3px solid #a96b24;outline-offset:2px}
 @media(max-width:600px){.treatment-quick-links{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;padding:9px 14px;gap:7px}.treatment-quick-links a{flex:0 0 auto;min-height:44px;padding:8px 11px;font-size:13px;white-space:nowrap}}
+
+/* Unified short, keyboard-friendly questions for mobile treatment pages. */
+#patient-questions details{margin:6px 0;overflow-wrap:anywhere}
+#patient-questions summary{box-sizing:border-box;min-height:48px;padding:11px 8px;line-height:1.6;word-break:keep-all}
+#patient-questions summary:focus-visible{outline:3px solid #a47837;outline-offset:2px;border-radius:6px}
+#patient-questions details[open]{background:#f1f8f2}
+#patient-questions details p{padding:0 8px 12px;word-break:keep-all}
+@media(max-width:600px){#patient-questions summary{min-height:52px;font-size:16px}}
