@@ -2000,15 +2000,19 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
    "window.addEventListener('hashchange'",
    "group.open = true",
    "openBeforeSearch = new Map(",
-   "li.hidden = !matched"
+   "li.hidden = !matched",
+   "const totalPosts = groupsWithLinks.reduce(",
+   "clearButton.addEventListener('click'",
+   "clearButton.hidden = !query"
   ]){
    if(!client.includes(needle))errors.push('원장 블로그 검색·주제 자동 펼치기 기능 누락: '+needle);
   }
  }
- if(!archive.includes('<script defer src="/assets/archive-topics.js?v=20261023-smartfind1"></script>'))
+ if(!archive.includes('<script defer src="/assets/archive-topics.js?v=20261024-smartfind2"></script>'))
    errors.push('원장 글 빠른 검색 자바스크립트 로딩 누락');
  if(!archive.includes('.archive-blog-group[hidden],.archive-blog-group li[hidden]{display:none!important}')||
-    !archive.includes('.archive-blog-group:target>summary'))
+    !archive.includes('.archive-blog-group:target>summary')||
+    !archive.includes('.archive-search .archive-search-clear[hidden]{display:none!important}'))
    errors.push('원장 글 숨김 상태·주제 링크 가독성 스타일 누락');
  if(archive.includes('BUILD_OWNER_ARCHIVE_GROUPS'))
    errors.push('원장 글 서버 출력 누락');

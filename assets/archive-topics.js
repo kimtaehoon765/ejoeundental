@@ -1,4 +1,4 @@
-/* Progressive enhancement for the public, owner-authored 30-post index.
+/* Progressive enhancement for the public, owner-authored blog index.
  * Every original blog link and native <details> remains usable without JS. */
 (() => {
   'use strict';
@@ -16,22 +16,28 @@
   const box = document.createElement('div');
   box.className = 'archive-search';
   box.setAttribute('role', 'search');
-  box.setAttribute('aria-label', '원장 네이버 글 30편 찾기');
+  box.setAttribute('aria-label', '원장 네이버 글 제목 찾기');
   const label = document.createElement('label');
   label.htmlFor = 'archive-post-search';
-  label.textContent = '원장 글 30편에서 제목·주제 찾기';
+  label.textContent = '원장 글 제목·주제 찾기';
   const input = document.createElement('input');
   input.id = 'archive-post-search';
   input.type = 'search';
   input.placeholder = '예: 잇몸, 신경치료, 과잉진료';
   input.autocomplete = 'off';
   input.setAttribute('aria-controls', 'archive-blog-collections');
+  const clearButton = document.createElement('button');
+  clearButton.type = 'button';
+  clearButton.className = 'archive-search-clear';
+  clearButton.textContent = '검색 초기화';
+  clearButton.setAttribute('aria-label', '검색어를 지우고 전체 글 보기');
+  clearButton.hidden = true;
   const status = document.createElement('p');
   status.className = 'archive-search-status';
   status.setAttribute('role', 'status');
   status.setAttribute('aria-live', 'polite');
   status.textContent = '주제별 제목을 펼치거나 검색어를 입력해 보세요.';
-  box.append(label, input, status);
+  box.append(label, input, clearButton, status);
   section.insertBefore(box, collection);
 
   const groupsWithLinks = groups.map(group => ({
@@ -42,10 +48,17 @@
       title: normalize(li.querySelector('a')?.textContent)
     }))
   }));
+  // Count published article links from the generated archive, never from
+  // outdated text or a hard-coded total. New blog posts need no JS updates.
+  const totalPosts = groupsWithLinks.reduce((count, { items }) => count + items.length, 0);
+  box.setAttribute('aria-label', '원장 네이버 글 ' + totalPosts + '편 찾기');
+  label.textContent = '원장 글 ' + totalPosts + '편에서 제목·주제 찾기';
+  status.textContent = '전체 ' + totalPosts + '편 · 주제별 제목을 펼치거나 검색어를 입력해 보세요.';
   let openBeforeSearch = null;
 
   function filterPosts() {
     const query = normalize(input.value);
+    clearButton.hidden = !query;
     if (!query) {
       for (const { group, items } of groupsWithLinks) {
         group.hidden = false;
@@ -53,7 +66,7 @@
         if (openBeforeSearch) group.open = openBeforeSearch.get(group) === true;
       }
       openBeforeSearch = null;
-      status.textContent = '전체 30편 · 주제별 제목을 펼쳐 원문을 볼 수 있습니다.';
+      status.textContent = '전체 ' + totalPosts + '편 · 주제별 제목을 펼쳐 원문을 볼 수 있습니다.';
       return;
     }
     if (!openBeforeSearch) {
@@ -77,6 +90,11 @@
       : '일치하는 원장 글이 없습니다. 다른 검색어로 다시 찾아보세요.';
   }
   input.addEventListener('input', filterPosts);
+  clearButton.addEventListener('click', () => {
+    input.value = '';
+    filterPosts();
+    input.focus();
+  });
 
   const allowed = new Set(groups.map(group => group.id));
   function openDeepLinkedTopic(isNavigation) {
