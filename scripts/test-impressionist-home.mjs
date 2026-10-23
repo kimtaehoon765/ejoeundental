@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 
 const home=readFileSync('dist/index.html','utf8');
 const css=readFileSync('dist/assets/home-enhancements.css','utf8');
@@ -25,7 +26,13 @@ test('original gallery and responsive accent are local, cached, and accessible',
  assert.match(home,/home-enhancements\.css\?v=[0-9a-f]{12}/,'Build should fingerprint CSS without stale cache keys');
  assert.match(css,/@media\(max-width:600px\)/);
  assert.match(css,/\.hero-gallery-window\{[\s\S]*?display:block/);
- assert.match(css,/background-image:url\("\/assets\/impressionist-water-garden\.svg"\)/);
+ const hash=createHash('sha256').update(artwork).digest('hex').slice(0,12);
+ const artUrl='/assets/impressionist-water-garden.svg?v='+hash;
+ assert.ok(css.includes('background-image:url("'+artUrl+'")'),'CSS must load the latest painting');
+ assert.ok(home.includes('<link rel="preload" as="image" type="image/svg+xml" media="(max-width: 600px)" href="'+artUrl+'">'),
+   'Phones should begin loading the original painting early');
+ assert.ok(home.includes('<img src="'+artUrl+'"'),'The displayed art should use the same versioned URL');
+ assert.ok(!artwork.includes('<feTurbulence'),'Avoid the expensive full-image noise filter on phones');
  assert.match(artwork,/<title id="t">이조은치과 인상주의 수련 연못 정원<\/title>/);
  assert.match(artwork,/id="impressionist-pigment"/);
  assert.match(artwork,/이조은치과<\/text>/);

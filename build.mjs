@@ -476,6 +476,24 @@ if(fs.existsSync(sitemapPath)){
  fs.writeFileSync(sitemapPath,sitemap);
 }
 
+// Keep the main Monet painting fresh on patient phones after every artwork update.
+// The original is shared by the mobile-first preload, framed gallery and CSS
+// backgrounds, so all links must use one content-derived version. This prevents
+// stale CDN/browser imagery even when the stylesheet itself has not changed.
+const impressionistSvgPath=path.join(out,'assets/impressionist-water-garden.svg');
+if(!fs.existsSync(impressionistSvgPath))throw new Error('Missing original clinic garden illustration');
+const impressionistSvgVersion=createHash('sha256').update(fs.readFileSync(impressionistSvgPath)).digest('hex').slice(0,12);
+const impressionistReference='/assets/impressionist-water-garden.svg';
+for(const rel of ['index.html','assets/home-enhancements.css']){
+ const target=path.join(out,rel);
+ const contents=fs.readFileSync(target,'utf8');
+ if(!contents.includes(impressionistReference))throw new Error('Missing image reference in '+rel);
+ const revised=contents.replace(/\/assets\/impressionist-water-garden\.svg(?:\?v=[0-9a-f]{12})?/g,
+  impressionistReference+'?v='+impressionistSvgVersion);
+ fs.writeFileSync(target,revised);
+}
+console.log('Original Monet garden asset fingerprinted in HTML and CSS:',impressionistSvgVersion);
+
 // Fingerprint every first-party stylesheet in built HTML, including the homepage,
 // health hubs, mobile navigation, search and clinical topic CSS. A CSS update should
 // not require a hand-edited ?v= string or leave phones using an old cached style.
