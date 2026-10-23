@@ -52,6 +52,12 @@ jobs:
             if (!ids.has(match[1])) throw new Error('Broken homepage anchor: #'+match[1]);
           }
           const fees = fs.readFileSync('dist/noncovered-fees.html','utf8');
-          if (!fees.includes('<noscript>')) throw new Error('Missing no-script fee guidance');
+          if (!fees.includes('id="fees-certificates"') ||
+              !fees.includes('보험사 양식 치료확인서') ||
+              !fees.includes('병원 발급 진단서') ||
+              !fees.includes('차트 복사(진료기록 사본 1~5매)') ||
+              !fees.includes('파노라마 인쇄본') ||
+              fees.includes('BUILD_FEE_TABLES') ||
+              fees.includes('src="/assets/fees.js"')) throw new Error('Missing no-JS certificate fee tables');
           console.log('Current patient navigation and generated content verified.');
           NODE
