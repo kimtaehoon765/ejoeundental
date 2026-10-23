@@ -1911,3 +1911,36 @@ if (errors.length) process.exitCode = 1;
   errors.push('부평치과 선택 기준 원장 검진·진료 철학·주소·보험 진료 링크 누락');
  }
 }
+
+
+// "부평치과 진료시간" should lead to this genuinely local clinic, not to an
+// artificial city-wide door page. The visit guide must be useful on mobile,
+// with visible quick links to exact existing destinations and consistent title,
+// OG/Twitter and MedicalWebPage identity in both preview and production builds.
+{
+ const page=readFileSync(join(root,'visit-guide.html'),'utf8');
+ const title=page.match(/<title>([^<]+)<\/title>/)?.[1]||'';
+ const og=page.match(/<meta property="og:title" content="([^"]+)"/)?.[1]||'';
+ const twitter=page.match(/<meta name="twitter:title" content="([^"]+)"/)?.[1]||'';
+ const schema=[...page.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(m=>JSON.parse(m[1])).find(x=>x['@type']==='MedicalWebPage');
+ const expected='부평치과 진료시간·오시는 길·주차 | 청천동 이조은치과';
+ if(title!==expected||title!==og||title!==twitter||title!==schema?.name||
+    !page.includes('<h1>이조은치과 진료시간·오시는 길</h1>')){
+   errors.push('부평치과 방문 안내 검색 제목·공유 제목·원장 방문정보 정합성 누락');
+ }
+ const nav=page.match(/<nav class="visit-jump" aria-label="진료시간·주차·길찾기·진료 준비 바로가기">([\s\S]*?)<\/nav>/)?.[1]||'';
+ const links=[...nav.matchAll(/<a href="#([^"]+)">([^<]+)<\/a>/g)].map(m=>m[1]);
+ const expectedLinks=['visit-hours','visit-parking','transit-heading','visit-checklist-title'];
+ const pageIds=[...page.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
+ if(links.length!==4||links.some((link,i)=>link!==expectedLinks[i])||
+   expectedLinks.some(id=>pageIds.filter(x=>x===id).length!==1)||
+   !page.includes('.visit-jump a:focus-visible')||
+   !page.includes('@media(max-width:570px){.visit-jump')||
+   !page.includes('치과의 실제 위치는 인천 부평구 청천동입니다.')||
+   !page.includes('치과 진료 시 3시간 무료 주차')||
+   !page.includes('금·토요일은 격주 일정')||
+   !page.includes('이번 주의 확정 일정이 표시되지 않습니다')){
+    errors.push('부평치과 방문 진료시간·주차·길찾기·접수 4개 바로가기 또는 정확한 고지 누락');
+ }
+}

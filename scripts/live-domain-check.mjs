@@ -425,6 +425,13 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push(desc.includes('부평치과')&&body.includes('부평치과를 찾는 분께 실제 진료 위치를 안내합니다')
         ?'부평치과 진료시간·방문정보 신규 검색 안내 반영'
         :'부평치과 진료시간·방문정보 신규 배포 확인 필요');
+      const visitTitle=body.match(/<title>([^<]+)<\/title>/)?.[1]||'';
+      const visitQuickNav=body.match(/<nav class="visit-jump"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+      const visitLinks=['#visit-hours','#visit-parking','#transit-heading','#visit-checklist-title'];
+      const visitSearchReady=visitTitle.startsWith('부평치과 진료시간·오시는 길·주차')&&
+         visitLinks.every(id=>visitQuickNav.includes('href="'+id+'"'))&&
+         body.includes('치과의 실제 위치는 인천 부평구 청천동입니다.');
+      info.push(visitSearchReady?'부평치과 방문 안내 제목·모바일 4개 바로가기 반영':'부평치과 방문 안내 제목·모바일 4개 바로가기 배포 확인 필요');
     }
     // Reuse already-fetched 19 public patient resources: no additional requests.
     // Keep social previews, medical schema and search snippets consistent in production.
