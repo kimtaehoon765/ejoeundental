@@ -383,6 +383,9 @@ await Promise.all(urls.map(async ({label,url}) => {
       try{items=JSON.parse(collection)?.mainEntity?.numberOfItems||0}catch{}
       const ready=groups===4&&links.length===30&&new Set(links).size===30&&items===30&&body.includes('id="archive-blog-posts"');
       info.push(ready?'원장 네이버 원문 30편·주제별 4묶음·검색 구조화 데이터 반영':'원장 글 30편 주제별 아카이브 신규 배포 확인 필요');
+      info.push(body.includes('src="/assets/archive-topics.js?v=20261023-smartfind1"')
+        ?'원장 글 제목 검색·주제 자동 펼침 스크립트 연결 반영'
+        :'원장 글 제목 검색·주제 자동 펼침 신규 배포 확인 필요');
     }
     // Reuse already-fetched 19 public patient resources: no additional requests.
     // Keep social previews, medical schema and search snippets consistent in production.

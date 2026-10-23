@@ -1679,3 +1679,37 @@ if (errors.length) process.exitCode = 1;
   errors.push('원장 블로그 연결 대상 잇몸·신경치료 주제 모음 누락');
  }
 }
+
+
+// The owner-blog index is usable without JS, and progressively enhanced with
+// a live title/topic finder and deep-link expansion for patient treatment pages.
+{
+ const archive=readFileSync(join(root,'clinical-archive.html'),'utf8');
+ const clientFile=join(root,'assets/archive-topics.js');
+ if(!existsSync(clientFile))errors.push('임상 아카이브 글 찾기 스크립트 배포 누락');
+ else{
+  const client=readFileSync(clientFile,'utf8');
+  const parsed=spawnSync(process.execPath,['--check',clientFile],{encoding:'utf8'});
+  if(parsed.status!==0)errors.push('임상 아카이브 글 찾기 스크립트 문법 오류: '+parsed.stderr.slice(0,200));
+  for(const needle of [
+   "document.getElementById('archive-blog-posts')",
+   "querySelectorAll('details.archive-blog-group')",
+   "document.createElement('input')",
+   "input.type = 'search'",
+   "input.addEventListener('input', filterPosts)",
+   "window.addEventListener('hashchange'",
+   "group.open = true",
+   "openBeforeSearch = new Map(",
+   "li.hidden = !matched"
+  ]){
+   if(!client.includes(needle))errors.push('원장 블로그 검색·주제 자동 펼치기 기능 누락: '+needle);
+  }
+ }
+ if(!archive.includes('<script defer src="/assets/archive-topics.js?v=20261023-smartfind1"></script>'))
+   errors.push('원장 글 빠른 검색 자바스크립트 로딩 누락');
+ if(!archive.includes('.archive-blog-group[hidden],.archive-blog-group li[hidden]{display:none!important}')||
+    !archive.includes('.archive-blog-group:target>summary'))
+   errors.push('원장 글 숨김 상태·주제 링크 가독성 스타일 누락');
+ if(archive.includes('BUILD_OWNER_ARCHIVE_GROUPS'))
+   errors.push('원장 글 서버 출력 누락');
+}
