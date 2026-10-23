@@ -131,7 +131,7 @@ await Promise.all(urls.map(async ({label,url}) => {
       // This request may use HTTP/1.1/2 and CANNOT validate QUIC itself.
       // Cloudflare zone HTTP/3 is changed only in the provider dashboard.
       const altSvc=String(response.headers.get('alt-svc')||'');
-      const advertisesHttp3=/(?:^|[,\\s])h3(?:-[0-9]+)?\\s*=/.test(altSvc);
+      const advertisesHttp3=/(?:^|[,\s])h3(?:-[0-9]+)?\s*=/.test(altSvc);
       info.push('HTTP/3(QUIC) 사용 안내 헤더: '+(advertisesHttp3
         ?'h3 광고 확인 — 모바일 ERR_QUIC_PROTOCOL_ERROR가 반복되면 Cloudflare Speed > Settings > Protocol Optimization에서 HTTP/3 임시 해제 후 비교'
         :altSvc?'Alt-Svc 다른 프로토콜 광고 / HTTP/3 헤더 미검출':'h3 광고 헤더 미검출 — 다른 연결·DNS 레코드 또는 브라우저 캐시 확인 필요'));
