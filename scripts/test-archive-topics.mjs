@@ -104,12 +104,12 @@ test('deep linked category stays accessible, including after a search',()=>{
  assert.equal(site.groups[1].summary.focused,true);
 });
 
-test('production build keeps all 65 links, fresh script and mobile-friendly reset control',()=>{
+test('production build keeps all 100 links, fresh script and mobile-friendly reset control',()=>{
  const html=readFileSync('dist/clinical-archive.html','utf8');
  const css=html;
  const matches=[...html.matchAll(/<li><a href="https:\/\/blog\.naver\.com\/kook765\/[0-9]+" target="_blank" rel="noopener noreferrer">/g)];
- assert.equal(matches.length,65);
- for(const id of ['224351181693','224350565399','224349488410','224348923668','224347627046']){
+ assert.equal(matches.length,100);
+ for(const id of ["224351181693","224350565399","224349488410","224348923668","224347627046","224346767351","224345605594","224344449540","224343576204","224342362813","224340539370","224339649746","224338216768","224336919095","224336313791","224335801481","224334694345","224333455599","224332017324","224331110284","224329576885","224329145895","224328506244","224327443401","224326276050","224325023545","224323897424","224322516968","224322081993","224320994972","224320266015","224317876370","224316966811","224315798257","224315011800","224314366210","224313019345","224311977947","224311067641","224309977228"]){
   assert.ok(html.includes('https://blog.naver.com/kook765/'+id), 'New owner Naver article not found: '+id);
  }
  assert.ok(html.includes('/assets/archive-topics.js?v=20261024-smartfind2'));
