@@ -67,7 +67,13 @@ test('mobile music remains opt-in without overlapping the Monet picture or care 
  assert.ok(home.includes("headerMusic.addEventListener('click',function(){trigger.click()})"),
   'Header shortcut must use the same lazy-loaded music player');
  assert.match(css,/body\.home-page #music-reopen\{display:none!important\}/);
- assert.match(css,/body\.home-page header \.music-header-button\{[\s\S]*?position:absolute/);
+ const mobileHeaderFix=css.slice(css.indexOf('Visual QA, Galaxy mobile screenshot 2026-10-24 at 07:06'));
+ assert.ok(mobileHeaderFix.includes('grid-template-columns:minmax(0,1fr) auto!important;'),
+  'Header logo and music must have independent first-row columns');
+ assert.ok(mobileHeaderFix.includes('position:static;top:auto;right:auto;'),
+  'Music must no longer overlap the navigation via absolute positioning');
+ assert.ok(mobileHeaderFix.includes('grid-column:1/-1;grid-row:2;'),
+  'All five patient shortcuts must occupy their own dedicated second row');
  assert.match(css,/html\.home-scrolled body\.home-page header \.music-header-button\{display:none\}/);
  const player=readFileSync('dist/assets/music-controls.js','utf8');
  assert.ok(player.includes("getElementById('music-header-button')"));
@@ -88,4 +94,14 @@ test('patients see actions and real treatment destinations before long homepage 
  assert.match(css,/body\.home-page #main-content>\.hero \.hero-actions \.hero-call,/);
  assert.match(css,/body\.home-page #main-content>\.hero \.hero-actions \.hero-symptoms\{grid-column:1\/-1\}/);
  assert.match(css,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+ const mobileHeaderFix=css.slice(css.indexOf('Visual QA, Galaxy mobile screenshot 2026-10-24 at 07:06'));
+ for(const [className,order] of [['hero-call',0],['hero-symptoms',1],['hero-hours',2],['hero-map',3]]){
+  const pattern=new RegExp('\\.hero-actions \\.'+className+'\\{order:'+order+';grid-column:');
+  assert.match(mobileHeaderFix,pattern,
+   'Mobile visual order must match the semantic HTML order for '+className);
+ }
+ const actionBlock=hero.slice(hero.indexOf('class="hero-actions"'),hero.indexOf('</div>',hero.indexOf('class="hero-actions"')));
+ const expected=['hero-call','hero-symptoms','hero-hours','hero-map'].map(x=>actionBlock.indexOf(x));
+ assert.ok(expected.every((x,i)=>x>=0&&(i===0||x>expected[i-1])));
+
 });
