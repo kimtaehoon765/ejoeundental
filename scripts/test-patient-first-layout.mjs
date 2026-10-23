@@ -33,7 +33,7 @@ test('default patient reading and sharing tools work only after JavaScript is av
  const readCss=readFileSync('dist/assets/reading-controls.css','utf8');
  const shareCss=readFileSync('dist/assets/article-sharing.css','utf8');
  assert.match(readCss,/\.reading-controls\{display:none/);
- assert.match(shareCss,/\.article-share-actions\[hidden\]\{display:none!important\}/);
+ assert.match(shareCss,/\.article-share-actions\[hidden\],\.article-share-actions button\[hidden\]\{display:none!important\}/);
  assert.match(readCss,/@media print\{/);
  assert.match(shareCss,/@media print\{/);
 });
