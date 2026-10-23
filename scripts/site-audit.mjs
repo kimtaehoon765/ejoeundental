@@ -2,6 +2,7 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 
 const root = resolve('dist');
 const publicOrigin = process.env.SITE_PUBLIC_ORIGIN || 'https://ejoeundental.com';
@@ -25,6 +26,15 @@ const html = files.filter(f => f.endsWith('.html'));
 const errors = [];
 const warnings = [];
 const paths = new Set(files.map(f => '/' + f.slice(root.length + 1).replaceAll('\\', '/')));
+// Validate the built, content-hashed CSS URL instead of yesterday's manually
+// chosen cache label. This catches stale links while allowing any CSS to change.
+function hasFreshCss(html,basename){
+ const file=join(root,'assets',basename+'.css');
+ if(!existsSync(file))return false;
+ const expected=createHash('sha256').update(readFileSync(file)).digest('hex').slice(0,12);
+ return html.includes('/assets/'+basename+'.css?v='+expected+'"')||
+        html.includes("/assets/"+basename+".css?v="+expected+"'");
+}
 // Keep the clinic visit page actionable on a phone and the long root-canal
 // guide skimmable. These are functional HTML checks, not SEO ranking claims.
 {
@@ -528,7 +538,7 @@ for (const file of html) {
    !reveal.includes('class="grid care-more-grid"')||reveal.includes('<details class="care-more-details" open')){
   errors.push('모바일 전체 진료 더 보기 단추·기본 닫힘 상태 누락');
  }
- if(!home.includes('/assets/home-enhancements.css?v=20261023-bupyeong-choice')){
+ if(!hasFreshCss(home,'home-enhancements')){
   errors.push('홈페이지 진료목록 반응형 CSS 캐시 버전 누락');
  }
  for(const url of ['/implant.html','/cavity-treatment.html','/wisdom-tooth.html','/tmj-care.html','/denture.html','/pediatric-orthodontics.html','/pediatric-dentistry.html']){
@@ -662,7 +672,7 @@ else {
     'aria-pressed','results.append(filterBar)','listArea.replaceChildren()']){
    if(!script.includes(fragment))errors.push('검색 결과 유형별 필터 기능 누락: '+fragment);
   }
-  if(!page.includes('/assets/search-page.css?v=20261023-visit-card1'))
+  if(!hasFreshCss(page,'search-page'))
    errors.push('검색 유형별 필터 CSS 새 버전 연결 누락');
   if(!existsSync(searchCss)||!readFileSync(searchCss,'utf8').includes('.search-category-filter[aria-pressed="true"]'))
    errors.push('검색 결과 선택된 유형 표시 스타일 누락');
@@ -1213,7 +1223,7 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  if((page.match(/\bid="patient-questions"/g)||[]).length!==1)errors.push('진료 FAQ 앵커 중복 또는 누락: '+slug);
  if((faq.match(/<details\b/g)||[]).length<4 || (faq.match(/<summary\b/g)||[]).length<4)errors.push('진료 FAQ 모바일 접이식 질문 부족: '+slug);
  if(!css.includes('#patient-questions summary:focus-visible')||!css.includes('min-height:52px'))errors.push('진료 FAQ 모바일 터치·키보드 스타일 누락: '+slug);
- if(!page.includes('/assets/'+slug+'.css?v=20261023-faq-mobile2'))errors.push('진료 FAQ 스타일 버전 갱신 누락: '+slug);
+ if(!hasFreshCss(page,slug))errors.push('진료 FAQ 스타일 버전 갱신 누락: '+slug);
 }
 // Patient topic shortcuts must point to real content and remain usable without scripts.
 {
@@ -1243,7 +1253,7 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
    }
   }
   if(!page.includes('href="#main-content"')||!page.includes('class="treatment-back-top"'))errors.push('진료 페이지 맨 위 이동 링크 누락: '+slug);
-  if(!page.includes('/assets/care-design-system.css?v=20261023-topic-nav1'))errors.push('모바일 진료 목차 디자인 캐시 갱신 누락: '+slug);
+  if(!hasFreshCss(page,'care-design-system'))errors.push('모바일 진료 목차 디자인 캐시 갱신 누락: '+slug);
  }
 }
 // Photo-supplied certificate fees must be visible in initial HTML without JavaScript.
@@ -2186,7 +2196,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
     !panel.includes('href="/clinical-archive.html#archive-choosing-dentist"')||
     !style.includes('#local-care .bupyeong-choice-links a:focus-visible')||
     !style.includes('@media(max-width:540px){#local-care .bupyeong-choice-panel')||
-    !homepage.includes('/assets/home-enhancements.css?v=20261023-bupyeong-choice')){
+    !hasFreshCss(homepage,'home-enhancements')){
    errors.push('부평치과 정보 탐색 4개 정확한 이동 경로·실제 진료 위치·모바일 링크 누락');
  }
 }
