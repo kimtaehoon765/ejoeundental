@@ -585,6 +585,26 @@ for(const [filename,[label,careHref,careLabel]] of collectionNavigation){
 console.log('Health topic hubs now have clickable clinic breadcrumbs:',collectionNavigation.size);
 
 
+// All four health education hubs have a long navigation and a list of ten
+// guides. Offer keyboard/screen-reader visitors a direct link to the article
+// heading without hiding the static, SEO-accessible medical information.
+const healthHubSkipFiles=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
+for(const filename of healthHubSkipFiles){
+ const file=path.join(out,filename);
+ let page=fs.readFileSync(file,'utf8');
+ if(page.includes('class="health-hub-skip"'))throw new Error('Duplicate health hub skip navigation: '+filename);
+ const main='<main class="article">';
+ if(page.split(main).length!==2)throw new Error('Health hub main landmark ambiguous: '+filename);
+ if(page.split('<body>').length!==2)throw new Error('Health hub body ambiguous: '+filename);
+ page=page.replace(main,'<main class="article" id="health-hub-main">');
+ page=page.replace('<body>','<body><a class="health-hub-skip" href="#health-hub-main">건강정보 본문으로 바로가기</a>');
+ fs.writeFileSync(file,page);
+}
+console.log('Health collection keyboard skip navigation generated:',healthHubSkipFiles.length,'hubs');
+
+
+
+
 // Replace internal article-link slug labels with readable Korean titles across all health pages.
 const healthTitles=new Map(entries.filter(e=>e.url&&e.title).map(e=>[e.url,e.title]));
 const healthDir=path.join(out,'health');

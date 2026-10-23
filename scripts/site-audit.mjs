@@ -1734,3 +1734,37 @@ if (errors.length) process.exitCode = 1;
  if(!page.includes('>치주치료</a>')||!page.includes('>스케일링과 잇몸치료 차이</a>'))
   errors.push('스케일링 및 치주치료 검색 바로가기 누락');
 }
+
+
+// Collection pages carry patient-centered symptom links and accessible skip
+// navigation, not merely a list of articles behind a long menu.
+{
+ const hubs=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
+ const css=readFileSync(join(root,'assets','style.css'),'utf8');
+ for(const name of hubs){
+  const page=readFileSync(join(root,name),'utf8');
+  const skip='<a class="health-hub-skip" href="#health-hub-main">건강정보 본문으로 바로가기</a>';
+  if(page.split(skip).length!==2||
+     page.split('<main class="article" id="health-hub-main">').length!==2||
+     !page.includes('<body>'+skip)||
+     !page.includes('<nav class="hub-top-trail"')){
+   errors.push('건강정보 모음 본문 바로가기·이동경로 누락: '+name);
+  }
+ }
+ if(!css.includes('.health-hub-skip:focus,.health-hub-skip:focus-visible')){
+  errors.push('건강정보 모음 키보드 포커스 바로가기 스타일 누락');
+ }
+ const gum=readFileSync(join(root,'gum-health.html'),'utf8');
+ const block=gum.match(/<nav class="gum-symptom-choices"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ const links=[...block.matchAll(/<a href="([^"]+)"/g)].map(m=>m[1]);
+ const expected=['/health/gum-bleeding.html','/health/swollen-gums.html',
+                 '/health/loose-tooth.html','/health/scaling-vs-periodontal.html'];
+ if(links.length!==4||links.some((v,i)=>v!==expected[i])||
+    !gum.includes('잇몸에서 <a href="/health/gum-pus.html">고름이 나오거나</a>')||
+    !gum.includes('href="/health/periodontal-insurance.html"')||
+    !gum.includes('숨쉬기 어렵다면 즉시 응급 진료를 받으세요')||
+    !css.includes('.article .gum-symptom-choices a:focus-visible')||
+    !css.includes('@media(max-width:650px)')){
+   errors.push('잇몸 증상별 첫 안내·응급 설명·모바일 카드 중 일부 누락');
+ }
+}

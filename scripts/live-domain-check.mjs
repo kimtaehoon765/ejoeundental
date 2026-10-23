@@ -355,6 +355,17 @@ await Promise.all(urls.map(async ({label,url}) => {
       const good=posts.length===3&&region.includes('href="/clinical-archive.html#archive-group-'+slug+'"');
       info.push(good?'원장이 쓴 네이버 원문 3편·주제별 자료 연결 반영':'원장 원문 3편 안내 신규 배포 확인 필요');
     }
+    if(['public route gum-health','public route root-canal-health',
+        'public route insurance-health','public route additional-health'].includes(label)){
+      const skip=body.includes('class="health-hub-skip" href="#health-hub-main"')&&
+        body.includes('<main class="article" id="health-hub-main">');
+      info.push(skip?'건강정보 모음 키보드 본문 바로가기 반영':'건강정보 본문 바로가기 배포 확인 필요');
+      if(label==='public route gum-health'){
+        const four=body.match(/<nav class="gum-symptom-choices"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+        const matched=(four.match(/<a href="\/health\//g)||[]).length===4;
+        info.push(matched?'잇몸 출혈·붓기·흔들림·스케일링 환자 안내 반영':'잇몸 증상별 환자 안내 신규 배포 확인 필요');
+      }
+    }
     // Reuse fetched pages: check actual public metadata without another request.
     if(['public route gum-health','public route root-canal-health',
         'public route insurance-health','public route additional-health',
