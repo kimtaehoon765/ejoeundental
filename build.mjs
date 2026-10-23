@@ -142,6 +142,26 @@ for(const post of posts){
 fs.writeFileSync(path.join(out,'content/search-index.json'),JSON.stringify(entries,null,2));
 fs.writeFileSync(path.join(out,'content/search-index-46.json'),JSON.stringify(entries,null,2));
 posts.sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))||a.slug.localeCompare(b.slug));
+// Render the CMS journal cards at build time. The three evergreen patient-education
+// tiles remain visible and are never replaced after the page loads.
+const journalHomePath=path.join(out,'index.html');
+let journalHomeHtml=fs.readFileSync(journalHomePath,'utf8');
+const journalMarker='<!-- BUILD_PUBLIC_STORIES -->';
+if(journalHomeHtml.split(journalMarker).length!==2)throw new Error('Missing unique homepage CMS journal marker');
+const escapeJournal=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const latestJournal=posts.slice(0,6);
+const journalCards=latestJournal.map(post=>{
+ const title=escapeJournal(post.title);
+ const when=post.date?'<time class="date" datetime="'+escapeJournal(post.date)+'">'+escapeJournal(post.date)+'</time>':'';
+ const summary=String(post.summary||post.body||'').replace(/\s+/g,' ').trim().slice(0,175);
+ return '<a class="card post-card" href="/stories/'+encodeURIComponent(post.slug)+'/">'+when+
+  '<h3>'+title+'</h3>'+(summary?'<p>'+escapeJournal(summary)+'</p>':'')+'</a>';
+}).join('');
+journalHomeHtml=journalHomeHtml.replace(journalMarker,journalCards||
+ '<p class="clinic-native-empty">아직 공개된 홈페이지 치과 이야기 글이 없습니다. 진료 건강정보는 위에서 확인할 수 있습니다.</p>');
+fs.writeFileSync(journalHomePath,journalHomeHtml);
+console.log('Homepage journal cards rendered without browser fetch:',latestJournal.length,'of',posts.length);
+
 fs.writeFileSync(path.join(out,'content/posts-index.json'),JSON.stringify(posts.map(({slug,title,date,summary,image})=>({slug,title,date,summary,image:typeof image==='string'&&/^\/assets\/cms-images\/[\w./%-]+$/i.test(image)&&!image.includes('..')&&!/%2f|%5c|%2e/i.test(image)&&fs.existsSync(path.join(root,image.slice(1)))?image:''})),null,2));
 for(const file of ['sitemap.xml','robots.txt']){const source=path.join(root,file);if(fs.existsSync(source))fs.copyFileSync(source,path.join(out,file))}
 // Once the authenticated owner library has been verified, prevent stale public
