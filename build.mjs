@@ -607,7 +607,9 @@ fs.writeFileSync(homeFaqPath,homeFaqHtml);
  homeFaqHtml=homeFaqHtml.replace('<div class="faq-list">',nav+'<div class="faq-list">');
  const scriptPath=path.join(out,'assets/faq-deep-links.js');
  const hash=createHash('sha256').update(fs.readFileSync(scriptPath)).digest('hex').slice(0,12);
- homeFaqHtml=homeFaqHtml.replace('</head>','<link rel="stylesheet" href="/assets/faq-deep-links.css"></head>');
+ const cssPath=path.join(out,'assets/faq-deep-links.css');
+ const cssHash=createHash('sha256').update(fs.readFileSync(cssPath)).digest('hex').slice(0,12);
+ homeFaqHtml=homeFaqHtml.replace('</head>','<link rel="stylesheet" href="/assets/faq-deep-links.css?v='+cssHash+'"></head>');
  homeFaqHtml=homeFaqHtml.replace('</body>','<script defer src="/assets/faq-deep-links.js?v='+hash+'"></script></body>');
 }
 fs.writeFileSync(homeFaqPath,homeFaqHtml);
