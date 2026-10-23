@@ -414,6 +414,11 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push(body.includes('src="/assets/archive-topics.js?v=20261023-smartfind1"')
         ?'원장 글 제목 검색·주제 자동 펼침 스크립트 연결 반영'
         :'원장 글 제목 검색·주제 자동 펼침 신규 배포 확인 필요');
+      const dentistChoiceReady=body.includes('id="archive-choosing-dentist"')&&
+        body.includes('부평치과를 선택할 때 확인하면 좋은 다섯 가지')&&
+        body.includes('href="#archive-group-ethics"')&&
+        body.includes('href="/insured-care.html"');
+      info.push(dentistChoiceReady?'부평치과 선택 체크리스트 5가지·원장 글 연결 반영':'부평치과 선택 체크리스트 신규 배포 확인 필요');
     }
     if(label==='검색 결과 더 보기 동작 코드'){
       const newSearchReady=body.includes('scalingComparisonIntent')&&body.includes('scalingOnlyIntent')&&

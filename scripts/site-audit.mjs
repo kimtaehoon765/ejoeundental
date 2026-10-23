@@ -1944,3 +1944,43 @@ if (errors.length) process.exitCode = 1;
     errors.push('부평치과 방문 진료시간·주차·길찾기·접수 4개 바로가기 또는 정확한 고지 누락');
  }
 }
+
+
+// Generic "부평치과" visitors deserve a genuine clinic selection checklist,
+// with testable answers and existing owner-authored Naver sources, not duplicate
+// keyword pages, invented reviews or claims about other local dentists.
+{
+ const page=readFileSync(join(root,'clinical-archive.html'),'utf8');
+ const home=readFileSync(join(root,'index.html'),'utf8');
+ const desc=page.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+ const twitter=page.match(/<meta name="twitter:description" content="([^"]+)"/)?.[1]||'';
+ const og=page.match(/<meta property="og:description" content="([^"]+)"/)?.[1]||'';
+ const schema=[...page.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(x=>JSON.parse(x[1])).find(x=>x['@type']==='CollectionPage');
+ if(!desc.includes('부평치과')||!desc.includes('원장의 네이버 글 30편')||
+    desc!==og||desc!==twitter||desc!==schema?.description){
+   errors.push('부평치과 선택 원장 아카이브 검색 설명·공유 카드 정합성 누락');
+ }
+ const choice=page.match(/<section class="archive-choice-guide" id="archive-choosing-dentist"[\s\S]*?<\/section>/)?.[0]||'';
+ const links=[...choice.matchAll(/<a href="([^"]+)"/g)].map(m=>m[1]);
+ const required=['#archive-group-ethics','/#philosophy','/health/tooth-preservation.html',
+  '/insured-care.html','/visit-guide.html'];
+ const items=[...choice.matchAll(/<li><strong>([\s\S]*?)<\/strong><span>([\s\S]*?)<\/span><\/li>/g)];
+ if(!choice.includes('부평치과를 선택할 때 확인하면 좋은 다섯 가지')||
+    items.length!==5||required.some(x=>!links.includes(x))||
+    !choice.includes('인천 부평구 청천동 세월천로 34')||
+    !choice.includes('치료 계획은 개별 진찰 결과에 따라 달라집니다')||
+    !page.includes('href="#archive-choosing-dentist"')||
+    !home.includes('href="/clinical-archive.html#archive-choosing-dentist"')||
+    !page.includes('.archive-choice-links a:focus-visible')||
+    !page.includes('@media(max-width:650px){.archive-choice-guide')){
+   errors.push('부평치과 환자 선택 기준 5가지·원장 글·홈페이지 연결·모바일 접근성 누락');
+ }
+ // The ethics group must be a server-rendered, native disclosure section, so
+ // the original blog titles and links work even if JS is disabled.
+ const sourceGroup=page.match(/<details class="archive-blog-group" id="archive-group-ethics">([\s\S]*?)<\/details>/)?.[1]||'';
+ if(!sourceGroup.includes('치과 선택과 진료 원칙')||
+    (sourceGroup.match(/<li><a href="https:\/\/blog\.naver\.com\//g)||[]).length<5){
+   errors.push('원장 치과 선택 원문 모음 연결 누락 또는 기존 자료 손실');
+ }
+}
