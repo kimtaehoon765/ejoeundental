@@ -42,3 +42,29 @@ html{scroll-padding-top:24px}#symptom-search{scroll-margin-top:24px}@media(prefe
 .search-show-more:hover{background:#dceee2;border-color:#426c55}
 .search-show-more:focus-visible{outline:3px solid #a47837;outline-offset:3px}
 @media(max-width:600px){.search-show-more{min-height:52px;margin:20px 0 26px;font-size:15px}}
+
+/* Category controls only appear for longer searches with multiple document types. */
+.search-category-filters{
+ display:flex;flex-wrap:wrap;align-items:center;gap:8px;
+ margin:14px 0 18px;padding:13px 0;
+ border-bottom:1px solid #dae5dc
+}
+.search-category-filter{
+ box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;
+ min-height:46px;padding:10px 14px;border:1px solid #b8cebe;border-radius:999px;
+ background:#fff;color:#21513e;
+ font:700 14px/1.45 system-ui,-apple-system,'Malgun Gothic',sans-serif;
+ cursor:pointer;word-break:keep-all;text-align:center
+}
+.search-category-filter[aria-pressed="true"]{
+ border-color:#205440;background:#205440;color:#fff
+}
+.search-category-filter:hover:not([aria-pressed="true"]){background:#edf5ef}
+.search-category-filter:focus-visible{
+ outline:3px solid #a47837;outline-offset:3px
+}
+.search-result-list{min-width:0}
+@media(max-width:600px){
+ .search-category-filters{gap:7px;margin:10px 0 14px;padding:10px 0}
+ .search-category-filter{font-size:13px;min-height:48px;padding:9px 12px}
+}
