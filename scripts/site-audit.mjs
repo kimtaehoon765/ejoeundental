@@ -117,6 +117,61 @@ for (const file of html) {
 }
 console.log('Same-page anchors checked:', checkedPageAnchors);
 
+// Cross-document section links must not strand patients on the wrong heading.
+// This audits the final built HTML (including build-generated blog groups,
+// section IDs and Cloudflare Pages extensionless aliases), not source guesses.
+// Only same-site links with a real #fragment are inspected: plain route links,
+// third-party sites and client-side query results remain unchanged.
+const publishedIds=new Map();
+for(const file of html){
+ const relative=file.slice(root.length+1).replaceAll('\\','/');
+ const body=readFileSync(file,'utf8');
+ publishedIds.set('/'+relative,new Set(
+  [...body.matchAll(/\bid=["']([^"']+)["']/gi)].map(match=>match[1])));
+}
+const ownHosts=new Set(['ejoeundental.com','www.ejoeundental.com','ejoeundental.pages.dev']);
+let verifiedCrossDocumentAnchors=0;
+for(const file of html){
+ const from=file.slice(root.length+1).replaceAll('\\','/');
+ const source='https://ejoeundental.com/'+from;
+ const markup=readFileSync(file,'utf8');
+ for(const match of markup.matchAll(/<a\b[^>]*\bhref=["']([^"']+)["'][^>]*>/gi)){
+  const href=match[1];
+  if(!href.includes('#')||href.startsWith('#'))continue; // Same-page check above.
+  let ref;
+  try{ref=new URL(href,source);}catch{
+   errors.push(from+': 잘못된 목적지 URL '+href.slice(0,140));continue;
+  }
+  if(!ownHosts.has(ref.hostname)||!ref.hash)continue;
+  const p=ref.pathname;
+  if(p!=='/' && /\.[a-z0-9]+$/i.test(p) && !p.endsWith('.html'))continue;
+  let fragment;
+  try{fragment=decodeURIComponent(ref.hash.slice(1));}
+  catch{errors.push(from+': 링크의 잘못된 해시 인코딩 '+href.slice(0,140));continue;}
+  if(!fragment)continue;
+  let route;
+  try{route=decodeURIComponent(p);}
+  catch{errors.push(from+': 링크의 잘못된 경로 인코딩 '+href.slice(0,140));continue;}
+  if(route.split('/').includes('..')||route.includes('\\')){
+   errors.push(from+': 경로 이동 오류 '+href.slice(0,140));continue;
+  }
+  const candidates=route==='/'?['/index.html']:
+   route.endsWith('/')?[route+'index.html']:
+   route.endsWith('.html')?[route]:
+   [route+'.html',route+'/index.html'];
+  const target=candidates.find(dest=>publishedIds.has(dest));
+  if(!target){
+   errors.push(from+': 앵커 링크가 공개되지 않은 HTML 경로를 가리킴 '+href.slice(0,180));
+   continue;
+  }
+  verifiedCrossDocumentAnchors++;
+  if(!publishedIds.get(target).has(fragment)){
+   errors.push(from+': 다른 페이지의 누락된 문단 앵커 '+href.slice(0,180));
+  }
+ }
+}
+console.log('Cross-page section anchors checked:',verifiedCrossDocumentAnchors,'across',html.length,'published HTML files');
+
 const sitemap = join(root, 'sitemap.xml');
 if (!existsSync(sitemap)) errors.push('sitemap.xml 누락');
 else {
