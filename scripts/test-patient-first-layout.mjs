@@ -150,3 +150,33 @@ test('every public clinic journal article offers only genuine, unique related ar
   assert.match(html,/href="\/stories.html"/,'all articles must retain the complete story directory link');
  }
 });
+
+test('three expanded patient guides publish distinct full explanations and accurate revision metadata',()=>{
+ const guides=[
+  {slug:'01',term:'비와동성 병소',secondary:'관찰'},
+  {slug:'02',term:'치주낭',secondary:'큐렛'},
+  {slug:'03',term:'치수조직',secondary:'재신경치료'}
+ ];
+ const sitemap=readFileSync('dist/sitemap.xml','utf8');
+ const searchable=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
+ for(const guide of guides){
+  const source=JSON.parse(readFileSync('content/posts/'+guide.slug+'.json','utf8'));
+  const html=readFileSync('dist/stories/'+guide.slug+'/index.html','utf8');
+  assert.ok(source.body.length>=1200,guide.slug+' original short stub must stay substantive');
+  assert.ok(source.body.includes(guide.term),guide.slug+' missing topic explanation');
+  assert.ok(source.body.includes(guide.secondary),guide.slug+' missing practical context');
+  assert.equal(source.updated,'2026-10-25');
+  assert.ok(html.includes('내용 수정 <time datetime="2026-10-25">2026-10-25</time>'),
+    guide.slug+' update must be visible to patients');
+  assert.ok(html.includes('datetime="'+source.date+'"'),guide.slug+' original date must remain visible');
+  const schema=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(m=>JSON.parse(m[1])).find(o=>o['@type']==='BlogPosting');
+  assert.equal(schema?.datePublished,source.date);
+  assert.equal(schema?.dateModified,source.updated);
+  assert.ok(html.includes(source.summary.slice(0,40)));
+  assert.ok(sitemap.includes('/stories/'+guide.slug+'/</loc><lastmod>2026-10-25</lastmod>'),
+    guide.slug+' updated date must appear on generated sitemap');
+  assert.ok(searchable.some(row=>row.url==='/stories/'+guide.slug+'/'&&row.body.includes(guide.term)),
+    guide.slug+' expanded patient content must be searchable');
+ }
+});
