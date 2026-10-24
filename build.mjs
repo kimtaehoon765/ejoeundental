@@ -381,7 +381,12 @@ if(safeSourceBlog)articleSchema.isBasedOn=safeSourceBlog;
 const articleJson=JSON.stringify(articleSchema).replace(/</g,'\\u003c');
 const breadcrumbSchema={'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'홈',item:'https://ejoeundental.pages.dev/'},{'@type':'ListItem',position:2,name:'치과 이야기',item:'https://ejoeundental.pages.dev/stories.html'},{'@type':'ListItem',position:3,name:String(post.title),item:articleUrl}]};
 const breadcrumbJson=JSON.stringify(breadcrumbSchema).replace(/</g,'\\u003c');
-const articleSourceNote=safeSourceBlog?'<aside class="notice" aria-label="원문 출처"><strong>원장 블로그 원문</strong><p>이 글은 원장이 작성한 네이버 블로그 글을 환자 교육용으로 요약·재구성했습니다. <a href="'+escaped(safeSourceBlog)+'" target="_blank" rel="noopener noreferrer">원문 보기 ↗</a></p></aside>':'';
+const articleSourceNote=safeSourceBlog?
+ '<aside class="notice" aria-label="원문 출처"><strong>원장 블로그 원문</strong><p>'+
+ (post.source_note==='topic_only'
+  ?'원장이 작성한 네이버 블로그 글의 제목과 주제를 참고해 새로 작성한 환자 교육 글입니다. 원문을 직접 복제하거나 요약한 글은 아닙니다. '
+  :'이 글은 원장이 작성한 네이버 블로그 글을 환자 교육용으로 요약·재구성했습니다. ')+
+ '<a href="'+escaped(safeSourceBlog)+'" target="_blank" rel="noopener noreferrer">원문 보기 ↗</a></p></aside>':'';
 const articlePrev=posts.length>1?posts[posts.length-2]:null; // Earlier article by publication date, not filesystem order.
 const articleTopic=[post.title,post.summary,String(post.body||'').slice(0,1500)].filter(Boolean).join(' ');
 const topicLinks=[[/잇몸|치주|스케일링|치석|큐렛/,['잇몸치료 안내','/gum-treatment.html']],[/신경치료|근관|재신경/,['재신경치료 안내','/retreatment.html']],[/시린|치경부|마모|글라스아이오노머|지아이|\bGI\b/i,['치경부마모증 안내','/cervical-abrasion.html']],[/건강보험|보험적용|급여/,['건강보험 진료 안내','/insured-care.html']]].filter(([pattern])=>pattern.test(articleTopic)).slice(0,2).map(([,link])=>'<a href="'+link[1]+'">'+link[0]+' →</a>');
