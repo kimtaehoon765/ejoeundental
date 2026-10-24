@@ -948,3 +948,26 @@ body.home-page #main-content>.hero .hero-actions{margin:17px 0 12px}
  #stories .journal-extra-list{grid-template-columns:1fr;gap:7px;padding-top:12px}
  #stories .journal-extra-entry{min-height:50px;padding:10px 12px;font-size:14px}
 }
+
+/* Three concise, medically substantive patient FAQs; not a bulky card grid. */
+#stories .story-featured-questions{
+ display:flex;align-items:center;gap:9px 12px;flex-wrap:wrap;
+ margin:13px 0 18px;padding:14px 15px;border:1px solid #b7cebb;
+ border-radius:11px;background:#f3f7f0;font-size:14px;line-height:1.55;
+}
+#stories .story-featured-questions strong{
+ display:block;flex:0 0 100%;font-size:15px;color:#245541;
+}
+#stories .story-featured-questions a{
+ display:inline-flex;align-items:center;min-height:44px;padding:8px 12px;
+ border-radius:8px;border:1px solid #d0ded0;background:#fff;
+ font-weight:700;text-decoration:none;color:#285b45;word-break:keep-all;
+}
+#stories .story-featured-questions a:hover{background:#e2efe1}
+#stories .story-featured-questions a:focus-visible{outline:3px solid #a37b37;outline-offset:3px}
+@media(max-width:600px){
+ #stories .story-featured-questions{padding:12px;margin:9px 0 16px;gap:6px}
+ #stories .story-featured-questions a{
+  width:100%;box-sizing:border-box;min-height:44px;justify-content:flex-start;font-size:14px;
+ }
+}
