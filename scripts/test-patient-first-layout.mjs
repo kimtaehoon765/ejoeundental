@@ -352,7 +352,7 @@ test('two distinct clinical guides cover retreatment with posts and asymptomatic
   const html=readFileSync('dist/stories/'+item.slug+'/index.html','utf8');
   assert.match(html,/<section class="story-prose" aria-label="치과 이야기 본문">/);
   assert.match(html,/<details class="story-toc">/);
-  assert.ok((html.match(/<h2 id="story-section-\\d+">/g)||[]).length>=6);
+  assert.ok((html.match(/<h2 id="story-section-\d+">/g)||[]).length>=6);
   assert.ok(html.includes('href="'+item.original+'"'),'verify source link');
   assert.ok(html.includes('원문을 직접 복제하거나 요약한 글은 아닙니다'),
    'must explain that the article was authored separately');
