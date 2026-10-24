@@ -493,3 +493,28 @@ test('all 54 care guides link to two topic-matched published, nonduplicated pati
  assert.match(css,/\.patient-story-links \.patient-story-links-topical\{/);
  assert.match(css,/@media\(max-width:600px\)\{[\s\S]*?\.patient-story-links \.patient-story-links-topical/);
 });
+
+test('full dental story directory derives its Naver original count from the verified homepage list',()=>{
+ const home=readFileSync('dist/index.html','utf8');
+ const directory=readFileSync('dist/stories.html','utf8');
+ const section=home.match(/<section class="section light" id="stories">([\s\S]*?)<\/section>/)?.[1]||'';
+ const originals=[...section.matchAll(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\/(kook765|tele654|radio654)\/(\d+)"/g)]
+  .map(match=>match[1]+'/'+match[2]);
+ assert.ok(originals.length>=300,'the full owner blog collection must remain available');
+ assert.equal(new Set(originals).size,originals.length,'Naver original links should be unique');
+ const count=originals.length;
+ const references=[
+  '<meta property="og:description" content="원장이 작성한 치과 건강정보를 홈페이지에서 주제별로 읽어보세요. 네이버 블로그 원문 '+count+'편도 별도로 찾아볼 수 있습니다.">',
+  '네이버 원문 '+count+'편',
+  '네이버 블로그 원문 '+count+'편 별도로 보기'
+ ];
+ for(const reference of references) assert.ok(directory.includes(reference),
+  'full story directory incorrectly shows a stale blog count: '+reference);
+ assert.ok(!directory.includes('BUILD_NAVER_BLOG_COUNT'),
+  'original blog count placeholder should never leak to patients');
+ assert.equal(directory.includes('네이버 블로그 원문 323편'),count===323,
+  'full story directory must never retain an obsolete hardcoded count');
+ const posts=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ assert.ok(directory.includes('id="published-total">'+posts.length+'</span>'),
+  'the independently published clinic story total must not be mixed with Naver original count');
+});
