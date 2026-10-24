@@ -335,6 +335,7 @@ const relatedStoryCategories=[
   ['root',/재신경치료|신경치료|근관치료|치수/],
   ['implant',/임플란트|뼈이식|상악동/],
   ['denture',/틀니|의치/],
+  ['wisdom',/사랑니|발치|지혈제|드라이소켓/],
   ['cavity',/충치|치경부|마모증|수복|레진|글라스아이오노머|지르코니아|크라운|시린/],
   ['safety',/수면치료|진정치료|마취|위험|환자 안전/],
   ['choice',/리뷰|과잉진료|진료비|가격|비용|광고|할인|양심|보험|선결제|치과 선택|치과 찾|저렴/]
@@ -517,6 +518,7 @@ console.log('Homepage journal entries rendered without browser fetch:',posts.len
   {id:'root',name:'신경치료·재신경치료',match:/신경치료|근관|치수|재신경/},
   {id:'cavity',name:'충치·시린 이·수복치료',match:/충치|시린|마모증|레진|GI|글라스아이오노머|크라운|지르코니아/i},
   {id:'prosthetic',name:'틀니·임플란트',match:/틀니|임플란트|뼈이식|인공치아/},
+  {id:'wisdom',name:'사랑니 발치·지혈',match:/사랑니|발치|지혈제|드라이소켓/},
   {id:'choice',name:'치과 선택·건강보험·진료 원칙',match:/치과 선택|잘하는 치과|치과를|진료비|비용|광고|리뷰|과잉진료|양심|보험|진료 원칙|치과 찾|치과 고르|할인/},
   {id:'other',name:'그 밖의 진료 이야기',match:null}
  ];
