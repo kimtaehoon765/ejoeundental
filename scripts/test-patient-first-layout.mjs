@@ -446,3 +446,50 @@ test('new treatment-maintenance and temporary-filling guides offer specific, saf
   }
  }
 });
+
+test('all 54 care guides link to two topic-matched published, nonduplicated patient stories',()=>{
+ const hubs=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
+ const services=['gum-treatment.html','retreatment.html','cervical-abrasion.html','insured-care.html'];
+ const health=readdirSync('dist/health').filter(x=>x.endsWith('.html')).map(x=>'health/'+x);
+ const pages=[...hubs,...services,...health];
+ const published=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ const valid=new Set(published.map(x=>x.slug));
+ assert.equal(pages.length,54);
+ const guideSpecific={
+  'gum-treatment.html':'2026-10-25-incheon-periodontal-maintenance-after-treatment',
+  'retreatment.html':'2026-10-25-incheon-retreatment-root-tip-dark-spot-no-pain',
+  'health/gum-pus.html':'naver-224400753947-gum-pus-periodontal-abscess',
+  'health/loose-tooth.html':'2026-10-25-incheon-loose-tooth-suddenly-periodontal-exam',
+  'health/root-canal-after-pain.html':'2026-10-25-bupyeong-root-canal-after-treatment-pain',
+  'health/root-canal-lesion.html':'2026-10-25-incheon-retreatment-root-tip-dark-spot-no-pain',
+  'health/denture-loose.html':'2026-10-24-bupyeong-denture-adjustment-dentist-evaluation',
+  'health/insurance-implant.html':'2026-10-25-sangok-implant-bone-graft-always-necessary',
+  'health/insurance-extraction.html':'2026-10-25-bupyeong-wisdom-tooth-extraction-hemostatic-dressing',
+  'health/abrasion-gi.html':'2026-10-24-bupyeong-cavity-gi-insurance',
+  'health/cavity-early.html':'01',
+  'health/insurance-priority.html':'naver-224430998602-treatment-priority'
+ };
+ for(const file of pages){
+  const html=readFileSync('dist/'+file,'utf8');
+  const blocks=[...html.matchAll(/<nav class="patient-story-links" aria-label="이조은치과 치과 이야기 더 읽기">([\s\S]*?)<\/nav>/g)];
+  assert.equal(blocks.length,1,file+' needs exactly one patient story navigation');
+  const nav=blocks[0][1];
+  const topical=nav.match(/<ul class="patient-story-links-topical">([\s\S]*?)<\/ul>/)?.[1]||'';
+  const refs=[...topical.matchAll(/<a href="\/stories\/([^"]+)\/"/g)].map(m=>decodeURIComponent(m[1]));
+  assert.equal(refs.length,2,file+' must offer exactly two carefully selected stories');
+  assert.equal(new Set(refs).size,2,file+' has duplicate story recommendations');
+  for(const slug of refs){
+   assert.ok(valid.has(slug),file+' links to unpublished story: '+slug);
+   assert.ok(readFileSync('dist/stories/'+slug+'/index.html','utf8').includes('<h1>'),
+    file+' destination does not contain an accessible article: '+slug);
+  }
+  if(guideSpecific[file])assert.ok(refs.includes(guideSpecific[file]),
+   file+' is missing its topically relevant story');
+  assert.ok(nav.includes('href="/stories.html"'),file+' must retain complete story collection');
+  assert.ok(nav.includes('href="/clinical-archive.html#archive-blog-posts"'),
+   file+' must retain original blog archive');
+ }
+ const css=readFileSync('dist/assets/patient-story-links.css','utf8');
+ assert.match(css,/\.patient-story-links \.patient-story-links-topical\{/);
+ assert.match(css,/@media\(max-width:600px\)\{[\s\S]*?\.patient-story-links \.patient-story-links-topical/);
+});
