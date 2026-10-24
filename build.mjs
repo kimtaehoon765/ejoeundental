@@ -450,7 +450,7 @@ console.log('Homepage journal entries rendered without browser fetch:',posts.len
   const collection=grouped.get(group.id);
   const cards=collection.map(post=>{
    const title=escapeJournal(post.title);
-   const summary=escapeJournal(String(post.summary||post.body||'').replace(/\\s+/g,' ').trim().slice(0,190));
+   const summary=escapeJournal(String(post.summary||post.body||'').replace(/\s+/g,' ').trim().slice(0,190));
    const date=post.date?'<time datetime="'+escapeJournal(post.date)+'">'+escapeJournal(post.date)+'</time>':'';
    return '<a class="story-card" href="/stories/'+encodeURIComponent(post.slug)+'/">'+date+
     '<h3>'+title+'</h3>'+(summary?'<p>'+summary+'</p>':'')+'<span class="read">홈페이지 글 읽기 →</span></a>';
