@@ -553,8 +553,20 @@ console.log('Homepage journal entries rendered without browser fetch:',posts.len
    '<div class="story-topic-heading"><h2 id="topic-heading-'+group.id+'">'+group.name+'</h2>'+
    '<span>'+collection.length+'편</span></div><div class="story-grid">'+cards+'</div></section>';
  }).join('');
+ // Derive the original Naver count from the homepage's actual blog cards,
+ // not from a manually maintained integer that can go stale as links are added.
+ const homepageStoryHtml=fs.readFileSync(path.join(out,'index.html'),'utf8');
+ const originalBlogSection=homepageStoryHtml.match(/<section class="section light" id="stories">([\s\S]*?)<\/section>/)?.[1]||'';
+ const blogEntries=[...originalBlogSection.matchAll(
+  /<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\/(kook765|tele654|radio654)\/(\d+)"/g
+ )].map(match=>match[1]+'/'+match[2]);
+ const ownerBlogCount=blogEntries.length;
+ if(!ownerBlogCount||ownerBlogCount!==new Set(blogEntries).size){
+  throw new Error('Original Naver blog collection is missing or contains duplicates');
+ }
  const directoryFile=path.join(out,'stories.html');
  let directory=fs.readFileSync(directoryFile,'utf8');
+ if(directory.split('<!-- BUILD_NAVER_BLOG_COUNT -->').length!==4)throw new Error('Dental story directory needs three original blog count labels');
  for(const marker of ['<!-- BUILD_STORY_COUNT -->','<!-- BUILD_STORY_DIRECTORY -->','<!-- BUILD_STORY_DIRECTORY_SCHEMA -->']){
   if(directory.split(marker).length!==2)throw new Error('Dental story directory marker missing or duplicated: '+marker);
  }
@@ -573,10 +585,11 @@ console.log('Homepage journal entries rendered without browser fetch:',posts.len
  const escapeJsonScript=value=>JSON.stringify(value).replace(/</g,'\\u003c');
  directory=directory
   .replace('<!-- BUILD_STORY_COUNT -->',String(posts.length))
+  .replaceAll('<!-- BUILD_NAVER_BLOG_COUNT -->',String(ownerBlogCount))
   .replace('<!-- BUILD_STORY_DIRECTORY -->',nav+sections)
   .replace('<!-- BUILD_STORY_DIRECTORY_SCHEMA -->','<script type="application/ld+json">'+escapeJsonScript(schema)+'</script>');
  fs.writeFileSync(directoryFile,directory);
- console.log('Clinic story directory grouped:',posts.length,'published posts across',active.length,'topics');
+ console.log('Clinic story directory grouped:',posts.length,'published posts across',active.length,'topics;',ownerBlogCount,'linked Naver originals');
 }
 
 
