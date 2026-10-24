@@ -180,3 +180,20 @@ test('three expanded patient guides publish distinct full explanations and accur
     guide.slug+' expanded patient content must be searchable');
  }
 });
+
+test('homepage links directly to three expanded patient education guides without duplicated bulk cards',()=>{
+ const home=readFileSync('dist/index.html','utf8');
+ const section=home.match(/<section class="section light" id="stories">([\s\S]*?)<\/section>/)?.[1]||'';
+ const nav=section.match(/<nav class="story-featured-questions"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ assert.ok(nav,'homepage should surface a compact set of actual patient questions');
+ for(const slug of ['01','02','03']){
+  assert.equal((nav.match(new RegExp('href="/stories/'+slug+'/"','g'))||[]).length,1,
+   'expanded patient explainer '+slug+' must appear exactly once');
+ }
+ assert.equal((nav.match(/<a /g)||[]).length,3,'patient question group should stay small');
+ const css=readFileSync('dist/assets/home-enhancements.css','utf8');
+ assert.match(css,/#stories \.story-featured-questions a:focus-visible/,
+  'links must remain keyboard-visible');
+ assert.match(css,/@media\(max-width:600px\)\{[\s\S]*?#stories \.story-featured-questions a/,
+  'question links must fit mobile screens');
+});
