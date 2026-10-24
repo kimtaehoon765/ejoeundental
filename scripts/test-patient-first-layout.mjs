@@ -262,10 +262,11 @@ test('three distinct owner-blog topics become full, independently written patien
  for(const [slug,original,clinicalTerm] of targets){
   const item=posts.find(p=>p.slug===slug);
   assert.ok(item,slug+' must be publicly listed');
-  assert.equal(item.source_note,'topic_only',slug+' must not claim original text was scraped');
-  assert.equal(item.source_url,original,slug+' original blog reference must not change');
-  assert.ok(item.body.length>1800,'avoid a thin SEO-only page: '+slug);
-  assert.ok(item.body.includes(clinicalTerm),'missing useful clinical detail: '+slug);
+  const authorCopy=JSON.parse(readFileSync('content/posts/'+slug+'.json','utf8'));
+  assert.equal(authorCopy.source_note,'topic_only',slug+' must not claim original text was scraped');
+  assert.equal(authorCopy.source_url,original,slug+' original blog reference must not change');
+  assert.ok(authorCopy.body.length>1800,'avoid a thin SEO-only page: '+slug);
+  assert.ok(authorCopy.body.includes(clinicalTerm),'missing useful clinical detail: '+slug);
   assert.ok(storyDirectory.includes('href="/stories/'+slug+'/">'),slug+' must be linked from index');
   assert.ok(sitemap.includes('/stories/'+slug+'/</loc>'),slug+' must be crawlable');
   const html=readFileSync('dist/stories/'+slug+'/index.html','utf8');
