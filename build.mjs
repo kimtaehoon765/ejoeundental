@@ -2386,7 +2386,8 @@ console.log('Clinical education sharing metadata aligned:',clinicalSharingCount,
 // from any public clinical guide. Keep both collections clearly separated.
 // Render links during the build, not through a client-side dependency.
 {
- const cssRef='<link rel="stylesheet" href="/assets/patient-story-links.css">';
+ const storyStyleVersion=createHash('sha256').update(fs.readFileSync(path.join(out,'assets/patient-story-links.css'))).digest('hex').slice(0,12);
+ const cssRef='<link rel="stylesheet" href="/assets/patient-story-links.css?v='+storyStyleVersion+'">';
  const storyNavigation='<nav class="patient-story-links" aria-label="이조은치과 치과 이야기 더 읽기">'+
   '<strong>치과 건강정보를 더 읽어보세요</strong>'+
   '<div class="patient-story-links-row">'+
