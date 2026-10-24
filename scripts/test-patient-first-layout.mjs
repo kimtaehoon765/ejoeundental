@@ -59,10 +59,10 @@ test('mobile homepage has a lightweight schema head while keeping all original c
 test('clinic stories have direct prominent desktop and mobile navigation',()=>{
  const html=readFileSync('dist/index.html','utf8');
  const header=html.match(/<header><nav class="nav"[^>]*>([\s\S]*?)<\/nav><\/header>/)?.[1]||'';
- assert.ok(header.includes('href="#stories" class="stories-mobile-link"'),'mobile shortcut must open stories directly');
- assert.ok(header.includes('href="#stories" class="stories-nav-link"'),'desktop primary navigation must open stories directly');
+ assert.ok(header.includes('href="/stories.html" class="stories-mobile-link"'),'mobile shortcut must open stories directly');
+ assert.ok(header.includes('href="/stories.html" class="stories-nav-link"'),'desktop primary navigation must open stories directly');
  assert.ok(header.includes('📖 치과<br>이야기'),'full mobile label must be legible on narrow screens');
- assert.match(html,/<p class="hero-stories-shortcut"><a href="#stories"/,'hero provides another readily visible story entrance');
+ assert.match(html,/<p class="hero-stories-shortcut"><a href="\/stories.html"/,'hero provides another readily visible story entrance');
  assert.match(html,/<style id="stories-menu-visibility">/,'highlight must not depend on old cached CSS');
  assert.match(html,/<section class="section light" id="stories">/,'menu target must exist');
  assert.match(html,/<summary>치과 이야기 나머지 315편 보기/,'all other owner stories remain accessible');
@@ -80,4 +80,23 @@ test('every published original clinic homepage article is reachable after expand
  assert.ok(details.includes('원장의 홈페이지 글 '+posts.length+'편 모두 보기'),'article total must be visible on the summary');
  assert.ok(html.indexOf('id="home-published-stories"')<html.indexOf('id="owner-blog-group"'),'full homepage articles must come before external Naver links');
  assert.ok(html.includes('📖 원장 네이버 블로그 원문 <strong>323편</strong>'),'original Naver collection must remain separately discoverable');
+});
+
+test('standalone clinic story directory shows every actual published post without requiring scripts',()=>{
+ const html=readFileSync('dist/stories.html','utf8');
+ const posts=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ const links=[...html.matchAll(/<a class="story-card" href="(\/stories\/[^"]+\/)"[>]/g)].map(m=>m[1]);
+ const expected=posts.map(post=>'/stories/'+encodeURIComponent(post.slug)+'/');
+ assert.equal(html.includes('BUILD_STORY_'),false,'directory placeholders must be filled during static build');
+ assert.ok(html.includes('id="published-total">'+posts.length+'</span>'),'count must be derived from published posts');
+ assert.deepEqual(new Set(links),new Set(expected),'every unique published story has a directory card');
+ assert.equal(links.length,posts.length,'no duplicate or missing story cards');
+ const schema=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1])).find(item=>item['@type']==='CollectionPage');
+ assert.equal(schema?.mainEntity?.numberOfItems,posts.length);
+ assert.equal(schema?.mainEntity?.itemListElement?.length,posts.length);
+ assert.match(html,/<link rel="canonical" href="https:\/\/ejoeundental.com\/stories.html">/);
+ assert.match(html,/href="\/clinical-archive.html#archive-blog-posts"/,'Naver originals stay separately accessible');
+ const sitemap=readFileSync('dist/sitemap.xml','utf8');
+ assert.ok(sitemap.includes('<loc>https://ejoeundental.com/stories.html</loc>'));
 });
