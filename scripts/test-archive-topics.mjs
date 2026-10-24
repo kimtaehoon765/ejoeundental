@@ -124,3 +124,23 @@ test('production build keeps all 178 links, fresh script and mobile-friendly res
  assert.match(css,/\.archive-search \.archive-search-clear\[hidden\]\{display:none!important\}/);
  assert.match(css,/\.archive-search \.archive-search-clear\{[^}]*min-height:44px/);
 });
+
+test('published review education post uses the owner screenshot summary with verified original blog credit',()=>{
+ const slug='2026-10-24-dental-review-guide';
+ const article=readFileSync('dist/stories/'+slug+'/index.html','utf8');
+ const home=readFileSync('dist/index.html','utf8');
+ const sitemap=readFileSync('dist/sitemap.xml','utf8');
+ const entries=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ const search=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
+ const canonical='https://ejoeundental.com/stories/'+slug+'/';
+ const source='https://blog.naver.com/kook765/224441916775';
+ assert.ok(home.includes('href="/stories/'+slug+'/">'),'homepage must link to this native article');
+ assert.match(article,/네이버 영수증 리뷰/);
+ assert.match(article,/진단의 정확성/);
+ assert.ok(article.includes('href="'+source+'" target="_blank" rel="noopener noreferrer"'),'link to genuine photographed source');
+ assert.ok(article.includes('rel="canonical" href="'+canonical+'"'),'use public live-domain canonical');
+ assert.ok(sitemap.includes('<loc>'+canonical+'</loc>'),'publish to sitemap for indexing');
+ assert.ok(entries.some(post=>post.slug===slug));
+ assert.ok(search.some(post=>post.url==='/stories/'+slug+'/'));
+ assert.equal([...home.matchAll(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)].length,178,'existing 178 blog posts must remain intact');
+});
