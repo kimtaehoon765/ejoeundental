@@ -55,3 +55,15 @@ test('mobile homepage has a lightweight schema head while keeping all original c
  assert.deepEqual(itemList.itemListElement.map(item=>item.url),urls.slice(0,8));
  assert.ok(head.length<22000,'mobile browser should not parse a 40KB+ homepage head');
 });
+
+test('clinic stories have direct prominent desktop and mobile navigation',()=>{
+ const html=readFileSync('dist/index.html','utf8');
+ const header=html.match(/<header><nav class="nav"[^>]*>([\s\S]*?)<\/nav><\/header>/)?.[1]||'';
+ assert.ok(header.includes('href="#stories" class="stories-mobile-link"'),'mobile shortcut must open stories directly');
+ assert.ok(header.includes('href="#stories" class="stories-nav-link"'),'desktop primary navigation must open stories directly');
+ assert.ok(header.includes('📖 치과<br>이야기'),'full mobile label must be legible on narrow screens');
+ assert.match(html,/<p class="hero-stories-shortcut"><a href="#stories"/,'hero provides another readily visible story entrance');
+ assert.match(html,/<style id="stories-menu-visibility">/,'highlight must not depend on old cached CSS');
+ assert.match(html,/<section class="section light" id="stories">/,'menu target must exist');
+ assert.match(html,/<summary>치과 이야기 나머지 315편 보기/,'all other owner stories remain accessible');
+});
