@@ -144,3 +144,25 @@ test('published review education post uses the owner screenshot summary with ver
  assert.ok(search.some(post=>post.url==='/stories/'+slug+'/'));
  assert.equal([...home.matchAll(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)].length,178,'existing 178 blog posts must remain intact');
 });
+
+test('second owner-supplied review article covers clinical decision criteria without duplicating the prior post',()=>{
+ const slug='2026-10-24-ethical-dental-choice';
+ const article=readFileSync('dist/stories/'+slug+'/index.html','utf8');
+ const homepage=readFileSync('dist/index.html','utf8');
+ const sitemap=readFileSync('dist/sitemap.xml','utf8');
+ const posts=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ const search=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
+ const canonical='https://ejoeundental.com/stories/'+slug+'/';
+ const source='https://blog.naver.com/kook765/224437413951';
+ assert.ok(homepage.includes('href="/stories/'+slug+'/">'));
+ assert.ok(homepage.includes('href="/stories/2026-10-24-dental-review-guide/">'));
+ assert.ok(article.includes('rel="canonical" href="'+canonical+'"'));
+ assert.ok(article.includes('href="'+source+'" target="_blank" rel="noopener noreferrer"'));
+ assert.ok(article.includes('자연치아를 보존'));
+ assert.ok(article.includes('건강보험'));
+ assert.ok(article.includes('신경치료'));
+ assert.ok(sitemap.includes('<loc>'+canonical+'</loc>'));
+ assert.ok(posts.some(p=>p.slug===slug));
+ assert.ok(search.some(p=>p.url==='/stories/'+slug+'/'));
+ assert.equal([...homepage.matchAll(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)].length,178);
+});
