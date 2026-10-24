@@ -37,3 +37,21 @@ test('default patient reading and sharing tools work only after JavaScript is av
  assert.match(readCss,/@media print\{/);
  assert.match(shareCss,/@media print\{/);
 });
+
+
+test('mobile homepage has a lightweight schema head while keeping all original clinic stories discoverable',()=>{
+ const html=readFileSync('dist/index.html','utf8');
+ const head=html.slice(0,html.indexOf('</head>'));
+ const itemList=[...head.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(m=>JSON.parse(m[1]))
+   .find(data=>data['@id']==='https://ejoeundental.com/#owner-articles');
+ assert.ok(itemList,'clinic stories JSON-LD must remain valid and discoverable');
+ assert.equal(itemList.numberOfItems,178,'overall article count must not be lost');
+ assert.equal(itemList.itemListElement.length,8,'only latest 8 stories should load in the head');
+ const storyBlock=html.match(/<section class="section light" id="stories">([\s\S]*?)<\/section>/)?.[1]||'';
+ const urls=[...storyBlock.matchAll(/href="(https:\/\/blog\.naver\.com\/[a-zA-Z0-9_-]+\/[0-9]+)"/g)].map(m=>m[1]);
+ assert.equal(urls.length,178,'all story links must remain in the visible page/archive section');
+ assert.equal(new Set(urls).size,178,'story links should not be duplicated');
+ assert.deepEqual(itemList.itemListElement.map(item=>item.url),urls.slice(0,8));
+ assert.ok(head.length<22000,'mobile browser should not parse a 40KB+ homepage head');
+});
