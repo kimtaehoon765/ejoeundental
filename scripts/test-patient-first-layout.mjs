@@ -324,3 +324,43 @@ test('wisdom extraction and implant bone-graft guides are searchable and accurat
    'substantive clinical article must have meaningful sections');
  }
 });
+
+test('two distinct clinical guides cover retreatment with posts and asymptomatic root-tip lesions',()=>{
+ const cases=[
+  {slug:'2026-10-25-bupyeong-retreatment-crown-post-can-tooth-be-saved',
+   original:'https://blog.naver.com/kook765/224320994972',
+   terms:['포스트','크라운','천공','치근단 수술','수복']},
+  {slug:'2026-10-25-incheon-retreatment-root-tip-dark-spot-no-pain',
+   original:'https://blog.naver.com/kook765/224322081993',
+   terms:['방사선투과상','경과 관찰','이전 영상','치근단','재신경치료']}
+ ];
+ const directory=readFileSync('dist/stories.html','utf8');
+ const listing=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ const search=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
+ const sitemap=readFileSync('dist/sitemap.xml','utf8');
+ for(const item of cases){
+  const post=JSON.parse(readFileSync('content/posts/'+item.slug+'.json','utf8'));
+  assert.equal(post.published,true);
+  assert.equal(post.source_url,item.original);
+  assert.equal(post.source_note,'topic_only','should never claim original Naver article was scraped');
+  assert.equal(post.date,'2026-10-25');
+  assert.ok(post.body.length>2400,'patient education must be substantive: '+item.slug);
+  for(const term of item.terms){
+   assert.ok(post.body.includes(term),item.slug+' missing clinical concept '+term);
+  }
+  assert.ok(listing.some(p=>p.slug===item.slug),'published story must appear in post index');
+  const html=readFileSync('dist/stories/'+item.slug+'/index.html','utf8');
+  assert.match(html,/<section class="story-prose" aria-label="치과 이야기 본문">/);
+  assert.match(html,/<details class="story-toc">/);
+  assert.ok((html.match(/<h2 id="story-section-\\d+">/g)||[]).length>=6);
+  assert.ok(html.includes('href="'+item.original+'"'),'verify source link');
+  assert.ok(html.includes('원문을 직접 복제하거나 요약한 글은 아닙니다'),
+   'must explain that the article was authored separately');
+  assert.ok(directory.includes('href="/stories/'+item.slug+'/">'),
+   'patients need to find the article in the complete topic directory');
+  assert.ok(sitemap.includes('/stories/'+item.slug+'/</loc>'),
+   'published journal article must be in sitemap');
+  assert.ok(search.some(x=>x.url==='/stories/'+item.slug+'/'&&
+     x.body.includes(item.terms[0])),'site search must index the clinical body');
+ }
+});
