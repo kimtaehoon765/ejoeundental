@@ -690,8 +690,8 @@ const ownerBlogItems=[...ownerStoriesSection.matchAll(/<div class="card owner-st
   url,
   title:label.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").trim()
  }));
-if(ownerBlogItems.length!==128||new Set(ownerBlogItems.map(item=>item.url)).size!==128){
- throw new Error('The clinical archive must mirror exactly 128 original owner blog links');
+if(ownerBlogItems.length!==178||new Set(ownerBlogItems.map(item=>item.url)).size!==178){
+ throw new Error('The clinical archive must mirror exactly 178 original owner blog links');
 }
 const clinicalArchiveGroups=[
  {id:'gum',name:'잇몸치료·스케일링',url:'/gum-health.html',label:'잇몸 건강정보 10편 더 읽기',
@@ -699,7 +699,7 @@ const clinicalArchiveGroups=[
  {id:'root',name:'신경치료·재신경치료',url:'/root-canal-health.html',label:'신경치료 건강정보 10편 더 읽기',
   test:title=>/신경치료|재신경치료|근관치료/.test(title)},
  {id:'ethics',name:'치과 선택과 진료 원칙',url:'/#philosophy',label:'이조은치과 진료 원칙 보기',
-  test:title=>/리뷰|양심|과잉진료|많은 치료|비보험|좋은치과|좋은 치과|가격이 싼/.test(title)},
+  test:title=>/리뷰|양심|과잉진료|많은 치료|비보험|좋은치과|좋은 치과|가격이 싼|치과를 선택|치과마다 치료비|자연치아를 살리는 치과|물티슈/.test(title)},
  {id:'med',name:'치과 약물·전신질환',url:'/medical-history.html',label:'치과치료 전 복용약·전신질환 안내 읽기',
   test:title=>/항히스타민|스테로이드|cox-|프로스타글란딘|NSAID|항혈소판|헤파린|와파린|INR|항응고|DOAC|NOAC|심내막염|당뇨|당화혈색소/i.test(title)},
  {id:'other',name:'충치·시린 이·기타',url:'/additional-health.html',label:'충치·자연치아 건강정보 더 읽기',
