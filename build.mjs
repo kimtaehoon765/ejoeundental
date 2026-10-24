@@ -405,10 +405,23 @@ const journalCards=latestJournal.map(post=>{
  return '<a class="card post-card" href="/stories/'+encodeURIComponent(post.slug)+'/">'+when+
   '<h3>'+title+'</h3>'+(summary?'<p>'+escapeJournal(summary)+'</p>':'')+'</a>';
 }).join('');
-journalHomeHtml=journalHomeHtml.replace(journalMarker,journalCards||
+// The homepage previously displayed only six published articles. All remaining
+// published owner stories now appear as smaller, accessible title links after
+// the first six cards. There is no fetch, pagination, or hidden extra page.
+const extraJournal=posts.slice(latestJournal.length).map(post=>
+ '<a class="journal-extra-entry" href="/stories/'+encodeURIComponent(post.slug)+'/">'+
+ '<span>'+escapeJournal(post.title)+'</span><span aria-hidden="true">→</span></a>'
+).join('');
+const olderJournal=extraJournal?
+ '<div class="journal-extra-list" aria-label="홈페이지 이전 게시글 전체"><h4>이전 홈페이지 글 '+
+ (posts.length-latestJournal.length)+'편</h4>'+extraJournal+'</div>':'';
+const countMarkers=(journalHomeHtml.match(/<!-- BUILD_HOME_STORY_COUNT -->/g)||[]).length;
+if(countMarkers!==3)throw new Error('Homepage journal total labels are missing or duplicated');
+journalHomeHtml=journalHomeHtml.replaceAll('<!-- BUILD_HOME_STORY_COUNT -->',String(posts.length));
+journalHomeHtml=journalHomeHtml.replace(journalMarker,journalCards+olderJournal||
  '<p class="clinic-native-empty">아직 공개된 홈페이지 치과 이야기 글이 없습니다. 진료 건강정보는 위에서 확인할 수 있습니다.</p>');
 fs.writeFileSync(journalHomePath,journalHomeHtml);
-console.log('Homepage journal cards rendered without browser fetch:',latestJournal.length,'of',posts.length);
+console.log('Homepage journal entries rendered without browser fetch:',posts.length,'including',latestJournal.length,'featured cards');
 
 // Render only clinic-verified legal identifiers in the footer.
 // Missing values are intentionally omitted rather than invented or published as placeholders.
