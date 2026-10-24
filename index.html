@@ -378,6 +378,42 @@
   ]
 }
 </script>
+<style id="stories-menu-visibility">
+/* Direct, high-contrast access to the owner's public dental stories. */
+body.home-page .navlinks a.stories-nav-link{
+ display:inline-flex;align-items:center;justify-content:center;
+ min-height:43px;box-sizing:border-box;padding:8px 12px;
+ border:1px solid #bba172;border-radius:9px;
+ background:#f4ebd8;color:#254735;font-weight:800;
+ white-space:nowrap;box-shadow:0 2px 7px rgba(32,61,45,.07);
+}
+body.home-page .navlinks a.stories-nav-link:hover,
+body.home-page .navlinks a.stories-nav-link:focus-visible{
+ background:#e4d6b9;color:#173e35;
+ outline:2px solid #947338;outline-offset:2px;
+}
+body.home-page .hero-stories-shortcut{margin:8px 0 12px;max-width:540px}
+body.home-page .hero-stories-shortcut a{
+ display:inline-flex;align-items:center;flex-wrap:wrap;gap:4px 7px;
+ padding:10px 13px;border:1px solid #a9bdb1;border-radius:10px;
+ color:#204f3c;background:#f1f6ed;font-weight:800;
+ font-size:14px;line-height:1.5;text-decoration:none;word-break:keep-all;
+}
+body.home-page .hero-stories-shortcut a span{font-weight:600;font-size:13px}
+body.home-page .hero-stories-shortcut a:hover,
+body.home-page .hero-stories-shortcut a:focus-visible{
+ background:#e6efdf;outline:3px solid #947338;outline-offset:2px;
+}
+@media(max-width:600px){
+ body.home-page header .nav .mobile-quick a.stories-mobile-link{
+  background:#f4ebd8;color:#204f3c;border:2px solid #a48a56;
+  box-shadow:0 2px 6px rgba(60,53,28,.10);
+  font-weight:800;text-align:center;line-height:1.4;
+  padding:5px 1px;overflow-wrap:normal;word-break:keep-all;
+ }
+ body.home-page .hero-stories-shortcut a{display:flex;justify-content:center;text-align:center;min-height:48px}
+}
+</style>
 </head>
 <body class="home-page">
 <a class="skip-link" href="#main-content">본문 바로가기</a>
