@@ -646,3 +646,49 @@ test('three localized periodontal guides provide distinct useful topics and trut
  }
  assert.equal(new Set(bodies).size,cases.length,'regional guides must not contain identical text');
 });
+
+test('three former thin caries and oral exam guides now give distinct, referenced patient choices',()=>{
+ const expected=[
+  {slug:'naver-223662259955-cheongcheon-oral-exam',
+   source:'https://blog.naver.com/tele654/223662259955',
+   terms:['치주낭','엑스레이','치조골','치은염','우선순위'],
+   heading:'청천동 구강검진'},
+  {slug:'naver-223657999967-sangok-caries',
+   source:'https://blog.naver.com/tele654/223657999967',
+   terms:['자연치아','근관치료','복합레진','글라스아이오노머','산곡역'],
+   heading:'산곡동 충치치료'},
+  {slug:'naver-223658065860-cheongcheon-caries-treatment-stages',
+   source:'https://blog.naver.com/tele654/223658065860',
+   terms:['법랑질','상아질','치수','치근단','불소'],
+   heading:'충치 진행 단계'}
+ ];
+ const published=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ const search=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
+ const directory=readFileSync('dist/stories.html','utf8');
+ const sitemap=readFileSync('dist/sitemap.xml','utf8');
+ const bodies=[];
+ for(const guide of expected){
+  const post=JSON.parse(readFileSync('content/posts/'+guide.slug+'.json','utf8'));
+  assert.equal(post.published,true);
+  assert.equal(post.source_note,'topic_only','do not imply full Naver source was consulted');
+  assert.equal(post.source_url,guide.source);
+  assert.ok(post.body.length>=2000,'not enough topic explanation for '+guide.slug);
+  assert.ok(post.body.includes('참고:')||post.body.includes('참고 자료:'),
+   guide.slug+' should name authoritative patient resources');
+  for(const term of guide.terms)assert.ok(post.body.includes(term),guide.slug+' missing '+term);
+  assert.ok(post.title.includes(guide.heading),'each guide must retain its differentiated topic');
+  assert.equal(published.filter(x=>x.slug===guide.slug).length,1);
+  assert.ok(directory.includes('href="/stories/'+guide.slug+'/">'));
+  assert.ok(sitemap.includes('/stories/'+guide.slug+'/</loc>'));
+  assert.ok(search.some(x=>x.url==='/stories/'+guide.slug+'/'&&
+   x.body.includes(guide.terms[0])),guide.slug+' expanded content must be searchable');
+  const article=readFileSync('dist/stories/'+guide.slug+'/index.html','utf8');
+  assert.ok((article.match(/<h2 id="story-section-\d+">/g)||[]).length>=6,
+   guide.slug+' needs useful subheadings');
+  assert.match(article,/<details class="story-toc">/);
+  assert.ok(article.includes('href="'+guide.source+'"'));
+  assert.ok(article.includes('원문을 직접 복제하거나 요약한 글은 아닙니다'));
+  bodies.push(post.body);
+ }
+ assert.equal(new Set(bodies).size,expected.length,'guides must not be near-copy regional SEO swaps');
+});
