@@ -340,11 +340,11 @@ for(const entry of entries){
  const htmlFile=path.join(out,local);
  if(fs.existsSync(htmlFile)&&htmlFile.endsWith('.html'))entry.body=extractSearchText(fs.readFileSync(htmlFile,'utf8'));
 }
-// The public sitemap includes 19 standalone FAQ, safety and visit pages that
+// The public sitemap includes standalone FAQ, safety, visit and story-index pages that
 // were missing from the website's own search. Add only this explicit allowlist:
 // never sweep admin, owner-only maintenance files, or unpublished documents into
 // the public index. Article text comes from <main>, not global navigation.
-const publicStandaloneSearchSlugs=["visit-guide","medical-safety-guide","previsit-checklist","gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive"];
+const publicStandaloneSearchSlugs=["visit-guide","medical-safety-guide","previsit-checklist","gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive","stories"];
 const sourceSitemapForSearch=fs.readFileSync(path.join(root,'sitemap.xml'),'utf8');
 for(const slug of publicStandaloneSearchSlugs){
  const sourceUrl='https://ejoeundental.com/'+slug+'.html';
