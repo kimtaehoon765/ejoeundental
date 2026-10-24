@@ -692,3 +692,30 @@ test('three former thin caries and oral exam guides now give distinct, reference
  }
  assert.equal(new Set(bodies).size,expected.length,'guides must not be near-copy regional SEO swaps');
 });
+
+test('specific cavity and checkup FAQ pages link to enhanced matching education stories',()=>{
+ const plans={
+  'health/cavity-depth.html':[
+   'naver-223658065860-cheongcheon-caries-treatment-stages',
+   'naver-223657999967-sangok-caries'],
+  'health/cavity-early.html':['01','naver-223658065860-cheongcheon-caries-treatment-stages'],
+  'health/cavity-materials.html':[
+   'naver-223654967684-cheongcheon-resin',
+   '2026-10-24-bupyeong-cavity-gi-insurance'],
+  'health/cavity-recurrent.html':[
+   'naver-223654967684-cheongcheon-resin',
+   'naver-223657999967-sangok-caries'],
+  'health/insurance-checkup.html':[
+   'naver-223662259955-cheongcheon-oral-exam',
+   'naver-224430998602-treatment-priority']
+ };
+ for(const [care,slugs] of Object.entries(plans)){
+  const html=readFileSync('dist/'+care,'utf8');
+  const block=html.match(/<ul class="patient-story-links-topical">([\s\S]*?)<\/ul>/)?.[1]||'';
+  const links=[...block.matchAll(/href="\/stories\/([^"]+)\//g)].map(m=>decodeURIComponent(m[1]));
+  assert.deepEqual(links,slugs,care+' should link to its exact two independently published patient answers');
+  assert.equal(new Set(links).size,2,care+' must not repeat same article');
+  for(const slug of slugs)assert.ok(readFileSync('dist/stories/'+slug+'/index.html','utf8')
+    .includes('<section class="story-prose"'),care+' points to nonexistent patient guide '+slug);
+ }
+});
