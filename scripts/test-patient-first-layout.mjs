@@ -518,3 +518,37 @@ test('full dental story directory derives its Naver original count from the veri
  assert.ok(directory.includes('id="published-total">'+posts.length+'</span>'),
   'the independently published clinic story total must not be mixed with Naver original count');
 });
+
+test('owner-topic guides for insurance implant impressions and denture adjustment are substantive',()=>{
+ const pairs=[
+  {slug:'naver-223663623222-cheongcheon-insured-implant-impression',
+   original:'https://blog.naver.com/tele654/223663623222',
+   terms:['인상채득','교합','지르코니아','급여 기준','구강스캔']},
+  {slug:'naver-223663299719-cheongcheon-denture-adjustment',
+   original:'https://blog.naver.com/tele654/223663299719',
+   terms:['내면보강','클라스프','교합','접착제','재제작']}
+ ];
+ const index=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ const directory=readFileSync('dist/stories.html','utf8');
+ for(const pair of pairs){
+  const post=JSON.parse(readFileSync('content/posts/'+pair.slug+'.json','utf8'));
+  assert.ok(post.published===true);
+  assert.equal(post.source_note,'topic_only',
+   'education derived from a supplied blog title must not claim original text was read');
+  assert.equal(post.source_url,pair.original,'original owner Naver URL must remain unchanged');
+  assert.ok(post.body.length>2400,pair.slug+' must be a useful patient guide not a thin location page');
+  for(const term of pair.terms) assert.ok(post.body.includes(term),
+   pair.slug+' does not discuss '+term);
+  assert.ok(post.body.includes('환자')&&post.body.includes('치과의사'),
+   pair.slug+' must remain a balanced patient-facing clinical explanation');
+  assert.ok(index.some(p=>p.slug===pair.slug));
+  assert.ok(directory.includes('href="/stories/'+pair.slug+'/">'));
+  const html=readFileSync('dist/stories/'+pair.slug+'/index.html','utf8');
+  assert.ok((html.match(/<h2 id="story-section-\d+">/g)||[]).length>=6,
+   'published guide must be comfortably scannable: '+pair.slug);
+  assert.ok(html.includes('href="'+pair.original+'"'),
+   'original Naver blog link should be visible in the patient guide');
+  assert.ok(html.includes('원문을 직접 복제하거나 요약한 글은 아닙니다'),
+   'clear source disclosure is required');
+ }
+});
