@@ -12,12 +12,32 @@
  border-radius:9px;border:1px solid #9dbdac;background:#fff;
  text-align:center;text-decoration:none;font-weight:750;color:#265641;
 }
-.patient-story-links a:first-child{background:#235842;color:#fff;border-color:#235842}
+.patient-story-links-row a:first-child{background:#235842;color:#fff;border-color:#235842}
 .patient-story-links a:hover{background:#e0eddf;color:#204d3b}
-.patient-story-links a:first-child:hover{background:#174532;color:#fff}
+.patient-story-links-row a:first-child:hover{background:#174532;color:#fff}
 .patient-story-links a:focus-visible{outline:3px solid #a07839;outline-offset:3px}
 @media(max-width:600px){
  .patient-story-links{margin:26px 0 8px;padding:14px}
  .patient-story-links .patient-story-links-row{display:grid;grid-template-columns:1fr;gap:8px}
  .patient-story-links a{min-height:48px;font-size:14px}
+}
+
+/* The two topic-matched articles are links to full, published clinic guides. */
+.patient-story-links .patient-story-links-topical{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ list-style:none;gap:8px;padding:0;margin:0 0 14px;
+}
+.patient-story-links .patient-story-links-topical li{min-width:0;margin:0}
+.patient-story-links .patient-story-links-topical a{
+ display:flex;align-items:center;justify-content:flex-start;
+ min-height:62px;line-height:1.55;font-size:14px;
+ padding:11px 13px;word-break:keep-all;overflow-wrap:anywhere;
+}
+.patient-story-links .patient-story-links-row{
+ padding-top:12px;border-top:1px solid #cdddcf;
+}
+.patient-story-links .patient-story-links-row a{font-size:13px}
+@media(max-width:600px){
+ .patient-story-links .patient-story-links-topical{grid-template-columns:1fr;gap:7px;margin-bottom:12px}
+ .patient-story-links .patient-story-links-topical a{min-height:49px;padding:9px 11px}
 }
