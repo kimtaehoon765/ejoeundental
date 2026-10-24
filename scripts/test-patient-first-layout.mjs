@@ -383,7 +383,11 @@ test('the retreatment service page links to detailed post and radiographic-lesio
 });
 
 test('all published clinic stories link to their true previous and next chronological neighbors',()=>{
- const posts=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ const published=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ // The public index is newest-first; the article previous/next controls are
+ // based on the original chronological build order (date then filename).
+ const posts=[...published].sort((a,b)=>String(a.date||'').localeCompare(String(b.date||''))||
+  a.slug.localeCompare(b.slug));
  assert.ok(posts.length>45,'this check must cover the complete public story collection');
  for(let i=0;i<posts.length;i++){
   const item=posts[i],before=posts[i-1],after=posts[i+1];
