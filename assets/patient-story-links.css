@@ -1,0 +1,23 @@
+/* Quiet, accessible links to the two separate clinic writing collections. */
+.patient-story-links{
+ max-width:900px;margin:34px auto 10px;padding:19px 20px;
+ border:1px solid #bed6c7;border-radius:13px;background:#eff5ed;
+ color:#214c3c;font-size:15px;line-height:1.7;word-break:keep-all;
+}
+.patient-story-links strong{display:block;margin-bottom:10px;font-size:16px;color:#204636}
+.patient-story-links .patient-story-links-row{display:flex;gap:10px;flex-wrap:wrap}
+.patient-story-links a{
+ display:inline-flex;align-items:center;justify-content:center;
+ box-sizing:border-box;min-height:44px;padding:9px 13px;
+ border-radius:9px;border:1px solid #9dbdac;background:#fff;
+ text-align:center;text-decoration:none;font-weight:750;color:#265641;
+}
+.patient-story-links a:first-child{background:#235842;color:#fff;border-color:#235842}
+.patient-story-links a:hover{background:#e0eddf;color:#204d3b}
+.patient-story-links a:first-child:hover{background:#174532;color:#fff}
+.patient-story-links a:focus-visible{outline:3px solid #a07839;outline-offset:3px}
+@media(max-width:600px){
+ .patient-story-links{margin:26px 0 8px;padding:14px}
+ .patient-story-links .patient-story-links-row{display:grid;grid-template-columns:1fr;gap:8px}
+ .patient-story-links a{min-height:48px;font-size:14px}
+}
