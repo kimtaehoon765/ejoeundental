@@ -388,7 +388,12 @@ const articleSourceNote=safeSourceBlog?
   ?'원장이 작성한 네이버 블로그 글의 제목과 주제를 참고해 새로 작성한 환자 교육 글입니다. 원문을 직접 복제하거나 요약한 글은 아닙니다. '
   :'이 글은 원장이 작성한 네이버 블로그 글을 환자 교육용으로 요약·재구성했습니다. ')+
  '<a href="'+escaped(safeSourceBlog)+'" target="_blank" rel="noopener noreferrer">원문 보기 ↗</a></p></aside>':'';
-const articlePrev=posts.length>1?posts[posts.length-2]:null; // Earlier article by publication date, not filesystem order.
+// This post was already appended to the chronological published posts array.
+const currentArticleIndex=posts.length-1;
+const articlePrev=currentArticleIndex>0?posts[currentArticleIndex-1]:null;
+const laterPublishedSource=publishedSources[currentArticleIndex+1]||null;
+const articleNext=laterPublishedSource?
+ {slug:path.basename(laterPublishedSource.name,'.json'),title:laterPublishedSource.post.title}:null;
 const articleTopic=[post.title,post.summary,String(post.body||'').slice(0,1500)].filter(Boolean).join(' ');
 const topicLinks=[[/잇몸|치주|스케일링|치석|큐렛/,['잇몸치료 안내','/gum-treatment.html']],[/신경치료|근관|재신경/,['재신경치료 안내','/retreatment.html']],[/시린|치경부|마모|글라스아이오노머|지아이|\bGI\b/i,['치경부마모증 안내','/cervical-abrasion.html']],[/건강보험|보험적용|급여/,['건강보험 진료 안내','/insured-care.html']]].filter(([pattern])=>pattern.test(articleTopic)).slice(0,2).map(([,link])=>'<a href="'+link[1]+'">'+link[0]+' →</a>');
 const articleTopicNavigation=topicLinks.length?'<aside class="notice" aria-label="관련 진료 안내"><strong>관련 진료 안내</strong><p>'+topicLinks.join(' · ')+'</p></aside>':'';
@@ -407,7 +412,10 @@ const storyRelated=suggestedStories.length?
  '<ul>'+suggestedStories.map(item=>
   '<li><a href="/stories/'+encodeURIComponent(item.slug)+'/">'+escaped(item.title)+'</a></li>'
  ).join('')+'</ul></aside>':'';
-const journalNavigation='<nav class="notice" aria-label="치과 이야기 탐색">'+(articlePrev?'<p>이전 치과 이야기: <a href="/stories/'+encodeURIComponent(articlePrev.slug)+'/">'+escaped(articlePrev.title)+'</a></p>':'')+'<p><a href="/stories.html">치과 이야기 전체 글 목록 →</a> · <a href="/search.html">건강정보 검색 →</a></p></nav>';
+const journalNavigation='<nav class="notice" aria-label="치과 이야기 탐색">'+
+ (articlePrev?'<p>← 이전 치과 이야기: <a href="/stories/'+encodeURIComponent(articlePrev.slug)+'/">'+escaped(articlePrev.title)+'</a></p>':'')+
+ (articleNext?'<p>다음 치과 이야기: <a href="/stories/'+encodeURIComponent(articleNext.slug)+'/">'+escaped(articleNext.title)+'</a> →</p>':'')+
+ '<p><a href="/stories.html">치과 이야기 전체 글 목록 →</a> · <a href="/search.html">건강정보 검색 →</a></p></nav>';
 const renderedStoryBody=renderPatientStoryBody(post.body,escaped);
 const articleHeadings=[...renderedStoryBody.matchAll(/<h2 id="(story-section-\d+)">([\s\S]*?)<\/h2>/g)]
  .map(match=>({id:match[1],label:match[2]}));
