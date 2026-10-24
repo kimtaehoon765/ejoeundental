@@ -1769,7 +1769,7 @@ for(const post of posts){
   const destination=path.join(out,url.slice(1));
   if(!fs.existsSync(destination)||!fs.statSync(destination).isFile())throw new Error('Broken journal internal link '+url+' in '+post.slug);
  }
- if(!html.includes('href="/search.html"')||!html.includes('href="/#stories"'))throw new Error('Journal missing discovery navigation: '+post.slug);
+ if(!html.includes('href="/search.html"')||!html.includes('href="/stories.html"'))throw new Error('Journal missing discovery navigation: '+post.slug);
 }
 console.log('Journal internal link audit passed:',posts.length,'published articles');
 
