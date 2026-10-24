@@ -612,7 +612,7 @@ test('three localized periodontal guides provide distinct useful topics and trut
    slug:'naver-223610677224-jakjeon-periodontal',
    source:'https://blog.naver.com/tele654/223610677224',
    terms:['치주농양','치근단','고름','응급실','작전동'],
-   theme:'붓는'
+   theme:'붓고'
   }
  ];
  const published=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
