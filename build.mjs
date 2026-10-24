@@ -460,7 +460,7 @@ console.log('Homepage journal entries rendered without browser fetch:',posts.len
 
 // Build a separate clinic-story directory from the same verified published CMS
 // posts used by /stories/{slug}/. All titles are visible in static HTML without JS.
-// This intentionally keeps 323 external original Naver blog links as a separate
+// This intentionally keeps 333 external original Naver blog links as a separate
 // archive, so the count of homepage articles is not confused with those links.
 {
  const groups=[
@@ -804,8 +804,8 @@ const ownerBlogItems=[...ownerStoriesSection.matchAll(/<div class="card owner-st
   url,
   title:label.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").trim()
  }));
-if(ownerBlogItems.length!==323||new Set(ownerBlogItems.map(item=>item.url)).size!==323){
- throw new Error('The clinical archive must mirror exactly 323 original owner blog links');
+if(ownerBlogItems.length!==333||new Set(ownerBlogItems.map(item=>item.url)).size!==333){
+ throw new Error('The clinical archive must mirror exactly 333 original owner blog links');
 }
 const clinicalArchiveGroups=[
  {id:'gum',name:'잇몸치료·스케일링',url:'/gum-health.html',label:'잇몸 건강정보 10편 더 읽기',
@@ -2427,7 +2427,7 @@ console.log('Clinical education sharing metadata aligned:',clinicalSharingCount,
   '<strong>치과 건강정보를 더 읽어보세요</strong>'+
   '<div class="patient-story-links-row">'+
   '<a href="/stories.html">📖 원장 홈페이지 치과 이야기 전체 보기</a>'+
-  '<a href="/clinical-archive.html#archive-blog-posts">네이버 블로그 원문 323편 보기 →</a>'+
+  '<a href="/clinical-archive.html#archive-blog-posts">네이버 블로그 원문 333편 보기 →</a>'+
   '</div></nav>';
  let linked=0;
  for(const relative of clinicalSharingFiles){
