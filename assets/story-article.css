@@ -19,3 +19,16 @@
   .story-prose p{margin-bottom:17px;line-height:1.87}
 }
 @media print{.story-prose{color:#111}.story-prose h2{break-after:avoid}}
+
+/* Patient-controlled outline: compact until opened, usable without scripts. */
+.story-toc{max-width:830px;margin:24px auto 18px;padding:0;border:1px solid #c9dbcb;border-radius:11px;background:#f0f5ee}
+.story-toc summary{cursor:pointer;min-height:50px;padding:12px 16px;font-weight:800;font-size:15px;color:#204b39;line-height:1.6}
+.story-toc summary:focus-visible{outline:3px solid #a0793a;outline-offset:3px}
+.story-toc[open] summary{border-bottom:1px solid #d5e2d3}
+.story-toc nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:10px 13px 13px}
+.story-toc a{display:flex;align-items:center;box-sizing:border-box;min-height:44px;padding:8px 10px;border-radius:7px;
+ background:#fff;border:1px solid #d8e3d7;text-decoration:none;color:#265b45;font-size:14px;line-height:1.5;word-break:keep-all}
+.story-toc a:hover{background:#e2efe2}
+.story-toc a:focus-visible{outline:3px solid #a0793a;outline-offset:2px}
+@media(max-width:600px){.story-toc nav{grid-template-columns:1fr;gap:5px;padding:8px 10px 11px}.story-toc{margin:18px 0 15px}}
+@media print{.story-toc{display:none}}
