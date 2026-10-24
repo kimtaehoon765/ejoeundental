@@ -249,3 +249,32 @@ test('long dental stories expose a collapsible anchor-linked table of contents',
  }
  assert.ok(outlined>20,'most long-form dental stories should have a practical article outline');
 });
+
+test('three distinct owner-blog topics become full, independently written patient education articles',()=>{
+ const targets=[
+  ['2026-10-25-incheon-gum-treatment-after-scaling-sensitivity','https://blog.naver.com/kook765/224306244253','치근'],
+  ['2026-10-25-incheon-loose-tooth-suddenly-periodontal-exam','https://blog.naver.com/kook765/224304247968','동요도'],
+  ['2026-10-25-bupyeong-root-canal-after-treatment-pain','https://blog.naver.com/radio654/224311783903','임시충전']
+ ];
+ const posts=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ const storyDirectory=readFileSync('dist/stories.html','utf8');
+ const sitemap=readFileSync('dist/sitemap.xml','utf8');
+ for(const [slug,original,clinicalTerm] of targets){
+  const item=posts.find(p=>p.slug===slug);
+  assert.ok(item,slug+' must be publicly listed');
+  assert.equal(item.source_note,'topic_only',slug+' must not claim original text was scraped');
+  assert.equal(item.source_url,original,slug+' original blog reference must not change');
+  assert.ok(item.body.length>1800,'avoid a thin SEO-only page: '+slug);
+  assert.ok(item.body.includes(clinicalTerm),'missing useful clinical detail: '+slug);
+  assert.ok(storyDirectory.includes('href="/stories/'+slug+'/">'),slug+' must be linked from index');
+  assert.ok(sitemap.includes('/stories/'+slug+'/</loc>'),slug+' must be crawlable');
+  const html=readFileSync('dist/stories/'+slug+'/index.html','utf8');
+  assert.ok(html.includes('원문의 문장을 복제')||html.includes('원문을 직접 복제하거나 요약한 글은 아닙니다'),
+    slug+' blog source disclosure must not misrepresent independent writing');
+  assert.ok(html.includes('href="'+original+'"'),slug+' must link to real owner original');
+  assert.match(html,/<section class="story-prose" aria-label="치과 이야기 본문">/);
+  assert.ok((html.match(/<h2 id="story-section-\d+">/g)||[]).length>=4,
+    slug+' should contain readable medical subtopics');
+ }
+ assert.equal(new Set(targets.map(x=>x[0])).size,targets.length,'all three topics must be distinct');
+});
