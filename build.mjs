@@ -2382,6 +2382,34 @@ for(const relative of clinicalSharingFiles){
 }
 console.log('Clinical education sharing metadata aligned:',clinicalSharingCount,'public pages.');
 
+// Give patients a consistent way back to the full homepage dental story archive
+// from any public clinical guide. Keep both collections clearly separated.
+// Render links during the build, not through a client-side dependency.
+{
+ const cssRef='<link rel="stylesheet" href="/assets/patient-story-links.css">';
+ const storyNavigation='<nav class="patient-story-links" aria-label="이조은치과 치과 이야기 더 읽기">'+
+  '<strong>치과 건강정보를 더 읽어보세요</strong>'+
+  '<div class="patient-story-links-row">'+
+  '<a href="/stories.html">📖 원장 홈페이지 치과 이야기 전체 보기</a>'+
+  '<a href="/clinical-archive.html#archive-blog-posts">네이버 블로그 원문 323편 보기 →</a>'+
+  '</div></nav>';
+ let linked=0;
+ for(const relative of clinicalSharingFiles){
+  const target=path.join(out,relative);
+  let html=fs.readFileSync(target,'utf8');
+  if(!html.includes('</main>'))throw new Error('Cannot add story discovery before main closes: '+relative);
+  if(html.includes('class="patient-story-links"'))throw new Error('Duplicate clinic story discovery links: '+relative);
+  if(!html.includes('</head>'))throw new Error('Clinical page is missing head: '+relative);
+  html=html.replace('</head>',cssRef+'</head>');
+  html=html.replace('</main>',storyNavigation+'</main>');
+  fs.writeFileSync(target,html);
+  linked++;
+ }
+ if(linked!==54)throw new Error('Incomplete public clinical story cross-links: '+linked);
+ console.log('Patient care guides linked to complete dental story archive:',linked,'pages');
+}
+
+
 // Brand favicon: one lightweight local SVG shared by all generated HTML pages.
 // Includes nested /health/ and /stories/ pages, plus the 404 page. Do not
 // rewrite canonical metadata, indexability or document contents.
