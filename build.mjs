@@ -2545,6 +2545,20 @@ console.log('Clinical education sharing metadata aligned:',clinicalSharingCount,
   {test:/^health\/insurance-extraction\.html$/,slugs:[
    '2026-10-25-bupyeong-wisdom-tooth-extraction-hemostatic-dressing',
    'naver-224430998602-treatment-priority']},
+  {test:/^health\/cavity-depth\.html$/,slugs:[
+   'naver-223658065860-cheongcheon-caries-treatment-stages',
+   'naver-223657999967-sangok-caries']},
+  {test:/^health\/cavity-early\.html$/,slugs:[
+   '01','naver-223658065860-cheongcheon-caries-treatment-stages']},
+  {test:/^health\/cavity-materials\.html$/,slugs:[
+   'naver-223654967684-cheongcheon-resin',
+   '2026-10-24-bupyeong-cavity-gi-insurance']},
+  {test:/^health\/cavity-recurrent\.html$/,slugs:[
+   'naver-223654967684-cheongcheon-resin',
+   'naver-223657999967-sangok-caries']},
+  {test:/^health\/insurance-checkup\.html$/,slugs:[
+   'naver-223662259955-cheongcheon-oral-exam',
+   'naver-224430998602-treatment-priority']},
   {test:/^health\/(?:cavity-|insurance-cavity)/,slugs:[
    '01','2026-10-24-bupyeong-cavity-gi-insurance']},
   {test:/^health\/(?:gum-|periodontal-|curette-|root-planing|scaling-vs-|insurance-periodontal|insurance-scaling)/,slugs:[
