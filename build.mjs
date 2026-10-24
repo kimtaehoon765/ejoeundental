@@ -319,11 +319,11 @@ const articleUrl='https://ejoeundental.pages.dev/stories/'+encodeURIComponent(sl
 const articleSchema={'@context':'https://schema.org','@type':'BlogPosting',headline:String(post.title||''),description:String(post.summary||post.body||post.title||'').replace(/\s+/g,' ').trim().slice(0,155),mainEntityOfPage:articleUrl,inLanguage:'ko-KR',isPartOf:{'@type':'WebSite',name:'이조은치과',url:'https://ejoeundental.pages.dev/'},publisher:{'@type':'Dentist',name:'이조은치과',url:'https://ejoeundental.pages.dev/',telephone:'+82-32-513-2875'}};
 if(post.date)articleSchema.datePublished=post.date;
 if(safeImage)articleSchema.image='https://ejoeundental.pages.dev'+safeImage;
+const safeSourceBlog=typeof post.source_url==='string'&&/^https:\/\/blog\.naver\.com\/(?:kook765|tele654|radio654)\/[0-9]+$/.test(post.source_url)?post.source_url:'';
+if(safeSourceBlog)articleSchema.isBasedOn=safeSourceBlog;
 const articleJson=JSON.stringify(articleSchema).replace(/</g,'\\u003c');
 const breadcrumbSchema={'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'홈',item:'https://ejoeundental.pages.dev/'},{'@type':'ListItem',position:2,name:'치과 이야기',item:'https://ejoeundental.pages.dev/#stories'},{'@type':'ListItem',position:3,name:String(post.title),item:articleUrl}]};
 const breadcrumbJson=JSON.stringify(breadcrumbSchema).replace(/</g,'\\u003c');
-const safeSourceBlog=typeof post.source_url==='string'&&/^https:\/\/blog\.naver\.com\/(?:kook765|tele654|radio654)\/[0-9]+$/.test(post.source_url)?post.source_url:'';
-if(safeSourceBlog)articleSchema.isBasedOn=safeSourceBlog;
 const articleSourceNote=safeSourceBlog?'<aside class="notice" aria-label="원문 출처"><strong>원장 블로그 원문</strong><p>이 글은 원장이 작성한 네이버 블로그 글을 환자 교육용으로 요약·재구성했습니다. <a href="'+escaped(safeSourceBlog)+'" target="_blank" rel="noopener noreferrer">원문 보기 ↗</a></p></aside>':'';
 const articlePrev=posts.length>1?posts[posts.length-2]:null; // Earlier article by publication date, not filesystem order.
 const articleTopic=[post.title,post.summary,String(post.body||'').slice(0,1500)].filter(Boolean).join(' ');
