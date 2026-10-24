@@ -364,3 +364,20 @@ test('two distinct clinical guides cover retreatment with posts and asymptomatic
      x.body.includes(item.terms[0])),'site search must index the clinical body');
  }
 });
+
+test('the retreatment service page links to detailed post and radiographic-lesion patient guides',()=>{
+ const html=readFileSync('dist/retreatment.html','utf8');
+ const start=html.indexOf('id="retreatment-detailed-questions"');
+ assert.ok(start>0,'retreatment service page must surface its patient questions');
+ const segment=html.slice(start,html.indexOf('</section>',start));
+ const targets=[
+  '/stories/2026-10-25-bupyeong-retreatment-crown-post-can-tooth-be-saved/',
+  '/stories/2026-10-25-incheon-retreatment-root-tip-dark-spot-no-pain/'
+ ];
+ for(const target of targets){
+  assert.ok(segment.includes('href="'+target+'"'),'missing relevant link '+target);
+  assert.ok(readFileSync('dist'+target+'index.html','utf8').includes('원문 보기'),
+   'related article must have a real patient-facing destination');
+ }
+ assert.ok(segment.includes('href="/stories.html"'),'complete story index remains available');
+});
