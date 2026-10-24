@@ -279,3 +279,48 @@ test('three distinct owner-blog topics become full, independently written patien
  }
  assert.equal(new Set(targets.map(x=>x[0])).size,targets.length,'all three topics must be distinct');
 });
+
+test('wisdom extraction and implant bone-graft guides are searchable and accurately attributed',()=>{
+ const cases=[
+  {
+   slug:'2026-10-25-bupyeong-wisdom-tooth-extraction-hemostatic-dressing',
+   source:'https://blog.naver.com/kook765/224333455599',
+   terms:['혈병','지혈재','항응고제','비용'],
+   group:'topic-wisdom'
+  },
+  {
+   slug:'2026-10-25-sangok-implant-bone-graft-always-necessary',
+   source:'https://blog.naver.com/tele654/223968185898',
+   terms:['잔존골','상악동','CBCT','발치'],
+   group:'topic-prosthetic'
+  }
+ ];
+ const index=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ const search=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
+ const directory=readFileSync('dist/stories.html','utf8');
+ const sitemap=readFileSync('dist/sitemap.xml','utf8');
+ for(const item of cases){
+  const post=JSON.parse(readFileSync('content/posts/'+item.slug+'.json','utf8'));
+  const html=readFileSync('dist/stories/'+item.slug+'/index.html','utf8');
+  assert.equal(post.source_url,item.source,'owner original link must match supplied topic');
+  assert.equal(post.source_note,'topic_only','must never claim the full Naver article was read');
+  assert.ok(post.published===true&&index.some(p=>p.slug===item.slug));
+  assert.ok(post.body.length>=2000,'patient article should be substantive');
+  for(const term of item.terms) assert.ok(post.body.includes(term),'missing clinical context: '+term);
+  assert.ok(html.includes('원문을 직접 복제하거나 요약한 글은 아닙니다'),
+   'attribution must disclose independently authored text');
+  assert.ok(html.includes('href="'+item.source+'"'),'published article must link to its owner original');
+  assert.ok(html.includes('href="/stories.html"'),'return to all clinic articles');
+  assert.ok(directory.includes('href="/stories/'+item.slug+'/">'),'article must be in topic index');
+  const start=directory.indexOf('id="'+item.group+'"');
+  assert.ok(start>=0,'expected topic section missing: '+item.group);
+  const end=directory.indexOf('</section>',start);
+  assert.ok(directory.slice(start,end).includes('href="/stories/'+item.slug+'/">'),
+   'article belongs to a relevant topic not uncategorized items');
+  assert.ok(sitemap.includes('/stories/'+item.slug+'/</loc>'),'search engines can discover article');
+  assert.ok(search.some(x=>x.url==='/stories/'+item.slug+'/'&&x.body.includes(item.terms[0])),
+   'site search must index the complete clinical article');
+  assert.ok((html.match(/<h2 id="story-section-\d+">/g)||[]).length>=6,
+   'substantive clinical article must have meaningful sections');
+ }
+});
