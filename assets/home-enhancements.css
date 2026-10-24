@@ -687,25 +687,31 @@ html{scroll-padding-top:92px}
   body.home-page header .nav{padding:12px 12px 9px}
   html.home-scrolled body.home-page header .nav{
     display:grid;
-    grid-template-columns:minmax(0,1fr) minmax(0,164px)!important;
+    grid-template-columns:minmax(0,1fr) minmax(0,54%)!important;
     align-items:center;
     row-gap:0;
     padding:7px 12px;
   }
   html.home-scrolled body.home-page header .nav .logo{
     grid-column:1;grid-row:1;
-    margin:0;font-size:20px;line-height:1.35;
+    margin:0;font-size:clamp(17px,4.5vw,20px);line-height:1.35;white-space:nowrap;
   }
   html.home-scrolled body.home-page header .nav .mobile-quick{
     grid-column:2;grid-row:1;
     width:100%;margin:0;gap:5px;
-    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-columns:repeat(3,minmax(0,1fr));
   }
   html.home-scrolled body.home-page header .nav .mobile-quick a{display:none}
   html.home-scrolled body.home-page header .nav .mobile-quick a[href="#home-symptom-query"],
   html.home-scrolled body.home-page header .nav .mobile-quick a.mobile-call{
     display:flex;min-height:44px;padding:4px 2px;
     font-size:11px;line-height:1.2;
+  }
+  /* Readers can always reach all published dental stories, even while scrolling. */
+  html.home-scrolled body.home-page header .nav .mobile-quick a.stories-mobile-link{
+    display:block;min-height:44px;padding:4px 1px;
+    font-size:clamp(10px,2.7vw,11px);line-height:1.4;
+    text-align:center;white-space:normal;word-break:keep-all;
   }
   html.home-scrolled body.home-page{scroll-margin-top:68px}
   html.home-scrolled{scroll-padding-top:72px}
