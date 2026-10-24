@@ -65,7 +65,7 @@ test('clinic stories have direct prominent desktop and mobile navigation',()=>{
  assert.match(html,/<p class="hero-stories-shortcut"><a href="\/stories.html"/,'hero provides another readily visible story entrance');
  assert.match(html,/<style id="stories-menu-visibility">/,'highlight must not depend on old cached CSS');
  assert.match(html,/<section class="section light" id="stories">/,'menu target must exist');
- assert.match(html,/<summary>치과 이야기 나머지 315편 보기/,'all other owner stories remain accessible');
+ assert.match(html,/<summary>치과 이야기 나머지 325편 보기/,'all other owner stories remain accessible');
 });
 
 test('every published original clinic homepage article is reachable after expanding its section',()=>{
