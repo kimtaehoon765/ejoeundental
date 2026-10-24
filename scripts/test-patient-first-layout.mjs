@@ -118,3 +118,12 @@ test('all 54 public patient information pages link to both distinct article coll
     file+' must load branded, fingerprinted patient story link styles');
  }
 });
+
+test('mobile sticky header keeps the entire story directory reachable after scrolling',()=>{
+ const home=readFileSync('dist/index.html','utf8');
+ const css=readFileSync('dist/assets/home-enhancements.css','utf8');
+ assert.match(home,/<div class="mobile-quick">[\s\S]*?<a href="\/stories.html" class="stories-mobile-link"/);
+ assert.match(css,/html\.home-scrolled body\.home-page header \.nav \.mobile-quick a\.stories-mobile-link\{/);
+ assert.match(css,/html\.home-scrolled body\.home-page header \.nav \.mobile-quick\{[\s\S]*?grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
+ assert.match(css,/html\.home-scrolled body\.home-page header \.nav\{[\s\S]*?grid-template-columns:minmax\(0,1fr\) minmax\(0,54%\)/);
+});
