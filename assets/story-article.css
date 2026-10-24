@@ -1,0 +1,21 @@
+/* Scannable, accessible long-form patient guidance in clinic-owned stories.
+   All headings and paragraphs are emitted server-side; no JavaScript required. */
+.story-prose{max-width:830px;margin:26px auto 32px;line-height:1.94;font-size:16px;color:#30483c;overflow-wrap:anywhere;word-break:keep-all}
+.story-prose p{margin:0 0 20px;line-height:1.95;white-space:pre-line}
+.story-prose h2{
+  font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+  font-size:clamp(19px,2.5vw,23px);line-height:1.56;
+  font-weight:750;color:#1e4838;letter-spacing:-.035em;
+  margin:35px 0 15px;padding:0 0 9px;
+  border-bottom:1px solid #dae5d9;scroll-margin-top:100px;
+}
+.story-prose h2:first-child{margin-top:10px}
+.story-prose p:last-child{margin-bottom:0}
+.story-prose ul{padding-left:1.4em;margin:4px 0 23px}
+.story-prose li{margin:4px 0 7px;line-height:1.8}
+@media(max-width:600px){
+  .story-prose{font-size:16px;line-height:1.88;margin:20px 0 25px}
+  .story-prose h2{font-size:20px;line-height:1.52;margin:30px 0 12px;scroll-margin-top:80px}
+  .story-prose p{margin-bottom:17px;line-height:1.87}
+}
+@media print{.story-prose{color:#111}.story-prose h2{break-after:avoid}}
