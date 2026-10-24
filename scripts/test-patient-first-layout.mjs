@@ -381,3 +381,23 @@ test('the retreatment service page links to detailed post and radiographic-lesio
  }
  assert.ok(segment.includes('href="/stories.html"'),'complete story index remains available');
 });
+
+test('all published clinic stories link to their true previous and next chronological neighbors',()=>{
+ const posts=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ assert.ok(posts.length>45,'this check must cover the complete public story collection');
+ for(let i=0;i<posts.length;i++){
+  const item=posts[i],before=posts[i-1],after=posts[i+1];
+  const html=readFileSync('dist/stories/'+item.slug+'/index.html','utf8');
+  const nav=html.match(/<nav class="notice" aria-label="치과 이야기 탐색">([\s\S]*?)<\/nav>/)?.[1]||'';
+  assert.ok(nav, item.slug+' must have story navigation');
+  const former=[...nav.matchAll(/이전 치과 이야기:[\s\S]*?<a href="(\/stories\/[^"]+\/)"[^>]*>/g)].map(x=>x[1]);
+  const later=[...nav.matchAll(/다음 치과 이야기:[\s\S]*?<a href="(\/stories\/[^"]+\/)"[^>]*>/g)].map(x=>x[1]);
+  assert.deepEqual(former,before?['/stories/'+encodeURIComponent(before.slug)+'/']:[],
+   item.slug+' has the wrong previous story');
+  assert.deepEqual(later,after?['/stories/'+encodeURIComponent(after.slug)+'/']:[],
+   item.slug+' has the wrong next story');
+  assert.ok(!former.includes('/stories/'+item.slug+'/')&&!later.includes('/stories/'+item.slug+'/'),
+   item.slug+' must never link to itself as a neighbor');
+  assert.ok(nav.includes('href="/stories.html"'),item.slug+' must still link to full archive');
+ }
+});
