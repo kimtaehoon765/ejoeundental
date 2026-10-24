@@ -127,3 +127,26 @@ test('mobile sticky header keeps the entire story directory reachable after scro
  assert.match(css,/html\.home-scrolled body\.home-page header \.nav \.mobile-quick\{[\s\S]*?grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
  assert.match(css,/html\.home-scrolled body\.home-page header \.nav\{[\s\S]*?grid-template-columns:minmax\(0,1fr\) minmax\(0,54%\)/);
 });
+
+test('every public clinic journal article offers only genuine, unique related article links',()=>{
+ const posts=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ const known=new Set(posts.map(post=>post.slug));
+ assert.equal(known.size,posts.length);
+ assert.ok(posts.length>=30);
+ for(const post of posts){
+  const html=readFileSync('dist/stories/'+post.slug+'/index.html','utf8');
+  const blocks=[...html.matchAll(/<aside class="story-related" aria-labelledby="related-story-title">([\s\S]*?)<\/aside>/g)];
+  assert.equal(blocks.length,1,post.slug+' needs exactly one related article section');
+  const hrefs=[...blocks[0][1].matchAll(/href="(\/stories\/([^"]+)\/)"/g)]
+    .map(m=>({href:m[1],slug:decodeURIComponent(m[2])}));
+  assert.ok(hrefs.length>=1&&hrefs.length<=3,post.slug+' should link to one to three articles');
+  assert.equal(new Set(hrefs.map(item=>item.slug)).size,hrefs.length,post.slug+' has duplicate related posts');
+  for(const item of hrefs){
+   assert.ok(known.has(item.slug),post.slug+' links to unpublished '+item.href);
+   assert.notEqual(item.slug,post.slug,post.slug+' links to itself');
+  }
+  assert.match(html,/href="\/assets\/story-related\.css\?v=[a-f0-9]{12}"/,
+    post.slug+' should use fingerprinted, accessible related-story styling');
+  assert.match(html,/href="\/stories.html"/,'all articles must retain the complete story directory link');
+ }
+});
