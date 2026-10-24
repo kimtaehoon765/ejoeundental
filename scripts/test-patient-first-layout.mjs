@@ -219,10 +219,33 @@ test('all clinic-owned patient stories render accessible headings and paragraphs
   const plain=decodeHtml(fragment.replace(/<[^>]*>/g,' '));
   assert.equal(compact(plain),compact(source.body),post.slug+' lost or changed clinical content');
   assert.ok(!fragment.includes('<script'),post.slug+' must never interpret CMS body as HTML');
-  const h2=(fragment.match(/<h2>/g)||[]).length;
+  const h2=(fragment.match(/<h2 id="story-section-\d+">/g)||[]).length;
   totalSubheadings+=h2;
   if(h2)cardsWithSubheadings++;
  }
  assert.ok(totalSubheadings>70,'long patient guidance should have meaningful section structure');
  assert.ok(cardsWithSubheadings>24,'most written articles should have visible subsections');
+});
+
+test('long dental stories expose a collapsible anchor-linked table of contents',()=>{
+ const posts=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ let outlined=0;
+ for(const post of posts){
+  const html=readFileSync('dist/stories/'+post.slug+'/index.html','utf8');
+  const sections=[...html.matchAll(/<h2 id="(story-section-\d+)">([\s\S]*?)<\/h2>/g)];
+  assert.equal(new Set(sections.map(s=>s[1])).size,sections.length,
+   post.slug+' heading targets must be unique');
+  const outlines=[...html.matchAll(/<details class="story-toc">([\s\S]*?)<\/details>/g)];
+  const shouldShow=sections.length>=3;
+  assert.equal(outlines.length,shouldShow?1:0,post.slug+' needs appropriate outline');
+  if(shouldShow){
+   outlined++;
+   const links=[...outlines[0][1].matchAll(/<a href="#(story-section-\d+)">([\s\S]*?)<\/a>/g)];
+   assert.deepEqual(links.map(m=>[m[1],m[2]]),sections.map(m=>[m[1],m[2]]),
+    post.slug+' outline must link to each actual heading in order');
+   assert.ok(html.indexOf(outlines[0][0])<html.indexOf('<section class="story-prose"'),
+    post.slug+' table of contents must appear before the article body');
+  }
+ }
+ assert.ok(outlined>20,'most long-form dental stories should have a practical article outline');
 });
