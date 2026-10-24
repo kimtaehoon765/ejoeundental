@@ -67,3 +67,17 @@ test('clinic stories have direct prominent desktop and mobile navigation',()=>{
  assert.match(html,/<section class="section light" id="stories">/,'menu target must exist');
  assert.match(html,/<summary>치과 이야기 나머지 315편 보기/,'all other owner stories remain accessible');
 });
+
+test('every published original clinic homepage article is reachable after expanding its section',()=>{
+ const html=readFileSync('dist/index.html','utf8');
+ const posts=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ assert.ok(posts.length>6,'full published clinic article collection must include older posts');
+ const details=html.match(/<details class="clinic-native-stories" id="home-published-stories"[\s\S]*?<\/details>/)?.[0]||'';
+ assert.ok(details, 'a native collapsible full clinic-story list must exist');
+ const actual=[...details.matchAll(/href="(\/stories\/[^"]+\/?)"/g)].map(m=>m[1]);
+ const expected=posts.map(post=>'/stories/'+encodeURIComponent(post.slug)+'/');
+ assert.deepEqual(actual,expected,'every published article is linked in reverse date order');
+ assert.ok(details.includes('원장의 홈페이지 글 '+posts.length+'편 모두 보기'),'article total must be visible on the summary');
+ assert.ok(html.indexOf('id="home-published-stories"')<html.indexOf('id="owner-blog-group"'),'full homepage articles must come before external Naver links');
+ assert.ok(html.includes('📖 원장 네이버 블로그 원문 <strong>323편</strong>'),'original Naver collection must remain separately discoverable');
+});
