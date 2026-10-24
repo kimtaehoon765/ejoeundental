@@ -405,3 +405,44 @@ test('all published clinic stories link to their true previous and next chronolo
   assert.ok(nav.includes('href="/stories.html"'),item.slug+' must still link to full archive');
  }
 });
+
+test('new treatment-maintenance and temporary-filling guides offer specific, safely linked patient advice',()=>{
+ const expected=[
+  {slug:'2026-10-25-incheon-periodontal-maintenance-after-treatment',
+   source:'https://blog.naver.com/tele654/224067305630',
+   terms:['치주낭','유지관리','치간칫솔','급여 기준'],
+   service:'gum-treatment.html'},
+  {slug:'2026-10-25-bupyeong-root-canal-temporary-filling-fell-out',
+   source:'',
+   terms:['임시충전','신경치료','침과 세균','최종 수복'],
+   service:'retreatment.html'}
+ ];
+ const directory=readFileSync('dist/stories.html','utf8');
+ const index=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ const search=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
+ const sitemap=readFileSync('dist/sitemap.xml','utf8');
+ for(const item of expected){
+  const path='content/posts/'+item.slug+'.json';
+  const post=JSON.parse(readFileSync(path,'utf8'));
+  assert.equal(post.published,true);
+  assert.equal(post.source_url,item.source);
+  assert.ok(post.body.length>2200,'avoid a thin promotional article: '+item.slug);
+  for(const term of item.terms)assert.ok(post.body.includes(term),item.slug+' misses '+term);
+  assert.ok(index.some(p=>p.slug===item.slug),item.slug+' missing from public index');
+  assert.ok(directory.includes('href="/stories/'+item.slug+'/">'),item.slug+' missing from entire story directory');
+  assert.ok(sitemap.includes('/stories/'+item.slug+'/</loc>'),item.slug+' missing from sitemap');
+  assert.ok(search.some(p=>p.url==='/stories/'+item.slug+'/'&&p.body.includes(item.terms[0])),
+   item.slug+' should be found by genuine clinical terms');
+  const html=readFileSync('dist/stories/'+item.slug+'/index.html','utf8');
+  assert.match(html,/<section class="story-prose" aria-label="치과 이야기 본문">/);
+  assert.match(html,/<details class="story-toc">/);
+  assert.ok((html.match(/<h2 id="story-section-\d+">/g)||[]).length>=7,
+   item.slug+' needs scannable patient explanations');
+  const service=readFileSync('dist/'+item.service,'utf8');
+  assert.ok(service.includes('href="/stories/'+item.slug+'/">'),item.service+' should link to '+item.slug);
+  if(item.source){
+   assert.equal(post.source_note,'topic_only');
+   assert.ok(html.includes('href="'+item.source+'"'),item.slug+' should link to actual owner blog topic');
+  }
+ }
+});
