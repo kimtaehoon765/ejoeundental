@@ -552,3 +552,44 @@ test('owner-topic guides for insurance implant impressions and denture adjustmen
    'clear source disclosure is required');
  }
 });
+
+test('three previously thin clinical stories now offer topic-specific patient education without duplication',()=>{
+ const articles=[
+  {slug:'naver-223650659775-cheongcheon-periodontal',
+   source:'https://blog.naver.com/tele654/223650659775',
+   terms:['치주낭','큐렛','탐침','유지관리','건강보험']},
+  {slug:'naver-223654967684-cheongcheon-resin',
+   source:'https://blog.naver.com/tele654/223654967684',
+   terms:['복합레진','방습','글라스아이오노머','건강보험','시림']},
+  {slug:'naver-223662017340-sangok-oral-exam',
+   source:'https://blog.naver.com/tele654/223662017340',
+   terms:['치주낭','방사선검사','치은염','치주염','산곡역']}
+ ];
+ const index=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ const search=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
+ const directory=readFileSync('dist/stories.html','utf8');
+ const sitemap=readFileSync('dist/sitemap.xml','utf8');
+ for(const article of articles){
+  const post=JSON.parse(readFileSync('content/posts/'+article.slug+'.json','utf8'));
+  assert.equal(post.published,true);
+  assert.equal(post.source_url,article.source,'published original blog URL should stay unchanged');
+  assert.equal(post.source_note,'topic_only','do not misrepresent separately written text as a scraped Naver blog');
+  assert.ok(post.body.length>1900,'not enough context for patient question: '+article.slug);
+  for(const term of article.terms)assert.ok(post.body.includes(term),
+   article.slug+' lacks essential clinical topic: '+term);
+  assert.ok(index.some(x=>x.slug===article.slug),
+   article.slug+' should remain published as one article');
+  assert.equal(index.filter(x=>x.slug===article.slug).length,1,
+   'do not create competing nearly-identical stories');
+  assert.ok(directory.includes('href="/stories/'+article.slug+'/">'));
+  assert.ok(sitemap.includes('/stories/'+article.slug+'/</loc>'));
+  assert.ok(search.some(x=>x.url==='/stories/'+article.slug+'/'&&x.body.includes(article.terms[0])),
+   'on-site search should index the new explanation');
+  const html=readFileSync('dist/stories/'+article.slug+'/index.html','utf8');
+  assert.ok((html.match(/<h2 id="story-section-\d+">/g)||[]).length>=6,
+   'patient should be able to navigate clinical subsections');
+  assert.match(html,/<details class="story-toc">/);
+  assert.ok(html.includes('href="'+article.source+'"'),'owner original must remain accessible');
+  assert.ok(html.includes('원문을 직접 복제하거나 요약한 글은 아닙니다'));
+ }
+});
