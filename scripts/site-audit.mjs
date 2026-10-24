@@ -1609,7 +1609,7 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  if(homepage.includes('#stories .owner-story-card p{display:none}'))errors.push('원장 이야기 카드에 숨김 텍스트 스타일이 남아 있음');
  if(/원장이 작성한 네이버 블로그 글입니다/.test(homepage))errors.push('원장 이야기 카드의 반복 문구가 다시 추가됨');
 }
-// 홈페이지 원장 이야기 목록 보호: 모바일에서 8편만 보이고, 22편은 펼치면 읽을 수 있어야 합니다.
+// 홈페이지 원장 이야기 목록 보호: 모바일에서 8편만 보이고, 170편은 펼치면 읽을 수 있어야 합니다.
 {
  const homepage=readFileSync(join(root,'index.html'),'utf8');
  const section=homepage.match(/<section\b[^>]*id="stories"[\s\S]*?<\/section>/i)?.[0]||'';
@@ -1617,7 +1617,7 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  const extra=section.match(/<details class="owner-stories-more">([\s\S]*?)<\/details>/i)?.[1]||'';
  const firstLinks=[...first.matchAll(/<a\b[^>]*href="(https:\/\/blog\.naver\.com\/[^"]+)"[^>]*>/gi)].map(m=>m[1]);
  const extraLinks=[...extra.matchAll(/<a\b[^>]*href="(https:\/\/blog\.naver\.com\/[^"]+)"[^>]*>/gi)].map(m=>m[1]);
- if(firstLinks.length!==8||extraLinks.length!==120||new Set([...firstLinks,...extraLinks]).size!==178)errors.push('원장 이야기 8+170편 링크 또는 중복 오류');
+ if(firstLinks.length!==8||extraLinks.length!==170||new Set([...firstLinks,...extraLinks]).size!==178)errors.push('원장 이야기 8+170편 링크 또는 중복 오류');
  if(!extra.includes('<summary>치과 이야기 나머지 170편 보기')||!extra.includes('class="owner-stories-grid"'))errors.push('모바일 원장 이야기 펼치기 기능 누락');
  if(!homepage.includes('"numberOfItems": 178'))errors.push('원장 이야기 검색 구조화 데이터 178편 불일치');
 }
