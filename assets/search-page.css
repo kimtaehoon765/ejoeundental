@@ -4,7 +4,7 @@
 @media(max-width:600px){
  .nav{grid-template-columns:minmax(0,1fr);gap:8px}
  .nav .logo{margin:0}
- .nav .mobile-quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;gap:7px}
+ .nav .mobile-quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:100%;gap:5px}
  .nav .mobile-quick a{min-width:0;min-height:44px;padding:9px 4px;font-size:clamp(11px,3vw,13px);white-space:normal;text-align:center;word-break:keep-all}
  .nav .navlinks{margin-top:0}
  .search-wrap{padding-top:34px}
