@@ -593,3 +593,56 @@ test('three previously thin clinical stories now offer topic-specific patient ed
   assert.ok(html.includes('원문을 직접 복제하거나 요약한 글은 아닙니다'));
  }
 });
+
+test('three localized periodontal guides provide distinct useful topics and truthful clinic location',()=>{
+ const cases=[
+  {
+   slug:'naver-223597124826-sangok-scaling',
+   source:'https://blog.naver.com/tele654/223597124826',
+   terms:['치석','치주낭','큐렛','치근활택술','산곡역'],
+   theme:'스케일링'
+  },
+  {
+   slug:'naver-223605299741-bucheon-periodontal',
+   source:'https://blog.naver.com/tele654/223605299741',
+   terms:['동요도','교합','치근파절','치조골','부천'],
+   theme:'흔들리는'
+  },
+  {
+   slug:'naver-223610677224-jakjeon-periodontal',
+   source:'https://blog.naver.com/tele654/223610677224',
+   terms:['치주농양','치근단','고름','응급실','작전동'],
+   theme:'붓는'
+  }
+ ];
+ const published=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ const search=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
+ const index=readFileSync('dist/stories.html','utf8');
+ const sitemap=readFileSync('dist/sitemap.xml','utf8');
+ const bodies=[];
+ for(const guide of cases){
+  const post=JSON.parse(readFileSync('content/posts/'+guide.slug+'.json','utf8'));
+  assert.equal(post.published,true);
+  assert.equal(post.source_url,guide.source);
+  assert.equal(post.source_note,'topic_only','original text was not read; be transparent');
+  assert.ok(post.body.length>=2000,guide.slug+' must give more than superficial SEO copy');
+  assert.ok(post.title.includes(guide.theme),guide.slug+' should have a differentiated user question');
+  for(const term of guide.terms)assert.ok(post.body.includes(term),guide.slug+' misses '+term);
+  assert.ok(post.body.includes('부평구 청천동'),guide.slug+' must give actual clinic neighborhood');
+  if(guide.slug.includes('bucheon'))assert.ok(post.body.includes('부천에 있는 병원이 아닙니다'));
+  if(guide.slug.includes('jakjeon'))assert.ok(post.body.includes('작전동이 아닌'));
+  assert.ok(published.some(x=>x.slug===guide.slug),guide.slug+' missing from published index');
+  assert.ok(search.some(x=>x.url==='/stories/'+guide.slug+'/'&&x.body.includes(guide.terms[0])),
+    guide.slug+' body missing from actual site search');
+  assert.ok(index.includes('href="/stories/'+guide.slug+'/">'));
+  assert.ok(sitemap.includes('/stories/'+guide.slug+'/</loc>'));
+  const article=readFileSync('dist/stories/'+guide.slug+'/index.html','utf8');
+  assert.ok((article.match(/<h2 id="story-section-\d+">/g)||[]).length>=6,
+    guide.slug+' medical subtopics must be individually navigable');
+  assert.match(article,/<details class="story-toc">/);
+  assert.ok(article.includes('href="'+guide.source+'"'));
+  assert.ok(article.includes('원문을 직접 복제하거나 요약한 글은 아닙니다'));
+  bodies.push(post.body);
+ }
+ assert.equal(new Set(bodies).size,cases.length,'regional guides must not contain identical text');
+});
