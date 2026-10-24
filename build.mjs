@@ -2483,12 +2483,84 @@ console.log('Clinical education sharing metadata aligned:',clinicalSharingCount,
 {
  const storyStyleVersion=createHash('sha256').update(fs.readFileSync(path.join(out,'assets/patient-story-links.css'))).digest('hex').slice(0,12);
  const cssRef='<link rel="stylesheet" href="/assets/patient-story-links.css?v='+storyStyleVersion+'">';
- const storyNavigation='<nav class="patient-story-links" aria-label="이조은치과 치과 이야기 더 읽기">'+
-  '<strong>치과 건강정보를 더 읽어보세요</strong>'+
-  '<div class="patient-story-links-row">'+
-  '<a href="/stories.html">📖 원장 홈페이지 치과 이야기 전체 보기</a>'+
-  '<a href="/clinical-archive.html#archive-blog-posts">네이버 블로그 원문 333편 보기 →</a>'+
-  '</div></nav>';
+ // Link each patient guide to two actual, published stories relevant to its
+ // diagnosis or treatment. These are curated rules, not similarity guesses.
+ // All destinations must exist in the published CMS collection.
+ const publishedClinicStories=new Map(publishedSources.map(({name,post})=>[
+  path.basename(name,'.json'),String(post.title||'')
+ ]));
+ const storyCareRules=[
+  {test:/^(?:gum-treatment|gum-health)\.html$/,slugs:[
+   '2026-10-25-incheon-periodontal-maintenance-after-treatment',
+   '2026-10-25-incheon-loose-tooth-suddenly-periodontal-exam']},
+  {test:/^(?:retreatment|root-canal-health)\.html$/,slugs:[
+   '2026-10-25-bupyeong-retreatment-crown-post-can-tooth-be-saved',
+   '2026-10-25-incheon-retreatment-root-tip-dark-spot-no-pain']},
+  {test:/^cervical-abrasion\.html$|^health\/(?:abrasion-|insurance-cervical)/,slugs:[
+   '2026-10-24-bupyeong-tooth-wear-sensitivity-treatment',
+   '2026-10-24-bupyeong-cavity-gi-insurance']},
+  {test:/^(?:insured-care|insurance-health)\.html$/,slugs:[
+   'naver-224430998602-treatment-priority',
+   '2026-10-24-bupyeong-cavity-gi-insurance']},
+  {test:/^additional-health\.html$/,slugs:[
+   'naver-224425324653-root-canal-or-extraction',
+   '2026-10-24-bupyeong-tooth-wear-sensitivity-treatment']},
+  {test:/^health\/(?:gum-pus|swollen-gums)\.html$/,slugs:[
+   'naver-224400753947-gum-pus-periodontal-abscess',
+   '2026-10-25-incheon-loose-tooth-suddenly-periodontal-exam']},
+  {test:/^health\/(?:loose-tooth|receding-gums)\.html$/,slugs:[
+   '2026-10-25-incheon-loose-tooth-suddenly-periodontal-exam',
+   'naver-224405321060-gingival-recession-teeth-look-longer']},
+  {test:/^health\/(?:root-canal-after-pain|root-canal-pain|root-canal-process)\.html$/,slugs:[
+   '2026-10-25-bupyeong-root-canal-after-treatment-pain',
+   '2026-10-25-bupyeong-root-canal-temporary-filling-fell-out']},
+  {test:/^health\/(?:root-canal-lesion|root-canal-retreatment|root-canal-retreatment-process)\.html$/,slugs:[
+   '2026-10-25-incheon-retreatment-root-tip-dark-spot-no-pain',
+   'naver-224421350291-retreatment-after-root-canal-pain']},
+  {test:/^health\/(?:root-canal-crown|tooth-crack)\.html$/,slugs:[
+   '2026-10-25-bupyeong-retreatment-crown-post-can-tooth-be-saved',
+   'naver-224425324653-root-canal-or-extraction']},
+  {test:/^health\/(?:tooth-preservation|tooth-second-opinion|root-canal-or-extraction|tooth-stepwise)\.html$/,slugs:[
+   'naver-224425324653-root-canal-or-extraction',
+   'naver-224430998602-treatment-priority']},
+  {test:/^health\/(?:denture-|insurance-denture)/,slugs:[
+   '2026-10-24-bupyeong-denture-adjustment-dentist-evaluation',
+   '2026-10-24-bupyeong-good-dentist-selection']},
+  {test:/^health\/(?:insurance-implant)\.html$/,slugs:[
+   '2026-10-25-sangok-implant-bone-graft-always-necessary',
+   '2026-10-24-bupyeong-affordable-dental-implants-total-cost-checklist']},
+  {test:/^health\/insurance-extraction\.html$/,slugs:[
+   '2026-10-25-bupyeong-wisdom-tooth-extraction-hemostatic-dressing',
+   'naver-224430998602-treatment-priority']},
+  {test:/^health\/(?:cavity-|insurance-cavity)/,slugs:[
+   '01','2026-10-24-bupyeong-cavity-gi-insurance']},
+  {test:/^health\/(?:gum-|periodontal-|curette-|root-planing|scaling-vs-|insurance-periodontal|insurance-scaling)/,slugs:[
+   '02','2026-10-25-incheon-periodontal-maintenance-after-treatment']},
+  {test:/^health\/(?:root-canal-|insurance-root-canal)/,slugs:[
+   '03','naver-224421350291-retreatment-after-root-canal-pain']},
+  {test:/^health\/insurance-/,slugs:[
+   'naver-224430998602-treatment-priority',
+   '2026-10-24-bupyeong-cavity-gi-insurance']}
+ ];
+ const fallbackCareStories=['naver-224425324653-root-canal-or-extraction',
+  '2026-10-25-incheon-periodontal-maintenance-after-treatment'];
+ function patientStoryNavigation(relative){
+  const choice=storyCareRules.find(rule=>rule.test.test(relative));
+  const slugs=choice?choice.slugs:fallbackCareStories;
+  if(slugs.length!==2||new Set(slugs).size!==2)throw new Error('Bad clinical story suggestions: '+relative);
+  const suggestions=slugs.map(slug=>{
+   const title=publishedClinicStories.get(slug);
+   if(!title)throw new Error('Patient education links to unpublished story '+slug+' in '+relative);
+   return '<li><a href="/stories/'+encodeURIComponent(slug)+'/">'+escapeSharingValue(title)+'</a></li>';
+  });
+  return '<nav class="patient-story-links" aria-label="이조은치과 치과 이야기 더 읽기">'+
+   '<strong>이 증상과 관련된 원장의 치과 이야기</strong>'+
+   '<ul class="patient-story-links-topical">'+suggestions.join('')+'</ul>'+
+   '<div class="patient-story-links-row">'+
+   '<a href="/stories.html">📖 홈페이지 치과 이야기 전체 보기</a>'+
+   '<a href="/clinical-archive.html#archive-blog-posts">네이버 블로그 원문 333편 보기 →</a>'+
+   '</div></nav>';
+ }
  let linked=0;
  for(const relative of clinicalSharingFiles){
   const target=path.join(out,relative);
@@ -2497,7 +2569,7 @@ console.log('Clinical education sharing metadata aligned:',clinicalSharingCount,
   if(html.includes('class="patient-story-links"'))throw new Error('Duplicate clinic story discovery links: '+relative);
   if(!html.includes('</head>'))throw new Error('Clinical page is missing head: '+relative);
   html=html.replace('</head>',cssRef+'</head>');
-  html=html.replace('</main>',storyNavigation+'</main>');
+  html=html.replace('</main>',patientStoryNavigation(relative)+'</main>');
   fs.writeFileSync(target,html);
   linked++;
  }
