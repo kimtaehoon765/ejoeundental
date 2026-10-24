@@ -197,3 +197,32 @@ test('homepage links directly to three expanded patient education guides without
  assert.match(css,/@media\(max-width:600px\)\{[\s\S]*?#stories \.story-featured-questions a/,
   'question links must fit mobile screens');
 });
+
+test('all clinic-owned patient stories render accessible headings and paragraphs without changing medical copy',()=>{
+ const posts=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ assert.ok(posts.length>=39);
+ let totalSubheadings=0;
+ let cardsWithSubheadings=0;
+ const decodeHtml=html=>html.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"')
+  .replace(/&#39;/g,"'").replace(/&amp;/g,'&');
+ const compact=text=>text.replace(/[\s■•●]/gu,'');
+ for(const post of posts){
+  const file='dist/stories/'+post.slug+'/index.html';
+  const html=readFileSync(file,'utf8');
+  const source=JSON.parse(readFileSync('content/posts/'+post.slug+'.json','utf8'));
+  const match=html.match(/<section class="story-prose" aria-label="치과 이야기 본문">([\s\S]*?)<\/section>/);
+  assert.ok(match,post.slug+' must show semantic story content');
+  const fragment=match[1];
+  assert.ok(fragment.includes('<p>')||fragment.includes('<h2>'),post.slug+' needs substantive readable text');
+  assert.equal(fragment.includes('style="white-space:pre-wrap"'),false,'avoid a single unsplit text block');
+  assert.match(html,/href="\/assets\/story-article\.css\?v=[a-f0-9]{12}"/);
+  const plain=decodeHtml(fragment.replace(/<[^>]*>/g,' '));
+  assert.equal(compact(plain),compact(source.body),post.slug+' lost or changed clinical content');
+  assert.ok(!fragment.includes('<script'),post.slug+' must never interpret CMS body as HTML');
+  const h2=(fragment.match(/<h2>/g)||[]).length;
+  totalSubheadings+=h2;
+  if(h2)cardsWithSubheadings++;
+ }
+ assert.ok(totalSubheadings>70,'long patient guidance should have meaningful section structure');
+ assert.ok(cardsWithSubheadings>24,'most written articles should have visible subsections');
+});
