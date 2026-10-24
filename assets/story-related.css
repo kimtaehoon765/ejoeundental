@@ -1,0 +1,9 @@
+/* Quiet topic-related internal links on public owner-written articles. */
+.story-related{margin:29px 0 20px;padding:19px 21px;border:1px solid #c7d9c9;border-radius:12px;background:#eff5ee;line-height:1.65;color:#214b39}
+.story-related h2{margin:0 0 12px;color:#1b4937;font-size:clamp(18px,2.5vw,22px);font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;line-height:1.45}
+.story-related ul{padding-left:1.2em;margin:0}
+.story-related li{padding:3px 0 5px;word-break:keep-all}
+.story-related a{display:inline-block;box-sizing:border-box;min-height:44px;padding:7px 2px;font-size:15px;font-weight:690;text-decoration:underline;text-underline-offset:3px;color:#265b46;overflow-wrap:anywhere}
+.story-related a:hover{color:#174631}
+.story-related a:focus-visible{outline:3px solid #9f814a;outline-offset:3px;border-radius:4px}
+@media(max-width:600px){.story-related{padding:15px 16px;margin:24px 0 17px}.story-related li{line-height:1.6}.story-related a{font-size:14px;min-height:48px}}
