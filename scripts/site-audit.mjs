@@ -1449,7 +1449,7 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
 {
  const archive=readFileSync(join(root,'clinical-archive.html'),'utf8');
  const title='부평치과 원장 진료 이야기 178편 | 잇몸치료·재신경치료 | 이조은치과';
- const ld=[...archive.matchAll(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/g)]
+ const ld=[...archive.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
   .map(m=>JSON.parse(m[1])).find(row=>row['@type']==='CollectionPage');
  if(!archive.includes('<title>'+title+'</title>')||
     ld?.name!==title||
