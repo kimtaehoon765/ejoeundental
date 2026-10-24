@@ -596,7 +596,8 @@ const sitemapPath=path.join(out,'sitemap.xml');
 if(fs.existsSync(sitemapPath)){
  const base='https://ejoeundental.pages.dev';
  let sitemap=fs.readFileSync(sitemapPath,'utf8');
- const journalUrls=posts.map(post=>'<url><loc>'+base+'/stories/'+encodeURIComponent(post.slug)+'/</loc></url>').join('\n  ');
+ const journalUrls=posts.map(post=>'<url><loc>'+base+'/stories/'+encodeURIComponent(post.slug)+'/</loc>'+
+  (post.updated||post.date?'<lastmod>'+(post.updated||post.date)+'</lastmod>':'')+'</url>').join('\n  ');
  sitemap=sitemap.replace('</urlset>',(journalUrls?'  '+journalUrls+'\n':'')+'</urlset>');
  fs.writeFileSync(sitemapPath,sitemap);
 }
