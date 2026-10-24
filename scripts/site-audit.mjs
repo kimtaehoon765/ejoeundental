@@ -1444,6 +1444,23 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
   }
  }
 }
+// The public 178-post archive must identify the real clinic, clinical credentials,
+// article provenance and current search title without claiming other local offices.
+{
+ const archive=readFileSync(join(root,'clinical-archive.html'),'utf8');
+ const title='부평치과 원장 진료 이야기 178편 | 잇몸치료·재신경치료 | 이조은치과';
+ const ld=[...archive.matchAll(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/g)]
+  .map(m=>JSON.parse(m[1])).find(row=>row['@type']==='CollectionPage');
+ if(!archive.includes('<title>'+title+'</title>')||
+    ld?.name!==title||
+    !archive.includes('고려대학교 의학박사·통합치의학과 전문의')||
+    !archive.includes('인천 부평구 청천동 세월천로 34')||
+    !archive.includes('href="/#doctor"')||
+    !archive.includes('href="/visit-guide.html"')){
+   errors.push('원장 블로그 178편 아카이브 의료진 자격·실제 위치·출처 설명 SEO 누락');
+ }
+}
+
 // Verify clinic publisher attribution without inventing a personal medical reviewer.
 {
  const slugs=["clinical-archive","medical-history","gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medication-dental-faq","systemic-disease-dental-faq","medical-safety-guide","previsit-checklist","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care"];
