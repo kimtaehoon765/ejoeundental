@@ -8,7 +8,7 @@ const ownerOnlyFiles=["dental-equipment.html","handpiece-maintenance.html","suct
 if(ownerPrivateReady && process.env.OWNER_LIBRARY_MIGRATION_VERIFIED!=='YES_PRIVATE_COPY_AND_LOGIN_TESTED'){
  throw new Error('Owner library migration is not verified. Keep the public copy until private files, login, links and CSV backup are confirmed.');
 }
-const root=process.cwd(),out=path.join(root,'dist');fs.rmSync(out,{recursive:true,force:true});fs.mkdirSync(out,{recursive:true});function cp(src,dst){fs.cpSync(path.join(root,src),path.join(out,dst),{recursive:true})}cp('_headers','_headers');cp('index.html','index.html');cp('404.html','404.html');cp('favicon.svg','favicon.svg');cp('clinical-archive.html','clinical-archive.html');cp('search.html','search.html');cp('medical-history.html','medical-history.html')
+const root=process.cwd(),out=path.join(root,'dist');fs.rmSync(out,{recursive:true,force:true});fs.mkdirSync(out,{recursive:true});function cp(src,dst){fs.cpSync(path.join(root,src),path.join(out,dst),{recursive:true})}cp('_headers','_headers');cp('index.html','index.html');cp('404.html','404.html');cp('favicon.svg','favicon.svg');cp('clinical-archive.html','clinical-archive.html');cp('stories.html','stories.html');cp('search.html','search.html');cp('medical-history.html','medical-history.html')
 cp('visit-guide.html','visit-guide.html');cp('medical-safety-guide.html','medical-safety-guide.html');cp('previsit-checklist.html','previsit-checklist.html');cp('medication-dental-faq.html','medication-dental-faq.html');cp('systemic-disease-dental-faq.html','systemic-disease-dental-faq.html');cp('gum-treatment-faq.html','gum-treatment-faq.html');cp('root-canal-retreatment-faq.html','root-canal-retreatment-faq.html');cp('dental-insurance-faq.html','dental-insurance-faq.html');cp('osteoporosis-medication-dental.html','osteoporosis-medication-dental.html');cp('blood-thinners-dental.html','blood-thinners-dental.html');cp('diabetes-dental-care.html','diabetes-dental-care.html');cp('heart-disease-dental-care.html','heart-disease-dental-care.html');cp('kidney-disease-dental-care.html','kidney-disease-dental-care.html');cp('liver-disease-dental-care.html','liver-disease-dental-care.html');cp('cancer-immunosuppression-dental-care.html','cancer-immunosuppression-dental-care.html');cp('pregnancy-dental-care.html','pregnancy-dental-care.html');if(!ownerPrivateReady)cp('dental-equipment.html','dental-equipment.html');if(!ownerPrivateReady)cp('handpiece-maintenance.html','handpiece-maintenance.html');if(!ownerPrivateReady)cp('suction-maintenance.html','suction-maintenance.html');if(!ownerPrivateReady)cp('compressor-maintenance.html','compressor-maintenance.html');if(!ownerPrivateReady)cp('autoclave-maintenance.html','autoclave-maintenance.html');if(!ownerPrivateReady)cp('curing-light-maintenance.html','curing-light-maintenance.html');if(!ownerPrivateReady)cp('scaler-maintenance.html','scaler-maintenance.html');if(!ownerPrivateReady)cp('dental-chair-maintenance.html','dental-chair-maintenance.html');if(!ownerPrivateReady)cp('intraoral-camera-maintenance.html','intraoral-camera-maintenance.html');if(!ownerPrivateReady)cp('dental-xray-maintenance.html','dental-xray-maintenance.html');if(!ownerPrivateReady)cp('dental-materials.html','dental-materials.html');if(!ownerPrivateReady)cp('glass-ionomer-guide.html','glass-ionomer-guide.html');if(!ownerPrivateReady)cp('root-canal-materials-guide.html','root-canal-materials-guide.html');if(!ownerPrivateReady)cp('composite-bonding-guide.html','composite-bonding-guide.html');if(!ownerPrivateReady)cp('impression-materials-guide.html','impression-materials-guide.html');if(!ownerPrivateReady)cp('dental-cements-guide.html','dental-cements-guide.html');if(!ownerPrivateReady)cp('endodontic-instruments-guide.html','endodontic-instruments-guide.html');if(!ownerPrivateReady)cp('periodontal-instruments-guide.html','periodontal-instruments-guide.html');if(!ownerPrivateReady)cp('extraction-instruments-guide.html','extraction-instruments-guide.html');if(!ownerPrivateReady)cp('equipment-log.html','equipment-log.html');cp('gum-treatment.html','gum-treatment.html');cp('scaling.html','scaling.html');cp('cavity-treatment.html','cavity-treatment.html');cp('cervical-abrasion.html','cervical-abrasion.html');cp('insured-care.html','insured-care.html');cp('retreatment.html','retreatment.html');// Resolve optional Pages CMS illustrations during build time instead of fetching
 // retreatment-images.json on each patient visit and swapping images after load.
 const retreatmentPath=path.join(out,'retreatment.html');
@@ -422,6 +422,69 @@ journalHomeHtml=journalHomeHtml.replace(journalMarker,journalCards+olderJournal|
  '<p class="clinic-native-empty">아직 공개된 홈페이지 치과 이야기 글이 없습니다. 진료 건강정보는 위에서 확인할 수 있습니다.</p>');
 fs.writeFileSync(journalHomePath,journalHomeHtml);
 console.log('Homepage journal entries rendered without browser fetch:',posts.length,'including',latestJournal.length,'featured cards');
+
+// Build a separate clinic-story directory from the same verified published CMS
+// posts used by /stories/{slug}/. All titles are visible in static HTML without JS.
+// This intentionally keeps 323 external original Naver blog links as a separate
+// archive, so the count of homepage articles is not confused with those links.
+{
+ const groups=[
+  {id:'gum',name:'잇몸치료·스케일링',match:/잇몸|치주|스케일링|치석|치은|큐렛/},
+  {id:'root',name:'신경치료·재신경치료',match:/신경치료|근관|치수|재신경/},
+  {id:'cavity',name:'충치·시린 이·수복치료',match:/충치|시린|마모증|레진|GI|글라스아이오노머|크라운|지르코니아/i},
+  {id:'prosthetic',name:'틀니·임플란트',match:/틀니|임플란트|뼈이식|인공치아/},
+  {id:'choice',name:'치과 선택·건강보험·진료 원칙',match:/치과 선택|잘하는 치과|치과를|진료비|비용|광고|리뷰|과잉진료|양심|보험|진료 원칙|치과 찾|치과 고르|할인/},
+  {id:'other',name:'그 밖의 진료 이야기',match:null}
+ ];
+ const grouped=new Map(groups.map(group=>[group.id,[]]));
+ for(const post of posts){
+  const title=String(post.title||'');
+  const match=groups.find(group=>group.match&&group.match.test(title));
+  grouped.get(match?.id||'other').push(post);
+ }
+ const active=groups.filter(group=>grouped.get(group.id).length);
+ const nav='<nav class="topic-jump" aria-label="글 주제 바로가기">'+
+  active.map(group=>'<a href="#topic-'+group.id+'">'+group.name+' ('+grouped.get(group.id).length+')</a>').join('')+
+  '</nav>';
+ const sections=active.map(group=>{
+  const collection=grouped.get(group.id);
+  const cards=collection.map(post=>{
+   const title=escapeJournal(post.title);
+   const summary=escapeJournal(String(post.summary||post.body||'').replace(/\\s+/g,' ').trim().slice(0,190));
+   const date=post.date?'<time datetime="'+escapeJournal(post.date)+'">'+escapeJournal(post.date)+'</time>':'';
+   return '<a class="story-card" href="/stories/'+encodeURIComponent(post.slug)+'/">'+date+
+    '<h3>'+title+'</h3>'+(summary?'<p>'+summary+'</p>':'')+'<span class="read">홈페이지 글 읽기 →</span></a>';
+  }).join('');
+  return '<section class="story-topic" id="topic-'+group.id+'" aria-labelledby="topic-heading-'+group.id+'">'+
+   '<div class="story-topic-heading"><h2 id="topic-heading-'+group.id+'">'+group.name+'</h2>'+
+   '<span>'+collection.length+'편</span></div><div class="story-grid">'+cards+'</div></section>';
+ }).join('');
+ const directoryFile=path.join(out,'stories.html');
+ let directory=fs.readFileSync(directoryFile,'utf8');
+ for(const marker of ['<!-- BUILD_STORY_COUNT -->','<!-- BUILD_STORY_DIRECTORY -->','<!-- BUILD_STORY_DIRECTORY_SCHEMA -->']){
+  if(directory.split(marker).length!==2)throw new Error('Dental story directory marker missing or duplicated: '+marker);
+ }
+ const itemList={'@type':'ItemList',name:'이조은치과 홈페이지 치과 이야기 전체 글',
+  numberOfItems:posts.length,
+  itemListElement:posts.map((post,index)=>({
+   '@type':'ListItem',position:index+1,name:String(post.title),
+   url:'https://ejoeundental.pages.dev/stories/'+encodeURIComponent(post.slug)+'/'
+  }))};
+ const schema={'@context':'https://schema.org','@type':'CollectionPage',
+  name:'치과 이야기 전체 글 | 이조은치과',
+  description:'원장이 직접 작성한 치과 진료 이야기와 환자용 건강정보를 주제별로 살펴보는 목록',
+  url:'https://ejoeundental.pages.dev/stories.html',
+  isPartOf:{'@type':'WebSite',name:'이조은치과',url:'https://ejoeundental.pages.dev/'},
+  mainEntity:itemList};
+ const escapeJsonScript=value=>JSON.stringify(value).replace(/</g,'\\u003c');
+ directory=directory
+  .replace('<!-- BUILD_STORY_COUNT -->',String(posts.length))
+  .replace('<!-- BUILD_STORY_DIRECTORY -->',nav+sections)
+  .replace('<!-- BUILD_STORY_DIRECTORY_SCHEMA -->','<script type="application/ld+json">'+escapeJsonScript(schema)+'</script>');
+ fs.writeFileSync(directoryFile,directory);
+ console.log('Clinic story directory grouped:',posts.length,'published posts across',active.length,'topics');
+}
+
 
 // Render only clinic-verified legal identifiers in the footer.
 // Missing values are intentionally omitted rather than invented or published as placeholders.
