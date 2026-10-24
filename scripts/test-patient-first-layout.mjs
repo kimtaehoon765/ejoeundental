@@ -100,3 +100,21 @@ test('standalone clinic story directory shows every actual published post withou
  const sitemap=readFileSync('dist/sitemap.xml','utf8');
  assert.ok(sitemap.includes('<loc>https://ejoeundental.com/stories.html</loc>'));
 });
+
+test('all 54 public patient information pages link to both distinct article collections',()=>{
+ const hubs=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
+ const care=['gum-treatment.html','retreatment.html','cervical-abrasion.html','insured-care.html'];
+ const health=readdirSync('dist/health').filter(name=>name.endsWith('.html')).map(name=>'health/'+name);
+ const pages=[...hubs,...care,...health];
+ assert.equal(pages.length,54);
+ for(const file of pages){
+  const html=readFileSync('dist/'+file,'utf8');
+  const matches=[...html.matchAll(/<nav class="patient-story-links" aria-label="이조은치과 치과 이야기 더 읽기">([\s\S]*?)<\/nav>/g)];
+  assert.equal(matches.length,1,file+' needs exactly one bottom patient story navigation');
+  assert.match(matches[0][0],/href="\/stories.html"/);
+  assert.match(matches[0][0],/href="\/clinical-archive.html#archive-blog-posts"/);
+  assert.ok(html.indexOf(matches[0][0])<html.lastIndexOf('</main>'),file+' story links must be inside main');
+  assert.match(html,/href="\/assets\/patient-story-links\.css\?v=[a-f0-9]{12}"/,
+    file+' must load branded, fingerprinted patient story link styles');
+ }
+});
