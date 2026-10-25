@@ -31,6 +31,8 @@ jobs:
         run: npm run build:check
       - name: Test published patient search index uses clinical text
         run: node --test scripts/test-search-content.mjs
+      - name: Verify newest stories appear first on home, topics, care guides and RSS
+        run: node --test scripts/test-story-chronology.mjs
       - name: Validate patient-friendly breadcrumbs on 46 health articles
         run: node --test scripts/test-health-breadcrumbs.mjs
       - name: Verify output

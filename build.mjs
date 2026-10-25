@@ -611,6 +611,8 @@ for(const post of posts){
 }
 fs.writeFileSync(path.join(out,'content/search-index.json'),JSON.stringify(entries,null,2));
 fs.writeFileSync(path.join(out,'content/search-index-46.json'),JSON.stringify(entries,null,2));
+// Every downstream consumer (home featured stories, topic directory, care links,
+// RSS) must respect newest-first ordering. Regression tests assert this invariant.
 posts.sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))||a.slug.localeCompare(b.slug));
 // Render the CMS journal cards at build time. The three evergreen patient-education
 // tiles remain visible and are never replaced after the page loads.
@@ -619,7 +621,7 @@ let journalHomeHtml=fs.readFileSync(journalHomePath,'utf8');
 const journalMarker='<!-- BUILD_PUBLIC_STORIES -->';
 if(journalHomeHtml.split(journalMarker).length!==2)throw new Error('Missing unique homepage CMS journal marker');
 const escapeJournal=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-const latestJournal=posts.slice(-6).reverse();
+const latestJournal=posts.slice(0,6);
 const journalCards=latestJournal.map(post=>{
  const title=escapeJournal(post.title);
  const when=post.date?'<time class="date" datetime="'+escapeJournal(post.date)+'">'+escapeJournal(post.date)+'</time>':'';
@@ -630,7 +632,7 @@ const journalCards=latestJournal.map(post=>{
 // The homepage previously displayed only six published articles. All remaining
 // published owner stories now appear as smaller, accessible title links after
 // the first six cards. There is no fetch, pagination, or hidden extra page.
-const extraJournal=posts.slice(0,-latestJournal.length||undefined).reverse().map(post=>
+const extraJournal=posts.slice(latestJournal.length).map(post=>
  '<a class="journal-extra-entry" href="/stories/'+encodeURIComponent(post.slug)+'/">'+
  '<span>'+escapeJournal(post.title)+'</span><span aria-hidden="true">→</span></a>'
 ).join('');
@@ -654,7 +656,7 @@ const recentTopicDefinitions=[
 ];
 const recentTopicStories=[];
 for(const group of recentTopicDefinitions){
- const found=posts.slice().reverse().find(post=>
+ const found=posts.find(post=>
   group.match.test(String(post.title||''))&&!recentTopicStories.some(other=>other.slug===post.slug));
  if(found)recentTopicStories.push({...found,topicLabel:group.name});
 }
@@ -703,7 +705,7 @@ console.log('Homepage journal entries rendered without browser fetch:',posts.len
   active.map(group=>'<a href="#topic-'+group.id+'">'+group.name+' ('+grouped.get(group.id).length+')</a>').join('')+
   '</nav>';
  const sections=active.map(group=>{
-  const collection=[...grouped.get(group.id)].reverse();
+  const collection=[...grouped.get(group.id)];
   const cards=collection.map(post=>{
    const title=escapeJournal(post.title);
    const summary=escapeJournal(String(post.summary||post.body||'').replace(/\s+/g,' ').trim().slice(0,190));
@@ -2388,7 +2390,7 @@ if (!['https://ejoeundental.pages.dev', 'https://ejoeundental.com'].includes(sel
 // existing comprehensive sitemap. Generate it only from published articles.
 {
  const limit=20;
- const feedPosts=posts.slice(-limit).reverse();
+ const feedPosts=posts.slice(0,limit);
  if(!feedPosts.length)throw new Error('RSS needs at least one published story');
  const xmlEscape=value=>String(value??'').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,'')
   .replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
