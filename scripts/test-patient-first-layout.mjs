@@ -986,7 +986,7 @@ test('six original overtreatment screenshots improve existing insurance guide in
   'insurance volume does not prove clinical ethics');
  assert.ok(post.body.includes('병원 규모가 크다거나 비급여 진료를 많이 한다는 이유만으로'),
   'do not turn broad criticism of private practices into established facts');
- assert.ok(post.body.includes('모든 경우에 바로 발치해야 하는 것은 아닙니다'),
+ assert.ok(post.body.includes('자연치아를 유지하는 방법이 될 수 있습니다'),
   'explain tooth preservation options prior to irreversible removal');
  assert.ok(post.body.includes('2003년부터 인천 부평구 청천동에서 한자리 진료'),
   'correct location and established clinic experience');
