@@ -728,7 +728,7 @@ console.log('Homepage journal entries rendered without browser fetch:',posts.len
  }
  const directoryFile=path.join(out,'stories.html');
  let directory=fs.readFileSync(directoryFile,'utf8');
- if(directory.split('<!-- BUILD_NAVER_BLOG_COUNT -->').length!==4)throw new Error('Dental story directory needs three original blog count labels');
+ if(directory.split('<!-- BUILD_NAVER_BLOG_COUNT -->').length!==3)throw new Error('Dental story directory needs two visible original blog count labels');
  for(const marker of ['<!-- BUILD_STORY_COUNT -->','<!-- BUILD_STORY_DIRECTORY -->','<!-- BUILD_STORY_DIRECTORY_SCHEMA -->']){
   if(directory.split(marker).length!==2)throw new Error('Dental story directory marker missing or duplicated: '+marker);
  }
