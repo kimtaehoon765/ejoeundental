@@ -108,6 +108,8 @@ await Promise.all(urls.map(async ({label,url}) => {
       signal: AbortSignal.timeout(8000),
       headers: { 'User-Agent': 'EjoeunDentalReadOnlyHealthCheck/1.0' }
     });
+    const faviconIcoBytes=label==='네이버 소프트 404 파비콘 ICO 개선 확인'?
+      new Uint8Array(await response.clone().arrayBuffer()):null;
     const body = await response.text();
     const info = ['HTTP ' + response.status, '최종 주소: ' + response.url];
     const server = response.headers.get('server');
@@ -294,7 +296,7 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push('휴대전화 액자·상단 메뉴 스타일: '+(mobileGallery?'최신 디자인 CSS 확인':'신규 모바일 디자인 CSS 배포 확인 필요'));
     } else if (label === '네이버 소프트 404 파비콘 ICO 개선 확인') {
       // Check actual bytes, not merely HTTP 200: a soft 404 often returns HTML.
-      const bytes=new Uint8Array(await response.clone().arrayBuffer());
+      const bytes=faviconIcoBytes;
       const size=bytes.length;
       const isIco=size>=256&&bytes[0]===0&&bytes[1]===0&&bytes[2]===1&&
         bytes[3]===0&&bytes[4]>=1&&bytes[6]===32&&bytes[7]===32;
