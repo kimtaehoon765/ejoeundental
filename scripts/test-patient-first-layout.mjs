@@ -939,7 +939,7 @@ test('owner screenshot on choosing an ethical dentist explains ads and insured c
   assert.ok(post.body.includes(keyword),'missing practical owner blog issue: '+keyword);
  }
  assert.ok(post.body.includes('광고를 한다는 이유만으로 해당 치과가 수익만을 추구하거나 진료가 부실하다고 단정하는 것도 적절하지 않습니다'),
-  'avoid presenting the owner's criticism as unverified facts about other dentists');
+  'avoid presenting the owners criticism as unverified facts about other dentists');
  assert.ok(post.body.includes('보험 진료가 저렴하다는 이유만으로 더 좋은 결과를 보장하지는 않습니다'),
   'do not equate insurance reimbursement with clinical ethics');
  assert.ok(post.body.includes('전체 치료 계획과 비용을 한꺼번에 설명하는 것이 도움이 될 수 있습니다'),
