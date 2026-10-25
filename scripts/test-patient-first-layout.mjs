@@ -793,3 +793,44 @@ test('owner screenshots on cheap cavity clinics responsibly update one existing 
  const cavity=readFileSync('dist/cavity-treatment.html','utf8');
  assert.ok(cavity.includes('href="/stories/'+slug+'/">'),'cavity treatment patients should find relevant cost guidance');
 });
+
+test('owner July 27 root-canal-duration screenshots publish as one nuanced and linked patient guide',()=>{
+ const slug='2026-10-25-bupyeong-root-canal-how-many-visits-and-why';
+ const original='https://blog.naver.com/kook765/224359802215';
+ const post=JSON.parse(readFileSync('content/posts/'+slug+'.json','utf8'));
+ assert.equal(post.source_url,original,'use actual owner source linked from homepage');
+ assert.equal(post.source_note,'screenshots_summary','five images provided actual article text');
+ assert.equal(post.published,true);
+ assert.ok(post.body.length>3600,'the article must cover the original details, not be a thin SEO copy');
+ for(const term of ['신경치료','근관치료','휘어','석회화','파일(file)','차아염소산나트륨',
+   '거타퍼차','실러','한 번 방문','건강보험','자연치아']){
+  assert.ok(post.body.includes(term),'missing original topic or patient safety caveat: '+term);
+ }
+ assert.ok(post.body.includes('방문 횟수가 많다는 사실만으로 더 좋은 치료라고 단정할 수는 없습니다'),
+  'do not suggest unnecessary appointments indicate more conscientious care');
+ assert.ok(post.body.includes('한 번 방문으로 적절한 치료를 마칠 수도 있습니다'),
+  'make room for guideline-supported safe single visit treatment');
+ assert.ok(!post.body.includes('수익이 전혀 나지'),'avoid unverified claims about dentist finances');
+ const index=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ assert.equal(index.filter(x=>x.slug===slug).length,1,'do not duplicate this topic with a second native post');
+ const article=readFileSync('dist/stories/'+slug+'/index.html','utf8');
+ assert.ok(article.includes('href="'+original+'"'),'patients can open original Naver blog');
+ assert.ok(article.includes('원장이 제공한 네이버 블로그 본문 사진을 읽고 핵심 의견을 정리한 글입니다'),
+  'screenshots based articles need accurate provenance');
+ assert.ok((article.match(/<h2 id="story-section-\d+">/g)||[]).length>=8);
+ assert.ok(article.includes('신경치료')&&article.includes('치아'));
+ assert.match(article,/<details class="story-toc">/,'long explanation needs navigable outline');
+ const directory=readFileSync('dist/stories.html','utf8');
+ assert.ok(directory.includes('href="/stories/'+slug+'/">'),'patients should find article from clinic story index');
+ const sitemap=readFileSync('dist/sitemap.xml','utf8');
+ assert.ok(sitemap.includes('/stories/'+slug+'/</loc>'),'crawlers should discover article');
+ const search=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
+ assert.ok(search.some(x=>x.url==='/stories/'+slug+'/'&&x.body.includes('석회화')),
+  'site search should index the practical difficult-canal discussion');
+ const rootHub=readFileSync('dist/root-canal-health.html','utf8');
+ assert.ok(rootHub.includes('href="/stories/'+slug+'/">'),'root canal hub must link to blog summary');
+ const process=readFileSync('dist/health/root-canal-process.html','utf8');
+ const related=process.match(/<ul class="patient-story-links-topical">([\s\S]*?)<\/ul>/)?.[1]||'';
+ assert.ok(related.includes('href="/stories/'+slug+'/">'),
+  'root canal process article should offer the newly published source text');
+});
