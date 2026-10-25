@@ -2526,6 +2526,9 @@ console.log('Clinical education sharing metadata aligned:',clinicalSharingCount,
   {test:/^health\/(?:loose-tooth|receding-gums)\.html$/,slugs:[
    '2026-10-25-incheon-loose-tooth-suddenly-periodontal-exam',
    'naver-224405321060-gingival-recession-teeth-look-longer']},
+  {test:/^health\/root-canal-process\.html$/,slugs:[
+   '2026-10-25-bupyeong-root-canal-how-many-visits-and-why',
+   '2026-10-25-bupyeong-root-canal-temporary-filling-fell-out']},
   {test:/^health\/(?:root-canal-after-pain|root-canal-pain|root-canal-process)\.html$/,slugs:[
    '2026-10-25-bupyeong-root-canal-after-treatment-pain',
    '2026-10-25-bupyeong-root-canal-temporary-filling-fell-out']},
