@@ -16,13 +16,13 @@
 - 빌드 스크립트: `build.mjs`
 - 생성 결과: 정적 페이지, 건강정보, 공개 게시글 상세 페이지, 게시글 목록 JSON, 사이트맵
 
-## 정식 도메인 운영 및 남은 www 301 작업 (2026-10-23 검증)
+## 정식 도메인·검색용 사이트맵 운영 (2026-10-25 실서비스 확인)
 
-GitHub Actions가 실제 `https://ejoeundental.com/`을 읽기 전용으로 검사해 **HTTP 200 / Cloudflare 응답 / canonical 일치 / 공개 페이지 및 검색·사이트맵 접속**을 확인했습니다. 최신 `main`의 미리보기·정식 도메인 기준 빌드 및 소스 품질 검사도 통과했습니다. 이 사실은 **실제 도메인이 온라인**이라는 뜻이지, Cloudflare Pages 프로젝트의 Git 연동이나 Netlify의 폐쇄 여부를 직접 확인했다는 뜻은 아닙니다.
+GitHub Actions의 읽기 전용 실서비스 검사에서 `https://ejoeundental.com/`이 **HTTP 200**으로 응답하고 보안 헤더, 검색 대표주소(canonical), 로봇·사이트맵을 제공하는 것을 확인했습니다. 또한 `https://www.ejoeundental.com/` 요청은 현재 **HTTP 301**로 `https://ejoeundental.com/`으로 이동하고, 하위 경로와 검색 파라미터를 유지합니다. **www 301 작업은 확인 당시 이미 해결된 상태**이므로 추가 리디렉션 규칙을 중복 생성할 필요가 없습니다.
 
-**남은 항목:** `https://www.ejoeundental.com/`이 **HTTP 200으로 별도 열리고 301 이동하지 않음**. Cloudflare 영역의 리디렉션 규칙을 통해 `www` → `https://ejoeundental.com`으로 통일할 필요가 있습니다. GitHub의 HTML 또는 `_redirects` 편집만으로는 도메인 수준 규칙을 적용할 수 없습니다. 추가 과금 없이 적용 가능한 대시보드 절차 및 하위 경로·쿼리 검증은 **[www 301 설정 안내](docs/www-301-redirect.md)**를 참고하세요. **아직 Cloudflare 설정은 변경되지 않았습니다.**
+2026-10-25 검증에서 **홈페이지 내부 환자 교육 글 79/79편**, 원장 네이버 블로그 원문 링크 **333/333개**, 글 목록 `/stories.html`의 **79/79편**, 최근 충치치료 원고의 실제 URL과 작성자 표시를 확인했습니다. 검증 절차: `scripts/live-domain-check.mjs`, GitHub Actions `Public website build and quality verification`. 단, 실사이트 검사 결과는 그 시점의 상태이며 네이버·구글 색인 또는 검색 순위를 뜻하지 않습니다.
 
-Cloudflare Pages 빌드 설정(확인이 필요한 경우): `main`, 프레임워크 `None`, `npm run build`, 출력 폴더 `dist`, `NODE_VERSION=22`. [과거 이전 절차](docs/cloudflare-pages-migration.md)는 신규 프로젝트를 중복으로 만드는 용도가 아닙니다.
+기존 `docs/www-301-redirect.md` 및 `DOMAIN-MIGRATION-CHECKLIST.md`는 **과거에 301이 미설정이던 상태의 기록**입니다. 현행 운영 상태보다 우선하여 적용하거나 DNS/호스팅을 임의로 변경하지 마세요. Cloudflare 네임서버와 중계 응답만으로 **실제 원본 호스팅이 Cloudflare Pages인지 Netlify인지**는 단정하지 않습니다.
 
 ## Netlify 배포 설정 (소스 기준)
 현재 확인된 `netlify.toml` 설정은 다음과 같습니다. 실제 Netlify 프로젝트의 연결·배포 성공 여부는 별도로 확인해야 합니다.
@@ -40,7 +40,7 @@ Netlify 연결 및 도메인 이전 절차는 [Netlify 점검 안내](docs/netli
 ## 정식 도메인·미리보기 주소 구분
 정식 홈페이지 `https://ejoeundental.com`은 **이미 HTTPS로 서비스 중**이며, `build.mjs`의 기본 `SITE_PUBLIC_ORIGIN`도 정식 주소입니다. 별도 미리보기 빌드에서는 `SITE_PUBLIC_ORIGIN=https://ejoeundental.pages.dev`를 사용하며, 두 빌드의 SEO 메타데이터와 사이트맵은 각각 검사합니다.
 
-도메인 관련 남은 작업은 **www → 비-www 301 통일**입니다. 이는 GitHub의 HTML이나 Pages `_redirects`로는 적용할 수 없고 Cloudflare 영역의 Redirect Rule에서 설정해야 합니다. [2026-10-23 도메인 실측과 운영 점검표](DOMAIN-MIGRATION-CHECKLIST.md) 및 [무료 www 301 안내](docs/www-301-redirect.md)와 [정식 도메인 네이버·구글 색인 점검표](docs/search-indexing-checklist.md)를 참고하세요. 변경 전 원본 Netlify 연결 상태를 확인하고 기존 DNS나 호스팅을 삭제하지 않습니다.
+**www → 대표주소 301은 2026-10-25 실측에서 정상 확인**했습니다. 301 규칙을 다시 만들지 마세요. [이전 도메인 점검 기록](DOMAIN-MIGRATION-CHECKLIST.md)과 [정식 도메인 네이버·구글 색인 점검표](docs/search-indexing-checklist.md)를 참고하되, 색인 여부는 각 검색 서비스에서 별도로 확인해야 합니다. 원본 호스팅 설정과 DNS를 함부로 해제하지 않습니다.
 
 ## 참고
 - `/admin/`은 외부 Pages CMS 안내 페이지이며 자체 로그인 시스템이 아닙니다.
