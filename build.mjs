@@ -2511,6 +2511,12 @@ console.log('Clinical education sharing metadata aligned:',clinicalSharingCount,
   {test:/^(?:retreatment|root-canal-health)\.html$/,slugs:[
    '2026-10-25-bupyeong-retreatment-crown-post-can-tooth-be-saved',
    '2026-10-25-incheon-retreatment-root-tip-dark-spot-no-pain']},
+  {test:/^cervical-abrasion\.html$/,slugs:[
+   '2026-10-25-samsan-cervical-abrasion-gi-insurance-vs-resin',
+   '2026-10-24-bupyeong-tooth-wear-sensitivity-treatment']},
+  {test:/^health\/(?:abrasion-gi|insurance-cervical)\.html$/,slugs:[
+   '2026-10-25-samsan-cervical-abrasion-gi-insurance-vs-resin',
+   '2026-10-24-bupyeong-cavity-gi-insurance']},
   {test:/^cervical-abrasion\.html$|^health\/(?:abrasion-|insurance-cervical)/,slugs:[
    '2026-10-24-bupyeong-tooth-wear-sensitivity-treatment',
    '2026-10-24-bupyeong-cavity-gi-insurance']},
