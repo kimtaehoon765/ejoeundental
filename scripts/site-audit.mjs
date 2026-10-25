@@ -1761,6 +1761,29 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  }
 }
 
+// Naver URL Inspection highlighted long meta descriptions. Keep core care,
+// location and clinic-story summaries concise, without reducing clinical text.
+{
+ const coreNaverPages=[
+  'gum-treatment.html','retreatment.html','root-canal-health.html',
+  'cavity-treatment.html','scaling.html','cervical-abrasion.html',
+  'denture.html','implant.html','insured-care.html','stories.html',
+  'visit-guide.html'
+ ];
+ for(const filename of coreNaverPages){
+  const content=readFileSync(join(root,filename),'utf8');
+  const normal=content.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+  const og=content.match(/<meta property="og:description" content="([^"]+)"/)?.[1]||'';
+  const twitter=content.match(/<meta name="twitter:description" content="([^"]+)"/)?.[1];
+  if(normal.length<35||normal.length>80)errors.push(
+   '네이버 중요 페이지 설명이 35~80자 범위가 아닙니다: '+filename);
+  if(og!==normal||(twitter!==undefined&&twitter!==normal))errors.push(
+   '네이버 URL/공유 설명 불일치: '+filename);
+  if(!content.includes('이조은치과'))errors.push('실제 치과 브랜드 빠짐: '+filename);
+ }
+ console.log('Naver essential care snippets audited:',coreNaverPages.length,'pages');
+}
+
 // A consistent local SVG tab icon improves site recognizability on phones,
 // bookmarks and desktop tabs without a third-party image request.
 {
