@@ -54,7 +54,8 @@ function setup(fetchStub) {
     insertAdjacentElement(_position,what){this.inserted=what;},
     getAttribute(key){return this.attrs[key];},
     focus(){this.focused=true;},
-    setAttribute(key,value){this.attrs[key]=value;}
+    setAttribute(key,value){this.attrs[key]=value;},
+    append(...elements){this.children=(this.children||[]).concat(elements);}
   });
   const gumCard=element('잇몸에서 피가 나요 반복되는 출혈');
   gumCard.attrs.href='/stories/test-gum/';
@@ -174,12 +175,23 @@ test('body-only search results appear after lazy loading and terms may be separa
  assert.equal(ui.rootCard.hidden,true,'before full-text loaded, only title matches');
  for(let i=0;i<8;i++)await Promise.resolve();
  assert.equal(ui.rootCard.hidden,false,'body-only word finds the article');
+ const passage=ui.rootCard.children?.find(el=>el.className==='story-match-excerpt');
+ assert.ok(passage,'body-only result must show a paragraph from the article');
+ assert.match(passage.textContent,/본문 내용:.*거타퍼차/);
+ assert.equal(passage.hidden,false);
  assert.equal(ui.gumCard.hidden,true);
  assert.match(ui.status.textContent,/검색 결과 1편/);
  ui.field.value='거타퍼차 근관';
  ui.field.handlers.input();
  assert.equal(ui.rootCard.hidden,false,'AND terms match separated sentences');
  assert.equal(requests,1,'one lazy fetch serves repeated searches');
+ assert.equal(ui.rootCard.children.filter(el=>el.className==='story-match-excerpt').length,1,
+  'subsequent searches do not duplicate the excerpt');
+ ui.field.value='없는치료용어';
+ ui.field.handlers.input();
+ assert.equal(passage.hidden,true,'unmatched article snippet is hidden');
+ ui.reset.handlers.click();
+ assert.equal(passage.hidden,true,'reset hides search-only snippet');
 });
 
 test('failed or mismatched body download keeps instant titles searchable',async()=>{
@@ -192,4 +204,12 @@ test('failed or mismatched body download keeps instant titles searchable',async(
  assert.match(ui.status.textContent,/제목·요약만 검색/);
  ui.reset.handlers.click();
  assert.equal(ui.rootCardTwo.hidden,false,'reset still shows every published article');
+});
+
+
+test('the published directory gives a safe readable excerpt for full-text-only matches',()=>{
+ const html=readFileSync('dist/stories.html','utf8');
+ assert.match(html,/\.story-card \.story-match-excerpt\[hidden\]/,
+  'the excerpt must be hidden when its associated full-text query clears');
+ assert.ok(!/innerHTML\s*=/.test(script),'never inject the CMS article body as HTML');
 });

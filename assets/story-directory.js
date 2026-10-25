@@ -62,6 +62,25 @@
 
   let corpusState = 'idle'; // idle | loading | ready | error
   let corpus = new Map();
+  let corpusOriginal = new Map();
+  const snippets = new Map();
+  const excerptFor = (body,query,terms) => {
+    const paragraphs = String(body || '').split(/\n+/)
+      .map(part => part.replace(/^■\s*/, '').trim())
+      .filter(part => part.length > 24 && !part.startsWith('※'));
+    if (!paragraphs.length) return '';
+    const exact = paragraphs.find(part => norm(part).includes(query));
+    const any = paragraphs.find(part => terms.some(term => norm(part).includes(term)));
+    const target = exact || any;
+    if (!target) return '';
+    const clean = target.replace(/\s+/g,' ');
+    const normalizedFirst = terms[0] || query;
+    // Keep the excerpt short and close to the medical term without editing the article.
+    const from = clean.toLocaleLowerCase('ko-KR').indexOf(normalizedFirst);
+    const start = from > 65 ? Math.max(0,from - 36) : 0;
+    const text = clean.slice(start,start + 130).trim();
+    return (start ? '…' : '') + text + (start + 130 < clean.length ? '…' : '');
+  };
   async function loadCorpus() {
     if (corpusState !== 'idle' || typeof fetch !== 'function') return;
     const source = form.getAttribute('data-search-index');
@@ -79,15 +98,18 @@
         throw new Error('Search corpus version/count mismatch');
       }
       const next = new Map();
+      const raw = new Map();
       for (const entry of data.entries) {
         if (!entry || !publishedSlugs.has(entry.slug) ||
             typeof entry.body !== 'string' || next.has(entry.slug)) {
           throw new Error('Invalid, extra or repeated article');
         }
         next.set(entry.slug, norm(entry.body));
+        raw.set(entry.slug, entry.body);
       }
       if (next.size !== publishedSlugs.size) throw new Error('Missing article body');
       corpus = next;
+      corpusOriginal = raw;
       corpusState = 'ready';
     } catch (_) {
       // A flaky mobile connection should not hide the immediate title results.
@@ -104,11 +126,31 @@
     for (const item of items) {
       let within = 0;
       for (const card of item.cards) {
-        const text = searchable.get(card) +
-          (corpusState === 'ready' ? (corpus.get(cardSlug.get(card)) || '') : '');
-        const matched = !query || text.includes(query) ||
+        const summaryText = searchable.get(card);
+        const bodyText = corpusState === 'ready'
+          ? (corpus.get(cardSlug.get(card)) || '') : '';
+        const combined = summaryText + bodyText;
+        const matches = text => text.includes(query) ||
           (terms.length > 1 && terms.every(term => text.includes(term)));
+        const matched = !query || matches(combined);
         card.hidden = !matched;
+        const bodyOnlyMatch = Boolean(query && matched && !matches(summaryText) &&
+          bodyText && matches(bodyText));
+        let snippet = snippets.get(card);
+        if (bodyOnlyMatch && !snippet) {
+          snippet = document.createElement('p');
+          snippet.className = 'story-match-excerpt';
+          card.append(snippet);
+          snippets.set(card,snippet);
+        }
+        if (snippet) {
+          snippet.hidden = !bodyOnlyMatch;
+          if (bodyOnlyMatch) {
+            const passage=excerptFor(corpusOriginal.get(cardSlug.get(card)),query,terms);
+            snippet.textContent=passage ? '본문 내용: '+passage : '';
+            snippet.hidden=!passage;
+          }
+        }
         if (matched) within++;
       }
       item.section.hidden = within === 0;
