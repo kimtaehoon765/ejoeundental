@@ -596,7 +596,19 @@ await Promise.all(urls.map(async ({label,url}) => {
         !body.includes('<th scope="row">병원 발급 치료확인서</th>');
       info.push(ready?'제증명 수수료 4종 초기 HTML 반영':'제증명 수수료 최신 표시 확인 필요');
     }
-    const result = label === '없는 페이지 404 상태' ? (response.status === 404 ? '정상 404' : '주의: 잘못된 응답') : label === 'www HTTPS 연결' ? (response.status === 301 && (response.headers.get('location') || '').includes('ejoeundental.com') && !(response.headers.get('location') || '').includes('www.ejoeundental.com') ? '대표 주소 통일' : '추가 설정 필요') : response.ok?'접속':'응답 점검 필요';
+    const redirectLocation=response.headers.get('location')||'';
+    let redirectUrl=null;
+    try { redirectUrl=redirectLocation?new URL(redirectLocation,url):null; }catch{}
+    const wwwApexOk=response.status===301&&redirectUrl?.origin===origin;
+    const wwwDeepOk=wwwApexOk&&redirectUrl.pathname==='/gum-treatment'&&
+      redirectUrl.search==='?utm_source=redirect_check';
+    const result = label==='없는 페이지 404 상태'
+      ? (response.status===404?'정상 404':'주의: 잘못된 응답')
+      : label==='www HTTPS 연결'
+        ? (wwwApexOk?'대표 주소 통일':'추가 설정 필요')
+        : label==='www 하위 경로·쿼리 리디렉션'
+          ? (wwwDeepOk?'대표 주소 통일':'추가 설정 필요')
+          : response.ok?'접속':'응답 점검 필요';
     add(label, result, info.join(' · '));
   } catch (e) {
     add(label, '접속 확인 불가', shortError(e));
