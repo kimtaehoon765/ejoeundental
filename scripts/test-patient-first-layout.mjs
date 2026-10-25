@@ -520,6 +520,12 @@ test('full dental story directory derives its Naver original count from the veri
   'full story directory incorrectly shows a stale blog count: '+reference);
  assert.ok(!directory.includes('BUILD_NAVER_BLOG_COUNT'),
   'original blog count placeholder should never leak to patients');
+ const searchPage=readFileSync('dist/search.html','utf8');
+ assert.ok(searchPage.includes('네이버 블로그 원문 '+count+'편은'),
+  'integrated search must show the verified original blog count: '+count);
+ assert.ok(!searchPage.includes('BUILD_NAVER_BLOG_COUNT') &&
+  !searchPage.includes('네이버 블로그 원문 323편은'),
+  'search help must not show an outdated count or build placeholder');
  assert.equal(directory.includes('네이버 블로그 원문 323편'),count===323,
   'full story directory must never retain an obsolete hardcoded count');
  const posts=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));

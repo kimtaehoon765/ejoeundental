@@ -783,6 +783,15 @@ console.log('Homepage journal entries rendered without browser fetch:',posts.len
   .replace('<!-- BUILD_STORY_DIRECTORY -->',nav+sections)
   .replace('<!-- BUILD_STORY_DIRECTORY_SCHEMA -->','<script type="application/ld+json">'+escapeJsonScript(schema)+'</script>');
  fs.writeFileSync(directoryFile,directory);
+ // The public search page should report the same verified original Naver count
+ // as the story directory. Never leave a stale handwritten count in search help.
+ const searchPage=path.join(out,'search.html');
+ const searchHtml=fs.readFileSync(searchPage,'utf8');
+ const blogCountMarker='<!-- BUILD_NAVER_BLOG_COUNT -->';
+ if(searchHtml.split(blogCountMarker).length!==2)
+  throw new Error('Search page should contain one original-blog count placeholder');
+ fs.writeFileSync(searchPage,searchHtml.replace(blogCountMarker,String(ownerBlogCount)));
+ console.log('Search help original blog count synchronized:',ownerBlogCount);
  console.log('Clinic story directory grouped:',posts.length,'published posts across',active.length,'topics;',ownerBlogCount,'linked Naver originals');
 }
 

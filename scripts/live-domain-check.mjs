@@ -524,6 +524,11 @@ await Promise.all(urls.map(async ({label,url}) => {
       const good = form >= 0 && results > form && suggestions > results;
       info.push(good ? '입력·결과가 추천 검색어보다 먼저 표시됨' : '입력·결과 배치 확인 필요');
       info.push(body.includes('class="search-visit-examples"') ? '산곡역·진료시간·주차 빠른 검색 반영' : '방문 정보 검색 바로가기 반영 확인 필요');
+      const countCurrent=body.includes('네이버 블로그 원문 '+expectedOriginalCount+'편은')&&
+       !body.includes('BUILD_NAVER_BLOG_COUNT')&&
+       !body.includes('네이버 블로그 원문 323편은');
+      info.push(countCurrent?'검색 페이지 블로그 원문 실제 '+expectedOriginalCount+'편 안내 확인':
+       '검색 페이지 네이버 원문 수가 최신 홈페이지 수량과 다름');
     } else if (label === '통합 검색 실제 문서 색인') {
       let entries=[];
       try { entries=JSON.parse(body); } catch { info.push('검색 색인 JSON 확인 불가'); }
