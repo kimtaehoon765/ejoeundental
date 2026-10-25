@@ -2,7 +2,7 @@
 (function(){
  'use strict';
  const panel=document.querySelector('main.article .reading-controls');
- const article=panel?.closest('main.article');
+ const article=panel?.closest('main.article')||panel?.closest('article.article');
  if(!panel||!article)return;
  const storageKey='ejoeundental-reading-size';
  const allowed=new Set(['normal','large','extra']);
