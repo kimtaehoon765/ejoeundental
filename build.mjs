@@ -2164,6 +2164,58 @@ for(const route of healthSitemapRoutes){
 console.log('Health article safety notices and contact links checked: '+checkedHealthPatientInfo);
 
 
+// Give the existing care guides direct, crawlable links to relevant published
+// patient articles. Keep links in generated HTML (not an async client fetch)
+// and exclude posts already cited elsewhere on the same guide.
+{
+ const careStoryGuides=[
+  {file:'gum-treatment.html', topic:'gum', title:'잇몸치료와 관련된 환자 교육 글', match:/잇몸|치주|치은|치석|스케일링|큐렛/},
+  {file:'scaling.html', topic:'gum', title:'스케일링을 받은 뒤 궁금한 점', match:/스케일링|치석/},
+  {file:'retreatment.html', topic:'root', title:'신경치료·재신경치료 관련 글', match:/재신경치료|신경치료|근관치료|치근단/},
+  {file:'root-canal-health.html', topic:'root', title:'신경치료를 이해하는 데 도움이 되는 글', match:/신경치료|근관치료|재신경치료/},
+  {file:'cavity-treatment.html', topic:'cavity', title:'충치치료 전 읽어볼 글', match:/충치|레진|치아가 깨|치아파절/},
+  {file:'cervical-abrasion.html', topic:'cavity', title:'시린 이와 치경부마모증에 관한 글', match:/치경부|시린|마모증/},
+  {file:'denture.html', topic:'prosthetic', title:'틀니를 오래 편안하게 쓰기 위한 글', match:/틀니/},
+  {file:'implant.html', topic:'prosthetic', title:'임플란트 전에 알아둘 글', match:/임플란트|뼈이식/},
+  {file:'wisdom-tooth.html', topic:'wisdom', title:'사랑니 발치 전후 궁금한 점', match:/사랑니|발치.*지혈/},
+  {file:'insured-care.html', topic:'choice', title:'보험 진료와 치료 선택을 돕는 글', match:/건강보험|보험진료|보험 진료|과잉진료|치료비|진료비|저렴하게/}
+ ];
+ const storyText=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ let careStoryLinks=0;
+ for(const guide of careStoryGuides){
+  const filename=path.join(out,guide.file);
+  if(!fs.existsSync(filename))throw new Error('Missing public care guide for story links: '+guide.file);
+  let html=fs.readFileSync(filename,'utf8');
+  if(html.includes('data-care-story-links="1"'))throw new Error('Care story links already inserted: '+guide.file);
+  const eligible=posts.filter(post=>guide.match.test(String(post.title||'')) &&
+   !html.includes('/stories/'+encodeURIComponent(post.slug)+'/'))
+   .slice(0,5);
+  if(eligible.length<2)throw new Error('Not enough related published posts for '+guide.file);
+  for(const post of eligible){
+   const actual=path.join(out,'stories',post.slug,'index.html');
+   if(!fs.existsSync(actual))throw new Error('Missing story linked from '+guide.file+': '+post.slug);
+  }
+  const links=eligible.map(post=>
+   '<li style="margin:11px 0"><a href="/stories/'+encodeURIComponent(post.slug)+
+   '/" style="font-weight:750;color:#20533f">'+storyText(post.title)+'</a></li>'
+  ).join('');
+  const section='<section data-care-story-links="1" aria-label="관련 환자 교육 글" '+
+   'style="max-width:960px;margin:32px auto;padding:20px 22px;background:#f5f8f2;'+
+   'border:1px solid #d4e2d3;border-radius:14px;color:#244737">'+
+   '<h2 style="margin:0 0 10px;font-size:clamp(20px,3vw,26px)">'+storyText(guide.title)+'</h2>'+
+   '<p style="margin:0">원장이 작성한 블로그 자료를 환자분들이 이해하기 쉽게 정리했습니다. 궁금한 내용을 골라 읽어보세요.</p>'+
+   '<ul style="padding-left:21px;margin:10px 0 15px">'+links+'</ul>'+
+   '<p style="margin:0"><a href="/stories.html#topic-'+guide.topic+
+   '" style="font-weight:750;color:#20533f">같은 주제의 치과 이야기 더 보기 →</a></p></section>';
+  if(!html.includes('</main>'))throw new Error('Care guide missing closing main: '+guide.file);
+  html=html.replace(/<\/main>/i,section+'</main>');
+  fs.writeFileSync(filename,html,'utf8');
+  careStoryLinks+=eligible.length;
+ }
+ console.log('Care guides linked to published patient articles:',
+  careStoryGuides.length,'guides;',careStoryLinks,'article links');
+}
+
 // Always serve canonical URLs for the live custom domain unless a preview origin is explicitly selected.
 // The preview transform happens during initial generation; production URLs are normalized below.
 const selectedPublicOrigin = process.env.SITE_PUBLIC_ORIGIN || 'https://ejoeundental.com';
