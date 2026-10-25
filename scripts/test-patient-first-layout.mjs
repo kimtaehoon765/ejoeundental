@@ -1121,3 +1121,27 @@ test('related clinic stories vary with the patient question rather than repeatin
  });
  assert.ok(new Set(linked).size>=3,'patient articles should not all recommend identical posts');
 });
+
+
+test('all 79 clinic stories have safe mobile call and directions actions without relying on JavaScript',()=>{
+ const posts=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ const css=readFileSync('dist/assets/story-article.css','utf8');
+ assert.match(css,/\.story-mobile-actions\{display:none\}/);
+ assert.match(css,/@media\(max-width:600px\)/);
+ assert.match(css,/position:fixed/);
+ assert.match(css,/safe-area-inset-bottom/);
+ assert.match(css,/body\.owner-story-page\{/);
+ assert.match(css,/@media print\{[\s\S]*?\.story-mobile-actions\{display:none!important\}/);
+ for(const post of posts){
+  const html=readFileSync('dist/stories/'+post.slug+'/index.html','utf8');
+  assert.ok(html.includes('<body class="owner-story-page">'),post.slug+' mobile story scope missing');
+  const panels=[...html.matchAll(/<nav class="story-mobile-actions" aria-label="전화 문의와 진료 위치 안내">([\s\S]*?)<\/nav>/g)];
+  assert.equal(panels.length,1,post.slug+' must have one accessible contact strip');
+  const buttons=[...panels[0][1].matchAll(/<a [^>]*href="([^"]+)"[^>]*>/g)].map(m=>m[1]);
+  assert.deepEqual(buttons,['tel:0325132875','/#location'],post.slug+' contains a non-verified or missing action');
+  assert.ok(html.indexOf('class="story-mobile-actions"')>html.indexOf('</main>'),
+   post.slug+' strip must not displace the clinical content');
+  assert.ok(html.includes('<link rel="canonical" href="https://ejoeundental.com/stories/'+post.slug+'/'),
+   post.slug+' canonical URL must not change for a layout improvement');
+ }
+});
