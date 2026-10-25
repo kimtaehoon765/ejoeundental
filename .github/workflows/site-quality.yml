@@ -29,6 +29,8 @@ jobs:
         run: node --test scripts/test-search-results.mjs
       - name: Build and audit website
         run: npm run build:check
+      - name: Validate mobile Naver booking and fallback labels
+        run: node --test scripts/test-mobile-booking.mjs
       - name: Test published patient search index uses clinical text
         run: node --test scripts/test-search-content.mjs
       - name: Verify newest stories appear first on home, topics, care guides and RSS

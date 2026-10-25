@@ -1,5 +1,6 @@
 import fs from 'node:fs';import path from 'node:path';import {createHash} from 'node:crypto';
 import {extractSearchText} from './scripts/search-content-extractor.mjs';
+import {bookingAction} from './scripts/naver-booking-link.mjs';
 // Owner-only documents may be omitted ONLY after the authenticated replacement is live.
 // A single environment flag is not proof that migration and backups succeeded.
 const ownerPrivateReady=process.env.OWNER_LIBRARY_PRIVATE_READY==='1';
@@ -2933,6 +2934,24 @@ function brandPublicPages(dir){
   fs.writeFileSync(filename,document);
   brandedDocumentCount++;
  }
+}
+// Mobile-first phone and Naver reservation discovery. Until the clinic gives
+// its exact official booking URL, the label explicitly says Naver search.
+{
+ const homepageFile=path.join(out,'index.html');
+ const page=fs.readFileSync(homepageFile,'utf8');
+ const marker='<!-- BUILD_NAVER_BOOKING_MOBILE -->';
+ if(page.split(marker).length!==2)throw new Error('Expected one homepage booking action marker');
+ const bookingData=JSON.parse(fs.readFileSync(path.join(root,'content/site.json'),'utf8'));
+ const action=bookingAction(bookingData.naver_booking_url);
+ const safe=val=>String(val).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+ const buttons='<nav class="mobile-booking-actions" aria-label="휴대폰 진료 문의와 네이버 예약 안내">'+
+  '<a class="mobile-booking-call" href="tel:0325132875" aria-label="이조은치과 032-513-2875로 전화">☎ 전화 문의</a>'+
+  '<a class="mobile-booking-naver" href="'+safe(action.url)+'" target="_blank" rel="noopener noreferrer"'+
+  ' aria-label="'+safe(action.aria)+'">'+safe(action.label)+'</a>'+
+  '</nav>';
+ fs.writeFileSync(homepageFile,page.replace(marker,buttons));
+ console.log('Mobile booking action:',action.direct?'verified booking URL':'labeled Naver search (official booking URL not yet provided)');
 }
 brandPublicPages(out);
 const icoBytes=fs.readFileSync(path.join(out,'favicon.ico'));
