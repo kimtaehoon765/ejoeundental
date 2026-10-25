@@ -61,4 +61,4 @@ jobs:
       - name: Check every published internal page and resource link
         run: node scripts/check-internal-links.mjs
       - name: Exercise patient site search queries and document indexing
-        run: node --test scripts/test-mobile-booking.mjs scripts/test-story-directory.mjs scripts/test-story-chronology.mjs scripts/test-search-results.mjs scripts/test-search-content.mjs scripts/test-address-copy.mjs scripts/test-contact-card.mjs scripts/test-homepage-static-contact.mjs scripts/test-article-sharing.mjs scripts/test-faq-deep-links.mjs scripts/test-patient-first-layout.mjs scripts/test-archive-topics.mjs scripts/test-doctor-credentials.mjs
+        run: node --test scripts/test-preservation-hub.mjs scripts/test-mobile-booking.mjs scripts/test-story-directory.mjs scripts/test-story-chronology.mjs scripts/test-search-results.mjs scripts/test-search-content.mjs scripts/test-address-copy.mjs scripts/test-contact-card.mjs scripts/test-homepage-static-contact.mjs scripts/test-article-sharing.mjs scripts/test-faq-deep-links.mjs scripts/test-patient-first-layout.mjs scripts/test-archive-topics.mjs scripts/test-doctor-credentials.mjs

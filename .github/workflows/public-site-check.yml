@@ -14,6 +14,7 @@ on:
       - '*-faq.html'
       - 'gum-treatment.html'
       - 'retreatment.html'
+      - 'tooth-preservation.html'
       - 'insured-care.html'
       - 'medical-history.html'
       - 'medical-safety-guide.html'
@@ -54,6 +55,7 @@ jobs:
           test -s dist/previsit-checklist.html
           test -s dist/medical-safety-guide.html
           test -s dist/visit-guide.html
+          test -s dist/tooth-preservation.html
           grep -q 'href="/visit-guide.html"' dist/index.html
           grep -q '<loc>https://ejoeundental.com/visit-guide</loc>' dist/sitemap.xml
           grep -q '<loc>https://ejoeundental.com/medical-safety-guide</loc>' dist/sitemap.xml

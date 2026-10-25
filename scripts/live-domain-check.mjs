@@ -70,6 +70,7 @@ const urls = [
   { label: '검색엔진 sitemap', url: origin + '/sitemap.xml' },
   { label: '네이버 최신글 RSS', url: origin + '/rss.xml' },
   { label: '홈페이지 치과 이야기 전체 글', url: origin + '/stories.html' },
+  { label: '자연치아 보존 진료 안내', url: origin + '/tooth-preservation.html' },
   { label: '홈페이지 글 본문검색 데이터', url: origin + '/content/story-search-text.json' },
   ...latestArticleSamples.map(({slug})=>({
     label: '최신 공개 글 원본 비교: '+slug,
@@ -140,6 +141,14 @@ await Promise.all(urls.map(async ({label,url}) => {
        body.includes('TEL;TYPE=WORK,VOICE:'+verifiedClinic.phone)&&
        body.includes('URL:'+origin+'/')&&body.includes('END:VCARD');
       info.push(valid?'환자용 연락처 저장 파일 배포 확인':'연락처 저장 파일 운영 사이트 배포 확인 필요');
+    } else if (label === '자연치아 보존 진료 안내') {
+      const hasCanonical=body.includes('<link rel="canonical" href="'+origin+'/tooth-preservation.html">');
+      const linkedFromSite=body.includes('href="/stories.html#topic-preserve"')&&
+        body.includes('href="/retreatment.html"')&&body.includes('href="/gum-treatment.html"')&&
+        body.includes('href="/stories/2026-10-25-bupyeong-natural-tooth-versus-implant-maintenance/"');
+      info.push(response.status===200&&hasCanonical&&linkedFromSite?
+        '자연치아 보존 단독 환자 안내·진료·원장 글 실제 공개 확인':
+        '자연치아 보존 단독 안내 또는 진료 연결 최신 배포 확인 필요');
     } else if (label === '홈페이지 글 본문검색 데이터') {
       let valid = false;
       let count = 0;

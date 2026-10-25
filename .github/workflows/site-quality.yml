@@ -35,6 +35,8 @@ jobs:
         run: node --test scripts/test-search-content.mjs
       - name: Verify newest stories appear first on home, topics, care guides and RSS
         run: node --test scripts/test-story-chronology.mjs
+      - name: Check natural-tooth preservation hub and its clinical links
+        run: node --test scripts/test-preservation-hub.mjs
       - name: Test patient-article directory and lazy full-text search
         run: node --test scripts/test-story-directory.mjs
       - name: Validate patient-friendly breadcrumbs on 46 health articles
