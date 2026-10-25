@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 
 const read=(path)=>readFileSync('dist/'+path,'utf8');
-const degree='고려대학교 의학박사';
+const degree='고려대학교 의학박사(치과학 전공)';
 const specialty='통합치의학과 전문의';
 
 test('homepage introduces doctor credentials prominently and preserves direct diagnosis message',()=>{
@@ -24,7 +24,7 @@ test('homepage introduces doctor credentials prominently and preserves direct di
  const twitter=html.match(/<meta name="twitter:description" content="([^"]+)"/)?.[1];
  assert.equal(description,og);
  assert.equal(description,twitter);
- assert.match(description,/고려대학교 의학박사·통합치의학과 전문의/);
+ assert.match(description,/고려대학교 의학박사\(치과학 전공\)·통합치의학과 전문의/);
  assert.match(description,/통합치의학과 전문의/);
  assert.match(html,/\/assets\/home-enhancements\.css\?v=[^"']+/);
 });
@@ -57,4 +57,19 @@ test('shared presentation has accessible links and mobile layout',()=>{
  assert.match(home,/@media\(max-width:600px\)\{\.hero \.hero-doctor-credentials/);
  assert.match(treatment,/\.treatment-doctor-credentials a:focus-visible/);
  assert.match(treatment,/@media\(max-width:600px\)\{\.treatment-doctor-credentials/);
+});
+
+
+test('medical field of doctorate is consistent with source clinic data and all primary treatment pages',()=>{
+ const source=JSON.parse(readFileSync('content/site.json','utf8'));
+ assert.equal(source.doctor_degree,degree);
+ assert.ok(source.intro.includes(degree));
+ assert.ok(source.doctor_title.includes(degree));
+ assert.ok(source.doctor_body.includes('의학박사(치과학 전공)'));
+ for(const name of ['index.html','gum-treatment.html','retreatment.html']){
+  const html=read(name);
+  assert.ok(html.includes(degree),name+' must not omit the specific field of study');
+  assert.ok(!html.includes('고려대학교 의학박사 · 통합치의학과 전문의'),
+   name+' old ambiguous qualification statement remains');
+ }
 });
