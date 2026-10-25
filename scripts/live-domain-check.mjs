@@ -525,8 +525,11 @@ await Promise.all(urls.map(async ({label,url}) => {
       const collection=body.match(/<script type="application\/ld\+json">([^<]+)<\/script>/)?.[1];
       let items=0;
       try{items=JSON.parse(collection)?.mainEntity?.numberOfItems||0}catch{}
-      const ready=groups===5&&links.length===178&&new Set(links).size===178&&items===178&&body.includes('id="archive-blog-posts"');
-      info.push(ready?'원장 네이버 원문 178편·주제별 5묶음·검색 구조화 데이터 반영':'원장 글 178편 주제별 아카이브 신규 배포 확인 필요');
+      const ready=groups===5&&links.length===expectedOriginalCount&&
+        new Set(links).size===expectedOriginalCount&&items===expectedOriginalCount&&
+        body.includes('id="archive-blog-posts"');
+      info.push('원장 아카이브 원문 링크 '+links.length+'/'+expectedOriginalCount+'편 · '+groups+'개 주제'+
+        (ready?' · 검색 구조화 데이터 최신 반영':' · 배포 내용 및 구조화 데이터 재점검 필요'));
       info.push(body.includes('src="/assets/archive-topics.js?v=20261024-smartfind3"')
         ?'원장 글 제목 검색·주제 자동 펼침 스크립트 연결 반영'
         :'원장 글 제목 검색·주제 자동 펼침 신규 배포 확인 필요');
