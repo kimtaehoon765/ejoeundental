@@ -20,6 +20,7 @@
 | 저렴하면서 필요한 진료부터 | `2026-10-24-bupyeong-overtreatment-insurance-care-guide.json` | 기존 글 활용 |
 | 충치가 심할 때 치아를 빼야 하나요 | `2026-10-24-bupyeong-severe-toothache-deep-caries-extraction-vs-root-canal.json` | 기존 글 활용 |
 | 충치치료받을 때 과잉진료를 피하려면 | `2026-10-25-bupyeong-cavity-treatment-overtreatment-checklist.json` | 새 글 |
+| 산곡동치과 과잉진료 하는 치과들 피하고 싶다면 (인레이 여러 개·발치/임플란트·보험 진료) | `2026-10-25-sangok-overtreatment-inlay-resin-implant-options.json` | 원문 사진 6장 기반 새 글; 단정적인 표현을 진단 근거·환자 선택지 안내로 재구성 |
 
 실제 공개 여부는 GitHub main 커밋과 Cloudflare Pages 배포 상태 및 사이트 화면에서 따로 확인해야 한다. 게시 글은 `published: true`로 설정되면 정적 사이트 빌드 과정에서 `/stories/{slug}/`, 홈페이지 이야기 영역, `/stories.html`, `/search.html`, `sitemap.xml`에 포함된다.
 
