@@ -508,8 +508,11 @@ test('full dental story directory derives its Naver original count from the veri
  assert.ok(originals.length>=300,'the full owner blog collection must remain available');
  assert.equal(new Set(originals).size,originals.length,'Naver original links should be unique');
  const count=originals.length;
+ const description=directory.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+ const ogDescription=directory.match(/<meta property="og:description" content="([^"]+)"/)?.[1]||'';
+ assert.equal(description,ogDescription,'80-character search and social summaries must be synchronized');
+ assert.ok(description.length<=80,'Naver story directory snippet must stay concise');
  const references=[
-  '<meta property="og:description" content="원장이 작성한 치과 건강정보를 홈페이지에서 주제별로 읽어보세요. 네이버 블로그 원문 '+count+'편도 별도로 찾아볼 수 있습니다.">',
   '네이버 원문 '+count+'편',
   '네이버 블로그 원문 '+count+'편 별도로 보기'
  ];
