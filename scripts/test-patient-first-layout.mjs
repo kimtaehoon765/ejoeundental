@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
+import {runInNewContext} from 'node:vm';
 
 test('all 50 patient education pages show their topic before optional controls',()=>{
  const hubPages=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
@@ -1046,6 +1047,45 @@ test('all published clinic stories have accessible mobile reading and sharing co
    assert.ok(html.includes('/assets/'+file+'?v='),post.slug+': missing reading/sharing script');
   }
   assert.ok(html.includes('rel="canonical" href="https://ejoeundental.com/stories/'+post.slug+'/'),post.slug+': share requires published canonical URL');
+ }
+});
+
+
+
+test('font sizing stays functional on both owner stories and existing patient guides',()=>{
+ const script=readFileSync('dist/assets/reading-controls.js','utf8');
+ for(const variant of ['main','article']){
+  const current={attributes:{},setAttribute(k,v){this.attributes[k]=v;},
+   removeAttribute(k){delete this.attributes[k];}};
+  const buttons=['normal','large','extra'].map(readingSize=>({
+   dataset:{readingSize},attributes:{},handlers:{},
+   setAttribute(k,v){this.attributes[k]=v;},
+   addEventListener(k,callback){this.handlers[k]=callback;}
+  }));
+  const panel={classList:{classes:[],add(name){this.classes.push(name);}},
+   closest(selector){return selector===variant+'.article'?current:null;},
+   querySelectorAll(query){
+    assert.equal(query,'button[data-reading-size]');
+    return buttons;
+   }};
+  const document={querySelector(selector){
+   return selector===variant+'.article .reading-controls'?panel:null;
+  }};
+  const settings={};
+  const window={localStorage:{
+   getItem(key){return settings[key]||null;},
+   setItem(key,value){settings[key]=value;}
+  }};
+  runInNewContext(script,{document,window});
+  assert.ok(panel.classList.classes.includes('is-ready'),variant+': controls must activate');
+  buttons[1].handlers.click();
+  assert.equal(current.attributes['data-reading-size'],'large');
+  assert.equal(settings['ejoeundental-reading-size'],'large');
+  assert.equal(buttons[1].attributes['aria-pressed'],'true');
+  buttons[2].handlers.click();
+  assert.equal(current.attributes['data-reading-size'],'extra');
+  buttons[0].handlers.click();
+  assert.equal(current.attributes['data-reading-size'],undefined);
  }
 });
 
