@@ -2201,8 +2201,8 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  if(!name.startsWith('부평치과 |')||!name.includes('이조은치과')||
    !home.includes('<link rel="canonical" href="'+publicOrigin+'/">')||
    name!==titleOg||name!==titleTw||meta!==og||meta!==tw||
-   !meta.includes('부평치과')||meta.length>190||
-   !['인천 잇몸치료','부평 잇몸치료','인천 신경치료','부평 신경치료'].every(x=>meta.includes(x))){
+   !meta.includes('부평치과')||meta.length>80||
+   !['인천 잇몸치료','부평 잇몸치료','인천 신경치료','부평 신경치료'].every(x=>home.includes(x))){
   errors.push('부평치과 대표 홈페이지 검색 제목·소개·정식 주소 불일치');
  }
  if(!home.includes('id="intro">부평치과를 찾는 분께')||
