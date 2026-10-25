@@ -5,6 +5,20 @@ import {readFileSync,readdirSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {resolve} from 'node:path';
 
+// Source identity is Naver's verified account + numeric post ID, not a
+// mobile/desktop URL with arbitrary tracking parameters.
+export function canonicalNaverSource(raw) {
+ const value=String(raw||'').trim();
+ if(!value)return '';
+ try {
+  const u=new URL(value);
+  if(!['https:','http:'].includes(u.protocol) ||
+     !['blog.naver.com','m.blog.naver.com'].includes(u.hostname)||
+     u.username||u.password)return '';
+  const match=u.pathname.match(/^\/(kook765|tele654|radio654)\/([0-9]+)\/?$/i);
+  return match?match[1].toLowerCase()+'/'+match[2]:'';
+ }catch{return '';}
+}
 const normalizeText = value => String(value||'').normalize('NFKC').toLocaleLowerCase('ko-KR')
   .replace(/[\p{P}\p{S}\s]/gu,'');
 const shingles = (text,size=13) => {
@@ -29,7 +43,9 @@ export function analyzePublishedStories(records) {
  const duplicates=[],nearMatches=[];
  const exactSource=new Map(),exactBody=new Map();
  for(const item of entries) {
-  const source=item.source_url.trim();
+  const original=item.source_url.trim();
+  const key=canonicalNaverSource(original);
+  const source=key?'naver:'+key:original;
   if(source) {
    if(exactSource.has(source))duplicates.push({first:exactSource.get(source),second:item.slug,reason:'reused verified source URL'});
    else exactSource.set(source,item.slug);

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
-import {analyzePublishedStories} from './audit-story-uniqueness.mjs';
+import {analyzePublishedStories,canonicalNaverSource} from './audit-story-uniqueness.mjs';
 const phrase='치근 상태와 잇몸조직의 건강을 함께 살펴본 뒤 치료 여부와 유지 관리를 결정합니다. ';
 const record=(slug,body,source_url='')=>({slug,published:true,title:slug,body,source_url});
 
@@ -41,4 +41,32 @@ test('nearly copied prose with a small regional introduction is blocked by the p
  const result=analyzePublishedStories([record('original',a),record('copy-with-intro',b)]);
  assert.ok(result.duplicates.some(item=>item.reason.includes('near-identical article prose')),
   'adding one marketing sentence must not turn a near-copy into distinct patient education');
+});
+
+test('Naver original is identical through mobile, tracking query, slash and case variants',()=>{
+ const identity='kook765/224111222333';
+ for(const link of [
+  'https://blog.naver.com/kook765/224111222333',
+  'https://m.blog.naver.com/kook765/224111222333?utm_source=profile',
+  'http://blog.naver.com/KOOK765/224111222333/',
+  'https://blog.naver.com/kook765/224111222333?foo=bar#note'
+ ]) assert.equal(canonicalNaverSource(link),identity,link);
+ const d=analyzePublishedStories([
+  record('desktop',phrase.repeat(8),'https://blog.naver.com/kook765/224111222333'),
+  record('mobile','다른 의료 정보입니다. '.repeat(40),
+   'https://m.blog.naver.com/kook765/224111222333?utm_source=share')
+ ]);
+ assert.ok(d.duplicates.some(x=>x.reason==='reused verified source URL'));
+});
+test('unverified and misleading links never become clinic Naver source identities',()=>{
+ for(const link of [
+  'https://blog.naver.com/another-clinic/224111222333',
+  'https://blog.naver.com.evil.example/kook765/224111222333',
+  'https://blog.naver.com/kook765/not-numeric',
+  'https://blog.naver.com/kook765/224111222333/another',
+  'https://evil.example/?next=https://blog.naver.com/kook765/224111222333',
+  'javascript:alert(1)'
+ ])assert.equal(canonicalNaverSource(link),'',link);
+ assert.notEqual(canonicalNaverSource('https://blog.naver.com/kook765/224111222333'),
+  canonicalNaverSource('https://blog.naver.com/tele654/224111222333'));
 });
