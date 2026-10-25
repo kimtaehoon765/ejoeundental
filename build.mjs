@@ -497,7 +497,7 @@ let journalHomeHtml=fs.readFileSync(journalHomePath,'utf8');
 const journalMarker='<!-- BUILD_PUBLIC_STORIES -->';
 if(journalHomeHtml.split(journalMarker).length!==2)throw new Error('Missing unique homepage CMS journal marker');
 const escapeJournal=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-const latestJournal=posts.slice(0,6);
+const latestJournal=posts.slice(-6).reverse();
 const journalCards=latestJournal.map(post=>{
  const title=escapeJournal(post.title);
  const when=post.date?'<time class="date" datetime="'+escapeJournal(post.date)+'">'+escapeJournal(post.date)+'</time>':'';
@@ -508,7 +508,7 @@ const journalCards=latestJournal.map(post=>{
 // The homepage previously displayed only six published articles. All remaining
 // published owner stories now appear as smaller, accessible title links after
 // the first six cards. There is no fetch, pagination, or hidden extra page.
-const extraJournal=posts.slice(latestJournal.length).map(post=>
+const extraJournal=posts.slice(0,-latestJournal.length||undefined).reverse().map(post=>
  '<a class="journal-extra-entry" href="/stories/'+encodeURIComponent(post.slug)+'/">'+
  '<span>'+escapeJournal(post.title)+'</span><span aria-hidden="true">→</span></a>'
 ).join('');
@@ -520,6 +520,34 @@ const olderJournal=extraJournal?
  '<p class="journal-more-link"><a href="/stories.html">치과 이야기 전체 목록에서 주제별로 찾기 →</a></p>':'';
 const countMarkers=(journalHomeHtml.match(/<!-- BUILD_HOME_STORY_COUNT -->/g)||[]).length;
 if(countMarkers!==3)throw new Error('Homepage journal total labels are missing or duplicated');
+
+// New patient education should be discoverable from the homepage immediately,
+// even while the complete archive remains behind the compact details control.
+// Each link is a real crawlable HTML anchor to a published post, not a keyword
+// list or a JavaScript-generated card.
+const recentTopicDefinitions=[
+ {name:'잇몸치료·스케일링',match:/잇몸|치주|스케일링|치석|치은|큐렛/},
+ {name:'신경치료·재신경치료',match:/신경치료|재신경|근관|치수/},
+ {name:'충치·자연치아 보존',match:/충치|치경부|마모증|시린|자연치아|치아 균열/}
+];
+const recentTopicStories=[];
+for(const group of recentTopicDefinitions){
+ const found=posts.slice().reverse().find(post=>
+  group.match.test(String(post.title||''))&&!recentTopicStories.some(other=>other.slug===post.slug));
+ if(found)recentTopicStories.push({...found,topicLabel:group.name});
+}
+const visibleRecentNav=recentTopicStories.length?
+ '<nav class="journal-recent-topics" aria-label="최근 게시글 중 주요 진료 주제별 안내">'+
+ '<strong>최근 정리한 환자 질문</strong>'+
+ recentTopicStories.map(post=>
+  '<a href="/stories/'+encodeURIComponent(post.slug)+'/">'+
+  '<span>'+escapeJournal(post.topicLabel)+'</span>'+
+  '<span>'+escapeJournal(post.title)+'</span></a>').join('')+
+ '</nav>':'';
+const homeStoryHeading='<h3 class="home-story-group-heading">홈페이지에서 직접 읽는 글</h3>';
+if(journalHomeHtml.split(homeStoryHeading).length!==2)throw new Error('Missing unique home journal heading');
+journalHomeHtml=journalHomeHtml.replace(homeStoryHeading,homeStoryHeading+visibleRecentNav);
+
 journalHomeHtml=journalHomeHtml.replaceAll('<!-- BUILD_HOME_STORY_COUNT -->',String(posts.length));
 journalHomeHtml=journalHomeHtml.replace(journalMarker,journalCards+olderJournal||
  '<p class="clinic-native-empty">아직 공개된 홈페이지 치과 이야기 글이 없습니다. 진료 건강정보는 위에서 확인할 수 있습니다.</p>');
@@ -551,7 +579,7 @@ console.log('Homepage journal entries rendered without browser fetch:',posts.len
   active.map(group=>'<a href="#topic-'+group.id+'">'+group.name+' ('+grouped.get(group.id).length+')</a>').join('')+
   '</nav>';
  const sections=active.map(group=>{
-  const collection=grouped.get(group.id);
+  const collection=[...grouped.get(group.id)].reverse();
   const cards=collection.map(post=>{
    const title=escapeJournal(post.title);
    const summary=escapeJournal(String(post.summary||post.body||'').replace(/\s+/g,' ').trim().slice(0,190));
