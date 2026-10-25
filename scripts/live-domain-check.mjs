@@ -91,6 +91,9 @@ const urls = [
   { label: '잇몸 건강정보 탐색 경로', url: origin + '/health/gum-bleeding.html' },
   { label: '신경치료 건강정보 탐색 경로', url: origin + '/health/root-canal-after-pain.html' },
   { label: '자연치아 건강정보 진료 연결', url: origin + '/health/tooth-crack.html' },
+  { label: '보존 진료 연결 건강정보: 보존 원칙', url: origin + '/health/tooth-preservation.html' },
+  { label: '보존 진료 연결 건강정보: 신경치료와 발치', url: origin + '/health/root-canal-or-extraction.html' },
+  { label: '보존 진료 연결 건강정보: 흔들리는 치아', url: origin + '/health/loose-tooth.html' },
   { label: 'public route gum-health', url: origin + '/gum-health.html' },
   { label: 'public route root-canal-health', url: origin + '/root-canal-health.html' },
   { label: 'public route insurance-health', url: origin + '/insurance-health.html' },
@@ -662,6 +665,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       const present=bothAreas.every(term=>gumTitle.includes(term)&&gumDescription.includes(term)) &&
         body.includes('인천·부평 잇몸치료,') && body.includes('세월천로 34');
       info.push(present?'인천·부평 잇몸치료 검색 제목·설명·실제 주소 반영':'지역 잇몸치료 검색 문구 최신 배포 확인 필요');
+    }
+    if(label === '자연치아 건강정보 진료 연결' ||
+       label.startsWith('보존 진료 연결 건강정보: ')){
+      const linked=body.includes('href="/tooth-preservation.html"');
+      info.push(linked?'기존 환자 교육 글에서 발치 전 자연치아 보존 진료로 실제 연결':
+       '기존 환자 교육 글의 자연치아 보존 연결 최신 배포 확인 필요');
     }
     // Four separate treatment pages should link to the preservation hub.
     // This is a read-only real-domain check, distinct from the build tests.

@@ -72,3 +72,21 @@ test('symptom-first browsing offers a preservation decision path before lower pr
  assert.ok(homepage.indexOf('symptom-preservation-cta')<homepage.indexOf('id="focus-care"'),
   'the extraction question must not be buried below the clinical journals');
 });
+
+test('clinically relevant health questions link to the preservation decision guide and back',()=>{
+ const guides=[
+  'tooth-preservation.html','root-canal-or-extraction.html',
+  'tooth-crack.html','loose-tooth.html'
+ ];
+ for(const name of guides){
+  const path='dist/health/'+name;
+  const html=readFileSync(path,'utf8');
+  const content=html.split('<main')[1]?.split('</main>')[0]||'';
+  assert.ok(content.includes('href="/tooth-preservation.html"'),
+   path+' needs the patient-visible preservation care link');
+  assert.equal((content.match(/href="\/tooth-preservation\.html"/g)||[]).length,1,
+   path+' should have only one dedicated decision guide link');
+  assert.ok(page.includes('href="/health/'+name+'"'),
+   'the preservation guide should link back to the relevant focused health article: '+name);
+ }
+});
