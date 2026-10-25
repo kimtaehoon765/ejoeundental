@@ -556,6 +556,10 @@ await Promise.all(urls.map(async ({label,url}) => {
       const good = form >= 0 && results > form && suggestions > results;
       info.push(good ? '입력·결과가 추천 검색어보다 먼저 표시됨' : '입력·결과 배치 확인 필요');
       info.push(body.includes('class="search-visit-examples"') ? '산곡역·진료시간·주차 빠른 검색 반영' : '방문 정보 검색 바로가기 반영 확인 필요');
+      const naturalToothSearch=body.includes('aria-label="발치 전 자연치아 보존 질문"')&&
+       body.includes('href="/tooth-preservation.html"');
+      info.push(naturalToothSearch?'발치 전 치아 보존 환자말 검색 예시·진료 연결 반영':
+       '발치 전 환자 질문 검색 예시 최신 공개 확인 필요');
       const countCurrent=body.includes('네이버 블로그 원문 '+expectedOriginalCount+'편은')&&
        !body.includes('BUILD_NAVER_BLOG_COUNT')&&
        !body.includes('네이버 블로그 원문 323편은');

@@ -339,3 +339,40 @@ test('the expert reference shortcut does not duplicate maintenance documents in 
   assert.ok(!entries.some(e=>e.url===path),path+' should remain excluded from patient search');
  }
 });
+
+test('real patient extraction questions find tooth-saving guidance without needing dental terminology',async()=>{
+ const indexFile=new URL('../dist/content/search-index.json',import.meta.url);
+ assert.ok(existsSync(indexFile),'build search index must exist before clinical intent tests');
+ const pages=JSON.parse(readFileSync(indexFile,'utf8'));
+ assert.ok(pages.some(page=>page.url==='/tooth-preservation.html'));
+ for(const query of [
+  '치아를 뽑으라고 하는데',
+  '치아를 살릴 수 있나요',
+  '이를 빼야 하나요',
+  '신경치료한 치아를 뽑아야 하나요',
+  '임플란트 하기 전에',
+  '부평 치아를 뽑으라고 하는데'
+ ]){
+  const {results,status}=await search(query,pages);
+  const ordered=walk(results,x=>x.className==='result').slice(0,5).map(x=>x.href);
+  assert.equal(ordered[0],'/tooth-preservation.html',
+   query+' should surface the verified main preservation care page first: '+ordered.join(', '));
+  assert.ok(!/불러오지 못했습니다/.test(status.textContent));
+ }
+});
+
+test('extraction aftercare and wisdom-tooth questions do not trigger tooth-saving replacement terms',async()=>{
+ const pages=[
+  {url:'/tooth-preservation.html',title:'자연치아 보존 발치 전',description:'치아 발치 전',body:'자연치아 보존'},
+  {url:'/wisdom-tooth.html',title:'사랑니 발치',description:'사랑니를 뽑을 때 검사',body:'사랑니 빼야 하나요'},
+  {url:'/health/insurance-extraction.html',title:'발치 후 주의사항',description:'발치 후 통증',body:'발치 후 관리'},
+ ];
+ const after=await search('발치 후 통증',pages);
+ const afterLinks=walk(after.results,x=>x.className==='result').map(x=>x.href);
+ assert.ok(!afterLinks.includes('/tooth-preservation.html'),
+  'post-extraction problems should not be mislabeled as tooth-saving decisions');
+ const wisdom=await search('사랑니 빼야 하나요',pages);
+ const wisdomLinks=walk(wisdom.results,x=>x.className==='result').map(x=>x.href);
+ assert.ok(!wisdomLinks.includes('/tooth-preservation.html'),
+  'wisdom-tooth surgery belongs to its own clinical guidance');
+});
