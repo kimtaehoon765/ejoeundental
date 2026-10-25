@@ -13,6 +13,25 @@ test('published story directory offers accessible instant filtering with non-JS 
   assert.ok(stories>6, 'the full story directory must contain more than featured cards');
 });
 
+
+test('headline intent keeps endodontic gum-pus stories with root canal topics',()=>{
+ const html=readFileSync('dist/stories.html','utf8');
+ const samples=[
+  ['2026-10-24-incheon-root-canal-tooth-gum-swelling-retreatment','root'],
+  ['2026-10-25-bupyeong-scaling-after-gum-swelling','gum'],
+  ['2026-10-25-sangok-denture-partial-vs-complete-denture','prosthetic'],
+  ['2026-10-25-bupyeong-cavity-treatment-overtreatment-checklist','cavity']
+ ];
+ for(const [slug,topic] of samples){
+  const section=html.match(new RegExp('<section class="story-topic" id="topic-'+topic+'"[^>]*>[\\s\\S]*?<\\/section>'))?.[0]||'';
+  assert.ok(section.includes('href="/stories/'+slug+'/"'),
+   slug+' must appear under '+topic+' rather than its secondary symptom');
+  const article=readFileSync('dist/stories/'+slug+'/index.html','utf8');
+  assert.ok(article.includes('class="story-category"><a href="/stories.html#topic-'+topic+'"'),
+   slug+' must link back to its actual topical archive');
+ }
+});
+
 function setup() {
   const element=(textContent='')=>({
     textContent,hidden:false,handlers:{},attrs:{},
