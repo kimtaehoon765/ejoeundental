@@ -64,3 +64,11 @@ test('all four clinical decision pages connect readers to the preservation hub w
    'preserve earlier patient education rather than replacing its original link');
  }
 });
+
+test('symptom-first browsing offers a preservation decision path before lower priority site sections',()=>{
+ const symptom=homepage.split('<section class="symptom-navigator wrap"')[1]?.split('</section>')[0]||'';
+ assert.ok(symptom.includes('치아를 뽑아야 한다는 말을 들으셨나요?'));
+ assert.ok(symptom.includes('href="/tooth-preservation.html"'));
+ assert.ok(homepage.indexOf('symptom-preservation-cta')<homepage.indexOf('id="focus-care"'),
+  'the extraction question must not be buried below the clinical journals');
+});

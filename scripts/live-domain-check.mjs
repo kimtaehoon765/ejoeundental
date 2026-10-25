@@ -297,6 +297,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       const homeTotalStories=publishedCards+homeOlderLinks;
       info.push('홈페이지 내부 게시글 전체 링크: '+homeTotalStories+'/'+expectedPublishedCount+
        (homeTotalStories===expectedPublishedCount?'편 확인':'편 — 최신 게시글 배포 확인 필요'));
+      const preservationIntro=body.split('<aside class="symptom-preservation-cta"')[1]?.split('</aside>')[0]||'';
+      const homePreservationFound=preservationIntro.includes('치아를 뽑아야 한다는 말을 들으셨나요?')&&
+       preservationIntro.includes('href="/tooth-preservation.html"');
+      info.push(homePreservationFound
+       ?'첫 화면 증상 찾기에서 발치 전 자연치아 보존 질문과 진료 링크 제공'
+       :'발치 전 자연치아 안내 첫 화면 실제 배포 재확인 필요');
       const accessibleCounts=body.includes('aria-label="홈페이지에서 읽는 치과 이야기 '+
        expectedPublishedCount+'편으로 이동"')&&
        body.includes('aria-label="홈페이지 치과 이야기 '+expectedPublishedCount+'편 목록으로 이동"')&&

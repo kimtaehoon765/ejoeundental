@@ -1164,3 +1164,23 @@ test('all 79 clinic stories have safe mobile call and directions actions without
    post.slug+' canonical URL must not change for a layout improvement');
  }
 });
+
+test('the first patient symptom navigator surfaces extraction vs preservation without displacing six existing questions',()=>{
+ const html=readFileSync('dist/index.html','utf8');
+ const css=readFileSync('dist/assets/home-enhancements.css','utf8');
+ const before=html.split('<section class="symptom-navigator wrap"')[1]?.split('</section>')[0]||'';
+ const cards=before.split('<div class="symptom-navigator-grid">')[1]?.split('</div>')[0]||'';
+ assert.equal((cards.match(/<a href="\/health\//g)||[]).length,6,
+  'six existing symptom links should remain unchanged');
+ const preserve=before.split('<aside class="symptom-preservation-cta"')[1]?.split('</aside>')[0]||'';
+ assert.ok(preserve.includes('치아를 뽑아야 한다는 말을 들으셨나요?'));
+ assert.ok(preserve.includes('href="/tooth-preservation.html"'));
+ assert.ok(preserve.includes('발치가 필요한 이유'));
+ assert.ok(!/무조건|반드시 살릴/.test(preserve),'do not promise all teeth can be saved');
+ assert.ok(before.indexOf('symptom-preservation-cta')>before.indexOf('symptom-navigator-grid'));
+ assert.ok(before.indexOf('symptom-preservation-cta')<before.indexOf('symptom-previsit'));
+ assert.match(css,/\.symptom-preservation-cta\s*\{[\s\S]*?display:grid;/);
+ assert.match(css,/@media\(max-width:700px\)\{/);
+ assert.ok(html.includes('발치를 고민한다면 자연치아 보존 판단 기준 →'),
+  'primary clinical focus should link to the substantive preservation hub');
+});
