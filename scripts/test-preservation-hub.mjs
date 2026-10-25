@@ -50,3 +50,17 @@ test('search and preservation articles guide users back to the main care explana
    'published preservation stories must link to clinical preservation guidance');
  }
 });
+
+test('all four clinical decision pages connect readers to the preservation hub without removing older health guides',()=>{
+ for(const file of ['gum-treatment.html','retreatment.html','cavity-treatment.html','implant.html']){
+  const html=readFileSync('dist/'+file,'utf8');
+  assert.ok(html.includes('href="/tooth-preservation.html"'),
+   file+' should point to the treatment-oriented preservation guide');
+  assert.ok(html.indexOf('href="/tooth-preservation.html"')>html.indexOf('<main'),
+   file+' needs the link within patient-readable primary content');
+ }
+ for(const file of ['gum-treatment.html','retreatment.html','implant.html']){
+  assert.ok(readFileSync('dist/'+file,'utf8').includes('href="/health/tooth-preservation.html"'),
+   'preserve earlier patient education rather than replacing its original link');
+ }
+});
