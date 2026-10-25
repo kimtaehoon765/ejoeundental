@@ -369,9 +369,43 @@ const storyDirectoryLabels={
  wisdom:'사랑니 발치·지혈',choice:'치과 선택·건강보험·진료 원칙',
  other:'그 밖의 진료 이야기'
 };
-const relatedStoryCatalog=publishedSources.map(({name,post})=>({
-  slug:path.basename(name,'.json'),title:String(post.title||''),
-  topic:relatedStoryTopic(post.title)
+// A few distinctive clinical concepts are better similarity cues than repeating
+// locality words like "부평치과". Titles are weighted higher than summaries;
+// the algorithm never creates new content or crosses a medical topic just for SEO.
+const storyClinicalConcepts=[
+ ['bleeding',/출혈|피가\s*나|피나요|피가\s*나요/],
+ ['swelling',/잇몸\s*붓|잇몸\s*부|붓기|부종|부어/],
+ ['pus',/고름|누공|농양/],
+ ['pocket',/치주낭/],
+ ['mobility',/흔들리는|흔들려|흔들림|동요도/],
+ ['scaling',/스케일링|치석제거/],
+ ['curette',/큐렛|치근활택/],
+ ['sensitivity',/시린|시림|시려/],
+ ['abrasion',/치경부|마모증|패인\s*치아|패였/],
+ ['gi',/글라스아이오노머|\bGI\b|지아이/],
+ ['resin',/레진/],
+ ['crack',/금\s*간\s*치아|균열|파절|부러진|깨졌/],
+ ['extraction',/발치|이를\s*빼|뽑아/],
+ ['retreatment',/재신경치료|재근관치료/],
+ ['rootcanal',/신경치료|근관치료/],
+ ['post',/포스트/],
+ ['crown',/크라운|보철물/],
+ ['rootlesion',/치근단|뿌리\s*끝|검은\s*그림자/],
+ ['denturefit',/헐거운|헐거워|틀니\s*통증|틀니\s*조정/],
+ ['partialdenture',/부분틀니/],
+ ['implant',/임플란트/],
+ ['bonegraft',/뼈이식|상악동/],
+ ['wisdom',/사랑니/],
+ ['hemostatic',/지혈제|지혈/],
+ ['insurance',/보험|급여/],
+ ['overtreatment',/과잉진료|선결제|할인/],
+ ['reviews',/리뷰|후기|광고/],
+];
+const relatedStoryCatalog=publishedSources.map(({name,post},index)=>({
+ slug:path.basename(name,'.json'),title:String(post.title||''),
+ summary:String(post.summary||''),topic:relatedStoryTopic(post.title),index,
+ titleSignals:new Set(storyClinicalConcepts.filter(([,re])=>re.test(String(post.title||''))).map(([k])=>k)),
+ summarySignals:new Set(storyClinicalConcepts.filter(([,re])=>re.test(String(post.summary||''))).map(([k])=>k))
 }));
 const storyRelatedCssVersion=createHash('sha256')
  .update(fs.readFileSync(path.join(root,'assets','story-related.css')))
@@ -445,11 +479,7 @@ const articlePrev=currentArticleIndex>0?posts[currentArticleIndex-1]:null;
 const laterPublishedSource=publishedSources[currentArticleIndex+1]||null;
 const articleNext=laterPublishedSource?
  {slug:path.basename(laterPublishedSource.name,'.json'),title:laterPublishedSource.post.title}:null;
-const articleTopic=[post.title,post.summary,String(post.body||'').slice(0,1500)].filter(Boolean).join(' ');
-const topicLinks=[[/잇몸|치주|스케일링|치석|큐렛/,['잇몸치료 안내','/gum-treatment.html']],[/신경치료|근관|재신경/,['재신경치료 안내','/retreatment.html']],[/시린|치경부|마모|글라스아이오노머|지아이|\bGI\b/i,['치경부마모증 안내','/cervical-abrasion.html']],[/건강보험|보험적용|급여/,['건강보험 진료 안내','/insured-care.html']]].filter(([pattern])=>pattern.test(articleTopic)).slice(0,2).map(([,link])=>'<a href="'+link[1]+'">'+link[0]+' →</a>');
-const articleTopicNavigation=topicLinks.length?'<aside class="notice" aria-label="관련 진료 안내"><strong>관련 진료 안내</strong><p>'+topicLinks.join(' · ')+'</p></aside>':'';
-// Every article receives at most three local links, with its own topic
-// preferred. The newest available articles form an explicit general fallback.
+const articleTopic=[post.title,post.summary,String(post.body||'').slice(0,800)].filter(Boolean).join(' ');
 const currentStoryTopic=relatedStoryTopic(post.title);
 const headlineGroup=storyDirectoryTopic(post.title)||
  (['gum','root','cavity','wisdom','choice'].includes(currentStoryTopic)?
@@ -457,11 +487,53 @@ const headlineGroup=storyDirectoryTopic(post.title)||
 const articleCategoryLink='<p class="story-category"><a href="/stories.html#topic-'+
  headlineGroup+'" style="color:#245a44;font-weight:700">치과 이야기 · '+
  escaped(storyDirectoryLabels[headlineGroup]||storyDirectoryLabels.other)+' →</a></p>';
+const primaryCareByTopic={
+ gum:['잇몸치료 안내','/gum-treatment.html'],
+ root:['신경치료·재신경치료 안내','/retreatment.html'],
+ cavity:['충치치료 안내','/cavity-treatment.html'],
+ implant:['임플란트 안내','/implant.html'],
+ denture:['틀니 안내','/denture.html'],
+ wisdom:['사랑니 발치 안내','/wisdom-tooth.html'],
+ safety:['진료 전 안전 안내','/medical-safety-guide.html'],
+ choice:['건강보험·치료 선택 안내','/insured-care.html']
+};
+const primaryCare=(/치경부|마모증|시린/.test(String(post.title||''))&&currentStoryTopic==='cavity')?
+ ['시린 이·치경부마모증 안내','/cervical-abrasion.html']:
+ primaryCareByTopic[currentStoryTopic]||null;
+const additionalCare=[
+ [/잇몸|치주|스케일링/,['잇몸치료 안내','/gum-treatment.html']],
+ [/신경치료|재신경|근관/,['신경치료·재신경치료 안내','/retreatment.html']],
+ [/충치/,['충치치료 안내','/cavity-treatment.html']],
+ [/치경부|시린|마모증/,['시린 이·치경부마모증 안내','/cervical-abrasion.html']],
+ [/보험|급여/,['건강보험 적용 안내','/insured-care.html']],
+ [/틀니/,['틀니 안내','/denture.html']],
+ [/임플란트/,['임플란트 안내','/implant.html']],
+ [/사랑니/,['사랑니 안내','/wisdom-tooth.html']]
+].filter(([pattern,link])=>pattern.test([post.title,post.summary||''].join(' '))&&link[1]!==primaryCare?.[1])
+ .map(([,link])=>link);
+const careLinks=[primaryCare,...additionalCare].filter(Boolean)
+ .filter((link,index,list)=>list.findIndex(x=>x[1]===link[1])===index).slice(0,2);
+const articleTopicNavigation=careLinks.length?'<aside class="notice" aria-label="관련 진료 안내"><strong>관련 진료 안내</strong><p>'+
+ careLinks.map(([label,url])=>'<a href="'+url+'">'+label+' →</a>').join(' · ')+'</p></aside>':'';
+// Recommendations prioritize a distinctive shared clinical question within
+// the same treatment area. Never suggest a draft, the same article, or make
+// the same three most-recent links appear on every distinct patient question.
+const ownConcepts=new Set(storyClinicalConcepts.filter(([,re])=>
+ re.test(String(post.title||'')+' '+String(post.summary||''))).map(([key])=>key));
 const sameTopicStories=relatedStoryCatalog.filter(item=>
  item.slug!==slug&&item.topic===currentStoryTopic);
-const suggestedStories=(sameTopicStories.length?sameTopicStories:
- relatedStoryCatalog.filter(item=>item.slug!==slug))
- .slice(-3).reverse();
+const relatedPool=sameTopicStories.length?sameTopicStories:
+ relatedStoryCatalog.filter(item=>item.slug!==slug);
+const scoreRelatedStory=item=>{
+ let score=0;
+ for(const key of ownConcepts){
+  if(item.titleSignals.has(key))score+=4;
+  else if(item.summarySignals.has(key))score+=1;
+ }
+ return score;
+};
+const suggestedStories=relatedPool.slice().sort((a,b)=>
+ scoreRelatedStory(b)-scoreRelatedStory(a)||b.index-a.index).slice(0,3);
 const storyRelated=suggestedStories.length?
  '<aside class="story-related" aria-labelledby="related-story-title">'+
  '<h2 id="related-story-title">'+
