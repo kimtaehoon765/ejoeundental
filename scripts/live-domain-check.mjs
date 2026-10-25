@@ -55,6 +55,7 @@ const urls = [
   { label: '네이버 최신글 RSS', url: origin + '/rss.xml' },
   { label: '홈페이지 치과 이야기 전체 글', url: origin + '/stories.html' },
   { label: '최근 블로그 원고 대표 글 게시', url: origin + '/stories/2026-10-25-bupyeong-cavity-treatment-overtreatment-checklist/' },
+  { label: '재신경치료 글 진료 연결 확인', url: origin + '/stories/2026-10-24-incheon-root-canal-tooth-gum-swelling-retreatment/' },
   { label: '잇몸치료 상세 페이지', url: origin + '/gum-treatment.html' },
   { label: '재신경치료 이미지 초기 표시', url: origin + '/retreatment.html' },
   { label: 'care route implant', url: origin + '/implant.html' },
@@ -319,6 +320,18 @@ await Promise.all(urls.map(async ({label,url}) => {
        :'원고 수 또는 중복 확인 필요 — 실서버가 최신 배포가 아닐 수 있음');
       const canonical=body.match(/<link rel="canonical" href="([^"]+)"/)?.[1]||'';
       info.push(canonical===origin+'/stories.html'?'대표 주소 일치':'대표 주소 확인 필요 ('+canonical+')');
+    } else if (label === '재신경치료 글 진료 연결 확인') {
+      const relatedGuide=body.match(/<aside class="notice" aria-label="관련 진료 안내">([\s\S]*?)<\/aside>/)?.[1]||'';
+      const firstGuide=relatedGuide.match(/<a href="([^"]+)"/)?.[1]||'';
+      const clinicalLinks=body.match(/<aside class="story-related" aria-labelledby="related-story-title">([\s\S]*?)<\/aside>/)?.[1]||'';
+      const links=[...clinicalLinks.matchAll(/href="(\/stories\/[^"]+\/)"/g)].map(m=>m[1]);
+      const correct=response.status===200&&
+       body.includes('href="/stories.html#topic-root"')&&
+       firstGuide==='/retreatment.html'&&links.length>=1&&links.length<=3&&
+       new Set(links).size===links.length&&
+       !links.includes('/stories/2026-10-24-incheon-root-canal-tooth-gum-swelling-retreatment/');
+      info.push(correct?'신경치료 후 잇몸 고름 환자 글: 재신경치료 우선 연결·연관 글 정상 공개':
+       '관련 진료 안내 또는 연관 글 최신 배포 확인 필요');
     } else if (label === '최근 블로그 원고 대표 글 게시') {
       const slug='2026-10-25-bupyeong-cavity-treatment-overtreatment-checklist';
       const url=origin+'/stories/'+slug+'/';
