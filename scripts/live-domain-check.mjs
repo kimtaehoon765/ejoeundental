@@ -21,6 +21,13 @@ const publishedArticles = readdirSync(postDirectory).filter(name=>name.endsWith(
 const latestArticleSamples=publishedArticles.slice(-3).reverse()
  .map(({name,post})=>({slug:name.slice(0,-5),title:String(post.title||'')}));
 const expectedPublishedCount=publishedArticles.length;
+const newestPublishedArticles=[...publishedArticles].sort((a,b)=>
+ String(b.post.date||'').localeCompare(String(a.post.date||''))||
+ a.name.localeCompare(b.name));
+const publishedUrl=entry=>'/stories/'+encodeURIComponent(entry.name.slice(0,-5))+'/';
+const expectedNewestHomeUrls=newestPublishedArticles.slice(0,6).map(publishedUrl);
+const expectedNewestRssUrls=newestPublishedArticles.slice(0,20).map(
+ entry=>'https://ejoeundental.com/stories/'+encodeURIComponent(entry.name.slice(0,-5))+'/');
 if(expectedOriginalCount<1||expectedPublishedCount<1)
   throw new Error('Source control has no verified original links or published stories');
 const apex = 'ejoeundental.com';
@@ -253,6 +260,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       const publishedCards=(publishedSection.match(/<a class="card post-card" href="\/stories\//g)||[]).length;
       info.push('진료 증상 글 3편 첫 HTML 유지: '+(symptomCount===3?'확인':'확인 필요'));
       info.push('홈페이지 공개 글 서버 출력: '+(publishedCards>0&&body.includes('class="clinic-native-stories"')?publishedCards+'편 반영':'확인 필요'));
+      const liveHomeCardUrls=[...publishedSection.matchAll(/<a class="card post-card" href="(\/stories\/[^"]+\/)"[^>]*>/g)]
+       .map(match=>match[1]);
+      const newestHomeReady=liveHomeCardUrls.length===expectedNewestHomeUrls.length&&
+       liveHomeCardUrls.every((url,index)=>url===expectedNewestHomeUrls[index]);
+      info.push(newestHomeReady?'홈페이지 최근 원고 6편 날짜·정렬 최신순 실제 게시':
+       '홈페이지 6편이 최신 발행순으로 노출되는지 재검증 필요');
       const homeOlderLinks=(visibleStories.match(/class="journal-extra-entry" href="\/stories\//g)||[]).length;
       const homeTotalStories=publishedCards+homeOlderLinks;
       info.push('홈페이지 내부 게시글 전체 링크: '+homeTotalStories+'/'+expectedPublishedCount+
@@ -334,8 +347,12 @@ await Promise.all(urls.map(async ({label,url}) => {
        body.includes('<rss version="2.0"><channel>')&&bodyCounts===20&&
        itemLinks.length===bodyCounts&&new Set(itemLinks).size===bodyCounts&&
        completeBodies===bodyCounts&&onOwnDomain;
-      info.push(xmlReady?'네이버용 최신 게시글 20편 전체 본문·정식 주소 RSS 실제 배포 확인':
+      info.push(xmlReady?'네이버용 게시글 20편 전체 본문·정식 주소 RSS 실제 배포 확인':
        '네이버 RSS 실제 배포 또는 본문·링크 재검증 필요');
+      const feedOrderCurrent=itemLinks.length===expectedNewestRssUrls.length&&
+        itemLinks.every((url,index)=>url===expectedNewestRssUrls[index]);
+      info.push(feedOrderCurrent?'최신 발행 글 20편이 실제 RSS 맨 앞부터 최신순':
+        '실제 RSS가 최신 20편을 표시하지 않음 — 게시 코드/배포 업데이트 확인 필요');
     } else if (label === '검색엔진 sitemap') {
       const firstLoc = body.split('<loc>')[1]?.split('</loc>')[0] || '(없음)';
       info.push('정식 도메인 홈페이지: ' + (body.includes('<loc>' + origin + '/</loc>')?'포함':'확인 필요'));
