@@ -25,6 +25,10 @@ jobs:
           node --check build.mjs
           node --check assets/search.js
           node --check assets/site.js
+      - name: Check for repeated patient stories and original blog links
+        run: |
+          node --test scripts/test-story-uniqueness.mjs
+          node scripts/audit-story-uniqueness.mjs
       - name: Test website search results and keyboard-accessible pagination
         run: node --test scripts/test-search-results.mjs
       - name: Build and audit website
