@@ -3,6 +3,7 @@
 // A missing live domain must NOT turn a passing source build into a failure.
 import dns from 'node:dns/promises';
 import { appendFileSync, readFileSync, readdirSync } from 'node:fs';
+import { bookingAction } from './naver-booking-link.mjs';
 
 const verifiedClinic = JSON.parse(readFileSync(new URL('../content/site.json', import.meta.url), 'utf8'));
 // Compare the actual public site with source-controlled content counts. These
@@ -287,6 +288,16 @@ await Promise.all(urls.map(async ({label,url}) => {
       const homeTotalStories=publishedCards+homeOlderLinks;
       info.push('홈페이지 내부 게시글 전체 링크: '+homeTotalStories+'/'+expectedPublishedCount+
        (homeTotalStories===expectedPublishedCount?'편 확인':'편 — 최신 게시글 배포 확인 필요'));
+      const ownerBooking=bookingAction(verifiedClinic.naver_booking_url);
+      const bookingHtml=body.split('<nav class="mobile-booking-actions"')[1]?.split('</nav>')[0]||'';
+      const publicBookingUrl=ownerBooking.url.replaceAll('&','&amp;');
+      const bookingVisible=bookingHtml.includes('href="tel:0325132875"')&&
+       bookingHtml.includes('href="'+publicBookingUrl+'"')&&
+       bookingHtml.includes(ownerBooking.label);
+      info.push(bookingVisible
+       ?(ownerBooking.direct?'모바일 하단 전화·검증된 네이버 예약 바로가기 반영':
+          '모바일 하단 전화·네이버 예약 검색 안내 반영 (직접 예약 URL은 미등록)')
+       :'모바일 하단 전화·네이버 예약 안내 최신 배포 여부 확인 필요');
       const recentNav=body.split('<nav class="journal-recent-topics"')[1]?.split('</nav>')[0]||'';
       const recentNavLabels=[...recentNav.matchAll(/<span>([^<]+)<\/span>/g)]
        .map(match=>match[1]);
