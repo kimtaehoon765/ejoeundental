@@ -169,11 +169,14 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push('모네풍 디자인 HTML 배포: '+(monetOnPage?'확인':'미반영 — GitHub 최신 코드와 실제 홈페이지 다름'));
       info.push('최신 원장 소개·의료진 자격 메인 반영: '+(currentFirstScreen?'확인':'미반영 — 배포 연결/캐시 확인 필요'));
       const exactDoctorDegree='고려대학교 의학박사(치과학 전공)';
-      const exactDoctorReady=body.includes('<strong>'+exactDoctorDegree+'</strong>')&&
-       body.includes('id="doctor_degree">'+exactDoctorDegree+'</span>')&&
-       body.includes('"name": "원장 학위"')&&body.includes('"value": "'+exactDoctorDegree+'"');
+      const exactDoctorHero=body.includes('<strong>'+exactDoctorDegree+'</strong>');
+      const exactDoctorBio=body.includes('id="doctor_degree">'+exactDoctorDegree+'</span>');
+      const degreeSchemaReady=/"name"\s*:\s*"원장 학위"\s*,\s*"value"\s*:\s*"고려대학교 의학박사\(치과학 전공\)"/.test(body);
+      const exactDoctorReady=exactDoctorHero&&exactDoctorBio&&degreeSchemaReady;
       info.push(exactDoctorReady?'원장 학위 치과학 전공 표기·의료진·구조화 데이터 일치':
-       '원장 학위 치과학 전공의 실서버 반영 확인 필요');
+       '원장 학위 치과학 전공의 실서버 반영 확인 필요 (첫 화면 '+
+       (exactDoctorHero?'확인':'미반영')+', 소개 '+(exactDoctorBio?'확인':'미반영')+
+       ', 구조화 데이터 '+(degreeSchemaReady?'확인':'미반영')+')');
       const heroMarkup=body.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
       const credentialAt=heroMarkup.indexOf('고려대학교 의학박사');
       const galleryAt=heroMarkup.indexOf('class="hero-gallery-window"');
