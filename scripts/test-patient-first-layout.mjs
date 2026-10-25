@@ -284,13 +284,15 @@ test('wisdom extraction and implant bone-graft guides are searchable and accurat
  const cases=[
   {
    slug:'2026-10-25-bupyeong-wisdom-tooth-extraction-hemostatic-dressing',
-   source:'https://blog.naver.com/kook765/224333455599',
+   source:'https://blog.naver.com/kook765/224358099087',
+   provenance:'screenshots_summary',
    terms:['혈병','지혈재','항응고제','비용'],
    group:'topic-wisdom'
   },
   {
    slug:'2026-10-25-sangok-implant-bone-graft-always-necessary',
    source:'https://blog.naver.com/tele654/223968185898',
+   provenance:'topic_only',
    terms:['잔존골','상악동','CBCT','발치'],
    group:'topic-prosthetic'
   }
@@ -303,12 +305,14 @@ test('wisdom extraction and implant bone-graft guides are searchable and accurat
   const post=JSON.parse(readFileSync('content/posts/'+item.slug+'.json','utf8'));
   const html=readFileSync('dist/stories/'+item.slug+'/index.html','utf8');
   assert.equal(post.source_url,item.source,'owner original link must match supplied topic');
-  assert.equal(post.source_note,'topic_only','must never claim the full Naver article was read');
+  assert.equal(post.source_note,item.provenance,'source note should reflect the evidence actually supplied');
   assert.ok(post.published===true&&index.some(p=>p.slug===item.slug));
   assert.ok(post.body.length>=2000,'patient article should be substantive');
   for(const term of item.terms) assert.ok(post.body.includes(term),'missing clinical context: '+term);
-  assert.ok(html.includes('원문을 직접 복제하거나 요약한 글은 아닙니다'),
-   'attribution must disclose independently authored text');
+  assert.ok(html.includes(item.provenance==='screenshots_summary'
+    ?'원장이 제공한 네이버 블로그 본문 사진을 읽고 핵심 의견을 정리한 글입니다'
+    :'원문을 직접 복제하거나 요약한 글은 아닙니다'),
+   'attribution must disclose whether owner provided original screenshots');
   assert.ok(html.includes('href="'+item.source+'"'),'published article must link to its owner original');
   assert.ok(html.includes('href="/stories.html"'),'return to all clinic articles');
   assert.ok(directory.includes('href="/stories/'+item.slug+'/">'),'article must be in topic index');
@@ -833,4 +837,43 @@ test('owner July 27 root-canal-duration screenshots publish as one nuanced and l
  const related=process.match(/<ul class="patient-story-links-topical">([\s\S]*?)<\/ul>/)?.[1]||'';
  assert.ok(related.includes('href="/stories/'+slug+'/">'),
   'root canal process article should offer the newly published source text');
+});
+
+test('five original Naver wisdom-tooth screenshots become a single balanced hemostasis guide',()=>{
+ const slug='2026-10-25-bupyeong-wisdom-tooth-extraction-hemostatic-dressing';
+ const original='https://blog.naver.com/kook765/224358099087';
+ const post=JSON.parse(readFileSync('content/posts/'+slug+'.json','utf8'));
+ assert.equal(post.source_url,original);
+ assert.equal(post.source_note,'screenshots_summary');
+ assert.equal(post.published,true);
+ assert.equal(post.updated,'2026-10-25');
+ assert.ok(post.title.includes('사랑니')&&post.title.includes('지혈제'));
+ assert.ok(post.body.length>3800,'source-based patient guide must be medically substantial');
+ for(const term of ['거즈','압박','혈병','지혈재','항응고제','하치조신경관','삼산동','드라이소켓','진료비']){
+  assert.ok(post.body.includes(term),'important source detail missing: '+term);
+ }
+ assert.ok(post.body.includes('모든 환자에게 두 시간을 일률적으로 적용할 근거는 없습니다'),
+  'do not repeat a fixed two-hour postoperative packing instruction');
+ assert.ok(post.body.includes('국소 지혈재 사용 자체가 과잉진료의 증거는 아닙니다'),
+  'patient must not be told hemostatic materials are universally unnecessary');
+ assert.ok(post.body.includes('약을 임의로 끊으면 혈전이나 뇌졸중'),
+  'patients must not stop prescribed anticoagulants to avoid local hemostatic measures');
+ assert.ok(post.body.includes('실제 위치는 인천 부평구 청천동'),
+  'Samsan-dong SEO language must not misstate clinic location');
+ assert.ok(!post.body.includes('한 시간 이상 치료시간'),'do not infer other dentists margins');
+ const all=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ assert.equal(all.filter(x=>x.slug===slug).length,1,
+  'do not create a competing same-topic native article');
+ const html=readFileSync('dist/stories/'+slug+'/index.html','utf8');
+ assert.ok(html.includes('href="'+original+'"'),'blog URL must match user-provided screenshot topic');
+ assert.ok(html.includes('원장이 제공한 네이버 블로그 본문 사진을 읽고 핵심 의견을 정리한 글입니다'));
+ assert.ok((html.match(/<h2 id="story-section-\d+">/g)||[]).length>=8);
+ assert.match(html,/<details class="story-toc">/);
+ assert.ok(readFileSync('dist/stories.html','utf8').includes('href="/stories/'+slug+'/">'));
+ assert.ok(readFileSync('dist/sitemap.xml','utf8').includes('/stories/'+slug+'/</loc><lastmod>2026-10-25</lastmod>'));
+ assert.ok(JSON.parse(readFileSync('dist/content/search-index.json','utf8'))
+  .some(item=>item.url==='/stories/'+slug+'/'&&item.body.includes('지혈재')));
+ const info=readFileSync('dist/health/insurance-extraction.html','utf8');
+ assert.ok(info.includes('href="/stories/'+slug+'/">'),
+  'extraction guide must link to relevant wisdom-tooth hemostasis patient story');
 });
