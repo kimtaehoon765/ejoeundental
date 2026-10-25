@@ -52,6 +52,7 @@ const urls = [
   { label: '연락처 저장 vCard 배포', url: origin + '/clinic-contact.vcf' },
   { label: '검색엔진 robots', url: origin + '/robots.txt' },
   { label: '검색엔진 sitemap', url: origin + '/sitemap.xml' },
+  { label: '네이버 최신글 RSS', url: origin + '/rss.xml' },
   { label: '홈페이지 치과 이야기 전체 글', url: origin + '/stories.html' },
   { label: '최근 블로그 원고 대표 글 게시', url: origin + '/stories/2026-10-25-bupyeong-cavity-treatment-overtreatment-checklist/' },
   { label: '잇몸치료 상세 페이지', url: origin + '/gum-treatment.html' },
@@ -287,6 +288,18 @@ await Promise.all(urls.map(async ({label,url}) => {
     } else if (label === '검색엔진 robots') {
       const sitemapValue = body.split('Sitemap: ')[1]?.split('\n')[0]?.trim() || '(없음)';
       info.push('사이트맵: ' + sitemapValue);
+    } else if (label === '네이버 최신글 RSS') {
+      const itemLinks=[...body.matchAll(/<item>[\s\S]*?<link>([^<]+)<\/link>[\s\S]*?<\/item>/g)]
+       .map(m=>m[1]);
+      const bodyCounts=(body.match(/<item>/g)||[]).length;
+      const completeBodies=(body.match(/<description>[\s\S]*?<\/description>/g)||[]).length-1;
+      const onOwnDomain=itemLinks.every(url=>url.startsWith(origin+'/stories/'));
+      const xmlReady=response.status===200&&body.startsWith('<?xml version="1.0" encoding="UTF-8"?>')&&
+       body.includes('<rss version="2.0"><channel>')&&bodyCounts===20&&
+       itemLinks.length===bodyCounts&&new Set(itemLinks).size===bodyCounts&&
+       completeBodies===bodyCounts&&onOwnDomain;
+      info.push(xmlReady?'네이버용 최신 게시글 20편 전체 본문·정식 주소 RSS 실제 배포 확인':
+       '네이버 RSS 실제 배포 또는 본문·링크 재검증 필요');
     } else if (label === '검색엔진 sitemap') {
       const firstLoc = body.split('<loc>')[1]?.split('</loc>')[0] || '(없음)';
       info.push('정식 도메인 홈페이지: ' + (body.includes('<loc>' + origin + '/</loc>')?'포함':'확인 필요'));
