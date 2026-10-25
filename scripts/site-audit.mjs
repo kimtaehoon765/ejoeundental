@@ -1776,11 +1776,26 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
    errors.push('브랜드 파비콘 SVG 구조 및 의료기관명 확인 필요');
   }
  }
+ const icoPath=join(root,'favicon.ico');
+ if(!paths.has('/favicon.ico')||!existsSync(icoPath)){
+  errors.push('네이버 소프트 404 원인이던 /favicon.ico 실제 파일 누락');
+ }else{
+  const ico=readFileSync(icoPath);
+  if(ico.length<256||ico.readUInt16LE(0)!==0||ico.readUInt16LE(2)!==1||
+     ico.readUInt16LE(4)!==1||ico[6]!==32||ico[7]!==32||
+     !ico.subarray(0,128).includes(Buffer.from([137,80,78,71,13,10,26,10]))){
+   errors.push('파비콘 ICO는 32x32 PNG가 포함된 실제 바이너리 이미지여야 합니다');
+  }
+ }
  const link='<link rel="icon" type="image/svg+xml" href="/favicon.svg">';
+ const icoLink='<link rel="shortcut icon" type="image/x-icon" href="'+publicOrigin+'/favicon.ico">';
  for(const file of html){
   const text=readFileSync(file,'utf8');
   if(!text.includes(link)||(text.split(link).length-1)!==1){
-   errors.push('환자 공개 HTML 파비콘 링크 누락 또는 중복: '+file.slice(root.length+1));
+   errors.push('환자 공개 HTML 파비콘 SVG 링크 누락 또는 중복: '+file.slice(root.length+1));
+  }
+  if((text.split(icoLink).length-1)!==1){
+   errors.push('네이버/브라우저용 절대주소 ICO 바로가기 누락 또는 중복: '+file.slice(root.length+1));
   }
  }
 }
