@@ -36,7 +36,7 @@ test('unpublished drafts cannot block publication and real published corpus cont
 });
 
 test('nearly copied prose with a small regional introduction is blocked by the publishing guard',()=>{
- const a='환자의 남아 있는 치질과 치주낭 깊이, 치조골 상태를 정확히 평가하여 발치 여부와 보존치료 가능성을 함께 설명합니다. '.repeat(27);
+ const a=Array.from({length:120},(_,i)=>'확인항목 '+String(i+1)+'번: 남아 있는 치질과 치주낭 깊이, 치조골 상태를 평가하고 실제 환자의 검사 근거 '+String(i+1)+'를 설명합니다. ').join('');
  const b='인천 부평구 청천동에서 상담합니다. '+a;
  const result=analyzePublishedStories([record('original',a),record('copy-with-intro',b)]);
  assert.ok(result.duplicates.some(item=>item.reason.includes('near-identical article prose')),
