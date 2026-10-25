@@ -168,6 +168,12 @@ await Promise.all(urls.map(async ({label,url}) => {
         body.includes('통합치의학과 전문의');
       info.push('모네풍 디자인 HTML 배포: '+(monetOnPage?'확인':'미반영 — GitHub 최신 코드와 실제 홈페이지 다름'));
       info.push('최신 원장 소개·의료진 자격 메인 반영: '+(currentFirstScreen?'확인':'미반영 — 배포 연결/캐시 확인 필요'));
+      const exactDoctorDegree='고려대학교 의학박사(치과학 전공)';
+      const exactDoctorReady=body.includes('<strong>'+exactDoctorDegree+'</strong>')&&
+       body.includes('id="doctor_degree">'+exactDoctorDegree+'</span>')&&
+       body.includes('"name": "원장 학위"')&&body.includes('"value": "'+exactDoctorDegree+'"');
+      info.push(exactDoctorReady?'원장 학위 치과학 전공 표기·의료진·구조화 데이터 일치':
+       '원장 학위 치과학 전공의 실서버 반영 확인 필요');
       const heroMarkup=body.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
       const credentialAt=heroMarkup.indexOf('고려대학교 의학박사');
       const galleryAt=heroMarkup.indexOf('class="hero-gallery-window"');
@@ -511,8 +517,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       const hasDimensions=allImages.length===10 && allImages.every(x=>/\bwidth="\d+"/.test(x[0])&&/\bheight="\d+"/.test(x[0]));
       info.push(direct?'이미지 10개 첫 HTML 반영·추가 JSON 요청 제거':'실시간 그림 교체 스크립트 또는 개수 확인 필요');
       info.push(hasDimensions?'이미지 원본 크기 지정 확인':'이미지 크기 정보 확인 필요');
+      info.push(body.includes('<strong>고려대학교 의학박사(치과학 전공) · 통합치의학과 전문의</strong>')?
+       '재신경치료 페이지 원장 자격·전공 정확히 표시':'재신경치료 페이지 원장 전공 표기 확인 필요');
     } else if (label === '잇몸치료 상세 페이지') {
       info.push('치료정보: ' + (body.includes('잇몸치료')?'있음':'미확인'));
+      info.push(body.includes('<strong>고려대학교 의학박사(치과학 전공) · 통합치의학과 전문의</strong>')?
+       '잇몸치료 페이지 원장 자격·전공 정확히 표시':'잇몸치료 페이지 원장 전공 표기 확인 필요');
       const canonicalValue = body.split('rel="canonical" href="')[1]?.split('"')[0] || '(없음)';
       info.push('실제 최종 주소와 canonical: ' + (canonicalValue === response.url ? '일치' : '불일치') + ' (' + canonicalValue + ')');
       const gumTitle=body.match(/<title>([^<]+)<\/title>/)?.[1]||'';
