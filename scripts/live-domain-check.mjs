@@ -69,6 +69,7 @@ const urls = [
   { label: '검색엔진 sitemap', url: origin + '/sitemap.xml' },
   { label: '네이버 최신글 RSS', url: origin + '/rss.xml' },
   { label: '홈페이지 치과 이야기 전체 글', url: origin + '/stories.html' },
+  { label: '홈페이지 글 본문검색 데이터', url: origin + '/content/story-search-text.json' },
   ...latestArticleSamples.map(({slug})=>({
     label: '최신 공개 글 원본 비교: '+slug,
     url: origin + '/stories/' + encodeURIComponent(slug) + '/'
@@ -138,6 +139,22 @@ await Promise.all(urls.map(async ({label,url}) => {
        body.includes('TEL;TYPE=WORK,VOICE:'+verifiedClinic.phone)&&
        body.includes('URL:'+origin+'/')&&body.includes('END:VCARD');
       info.push(valid?'환자용 연락처 저장 파일 배포 확인':'연락처 저장 파일 운영 사이트 배포 확인 필요');
+    } else if (label === '홈페이지 글 본문검색 데이터') {
+      let valid = false;
+      let count = 0;
+      try {
+        const data = JSON.parse(body);
+        const published = new Map(publishedArticles.map(entry=>
+          [entry.name.slice(0,-5),String(entry.post.body||'').trim()]));
+        count=Array.isArray(data.entries)?data.entries.length:0;
+        valid=response.status===200&&data.version===1&&
+          count===published.size&&
+          data.entries.every(entry=>typeof entry.body==='string'&&
+            published.has(entry.slug)&&published.get(entry.slug)===entry.body)&&
+          new Set(data.entries.map(entry=>entry.slug)).size===count;
+      } catch {}
+      info.push(valid?'공개 글 '+count+'편 전체 본문 검색 자료가 실제 서버에서 제공됨':
+       '공개 글 본문 검색 자료 미배포 또는 최신 원고 불일치');
     } else if (label === 'Cloudflare Pages 임시주소 색인 확인') {
       const robotsTag=String(response.headers.get('x-robots-tag')||'').toLowerCase();
       info.push(robotsTag.split(',').some(x=>x.trim().startsWith('noindex'))
@@ -372,6 +389,10 @@ await Promise.all(urls.map(async ({label,url}) => {
        :'원고 수 또는 중복 확인 필요 — 실서버가 최신 배포가 아닐 수 있음');
       const canonical=body.match(/<link rel="canonical" href="([^"]+)"/)?.[1]||'';
       info.push(canonical===origin+'/stories.html'?'대표 주소 일치':'대표 주소 확인 필요 ('+canonical+')');
+      const indexed=body.match(/data-search-index="(\/content\/story-search-text\.json\?v=[a-f0-9]{12})"/)?.[1];
+      const script=body.match(/src="(\/assets\/story-directory\.js\?v=[a-f0-9]{12})"/)?.[1];
+      info.push(indexed&&script?'모바일 글 검색에 최신 버전 본문 색인과 검색 프로그램 연결됨':
+       '치과 이야기 본문 검색 프로그램 연결 또는 캐시 버전 확인 필요');
     } else if (label.startsWith('최신 공개 글 원본 비교: ')) {
       const slug=label.slice('최신 공개 글 원본 비교: '.length);
       const expected=latestArticleSamples.find(entry=>entry.slug===slug);
