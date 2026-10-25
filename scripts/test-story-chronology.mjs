@@ -31,19 +31,24 @@ test('homepage six featured patient stories are newest, not oldest',()=>{
   'the earlier stories should follow newest-first, without missing stories');
 });
 
-test('newest matching stories lead each main topic directory section',()=>{
+test('every topic directory section keeps its patient articles newest-first',()=>{
  const html=readFileSync('dist/stories.html','utf8');
- for(const [topic,predicate] of [
-  ['gum',t=>/잇몸치료|치주치료|스케일링|치주염/.test(t.split(/[｜|:：]/u)[0])],
-  ['root',t=>/재신경치료|신경치료|근관치료/.test(t.split(/[｜|:：]/u)[0])],
-  ['cavity',t=>/충치치료|치경부마모증|치아패임|치아파절|시린이/.test(t.split(/[｜|:：]/u)[0])]
- ]){
+ for(const topic of ['gum','root','cavity','prosthetic','wisdom','choice']){
   const section=html.match(new RegExp('<section class="story-topic" id="topic-'+topic+'"[^>]*>([\\s\\S]*?)<\\/section>'))?.[1]||'';
-  const first=links(section)[0];
-  const latest=published.find(({post})=>predicate(post.title))?.slug;
-  assert.ok(first&&latest,topic+' has no links or expected published post');
-  assert.equal(first,latest,topic+' must start with the newest matching post');
+  const articleSlugs=links(section);
+  assert.ok(articleSlugs.length>0,topic+' has no published article links');
+  const globalOrder=articleSlugs.map(slug=>published.findIndex(post=>post.slug===slug));
+  assert.ok(globalOrder.every(index=>index>=0),topic+' has an unknown published article');
+  assert.deepEqual(globalOrder,[...globalOrder].sort((a,b)=>a-b),
+   topic+' should show articles in descending publication date, then slug');
  }
+ const cavity=html.match(/<section class="story-topic" id="topic-cavity"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ const wisdom=html.match(/<section class="story-topic" id="topic-wisdom"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ const broken='2026-10-25-bupyeong-broken-tooth-extraction-vs-restoration';
+ assert.ok(links(cavity).includes(broken),
+  'a broken natural tooth article belongs with restorations, not wisdom tooth surgery');
+ assert.ok(!links(wisdom).includes(broken),
+  'generic extraction wording must not automatically mean wisdom teeth');
 });
 
 test('RSS 20 patient-education entries are the twenty most recent',()=>{

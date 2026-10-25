@@ -76,8 +76,8 @@ test('every published original clinic homepage article is reachable after expand
  const details=html.match(/<details class="clinic-native-stories" id="home-published-stories"[\s\S]*?<\/details>/)?.[0]||'';
  assert.ok(details, 'a native collapsible full clinic-story list must exist');
  const actual=[...details.matchAll(/href="(\/stories\/[^"]+\/?)"/g)].map(m=>m[1]);
- const expected=posts.slice().reverse().map(post=>'/stories/'+encodeURIComponent(post.slug)+'/');
- assert.deepEqual(actual,expected,'every published article is linked in reverse date order');
+ const expected=posts.map(post=>'/stories/'+encodeURIComponent(post.slug)+'/');
+ assert.deepEqual(actual,expected,'every published article is linked newest-first');
  assert.ok(details.includes('원장의 홈페이지 글 '+posts.length+'편 모두 보기'),'article total must be visible on the summary');
  assert.ok(html.indexOf('id="home-published-stories"')<html.indexOf('id="owner-blog-group"'),'full homepage articles must come before external Naver links');
  assert.ok(html.includes('📖 원장 네이버 블로그 원문 <strong>333편</strong>'),'original Naver collection must remain separately discoverable');
