@@ -1813,11 +1813,20 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const title=(s)=>s.match(/<title>([^<]+)<\/title>/)?.[1]||'';
  const schemas=(s)=>[...s.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
  const keywords=['인천 신경치료','부평 신경치료'];
- if(keywords.some(word=>!meta(home,'description').includes(word) ||
-   !home.includes('href="/root-canal-health.html"')) ||
-   meta(home,'description')!==og(home,'og:description') ||
-   meta(home,'description')!==meta(home,'twitter:description')){
-   errors.push('홈페이지 인천·부평 신경치료 안내·공유 설명 불일치');
+ const homeSummary=meta(home,'description');
+ // Naver URL Inspection recommends an approximately 80-character homepage
+ // snippet. Keep the four treatment/locality phrases in visible patient copy,
+ // while one concise summary stays identical in all social/search metadata.
+ if(homeSummary.length<55||homeSummary.length>80||
+   !homeSummary.includes('부평치과')||
+   !homeSummary.includes('인천 부평구 청천동')||
+   !homeSummary.includes('신경치료')||
+   !homeSummary.includes('의학박사(치과학 전공)')||
+   keywords.some(word=>!home.includes(word))||
+   !home.includes('href="/root-canal-health.html"')||
+   homeSummary!==og(home,'og:description')||
+   homeSummary!==meta(home,'twitter:description')){
+   errors.push('홈페이지 네이버 권장 80자 요약·인천 부평 신경치료 안내·공유 설명 불일치');
  }
  const hubSchema=schemas(hub).find(s=>s['@type']==='CollectionPage');
  if(keywords.some(word=>!title(hub).includes(word)||!meta(hub,'description').includes(word))||
