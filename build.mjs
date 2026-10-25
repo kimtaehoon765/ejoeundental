@@ -614,6 +614,18 @@ fs.writeFileSync(path.join(out,'content/search-index-46.json'),JSON.stringify(en
 // Every downstream consumer (home featured stories, topic directory, care links,
 // RSS) must respect newest-first ordering. Regression tests assert this invariant.
 posts.sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))||a.slug.localeCompare(b.slug));
+// A compact, public, cache-versioned full-text corpus exclusively for the
+// published clinic stories directory. Only download when a visitor starts
+// searching; initial page reading does not need to transfer entire articles.
+// The source is the same CMS posts that generated the real article pages.
+const storySearchData=JSON.stringify({
+ version:1,
+ entries:posts.map(post=>({slug:post.slug,body:String(post.body||'').trim()}))
+});
+const storySearchHash=createHash('sha256').update(storySearchData).digest('hex').slice(0,12);
+fs.writeFileSync(path.join(out,'content/story-search-text.json'),storySearchData,'utf8');
+console.log('Published-story full-text search index:',posts.length,'articles');
+
 // Render the CMS journal cards at build time. The three evergreen patient-education
 // tiles remain visible and are never replaced after the page loads.
 const journalHomePath=path.join(out,'index.html');
@@ -749,6 +761,11 @@ console.log('Homepage journal entries rendered without browser fetch:',posts.len
  const escapeJsonScript=value=>JSON.stringify(value).replace(/</g,'\\u003c');
  directory=directory
   .replace('<!-- BUILD_STORY_COUNT -->',String(posts.length))
+  .replace('<!-- BUILD_STORY_SEARCH_INDEX_URL -->',
+    '/content/story-search-text.json?v='+storySearchHash)
+  .replace('story-directory.js?v=20261025-filter1',
+    'story-directory.js?v='+createHash('sha256')
+     .update(fs.readFileSync(path.join(root,'assets/story-directory.js'))).digest('hex').slice(0,12))
   .replaceAll('<!-- BUILD_NAVER_BLOG_COUNT -->',String(ownerBlogCount))
   .replace('<!-- BUILD_STORY_DIRECTORY -->',nav+sections)
   .replace('<!-- BUILD_STORY_DIRECTORY_SCHEMA -->','<script type="application/ld+json">'+escapeJsonScript(schema)+'</script>');

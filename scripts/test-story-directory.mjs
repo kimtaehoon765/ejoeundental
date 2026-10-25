@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync,readdirSync} from 'node:fs';
 import {runInNewContext} from 'node:vm';
 
 const script=readFileSync(new URL('../assets/story-directory.js',import.meta.url),'utf8');
@@ -32,7 +32,7 @@ test('headline intent keeps endodontic gum-pus stories with root canal topics',(
  }
 });
 
-function setup() {
+function setup(fetchStub) {
   const element=(textContent='')=>({
     textContent,hidden:false,handlers:{},attrs:{},
     addEventListener(event,listener){this.handlers[event]=listener;},
@@ -42,8 +42,11 @@ function setup() {
     setAttribute(key,value){this.attrs[key]=value;}
   });
   const gumCard=element('잇몸에서 피가 나요 반복되는 출혈');
+  gumCard.attrs.href='/stories/test-gum/';
   const rootCard=element('재신경치료 후 통증 안내');
+  rootCard.attrs.href='/stories/test-root/';
   const rootCardTwo=element('인천 신경치료 원인');
+  rootCardTwo.attrs.href='/stories/test-root-two/';
   const gum=element(),root=element();
   gum.querySelectorAll=()=>[gumCard];
   root.querySelectorAll=()=>[rootCard,rootCardTwo];
@@ -62,6 +65,7 @@ function setup() {
   const label=element('특정 내용 찾기');
   const submit=element('건강정보 검색');
   const form=element();
+  form.attrs['data-search-index']='/content/story-search-text.json?v=0123456789ab';
   form.querySelector=(query)=>{
     if(query==='label[for="stories-q"]')return label;
     if(query==='button[type="submit"]')return submit;
@@ -75,13 +79,13 @@ function setup() {
     querySelector(selector){return selector==='form.directory-search'?form:null;},
     createElement(){return element();}
   };
-  runInNewContext(script,{document,console});
+  runInNewContext(script,{document,console, ...(fetchStub ? {fetch:fetchStub} : {})});
   return {gumCard,rootCard,rootCardTwo,gum,root,gumJump,rootJump,field,submit,form,status:form.inserted,reset:submit.inserted,label};
 }
 
 test('story directory finds Korean words, hides unmatched groups, and restores every article',()=>{
   const ui=setup();
-  assert.equal(ui.label.textContent,'홈페이지 글 3편에서 제목·내용 찾기');
+  assert.equal(ui.label.textContent,'홈페이지 글 3편에서 제목·본문 찾기');
   assert.equal(ui.submit.textContent,'목록에서 찾기');
   ui.field.value='재 신경치료';
   ui.field.handlers.input();
@@ -114,4 +118,63 @@ test('on-page story search never redirects on submit and handles empty results',
   assert.equal(ui.gum.hidden,true);
   assert.equal(ui.root.hidden,true);
   assert.match(ui.status.textContent,/일치하는 글이 없습니다/);
+});
+
+
+test('static published full-text corpus equals the real articles and excludes drafts',()=>{
+ const raw=readFileSync('dist/content/story-search-text.json','utf8');
+ const data=JSON.parse(raw);
+ assert.equal(data.version,1);
+ const originals=readdirSync('content/posts').filter(name=>name.endsWith('.json'))
+  .map(name=>({slug:name.slice(0,-5),post:JSON.parse(readFileSync('content/posts/'+name,'utf8'))}))
+  .filter(item=>item.post.published===true);
+ assert.equal(data.entries.length,originals.length);
+ assert.equal(new Set(data.entries.map(item=>item.slug)).size,originals.length);
+ for(const item of originals){
+  const entry=data.entries.find(row=>row.slug===item.slug);
+  assert.ok(entry,'Missing body for '+item.slug);
+  assert.equal(entry.body,item.post.body.trim(),'must index the real published article body');
+ }
+ const directory=readFileSync('dist/stories.html','utf8');
+ assert.match(directory,/data-search-index="\/content\/story-search-text\.json\?v=[a-f0-9]{12}"/);
+ assert.match(directory,/story-directory\.js\?v=[a-f0-9]{12}"/);
+ assert.ok(Buffer.byteLength(raw,'utf8')<2*1024*1024,'keep mobile text index under 2MB');
+});
+
+test('body-only search results appear after lazy loading and terms may be separated',async()=>{
+ let requests=0;
+ const index={version:1,entries:[
+  {slug:'test-gum',body:'치주낭이 깊으면 큐렛을 이용합니다.'},
+  {slug:'test-root',body:'재신경치료 과정에는 거타퍼차 제거와 근관 확인이 필요합니다.'},
+  {slug:'test-root-two',body:'염증이 있을 경우 영상으로 확인합니다.'}
+ ]};
+ const ui=setup(async(url,options)=>{
+  requests++;
+  assert.equal(url,'/content/story-search-text.json?v=0123456789ab');
+  assert.equal(options.credentials,'same-origin');
+  return {ok:true,json:async()=>index};
+ });
+ ui.field.value='거타퍼차';
+ ui.field.handlers.input();
+ assert.equal(ui.rootCard.hidden,true,'before full-text loaded, only title matches');
+ for(let i=0;i<8;i++)await Promise.resolve();
+ assert.equal(ui.rootCard.hidden,false,'body-only word finds the article');
+ assert.equal(ui.gumCard.hidden,true);
+ assert.match(ui.status.textContent,/검색 결과 1편/);
+ ui.field.value='거타퍼차 근관';
+ ui.field.handlers.input();
+ assert.equal(ui.rootCard.hidden,false,'AND terms match separated sentences');
+ assert.equal(requests,1,'one lazy fetch serves repeated searches');
+});
+
+test('failed or mismatched body download keeps instant titles searchable',async()=>{
+ const ui=setup(async()=>({ok:true,json:async()=>({version:1,entries:[]})}));
+ ui.field.value='재신경치료';
+ ui.field.handlers.input();
+ for(let i=0;i<8;i++)await Promise.resolve();
+ assert.equal(ui.rootCard.hidden,false);
+ assert.equal(ui.rootCardTwo.hidden,true);
+ assert.match(ui.status.textContent,/제목·요약만 검색/);
+ ui.reset.handlers.click();
+ assert.equal(ui.rootCardTwo.hidden,false,'reset still shows every published article');
 });

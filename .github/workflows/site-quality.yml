@@ -33,6 +33,8 @@ jobs:
         run: node --test scripts/test-search-content.mjs
       - name: Verify newest stories appear first on home, topics, care guides and RSS
         run: node --test scripts/test-story-chronology.mjs
+      - name: Test patient-article directory and lazy full-text search
+        run: node --test scripts/test-story-directory.mjs
       - name: Validate patient-friendly breadcrumbs on 46 health articles
         run: node --test scripts/test-health-breadcrumbs.mjs
       - name: Verify output
