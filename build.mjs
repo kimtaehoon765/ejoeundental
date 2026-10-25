@@ -340,7 +340,35 @@ const relatedStoryCategories=[
   ['safety',/수면치료|진정치료|마취|위험|환자 안전/],
   ['choice',/리뷰|과잉진료|진료비|가격|비용|광고|할인|양심|보험|선결제|치과 선택|치과 찾|저렴/]
 ];
-const relatedStoryTopic=title=>relatedStoryCategories.find(([,pattern])=>pattern.test(String(title||'')))?.[0]||'other';
+// The treatment that leads a Korean headline is the reader's search intent.
+ // "인천신경치료｜잇몸에 고름..." belongs with root-canal treatment even though
+ // the symptom description contains "잇몸". Use this only when the title gives
+ // a clear lead topic; all other titles retain the original category matching.
+const storyTitleIntent=title=>{
+ const first=String(title||'').split(/[｜|:：]/u)[0];
+ const intents=[
+  ['root',/재신경치료|신경치료|근관치료/],
+  ['gum',/잇몸치료|치주치료|스케일링|치주염/],
+  ['implant',/임플란트/],
+  ['denture',/틀니|의치/],
+  ['wisdom',/사랑니/],
+  ['cavity',/충치치료|치경부마모증|치아패임|치아파절|시린이/],
+ ];
+ return intents.find(([,pattern])=>pattern.test(first))?.[0]||'';
+};
+const relatedStoryTopic=title=>storyTitleIntent(title)||
+ relatedStoryCategories.find(([,pattern])=>pattern.test(String(title||'')))?.[0]||'other';
+const storyDirectoryTopic=title=>{
+ const intent=storyTitleIntent(title);
+ return ({implant:'prosthetic',denture:'prosthetic',root:'root',gum:'gum',
+  wisdom:'wisdom',cavity:'cavity'})[intent]||'';
+};
+const storyDirectoryLabels={
+ gum:'잇몸치료·스케일링',root:'신경치료·재신경치료',
+ cavity:'충치·시린 이·수복치료',prosthetic:'틀니·임플란트',
+ wisdom:'사랑니 발치·지혈',choice:'치과 선택·건강보험·진료 원칙',
+ other:'그 밖의 진료 이야기'
+};
 const relatedStoryCatalog=publishedSources.map(({name,post})=>({
   slug:path.basename(name,'.json'),title:String(post.title||''),
   topic:relatedStoryTopic(post.title)
@@ -407,6 +435,12 @@ const articleTopicNavigation=topicLinks.length?'<aside class="notice" aria-label
 // Every article receives at most three local links, with its own topic
 // preferred. The newest available articles form an explicit general fallback.
 const currentStoryTopic=relatedStoryTopic(post.title);
+const headlineGroup=storyDirectoryTopic(post.title)||
+ (['gum','root','cavity','wisdom','choice'].includes(currentStoryTopic)?
+ currentStoryTopic:['implant','denture'].includes(currentStoryTopic)?'prosthetic':'other');
+const articleCategoryLink='<p class="story-category"><a href="/stories.html#topic-'+
+ headlineGroup+'" style="color:#245a44;font-weight:700">치과 이야기 · '+
+ escaped(storyDirectoryLabels[headlineGroup]||storyDirectoryLabels.other)+' →</a></p>';
 const sameTopicStories=relatedStoryCatalog.filter(item=>
  item.slug!==slug&&item.topic===currentStoryTopic);
 const suggestedStories=(sameTopicStories.length?sameTopicStories:
@@ -430,7 +464,7 @@ const storyToc=articleHeadings.length>=3?
  '<details class="story-toc"><summary>이 글의 내용 바로가기 ('+articleHeadings.length+'개 항목)</summary>'+
  '<nav aria-label="글 목차">'+articleHeadings.map(section=>
   '<a href="#'+section.id+'">'+section.label+'</a>').join('')+'</nav></details>':'';
-const article=`<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escaped(post.title)} | 이조은치과</title><meta name="description" content="${articleDescription}"><meta property="og:type" content="article">${post.date?`<meta property="article:published_time" content="${escaped(post.date)}">`:""}<meta property="og:title" content="${escaped(post.title)} | 이조은치과"><meta property="og:description" content="${articleDescription}">${safeImage?`<meta property="og:image" content="https://ejoeundental.pages.dev${escaped(safeImage)}">`:""}<meta property="og:url" content="${articleUrl}"><meta property="og:locale" content="ko_KR"><meta property="og:site_name" content="이조은치과"><meta name="twitter:card" content="${safeImage?'summary_large_image':'summary'}"><meta name="twitter:title" content="${escaped(post.title)} | 이조은치과"><meta name="twitter:description" content="${articleDescription}"><script type="application/ld+json">${articleJson}</script><script type="application/ld+json">${breadcrumbJson}</script><link rel="canonical" href="https://ejoeundental.pages.dev/stories/${encodeURIComponent(slug)}/"><link rel="stylesheet" href="/assets/style.css"><link rel="stylesheet" href="/assets/story-related.css?v=${storyRelatedCssVersion}"><link rel="stylesheet" href="/assets/story-article.css?v=${storyArticleCssVersion}"><meta name="referrer" content="strict-origin-when-cross-origin"></head><body><a class="skip-link" href="#main-content">본문 바로가기</a><header><nav class="nav" aria-label="주요 메뉴"><a class="logo" href="/">이조은치과</a><div class="navlinks"><a href="/stories.html">치과 이야기</a><a href="/search.html">건강정보 검색</a><a href="/#location">오시는 길</a></div></nav></header><main id="main-content"><article class="article"><nav aria-label="현재 위치" class="back"><a href="/">홈</a> › <a href="/stories.html">치과 이야기</a> › <span aria-current="page">${escaped(post.title)}</span></nav><p class="eyebrow">DENTAL JOURNAL${post.date?` · <time datetime="${escaped(post.date)}">${escaped(post.date)}</time>`:""}${post.updated&&post.updated!==post.date?` · 내용 수정 <time datetime="${escaped(post.updated)}">${escaped(post.updated)}</time>`:""}</p><h1>${escaped(post.title)}</h1>${verifiedStoryAuthor?`<p style="font-size:14px;line-height:1.7;color:#4e6658">자료 제공: 이조은치과 원장 ${escaped(verifiedStoryAuthor)}</p>`:""}${typeof post.summary==="string"&&post.summary.trim()?`<p>${escaped(post.summary.trim())}</p>`:""}<hr style="border:0;border-top:1px solid #d7d9ca;margin:35px 0">${safeImage?`<img src="${escaped(safeImage)}" alt="${escaped(post.title)}" loading="lazy" decoding="async" style="display:block;max-width:100%;height:auto;margin:0 auto 28px;border-radius:14px">`:""}${storyToc}<section class="story-prose" aria-label="치과 이야기 본문">${renderedStoryBody}</section><p class="notice">이 글은 일반적인 건강 정보이며 진단이나 치료는 개별 진찰 결과에 따라 달라질 수 있습니다.</p><aside class="notice" aria-label="진료 문의"><strong>진료가 필요하신가요?</strong><br>원장이 직접 검진하고 필요한 치료부터 안내합니다.<br><a href="tel:0325132875">전화 문의 032-513-2875</a> · <a href="/#location">진료시간·오시는 길</a><br><small>격주 금요일·토요일 진료 일정은 방문 전 전화로 확인해 주세요.</small></aside>${articleSourceNote}${articleTopicNavigation}${storyRelated}${journalNavigation}</article></main><footer class="footer"><div class="wrap">이조은치과 · <a href="tel:0325132875">032-513-2875</a> · <a href="/#location">진료시간·오시는 길</a></div></footer></body></html>`;const dest=path.join(out,'stories',slug);fs.mkdirSync(dest,{recursive:true});fs.writeFileSync(path.join(dest,'index.html'),article)}// Publish all curated search entries instead of rebuilding the obsolete seven-page index.
+const article=`<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escaped(post.title)} | 이조은치과</title><meta name="description" content="${articleDescription}"><meta property="og:type" content="article">${post.date?`<meta property="article:published_time" content="${escaped(post.date)}">`:""}<meta property="og:title" content="${escaped(post.title)} | 이조은치과"><meta property="og:description" content="${articleDescription}">${safeImage?`<meta property="og:image" content="https://ejoeundental.pages.dev${escaped(safeImage)}">`:""}<meta property="og:url" content="${articleUrl}"><meta property="og:locale" content="ko_KR"><meta property="og:site_name" content="이조은치과"><meta name="twitter:card" content="${safeImage?'summary_large_image':'summary'}"><meta name="twitter:title" content="${escaped(post.title)} | 이조은치과"><meta name="twitter:description" content="${articleDescription}"><script type="application/ld+json">${articleJson}</script><script type="application/ld+json">${breadcrumbJson}</script><link rel="canonical" href="https://ejoeundental.pages.dev/stories/${encodeURIComponent(slug)}/"><link rel="stylesheet" href="/assets/style.css"><link rel="stylesheet" href="/assets/story-related.css?v=${storyRelatedCssVersion}"><link rel="stylesheet" href="/assets/story-article.css?v=${storyArticleCssVersion}"><meta name="referrer" content="strict-origin-when-cross-origin"></head><body><a class="skip-link" href="#main-content">본문 바로가기</a><header><nav class="nav" aria-label="주요 메뉴"><a class="logo" href="/">이조은치과</a><div class="navlinks"><a href="/stories.html">치과 이야기</a><a href="/search.html">건강정보 검색</a><a href="/#location">오시는 길</a></div></nav></header><main id="main-content"><article class="article"><nav aria-label="현재 위치" class="back"><a href="/">홈</a> › <a href="/stories.html">치과 이야기</a> › <span aria-current="page">${escaped(post.title)}</span></nav><p class="eyebrow">DENTAL JOURNAL${post.date?` · <time datetime="${escaped(post.date)}">${escaped(post.date)}</time>`:""}${post.updated&&post.updated!==post.date?` · 내용 수정 <time datetime="${escaped(post.updated)}">${escaped(post.updated)}</time>`:""}</p><h1>${escaped(post.title)}</h1>${articleCategoryLink}${verifiedStoryAuthor?`<p style="font-size:14px;line-height:1.7;color:#4e6658">자료 제공: 이조은치과 원장 ${escaped(verifiedStoryAuthor)}</p>`:""}${typeof post.summary==="string"&&post.summary.trim()?`<p>${escaped(post.summary.trim())}</p>`:""}<hr style="border:0;border-top:1px solid #d7d9ca;margin:35px 0">${safeImage?`<img src="${escaped(safeImage)}" alt="${escaped(post.title)}" loading="lazy" decoding="async" style="display:block;max-width:100%;height:auto;margin:0 auto 28px;border-radius:14px">`:""}${storyToc}<section class="story-prose" aria-label="치과 이야기 본문">${renderedStoryBody}</section><p class="notice">이 글은 일반적인 건강 정보이며 진단이나 치료는 개별 진찰 결과에 따라 달라질 수 있습니다.</p><aside class="notice" aria-label="진료 문의"><strong>진료가 필요하신가요?</strong><br>원장이 직접 검진하고 필요한 치료부터 안내합니다.<br><a href="tel:0325132875">전화 문의 032-513-2875</a> · <a href="/#location">진료시간·오시는 길</a><br><small>격주 금요일·토요일 진료 일정은 방문 전 전화로 확인해 주세요.</small></aside>${articleSourceNote}${articleTopicNavigation}${storyRelated}${journalNavigation}</article></main><footer class="footer"><div class="wrap">이조은치과 · <a href="tel:0325132875">032-513-2875</a> · <a href="/#location">진료시간·오시는 길</a></div></footer></body></html>`;const dest=path.join(out,'stories',slug);fs.mkdirSync(dest,{recursive:true});fs.writeFileSync(path.join(dest,'index.html'),article)}// Publish all curated search entries instead of rebuilding the obsolete seven-page index.
 // Search only substantive main-content text: shared navigation and footers must not create false matches.
 const entries=JSON.parse(fs.readFileSync(path.join(root,'content/search-index-46.json'),'utf8'));
 for(const entry of entries){
@@ -571,7 +605,9 @@ console.log('Homepage journal entries rendered without browser fetch:',posts.len
  const grouped=new Map(groups.map(group=>[group.id,[]]));
  for(const post of posts){
   const title=String(post.title||'');
-  const match=groups.find(group=>group.match&&group.match.test(title));
+  const lead=storyDirectoryTopic(title);
+  const match=lead?groups.find(group=>group.id===lead):
+   groups.find(group=>group.match&&group.match.test(title));
   grouped.get(match?.id||'other').push(post);
  }
  const active=groups.filter(group=>grouped.get(group.id).length);
