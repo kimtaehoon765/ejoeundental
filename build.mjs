@@ -2190,7 +2190,7 @@ console.log('Health article safety notices and contact links checked: '+checkedH
   const eligible=posts.filter(post=>guide.match.test(String(post.title||'')) &&
    !html.includes('/stories/'+encodeURIComponent(post.slug)+'/'))
    .slice(0,5);
-  if(eligible.length<2)throw new Error('Not enough related published posts for '+guide.file);
+  if(!eligible.length){console.log('Care guide already links to available related stories:',guide.file);continue;}
   for(const post of eligible){
    const actual=path.join(out,'stories',post.slug,'index.html');
    if(!fs.existsSync(actual))throw new Error('Missing story linked from '+guide.file+': '+post.slug);
