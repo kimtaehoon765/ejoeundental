@@ -25,6 +25,51 @@ walk(root);
 const html = files.filter(f => f.endsWith('.html'));
 const errors = [];
 const warnings = [];
+
+// Verify the new public RSS is a feed of actual, complete local clinic stories,
+// not merely summaries or external blog links. Naver's feed validation requires
+// same-domain URLs, nonempty items and content well under 10 MB.
+{
+ const rssPath=join(root,'rss.xml');
+ if(!existsSync(rssPath)){
+  errors.push('네이버 최신글 전체 본문 RSS 누락');
+ }else{
+  const xml=readFileSync(rssPath,'utf8');
+  const items=[...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].map(m=>m[1]);
+  const list=JSON.parse(readFileSync(join(root,'content/posts-index.json'),'utf8'));
+  const latest=list.slice(-20).reverse();
+  if(!xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>')||
+     !xml.includes('<rss version="2.0"><channel>')||
+     !xml.includes('<language>ko-KR</language>')||
+     items.length!==latest.length||
+     Buffer.byteLength(xml,'utf8')>=10*1024*1024){
+   errors.push('네이버 RSS XML 규격·문서 개수 또는 10MB 상한 오류');
+  }
+  const encodeXml=value=>String(value??'').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,'')
+   .replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
+  for(let i=0;i<Math.min(latest.length,items.length);i++){
+   const post=latest[i],content=items[i];
+   const url=publicOrigin+'/stories/'+encodeURIComponent(post.slug)+'/';
+   const original=JSON.parse(readFileSync(join('content','posts',post.slug+'.json'),'utf8'));
+   if(!content.includes('<link>'+encodeXml(url)+'</link>')||
+      !content.includes('<guid isPermaLink="true">'+encodeXml(url)+'</guid>')||
+      !content.includes('<title>'+encodeXml(original.title)+'</title>')||
+      !content.includes('<description>'+encodeXml(String(original.body||'').trim())+'</description>')||
+      original.published!==true){
+    errors.push('RSS 본문·실제 게시글 URL 불일치: '+post.slug);
+   }
+  }
+  for(const name of ['index.html','stories.html']){
+   const html=readFileSync(join(root,name),'utf8');
+   if(!html.includes('rel="alternate" type="application/rss+xml"')||
+      !html.includes('href="'+publicOrigin+'/rss.xml"')){
+    errors.push('RSS 자동 발견 링크 또는 공개 호스트 불일치: '+name);
+   }
+  }
+  if(!errors.some(x=>x.includes('RSS')))console.log('Naver-ready full-text RSS verified:',items.length,'unique published articles');
+ }
+}
+
 const paths = new Set(files.map(f => '/' + f.slice(root.length + 1).replaceAll('\\', '/')));
 // Validate the built, content-hashed CSS URL instead of yesterday's manually
 // chosen cache label. This catches stale links while allowing any CSS to change.
