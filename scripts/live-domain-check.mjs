@@ -49,6 +49,7 @@ const urls = [
   { label: 'Cloudflare Pages 임시주소 색인 확인', url: 'https://ejoeundental.pages.dev/' },
   { label: 'www 하위 경로·쿼리 리디렉션', url: 'https://www.' + apex + '/gum-treatment?utm_source=redirect_check' },
   { label: '브랜드 파비콘 SVG', url: origin + '/favicon.svg' },
+  { label: '네이버 소프트 404 파비콘 ICO 개선 확인', url: origin + '/favicon.ico' },
   { label: '연락처 저장 vCard 배포', url: origin + '/clinic-contact.vcf' },
   { label: '검색엔진 robots', url: origin + '/robots.txt' },
   { label: '검색엔진 sitemap', url: origin + '/sitemap.xml' },
@@ -291,6 +292,18 @@ await Promise.all(urls.map(async ({label,url}) => {
       const mobileGallery=valid&&body.includes('Homepage first-glance painting') &&
         body.includes('Screenshot follow-up')&&body.includes('body.home-page .hero-gallery-window');
       info.push('휴대전화 액자·상단 메뉴 스타일: '+(mobileGallery?'최신 디자인 CSS 확인':'신규 모바일 디자인 CSS 배포 확인 필요'));
+    } else if (label === '네이버 소프트 404 파비콘 ICO 개선 확인') {
+      // Check actual bytes, not merely HTTP 200: a soft 404 often returns HTML.
+      const bytes=new Uint8Array(await response.clone().arrayBuffer());
+      const size=bytes.length;
+      const isIco=size>=256&&bytes[0]===0&&bytes[1]===0&&bytes[2]===1&&
+        bytes[3]===0&&bytes[4]>=1&&bytes[6]===32&&bytes[7]===32;
+      const mime=(response.headers.get('content-type')||'').toLowerCase();
+      const iconMime=mime.startsWith('image/')||mime.includes('octet-stream');
+      const valid=response.status===200&&isIco&&iconMime;
+      info.push(valid?'32×32 실제 바이너리 ICO 공개 확인 — 이전 /favicon.ico 소프트 404 원인 수정':
+       '기본 파비콘 경로가 HTML로 응답하거나 ICO 배포가 아직 반영되지 않음');
+      info.push('파비콘 파일 '+size+'B, 응답 형식 '+(mime||'없음'));
     } else if (label === '브랜드 파비콘 SVG') {
       const branded=response.status===200 && body.includes('<svg') &&
         body.includes('이조은치과') && body.includes('#173e35');
