@@ -1,7 +1,8 @@
 /* Local-only reading preference; no analytics, cookies or server submission. */
 (function(){
  'use strict';
- const panel=document.querySelector('main.article .reading-controls');
+ const panel=document.querySelector('main.article .reading-controls')||
+  document.querySelector('article.article .reading-controls');
  const article=panel?.closest('main.article')||panel?.closest('article.article');
  if(!panel||!article)return;
  const storageKey='ejoeundental-reading-size';
