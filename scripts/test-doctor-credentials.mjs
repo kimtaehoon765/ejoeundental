@@ -24,6 +24,10 @@ test('homepage introduces doctor credentials prominently and preserves direct di
  const twitter=html.match(/<meta name="twitter:description" content="([^"]+)"/)?.[1];
  assert.equal(description,og);
  assert.equal(description,twitter);
+ assert.ok(description.length>=55&&description.length<=80,
+  'Naver homepage snippet should meet the 80-character URL Inspection recommendation');
+ for(const term of ['부평치과','인천 부평구 청천동','잇몸치료','신경치료','재신경치료'])
+  assert.ok(description.includes(term),'homepage snippet missing essential user-facing detail '+term);
  assert.match(description,/고려대학교 의학박사\(치과학 전공\)·통합치의학과 전문의/);
  assert.match(description,/통합치의학과 전문의/);
  assert.match(html,/\/assets\/home-enhancements\.css\?v=[^"']+/);
