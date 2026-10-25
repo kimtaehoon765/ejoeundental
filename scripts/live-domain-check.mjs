@@ -19,7 +19,7 @@ const publishedArticles = readdirSync(postDirectory).filter(name=>name.endsWith(
 // A sample of the newest real source files is checked on the live domain.
 // This catches new posts that build successfully but never reach public hosting.
 const latestArticleSamples=publishedArticles.slice(-3).reverse()
- .map(({name,post})=>({slug:name.replace(/\\.json$/,''),title:String(post.title||'')}));
+ .map(({name,post})=>({slug:name.slice(0,-5),title:String(post.title||'')}));
 const expectedPublishedCount=publishedArticles.length;
 if(expectedOriginalCount<1||expectedPublishedCount<1)
   throw new Error('Source control has no verified original links or published stories');
