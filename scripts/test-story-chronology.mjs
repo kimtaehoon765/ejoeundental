@@ -76,3 +76,20 @@ test('treatment guide related-story links include recent relevant articles',()=>
    filename+' must connect to recent relevant patient articles');
  }
 });
+
+test('homepage separately surfaces natural-tooth preservation beside three clinical topics',()=>{
+ const home=readFileSync('dist/index.html','utf8');
+ const archive=readFileSync('dist/stories.html','utf8');
+ const nav=home.split('<nav class="journal-recent-topics"')[1]?.split('</nav>')[0]||'';
+ const featured=[...nav.matchAll(/<a href="(\/stories\/[^"]+\/)"[^>]*>[\s\S]*?<span>([^<]+)<\/span>/g)]
+  .map(m=>({slug:hrefSlug(m[1]),category:m[2]}));
+ assert.equal(featured.length,4,'four distinct clinical question cards must appear');
+ assert.deepEqual(featured.map(x=>x.category),[
+  '잇몸치료·스케일링','신경치료·재신경치료','충치·수복치료','자연치아 보존'
+ ]);
+ const preservationSection=archive.split('<section class="story-topic" id="topic-preserve"')[1]?.split('</section>')[0]||'';
+ const firstPreserve=links(preservationSection)[0];
+ assert.ok(firstPreserve,'natural tooth preservation section must contain a real article');
+ assert.equal(featured[3].slug,firstPreserve,
+  'homepage preservation card must lead to newest real preservation article');
+});

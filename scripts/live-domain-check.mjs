@@ -287,9 +287,13 @@ await Promise.all(urls.map(async ({label,url}) => {
       const homeTotalStories=publishedCards+homeOlderLinks;
       info.push('홈페이지 내부 게시글 전체 링크: '+homeTotalStories+'/'+expectedPublishedCount+
        (homeTotalStories===expectedPublishedCount?'편 확인':'편 — 최신 게시글 배포 확인 필요'));
-      info.push(body.includes('class="journal-recent-topics"')?
-       '잇몸·신경·충치 최근 주제별 바로가기 확인':
-       '잇몸·신경·충치 최근 주제별 바로가기 미반영');
+      const recentNav=body.split('<nav class="journal-recent-topics"')[1]?.split('</nav>')[0]||'';
+      const recentNavLabels=[...recentNav.matchAll(/<span>([^<]+)<\/span>/g)]
+       .map(match=>match[1]);
+      const expectedRecent=['잇몸치료·스케일링','신경치료·재신경치료','충치·수복치료','자연치아 보존'];
+      info.push(expectedRecent.every((label,index)=>recentNavLabels[index*2]===label)?
+       '잇몸·신경·충치·자연치아 보존 핵심 4개 글 바로가기 실제 게시':
+       '홈페이지 핵심 4개 글 바로가기 구성 확인 필요');
 
       const heroStart = body.indexOf('<section class="hero wrap">');
       const heroEnd = body.indexOf('</section>',heroStart);

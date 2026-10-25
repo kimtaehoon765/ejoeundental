@@ -668,15 +668,20 @@ if(countMarkers!==3)throw new Error('Homepage journal total labels are missing o
 // even while the complete archive remains behind the compact details control.
 // Each link is a real crawlable HTML anchor to a published post, not a keyword
 // list or a JavaScript-generated card.
+// Four distinct patient questions on the homepage. Natural-tooth preservation
+// must lead to an actual article in that topic rather than a generic cavity post.
 const recentTopicDefinitions=[
  {name:'잇몸치료·스케일링',match:/잇몸|치주|스케일링|치석|치은|큐렛/},
  {name:'신경치료·재신경치료',match:/신경치료|재신경|근관|치수/},
- {name:'충치·자연치아 보존',match:/충치|치경부|마모증|시린|자연치아|치아 균열/}
+ {name:'충치·수복치료',match:/충치|치경부|마모증|시린|레진|치아 균열/},
+ {name:'자연치아 보존',topic:'preserve'}
 ];
 const recentTopicStories=[];
 for(const group of recentTopicDefinitions){
  const found=posts.find(post=>
-  group.match.test(String(post.title||''))&&!recentTopicStories.some(other=>other.slug===post.slug));
+  (group.topic?storyDirectoryTopic(post.title)===group.topic:
+    group.match.test(String(post.title||'')))&&
+  !recentTopicStories.some(other=>other.slug===post.slug));
  if(found)recentTopicStories.push({...found,topicLabel:group.name});
 }
 const visibleRecentNav=recentTopicStories.length?

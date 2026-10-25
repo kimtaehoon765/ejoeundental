@@ -1609,17 +1609,29 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  // symptom-based reading while avoiding invented locality landing pages.
  const quickNav=homepage.match(/<nav class="journal-recent-topics"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
  const quickLinks=[...quickNav.matchAll(/<a href="(\/stories\/[^"]+\/)"[^>]*>/g)].map(m=>m[1]);
- const topicPatterns=[/잇몸|치주|스케일링|치석|치은|큐렛/,/신경치료|재신경|근관|치수/,/충치|치경부|마모증|시린|자연치아|치아 균열/];
+ const topicPatterns=[
+  /잇몸|치주|스케일링|치석|치은|큐렛/,
+  /신경치료|재신경|근관|치수/,
+  /충치|치경부|마모증|시린|레진|치아 균열/
+ ];
  const expectedQuick=[];
  for(const re of topicPatterns){
   const found=postList.find(post=>re.test(String(post.title||''))&&!expectedQuick.some(other=>other.slug===post.slug));
   if(found)expectedQuick.push(found);
  }
+ // The separate natural-tooth card must go to the newest article actually
+ // filed in the natural-tooth topic (not one merely mentioning implants).
+ const preservationArchive=readFileSync(join(root,'stories.html'),'utf8')
+  .split('<section class="story-topic" id="topic-preserve"')[1]?.split('</section>')[0]||'';
+ const preserveSlug=preservationArchive.match(/href="\/stories\/([a-z0-9_-]+)\//)?.[1];
+ const preservePost=postList.find(post=>post.slug===preserveSlug);
+ if(preservePost&&!expectedQuick.some(post=>post.slug===preservePost.slug))
+  expectedQuick.push(preservePost);
  const expectedQuickLinks=expectedQuick.map(post=>'/stories/'+encodeURIComponent(post.slug)+'/');
  if(quickLinks.length!==expectedQuickLinks.length||
     expectedQuickLinks.some((url,i)=>quickLinks[i]!==url)||
     homepage.indexOf('class="journal-recent-topics"')>homepage.indexOf('class="clinic-native-stories"')){
-  errors.push('홈페이지 최신 주제별 잇몸·신경·충치 글 연결 누락 또는 정렬 오류');
+  errors.push('홈페이지 최신 주제별 잇몸·신경·충치·자연치아 글 연결 누락 또는 정렬 오류');
  }
  const olderEntries=[...homepage.matchAll(/<a class="journal-extra-entry" href="([^"]+)"/g)].map(m=>m[1]);
  const expectedOlder=postList.slice(expected.length).map(post=>'/stories/'+encodeURIComponent(post.slug)+'/');
