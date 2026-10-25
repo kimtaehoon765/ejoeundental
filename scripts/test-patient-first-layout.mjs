@@ -877,3 +877,50 @@ test('five original Naver wisdom-tooth screenshots become a single balanced hemo
  assert.ok(info.includes('href="/stories/'+slug+'/">'),
   'extraction guide must link to relevant wisdom-tooth hemostasis patient story');
 });
+
+test('July 25 owner photographs publish honest cervical GI-vs-resin options without duplicating broader tooth-wear story',()=>{
+ const slug='2026-10-25-samsan-cervical-abrasion-gi-insurance-vs-resin';
+ const original='https://blog.naver.com/kook765/224357473394';
+ const post=JSON.parse(readFileSync('content/posts/'+slug+'.json','utf8'));
+ assert.equal(post.source_url,original,'use actual original blog URL supplied in homepage archive');
+ assert.equal(post.source_note,'screenshots_summary','the user provided the full five image blog text');
+ assert.equal(post.published,true);
+ assert.equal(post.date,'2026-10-25');
+ assert.ok(post.title.includes('치경부마모증')&&post.title.includes('GI'));
+ assert.ok(post.body.length>=3800,'full screenshot article should become a substantial explanation');
+ for(const term of ['비우식성 치경부 병소','상아질','글라스아이오노머','복합레진',
+   '불소','보험','삼산동','칫솔','이갈이','2025']){
+  assert.ok(post.body.includes(term),'important topic absent: '+term);
+ }
+ assert.ok(post.body.includes('V자 패임을 보고 무조건 이를 꽉 물어서 생긴'),
+  'do not treat abfraction hypothesis as a confirmed shape-based diagnosis');
+ assert.ok(post.body.includes('GI 재료라면 모든 경우에 건강보험이 적용되는 것도 아닙니다'),
+  'do not give a blanket reimbursement guarantee');
+ assert.ok(post.body.includes('삼산동이 아닌 인천 부평구 청천동'),
+  'regional search queries must not imply the clinic is in Samsan-dong');
+ assert.ok(post.body.includes('GI와 복합레진 사이에 유의한 차이가 확인되지 않았습니다'),
+  'do not claim expensive composite automatically gives better outcomes');
+ const all=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ assert.equal(all.filter(x=>x.slug===slug).length,1,'this should be one dedicated original screenshot post');
+ assert.ok(all.some(x=>x.slug==='2026-10-24-bupyeong-tooth-wear-sensitivity-treatment'),
+  'keep older broad tooth-wear and sensitivity explainer');
+ const html=readFileSync('dist/stories/'+slug+'/index.html','utf8');
+ assert.ok(html.includes('href="'+original+'"'),'patients must be able to open the original');
+ assert.ok(html.includes('원장이 제공한 네이버 블로그 본문 사진을 읽고 핵심 의견을 정리한 글입니다'),
+  'clear photo-derived provenance note is required');
+ assert.ok((html.match(/<h2 id="story-section-\d+">/g)||[]).length>=8);
+ assert.match(html,/<details class="story-toc">/);
+ assert.ok(readFileSync('dist/stories.html','utf8').includes('href="/stories/'+slug+'/">'));
+ assert.ok(readFileSync('dist/sitemap.xml','utf8').includes('/stories/'+slug+'/</loc>'));
+ const search=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
+ assert.ok(search.some(x=>x.url==='/stories/'+slug+'/'&&x.body.includes('레진')),
+  'onsite search should index the full GI and resin comparison');
+ const service=readFileSync('dist/cervical-abrasion.html','utf8');
+ assert.ok(service.includes('href="/stories/'+slug+'/">'),
+  'cervical abrasion main service page must link to new original summary');
+ for(const care of ['cervical-abrasion.html','health/abrasion-gi.html','health/insurance-cervical.html']){
+  const page=readFileSync('dist/'+care,'utf8');
+  const nav=page.match(/<ul class="patient-story-links-topical">([\s\S]*?)<\/ul>/)?.[1]||'';
+  assert.ok(nav.includes('href="/stories/'+slug+'/">'),care+' must recommend matching GI guidance');
+ }
+});
