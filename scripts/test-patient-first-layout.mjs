@@ -1010,3 +1010,42 @@ test('six original overtreatment screenshots improve existing insurance guide in
  assert.ok(insurance.includes('href="/stories/'+slug+'/">'),
   'insured care page should link to patient checklist');
 });
+
+
+test('all published clinic stories have accessible mobile reading and sharing controls',()=>{
+ const posts=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ assert.ok(posts.length>=70,'expected the migrated clinic journal to remain published');
+ const js=readFileSync('dist/assets/reading-controls.js','utf8');
+ assert.ok(js.includes("panel?.closest('main.article')||panel?.closest('article.article')"),
+   'font preference must support the owner story article wrapper and health guides');
+ for(const post of posts){
+  const filename='dist/stories/'+post.slug+'/index.html';
+  const html=readFileSync(filename,'utf8');
+  const article=html.match(/<article class="article">([\s\S]*?)<\/article>/)?.[1]||'';
+  const headingAt=article.indexOf('<h1>');
+  const readingAt=article.indexOf('class="reading-controls"');
+  const sharingAt=article.indexOf('class="article-share-actions"');
+  const bodyAt=article.indexOf('class="story-prose"');
+  assert.ok(headingAt>=0&&readingAt>headingAt&&sharingAt>readingAt&&bodyAt>sharingAt,
+    post.slug+': buttons must follow title and precede full story, without hiding medical text');
+  assert.equal((html.match(/class="reading-controls"/g)||[]).length,1,
+    post.slug+': duplicated text-size panel');
+  assert.equal((html.match(/class="article-share-actions"/g)||[]).length,1,
+    post.slug+': duplicated sharing panel');
+  for(const action of ['share','copy','print']){
+   assert.ok(html.includes('data-article-action="'+action+'" hidden'),
+     post.slug+': optional share action must be hidden until supported');
+  }
+  for(const size of ['normal','large','extra'])
+   assert.ok(article.includes('data-reading-size="'+size+'"'));
+  assert.match(html,/<nav class="article-return-nav"[^>]*><a href="#main-content">/);
+  for(const file of ['reading-controls.css','article-sharing.css']){
+   assert.ok(html.includes('/assets/'+file+'?v='),post.slug+': missing reading/sharing stylesheet');
+  }
+  for(const file of ['reading-controls.js','article-sharing.js']){
+   assert.ok(html.includes('/assets/'+file+'?v='),post.slug+': missing reading/sharing script');
+  }
+  assert.ok(html.includes('rel="canonical" href="https://ejoeundental.com/stories/'+post.slug+'/'),post.slug+': share requires published canonical URL');
+ }
+});
+
