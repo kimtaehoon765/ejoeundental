@@ -288,6 +288,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       const homeTotalStories=publishedCards+homeOlderLinks;
       info.push('홈페이지 내부 게시글 전체 링크: '+homeTotalStories+'/'+expectedPublishedCount+
        (homeTotalStories===expectedPublishedCount?'편 확인':'편 — 최신 게시글 배포 확인 필요'));
+      const accessibleCounts=body.includes('aria-label="홈페이지에서 읽는 치과 이야기 '+
+       expectedPublishedCount+'편으로 이동"')&&
+       body.includes('aria-label="홈페이지 치과 이야기 '+expectedPublishedCount+'편 목록으로 이동"')&&
+       body.includes('· 홈페이지 글 '+expectedPublishedCount+'편 읽기 →');
+      info.push(accessibleCounts?'치과 이야기 메뉴·첫 화면 글 수가 공개 '+expectedPublishedCount+'편으로 일치':
+       '치과 이야기 첫 화면 안내 수와 실제 홈페이지 글 수 불일치');
       const ownerBooking=bookingAction(verifiedClinic.naver_booking_url);
       const bookingHtml=body.split('<nav class="mobile-booking-actions"')[1]?.split('</nav>')[0]||'';
       const publicBookingUrl=ownerBooking.url.replaceAll('&','&amp;');

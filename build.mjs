@@ -664,6 +664,9 @@ const olderJournal=extraJournal?
  '<p class="journal-more-link"><a href="/stories.html">치과 이야기 전체 목록에서 주제별로 찾기 →</a></p>':'';
 const countMarkers=(journalHomeHtml.match(/<!-- BUILD_HOME_STORY_COUNT -->/g)||[]).length;
 if(countMarkers!==3)throw new Error('Homepage journal total labels are missing or duplicated');
+const storyLinkMarkers=(journalHomeHtml.match(/<!-- BUILD_STORY_LINK_COUNT -->/g)||[]).length;
+if(storyLinkMarkers!==3)throw new Error('Homepage link accessible labels must use verified published story counts');
+journalHomeHtml=journalHomeHtml.replaceAll('<!-- BUILD_STORY_LINK_COUNT -->',String(posts.length));
 
 // New patient education should be discoverable from the homepage immediately,
 // even while the complete archive remains behind the compact details control.

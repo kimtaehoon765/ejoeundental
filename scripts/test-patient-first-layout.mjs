@@ -63,6 +63,16 @@ test('clinic stories have direct prominent desktop and mobile navigation',()=>{
  assert.ok(header.includes('href="/stories.html" class="stories-mobile-link"'),'mobile shortcut must open stories directly');
  assert.ok(header.includes('href="/stories.html" class="stories-nav-link"'),'desktop primary navigation must open stories directly');
  assert.ok(header.includes('📖 치과<br>이야기'),'full mobile label must be legible on narrow screens');
+ const published=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ const storyLabel='홈페이지에서 읽는 치과 이야기 '+published.length+'편으로 이동';
+ assert.ok(header.includes('aria-label="'+storyLabel+'"'),'mobile shortcut should describe published stories, not Naver source count');
+ assert.ok(html.includes('aria-label="홈페이지 치과 이야기 '+published.length+'편 목록으로 이동"'),
+  'hero story shortcut must match the real destination and published count');
+ assert.ok(html.includes('· 홈페이지 글 '+published.length+'편 읽기 →'),
+  'visible homepage story shortcut count must be the current published total');
+ assert.ok(!html.includes('BUILD_STORY_LINK_COUNT'),'no dynamic count markers in deployed HTML');
+ assert.ok(!html.includes('치과 이야기와 블로그 글 333편으로 바로가기'),
+  'the article directory is distinct from original Naver blog posts');
  assert.match(html,/<p class="hero-stories-shortcut"><a href="\/stories.html"/,'hero provides another readily visible story entrance');
  assert.match(html,/<style id="stories-menu-visibility">/,'highlight must not depend on old cached CSS');
  assert.match(html,/<section class="section light" id="stories">/,'menu target must exist');
