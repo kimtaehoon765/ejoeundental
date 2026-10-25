@@ -513,6 +513,7 @@ const additionalCare=[
  [/잇몸|치주|스케일링/,['잇몸치료 안내','/gum-treatment.html']],
  [/신경치료|재신경|근관/,['신경치료·재신경치료 안내','/retreatment.html']],
  [/충치/,['충치치료 안내','/cavity-treatment.html']],
+ [/자연치아|치아.{0,20}살릴|치아.{0,20}살리|발치\s*전|치아를 보존|치아가 조금 남아도/,['자연치아 보존·발치 전 확인','/tooth-preservation.html']],
  [/치경부|시린|마모증/,['시린 이·치경부마모증 안내','/cervical-abrasion.html']],
  [/보험|급여/,['건강보험 적용 안내','/insured-care.html']],
  [/틀니/,['틀니 안내','/denture.html']],
