@@ -1089,3 +1089,35 @@ test('font sizing stays functional on both owner stories and existing patient gu
  }
 });
 
+
+
+test('each public patient story links first to its actual treatment, not just a shared symptom',()=>{
+ const examples=[
+  ['2026-10-24-incheon-root-canal-tooth-gum-swelling-retreatment','/retreatment.html'],
+  ['2026-10-25-bupyeong-scaling-after-gum-swelling','/gum-treatment.html'],
+  ['2026-10-25-bupyeong-cavity-treatment-overtreatment-checklist','/cavity-treatment.html'],
+  ['2026-10-25-sangok-denture-partial-vs-complete-denture','/denture.html'],
+  ['2026-10-25-cheongcheon-flapless-vs-open-flap-implant-surgery','/implant.html'],
+  ['2026-10-25-bupyeong-wisdom-tooth-extraction-hemostatic-dressing','/wisdom-tooth.html'],
+ ];
+ for(const [slug,expectedGuide] of examples){
+  const html=readFileSync('dist/stories/'+slug+'/index.html','utf8');
+  const nav=html.match(/<aside class="notice" aria-label="관련 진료 안내">([\s\S]*?)<\/aside>/)?.[1]||'';
+  const urls=[...nav.matchAll(/<a href="([^"]+)"/g)].map(m=>m[1]);
+  assert.equal(urls[0],expectedGuide,slug+' should prioritize the correct main treatment guide');
+  assert.equal(new Set(urls).size,urls.length,slug+' should never repeat a guide link');
+  assert.ok(urls.length>=1&&urls.length<=2,slug+' should show only focused patient navigation');
+ }
+});
+
+test('related clinic stories vary with the patient question rather than repeating one generic trio',()=>{
+ const posts=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ const rootPosts=posts.filter(post=>/신경치료|재신경치료|근관치료/.test(post.title)).slice(-12);
+ assert.ok(rootPosts.length>=4,'need several substantive root canal articles');
+ const linked=rootPosts.map(post=>{
+  const html=readFileSync('dist/stories/'+post.slug+'/index.html','utf8');
+  const aside=html.match(/<aside class="story-related" aria-labelledby="related-story-title">([\s\S]*?)<\/aside>/)?.[1]||'';
+  return [...aside.matchAll(/<a href="(\/stories\/[^"]+\/)"/g)].map(m=>m[1]).join('|');
+ });
+ assert.ok(new Set(linked).size>=3,'patient articles should not all recommend identical posts');
+});
