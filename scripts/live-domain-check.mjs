@@ -351,6 +351,14 @@ await Promise.all(urls.map(async ({label,url}) => {
        /\/assets\/article-sharing\.js\?v=[a-f0-9]{12}/.test(body);
       info.push(mobileReader?'모바일 글자 크기·공유·링크복사·인쇄·맨 위로 기능 실제 공개 확인':
        '모바일 글 읽기·공유 기능이 최신 공개 사이트에 있는지 확인 필요');
+      const mobileActions=body.match(/<nav class="story-mobile-actions" aria-label="전화 문의와 진료 위치 안내">([\s\S]*?)<\/nav>/)?.[1]||'';
+      const livePatientActions=response.status===200&&
+        body.includes('<body class="owner-story-page">')&&
+        mobileActions.includes('href="tel:0325132875"')&&
+        mobileActions.includes('href="/#location"')&&
+        body.includes('/assets/story-article.css?v=');
+      info.push(livePatientActions?'모바일 고정 전화·오시는 길 2개 버튼 실제 공개 확인':
+       '모바일 전화·오시는 길 버튼의 실서버 배포 확인 필요');
     } else if (label === '잇몸 건강정보 탐색 경로' || label === '신경치료 건강정보 탐색 경로' || label === '자연치아 건강정보 진료 연결') {
       const correctHub = label.includes('잇몸') ? '/gum-health.html' : label.includes('신경치료') ? '/root-canal-health.html' : '/additional-health.html';
       // Cloudflare publishes /gum-health while source anchors can use /gum-health.html.
