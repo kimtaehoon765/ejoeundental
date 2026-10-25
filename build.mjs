@@ -2296,6 +2296,49 @@ const selectedPublicOrigin = process.env.SITE_PUBLIC_ORIGIN || 'https://ejoeunde
 if (!['https://ejoeundental.pages.dev', 'https://ejoeundental.com'].includes(selectedPublicOrigin)) {
   throw new Error('Unsupported SITE_PUBLIC_ORIGIN: ' + selectedPublicOrigin);
 }
+// Naver Search Advisor accepts a recent full-text RSS 2.0 feed alongside the
+// existing comprehensive sitemap. Generate it only from published articles.
+{
+ const limit=20;
+ const feedPosts=posts.slice(-limit).reverse();
+ if(!feedPosts.length)throw new Error('RSS needs at least one published story');
+ const xmlEscape=value=>String(value??'').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,'')
+  .replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
+ const pubDate=value=>{
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(String(value||'')))return '';
+  // CMS has date, not time. Noon KST is a deterministic date-only conversion.
+  const date=new Date(value+'T03:00:00Z');
+  return Number.isFinite(date.valueOf())?'<pubDate>'+date.toUTCString()+'</pubDate>':'';
+ };
+ const xml=['<?xml version="1.0" encoding="UTF-8"?>','<rss version="2.0"><channel>',
+  '<title>이조은치과 원장이 전하는 치과 이야기</title>',
+  '<link>'+xmlEscape(selectedPublicOrigin+'/')+'</link>',
+  '<description>인천 부평구 청천동 이조은치과의 잇몸치료·신경치료·충치치료 등 환자 교육 글</description>',
+  '<language>ko-KR</language>',
+  ...feedPosts.map(post=>{
+   const url=selectedPublicOrigin+'/stories/'+encodeURIComponent(post.slug)+'/';
+   const fullText=String(post.body||'').trim();
+   if(fullText.length<90)throw new Error('RSS body unexpectedly short: '+post.slug);
+   return '<item><title>'+xmlEscape(post.title)+'</title>'+
+    '<link>'+xmlEscape(url)+'</link>'+
+    '<guid isPermaLink="true">'+xmlEscape(url)+'</guid>'+
+    pubDate(post.date)+'<description>'+xmlEscape(fullText)+'</description></item>';
+  }),'</channel></rss>'];
+ const data=xml.join('\n')+'\n';
+ if(Buffer.byteLength(data,'utf8')>=10*1024*1024)throw Error('RSS exceeds Naver feed limit');
+ fs.writeFileSync(path.join(out,'rss.xml'),data,'utf8');
+ for(const file of ['index.html','stories.html']){
+  const dest=path.join(out,file),html=fs.readFileSync(dest,'utf8');
+  if(!html.includes('</head>')||html.includes('type="application/rss+xml"'))
+   throw new Error('RSS discovery head missing or duplicated: '+file);
+  const tag='<link rel="alternate" type="application/rss+xml" title="이조은치과 치과 이야기 RSS" href="'+
+   xmlEscape(selectedPublicOrigin+'/rss.xml')+'">';
+  fs.writeFileSync(dest,html.replace('</head>',tag+'</head>'),'utf8');
+ }
+ console.log('Clinic patient RSS:',feedPosts.length,'complete articles;',
+  Buffer.byteLength(data,'utf8'),'bytes;',selectedPublicOrigin);
+}
+
 if (selectedPublicOrigin === 'https://ejoeundental.com') {
   let updatedFiles = 0;
   function normalizePublishedOrigin(dir) {
