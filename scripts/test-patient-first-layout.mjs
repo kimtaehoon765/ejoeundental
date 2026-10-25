@@ -924,3 +924,44 @@ test('July 25 owner photographs publish honest cervical GI-vs-resin options with
   assert.ok(nav.includes('href="/stories/'+slug+'/">'),care+' must recommend matching GI guidance');
  }
 });
+
+test('owner screenshot on choosing an ethical dentist explains ads and insured care without inventing outcomes',()=>{
+ const slug='2026-10-25-cheongcheon-ethical-dentist-advertising-vs-treatment';
+ const sourceUrl='https://blog.naver.com/kook765/224356743782';
+ const post=JSON.parse(readFileSync('content/posts/'+slug+'.json','utf8'));
+ assert.equal(post.published,true);
+ assert.equal(post.source_note,'screenshots_summary','owner supplied actual blog body in five screenshots');
+ assert.equal(post.source_url,sourceUrl);
+ assert.ok(post.title.includes('청천동치과')&&post.title.includes('양심치과'));
+ assert.ok(post.body.length>3800,'the sourced article must explain choices rather than repeat SEO phrases');
+ for(const keyword of ['광고','보험','양심치과','임플란트','뼈이식',
+   '잇몸치료','신경치료','재신경치료','자연치아','선결제','의학박사']){
+  assert.ok(post.body.includes(keyword),'missing practical owner blog issue: '+keyword);
+ }
+ assert.ok(post.body.includes('광고를 한다는 이유만으로 해당 치과가 수익만을 추구하거나 진료가 부실하다고 단정하는 것도 적절하지 않습니다'),
+  'avoid presenting the owner's criticism as unverified facts about other dentists');
+ assert.ok(post.body.includes('보험 진료가 저렴하다는 이유만으로 더 좋은 결과를 보장하지는 않습니다'),
+  'do not equate insurance reimbursement with clinical ethics');
+ assert.ok(post.body.includes('전체 치료 계획과 비용을 한꺼번에 설명하는 것이 도움이 될 수 있습니다'),
+  'a broad treatment plan is not intrinsically overtreatment');
+ assert.ok(post.body.includes('2003년부터 인천 부평구 청천동 한자리에서 진료'),
+  'preserve actual clinic position');
+ const index=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ assert.equal(index.filter(item=>item.slug===slug).length,1,'do not publish duplicate screenshot article');
+ assert.ok(index.some(item=>item.slug==='naver-224423014376-ethical-dentist-definition'),
+  'keep independently sourced ethical-care criteria article');
+ const html=readFileSync('dist/stories/'+slug+'/index.html','utf8');
+ assert.ok(html.includes('href="'+sourceUrl+'"'),'patient must be able to see original Naver blog');
+ assert.ok(html.includes('원장이 제공한 네이버 블로그 본문 사진을 읽고 핵심 의견을 정리한 글입니다'),
+  'the source note must accurately acknowledge original screenshots');
+ assert.ok((html.match(/<h2 id="story-section-\d+">/g)||[]).length>=9,
+  'long patient educational copy must have readable subsections');
+ assert.match(html,/<details class="story-toc">/);
+ assert.ok(readFileSync('dist/stories.html','utf8').includes('href="/stories/'+slug+'/">'));
+ assert.ok(readFileSync('dist/sitemap.xml','utf8').includes('/stories/'+slug+'/</loc>'));
+ const search=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
+ assert.ok(search.some(item=>item.url==='/stories/'+slug+'/'&&item.body.includes('광고')));
+ const insurance=readFileSync('dist/insured-care.html','utf8');
+ assert.ok(insurance.includes('href="/stories/'+slug+'/">'),
+  'care guide should link to article explaining insured treatment decisions');
+});
