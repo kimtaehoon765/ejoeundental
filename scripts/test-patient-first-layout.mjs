@@ -719,3 +719,42 @@ test('specific cavity and checkup FAQ pages link to enhanced matching education 
     .includes('<section class="story-prose"'),care+' points to nonexistent patient guide '+slug);
  }
 });
+
+test('owner-provided July scaling screenshots publish once with accurate topical-anesthetic explanation',()=>{
+ const slug='2026-10-24-sangok-scaling-gargle-anesthesia-pain-control';
+ const original='https://blog.naver.com/kook765/224362153526';
+ const source=JSON.parse(readFileSync('content/posts/'+slug+'.json','utf8'));
+ assert.equal(source.published,true);
+ assert.equal(source.source_note,'screenshots_summary',
+  'a full article supplied as screenshots is not a title-only post');
+ assert.equal(source.source_url,original);
+ assert.equal(source.updated,'2026-10-25');
+ assert.ok(source.body.length>3300,'the actual photographed blog text should become a substantial patient explainer');
+ for(const term of ['가글마취','치아 시림','플라시보','치주낭','스케일링','임신','치과위생사','치과의사']){
+  assert.ok(source.body.includes(term),'original patient question or safety point missing: '+term);
+ }
+ assert.ok(source.body.includes('가글마취를 했다는 이유만으로 치아 시림까지 완전히 사라진다고 볼 수 없습니다'),
+  'do not promise pulp/dentin anesthesia from mouth-rinse anesthesia');
+ assert.ok(source.body.includes('임신부라고 모든 국소마취제가 일률적으로 금기인 것은 아닙니다'),
+  'do not repeat the original sweeping pregnancy contraindication');
+ assert.ok(source.body.includes('직종만으로 통증이 더 적거나 치료 결과가 반드시 더 좋다고 일반화할 수는 없습니다'),
+  'avoid disparaging licensed dental hygienists');
+ const indexed=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ assert.equal(indexed.filter(x=>x.slug===slug).length,1,
+  'avoid duplicating a story already published on the same topic');
+ const all=readFileSync('dist/stories.html','utf8');
+ assert.ok(all.includes('href="/stories/'+slug+'/">'));
+ const search=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
+ assert.ok(search.some(x=>x.url==='/stories/'+slug+'/'&&x.body.includes('가글마취')));
+ const sitemap=readFileSync('dist/sitemap.xml','utf8');
+ assert.ok(sitemap.includes('/stories/'+slug+'/</loc><lastmod>2026-10-25</lastmod>'));
+ const html=readFileSync('dist/stories/'+slug+'/index.html','utf8');
+ assert.ok(html.includes('원장이 제공한 네이버 블로그 본문 사진을 읽고 핵심 의견을 정리한 글입니다'),
+  'attribution should acknowledge the actual screenshots');
+ assert.ok(html.includes('href="'+original+'"'),'preserve original link in blog archive');
+ assert.ok(html.includes('내용 수정 <time datetime="2026-10-25">2026-10-25</time>'));
+ assert.ok((html.match(/<h2 id="story-section-\d+">/g)||[]).length>=7);
+ const scaling=readFileSync('dist/scaling.html','utf8');
+ assert.ok(scaling.includes('href="/stories/'+slug+'/">'),
+  'patient with scaling sensitivity must be able to find photographed blog advice from main scaling page');
+});
