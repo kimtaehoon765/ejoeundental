@@ -389,7 +389,7 @@ await Promise.all(urls.map(async ({label,url}) => {
        :'원고 수 또는 중복 확인 필요 — 실서버가 최신 배포가 아닐 수 있음');
       const canonical=body.match(/<link rel="canonical" href="([^"]+)"/)?.[1]||'';
       info.push(canonical===origin+'/stories.html'?'대표 주소 일치':'대표 주소 확인 필요 ('+canonical+')');
-      const preservationSection=body.match(/<section class="story-topic" id="topic-preserve"[\\s\\S]*?<\\/section>/)?.[0]||'';
+      const preservationSection=body.split('<section class="story-topic" id="topic-preserve"')[1]?.split('</section>')[0]||'';
       const preservationLink='/stories/2026-10-25-bupyeong-natural-tooth-versus-implant-maintenance/';
       const preservationReady=preservationSection.includes('자연치아 보존·발치 전 확인')&&
        preservationSection.includes('href="'+preservationLink+'"');
