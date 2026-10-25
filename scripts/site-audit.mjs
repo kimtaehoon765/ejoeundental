@@ -1556,10 +1556,33 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  const postList=JSON.parse(readFileSync(join(root,'content','posts-index.json'),'utf8'));
  const cardContent=homepage.match(/<div id="published-story-items" class="grid"[^>]*>([\s\S]*?)<\/div>/)?.[1]||'';
  const homeCards=[...cardContent.matchAll(/<a class="card post-card" href="([^"]+)"/g)].map(m=>m[1]);
- const expected=postList.slice(0,6).map(post=>'/stories/'+encodeURIComponent(post.slug)+'/');
+ const expected=postList.slice(-6).reverse().map(post=>'/stories/'+encodeURIComponent(post.slug)+'/');
  if(homeCards.length!==expected.length||expected.some((url,i)=>homeCards[i]!==url)){
   errors.push('원장의 홈페이지 글 서버 렌더링 개수·순서 불일치');
  }
+ // Newest posts must be surfaced before the archive to encourage useful
+ // symptom-based reading while avoiding invented locality landing pages.
+ const quickNav=homepage.match(/<nav class="journal-recent-topics"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ const quickLinks=[...quickNav.matchAll(/<a href="(\/stories\/[^"]+\/)"[^>]*>/g)].map(m=>m[1]);
+ const topicPatterns=[/잇몸|치주|스케일링|치석|치은|큐렛/,/신경치료|재신경|근관|치수/,/충치|치경부|마모증|시린|자연치아|치아 균열/];
+ const expectedQuick=[];
+ for(const re of topicPatterns){
+  const found=postList.slice().reverse().find(post=>re.test(String(post.title||''))&&!expectedQuick.some(other=>other.slug===post.slug));
+  if(found)expectedQuick.push(found);
+ }
+ const expectedQuickLinks=expectedQuick.map(post=>'/stories/'+encodeURIComponent(post.slug)+'/');
+ if(quickLinks.length!==expectedQuickLinks.length||
+    expectedQuickLinks.some((url,i)=>quickLinks[i]!==url)||
+    homepage.indexOf('class="journal-recent-topics"')>homepage.indexOf('class="clinic-native-stories"')){
+  errors.push('홈페이지 최신 주제별 잇몸·신경·충치 글 연결 누락 또는 정렬 오류');
+ }
+ const olderEntries=[...homepage.matchAll(/<a class="journal-extra-entry" href="([^"]+)"/g)].map(m=>m[1]);
+ const expectedOlder=postList.slice(0,-expected.length||undefined).reverse().map(post=>'/stories/'+encodeURIComponent(post.slug)+'/');
+ if(olderEntries.length!==expectedOlder.length||
+    expectedOlder.some((url,i)=>olderEntries[i]!==url)){
+  errors.push('홈페이지 이전 게시글 최신순 목록 누락 또는 정렬 오류');
+ }
+
  if(homepage.includes('BUILD_PUBLIC_STORIES')||
     !homepage.includes('class="clinic-native-stories"')){
   errors.push('원장의 홈페이지 글 접기/펼치기 영역 생성 실패');
