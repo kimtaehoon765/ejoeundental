@@ -1017,3 +1017,52 @@ body.home-page #main-content>.hero .hero-actions{margin:17px 0 12px}
 @media(max-width:600px){
   #stories .journal-extra-details>summary{font-size:14px;padding:10px 12px}
 }
+
+/* Homepage patient-education entry points remain visible before the long
+   journal directory is expanded. Group labels are navigation, not locations. */
+#stories .journal-recent-topics{
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:10px;
+ margin:12px 0 18px;
+}
+#stories .journal-recent-topics>strong{
+ grid-column:1/-1;
+ color:#245341;
+ font-size:15px;
+}
+#stories .journal-recent-topics>a{
+ display:flex;
+ flex-direction:column;
+ gap:7px;
+ min-height:83px;
+ padding:14px 16px;
+ border:1px solid #c9dbcb;
+ border-radius:12px;
+ background:#f3f8f3;
+ color:#1f4938;
+ text-decoration:none;
+ line-height:1.6;
+ word-break:keep-all;
+}
+#stories .journal-recent-topics>a span:first-child{
+ color:#47725b;
+ font-size:12px;
+ font-weight:750;
+}
+#stories .journal-recent-topics>a span:last-child{
+ font-size:14px;
+ font-weight:720;
+}
+#stories .journal-recent-topics>a:hover{
+ background:#e8f3e9;
+ border-color:#7fa88a;
+}
+#stories .journal-recent-topics>a:focus-visible{
+ outline:3px solid #a47837;
+ outline-offset:3px;
+}
+@media(max-width:700px){
+ #stories .journal-recent-topics{grid-template-columns:1fr;gap:8px}
+ #stories .journal-recent-topics>a{min-height:58px;padding:11px 13px}
+}
