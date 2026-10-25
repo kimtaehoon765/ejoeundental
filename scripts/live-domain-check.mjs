@@ -329,6 +329,15 @@ await Promise.all(urls.map(async ({label,url}) => {
        body.includes('자료 제공: 이조은치과 원장');
       info.push(articleReady?'2026-10-25 작성 원고·진료 주제 연결·원장 표시 실제 공개 확인':
        '2026-10-25 원고가 최신 버전으로 게시되었는지 확인 필요');
+      const mobileReader=body.includes('class="reading-controls" role="group"')&&
+       body.includes('data-reading-size="extra"')&&
+       body.includes('class="article-share-actions" role="group"')&&
+       body.includes('data-article-action="copy"')&&
+       body.includes('class="article-return-nav"')&&
+       /\/assets\/reading-controls\.js\?v=[a-f0-9]{12}/.test(body)&&
+       /\/assets\/article-sharing\.js\?v=[a-f0-9]{12}/.test(body);
+      info.push(mobileReader?'모바일 글자 크기·공유·링크복사·인쇄·맨 위로 기능 실제 공개 확인':
+       '모바일 글 읽기·공유 기능이 최신 공개 사이트에 있는지 확인 필요');
     } else if (label === '잇몸 건강정보 탐색 경로' || label === '신경치료 건강정보 탐색 경로' || label === '자연치아 건강정보 진료 연결') {
       const correctHub = label.includes('잇몸') ? '/gum-health.html' : label.includes('신경치료') ? '/root-canal-health.html' : '/additional-health.html';
       // Cloudflare publishes /gum-health while source anchors can use /gum-health.html.
