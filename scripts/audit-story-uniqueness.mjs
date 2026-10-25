@@ -50,7 +50,8 @@ export function analyzePublishedStories(records) {
    const ratio=Math.min(a.text.length,b.text.length)/Math.max(a.text.length,b.text.length);
    if(ratio<.76)continue;
    const score=similarity(a.text,b.text);
-   if(score>=.78)nearMatches.push({first:a.slug,second:b.slug,score:+score.toFixed(3)});
+   if(score>=.96)duplicates.push({first:a.slug,second:b.slug,reason:'near-identical article prose ('+score.toFixed(3)+')'});
+   else if(score>=.78)nearMatches.push({first:a.slug,second:b.slug,score:+score.toFixed(3)});
   }
  }
  nearMatches.sort((a,b)=>b.score-a.score||a.first.localeCompare(b.first));

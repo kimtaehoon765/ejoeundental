@@ -1,6 +1,7 @@
 import fs from 'node:fs';import path from 'node:path';import {createHash} from 'node:crypto';
 import {extractSearchText} from './scripts/search-content-extractor.mjs';
 import {bookingAction} from './scripts/naver-booking-link.mjs';
+import {analyzePublishedStories} from './scripts/audit-story-uniqueness.mjs';
 // Owner-only documents may be omitted ONLY after the authenticated replacement is live.
 // A single environment flag is not proof that migration and backups succeeded.
 const ownerPrivateReady=process.env.OWNER_LIBRARY_PRIVATE_READY==='1';
@@ -305,7 +306,22 @@ fs.mkdirSync(path.join(out,'content'),{recursive:true});cp('content/site.json','
  fs.writeFileSync(path.join(out,'clinic-contact.vcf'),fields.map(foldVcard).join('\r\n')+'\r\n','utf8');
  console.log('Clinic vCard generated from verified name, address and phone');
 }
-cp('admin','admin');const dir=path.join(root,'content/posts'),posts=[];const publishedSources=fs.readdirSync(dir).filter(x=>x.endsWith('.json')).map(name=>({name,post:JSON.parse(fs.readFileSync(path.join(dir,name),'utf8'))})).filter(({post})=>post.published===true).sort((a,b)=>String(a.post.date||'').localeCompare(String(b.post.date||''))||a.name.localeCompare(b.name)).filter(({name,post},index,all)=>{const normalize=url=>{try{const u=new URL(url);if(!['blog.naver.com','m.blog.naver.com'].includes(u.hostname))return '';const parts=u.pathname.split('/').filter(Boolean);return parts.length===2?parts.join('/').toLowerCase():'';}catch{return '';}};const key=normalize(post.source_url);if(!key)return true;const first=all.findIndex(entry=>normalize(entry.post.source_url)===key);if(first!==index){console.warn('Skipping duplicate Naver source URL:',name,'(first:',all[first].name+')');return false;}return true;});// Related stories are selected from verified, published local articles only.
+cp('admin','admin');const dir=path.join(root,'content/posts'),posts=[];
+const loadedPostSources=fs.readdirSync(dir).filter(x=>x.endsWith('.json'))
+ .map(name=>({name,post:JSON.parse(fs.readFileSync(path.join(dir,name),'utf8'))}));
+const storyUniqueness=analyzePublishedStories(loadedPostSources.map(({name,post})=>({
+ ...post,slug:path.basename(name,'.json')
+})));
+if(storyUniqueness.duplicates.length){
+ const details=storyUniqueness.duplicates.map(item=>
+  item.first+' vs '+item.second+' ('+item.reason+')').join('; ');
+ throw new Error('Refusing to publish duplicated dental articles: '+details);
+}
+if(storyUniqueness.nearMatches.length)
+ console.warn('Potentially overlapping patient stories to review:',
+  storyUniqueness.nearMatches.slice(0,4));
+console.log('Unique published patient story sources:',storyUniqueness.published);
+const publishedSources=loadedPostSources.filter(({post})=>post.published===true).sort((a,b)=>String(a.post.date||'').localeCompare(String(b.post.date||''))||a.name.localeCompare(b.name)).filter(({name,post},index,all)=>{const normalize=url=>{try{const u=new URL(url);if(!['blog.naver.com','m.blog.naver.com'].includes(u.hostname))return '';const parts=u.pathname.split('/').filter(Boolean);return parts.length===2?parts.join('/').toLowerCase():'';}catch{return '';}};const key=normalize(post.source_url);if(!key)return true;const first=all.findIndex(entry=>normalize(entry.post.source_url)===key);if(first!==index){console.warn('Skipping duplicate Naver source URL:',name,'(first:',all[first].name+')');return false;}return true;});// Related stories are selected from verified, published local articles only.
 // Matching the headline keeps the suggestions topic-specific without claiming
 // medical equivalence or copying claims from the source Naver articles.
 // Render authored plain-text patient education as real HTML paragraphs and
