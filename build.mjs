@@ -8,7 +8,7 @@ const ownerOnlyFiles=["dental-equipment.html","handpiece-maintenance.html","suct
 if(ownerPrivateReady && process.env.OWNER_LIBRARY_MIGRATION_VERIFIED!=='YES_PRIVATE_COPY_AND_LOGIN_TESTED'){
  throw new Error('Owner library migration is not verified. Keep the public copy until private files, login, links and CSV backup are confirmed.');
 }
-const root=process.cwd(),out=path.join(root,'dist');fs.rmSync(out,{recursive:true,force:true});fs.mkdirSync(out,{recursive:true});function cp(src,dst){fs.cpSync(path.join(root,src),path.join(out,dst),{recursive:true})}cp('_headers','_headers');cp('index.html','index.html');cp('404.html','404.html');cp('favicon.svg','favicon.svg');cp('clinical-archive.html','clinical-archive.html');cp('stories.html','stories.html');cp('search.html','search.html');cp('medical-history.html','medical-history.html')
+const root=process.cwd(),out=path.join(root,'dist');fs.rmSync(out,{recursive:true,force:true});fs.mkdirSync(out,{recursive:true});function cp(src,dst){fs.cpSync(path.join(root,src),path.join(out,dst),{recursive:true})}cp('_headers','_headers');cp('index.html','index.html');cp('404.html','404.html');cp('favicon.svg','favicon.svg');cp('favicon.ico','favicon.ico');cp('clinical-archive.html','clinical-archive.html');cp('stories.html','stories.html');cp('search.html','search.html');cp('medical-history.html','medical-history.html')
 cp('visit-guide.html','visit-guide.html');cp('medical-safety-guide.html','medical-safety-guide.html');cp('previsit-checklist.html','previsit-checklist.html');cp('medication-dental-faq.html','medication-dental-faq.html');cp('systemic-disease-dental-faq.html','systemic-disease-dental-faq.html');cp('gum-treatment-faq.html','gum-treatment-faq.html');cp('root-canal-retreatment-faq.html','root-canal-retreatment-faq.html');cp('dental-insurance-faq.html','dental-insurance-faq.html');cp('osteoporosis-medication-dental.html','osteoporosis-medication-dental.html');cp('blood-thinners-dental.html','blood-thinners-dental.html');cp('diabetes-dental-care.html','diabetes-dental-care.html');cp('heart-disease-dental-care.html','heart-disease-dental-care.html');cp('kidney-disease-dental-care.html','kidney-disease-dental-care.html');cp('liver-disease-dental-care.html','liver-disease-dental-care.html');cp('cancer-immunosuppression-dental-care.html','cancer-immunosuppression-dental-care.html');cp('pregnancy-dental-care.html','pregnancy-dental-care.html');if(!ownerPrivateReady)cp('dental-equipment.html','dental-equipment.html');if(!ownerPrivateReady)cp('handpiece-maintenance.html','handpiece-maintenance.html');if(!ownerPrivateReady)cp('suction-maintenance.html','suction-maintenance.html');if(!ownerPrivateReady)cp('compressor-maintenance.html','compressor-maintenance.html');if(!ownerPrivateReady)cp('autoclave-maintenance.html','autoclave-maintenance.html');if(!ownerPrivateReady)cp('curing-light-maintenance.html','curing-light-maintenance.html');if(!ownerPrivateReady)cp('scaler-maintenance.html','scaler-maintenance.html');if(!ownerPrivateReady)cp('dental-chair-maintenance.html','dental-chair-maintenance.html');if(!ownerPrivateReady)cp('intraoral-camera-maintenance.html','intraoral-camera-maintenance.html');if(!ownerPrivateReady)cp('dental-xray-maintenance.html','dental-xray-maintenance.html');if(!ownerPrivateReady)cp('dental-materials.html','dental-materials.html');if(!ownerPrivateReady)cp('glass-ionomer-guide.html','glass-ionomer-guide.html');if(!ownerPrivateReady)cp('root-canal-materials-guide.html','root-canal-materials-guide.html');if(!ownerPrivateReady)cp('composite-bonding-guide.html','composite-bonding-guide.html');if(!ownerPrivateReady)cp('impression-materials-guide.html','impression-materials-guide.html');if(!ownerPrivateReady)cp('dental-cements-guide.html','dental-cements-guide.html');if(!ownerPrivateReady)cp('endodontic-instruments-guide.html','endodontic-instruments-guide.html');if(!ownerPrivateReady)cp('periodontal-instruments-guide.html','periodontal-instruments-guide.html');if(!ownerPrivateReady)cp('extraction-instruments-guide.html','extraction-instruments-guide.html');if(!ownerPrivateReady)cp('equipment-log.html','equipment-log.html');cp('gum-treatment.html','gum-treatment.html');cp('scaling.html','scaling.html');cp('cavity-treatment.html','cavity-treatment.html');cp('cervical-abrasion.html','cervical-abrasion.html');cp('insured-care.html','insured-care.html');cp('retreatment.html','retreatment.html');// Resolve optional Pages CMS illustrations during build time instead of fetching
 // retreatment-images.json on each patient visit and swapping images after load.
 const retreatmentPath=path.join(out,'retreatment.html');
@@ -2871,10 +2871,12 @@ console.log('Clinical education sharing metadata aligned:',clinicalSharingCount,
 }
 
 
-// Brand favicon: one lightweight local SVG shared by all generated HTML pages.
-// Includes nested /health/ and /stories/ pages, plus the 404 page. Do not
-// rewrite canonical metadata, indexability or document contents.
+// The primary SVG is paired with a real 32px ICO fallback at /favicon.ico.
+// Naver specifically requests the default favicon URL; an HTML fallback at
+// that address is a soft 404, not an icon. Keep the existing branded SVG intact.
 const faviconRef='<link rel="icon" type="image/svg+xml" href="/favicon.svg">';
+const faviconIcoRef='<link rel="shortcut icon" type="image/x-icon" href="'+
+ selectedPublicOrigin+'/favicon.ico">';
 let brandedDocumentCount=0;
 function brandPublicPages(dir){
  for(const entry of fs.readdirSync(dir,{withFileTypes:true})){
@@ -2885,18 +2887,21 @@ function brandPublicPages(dir){
   if(!/<head(?:\s[^>]*)?>/i.test(document)||!/<\/head>/i.test(document)){
    throw new Error('Cannot add accessible favicon to malformed HTML: '+filename);
   }
-  if(!/<link\b[^>]*\brel=["'](?:shortcut )?icon["']/i.test(document)){
-   document=document.replace(/<\/head>/i,faviconRef+'</head>');
-   fs.writeFileSync(filename,document);
-  }
+  if(!document.includes(faviconRef))document=document.replace(/<\/head>/i,faviconRef+'</head>');
+  if(!document.includes(faviconIcoRef))document=document.replace(/<\/head>/i,faviconIcoRef+'</head>');
+  fs.writeFileSync(filename,document);
   brandedDocumentCount++;
  }
 }
 brandPublicPages(out);
-if(!fs.existsSync(path.join(out,'favicon.svg')) || brandedDocumentCount < 70){
- throw new Error('Clinic favicon missing or too few public HTML pages were branded: '+brandedDocumentCount);
+const icoBytes=fs.readFileSync(path.join(out,'favicon.ico'));
+if(!fs.existsSync(path.join(out,'favicon.svg')) || brandedDocumentCount < 70 ||
+   icoBytes.length<256 || icoBytes.readUInt16LE(0)!==0 ||
+   icoBytes.readUInt16LE(2)!==1 || icoBytes.readUInt16LE(4)!==1 ||
+   icoBytes[6]!==32 || icoBytes[7]!==32){
+ throw new Error('The clinic must publish a genuine 32px image/x-icon, not a soft 404 HTML page');
 }
-console.log('Accessible clinic tab icon included on',brandedDocumentCount,'static HTML pages.');
+console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HTML documents.');
 
 // Keep the checked-in _headers rules unchanged in dist.
 // In particular do not overwrite security headers or pages.dev noindex rules.
