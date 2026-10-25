@@ -34,7 +34,7 @@ test('headline intent keeps endodontic gum-pus stories with root canal topics',(
 
 test('natural tooth preservation stories have their own navigable topic and article breadcrumbs',()=>{
  const directory=readFileSync('dist/stories.html','utf8');
- const archive=directory.match(/<section class="story-topic" id="topic-preserve"[^>]*>[\\s\\S]*?<\\/section>/)?.[0]||'';
+ const archive=directory.split('<section class="story-topic" id="topic-preserve"')[1]?.split('</section>')[0]||'';
  assert.ok(archive.includes('자연치아 보존·발치 전 확인'),
   'natural tooth care needs a clear patient-friendly archive');
  const slug='2026-10-25-bupyeong-natural-tooth-versus-implant-maintenance';
