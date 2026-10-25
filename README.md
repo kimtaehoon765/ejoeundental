@@ -22,7 +22,7 @@ GitHub Actions의 읽기 전용 실서비스 검사에서 `https://ejoeundental.
 
 2026-10-25 검증에서 **홈페이지 내부 환자 교육 글 79/79편**, 원장 네이버 블로그 원문 링크 **333/333개**, 글 목록 `/stories.html`의 **79/79편**, 최근 충치치료 원고의 실제 URL과 작성자 표시를 확인했습니다. 검증 절차: `scripts/live-domain-check.mjs`, GitHub Actions `Public website build and quality verification`. 단, 실사이트 검사 결과는 그 시점의 상태이며 네이버·구글 색인 또는 검색 순위를 뜻하지 않습니다.
 
-2026-10-25 소스 빌드 기준으로 환자 교육 게시글 **93편**의 사이트 생성과 품질 검사가 통과했습니다. 앞 문단의 실사이트 **79편**은 그 시각의 실측 기록으로 최신 공개 편수가 아닙니다. 이후 새 글의 실사이트 반영 여부는 소스 커밋과 별도로 읽기 전용 정식 도메인 검사에서 확인해야 합니다.
+2026-10-25 최신 실사이트 재검사에서 환자 교육 게시글 **93/93편**이 정식 도메인 `/stories` 목록에 중복 없이 노출되고, 내부 글 3편의 제목·canonical·HTTP 200 응답을 확인했습니다. 이전 문단의 **79편**은 그 시각의 과거 실측 기록입니다. 이 실측은 네이버·구글 색인이나 순위가 아닌 **홈페이지 실제 공개 여부**를 뜻합니다. 새 글이 추가되면 GitHub Actions `Public website build and quality verification`에서 다시 점검합니다.
 
 기존 `docs/www-301-redirect.md` 및 `DOMAIN-MIGRATION-CHECKLIST.md`는 **과거에 301이 미설정이던 상태의 기록**입니다. 현행 운영 상태보다 우선하여 적용하거나 DNS/호스팅을 임의로 변경하지 마세요. Cloudflare 네임서버와 중계 응답만으로 **실제 원본 호스팅이 Cloudflare Pages인지 Netlify인지**는 단정하지 않습니다.
 
