@@ -2,9 +2,20 @@
 // This intentionally never changes DNS, hosting, indexing settings, or website files.
 // A missing live domain must NOT turn a passing source build into a failure.
 import dns from 'node:dns/promises';
-import { appendFileSync, readFileSync } from 'node:fs';
+import { appendFileSync, readFileSync, readdirSync } from 'node:fs';
 
 const verifiedClinic = JSON.parse(readFileSync(new URL('../content/site.json', import.meta.url), 'utf8'));
+// Compare the actual public site with source-controlled content counts. These
+// figures are derived at check time, so old 178-article checks cannot silently
+// misreport a 333-article site as unfinished.
+const homepageSource = readFileSync(new URL('../index.html',import.meta.url),'utf8');
+const expectedOriginalCount = (homepageSource.match(/class="card owner-story-card"/g)||[]).length;
+const postDirectory = new URL('../content/posts/',import.meta.url);
+const expectedPublishedCount = readdirSync(postDirectory).filter(name=>name.endsWith('.json'))
+ .map(name=>JSON.parse(readFileSync(new URL(name,postDirectory),'utf8')))
+ .filter(post=>post.published===true).length;
+if(expectedOriginalCount<1||expectedPublishedCount<1)
+  throw new Error('Source control has no verified original links or published stories');
 const apex = 'ejoeundental.com';
 const origin = 'https://' + apex;
 const rows = [];
@@ -41,6 +52,8 @@ const urls = [
   { label: '연락처 저장 vCard 배포', url: origin + '/clinic-contact.vcf' },
   { label: '검색엔진 robots', url: origin + '/robots.txt' },
   { label: '검색엔진 sitemap', url: origin + '/sitemap.xml' },
+  { label: '홈페이지 치과 이야기 전체 글', url: origin + '/stories.html' },
+  { label: '최근 블로그 원고 대표 글 게시', url: origin + '/stories/2026-10-25-bupyeong-cavity-treatment-overtreatment-checklist/' },
   { label: '잇몸치료 상세 페이지', url: origin + '/gum-treatment.html' },
   { label: '재신경치료 이미지 초기 표시', url: origin + '/retreatment.html' },
   { label: 'care route implant', url: origin + '/implant.html' },
@@ -171,7 +184,7 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push('치과명: ' + (hasClinic?'있음':'없음'));
       const canonicalValue = body.split('rel="canonical" href="')[1]?.split('"')[0] || '(없음)';
       info.push('대표주소: ' + (hasCanonical?'일치':'불일치') + ' (' + canonicalValue + ')');
-      info.push('8+170 글목록: ' + (hasCompactJournal?'확인':'미확인'));
+      info.push('원장 원문 목록 접기·펼치기: ' + (hasCompactJournal?'확인':'확인 필요'));
       info.push(body.includes('<link rel="icon" type="image/svg+xml" href="/favicon.svg">')?
         '브랜드 파비콘 연결 확인':'브랜드 파비콘 연결 미반영 (배포 상태 확인 필요)');
       const pageDescription=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
@@ -193,7 +206,7 @@ await Promise.all(urls.map(async ({label,url}) => {
       const visibleStories=body.match(/<section class="section light" id="stories">([\s\S]*?)<\/section>/)?.[1]||'';
       const storyCards=(visibleStories.match(/class="card owner-story-card"/g)||[]).length;
       const hiddenCopies=/(?:원장이 작성한 네이버 블로그 글입니다|#stories .owner-story-card p\{display:none\})/.test(body);
-      info.push('원장 글 178편 제목 링크·중복 문구 정리: '+(storyCards===178&&!hiddenCopies?'확인':'재점검 필요'));
+      info.push('원장 블로그 제목 링크: '+storyCards+'/'+expectedOriginalCount+(storyCards===expectedOriginalCount&&!hiddenCopies?'편 최신 반영':'편 — 실서버 배포 비교 필요'));
       const clinicFooter=body.match(/<section class="footer-business" aria-label="이조은치과 의료기관 정보">([\s\S]*?)<\/section>/)?.[1]||'';
       const footerOk=['이조은치과의원','세월천로 34','대우프라자 305호',
         'tel:0325132875','3시간 무료','격주 진료','Copyright'].every(term=>clinicFooter.includes(term));
@@ -215,6 +228,13 @@ await Promise.all(urls.map(async ({label,url}) => {
       const publishedCards=(publishedSection.match(/<a class="card post-card" href="\/stories\//g)||[]).length;
       info.push('진료 증상 글 3편 첫 HTML 유지: '+(symptomCount===3?'확인':'확인 필요'));
       info.push('홈페이지 공개 글 서버 출력: '+(publishedCards>0&&body.includes('class="clinic-native-stories"')?publishedCards+'편 반영':'확인 필요'));
+      const homeOlderLinks=(visibleStories.match(/class="journal-extra-entry" href="\/stories\//g)||[]).length;
+      const homeTotalStories=publishedCards+homeOlderLinks;
+      info.push('홈페이지 내부 게시글 전체 링크: '+homeTotalStories+'/'+expectedPublishedCount+
+       (homeTotalStories===expectedPublishedCount?'편 확인':'편 — 최신 게시글 배포 확인 필요'));
+      info.push(body.includes('class="journal-recent-topics"')?
+       '잇몸·신경·충치 최근 주제별 바로가기 확인':
+       '잇몸·신경·충치 최근 주제별 바로가기 미반영');
 
       const heroStart = body.indexOf('<section class="hero wrap">');
       const heroEnd = body.indexOf('</section>',heroStart);
@@ -277,6 +297,25 @@ await Promise.all(urls.map(async ({label,url}) => {
       const remainingSlugs=["gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive"];
       const remainingFinalCount=remainingSlugs.filter(slug=>body.includes('<loc>'+origin+'/'+slug+'</loc>')).length;
       info.push('나머지 FAQ·의료안전·정보 페이지 최종 URL: '+remainingFinalCount+'/16');
+    } else if (label === '홈페이지 치과 이야기 전체 글') {
+      const cardUrls=[...body.matchAll(/<a class="story-card" href="(\/stories\/[^"]+\/)"[^>]*>/g)].map(m=>m[1]);
+      const uniqueCount=new Set(cardUrls).size;
+      info.push('주제별 내부 글 '+cardUrls.length+'/'+expectedPublishedCount+'편 · 중복 없이 '+uniqueCount+'개');
+      info.push(cardUrls.length===expectedPublishedCount&&uniqueCount===cardUrls.length
+       ?'GitHub 공개 원고 전체가 정식 도메인에 게시됨'
+       :'원고 수 또는 중복 확인 필요 — 실서버가 최신 배포가 아닐 수 있음');
+      const canonical=body.match(/<link rel="canonical" href="([^"]+)"/)?.[1]||'';
+      info.push(canonical===origin+'/stories.html'?'대표 주소 일치':'대표 주소 확인 필요 ('+canonical+')');
+    } else if (label === '최근 블로그 원고 대표 글 게시') {
+      const slug='2026-10-25-bupyeong-cavity-treatment-overtreatment-checklist';
+      const url=origin+'/stories/'+slug+'/';
+      const title='부평충치치료｜과잉진료를 피하려면 어떤 설명을 들어야 할까요?';
+      const canonical=body.match(/<link rel="canonical" href="([^"]+)"/)?.[1]||'';
+      const articleReady=response.status===200&&canonical===url&&body.includes('<h1>'+title+'</h1>')&&
+       body.includes('href="/stories.html#topic-cavity"')&&
+       body.includes('자료 제공: 이조은치과 원장');
+      info.push(articleReady?'2026-10-25 작성 원고·진료 주제 연결·원장 표시 실제 공개 확인':
+       '2026-10-25 원고가 최신 버전으로 게시되었는지 확인 필요');
     } else if (label === '잇몸 건강정보 탐색 경로' || label === '신경치료 건강정보 탐색 경로' || label === '자연치아 건강정보 진료 연결') {
       const correctHub = label.includes('잇몸') ? '/gum-health.html' : label.includes('신경치료') ? '/root-canal-health.html' : '/additional-health.html';
       // Cloudflare publishes /gum-health while source anchors can use /gum-health.html.
