@@ -32,3 +32,61 @@
 .story-toc a:focus-visible{outline:3px solid #a0793a;outline-offset:2px}
 @media(max-width:600px){.story-toc nav{grid-template-columns:1fr;gap:5px;padding:8px 10px 11px}.story-toc{margin:18px 0 15px}}
 @media print{.story-toc{display:none}}
+
+/* A clinic-story-specific mobile contact strip. No booking URL is guessed:
+   the only actions are verified telephone and the clinic visit guide.
+   Source article, links and footer remain present in the HTML without JS. */
+.story-mobile-actions{display:none}
+@media(max-width:600px){
+ body.owner-story-page{
+  padding-bottom:calc(80px + env(safe-area-inset-bottom,0px));
+ }
+ .story-mobile-actions{
+  position:fixed;
+  z-index:40;
+  inset-inline:0;
+  bottom:0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  box-sizing:border-box;
+  padding:9px max(12px,env(safe-area-inset-right,0px))
+          calc(9px + env(safe-area-inset-bottom,0px))
+          max(12px,env(safe-area-inset-left,0px));
+  border-top:1px solid #c5d9cb;
+  background:#f7faf6;
+  box-shadow:0 -4px 20px rgba(14,51,39,.12);
+ }
+ .story-mobile-actions a{
+  box-sizing:border-box;
+  min-width:0;
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  border-radius:9px;
+  padding:8px 10px;
+  font:750 14px/1.4 system-ui,"Apple SD Gothic Neo",sans-serif;
+  text-decoration:none;
+  word-break:keep-all;
+ }
+ .story-mobile-actions .story-mobile-call{
+  background:#173e35;
+  border:1px solid #173e35;
+  color:white;
+ }
+ .story-mobile-actions .story-mobile-location{
+  background:white;
+  border:1px solid #b4cdbc;
+  color:#174937;
+ }
+ .story-mobile-actions a:focus-visible{
+  outline:3px solid #a87931;
+  outline-offset:2px;
+ }
+}
+@media print{
+ .story-mobile-actions{display:none!important}
+ body.owner-story-page{padding-bottom:0!important}
+}
