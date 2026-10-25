@@ -965,3 +965,48 @@ test('owner screenshot on choosing an ethical dentist explains ads and insured c
  assert.ok(insurance.includes('href="/stories/'+slug+'/">'),
   'care guide should link to article explaining insured treatment decisions');
 });
+
+test('six original overtreatment screenshots improve existing insurance guide instead of adding a competing story',()=>{
+ const slug='2026-10-24-bupyeong-overtreatment-insurance-care-guide';
+ const original='https://blog.naver.com/kook765/224355961223';
+ const post=JSON.parse(readFileSync('content/posts/'+slug+'.json','utf8'));
+ assert.equal(post.published,true);
+ assert.equal(post.source_note,'screenshots_summary','owner actually provided original article body screenshots');
+ assert.equal(post.source_url,original);
+ assert.equal(post.updated,'2026-10-25');
+ assert.ok(post.title.includes('청천동치과')&&post.title.includes('과잉진료'));
+ assert.ok(post.body.length>4200,'must give patient useful source-based explanations');
+ for(const term of ['광고','건강보험','근관치료','임플란트','뼈이식',
+   '라미네이트','선결제','자연치아','큐렛','치과위생사','재신경치료']){
+  assert.ok(post.body.includes(term),'missing patient question from the photographed article: '+term);
+ }
+ assert.ok(post.body.includes('광고를 많이 한다고 그 치과가 불필요한 치료를 시행한다고 추정할 근거는 없습니다'),
+  'do not accuse advertising dentists of overtreatment without evidence');
+ assert.ok(post.body.includes('건강보험 진료를 많이 한다는 사실만으로 과잉진료를 하지 않는다는 것을 보장하지는 않습니다'),
+  'insurance volume does not prove clinical ethics');
+ assert.ok(post.body.includes('병원 규모가 크다거나 비급여 진료를 많이 한다는 이유만으로'),
+  'do not turn broad criticism of private practices into established facts');
+ assert.ok(post.body.includes('모든 경우에 바로 발치해야 하는 것은 아닙니다'),
+  'explain tooth preservation options prior to irreversible removal');
+ assert.ok(post.body.includes('2003년부터 인천 부평구 청천동에서 한자리 진료'),
+  'correct location and established clinic experience');
+ const index=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ assert.equal(index.filter(item=>item.slug===slug).length,1,'update original local post rather than duplicating');
+ assert.ok(index.some(item=>item.slug==='2026-10-25-cheongcheon-ethical-dentist-advertising-vs-treatment'),
+  'retain distinct screenshot article about dental advertising');
+ const article=readFileSync('dist/stories/'+slug+'/index.html','utf8');
+ assert.ok(article.includes('href="'+original+'"'),'patients must find actual source blog');
+ assert.ok(article.includes('원장이 제공한 네이버 블로그 본문 사진을 읽고 핵심 의견을 정리한 글입니다'),
+  'accurately describe original screenshots, rather than claim title-only research');
+ assert.ok((article.match(/<h2 id="story-section-\d+">/g)||[]).length>=10,
+  'expanded content should be sectioned and discoverable');
+ assert.match(article,/<details class="story-toc">/);
+ assert.ok(readFileSync('dist/stories.html','utf8').includes('href="/stories/'+slug+'/">'));
+ assert.ok(readFileSync('dist/sitemap.xml','utf8').includes('/stories/'+slug+'/</loc><lastmod>2026-10-25</lastmod>'));
+ const search=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
+ assert.ok(search.some(item=>item.url==='/stories/'+slug+'/'&&item.body.includes('라미네이트')),
+  'revised information must be in internal search index');
+ const insurance=readFileSync('dist/insured-care.html','utf8');
+ assert.ok(insurance.includes('href="/stories/'+slug+'/">'),
+  'insured care page should link to patient checklist');
+});
