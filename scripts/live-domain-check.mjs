@@ -389,6 +389,13 @@ await Promise.all(urls.map(async ({label,url}) => {
        :'원고 수 또는 중복 확인 필요 — 실서버가 최신 배포가 아닐 수 있음');
       const canonical=body.match(/<link rel="canonical" href="([^"]+)"/)?.[1]||'';
       info.push(canonical===origin+'/stories.html'?'대표 주소 일치':'대표 주소 확인 필요 ('+canonical+')');
+      const preservationSection=body.match(/<section class="story-topic" id="topic-preserve"[\\s\\S]*?<\\/section>/)?.[0]||'';
+      const preservationLink='/stories/2026-10-25-bupyeong-natural-tooth-versus-implant-maintenance/';
+      const preservationReady=preservationSection.includes('자연치아 보존·발치 전 확인')&&
+       preservationSection.includes('href="'+preservationLink+'"');
+      info.push(preservationReady?'자연치아 보존 전용 글 분류·관련 글 실제 공개 확인':
+       '자연치아 보존 주제별 안내가 실제 공개되었는지 확인 필요');
+
       const indexed=body.match(/data-search-index="(\/content\/story-search-text\.json\?v=[a-f0-9]{12})"/)?.[1];
       const script=body.match(/src="(\/assets\/story-directory\.js\?v=[a-f0-9]{12})"/)?.[1];
       info.push(indexed&&script?'모바일 글 검색에 최신 버전 본문 색인과 검색 프로그램 연결됨':
