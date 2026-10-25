@@ -32,6 +32,21 @@ test('headline intent keeps endodontic gum-pus stories with root canal topics',(
  }
 });
 
+test('natural tooth preservation stories have their own navigable topic and article breadcrumbs',()=>{
+ const directory=readFileSync('dist/stories.html','utf8');
+ const archive=directory.match(/<section class="story-topic" id="topic-preserve"[^>]*>[\\s\\S]*?<\\/section>/)?.[0]||'';
+ assert.ok(archive.includes('자연치아 보존·발치 전 확인'),
+  'natural tooth care needs a clear patient-friendly archive');
+ const slug='2026-10-25-bupyeong-natural-tooth-versus-implant-maintenance';
+ assert.ok(archive.includes('href="/stories/'+slug+'/"'),
+  'the natural tooth vs implant article must not be buried in an unrelated group');
+ const detail=readFileSync('dist/stories/'+slug+'/index.html','utf8');
+ assert.ok(detail.includes('class="story-category"><a href="/stories.html#topic-preserve"'),
+  'article breadcrumbs must navigate back to its topic');
+ const groups=[...directory.matchAll(/<section class="story-topic" id="topic-[^"]+"/g)];
+ assert.ok(groups.length>=7,'the archive must keep all major care topics');
+});
+
 function setup(fetchStub) {
   const element=(textContent='')=>({
     textContent,hidden:false,handlers:{},attrs:{},

@@ -356,16 +356,23 @@ const storyTitleIntent=title=>{
  ];
  return intents.find(([,pattern])=>pattern.test(first))?.[0]||'';
 };
+// Preserve a tooth-first headline as its own patient question rather than
+// filing it under 'choosing a dentist' or 'implant' merely for mentioning them.
+// A specific lead treatment (gum, root canal, cavity, etc.) takes priority.
+const storyPreservationIntent=title=>!storyTitleIntent(title)&&
+ /자연치아|치아[ 를]*살리|치아[의 ]*보존|발치[ 하기]*전|발치와 임플란트/.test(String(title||''));
 const relatedStoryTopic=title=>storyTitleIntent(title)||
+ (storyPreservationIntent(title)?'preserve':'')||
  relatedStoryCategories.find(([,pattern])=>pattern.test(String(title||'')))?.[0]||'other';
 const storyDirectoryTopic=title=>{
  const intent=storyTitleIntent(title);
- return ({implant:'prosthetic',denture:'prosthetic',root:'root',gum:'gum',
-  wisdom:'wisdom',cavity:'cavity'})[intent]||'';
+ return (storyPreservationIntent(title)?'preserve':'')||
+  ({implant:'prosthetic',denture:'prosthetic',root:'root',gum:'gum',
+   wisdom:'wisdom',cavity:'cavity'})[intent]||'';
 };
 const storyDirectoryLabels={
  gum:'잇몸치료·스케일링',root:'신경치료·재신경치료',
- cavity:'충치·시린 이·수복치료',prosthetic:'틀니·임플란트',
+ cavity:'충치·시린 이·수복치료',preserve:'자연치아 보존·발치 전 확인',prosthetic:'틀니·임플란트',
  wisdom:'사랑니 발치·지혈',choice:'치과 선택·건강보험·진료 원칙',
  other:'그 밖의 진료 이야기'
 };
@@ -482,7 +489,7 @@ const articleNext=laterPublishedSource?
 const articleTopic=[post.title,post.summary,String(post.body||'').slice(0,800)].filter(Boolean).join(' ');
 const currentStoryTopic=relatedStoryTopic(post.title);
 const headlineGroup=storyDirectoryTopic(post.title)||
- (['gum','root','cavity','wisdom','choice'].includes(currentStoryTopic)?
+ (['gum','root','cavity','preserve','wisdom','choice'].includes(currentStoryTopic)?
  currentStoryTopic:['implant','denture'].includes(currentStoryTopic)?'prosthetic':'other');
 const articleCategoryLink='<p class="story-category"><a href="/stories.html#topic-'+
  headlineGroup+'" style="color:#245a44;font-weight:700">치과 이야기 · '+
@@ -699,6 +706,7 @@ console.log('Homepage journal entries rendered without browser fetch:',posts.len
   {id:'gum',name:'잇몸치료·스케일링',match:/잇몸|치주|스케일링|치석|치은|큐렛/},
   {id:'root',name:'신경치료·재신경치료',match:/신경치료|근관|치수|재신경/},
   {id:'cavity',name:'충치·시린 이·수복치료',match:/충치|시린|마모증|레진|GI|글라스아이오노머|크라운|지르코니아|치아파절|치아가 부러|부러진|깨진/i},
+  {id:'preserve',name:'자연치아 보존·발치 전 확인',match:/자연치아|치아를 살리|치아 보존|발치 전/},
   {id:'prosthetic',name:'틀니·임플란트',match:/틀니|임플란트|뼈이식|인공치아/},
   {id:'wisdom',name:'사랑니 발치·지혈',match:/사랑니|지혈제|드라이소켓/},
   {id:'choice',name:'치과 선택·건강보험·진료 원칙',match:/치과 선택|잘하는 치과|치과를|진료비|비용|광고|리뷰|과잉진료|양심|보험|진료 원칙|치과 찾|치과 고르|할인/},

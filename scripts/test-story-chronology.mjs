@@ -33,7 +33,7 @@ test('homepage six featured patient stories are newest, not oldest',()=>{
 
 test('every topic directory section keeps its patient articles newest-first',()=>{
  const html=readFileSync('dist/stories.html','utf8');
- for(const topic of ['gum','root','cavity','prosthetic','wisdom','choice']){
+ for(const topic of ['gum','root','cavity','preserve','prosthetic','wisdom','choice']){
   const section=html.match(new RegExp('<section class="story-topic" id="topic-'+topic+'"[^>]*>([\\s\\S]*?)<\\/section>'))?.[1]||'';
   const articleSlugs=links(section);
   assert.ok(articleSlugs.length>0,topic+' has no published article links');
