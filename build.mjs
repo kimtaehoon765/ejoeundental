@@ -513,8 +513,11 @@ const extraJournal=posts.slice(latestJournal.length).map(post=>
  '<span>'+escapeJournal(post.title)+'</span><span aria-hidden="true">→</span></a>'
 ).join('');
 const olderJournal=extraJournal?
- '<div class="journal-extra-list" aria-label="홈페이지 이전 게시글 전체"><h4>이전 홈페이지 글 '+
- (posts.length-latestJournal.length)+'편</h4>'+extraJournal+'</div>':'';
+ '<details class="journal-extra-details" aria-label="홈페이지 이전 게시글 전체">'+
+ '<summary>지난 홈페이지 글 '+(posts.length-latestJournal.length)+'편 펼쳐보기 <span aria-hidden="true">⌄</span></summary>'+
+ '<div class="journal-extra-list"><h4>이전 홈페이지 글 '+(posts.length-latestJournal.length)+'편</h4>'+
+ extraJournal+'</div></details>'+
+ '<p class="journal-more-link"><a href="/stories.html">치과 이야기 전체 목록에서 주제별로 찾기 →</a></p>':'';
 const countMarkers=(journalHomeHtml.match(/<!-- BUILD_HOME_STORY_COUNT -->/g)||[]).length;
 if(countMarkers!==3)throw new Error('Homepage journal total labels are missing or duplicated');
 journalHomeHtml=journalHomeHtml.replaceAll('<!-- BUILD_HOME_STORY_COUNT -->',String(posts.length));
