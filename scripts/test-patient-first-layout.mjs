@@ -758,3 +758,38 @@ test('owner-provided July scaling screenshots publish once with accurate topical
  assert.ok(scaling.includes('href="/stories/'+slug+'/">'),
   'patient with scaling sensitivity must be able to find photographed blog advice from main scaling page');
 });
+
+test('owner screenshots on cheap cavity clinics responsibly update one existing guide with real source',()=>{
+ const slug='2026-10-24-cheongcheon-dental-discount-ads-and-care-choice';
+ const ownerSource='https://blog.naver.com/kook765/224360654061';
+ const post=JSON.parse(readFileSync('content/posts/'+slug+'.json','utf8'));
+ assert.equal(post.source_url,ownerSource,'keep exact owner blog original referenced in homepage');
+ assert.equal(post.source_note,'screenshots_summary','full screenshots were supplied and read');
+ assert.equal(post.updated,'2026-10-25');
+ assert.equal(post.published,true);
+ assert.ok(post.body.length>=3800,'screenshot source should be summarized substantially');
+ for(const topic of ['건강보험','비급여','GI','치주치료','자연치아','우선순위','선결제']){
+  assert.ok(post.body.includes(topic),'important concern omitted: '+topic);
+ }
+ assert.ok(post.body.includes('가격이 낮다는 사실만으로 진료의 질이 나쁘다고 판단할 수는 없습니다'),
+  'price alone must not support disparaging other clinics');
+ assert.ok(post.body.includes('치료 항목이 많다는 사실만으로 과잉진료라고 단정해서는 안 됩니다'),
+  'avoid implying many treatments necessarily constitute overtreatment');
+ const listed=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ assert.equal(listed.filter(x=>x.slug===slug).length,1,'update existing site article, not a competing thin page');
+ const article=readFileSync('dist/stories/'+slug+'/index.html','utf8');
+ assert.ok(article.includes('href="'+ownerSource+'"'),'patient can open source Naver blog post');
+ assert.ok(article.includes('원장이 제공한 네이버 블로그 본문 사진을 읽고 핵심 의견을 정리한 글입니다'));
+ assert.ok(article.includes('내용 수정 <time datetime="2026-10-25">2026-10-25</time>'));
+ assert.ok((article.match(/<h2 id="story-section-\d+">/g)||[]).length>=8,
+  'patients need to browse clear questions and choices');
+ const sitemap=readFileSync('dist/sitemap.xml','utf8');
+ assert.ok(sitemap.includes('/stories/'+slug+'/</loc><lastmod>2026-10-25</lastmod>'));
+ const directory=readFileSync('dist/stories.html','utf8');
+ assert.ok(directory.includes('href="/stories/'+slug+'/">'),'story directory still lists revised original');
+ const index=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
+ assert.ok(index.some(p=>p.url==='/stories/'+slug+'/'&&p.body.includes('건강보험')),
+  'on-site search should locate the screenshot-derived article text');
+ const cavity=readFileSync('dist/cavity-treatment.html','utf8');
+ assert.ok(cavity.includes('href="/stories/'+slug+'/">'),'cavity treatment patients should find relevant cost guidance');
+});
