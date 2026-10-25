@@ -4,6 +4,9 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'content/posts/**'
+      - 'content/site.json'
+      - 'stories.html'
       - 'search.html'
       - 'noncovered-fees.html'
       - 'clinical-archive.html'

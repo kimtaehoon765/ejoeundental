@@ -11,9 +11,16 @@ const verifiedClinic = JSON.parse(readFileSync(new URL('../content/site.json', i
 const homepageSource = readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const expectedOriginalCount = (homepageSource.match(/class="card owner-story-card"/g)||[]).length;
 const postDirectory = new URL('../content/posts/',import.meta.url);
-const expectedPublishedCount = readdirSync(postDirectory).filter(name=>name.endsWith('.json'))
- .map(name=>JSON.parse(readFileSync(new URL(name,postDirectory),'utf8')))
- .filter(post=>post.published===true).length;
+const publishedArticles = readdirSync(postDirectory).filter(name=>name.endsWith('.json'))
+ .map(name=>({name,post:JSON.parse(readFileSync(new URL(name,postDirectory),'utf8'))}))
+ .filter(({post})=>post.published===true)
+ .sort((a,b)=>String(a.post.date||'').localeCompare(String(b.post.date||''))||
+   a.name.localeCompare(b.name));
+// A sample of the newest real source files is checked on the live domain.
+// This catches new posts that build successfully but never reach public hosting.
+const latestArticleSamples=publishedArticles.slice(-3).reverse()
+ .map(({name,post})=>({slug:name.replace(/\\.json$/,''),title:String(post.title||'')}));
+const expectedPublishedCount=publishedArticles.length;
 if(expectedOriginalCount<1||expectedPublishedCount<1)
   throw new Error('Source control has no verified original links or published stories');
 const apex = 'ejoeundental.com';
@@ -55,6 +62,10 @@ const urls = [
   { label: '검색엔진 sitemap', url: origin + '/sitemap.xml' },
   { label: '네이버 최신글 RSS', url: origin + '/rss.xml' },
   { label: '홈페이지 치과 이야기 전체 글', url: origin + '/stories.html' },
+  ...latestArticleSamples.map(({slug})=>({
+    label: '최신 공개 글 원본 비교: '+slug,
+    url: origin + '/stories/' + encodeURIComponent(slug) + '/'
+  })),
   { label: '최근 블로그 원고 대표 글 게시', url: origin + '/stories/2026-10-25-bupyeong-cavity-treatment-overtreatment-checklist/' },
   { label: '재신경치료 글 진료 연결 확인', url: origin + '/stories/2026-10-24-incheon-root-canal-tooth-gum-swelling-retreatment/' },
   { label: '잇몸치료 상세 페이지', url: origin + '/gum-treatment.html' },
@@ -344,6 +355,18 @@ await Promise.all(urls.map(async ({label,url}) => {
        :'원고 수 또는 중복 확인 필요 — 실서버가 최신 배포가 아닐 수 있음');
       const canonical=body.match(/<link rel="canonical" href="([^"]+)"/)?.[1]||'';
       info.push(canonical===origin+'/stories.html'?'대표 주소 일치':'대표 주소 확인 필요 ('+canonical+')');
+    } else if (label.startsWith('최신 공개 글 원본 비교: ')) {
+      const slug=label.slice('최신 공개 글 원본 비교: '.length);
+      const expected=latestArticleSamples.find(entry=>entry.slug===slug);
+      const articleCanonical=body.match(/<link rel="canonical" href="([^"]+)"/)?.[1]||'';
+      const expectedCanonical=origin+'/stories/'+encodeURIComponent(slug)+'/';
+      const headingOk=Boolean(expected?.title)&&
+        body.includes('<h1>'+expected.title+'</h1>');
+      const isPublished=response.status===200&&
+        articleCanonical===expectedCanonical&&headingOk;
+      info.push(isPublished?'최신 원고 제목·대표주소·본문 페이지 공개 확인':
+        '최신 소스 글의 실서버 게시 확인 필요 (배포 지연/HTML 내용 비교)');
+      if(expected)info.push('소스 원고: '+expected.title);
     } else if (label === '재신경치료 글 진료 연결 확인') {
       const relatedGuide=body.match(/<aside class="notice" aria-label="관련 진료 안내">([\s\S]*?)<\/aside>/)?.[1]||'';
       const firstGuide=relatedGuide.match(/<a href="([^"]+)"/)?.[1]||'';
