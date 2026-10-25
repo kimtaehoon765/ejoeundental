@@ -653,6 +653,14 @@ await Promise.all(urls.map(async ({label,url}) => {
         body.includes('인천·부평 잇몸치료,') && body.includes('세월천로 34');
       info.push(present?'인천·부평 잇몸치료 검색 제목·설명·실제 주소 반영':'지역 잇몸치료 검색 문구 최신 배포 확인 필요');
     }
+    // Four separate treatment pages should link to the preservation hub.
+    // This is a read-only real-domain check, distinct from the build tests.
+    if(['잇몸치료 상세 페이지','재신경치료 이미지 초기 표시',
+        'care route implant','care route cavity'].includes(label)){
+      const hasLink=body.includes('href="/tooth-preservation.html"');
+      info.push(hasLink?'발치 전 자연치아 보존 진료 안내로 실제 내부 링크 연결':
+        '자연치아 보존 진료 안내 내부 링크 최신 배포 확인 필요');
+    }
     // Show deployment status for the verified original-author links.
     if(['public route gum-health','public route root-canal-health'].includes(label)){
       const gum=label==='public route gum-health';
