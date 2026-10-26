@@ -475,6 +475,21 @@ await Promise.all(urls.map(async ({label,url}) => {
       const remainingSlugs=["gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive"];
       const remainingFinalCount=remainingSlugs.filter(slug=>body.includes('<loc>'+origin+'/'+slug+'</loc>')).length;
       info.push('나머지 FAQ·의료안전·정보 페이지 최종 URL: '+remainingFinalCount+'/16');
+      const googleImageNamespace=body.includes('xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"');
+      const imageLocs=[...body.matchAll(/<image:image><image:loc>([^<]+)<\/image:loc><\/image:image>/g)]
+       .map(m=>m[1]);
+      const indexedHeroImages=[
+       origin+'/assets/ejoeundental-hero-cat.webp',
+       origin+'/assets/impressionist-water-garden.svg'
+      ];
+      const indexedRootImages=Array.from({length:10},(_,i)=>
+       origin+'/assets/retreatment/illustration-'+String(i+1).padStart(2,'0')+'.webp');
+      const imageMapReady=googleImageNamespace&&imageLocs.length===12&&
+       [...indexedHeroImages,...indexedRootImages].every(url=>imageLocs.includes(url))&&
+       body.includes('<loc>'+origin+'/retreatment</loc><lastmod>2026-10-26</lastmod>');
+      info.push(imageMapReady?
+       'Google 이미지 사이트맵: 병원 창작 이미지 2개·재신경치료 삽화 10개 및 실제 수정일 공개 확인':
+       'Google 이미지 사이트맵 최신 배포 확인 필요 (실제 이미지 '+imageLocs.length+'/12)');
       const revised=['gum-health','root-canal-health','health/gum-pus'];
       const updated=revised.filter(slug=>
         body.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>'));
@@ -766,6 +781,17 @@ await Promise.all(urls.map(async ({label,url}) => {
       const hasDimensions=allImages.length===10 && allImages.every(x=>/\bwidth="\d+"/.test(x[0])&&/\bheight="\d+"/.test(x[0]));
       info.push(direct?'이미지 10개 첫 HTML 반영·추가 JSON 요청 제거':'실시간 그림 교체 스크립트 또는 개수 확인 필요');
       info.push(hasDimensions?'이미지 원본 크기 지정 확인':'이미지 크기 정보 확인 필요');
+      const diagram=origin+'/assets/retreatment/illustration-01.webp';
+      const imageSchema=[...body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+       .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
+       .find(item=>item?.['@type']==='MedicalWebPage');
+      const diagramReady=body.includes('<meta property="og:image" content="'+diagram+'">')&&
+       body.includes('<meta property="og:image:alt" content="흰 고양이 치과의사와 치근단 염증을 설명하는 치아 단면 그림">')&&
+       imageSchema?.primaryImageOfPage?.url===diagram&&
+       imageSchema?.url===response.url;
+      info.push(diagramReady?
+       'Google 재신경치료 대표 삽화와 의료 페이지 구조화 데이터 실제 공개 확인':
+       'Google 재신경치료 대표 삽화 메타데이터 최신 배포 확인 필요');
       info.push(body.includes('<strong>고려대학교 의학박사(치과학 전공) · 통합치의학과 전문의</strong>')?
        '재신경치료 페이지 원장 자격·전공 정확히 표시':'재신경치료 페이지 원장 전공 표기 확인 필요');
     } else if (label === '잇몸치료 상세 페이지') {
