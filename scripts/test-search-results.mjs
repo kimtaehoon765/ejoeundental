@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
 import {runInNewContext} from 'node:vm';
+import {bookingAction} from './naver-booking-link.mjs';
 
 const script=readFileSync(new URL('../assets/search.js',import.meta.url),'utf8');
 
@@ -25,10 +26,12 @@ function walk(node, predicate){
  scan(node);
  return found;
 }
-async function search(q,pages,{fail=false,hostname='ejoeundental.pages.dev'}={}){
+async function search(q,pages,{fail=false,hostname='ejoeundental.pages.dev',booking=bookingAction('')}={}){
  const input=new Element('input');
  const status=new Element('p');
  const results=new Element('section');
+ results.dataset.bookingUrl=booking.url;
+ results.dataset.bookingLabel=booking.label;
  const map={'#q':input,'#status':status,'#results':results};
  const document={
   querySelector:selector=>map[selector]||null,
@@ -425,4 +428,49 @@ test('regional gum-bump and blister descriptions reach careful examination guida
  const encoded=encodeURIComponent('잇몸에 뾰루지가 났어요');
  assert.ok(searchHtml.includes('href="/search.html?q='+encoded+'"'));
  assert.ok(searchHtml.includes('잇몸에 뾰루지가 생겼어요'));
+});
+
+
+test('booking requests show an honest verified Naver search option plus telephone without claiming a confirmed appointment',async()=>{
+ const pages=[];
+ const safeAction=bookingAction('');
+ for(const query of ['예약','이조은치과 예약','이-조은치과의원 예약','부평치과 예약','청천동 치과 예약','네이버 예약']){
+  const {results,status}=await search(query,pages);
+  const cards=walk(results,x=>x.className==='search-visit-answer');
+  assert.equal(cards.length,1,query+' should show the clinic visit and booking card');
+  assert.equal(walk(results,x=>x.className==='result').length,0);
+  const action=walk(cards[0],x=>x.href===safeAction.url);
+  assert.equal(action.length,1,query+' must show the actual Naver search fallback exactly once');
+  assert.equal(action[0].textContent,safeAction.label);
+  assert.equal(action[0].target,'_blank');
+  assert.equal(action[0].rel,'noopener noreferrer');
+  assert.ok(walk(cards[0],x=>x.href==='tel:0325132875').length,
+   'telephone booking fallback must always work');
+  assert.match(status.textContent,/예약 문의 방법/);
+  assert.match(JSON.stringify(results),/예약 확정을 의미하지 않습니다/);
+ }
+});
+
+test('verified official booking configuration becomes a direct booking link only when provided',async()=>{
+ const direct=bookingAction('https://booking.naver.com/booking/13/bizes/12345?theme=place');
+ const {results}=await search('청천동치과 예약',[],{booking:direct});
+ const actions=walk(results,x=>x.href===direct.url);
+ assert.equal(actions.length,1);
+ assert.match(actions[0].textContent,/네이버 예약하기/);
+ assert.match(actions[0].attrs['aria-label'],/네이버 새 창/);
+ const withoutBooking=(await search('청천동치과 잇몸치료',[],{booking:direct})).results;
+ assert.equal(walk(withoutBooking,x=>x.href===direct.url).length,0,
+  'non-booking treatment searches should not get an extra reservation button');
+});
+
+test('built search page embeds the same vetted Naver destination and label as the mobile homepage',()=>{
+ if(!existsSync('dist/search.html'))return;
+ const html=readFileSync('dist/search.html','utf8');
+ const config=JSON.parse(readFileSync('content/site.json','utf8'));
+ const booking=bookingAction(config.naver_booking_url);
+ const escaped=value=>value.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+ assert.ok(html.includes('data-booking-url="'+escaped(booking.url)+'"'));
+ assert.ok(html.includes('data-booking-label="'+escaped(booking.label)+'"'));
+ assert.match(readFileSync('dist/assets/search-page.css','utf8'),
+  /\.search-visit-actions-with-booking\{grid-template-columns:repeat\(4,minmax\(0,1fr\)\)\}/);
 });
