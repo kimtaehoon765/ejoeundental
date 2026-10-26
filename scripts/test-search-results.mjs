@@ -388,3 +388,41 @@ test('extraction aftercare and wisdom-tooth questions do not trigger tooth-savin
  assert.notEqual(wisdomLinks[0],'/tooth-preservation.html',
   'wisdom-tooth surgery needs its own clinical guidance as the leading result');
 });
+
+
+test('regional gum-bump and blister descriptions reach careful examination guidance',async()=>{
+ const indexFile=new URL('../dist/content/search-index.json',import.meta.url);
+ const fallback=new URL('../content/search-index-46.json',import.meta.url);
+ const pages=JSON.parse(readFileSync(existsSync(indexFile)?indexFile:fallback,'utf8'));
+ const queries=[
+  '잇몸에 뾰루지',
+  '잇몸에 뾰루지가 났어요',
+  '잇몸에 물집',
+  '잇몸에 물집이 있어요',
+  '인천 부평 잇몸 뾰루지',
+  '청천동 잇몸에 물집',
+  '잇몸에 고름주머니'
+ ];
+ for(const query of queries){
+  const {results,status}=await search(query,pages);
+  const top=walk(results,x=>x.className==='result').slice(0,5).map(x=>x.href);
+  assert.equal(top[0],'/health/gum-pus.html',
+   query+' should first show causes and a clinical examination, not one presumed treatment: '+top);
+  assert.ok(!/불러오지 못했습니다/.test(status.textContent));
+ }
+ const dentalRoot=(await search('신경치료 후 잇몸 뾰루지',pages)).results;
+ const related=walk(dentalRoot,x=>x.className==='result').slice(0,10).map(x=>x.href);
+ assert.ok(related.includes('/health/gum-pus.html'),
+  'a bump after root canal treatment should still offer periodontal versus root-tip evaluation');
+
+ const guide=readFileSync('dist/health/gum-pus.html','utf8');
+ assert.ok(guide.includes('뾰루지나 물집처럼 보이는 돌기'));
+ assert.ok(guide.includes('모두 치주염이나 고름이라고 단정할 수는 없습니다'));
+ assert.ok(guide.includes('구강 점막 병변'));
+ assert.ok(guide.includes('신경치료한 치아'));
+ assert.ok(guide.includes('삼키기')&&guide.includes('호흡'));
+ const searchHtml=readFileSync('dist/search.html','utf8');
+ const encoded=encodeURIComponent('잇몸에 뾰루지가 났어요');
+ assert.ok(searchHtml.includes('href="/search.html?q='+encoded+'"'));
+ assert.ok(searchHtml.includes('잇몸에 뾰루지가 생겼어요'));
+});
