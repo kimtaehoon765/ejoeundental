@@ -1163,7 +1163,20 @@ parsedArchiveSchema.mainEntity={
 };
 archiveCatalogHtml=archiveCatalogHtml.replace(originalArchiveSchema[0],
  '<script type="application/ld+json">'+JSON.stringify(parsedArchiveSchema).replace(/</g,'\\u003c')+'</script>');
+// Fingerprint the progressive-enhancement script after its final archive HTML
+// is generated. Patients should not be served an outdated title/topic search
+// after a new version is published; the static <details> links still work.
+const archiveSearchClient=path.join(out,'assets/archive-topics.js');
+if(!fs.existsSync(archiveSearchClient))throw new Error('Original article archive search script missing');
+const archiveSearchHash=createHash('sha256')
+ .update(fs.readFileSync(archiveSearchClient)).digest('hex').slice(0,12);
+const archiveSearchScript=/<script defer src="\/assets\/archive-topics\.js(?:\?[^"]*)?"><\/script>/g;
+const archiveSearchScriptMatches=[...archiveCatalogHtml.matchAll(archiveSearchScript)];
+if(archiveSearchScriptMatches.length!==1)throw new Error('Missing or duplicated owner archive search loader');
+archiveCatalogHtml=archiveCatalogHtml.replace(archiveSearchScript,
+ '<script defer src="/assets/archive-topics.js?v='+archiveSearchHash+'"></script>');
 fs.writeFileSync(archiveCatalogFile,archiveCatalogHtml);
+console.log('Owner blog archive search asset fingerprinted:',archiveSearchHash);
 // Use the SAME classified owner blog articles as the archive summary. Both
 // treatment-page counts previously lagged far behind the actual archive
 // (62/33 in the buttons versus 131/46 in the 333-link collection).
