@@ -252,7 +252,7 @@ test('cervical GI and insured care pages navigate to original owner content with
  const insured=readFileSync('dist/insured-care.html','utf8');
  const cervicalSection=cervical.match(/<section class="section" id="cervical-symptom-guide"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
  const insuranceSection=insured.match(/<section class="section" id="insurance-care-paths"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
- assert.ok(cervical.includes('href="#cervical-symptom-guide"'),'patient may jump to symptom guide');
+ assert.ok(cervical.indexOf('id="cervical-symptom-guide"')<cervical.indexOf('>치경부마모증이란?'),'symptom guidance must appear before detailed treatment information');
  assert.equal((cervicalSection.match(/<article>/g)||[]).length,4);
  assert.ok(cervicalSection.includes('치아가 패인 곳은 모르겠어요'));
  assert.ok(cervicalSection.includes('전에 메운 GI가 떨어져 다시 시려요'));
@@ -266,7 +266,7 @@ test('cervical GI and insured care pages navigate to original owner content with
  assert.ok(cervical.includes('.cervical-symptom-cards a{display:inline-flex;align-items:center;min-height:48px'));
  const cervicalRow=index.find(item=>item.url==='/cervical-abrasion.html');
  assert.ok(cervicalRow?.body.includes('시린 치아와 치경부마모증, 어떤 상황인지 먼저 확인하세요'));
- assert.ok(insured.includes('href="#insurance-care-paths"'));
+ assert.ok(insured.indexOf('id="insurance-care-paths"')<insured.indexOf('>스케일링·잇몸치료 등 건강보험 적용 진료'),'cost guidance must appear before detailed coverage explanations');
  assert.equal((insuranceSection.match(/<article>/g)||[]).length,3);
  assert.ok(insuranceSection.includes('당시 급여 기준'));
  assert.ok(insuranceSection.includes('신속히 평가받으세요'));
