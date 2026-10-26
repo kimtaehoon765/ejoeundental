@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 import {runInNewContext} from 'node:vm';
 
 const script=readFileSync(new URL('../assets/archive-topics.js',import.meta.url),'utf8');
@@ -141,7 +142,11 @@ test('production build keeps all 333 links, fresh script and mobile-friendly res
  assert.ok(html.includes('id="archive-group-med"'));
  assert.ok(html.includes('치과 약물·전신질환'));
  assert.ok(html.includes('인천잇몸치료 양치할 때 피가 나요'));
- assert.ok(html.includes('/assets/archive-topics.js?v=20261024-smartfind3'));
+ const version=html.match(/<script defer src="\/assets\/archive-topics\.js\?v=([a-f0-9]{12})"><\/script>/)?.[1];
+ assert.ok(version,'actual archive search script must have a 12-digit content hash');
+ const builtJs=readFileSync('dist/assets/archive-topics.js');
+ const expected=createHash('sha256').update(builtJs).digest('hex').slice(0,12);
+ assert.equal(version,expected,'archive script version must change exactly when its content does');
  assert.match(css,/\.archive-search \.archive-search-clear\[hidden\]\{display:none!important\}/);
  assert.match(css,/\.archive-search \.archive-search-clear\{[^}]*min-height:44px/);
 });
