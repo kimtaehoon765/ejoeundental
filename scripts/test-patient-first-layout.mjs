@@ -1219,3 +1219,41 @@ test('all four patient education hubs have accessible visible navigation and mat
   assert.equal(items[1].item,canonical,'structured topic URL must equal this page canonical');
  }
 });
+
+
+test('all 46 Google-indexable health guides attribute information to the real clinic without inventing individual authors or review dates',()=>{
+ const names=readdirSync('dist/health').filter(name=>name.endsWith('.html'));
+ assert.equal(names.length,46);
+ const stylesheet=readFileSync('dist/assets/style.css','utf8');
+ assert.match(stylesheet,/\.article \.health-info-source\{display:flex/);
+ assert.match(stylesheet,/\.health-info-source a:focus-visible\{outline:3px/);
+ for(const name of names){
+  const page='health/'+name;
+  const html=readFileSync('dist/'+page,'utf8');
+  const credit=html.match(/<aside class="health-info-source"[^>]*>([\s\S]*?)<\/aside>/g)||[];
+  assert.equal(credit.length,1,page+' must contain exactly one visible provider panel');
+  const panel=credit[0];
+  for(const snippet of [
+   '건강정보 제공: 이조은치과의원','진료 담당: 김태훈 원장',
+   '고려대학교 의학박사(치과학 전공)','통합치의학과 전문의',
+   'href="/#doctor"'
+  ])assert.ok(panel.includes(snippet),page+' missing real attribution: '+snippet);
+  const main=html.indexOf('<main class="article"'),intro=html.indexOf('<h1',main);
+  const contents=html.indexOf('<nav class="article-toc"',main);
+  assert.ok(intro>=0&&html.indexOf(panel,intro)>intro&&html.indexOf(panel,intro)<contents,
+   page+' clinic identity should appear before the lengthy article sections');
+  const schemas=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(match=>JSON.parse(match[1]));
+  const medical=schemas.find(item=>['MedicalWebPage','WebPage'].includes(item['@type']));
+  assert.ok(medical,page+' must contain a machine-readable medical page entity');
+  const canonical=html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+  const origin=new URL(canonical).origin;
+  assert.equal(medical.author?.['@type'],'Organization',page+' publisher must not be fabricated as an individual writer');
+  assert.equal(medical.author?.name,'이조은치과',page+' structured author should match visible provider');
+  assert.equal(medical.author?.url,origin+'/',page+' author organization must use current canonical origin');
+  assert.equal(medical.publisher?.['@id'],origin+'/#clinic',page+' publisher should reference real clinic entity');
+  assert.equal(medical.url,canonical,page+' schema must match Google canonical URL');
+  assert.ok(!Object.hasOwn(medical,'dateModified')&&!Object.hasOwn(medical,'datePublished')&&!Object.hasOwn(medical,'reviewedBy'),
+   page+' must not invent editorial dates or reviewer approvals');
+ }
+});
