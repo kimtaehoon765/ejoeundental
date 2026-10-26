@@ -152,3 +152,24 @@ test('the preservation decision guide gives patients four clinically distinct sy
  assert.ok(page.includes('.preserve-symptom-item a{display:inline-flex;align-items:center;min-height:48px'),
   'linked patient paths need comfortable touch targets on phones');
 });
+
+test('gum symptoms point to distinct published gingival education instead of generic duplicate landing pages',()=>{
+ const gum=readFileSync('dist/gum-treatment.html','utf8');
+ const menu=gum.match(/<nav class="gum-symptom-stories"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ const references=[
+  '2026-10-26-cheongcheon-gum-color-change-red-gums-periodontal-care',
+  '2026-10-24-bupyeong-swollen-bleeding-gums-visit-dentist',
+  '2026-10-25-incheon-loose-tooth-suddenly-periodontal-exam'
+ ];
+ assert.ok(menu.includes('잇몸 색이 갑자기 빨개졌어요'));
+ assert.ok(menu.includes('잇몸이 갑자기 부었어요'));
+ assert.ok(menu.includes('치아가 갑자기 흔들려요'));
+ for(const slug of references){
+  assert.ok(posts.some(x=>x.slug===slug),'symptom link must be real published content: '+slug);
+  assert.ok(menu.includes('href="/stories/'+slug+'/"'),'gum symptoms must point to specific article: '+slug);
+ }
+ assert.ok(gum.includes('.gum-symptom-stories a{display:inline-flex;align-items:center;box-sizing:border-box;min-height:48px'),
+  'mobile gum symptom links should meet comfortable touch targets');
+ assert.ok(index.some(x=>x.url==='/gum-treatment.html'&&x.body.includes('잇몸 색이 갑자기 빨개졌어요')),
+  'public gum treatment page needs descriptive links in on-site search');
+});
