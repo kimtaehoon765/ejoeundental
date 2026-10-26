@@ -24,9 +24,9 @@ test('homepage introduces doctor credentials prominently and preserves direct di
  const twitter=html.match(/<meta name="twitter:description" content="([^"]+)"/)?.[1];
  assert.equal(description,og);
  assert.equal(description,twitter);
- assert.ok(description.length>=55&&description.length<=80,
-  'Naver homepage snippet should meet the 80-character URL Inspection recommendation');
- for(const term of ['부평치과','인천 부평구 청천동','잇몸치료','신경치료','재신경치료'])
+ assert.ok(description.length>=55&&description.length<=160,
+  'Clinic summary must remain readable and medically accurate without arbitrary 80-character SEO rules');
+ for(const term of ['이조은치과','인천 부평구 청천동','잇몸치료','신경치료','재신경치료'])
   assert.ok(description.includes(term),'homepage snippet missing essential user-facing detail '+term);
  assert.match(description,/고려대학교 의학박사\(치과학 전공\)·통합치의학과 전문의/);
  assert.match(description,/통합치의학과 전문의/);
@@ -46,10 +46,11 @@ test('machine-readable credentials reflect exactly the patient-facing qualificat
 test('both periodontal and retreatment pages link to actual staff section without duplicate claims',()=>{
  for(const page of ['gum-treatment.html','retreatment.html']){
   const html=read(page);
-  const matches=[...html.matchAll(/<p class="treatment-doctor-credentials">([^<]*<strong>[^<]+<\/strong>[^<]*<a[^>]+>[^<]+<\/a>)<\/p>/g)];
+  const matches=[...html.matchAll(/<p class="treatment-doctor-credentials">([\s\S]*?)<\/p>/g)];
   assert.equal(matches.length,1,page);
   assert.ok(matches[0][1].includes(degree+' · '+specialty),page);
   assert.ok(matches[0][1].includes('href="/#doctor"'),page);
+  assert.ok(matches[0][1].includes('href="/doctor.html"'),page);
   assert.match(html,/\/assets\/care-design-system\.css\?v=[^"']+/);
  }
 });

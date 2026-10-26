@@ -1252,7 +1252,7 @@ test('all 46 Google-indexable health guides attribute information to the real cl
   for(const snippet of [
    '건강정보 제공: 이조은치과의원','진료 담당: 김태훈 원장',
    '고려대학교 의학박사(치과학 전공)','통합치의학과 전문의',
-   'href="/#doctor"'
+   'href="/doctor.html"'
   ])assert.ok(panel.includes(snippet),page+' missing real attribution: '+snippet);
   const main=html.indexOf('<main class="article"'),intro=html.indexOf('<h1',main);
   const contents=html.indexOf('<nav class="article-toc"',main);
