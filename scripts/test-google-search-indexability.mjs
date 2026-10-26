@@ -99,3 +99,42 @@ test('Google search users can follow gum bumps and post-treatment infection to a
  assert.match(gumPus,/삼키거나/);
  assert.match(gumPus,/응급 진료/);
 });
+
+
+test('real treating dentist has one consistent visible name and person identity across all published journal pages',()=>{
+ const home=readFileSync(path.join(output,'index.html'),'utf8');
+ const config=JSON.parse(readFileSync('content/site.json','utf8'));
+ const realName=config.footer_representative;
+ assert.equal(realName,'김태훈','the treating clinician name must come from verified site settings');
+ const doctor=home.match(/<section class="section dark" id="doctor">([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.ok(doctor.includes('class="doctor-visible-name"'));
+ assert.ok(doctor.includes('진료 담당 원장 '+realName));
+ assert.ok(doctor.includes('고려대학교 의학박사(치과학 전공)'));
+ assert.ok(doctor.includes('통합치의학과 전문의'));
+ assert.ok(doctor.includes('원장이 직접 검진하고 진단합니다'));
+ const clinic=[...home.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1])).find(data=>data['@type']==='Dentist');
+ assert.ok(clinic);
+ assert.equal(clinic['@id'],origin+'/#clinic');
+ assert.equal(clinic.employee?.['@type'],'Person');
+ assert.equal(clinic.employee?.['@id'],origin+'/#doctor-person');
+ assert.equal(clinic.employee?.name,realName);
+ assert.equal(clinic.employee?.url,origin+'/#doctor');
+ assert.equal(clinic.employee?.worksFor?.['@id'],clinic['@id']);
+ assert.match(clinic.employee.description,/치과학 전공/);
+
+ const published=JSON.parse(readFileSync(path.join(output,'content/posts-index.json'),'utf8'));
+ assert.ok(published.length>=80,'the whole published original-story archive must remain connected');
+ for(const article of published){
+  const html=readFileSync(path.join(output,'stories',article.slug,'index.html'),'utf8');
+  const structured=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(m=>JSON.parse(m[1])).find(obj=>obj['@type']==='BlogPosting');
+  assert.ok(structured,article.slug+' missing original story structured data');
+  assert.equal(structured.author?.name,realName,article.slug+' byline must match the visible clinic name');
+  assert.equal(structured.author?.['@id'],clinic.employee['@id'],article.slug+' person identity drift');
+  assert.equal(structured.author?.url,origin+'/#doctor',article.slug+' author profile link');
+  assert.equal(structured.author?.worksFor?.['@id'],clinic['@id'],article.slug+' clinic mismatch');
+  assert.equal(structured.publisher?.['@id'],clinic['@id'],article.slug+' publisher mismatch');
+  assert.equal(structured.mainEntityOfPage,origin+'/stories/'+article.slug+'/',article.slug+' canonical story URL');
+ }
+});
