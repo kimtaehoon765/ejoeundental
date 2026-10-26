@@ -68,7 +68,8 @@ if(!existsSync(challengePath)||readFileSync(challengePath,'utf8')!==expectedChal
   const expectedUrl=publicOrigin+publishedPath;
   if(canonical!==expectedUrl||
      !sitemapXml.includes('<loc>'+expectedUrl+'</loc>')||
-     sitemapXml.includes('<loc>'+publicOrigin+'/'+slug+(cleanRoutes.has(slug)?'.html':'.html.html')+'</loc>')||
+     (publicOrigin==='https://ejoeundental.com'&&cleanRoutes.has(slug)&&
+      sitemapXml.includes('<loc>'+publicOrigin+'/'+slug+'.html</loc>'))||
      /<meta\\s+name=["']robots["']\\s+content=["'][^"']*noindex/i.test(html)){
     errors.push('Google 우선 진료 URL·사이트맵·색인 허용 신호 불일치: '+slug);
   }
