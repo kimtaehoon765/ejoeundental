@@ -70,3 +70,27 @@ test('Google crawl discovery, verification and article authorship remain consist
   assert.match(html,/href="\/#doctor"/);
  }
 });
+
+
+test('Google search users can follow gum bumps and post-treatment infection to a helpful clinical answer',()=>{
+ const gumHub=readFileSync(path.join(output,'gum-health.html'),'utf8');
+ const rootHub=readFileSync(path.join(output,'root-canal-health.html'),'utf8');
+ const gumPus=readFileSync(path.join(output,'health/gum-pus.html'),'utf8');
+ assert.match(gumHub,/href="\/health\/gum-pus\.html">뾰루지·물집처럼 보이는 돌기가 생기거나 고름이 나오는 경우<\/a>/);
+ assert.match(gumHub,/뾰루지가 모두 치주염은 아니며/);
+ assert.match(rootHub,/신경치료한 치아 주변에 뾰루지나 물집 같은 돌기가 반복된다면/);
+ assert.match(rootHub,/href="\/health\/gum-pus\.html">잇몸 뾰루지·고름의 원인과 검사 알아보기/);
+ const meta=gumPus.match(/<meta name="description" content="([^"]+)"/)?.[1];
+ assert.ok(meta?.includes('뾰루지·물집')&&meta.includes('부평구 청천동 이조은치과'),
+  'Google gum-pus preview should cover patient language and the actual clinic');
+ assert.ok(gumPus.includes('<meta property="og:description" content="'+meta+'">'),
+  'shared previews should match the exact medical description');
+ const schema=[...gumPus.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1])).find(data=>data['@type']==='MedicalWebPage');
+ assert.ok(schema,'gum-pus health guide must have structured medical information');
+ assert.equal(schema.description,meta,'Google medical description must equal human-readable snippet');
+ assert.equal(schema.url,origin+'/health/gum-pus');
+ assert.equal(schema.author?.name,'이조은치과');
+ assert.match(gumPus,/삼키거나/);
+ assert.match(gumPus,/응급 진료/);
+});
