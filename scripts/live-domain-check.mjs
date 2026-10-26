@@ -92,6 +92,8 @@ const urls = [
   { label: 'care route wisdom', url: origin + '/wisdom-tooth.html' },
   { label: 'care route pediatric', url: origin + '/pediatric-orthodontics.html' },
   { label: 'care route scaling', url: origin + '/scaling.html' },
+  { label: 'Google 치경부마모증 GI 진료', url: origin + '/cervical-abrasion.html' },
+  { label: 'Google GI 수복 보험·재수복 건강정보', url: origin + '/health/insurance-cervical.html' },
   { label: 'Google 스케일링 건강보험 재방문 안내', url: origin + '/health/insurance-scaling.html' },
   { label: 'care route cavity', url: origin + '/cavity-treatment.html' },
   { label: 'care route denture', url: origin + '/denture.html' },
@@ -477,6 +479,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       const remainingSlugs=["gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive"];
       const remainingFinalCount=remainingSlugs.filter(slug=>body.includes('<loc>'+origin+'/'+slug+'</loc>')).length;
       info.push('나머지 FAQ·의료안전·정보 페이지 최종 URL: '+remainingFinalCount+'/16');
+      const revisedGI=['cervical-abrasion','insurance-health','health/insurance-cervical'];
+      const datesGI=revisedGI.filter(slug=>
+       body.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>'));
+      info.push(datesGI.length===3?
+       'Google 치경부 GI 진료·보험 건강정보 3개 페이지 수정일 실제 게시 확인':
+       'Google 치경부 GI 보험 페이지 사이트맵 최신 배포 확인 필요 ('+datesGI.length+'/3)');
       const scalingInsuranceDates=['scaling','health/insurance-scaling'];
       const scalingDates= scalingInsuranceDates.filter(slug=>
        body.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>'));
@@ -929,6 +937,33 @@ await Promise.all(urls.map(async ({label,url}) => {
         });
       info.push(verified?'의학정보 제목·소개·대표주소·공유 미리보기 일치':'의학정보 공유 카드 최신 반영 확인 필요');
     }
+    if(label==='public route insurance-health'){
+      info.push(body.includes('href="/health/insurance-cervical.html#section-7"')&&
+       body.includes('href="/health/insurance-cervical.html#section-8"')?
+       '보험 건강정보 모음에서 GI 재수복·레진 보험 질문으로 실제 이동 가능':
+       'GI 재수복 보험 안내 허브 연결 최신 배포 확인 필요');
+    }
+    if(label==='Google 치경부마모증 GI 진료'){
+      info.push(body.includes('href="/health/insurance-cervical.html#section-7"')&&
+       body.includes('href="/health/insurance-cervical.html#section-8"')?
+       'Google 치경부마모증 진료 페이지에서 GI 재수복·레진 보험 설명 실제 연결':
+       '치경부마모증 진료 페이지의 GI 보험 안내 최신 배포 확인 필요');
+    }
+    if(label==='Google GI 수복 보험·재수복 건강정보'){
+      const snippet=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+      const schema=[...body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+       .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
+       .find(d=>d?.['@type']==='MedicalWebPage');
+      const consistent=snippet.includes('인천 부평구 청천동 이조은치과')&&
+       snippet.includes('수복물이 떨어졌을 때')&&
+       body.includes('id="section-7"')&&body.includes('id="section-8"')&&
+       body.includes('무조건 무료 재치료나 보험 적용을 약속할 수는 없습니다')&&
+       body.includes('재료 이름만으로 구분하는 것은 정확하지 않습니다')&&
+       schema?.description===snippet&&schema?.url===response.url;
+      info.push(consistent?
+       'Google GI·레진 보험·수복물 탈락 건강정보와 일치하는 구조화 데이터 실제 공개 확인':
+       'GI 수복물 탈락·재료별 보험 정보 최신 배포 확인 필요');
+    }
     if(label==='care route scaling'){
       const direct=body.includes('href="/health/insurance-scaling.html#section-4"')&&
        body.includes('올해 스케일링을 이미 받은 경우의 보험 기준')&&
@@ -1091,6 +1126,9 @@ if(deployedSearchScript){
   const breathScriptReady=client.includes("'입냄새':['입냄새','구취'")&&
    client.includes("const spacedRegion=q.match(")&&
    client.includes("/(?:입냄새|입에서냄새|구취)/");
+  const giSearchReady=client.includes("'gi수복물이떨어졌어요':")&&
+   client.includes("'레진gi보험차이':")&&
+   client.includes("p.url==='/health/insurance-cervical.html'");
   const hoursOk=client.includes('const hoursOnlyIntent=')&&
    client.includes('금요일 격주 오전 09:30~13:00')&&
    client.includes('접수 마감 오전 12:30 / 오후 18:00')&&
@@ -1100,7 +1138,8 @@ if(deployedSearchScript){
    (hashOk?' · 파일 해시 일치':' · 파일 해시 불일치')+
    (bookingOk?' · 네이버 예약 찾기 연결 반영':' · 예약 검색 코드 최신 반영 필요')+
    (hoursOk?' · 격주 금·토요일·접수 마감 안내 반영':' · 진료시간 검색 코드 최신 반영 필요')+
-   (breathScriptReady?' · 구취·복수 지역명 검색 보정 반영':' · 구취·지역명 검색 개선 배포 확인 필요'));
+   (breathScriptReady?' · 구취·복수 지역명 검색 보정 반영':' · 구취·지역명 검색 개선 배포 확인 필요')+
+   (giSearchReady?' · GI 재수복·보험 문의 검색 보정 반영':' · GI 재수복 검색 보정 최신 배포 확인 필요'));
  }catch(error){
   add('환자가 실제 로딩하는 검색 프로그램','접속 확인 불가',shortError(error));
  }
