@@ -2155,7 +2155,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
    if(!client.includes(needle))errors.push('원장 블로그 검색·주제 자동 펼치기 기능 누락: '+needle);
   }
  }
- if(!archive.includes('<script defer src="/assets/archive-topics.js?v=20261024-smartfind3"></script>'))
+ if(!/<script defer src="\/assets\/archive-topics\.js\?v=[a-f0-9]{12}"><\/script>/.test(archive))
    errors.push('원장 글 빠른 검색 자바스크립트 로딩 누락');
  if(!archive.includes('.archive-blog-group[hidden],.archive-blog-group li[hidden]{display:none!important}')||
     !archive.includes('.archive-blog-group:target>summary')||
