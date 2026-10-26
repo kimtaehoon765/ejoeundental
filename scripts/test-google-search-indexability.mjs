@@ -20,6 +20,7 @@ const pageFor=route=>{
 test('Google sitemap uses only live, indexable, self-canonical clinic pages',()=>{
  const xml=readFileSync(path.join(output,'sitemap.xml'),'utf8');
  const locs=[...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
+ const weakDescriptions=[];
  assert.ok(locs.length>=150,'clinic sitemap must retain existing indexed health and original stories');
  assert.equal(locs.length,new Set(locs).size,'duplicate sitemap addresses dilute crawl signals');
  assert.ok(!xml.includes('pages.dev'),"temporary preview host must not be in Google sitemap");
@@ -36,9 +37,11 @@ test('Google sitemap uses only live, indexable, self-canonical clinic pages',()=
   assert.doesNotMatch(html,/<meta\b[^>]*\bname=["']robots["'][^>]*\bnoindex\b/i,
    file+' must not tell Google to exclude a URL that the sitemap offers');
   assert.ok(/<title>\s*[^<\s][^<]*<\/title>/i.test(html),file+' has no descriptive title');
-  assert.ok(/<meta name="description" content="[^"]{40,}"/i.test(html),
-   file+' needs a meaningful description for search previews');
+  const description=html.match(/<meta name="description" content="([^"]*)"/i)?.[1]||'';
+  if(description.length<40)weakDescriptions.push(file+' ('+description.length+'): '+description);
  }
+ assert.deepEqual(weakDescriptions,[],
+  'Google-facing page snippets need enough factual context to describe their unique topic');
 });
 
 test('Google crawl discovery, verification and article authorship remain consistent',()=>{
