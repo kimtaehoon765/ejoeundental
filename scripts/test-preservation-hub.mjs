@@ -198,3 +198,51 @@ test('root-canal patient hub offers verified symptom-specific owner articles and
  assert.ok(indexed?.body.includes('신경치료 중 이런 일이 생겼다면?'),
   'the public clinical topic hub should expose actual searchable patient questions');
 });
+
+test('denture and cavity clinical guides link to verified patient stories and avoid one-size-fits-all treatment',()=>{
+ const denture=readFileSync('dist/denture.html','utf8');
+ const cavity=readFileSync('dist/cavity-treatment.html','utf8');
+ const dentureSection=denture.match(/<section class="denture-patient-questions" id="denture-patient-questions"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ const cavityNav=cavity.match(/<nav class="cavity-patient-links"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ assert.ok(dentureSection.includes('id="denture-patient-title"'));
+ assert.equal((dentureSection.match(/<article>/g)||[]).length,4,'denture care should present four distinct patient questions');
+ for(const slug of [
+  '2026-10-24-bupyeong-denture-adjustment-dentist-evaluation',
+  '2026-10-25-sangok-denture-partial-vs-complete-denture',
+  '2026-10-26-cheongcheon-how-to-choose-denture-dentist'
+ ]){
+  assert.ok(posts.some(p=>p.slug===slug),'denture link must have a real story: '+slug);
+  assert.ok(dentureSection.includes('href="/stories/'+slug+'/"'),
+   'denture care guide missing relevant original article: '+slug);
+ }
+ assert.ok(dentureSection.includes('href="/health/insurance-denture.html"'),
+  'patients need the current insurance-specific denture coverage guide');
+ assert.ok(denture.includes('id="denture-implant-supported"'),
+  'explain optional implant-assisted partial denture after individual examination');
+ assert.ok(denture.includes('모든 임플란트나 크라운을 부분틀니의 지대치로 사용할 수 있는 것은 아닙니다'),
+  'implant-assisted design must never be offered as guaranteed for all patients');
+ assert.ok(denture.includes('임플란트의 위치와 수')&&denture.includes('주변 뼈와 보철물의 상태'));
+ assert.ok(denture.includes('.denture-question-grid a{display:inline-flex;align-items:center;min-height:48px'));
+ const dentureIndex=index.find(p=>p.url==='/denture.html');
+ assert.ok(dentureIndex?.body.includes('부분틀니에 임플란트 보철물을 활용할 수도 있나요?'),
+  'substantive implant-assisted denture education should be searchable');
+
+ for(const slug of [
+  '2026-10-25-bupyeong-black-line-cavity-overtreatment-decision',
+  '2026-10-24-bupyeong-cavity-gi-insurance',
+  '2026-10-25-incheon-affordable-cavity-resin-gi-inlay-cost',
+  '2026-10-25-cheongcheon-severe-caries-can-tooth-be-saved'
+ ]){
+  assert.ok(posts.some(p=>p.slug===slug),'cavity question link must point to published article: '+slug);
+  assert.ok(cavityNav.includes('href="/stories/'+slug+'/"'),
+   'cavity topic hub should link to real existing patient guidance: '+slug);
+ }
+ assert.equal((cavityNav.match(/class="cavity-patient-grid"/g)||[]).length,1);
+ assert.ok(cavityNav.includes('건강보험 적용 여부도 실제 진단·재료·진료 당시 급여 기준에 따라 달라집니다'),
+  'avoid universal insurance guarantees');
+ assert.ok(cavity.includes('@media(max-width:650px){.cavity-patient-grid{grid-template-columns:1fr}'),
+  'small screens should show accessible one-column cards');
+ const cavityIndex=index.find(p=>p.url==='/cavity-treatment.html');
+ assert.ok(cavityIndex?.body.includes('건강보험')&&cavityIndex.body.includes('치아'),
+  'clinical cavity introduction remains indexed by search engines');
+});
