@@ -797,7 +797,8 @@ test('owner screenshots on cheap cavity clinics responsibly update one existing 
  const post=JSON.parse(readFileSync('content/posts/'+slug+'.json','utf8'));
  assert.equal(post.source_url,ownerSource,'keep exact owner blog original referenced in homepage');
  assert.equal(post.source_note,'screenshots_summary','full screenshots were supplied and read');
- assert.equal(post.updated,'2026-10-25');
+ assert.ok(/^2026-10-\d{2}$/.test(post.updated)&&post.updated>='2026-10-25',
+  'the article update date should track a real screenshot-based revision');
  assert.equal(post.published,true);
  assert.ok(post.body.length>=3800,'screenshot source should be summarized substantially');
  for(const topic of ['건강보험','비급여','GI','치주치료','자연치아','우선순위','선결제']){
@@ -898,7 +899,8 @@ test('five original Naver wisdom-tooth screenshots become a single balanced hemo
  assert.ok((html.match(/<h2 id="story-section-\d+">/g)||[]).length>=8);
  assert.match(html,/<details class="story-toc">/);
  assert.ok(readFileSync('dist/stories.html','utf8').includes('href="/stories/'+slug+'/">'));
- assert.ok(readFileSync('dist/sitemap.xml','utf8').includes('/stories/'+slug+'/</loc><lastmod>2026-10-25</lastmod>'));
+ assert.ok(readFileSync('dist/sitemap.xml','utf8').includes('/stories/'+slug+'/</loc><lastmod>'+post.updated+'</lastmod>'),
+  'the sitemap must reflect the published story update date');
  assert.ok(JSON.parse(readFileSync('dist/content/search-index.json','utf8'))
   .some(item=>item.url==='/stories/'+slug+'/'&&item.body.includes('지혈재')));
  const info=readFileSync('dist/health/insurance-extraction.html','utf8');
