@@ -3072,6 +3072,14 @@ function brandPublicPages(dir){
   const filename=path.join(dir,entry.name);
   if(entry.isDirectory()){brandPublicPages(filename);continue;}
   if(!entry.isFile()||!entry.name.endsWith('.html'))continue;
+  // Search Console's exact one-line challenge is not an HTML page. Google
+  // requires its bytes to remain unchanged, so don't inject favicons or tags.
+  if(entry.name==='google4b5b71e2b560cac2.html'){
+   const expected='google-site-verification: google4b5b71e2b560cac2.html\n';
+   if(fs.readFileSync(filename,'utf8')!==expected)
+    throw new Error('Google verification challenge was modified during build');
+   continue;
+  }
   let document=fs.readFileSync(filename,'utf8');
   if(!/<head(?:\s[^>]*)?>/i.test(document)||!/<\/head>/i.test(document)){
    throw new Error('Cannot add accessible favicon to malformed HTML: '+filename);
