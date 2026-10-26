@@ -98,3 +98,37 @@ test('the same real clinic has consistent branded name variants, public address 
  assert.match(css,/#location \.clinic-name-variant\{font-size:13px/);
  assert.ok(!home.includes('<meta name="keywords"'),'do not add obsolete keyword tags for search engines');
 });
+
+test('pediatric care pages give practical age-appropriate guidance, safe referral criteria and local navigation',()=>{
+ const pediatric=readFileSync('dist/pediatric-dentistry.html','utf8');
+ const orthodontics=readFileSync('dist/pediatric-orthodontics.html','utf8');
+ const index=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
+ const story='/stories/2026-10-26-cheongcheon-child-dentist-or-general-dentist/';
+ for(const [id,phrase] of [
+  ['pediatric-treatment-options','아이 치과치료, 꼭 소아치과 전문 진료가 필요한가요?'],
+  ['pediatric-restorative-options','어린이 충치치료, GI와 레진 중 무엇이 좋을까요?'],
+  ['pediatric-pulp-treatment','유치가 많이 썩으면 신경치료나 기성금속관이 꼭 필요한가요?']
+ ]){
+  assert.ok(pediatric.includes('id="'+id+'"'),id+' should be a directly linkable pediatric topic');
+  assert.ok(pediatric.includes(phrase),id+' question should be readable without JavaScript');
+ }
+ assert.ok(pediatric.includes('href="'+story+'"'),'pediatric guidance needs directly related owner article');
+ assert.ok(pediatric.includes('href="/dental-insurance-faq.html"'),'pediatric treatment costs need real insurance FAQ');
+ assert.ok(pediatric.includes('보험 적용 여부는 연령, 치아 종류, 진단·처치 및 당시 급여 기준에 따라 달라집니다'));
+ assert.ok(pediatric.includes('소아치과 전문 평가나 협진'),'complex pediatric cases need an appropriate referral path');
+ assert.ok(pediatric.includes('.pediatric-care-decisions a{display:inline-flex;align-items:center;min-height:44px'));
+ assert.ok(pediatric.includes('.pediatric-care-decisions a,.article nav[aria-label="관련 진료와 건강정보"] a{min-height:48px'));
+ assert.ok(orthodontics.includes('id="child-removable-orthodontics"'));
+ assert.ok(orthodontics.includes('어린이 전치부 반대교합 등 제한적인 경우에 가철성 장치 치료를 검토'));
+ assert.ok(orthodontics.includes('복잡한 부정교합이나 포괄적인 교정치료가 필요하면 교정 전문 진료를 안내'));
+ assert.ok(orthodontics.includes('href="'+story+'"'));
+ for(const slug of ['pediatric-dentistry','pediatric-orthodontics']){
+  const route='/'+slug+'.html';
+  const row=index.find(x=>x.url===route);
+  assert.ok(row,'child dental care page must be searchable: '+route);
+  assert.ok(row.body.includes(slug==='pediatric-dentistry'?'아이 치과치료, 꼭 소아치과 전문 진료가 필요한가요?':'어린이 앞니 반대교합, 가철성 장치로 치료할 수 있나요?'),
+   'search engine must index real clinical content: '+route);
+  assert.ok(sitemap.includes('<loc>https://ejoeundental.com/'+slug+'</loc>'),
+   'pediatric care route must remain in the production sitemap');
+ }
+});
