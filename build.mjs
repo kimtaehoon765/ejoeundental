@@ -477,11 +477,16 @@ if(post.updated){
 }
 posts.push({...post,slug});const escaped=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const safeImage=typeof post.image==="string"&&/^\/assets\/cms-images\/[\w./%-]+$/i.test(post.image)&&!post.image.includes('..')&&!/%2f|%5c|%2e/i.test(post.image)&&fs.existsSync(path.join(root,post.image.slice(1)))?post.image:"";const articleDescription=escaped(String(post.summary||post.body||post.title||'').replace(/\s+/g,' ').trim().slice(0,155));
 const articleUrl='https://ejoeundental.pages.dev/stories/'+encodeURIComponent(slug)+'/';
-const articleSchema={'@context':'https://schema.org','@type':'BlogPosting',headline:String(post.title||''),description:String(post.summary||post.body||post.title||'').replace(/\s+/g,' ').trim().slice(0,155),mainEntityOfPage:articleUrl,inLanguage:'ko-KR',isPartOf:{'@type':'WebSite',name:'이조은치과',url:'https://ejoeundental.pages.dev/'},publisher:{'@type':'Dentist',name:'이조은치과',url:'https://ejoeundental.pages.dev/',telephone:'+82-32-513-2875'}};
+const articleSchema={'@context':'https://schema.org','@type':'BlogPosting',headline:String(post.title||''),description:String(post.summary||post.body||post.title||'').replace(/\s+/g,' ').trim().slice(0,155),mainEntityOfPage:articleUrl,inLanguage:'ko-KR',isPartOf:{'@type':'WebSite',name:'이조은치과',url:'https://ejoeundental.pages.dev/'},publisher:{'@type':'Dentist','@id':'https://ejoeundental.pages.dev/#clinic',name:'이조은치과',url:'https://ejoeundental.pages.dev/',telephone:'+82-32-513-2875'}};
 const verifiedStoryAuthor=String(JSON.parse(fs.readFileSync(path.join(root,'content/site.json'),'utf8')).footer_representative||'').trim();
 if(verifiedStoryAuthor){
- articleSchema.author={'@type':'Person',name:verifiedStoryAuthor,jobTitle:'치과의사',
-  worksFor:{'@type':'Dentist',name:'이조은치과',url:'https://ejoeundental.pages.dev/'}};
+ // All published original clinic stories consistently identify the same real
+ // clinician shown on the homepage. This is an identity link, not a claim
+ // of a newly reviewed or individually authored generic health guide.
+ articleSchema.author={'@type':'Person','@id':'https://ejoeundental.pages.dev/#doctor-person',
+  name:verifiedStoryAuthor,jobTitle:'치과의사·통합치의학과 전문의',
+  url:'https://ejoeundental.pages.dev/#doctor',
+  worksFor:{'@id':'https://ejoeundental.pages.dev/#clinic'}};
 }
 if(post.date)articleSchema.datePublished=post.date;
 if(post.updated||post.date)articleSchema.dateModified=post.updated||post.date;
