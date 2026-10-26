@@ -73,6 +73,11 @@ test('Google crawl discovery, verification and article authorship remain consist
 
 
 test('Google search users can follow gum bumps and post-treatment infection to a helpful clinical answer',()=>{
+ const sitemap=readFileSync(path.join(output,'sitemap.xml'),'utf8');
+ for(const slug of ['gum-health','root-canal-health','health/gum-pus']){
+  const entry=new RegExp('<loc>https://ejoeundental\\.com/'+slug+'<\\/loc><lastmod>2026-10-26<\\/lastmod>');
+  assert.match(sitemap,entry,'Google sitemap should signal only these genuine medically edited pages: '+slug);
+ }
  const gumHub=readFileSync(path.join(output,'gum-health.html'),'utf8');
  const rootHub=readFileSync(path.join(output,'root-canal-health.html'),'utf8');
  const gumPus=readFileSync(path.join(output,'health/gum-pus.html'),'utf8');
