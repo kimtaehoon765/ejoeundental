@@ -1139,3 +1139,9 @@ body.home-page #main-content>.hero .hero-actions{margin:17px 0 12px}
 @media(max-width:600px){#stories .owner-blog-topic-jumps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
  #stories .owner-blog-topic-jumps a{font-size:12px;min-width:0;padding:8px 7px;min-height:48px}}
 @media(max-width:350px){#stories .owner-blog-topic-jumps{grid-template-columns:1fr}}
+
+/* Treating clinician is visibly named so patients and search engines can
+ * reconcile the homepage with our conservative clinic/Person structured data. */
+#doctor .doctor-visible-name{margin:10px 0 5px;color:#f3f4e5;font-size:18px;line-height:1.55;letter-spacing:.01em}
+#doctor .doctor-visible-name strong{font-weight:750}
+@media(max-width:600px){#doctor .doctor-visible-name{font-size:16px;margin:7px 0 5px}}
