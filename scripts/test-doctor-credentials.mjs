@@ -96,7 +96,7 @@ test('standalone clinic care pages show one verified clinician byline near the f
   assert.ok(visible.includes('2003년부터 청천동 진료'),page+' missing clinic continuity');
   assert.ok(visible.includes('원장이 직접 검진·진단'),page+' missing direct diagnostic principle');
   assert.ok(visible.includes('href="/#doctor"'),page+' must link to the real medical staff biography');
-  assert.ok(html.includes('<link rel="stylesheet" href="/assets/clinician-byline.css">'),
+  assert.ok(/<link rel="stylesheet" href="\/assets\/clinician-byline\.css(?:\?v=[^"]+)?"/.test(html),
    page+' must actually load the accessible responsive component');
   assert.ok(html.indexOf('class="clinician-byline"')>html.indexOf('<main'),
    page+' clinician identity must be visible rather than search-only metadata');
