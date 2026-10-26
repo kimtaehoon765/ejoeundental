@@ -13,10 +13,13 @@ test('Cheongcheon-dong and Bupyeong clinic queries have one truthful branded hom
  const og=extract(h,/<meta property="og:title" content="([^"]+)"/);
  const twitter=extract(h,/<meta name="twitter:title" content="([^"]+)"/);
  const meta=extract(h,/<meta name="description" content="([^"]+)"/);
- assert.equal(title,'부평치과 | 청천동치과 이조은치과 (인천 부평구)');
+ assert.equal(title,'이조은치과 | 부평치과·청천동치과 | 잇몸치료·재신경치료');
  assert.equal(og,title);
  assert.equal(twitter,title);
  assert.ok(meta.includes('청천동치과')&&meta.includes('부평치과'));
+ assert.ok(title.startsWith('이조은치과 |'),'exact brand must lead the Google homepage title');
+ assert.ok(meta.startsWith('이조은치과('),'snippet must identify the official clinic first');
+ assert.ok(meta.includes('이-조은치과의원'),'recognize hospital registry directory name');
  assert.ok(meta.length<=80);
  assert.equal(extract(h,/<meta property="og:description" content="([^"]+)"/),meta);
  assert.equal(extract(h,/<meta name="twitter:description" content="([^"]+)"/),meta);
@@ -71,4 +74,27 @@ test('sitemap dates reflect genuine homepage and visit revisions, not invented d
   assert.ok(sitemap.includes(entry)||sitemap.includes(normalized),
    'changed page must have an accurate modified date, with or without the published .html route: '+route);
  }
+});
+
+
+test('the same real clinic has consistent branded name variants, public address and telephone in markup',()=>{
+ const h=head(home);
+ const graphs=[...h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1]));
+ const site=graphs.find(x=>x['@type']==='WebSite');
+ const dentist=graphs.find(x=>x['@type']==='Dentist');
+ assert.equal(site?.name,'이조은치과');
+ assert.equal(dentist?.name,site.name);
+ assert.deepEqual([...site.alternateName].sort(),['이조은치과의원','이-조은치과의원'].sort());
+ assert.deepEqual(dentist.alternateName,site.alternateName);
+ assert.equal(site.publisher['@id'],dentist['@id']);
+ assert.equal(site.url,'https://ejoeundental.com/');
+ assert.equal(dentist.url,site.url);
+ assert.equal(dentist.telephone,'+82-32-513-2875');
+ assert.equal(dentist.address?.streetAddress,'세월천로 34 대우프라자 305호');
+ assert.equal(dentist.address?.addressLocality,'부평구');
+ assert.ok(home.includes('<p id="address">인천광역시 부평구 세월천로 34, 대우프라자 305호</p>'));
+ assert.match(home,/<p class="clinic-name-variant">병원정보 사이트 표기: <strong>이-조은치과의원<\/strong> \(이조은치과와 동일한 주소·전화번호\)<\/p>/);
+ assert.match(css,/#location \.clinic-name-variant\{font-size:13px/);
+ assert.ok(!home.includes('<meta name="keywords"'),'do not add obsolete keyword tags for search engines');
 });
