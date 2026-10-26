@@ -76,7 +76,7 @@ for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-ins
   if (!json) { errors.push('FAQ structured data missing: '+slug); continue; }
   try {
     const data = JSON.parse(json);
-    if (data['@type'] !== 'FAQPage' || !Array.isArray(data.mainEntity) || data.mainEntity.length !== 6) errors.push('FAQ structured data incomplete: '+slug);
+    if (data['@type'] !== 'FAQPage' || !Array.isArray(data.mainEntity) || data.mainEntity.length < 6 || data.mainEntity.length !== (page.match(/<section class="card">/g)||[]).length) errors.push('FAQ structured data incomplete: '+slug);
     if (data.isPartOf?.['@id'] !== host+'/#website') errors.push('FAQ source domain mismatch: '+slug);
   } catch { errors.push('FAQ JSON parse failed: '+slug); }
 }
