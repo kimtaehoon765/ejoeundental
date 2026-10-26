@@ -554,3 +554,39 @@ test('touch-screen query shortcuts have 44px+ target height and preserve keyboar
  const html=readFileSync('dist/search.html','utf8');
  assert.match(html,/<link rel="stylesheet" href="\/assets\/search-page\.css\?v=[a-f0-9]{12}"/);
 });
+
+
+test('bad-breath symptom queries lead to measured oral and periodontal causes rather than a guaranteed gum diagnosis',async()=>{
+ const page=readFileSync(new URL('../health/gum-bleeding.html',import.meta.url),'utf8');
+ const title=page.match(/<title>([^<]+)<\/title>/)?.[1];
+ const description=page.match(/<meta name="description" content="([^"]+)"/)?.[1];
+ const medical=page.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ');
+ const fixture=[
+  {url:'/health/gum-bleeding.html',title,description,body:medical},
+  {url:'/gum-treatment.html',title:'잇몸치료 진료 안내',description:'잇몸치료의 원리',body:'잇몸 출혈 치석 원인과 진단'},
+  {url:'/health/swollen-gums.html',title:'잇몸이 붓고 아픈 이유',description:'잇몸 부기 진료',body:'구취 원인은 여러 가지입니다.'},
+  {url:'/stories/halitosis-example/',title:'구취에 대한 일반적인 고민',description:'입냄새를 알아봅니다',body:'입냄새 설명'}
+ ];
+ for(const query of [
+  '입냄새','입냄새가 나요','구취','입에서 냄새가 나요',
+  '청천동 입냄새','부평 구취','산곡동 입냄새','잇몸 피 입냄새'
+ ]){
+  const {results}=await search(query,fixture);
+  const first=walk(results,node=>node.className==='result')[0]?.href;
+  assert.equal(first,'/health/gum-bleeding.html',query+' should lead to a guide explaining multiple causes');
+ }
+ assert.match(page,/입냄새만으로 치주염이라고 진단할 수는 없습니다/);
+ assert.match(page,/혀의 설태/);
+ assert.match(page,/구강건조/);
+});
+
+test('production search index includes original bad-breath education when built',async()=>{
+ if(!existsSync('dist/content/search-index.json'))return;
+ const pages=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
+ const guide=pages.find(p=>p.url==='/health/gum-bleeding.html');
+ assert.ok(guide);
+ assert.ok(guide.body.includes('입냄새만으로 치주염이라고 진단할 수는 없습니다'));
+ const {results}=await search('청천동 입냄새',pages);
+ const topFive=walk(results,node=>node.className==='result').slice(0,5).map(p=>p.href);
+ assert.ok(topFive.includes('/health/gum-bleeding.html'));
+});
