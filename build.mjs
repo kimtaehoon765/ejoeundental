@@ -2650,7 +2650,7 @@ if (selectedPublicOrigin === 'https://ejoeundental.com') {
 // Publish redirect-free canonical URLs for eight verified live treatment guides.
 // Keep source HTML filenames and relative links unchanged for compatibility.
 if (selectedPublicOrigin === 'https://ejoeundental.com') {
- const cleanCareSlugs=['gum-treatment','retreatment','cervical-abrasion','insured-care','tmj-care','wisdom-tooth','implant','pediatric-orthodontics','scaling','cavity-treatment','denture','pediatric-dentistry'];
+ const cleanCareSlugs=['gum-treatment','retreatment','cervical-abrasion','tooth-preservation','insured-care','tmj-care','wisdom-tooth','implant','pediatric-orthodontics','scaling','cavity-treatment','denture','pediatric-dentistry'];
  let changed=0;
  function normalizeCareUrls(dir) {
   for (const entry of fs.readdirSync(dir,{withFileTypes:true})) {
