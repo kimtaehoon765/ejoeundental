@@ -187,3 +187,25 @@ test('second owner-supplied review article covers clinical decision criteria wit
  assert.ok(search.some(p=>p.url==='/stories/'+slug+'/'));
  assert.equal([...homepage.matchAll(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)].length,333);
 });
+
+
+test('homepage topic shortcuts open real original-blog archive categories in one tap',()=>{
+ const home=readFileSync('dist/index.html','utf8');
+ const archive=readFileSync('dist/clinical-archive.html','utf8');
+ const css=readFileSync('dist/assets/home-enhancements.css','utf8');
+ const nav=home.match(/<nav class="owner-blog-topic-jumps" aria-label="[^"]+">([\s\S]*?)<\/nav>/)?.[1]||'';
+ const matches=[...nav.matchAll(/<a href="\/clinical-archive\.html#(archive-group-[a-z]+)">([^<]+)<\/a>/g)];
+ assert.deepEqual(matches.map(m=>m[1]),[
+  'archive-group-gum','archive-group-root','archive-group-ethics','archive-group-other'
+ ]);
+ for(const [,id,label] of matches){
+  assert.match(archive,new RegExp('<details[^>]*id="'+id+'"'),
+   label+' must land on a real original-blog topic');
+ }
+ assert.match(css,/#stories \.owner-blog-topic-jumps a\{[^}]*min-height:44px/,
+  'desktop links remain keyboard and touch accessible');
+ assert.match(css,/@media\(max-width:600px\)\{#stories \.owner-blog-topic-jumps/,
+  'mobile shortcuts have a compact two-column layout');
+ assert.equal([...home.matchAll(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)].length,333,
+  'navigation improvement must not drop any of the original 333 Naver blog links');
+});
