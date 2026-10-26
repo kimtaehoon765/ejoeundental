@@ -679,3 +679,22 @@ test('denture adjustment, repair and insurance searches lead to cautious existin
  assert.equal(walk(results,node=>node.className==='result')[0]?.href,guide.url);
  assert.match(html,/모든 틀니를 반드시 수리할 수 있는 것은 아닙니다/);
 });
+
+
+test('branded dental clinic name and registry hyphenation both resolve to the same real address and telephone',async()=>{
+ const aliases=[
+  '이조은치과','이조은 치과','이조은치과의원',
+  '이-조은치과의원','이-조은치과','이조은치과 전화번호'
+ ];
+ for(const query of aliases){
+  const {results}=await search(query,[]);
+  const visits=walk(results,node=>node.className==='search-visit-answer');
+  assert.equal(visits.length,1,'brand query should show a single real clinic panel: '+query);
+  assert.ok(walk(visits[0],node=>node.href==='tel:0325132875').length,
+   'real clinic number must be available as a tap-to-call link: '+query);
+  assert.ok(walk(visits[0],node=>node.textContent?.includes('인천 부평구')).length,
+   'real location should accompany the branded clinic query: '+query);
+  assert.equal(walk(results,node=>node.className==='result').length,0,
+   'clinic-name-only search should not drown contact details in unrelated blog entries: '+query);
+ }
+});
