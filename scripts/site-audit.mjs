@@ -1039,7 +1039,7 @@ for (const slug of ['gum-treatment-faq', 'root-canal-retreatment-faq', 'dental-i
     const structured = JSON.parse(jsonMatch);
     if (structured.isPartOf?.['@id'] !== (publicOrigin + '/#website')) errors.push('FAQ 미리보기 구조화 데이터 호스트 불일치: ' + slug);
     const questions = structured.mainEntity;
-    if (structured['@type'] !== 'FAQPage' || !Array.isArray(questions) || questions.length !== 6) errors.push('FAQ 질문 구조 불일치: ' + slug);
+    if (structured['@type'] !== 'FAQPage' || !Array.isArray(questions) || questions.length < 6 || questions.length !== (page.match(/<section class="card">/g)||[]).length) errors.push('FAQ 질문 구조 불일치: ' + slug);
     else for (const question of questions) {
       if (question['@type'] !== 'Question' || !question.name || !question.acceptedAnswer?.text || !page.includes(question.name) || !page.includes(question.acceptedAnswer.text)) errors.push('FAQ 화면과 구조화 데이터 불일치: ' + slug);
     }
