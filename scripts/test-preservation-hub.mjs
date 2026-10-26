@@ -173,3 +173,28 @@ test('gum symptoms point to distinct published gingival education instead of gen
  assert.ok(index.some(x=>x.url==='/gum-treatment.html'&&x.body.includes('잇몸 검사를 받아보세요')),
   'the public clinical introduction must remain searchable independent of navigation links');
 });
+
+test('root-canal patient hub offers verified symptom-specific owner articles and current FAQ size',()=>{
+ const hub=readFileSync('dist/root-canal-health.html','utf8');
+ const section=hub.match(/<section class="root-real-questions" id="root-canal-real-questions"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.ok(section.includes('id="root-real-questions-heading"'),'endodontic symptom guide must have a visible heading');
+ assert.equal((section.match(/class="root-real-question-grid"/g)||[]).length,1);
+ assert.equal((section.match(/<article>/g)||[]).length,4,'four different clinical issues need direct guidance');
+ const slugs=[
+  '2026-10-25-bupyeong-root-canal-temporary-filling-fell-out',
+  '2026-10-25-incheon-retreatment-root-tip-dark-spot-no-pain',
+  '2026-10-25-bupyeong-retreatment-crown-post-can-tooth-be-saved',
+  '2026-10-24-bupyeong-severe-toothache-deep-caries-extraction-vs-root-canal'
+ ];
+ for(const slug of slugs){
+  assert.ok(posts.some(item=>item.slug===slug),'root-canal hub must reference actually published owner education: '+slug);
+  assert.ok(section.includes('href="/stories/'+slug+'/"'),'patient must be able to open an exact explanation: '+slug);
+ }
+ for(const phrase of ['치근파절','재신경치료','발치 전 신경치료 가능성','숨쉬기 어렵다면'])
+  assert.ok(section.includes(phrase),'root canal symptom guidance needs cautious advice: '+phrase);
+ assert.ok(hub.includes('재치료의 가능성·한계와 질문 9가지 →'),
+  'hub should not advertise an outdated count when FAQ content expands');
+ const indexed=index.find(item=>item.url==='/root-canal-health.html');
+ assert.ok(indexed?.body.includes('신경치료 중 이런 일이 생겼다면?'),
+  'the public clinical topic hub should expose actual searchable patient questions');
+});
