@@ -34,6 +34,48 @@ if(!existsSync(challengePath)||readFileSync(challengePath,'utf8')!==expectedChal
  errors.push('Google Search Console 소유권 HTML 확인 파일 누락 또는 내용 불일치');
 }
 
+// Google Search Console canonical property guard (verified by owner on 2026-10-26).
+// A previous extra verification tag caused a real failed ownership check.
+// Protect the exact successful tag and the final, redirect-free priority URLs
+// during every production AND preview build; these are source/SEO checks,
+// not claims that Google has already indexed the pages.
+{
+ const homepage=readFileSync(join(root,'index.html'),'utf8');
+ const expectedVerification='jhH0f8kD6cSko87XBW4I0C53SezkyiDbOEe37Uf-SXI';
+ const verificationTags=[...homepage.matchAll(/<meta\\b[^>]*\\bname=["']google-site-verification["'][^>]*>/gi)].map(m=>m[0]);
+ const verificationValues=verificationTags.map(tag=>
+   tag.match(/\\bcontent=["']([^"']+)["']/i)?.[1]||''
+ );
+ if(verificationValues.length!==1||verificationValues[0]!==expectedVerification){
+  errors.push('Google Search Console: 인증 성공한 메타태그가 누락·변경되었거나 중복됨');
+ }
+ const sitemapXml=readFileSync(join(root,'sitemap.xml'),'utf8');
+ const canonicalPriority=[
+  'gum-treatment','retreatment','cervical-abrasion',
+  'root-canal-health','insured-care','visit-guide','tooth-preservation'
+ ];
+ const cleanRoutes=new Set([
+  'gum-treatment','retreatment','cervical-abrasion',
+  'root-canal-health','insured-care','visit-guide'
+ ]);
+ for(const slug of canonicalPriority){
+  const file=join(root,slug+'.html');
+  if(!existsSync(file)){errors.push('구글 우선 진료 페이지 빌드 누락: '+slug);continue;}
+  const html=readFileSync(file,'utf8');
+  const canonical=html.match(/<link\\s+rel=["']canonical["']\\s+href=["']([^"']+)["']/i)?.[1];
+  const publishedPath=(publicOrigin==='https://ejoeundental.com'&&cleanRoutes.has(slug))
+   ?'/'+slug:'/'+slug+'.html';
+  const expectedUrl=publicOrigin+publishedPath;
+  if(canonical!==expectedUrl||
+     !sitemapXml.includes('<loc>'+expectedUrl+'</loc>')||
+     sitemapXml.includes('<loc>'+publicOrigin+'/'+slug+(cleanRoutes.has(slug)?'.html':'.html.html')+'</loc>')||
+     /<meta\\s+name=["']robots["']\\s+content=["'][^"']*noindex/i.test(html)){
+    errors.push('Google 우선 진료 URL·사이트맵·색인 허용 신호 불일치: '+slug);
+  }
+ }
+ console.log('Google Search Console verification and',canonicalPriority.length,'priority canonical URLs audited');
+}
+
 // Verify the new public RSS is a feed of actual, complete local clinic stories,
 // not merely summaries or external blog links. Naver's feed validation requires
 // same-domain URLs, nonempty items and content well under 10 MB.
