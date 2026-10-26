@@ -229,6 +229,20 @@ await Promise.all(urls.map(async ({label,url}) => {
        body.includes('<meta name="google-site-verification" content="'+googleVerification+'">');
       info.push(googleReady?'Google Search Console 소유권 확인용 메타 태그 실제 서버에 게시됨':
        'Google Search Console 소유권 확인 태그 배포 상태 점검 필요 (계정 인증 여부와 별개)');
+      const clinicGraph=[...body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+       .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
+       .find(d=>d?.['@type']==='Dentist');
+      const treatingDoctor=clinicGraph?.employee;
+      const doctorIdentityReady=Boolean(verifiedClinic.footer_representative)&&
+       body.includes('class="doctor-visible-name"')&&
+       body.includes('진료 담당 원장 '+verifiedClinic.footer_representative)&&
+       treatingDoctor?.name===verifiedClinic.footer_representative&&
+       treatingDoctor?.['@id']===origin+'/#doctor-person'&&
+       treatingDoctor?.url===origin+'/#doctor'&&
+       treatingDoctor?.worksFor?.['@id']===origin+'/#clinic';
+      info.push(doctorIdentityReady?
+       'Google 의료진 실명·진료 담당 소개·의료기관 Person/Dentist 구조화 관계 최신 공개 확인':
+       'Google 의료진 실명/진료기관 구조화 관계 최신 배포 확인 필요');
       const missingHeaders=securityKeys.filter(name=>!response.headers.get(name));
       info.push(missingHeaders.length===0
        ? 'Cloudflare Pages 응답 보안 헤더 4종 반영'
@@ -498,6 +512,15 @@ await Promise.all(urls.map(async ({label,url}) => {
         articleCanonical===expectedCanonical&&headingOk;
       info.push(isPublished?'최신 원고 제목·대표주소·본문 페이지 공개 확인':
         '최신 소스 글의 실서버 게시 확인 필요 (배포 지연/HTML 내용 비교)');
+      const postSchema=[...body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+       .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
+       .find(d=>d?.['@type']==='BlogPosting');
+      const doctorConnected=postSchema?.author?.['@id']===origin+'/#doctor-person'&&
+       postSchema?.author?.name===verifiedClinic.footer_representative&&
+       postSchema?.author?.worksFor?.['@id']===origin+'/#clinic'&&
+       postSchema?.publisher?.['@id']===origin+'/#clinic';
+      info.push(doctorConnected?'Google 원장 치과 이야기 작성자·치과 기관 연결 최신 배포 확인':
+       '치과 이야기 Google 작성자/기관 구조화 관계 최신 배포 확인 필요');
       if(expected)info.push('소스 원고: '+expected.title);
     } else if (label === '재신경치료 글 진료 연결 확인') {
       const relatedGuide=body.match(/<aside class="notice" aria-label="관련 진료 안내">([\s\S]*?)<\/aside>/)?.[1]||'';
