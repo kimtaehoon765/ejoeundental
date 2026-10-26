@@ -95,6 +95,7 @@ const urls = [
   { label: 'Google 치경부마모증 GI 진료', url: origin + '/cervical-abrasion.html' },
   { label: 'Google GI 수복 보험·재수복 건강정보', url: origin + '/health/insurance-cervical.html' },
   { label: 'Google 스케일링 건강보험 재방문 안내', url: origin + '/health/insurance-scaling.html' },
+  { label: 'Google 재신경치료 건강보험·크라운 비용 안내', url: origin + '/health/insurance-root-canal.html' },
   { label: 'care route cavity', url: origin + '/cavity-treatment.html' },
   { label: 'care route denture', url: origin + '/denture.html' },
   { label: 'care route child', url: origin + '/pediatric-dentistry.html' },
@@ -479,6 +480,9 @@ await Promise.all(urls.map(async ({label,url}) => {
       const remainingSlugs=["gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive"];
       const remainingFinalCount=remainingSlugs.filter(slug=>body.includes('<loc>'+origin+'/'+slug+'</loc>')).length;
       info.push('나머지 FAQ·의료안전·정보 페이지 최종 URL: '+remainingFinalCount+'/16');
+      info.push(body.includes('<loc>'+origin+'/health/insurance-root-canal</loc><lastmod>2026-10-26</lastmod>')?
+       'Google 재신경치료·크라운 보험비용 건강정보 실제 수정일 사이트맵 반영 확인':
+       '재신경치료·크라운 보험 설명 사이트맵 최신 배포 확인 필요');
       const revisedGI=['cervical-abrasion','insurance-health','health/insurance-cervical'];
       const datesGI=revisedGI.filter(slug=>
        body.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>'));
@@ -938,6 +942,10 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push(verified?'의학정보 제목·소개·대표주소·공유 미리보기 일치':'의학정보 공유 카드 최신 반영 확인 필요');
     }
     if(label==='public route insurance-health'){
+      info.push(body.includes('href="/health/insurance-root-canal.html#section-7"')&&
+       body.includes('href="/health/insurance-root-canal.html#section-8"')?
+       '보험 건강정보에서 기존 크라운·재신경치료 비용 구분 안내 실제 연결':
+       '기존 크라운 재치료 보험 모음 연결 최신 배포 확인 필요');
       info.push(body.includes('href="/health/insurance-cervical.html#section-7"')&&
        body.includes('href="/health/insurance-cervical.html#section-8"')?
        '보험 건강정보 모음에서 GI 재수복·레진 보험 질문으로 실제 이동 가능':
@@ -971,6 +979,27 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push(direct?
        '스케일링 진료 페이지에서 기존 보험 이용 환자에게 필요한 설명 실제 연결':
        '스케일링 진료의 반복 보험 적용 도움말 신규 배포 확인 필요');
+    }
+    if(label==='Google 재신경치료 건강보험·크라운 비용 안내'){
+      const snippet=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+      const medical=[...body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+       .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
+       .find(d=>d?.['@type']==='MedicalWebPage');
+      const sound=snippet.includes('인천 부평구 청천동 이조은치과')&&
+       snippet.includes('기존 크라운')&&
+       body.includes('id="section-7"')&&body.includes('id="section-8"')&&
+       body.includes('모든 재신경치료에 크라운 교체가 필요한 것도 아니고')&&
+       body.includes('전체 치료비가 자동으로 건강보험 적용되는 것도 아닙니다')&&
+       medical?.description===snippet&&medical?.url===response.url;
+      info.push(sound?
+       'Google 재신경치료·기존 크라운·보철 비용 감별 설명과 의료정보 구조화 데이터 실제 공개 확인':
+       '재신경치료·크라운 비용 건강정보 최신 배포 확인 필요');
+    }
+    if(label==='재신경치료 이미지 초기 표시'){
+      info.push(body.includes('href="/health/insurance-root-canal.html#section-7"')&&
+       body.includes('href="/health/insurance-root-canal.html#section-8"')?
+       '재신경치료 질문에서 크라운·비용 건강정보로 이동하는 실제 FAQ 공개 확인':
+       '재신경치료 크라운·보험 문의 FAQ 최신 배포 확인 필요');
     }
     if(label==='Google 스케일링 건강보험 재방문 안내'){
       const snippet=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
@@ -1126,6 +1155,9 @@ if(deployedSearchScript){
   const breathScriptReady=client.includes("'입냄새':['입냄새','구취'")&&
    client.includes("const spacedRegion=q.match(")&&
    client.includes("/(?:입냄새|입에서냄새|구취)/");
+  const retreatInsuranceReady=client.includes("'재신경치료보험':")&&
+   client.includes("const rootCostIntent=")&&
+   client.includes("p.url==='/health/insurance-root-canal.html'");
   const giSearchReady=client.includes("'gi수복물이떨어졌어요':")&&
    client.includes("'레진gi보험차이':")&&
    client.includes("p.url==='/health/insurance-cervical.html'");
@@ -1139,7 +1171,8 @@ if(deployedSearchScript){
    (bookingOk?' · 네이버 예약 찾기 연결 반영':' · 예약 검색 코드 최신 반영 필요')+
    (hoursOk?' · 격주 금·토요일·접수 마감 안내 반영':' · 진료시간 검색 코드 최신 반영 필요')+
    (breathScriptReady?' · 구취·복수 지역명 검색 보정 반영':' · 구취·지역명 검색 개선 배포 확인 필요')+
-   (giSearchReady?' · GI 재수복·보험 문의 검색 보정 반영':' · GI 재수복 검색 보정 최신 배포 확인 필요'));
+   (giSearchReady?' · GI 재수복·보험 문의 검색 보정 반영':' · GI 재수복 검색 보정 최신 배포 확인 필요')+
+   (retreatInsuranceReady?' · 재신경치료·크라운 보험 검색 보정 반영':' · 재신경치료 보험 검색 보정 최신 배포 확인 필요'));
  }catch(error){
   add('환자가 실제 로딩하는 검색 프로그램','접속 확인 불가',shortError(error));
  }
