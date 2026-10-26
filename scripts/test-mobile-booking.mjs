@@ -66,6 +66,19 @@ test('owner-confirmed clinic booking ID appears as an actual direct booking link
  assert.ok(actions.includes('target="_blank" rel="noopener noreferrer"'));
  assert.ok(!actions.includes('search.naver.com/search.naver'),'booking is now a direct link, not a search result');
 
+ const hero=homepage.match(/<div class="hero-actions"[^>]*>([\s\S]*?)<\/div>/)?.[1]||'';
+ assert.ok(hero.includes('class="btn hero-booking"'),'desktop homepage should offer direct booking');
+ assert.ok(hero.includes('href="'+url+'"'));
+ assert.ok(hero.includes('target="_blank" rel="noopener noreferrer"'));
+ assert.ok(hero.includes(direct.label));
+ const visit=readFileSync('dist/visit-guide.html','utf8');
+ const quick=visit.match(/<nav class="visit-quick-actions"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ assert.ok(quick.includes('class="quick-route visit-booking"'));
+ assert.ok(quick.includes('href="'+url+'"'));
+ assert.ok(quick.includes(direct.label));
+ assert.ok(quick.includes('target="_blank" rel="noopener noreferrer"'));
+ assert.ok(!homepage.includes('BUILD_NAVER_BOOKING_HERO'));
+ assert.ok(!visit.includes('BUILD_NAVER_BOOKING_VISIT'));
  const search=readFileSync('dist/search.html','utf8');
  assert.ok(search.includes('data-booking-url="'+url+'"'));
  assert.ok(search.includes('data-booking-label="'+direct.label+'"'));
