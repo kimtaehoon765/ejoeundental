@@ -207,7 +207,8 @@ await Promise.all(urls.map(async ({label,url}) => {
        body.includes('URL:'+origin+'/')&&body.includes('END:VCARD');
       info.push(valid?'환자용 연락처 저장 파일 배포 확인':'연락처 저장 파일 운영 사이트 배포 확인 필요');
     } else if (label === '자연치아 보존 진료 안내') {
-      const hasCanonical=body.includes('<link rel="canonical" href="'+origin+'/tooth-preservation.html">');
+      const hasCanonical=body.includes('<link rel="canonical" href="'+origin+'/tooth-preservation">')&&
+        response.url===origin+'/tooth-preservation';
       const linkedFromSite=body.includes('href="/stories.html#topic-preserve"')&&
         body.includes('href="/retreatment.html"')&&body.includes('href="/gum-treatment.html"')&&
         body.includes('href="/stories/2026-10-25-bupyeong-natural-tooth-versus-implant-maintenance/"');
