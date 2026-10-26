@@ -588,7 +588,7 @@ const storyToc=articleHeadings.length>=3?
  '<details class="story-toc"><summary>이 글의 내용 바로가기 ('+articleHeadings.length+'개 항목)</summary>'+
  '<nav aria-label="글 목차">'+articleHeadings.map(section=>
   '<a href="#'+section.id+'">'+section.label+'</a>').join('')+'</nav></details>':'';
-const article=`<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escaped(post.title)} | 이조은치과</title><meta name="description" content="${articleDescription}"><meta property="og:type" content="article">${post.date?`<meta property="article:published_time" content="${escaped(post.date)}">`:""}<meta property="og:title" content="${escaped(post.title)} | 이조은치과"><meta property="og:description" content="${articleDescription}">${safeImage?`<meta property="og:image" content="https://ejoeundental.pages.dev${escaped(safeImage)}">`:""}<meta property="og:url" content="${articleUrl}"><meta property="og:locale" content="ko_KR"><meta property="og:site_name" content="이조은치과"><meta name="twitter:card" content="${safeImage?'summary_large_image':'summary'}"><meta name="twitter:title" content="${escaped(post.title)} | 이조은치과"><meta name="twitter:description" content="${articleDescription}"><script type="application/ld+json">${articleJson}</script><script type="application/ld+json">${breadcrumbJson}</script><link rel="canonical" href="https://ejoeundental.pages.dev/stories/${encodeURIComponent(slug)}/"><link rel="stylesheet" href="/assets/style.css"><link rel="stylesheet" href="/assets/story-related.css?v=${storyRelatedCssVersion}"><link rel="stylesheet" href="/assets/story-article.css?v=${storyArticleCssVersion}"><link rel="stylesheet" href="/assets/reading-controls.css?v=${storyAssetHashes['reading-controls.css']}"><link rel="stylesheet" href="/assets/article-sharing.css?v=${storyAssetHashes['article-sharing.css']}"><meta name="referrer" content="strict-origin-when-cross-origin"></head><body class="owner-story-page"><a class="skip-link" href="#main-content">본문 바로가기</a><header><nav class="nav" aria-label="주요 메뉴"><a class="logo" href="/">이조은치과</a><div class="navlinks"><a href="/stories.html">치과 이야기</a><a href="/search.html">건강정보 검색</a><a href="/#location">오시는 길</a></div></nav></header><main id="main-content"><article class="article"><nav aria-label="현재 위치" class="back"><a href="/">홈</a> › <a href="/stories.html">치과 이야기</a> › <span aria-current="page">${escaped(post.title)}</span></nav><p class="eyebrow">DENTAL JOURNAL${post.date?` · <time datetime="${escaped(post.date)}">${escaped(post.date)}</time>`:""}${post.updated&&post.updated!==post.date?` · 내용 수정 <time datetime="${escaped(post.updated)}">${escaped(post.updated)}</time>`:""}</p><h1>${escaped(post.title)}</h1>${articleCategoryLink}${verifiedStoryAuthor?`<p style="font-size:14px;line-height:1.7;color:#4e6658">자료 제공: 이조은치과 원장 ${escaped(verifiedStoryAuthor)}</p>`:""}${typeof post.summary==="string"&&post.summary.trim()?`<p>${escaped(post.summary.trim())}</p>`:""}${ownerStoryReadingPanel}${ownerStorySharingPanel}<hr style="border:0;border-top:1px solid #d7d9ca;margin:35px 0">${safeImage?`<img src="${escaped(safeImage)}" alt="${escaped(post.title)}" loading="lazy" decoding="async" style="display:block;max-width:100%;height:auto;margin:0 auto 28px;border-radius:14px">`:""}${storyToc}<section class="story-prose" aria-label="치과 이야기 본문">${renderedStoryBody}</section><p class="notice">이 글은 일반적인 건강 정보이며 진단이나 치료는 개별 진찰 결과에 따라 달라질 수 있습니다.</p><aside class="notice" aria-label="진료 문의"><strong>진료가 필요하신가요?</strong><br>원장이 직접 검진하고 필요한 치료부터 안내합니다.<br><a href="tel:0325132875">전화 문의 032-513-2875</a> · <a href="/#location">진료시간·오시는 길</a><br><small>격주 금요일·토요일 진료 일정은 방문 전 전화로 확인해 주세요.</small></aside>${articleSourceNote}${articleTopicNavigation}${storyRelated}${journalNavigation}<nav class="article-return-nav" aria-label="치과 이야기 탐색"><a href="#main-content">↑ 글 처음으로 돌아가기</a></nav></article></main><nav class="story-mobile-actions" aria-label="전화 문의와 진료 위치 안내"><a class="story-mobile-call" href="tel:0325132875">☎ 전화 문의</a><a class="story-mobile-location" href="/#location">진료시간·오시는 길 →</a></nav><footer class="footer"><div class="wrap">이조은치과 · <a href="tel:0325132875">032-513-2875</a> · <a href="/#location">진료시간·오시는 길</a></div></footer><script defer src="/assets/reading-controls.js?v=${storyAssetHashes['reading-controls.js']}"></script><script defer src="/assets/article-sharing.js?v=${storyAssetHashes['article-sharing.js']}"></script></body></html>`;const dest=path.join(out,'stories',slug);fs.mkdirSync(dest,{recursive:true});fs.writeFileSync(path.join(dest,'index.html'),article)}// Publish all curated search entries instead of rebuilding the obsolete seven-page index.
+const article=`<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escaped(post.title)} | 이조은치과</title><meta name="description" content="${articleDescription}"><meta property="og:type" content="article">${post.date?`<meta property="article:published_time" content="${escaped(post.date)}">`:""}<meta property="og:title" content="${escaped(post.title)} | 이조은치과"><meta property="og:description" content="${articleDescription}">${safeImage?`<meta property="og:image" content="https://ejoeundental.pages.dev${escaped(safeImage)}">`:""}<meta property="og:url" content="${articleUrl}"><meta property="og:locale" content="ko_KR"><meta property="og:site_name" content="이조은치과"><meta name="twitter:card" content="${safeImage?'summary_large_image':'summary'}"><meta name="twitter:title" content="${escaped(post.title)} | 이조은치과"><meta name="twitter:description" content="${articleDescription}"><script type="application/ld+json">${articleJson}</script><script type="application/ld+json">${breadcrumbJson}</script><link rel="canonical" href="https://ejoeundental.pages.dev/stories/${encodeURIComponent(slug)}/"><link rel="stylesheet" href="/assets/style.css"><link rel="stylesheet" href="/assets/story-related.css?v=${storyRelatedCssVersion}"><link rel="stylesheet" href="/assets/story-article.css?v=${storyArticleCssVersion}"><link rel="stylesheet" href="/assets/reading-controls.css?v=${storyAssetHashes['reading-controls.css']}"><link rel="stylesheet" href="/assets/article-sharing.css?v=${storyAssetHashes['article-sharing.css']}"><meta name="referrer" content="strict-origin-when-cross-origin"></head><body class="owner-story-page"><a class="skip-link" href="#main-content">본문 바로가기</a><header><nav class="nav" aria-label="주요 메뉴"><a class="logo" href="/">이조은치과</a><div class="navlinks"><a href="/stories.html">치과 이야기</a><a href="/search.html">건강정보 검색</a><a href="/#location">오시는 길</a></div></nav></header><main id="main-content"><article class="article"><nav aria-label="현재 위치" class="back"><a href="/">홈</a> › <a href="/stories.html">치과 이야기</a> › <span aria-current="page">${escaped(post.title)}</span></nav><p class="eyebrow">DENTAL JOURNAL${post.date?` · <time datetime="${escaped(post.date)}">${escaped(post.date)}</time>`:""}${post.updated&&post.updated!==post.date?` · 내용 수정 <time datetime="${escaped(post.updated)}">${escaped(post.updated)}</time>`:""}</p><h1>${escaped(post.title)}</h1>${articleCategoryLink}${verifiedStoryAuthor?`<p style="font-size:14px;line-height:1.7;color:#4e6658">자료 제공: 이조은치과 원장 ${escaped(verifiedStoryAuthor)}</p>`:""}${typeof post.summary==="string"&&post.summary.trim()?`<p>${escaped(post.summary.trim())}</p>`:""}${ownerStoryReadingPanel}${ownerStorySharingPanel}<hr style="border:0;border-top:1px solid #d7d9ca;margin:35px 0">${safeImage?`<img src="${escaped(safeImage)}" alt="${escaped(post.title)}" loading="lazy" decoding="async" style="display:block;max-width:100%;height:auto;margin:0 auto 28px;border-radius:14px">`:""}${storyToc}<section class="story-prose" aria-label="치과 이야기 본문">${renderedStoryBody}</section><p class="notice">이 글은 일반적인 건강 정보이며 진단이나 치료는 개별 진찰 결과에 따라 달라질 수 있습니다.</p><aside class="notice" aria-label="진료 문의"><strong>진료가 필요하신가요?</strong><br>원장이 직접 검진하고 필요한 치료부터 안내합니다.<br><a href="tel:0326132875">전화 문의 032-513-2875</a> · <a href="/#location">진료시간·오시는 길</a><br><small>격주 금요일·토요일 진료 일정은 방문 전 전화로 확인해 주세요.</small></aside>${articleSourceNote}${articleTopicNavigation}${storyRelated}${journalNavigation}<nav class="article-return-nav" aria-label="치과 이야기 탐색"><a href="#main-content">↑ 글 처음으로 돌아가기</a></nav></article></main><nav class="story-mobile-actions" aria-label="전화 문의와 진료 위치 안내"><a class="story-mobile-call" href="tel:0326132875">☎ 전화 문의</a><a class="story-mobile-location" href="/#location">진료시간·오시는 길 →</a></nav><footer class="footer"><div class="wrap">이조은치과 · <a href="tel:0326132875">032-513-2875</a> · <a href="/#location">진료시간·오시는 길</a></div></footer><script defer src="/assets/reading-controls.js?v=${storyAssetHashes['reading-controls.js']}"></script><script defer src="/assets/article-sharing.js?v=${storyAssetHashes['article-sharing.js']}"></script></body></html>`;const dest=path.join(out,'stories',slug);fs.mkdirSync(dest,{recursive:true});fs.writeFileSync(path.join(dest,'index.html'),article)}// Publish all curated search entries instead of rebuilding the obsolete seven-page index.
 // Search only substantive main-content text: shared navigation and footers must not create false matches.
 const entries=JSON.parse(fs.readFileSync(path.join(root,'content/search-index-46.json'),'utf8'));
 for(const entry of entries){
@@ -747,7 +747,7 @@ console.log('Homepage journal entries rendered without browser fetch:',posts.len
 
 // Build a separate clinic-story directory from the same verified published CMS
 // posts used by /stories/{slug}/. All titles are visible in static HTML without JS.
-// This intentionally keeps 333 external original Naver blog links as a separate
+// This intentionally keeps 334 external original Naver blog links as a separate
 // archive, so the count of homepage articles is not confused with those links.
 {
  const groups=[
@@ -1137,8 +1137,8 @@ const ownerBlogItems=[...ownerStoriesSection.matchAll(/<div class="card owner-st
   url,
   title:label.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").trim()
  }));
-if(ownerBlogItems.length!==333||new Set(ownerBlogItems.map(item=>item.url)).size!==333){
- throw new Error('The clinical archive must mirror exactly 333 original owner blog links');
+if(ownerBlogItems.length!==334||new Set(ownerBlogItems.map(item=>item.url)).size!==334){
+ throw new Error('The clinical archive must mirror exactly 334 original owner blog links');
 }
 const clinicalArchiveGroups=[
  {id:'gum',name:'잇몸치료·스케일링',url:'/gum-health.html',label:'잇몸 건강정보 10편 더 읽기',
@@ -1198,7 +1198,7 @@ fs.writeFileSync(archiveCatalogFile,archiveCatalogHtml);
 console.log('Owner blog archive search asset fingerprinted:',archiveSearchHash);
 // Use the SAME classified owner blog articles as the archive summary. Both
 // treatment-page counts previously lagged far behind the actual archive
-// (62/33 in the buttons versus 131/46 in the 333-link collection).
+// (62/33 in the buttons versus 131/46 in the 334-link collection).
 // Render from this single source rather than making the clinician edit counts.
 for(const [id,filename,marker] of [
  ['gum','gum-treatment.html','<!-- BUILD_OWNER_GUM_COUNT -->'],
@@ -1480,7 +1480,7 @@ for(const filename of localCarePages){
  const target=path.join(out,filename);
  let html=fs.readFileSync(target,'utf8');
  if(html.includes('data-local-care-location="true"'))continue;
- const block='<section data-local-care-location="true" aria-label="치과 위치 안내" style="padding:36px 20px;background:#f2f6f1"><div style="max-width:1000px;margin:auto;line-height:1.85"><h2 style="margin:0 0 12px;font-size:clamp(22px,3vw,28px)">청천동 이조은치과 위치 안내</h2><p>이조은치과는 <strong>인천 부평구 청천동, 세월천로 34 대우프라자 305호</strong>에 있습니다. 산곡동·산곡역 주변에서 방문을 고려하신다면 실제 위치와 이동 경로를 먼저 확인해 주세요.</p><p><a href="/#location">진료시간·위치·주차 안내 →</a> · <a href="tel:0325132875">전화 문의 032-513-2875 →</a></p><p style="font-size:14px">금요일과 토요일은 격주로 진료 일정이 달라 방문 전 전화 확인을 권합니다.</p></div></section>';
+ const block='<section data-local-care-location="true" aria-label="치과 위치 안내" style="padding:36px 20px;background:#f2f6f1"><div style="max-width:1000px;margin:auto;line-height:1.85"><h2 style="margin:0 0 12px;font-size:clamp(22px,3vw,28px)">청천동 이조은치과 위치 안내</h2><p>이조은치과는 <strong>인천 부평구 청천동, 세월천로 34 대우프라자 305호</strong>에 있습니다. 산곡동·산곡역 주변에서 방문을 고려하신다면 실제 위치와 이동 경로를 먼저 확인해 주세요.</p><p><a href="/#location">진료시간·위치·주차 안내 →</a> · <a href="tel:0326132875">전화 문의 032-513-2875 →</a></p><p style="font-size:14px">금요일과 토요일은 격주로 진료 일정이 달라 방문 전 전화 확인을 권합니다.</p></div></section>';
  if(!html.includes('</main>'))throw new Error('Missing main section in care page: '+filename);
  html=html.replace('</main>',block+'</main>');
  fs.writeFileSync(target,html);
@@ -1638,7 +1638,7 @@ for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
     '<a class="patient-care-journey-primary" href="'+primary+'">'+escapeBreadcrumbText(primaryLabel)+' →</a>'+
     '<a href="'+secondary+'">'+escapeBreadcrumbText(secondaryLabel)+' →</a>'+
     '<a href="/#location">진료시간·오시는 길 →</a>'+
-    '<a href="tel:0325132875">☎ 032-513-2875 전화 문의</a>'+
+    '<a href="tel:0326132875">☎ 032-513-2875 전화 문의</a>'+
     '</div></nav>';
   const insertionPoint=html.includes('<div class="bottom">')?'<div class="bottom">':
     html.includes('<footer class="bottom"')?'<footer class="bottom"':
@@ -1804,7 +1804,7 @@ for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
  const rule=topicGuideRules.find(x=>x.pattern.test(filename));
  if(rule&&!panel.includes('href="'+rule.guide+'"'))throw new Error('Health article missing matching care guide: '+filename+' -> '+rule.guide);
  if(!panel.includes('class="patient-care-journey-links"')||
-    !panel.includes('href="tel:0325132875"')||
+    !panel.includes('href="tel:0326132875"')||
     !panel.includes('href="/#location"')||
     !panel.includes('실제 치료 필요성은 진찰 결과에 따라 달라집니다')){
   throw new Error('Health article missing patient-safe contact navigation: '+filename);
@@ -1825,9 +1825,9 @@ for(const entry of searchDestinations){
  if(!fs.existsSync(target)&&!fs.existsSync(path.join(target,'index.html')))throw new Error('Missing searchable page: '+entry.url);
 }
 const careJourneys={
- 'gum-treatment.html':['/health/gum-bleeding.html','/health/scaling-vs-periodontal.html','/#location','tel:0325132875'],
- 'retreatment.html':['/health/root-canal-after-pain.html','/health/root-canal-retreatment.html','/#location','tel:0325132875'],
- 'cervical-abrasion.html':['/health/abrasion-sensitive.html','/health/abrasion-gi.html','/#location','tel:0325132875']
+ 'gum-treatment.html':['/health/gum-bleeding.html','/health/scaling-vs-periodontal.html','/#location','tel:0326132875'],
+ 'retreatment.html':['/health/root-canal-after-pain.html','/health/root-canal-retreatment.html','/#location','tel:0326132875'],
+ 'cervical-abrasion.html':['/health/abrasion-sensitive.html','/health/abrasion-gi.html','/#location','tel:0326132875']
 };
 for(const [page,links] of Object.entries(careJourneys)){
  const html=fs.readFileSync(path.join(out,page),'utf8');
@@ -1950,7 +1950,7 @@ const searchPageHtml=fs.readFileSync(path.join(out,'search.html'),'utf8');
 if(!/<form\b[^>]*role=["']search["'][^>]*>/.test(searchPageHtml))throw new Error('Search page missing search landmark');
 if(!/<input\b[^>]*id=["']q["'][^>]*aria-describedby=["']search-help["']/.test(searchPageHtml))throw new Error('Search field missing accessible help reference');
 if(!/<p\b[^>]*id=["']search-help["'][^>]*>/.test(searchPageHtml))throw new Error('Search help description missing');
-for(const destination of ['/#focus-care','/#location','tel:0325132875']){
+for(const destination of ['/#focus-care','/#location','tel:0326132875']){
  if(!searchPageHtml.includes('href="'+destination+'"'))throw new Error('Search page missing patient quick action: '+destination);
 }
 if(!/<a\b[^>]*href=["']\/search\.html["'][^>]*aria-current=["']page["']/.test(searchPageHtml))throw new Error('Search page current navigation marker missing');
@@ -1980,7 +1980,7 @@ for(const [index,card] of symptomCards.entries()){
  if(!/href=["']\/health\/[^"']+\.html["']/.test(card))throw new Error('Symptom card '+(index+1)+' lacks a health article');
  if(!/href=["']\/(?:gum-treatment|retreatment|cervical-abrasion|insured-care)\.html["']/.test(card))throw new Error('Symptom card '+(index+1)+' lacks a treatment guide');
 }
-for(const link of ['href="tel:0325132875"','href="#location"']){
+for(const link of ['href="tel:0326132875"','href="#location"']){
  if(!symptomSection.includes(link))throw new Error('Symptom guide missing contact link '+link);
 }
 if(!homepageHtml.includes('id="location"'))throw new Error('Homepage location anchor is missing');
@@ -2007,7 +2007,7 @@ function auditContactLinks(folder){
   const html=fs.readFileSync(file,'utf8');
   const relative=path.relative(out,file);
   for(const match of html.matchAll(/href=["']tel:([^"']+)["']/gi)){
-   if(match[1].replace(/[^\d]/g,'')!=='0325132875')contactIssues.add(relative+': unexpected phone '+match[1]);
+   if(match[1].replace(/[^\d]/g,'')!=='0326132875')contactIssues.add(relative+': unexpected phone '+match[1]);
   }
   for(const match of html.matchAll(/href=["']\/#([^"']+)["']/g)){
    if(!homeIds.has(match[1]))contactIssues.add(relative+': missing homepage anchor #'+match[1]);
@@ -2108,7 +2108,7 @@ console.log('Fee disclosure audit passed:',publishedFeeData.items.length,'explic
 // Check patient-facing navigation and local search signals in the built homepage.
 const homeAuditHtml=fs.readFileSync(path.join(out,'index.html'),'utf8');
 for(const [label,pattern] of [
- ['clinic telephone',/href=["']tel:0325132875["']/i],
+ ['clinic telephone',/href=["']tel:0326132875["']/i],
  ['clinic address',/세월천로\s*34/],
  ['Cheongcheon local area',/청천동/],
  ['Sangok local area',/산곡동/],
@@ -2176,7 +2176,7 @@ if(!homeAuditHtml.includes('name="format-detection" content="telephone=no"'))thr
 // Every published journal article must keep its consultation and navigation details.
 for(const post of posts){
  const html=fs.readFileSync(path.join(out,'stories',post.slug,'index.html'),'utf8');
- for(const required of ['id="main-content"','href="tel:0325132875"','href="/#location"','격주 금요일·토요일 진료 일정','application/ld+json']){
+ for(const required of ['id="main-content"','href="tel:0326132875"','href="/#location"','격주 금요일·토요일 진료 일정','application/ld+json']){
   if(!html.includes(required))throw new Error('Journal article missing essential patient information ('+required+'): '+post.slug);
  }
  const canonical='https://ejoeundental.pages.dev/stories/'+encodeURIComponent(post.slug)+'/';
@@ -2506,7 +2506,7 @@ for(const route of healthSitemapRoutes){
  if(!main)throw new Error('Health article missing main content: '+route);
  const notices=[...main.matchAll(/<small\b[^>]*>([\s\S]*?)<\/small>/gi)].map(m=>m[1].replace(/<[^>]+>/g,'').trim());
  if(!notices.some(note=>note.includes('건강정보')||note.includes('일반적인 정보')))throw new Error('Health article missing general-information disclaimer: '+route);
- if(!/<a\b[^>]*href=["']tel:0325132875["']/i.test(main))throw new Error('Health article missing clinic phone link: '+route);
+ if(!/<a\b[^>]*href=["']tel:0326132875["']/i.test(main))throw new Error('Health article missing clinic phone link: '+route);
  if(!/<a\b[^>]*href=["']\/#location["']/i.test(main))throw new Error('Health article missing location and hours link: '+route);
  checkedHealthPatientInfo++;
 }
@@ -3040,7 +3040,7 @@ console.log('Clinical education sharing metadata aligned:',clinicalSharingCount,
    '<ul class="patient-story-links-topical">'+suggestions.join('')+'</ul>'+
    '<div class="patient-story-links-row">'+
    '<a href="/stories.html">📖 홈페이지 치과 이야기 전체 보기</a>'+
-   '<a href="/clinical-archive.html#archive-blog-posts">네이버 블로그 원문 333편 보기 →</a>'+
+   '<a href="/clinical-archive.html#archive-blog-posts">네이버 블로그 원문 334편 보기 →</a>'+
    '</div></nav>';
  }
  let linked=0;
@@ -3127,7 +3127,7 @@ function brandPublicPages(dir){
  const action=bookingAction(bookingData.naver_booking_url);
  const safe=val=>String(val).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
  const buttons='<nav class="mobile-booking-actions" aria-label="휴대폰 진료 문의와 네이버 예약 안내">'+
-  '<a class="mobile-booking-call" href="tel:0325132875" aria-label="이조은치과 032-513-2875로 전화">☎ 전화 문의</a>'+
+  '<a class="mobile-booking-call" href="tel:0326132875" aria-label="이조은치과 032-513-2875로 전화">☎ 전화 문의</a>'+
   '<a class="mobile-booking-naver" href="'+safe(action.url)+'" target="_blank" rel="noopener noreferrer"'+
   ' aria-label="'+safe(action.aria)+'">'+safe(action.label)+'</a>'+
   '</nav>';
