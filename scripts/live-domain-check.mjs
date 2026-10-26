@@ -286,7 +286,8 @@ await Promise.all(urls.map(async ({label,url}) => {
        'referrer-policy','permissions-policy'];
       const googleVerification=homepageSource.match(/<meta name="google-site-verification" content="([^"]+)">/)?.[1]||'';
       const googleReady=Boolean(googleVerification)&&
-       body.includes('<meta name="google-site-verification" content="'+googleVerification+'">');
+       (body.includes('<meta name="google-site-verification" content="'+googleVerification+'">')||
+        body.includes('<meta name="google-site-verification" content="'+googleVerification+'" />'));
       info.push(googleReady?'Google Search Console 소유권 확인용 메타 태그 실제 서버에 게시됨':
        'Google Search Console 소유권 확인 태그 배포 상태 점검 필요 (계정 인증 여부와 별개)');
       const clinicGraph=[...body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
