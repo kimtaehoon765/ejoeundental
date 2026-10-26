@@ -47,12 +47,12 @@ test('mobile homepage has a lightweight schema head while keeping all original c
    .map(m=>JSON.parse(m[1]))
    .find(data=>data['@id']==='https://ejoeundental.com/#owner-articles');
  assert.ok(itemList,'clinic stories JSON-LD must remain valid and discoverable');
- assert.equal(itemList.numberOfItems,333,'overall article count must not be lost');
+ assert.equal(itemList.numberOfItems,363,'overall article count must not be lost');
  assert.equal(itemList.itemListElement.length,8,'only latest 8 stories should load in the head');
  const storyBlock=html.match(/<section class="section light" id="stories">([\s\S]*?)<\/section>/)?.[1]||'';
  const urls=[...storyBlock.matchAll(/href="(https:\/\/blog\.naver\.com\/[a-zA-Z0-9_-]+\/[0-9]+)"/g)].map(m=>m[1]);
- assert.equal(urls.length,333,'all story links must remain in the visible page/archive section');
- assert.equal(new Set(urls).size,333,'story links should not be duplicated');
+ assert.equal(urls.length,363,'all story links must remain in the visible page/archive section');
+ assert.equal(new Set(urls).size,363,'story links should not be duplicated');
  assert.deepEqual(itemList.itemListElement.map(item=>item.url),urls.slice(0,8));
  assert.ok(head.length<22000,'mobile browser should not parse a 40KB+ homepage head');
 });
@@ -71,12 +71,12 @@ test('clinic stories have direct prominent desktop and mobile navigation',()=>{
  assert.ok(html.includes('· 홈페이지 글 '+published.length+'편 읽기 →'),
   'visible homepage story shortcut count must be the current published total');
  assert.ok(!html.includes('BUILD_STORY_LINK_COUNT'),'no dynamic count markers in deployed HTML');
- assert.ok(!html.includes('치과 이야기와 블로그 글 333편으로 바로가기'),
+ assert.ok(!html.includes('치과 이야기와 블로그 글 363편으로 바로가기'),
   'the article directory is distinct from original Naver blog posts');
  assert.match(html,/<p class="hero-stories-shortcut"><a href="\/stories.html"/,'hero provides another readily visible story entrance');
  assert.match(html,/<style id="stories-menu-visibility">/,'highlight must not depend on old cached CSS');
  assert.match(html,/<section class="section light" id="stories">/,'menu target must exist');
- assert.match(html,/<summary>치과 이야기 나머지 325편 보기/,'all other owner stories remain accessible');
+ assert.match(html,/<summary>치과 이야기 나머지 355편 보기/,'all other owner stories remain accessible');
 });
 
 test('every published original clinic homepage article is reachable after expanding its section',()=>{
@@ -90,7 +90,7 @@ test('every published original clinic homepage article is reachable after expand
  assert.deepEqual(actual,expected,'every published article is linked newest-first');
  assert.ok(details.includes('원장의 홈페이지 글 '+posts.length+'편 모두 보기'),'article total must be visible on the summary');
  assert.ok(html.indexOf('id="home-published-stories"')<html.indexOf('id="owner-blog-group"'),'full homepage articles must come before external Naver links');
- assert.ok(html.includes('📖 원장 네이버 블로그 원문 <strong>333편</strong>'),'original Naver collection must remain separately discoverable');
+ assert.ok(html.includes('📖 원장 네이버 블로그 원문 <strong>363편</strong>'),'original Naver collection must remain separately discoverable');
 });
 
 test('standalone clinic story directory shows every actual published post without requiring scripts',()=>{
