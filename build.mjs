@@ -600,12 +600,12 @@ for(const entry of entries){
  if(fs.existsSync(htmlFile)&&htmlFile.endsWith('.html')){
   const rendered=fs.readFileSync(htmlFile,'utf8');
   entry.body=extractSearchText(rendered);
-  if(entry.url==='/'){
-    // Home is a curated clinic-search entry. Its title and description must
-    // never lag behind the actual HTML shown to Google and Naver.
+  if(['/', '/gum-treatment.html', '/retreatment.html', '/cervical-abrasion.html', '/insured-care.html'].includes(entry.url)){
+    // Keep the clinic homepage and four key care entries synchronized with
+    // the current on-page titles and summaries (also used for AI retrieval).
     const title=rendered.match(/<title>([^<]+)<\/title>/i)?.[1]?.trim();
     const description=rendered.match(/<meta name="description" content="([^"]+)"/i)?.[1]?.trim();
-    if(!title||!description)throw new Error('Missing canonical clinic metadata for search index');
+    if(!title||!description)throw new Error('Missing clinic metadata for search index: '+entry.url);
     entry.title=title;entry.description=description;
   }
 }
