@@ -1,0 +1,19 @@
+/* Compact medical author / treating clinician disclosure for patient care guides. */
+.clinician-byline{
+ display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;
+ gap:8px 18px;box-sizing:border-box;margin:15px 0 22px;padding:12px 16px;
+ border:1px solid #d9e5db;border-left:4px solid #4b7b63;border-radius:9px;
+ background:#f4f9f5;color:#244739;line-height:1.55;font-size:14px;
+}
+.clinician-byline .clinician-byline-info{display:flex;flex:1 1 250px;flex-direction:column;gap:3px;min-width:0}
+.clinician-byline .clinician-byline-info strong{font-size:15px;font-weight:750}
+.clinician-byline a{display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;
+ color:#225b42!important;font-size:14px;font-weight:750;text-decoration:underline;
+ text-underline-offset:4px;overflow-wrap:anywhere}
+.clinician-byline a:hover{color:#123c2a!important}
+.clinician-byline a:focus-visible{outline:3px solid #ba9145;outline-offset:3px}
+@media(max-width:600px){
+ .clinician-byline{gap:6px 12px;padding:12px 13px;margin:14px 0 18px}
+ .clinician-byline .clinician-byline-info{flex-basis:100%}
+ .clinician-byline a{min-height:48px}
+}
