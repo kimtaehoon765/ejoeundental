@@ -3076,7 +3076,7 @@ console.log('Clinical education sharing metadata aligned:',clinicalSharingCount,
   const filename=path.join(guideDir,name);
   const document=fs.readFileSync(filename,'utf8');
   if(document.includes('health-clinician-signpost'))throw new Error('Duplicate clinician notice: '+name);
-  const lead=document.match(/(<main\\b[^>]*>[\\s\\S]*?<h1\\b[^>]*>[\\s\\S]*?<\\/h1>\\s*<p(?:\\s[^>]*)?>[\\s\\S]*?<\\/p>)/i);
+  const lead=document.match(/(<main\b[^>]*>[\s\S]*?<h1\b[^>]*>[\s\S]*?<\/h1>\s*<p(?:\s[^>]*)?>[\s\S]*?<\/p>)/i);
   if(!lead||lead[1].length>2600||document.indexOf('</main>')<document.indexOf(lead[1])){
    throw new Error('Cannot position clinician notice after health guide introduction: '+name);
   }
