@@ -1339,9 +1339,31 @@ for(const [filename,[label,careHref,careLabel]] of collectionNavigation){
   '<a class="hub-top-treatment" href="'+careHref+'">'+escapeBreadcrumbText(careLabel)+' →</a>'+
   '</nav>';
  page=page.replace(old,nav);
+ // Match schema breadcrumbs to the actual page canonical and visible trail.
+ // Do not publish a second, redirecting URL or invent review dates.
+ const canonical=page.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
+ const title=page.match(/<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/i)?.[1]?.replace(/<[^>]+>/g,'').trim();
+ if(!canonical||!title||new URL(canonical).pathname!=='/'+filename){
+  throw new Error('Health hub breadcrumb canonical/title mismatch: '+filename);
+ }
+ const origin=new URL(canonical).origin;
+ const schemas=[...page.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(match=>JSON.parse(match[1]));
+ if(schemas.some(data=>data['@type']==='BreadcrumbList')){
+  throw new Error('Duplicate health hub breadcrumb schema: '+filename);
+ }
+ const breadcrumb={
+  '@context':'https://schema.org','@type':'BreadcrumbList',
+  itemListElement:[
+   {'@type':'ListItem',position:1,name:'이조은치과 홈',item:origin+'/'},
+   {'@type':'ListItem',position:2,name:label,item:canonical}
+  ]
+ };
+ page=page.replace(/<\/head>/i,'<script type="application/ld+json">'+
+  JSON.stringify(breadcrumb).replace(/</g,'\\u003c')+'</script>\n</head>');
  fs.writeFileSync(target,page);
 }
-console.log('Health topic hubs now have clickable clinic breadcrumbs:',collectionNavigation.size);
+console.log('Health topic hubs now have clickable clinic breadcrumbs and matching schema:',collectionNavigation.size);
 
 
 // All four health education hubs have a long navigation and a list of ten
