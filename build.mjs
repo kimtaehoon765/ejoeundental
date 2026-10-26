@@ -486,7 +486,7 @@ if(verifiedStoryAuthor){
  // of a newly reviewed or individually authored generic health guide.
  articleSchema.author={'@type':'Person','@id':'https://ejoeundental.pages.dev/#doctor-person',
   name:verifiedStoryAuthor,jobTitle:'치과의사·통합치의학과 전문의',
-  url:'https://ejoeundental.pages.dev/#doctor',
+  url:'https://ejoeundental.pages.dev/doctor.html',
   worksFor:{'@id':'https://ejoeundental.pages.dev/#clinic'}};
 }
 if(post.date)articleSchema.datePublished=post.date;

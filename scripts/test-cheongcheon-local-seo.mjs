@@ -16,11 +16,11 @@ test('Cheongcheon-dong and Bupyeong clinic queries have one truthful branded hom
  assert.equal(title,'이조은치과 | 부평치과·청천동치과 | 잇몸치료·재신경치료');
  assert.equal(og,title);
  assert.equal(twitter,title);
- assert.ok(meta.includes('청천동치과')&&meta.includes('부평치과'));
+ assert.ok(meta.includes('이조은치과')&&meta.includes('인천 부평구 청천동'));
  assert.ok(title.startsWith('이조은치과 |'),'exact brand must lead the Google homepage title');
- assert.ok(meta.startsWith('이조은치과,'),'snippet must identify the official clinic first');
+ assert.ok(meta.startsWith('인천 부평구 청천동 이조은치과.'),'name and actual location should lead the summary');
  assert.ok(meta.includes('고려대학교 의학박사(치과학 전공)·통합치의학과 전문의'),'retain actual credentials in the short branded snippet');
- assert.ok(meta.length<=80);
+ assert.ok(meta.length<=160,'natural and accurate treatment snippets may need more than 80 characters');
  assert.equal(extract(h,/<meta property="og:description" content="([^"]+)"/),meta);
  assert.equal(extract(h,/<meta name="twitter:description" content="([^"]+)"/),meta);
  assert.ok(h.includes('<link rel="canonical" href="https://ejoeundental.com/">'));
@@ -44,7 +44,7 @@ test('visit page is distinct, honest, share-ready and linked to primary local cl
  assert.equal(title,extract(h,/<meta name="twitter:title" content="([^"]+)"/));
  assert.equal(meta,extract(h,/<meta property="og:description" content="([^"]+)"/));
  assert.equal(meta,extract(h,/<meta name="twitter:description" content="([^"]+)"/));
- assert.ok(meta.includes('부평치과')&&meta.includes('청천동치과'));
+ assert.ok(meta.includes('청천동치과')&&meta.includes('이조은치과')&&meta.includes('세월천로 34'));
  const data=[...h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
    .map(x=>JSON.parse(x[1])).find(x=>x['@type']==='MedicalWebPage');
  assert.ok(data,'medical visit page schema must stay valid');
@@ -69,7 +69,7 @@ test('onsite search index matches visible homepage title and summary',()=>{
 });
 test('sitemap dates reflect genuine homepage and visit revisions, not invented daily changes',()=>{
  for(const route of ['', 'visit-guide.html']){
-  const entry='<loc>https://ejoeundental.com/'+route+'</loc><lastmod>2026-10-26</lastmod>';
+  const entry='<loc>https://ejoeundental.com/'+route+'</loc><lastmod>2026-10-27</lastmod>';
   const normalized=entry.replace('visit-guide.html</loc>','visit-guide</loc>');
   assert.ok(sitemap.includes(entry)||sitemap.includes(normalized),
    'changed page must have an accurate modified date, with or without the published .html route: '+route);

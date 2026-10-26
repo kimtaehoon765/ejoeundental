@@ -75,7 +75,8 @@ test('Google crawl discovery, verification and article authorship remain consist
 test('Google search users can follow gum bumps and post-treatment infection to a helpful clinical answer',()=>{
  const sitemap=readFileSync(path.join(output,'sitemap.xml'),'utf8');
  for(const slug of ['gum-health','root-canal-health','health/gum-pus']){
-  const entry=new RegExp('<loc>https://ejoeundental\\.com/'+slug+'<\\/loc><lastmod>2026-10-26<\\/lastmod>');
+  const date=slug==='root-canal-health'?'2026-10-27':'2026-10-26';
+  const entry=new RegExp('<loc>https://ejoeundental\\.com/'+slug+'<\\/loc><lastmod>'+date+'<\\/lastmod>');
   assert.match(sitemap,entry,'Google sitemap should signal only these genuine medically edited pages: '+slug);
  }
  const gumHub=readFileSync(path.join(output,'gum-health.html'),'utf8');
@@ -119,7 +120,7 @@ test('real treating dentist has one consistent visible name and person identity 
  assert.equal(clinic.employee?.['@type'],'Person');
  assert.equal(clinic.employee?.['@id'],origin+'/#doctor-person');
  assert.equal(clinic.employee?.name,realName);
- assert.equal(clinic.employee?.url,origin+'/#doctor');
+ assert.equal(clinic.employee?.url,origin+'/doctor');
  assert.equal(clinic.employee?.worksFor?.['@id'],clinic['@id']);
  assert.match(clinic.employee.description,/치과학 전공/);
 
@@ -132,7 +133,7 @@ test('real treating dentist has one consistent visible name and person identity 
   assert.ok(structured,article.slug+' missing original story structured data');
   assert.equal(structured.author?.name,realName,article.slug+' byline must match the visible clinic name');
   assert.equal(structured.author?.['@id'],clinic.employee['@id'],article.slug+' person identity drift');
-  assert.equal(structured.author?.url,origin+'/#doctor',article.slug+' author profile link');
+  assert.equal(structured.author?.url,origin+'/doctor',article.slug+' author profile link');
   assert.equal(structured.author?.worksFor?.['@id'],clinic['@id'],article.slug+' clinic mismatch');
   assert.equal(structured.publisher?.['@id'],clinic['@id'],article.slug+' publisher mismatch');
   assert.equal(structured.mainEntityOfPage,origin+'/stories/'+article.slug+'/',article.slug+' canonical story URL');
@@ -213,7 +214,7 @@ test('Google Image discovery lists real first-party illustrations only on their 
  assert.equal(medical?.url,rootCanal);
  assert.equal(medical?.primaryImageOfPage?.width,519);
  assert.equal(medical?.primaryImageOfPage?.height,327);
- assert.ok(siteMap.includes('<loc>'+rootCanal+'</loc><lastmod>2026-10-26</lastmod>'),
+ assert.ok(siteMap.includes('<loc>'+rootCanal+'</loc><lastmod>2026-10-27</lastmod>'),
   'Google must see the genuine treatment-page update date');
 });
 
@@ -237,7 +238,8 @@ test('patient bad breath and gingival bleeding search have a complete accurate i
  assert.match(hub,/href="\/health\/gum-bleeding(?:\.html)?#section-8">입냄새와 잇몸 출혈 건강정보<\/a>/);
  assert.match(treatment,/입냄새나 고름이 반복되면 구강·치주 상태를 검사해 원인을 구분합니다/);
  for(const slug of ['health/gum-bleeding','gum-health','gum-treatment']){
-  assert.ok(sitemap.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>'),
+  const date=slug==='gum-treatment'?'2026-10-27':'2026-10-26';
+  assert.ok(sitemap.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>'+date+'</lastmod>'),
     slug+' Google update date must reflect the actual edited patient content');
  }
  const medical=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
@@ -304,7 +306,8 @@ test('Google GI and resin insurance answers remain medically cautious and reacha
  assert.ok(hub.includes('href="/health/insurance-cervical.html#section-7"'));
  assert.ok(hub.includes('href="/health/insurance-cervical.html#section-8"'));
  for(const slug of ['cervical-abrasion','insurance-health','health/insurance-cervical']){
-  assert.ok(sitemap.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>'),
+  const date=slug==='cervical-abrasion'?'2026-10-27':'2026-10-26';
+  assert.ok(sitemap.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>'+date+'</lastmod>'),
    'Only genuinely revised Google indexed pages should get a new modification date: '+slug);
  }
 });
