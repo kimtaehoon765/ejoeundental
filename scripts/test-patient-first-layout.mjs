@@ -274,7 +274,7 @@ test('three distinct owner-blog topics retain accurate source attribution in pat
   const item=posts.find(p=>p.slug===slug);
   assert.ok(item,slug+' must be publicly listed');
   const authorCopy=JSON.parse(readFileSync('content/posts/'+slug+'.json','utf8'));
-  const hasProvidedScreenshots=slug==='2026-10-25-incheon-gum-treatment-after-scaling-sensitivity';
+  const hasProvidedScreenshots=['2026-10-25-incheon-gum-treatment-after-scaling-sensitivity','2026-10-25-incheon-loose-tooth-suddenly-periodontal-exam'].includes(slug);
   assert.equal(authorCopy.source_note,
    hasProvidedScreenshots?'owner_blog_full_screenshots_integrated':'topic_only',
    slug+' must accurately distinguish owner-provided screenshots from topic-only content');
