@@ -324,7 +324,7 @@ test('wisdom extraction and implant bone-graft guides are searchable and accurat
   const post=JSON.parse(readFileSync('content/posts/'+item.slug+'.json','utf8'));
   const html=readFileSync('dist/stories/'+item.slug+'/index.html','utf8');
   assert.equal(post.source_url,item.source,'owner original link must match supplied topic');
-  assert.equal(post.source_note,item.provenance,'source note should reflect the evidence actually supplied');
+  assert.ok(String(post.source_note||'').startsWith(item.provenance),'source note must retain original evidence type even after later photo additions');
   assert.ok(post.published===true&&index.some(p=>p.slug===item.slug));
   assert.ok(post.body.length>=2000,'patient article should be substantive');
   for(const term of item.terms) assert.ok(post.body.includes(term),'missing clinical context: '+term);
@@ -757,10 +757,10 @@ test('owner-provided July scaling screenshots publish once with accurate topical
  const original='https://blog.naver.com/kook765/224362153526';
  const source=JSON.parse(readFileSync('content/posts/'+slug+'.json','utf8'));
  assert.equal(source.published,true);
- assert.equal(source.source_note,'screenshots_summary',
-  'a full article supplied as screenshots is not a title-only post');
+ assert.ok(String(source.source_note||'').startsWith('screenshots_summary'),
+  'a full article supplied as screenshots is not a title-only post even after integrating new photos');
  assert.equal(source.source_url,original);
- assert.equal(source.updated,'2026-10-25');
+ assert.equal(source.updated,'2026-10-26');
  assert.ok(source.body.length>3300,'the actual photographed blog text should become a substantial patient explainer');
  for(const term of ['가글마취','치아 시림','플라시보','치주낭','스케일링','임신','치과위생사','치과의사']){
   assert.ok(source.body.includes(term),'original patient question or safety point missing: '+term);
@@ -779,12 +779,12 @@ test('owner-provided July scaling screenshots publish once with accurate topical
  const search=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
  assert.ok(search.some(x=>x.url==='/stories/'+slug+'/'&&x.body.includes('가글마취')));
  const sitemap=readFileSync('dist/sitemap.xml','utf8');
- assert.ok(sitemap.includes('/stories/'+slug+'/</loc><lastmod>2026-10-25</lastmod>'));
+ assert.ok(sitemap.includes('/stories/'+slug+'/</loc><lastmod>'+source.updated+'</lastmod>'));
  const html=readFileSync('dist/stories/'+slug+'/index.html','utf8');
  assert.ok(html.includes('원장이 제공한 네이버 블로그 본문 사진을 읽고 핵심 의견을 정리한 글입니다'),
   'attribution should acknowledge the actual screenshots');
  assert.ok(html.includes('href="'+original+'"'),'preserve original link in blog archive');
- assert.ok(html.includes('내용 수정 <time datetime="2026-10-25">2026-10-25</time>'));
+ assert.ok(html.includes('내용 수정 <time datetime="'+source.updated+'">'+source.updated+'</time>'));
  assert.ok((html.match(/<h2 id="story-section-\d+">/g)||[]).length>=7);
  const scaling=readFileSync('dist/scaling.html','utf8');
  assert.ok(scaling.includes('href="/stories/'+slug+'/">'),
@@ -873,9 +873,9 @@ test('five original Naver wisdom-tooth screenshots become a single balanced hemo
  const original='https://blog.naver.com/kook765/224358099087';
  const post=JSON.parse(readFileSync('content/posts/'+slug+'.json','utf8'));
  assert.equal(post.source_url,original);
- assert.equal(post.source_note,'screenshots_summary');
+ assert.ok(String(post.source_note||'').startsWith('screenshots_summary'),'later photo additions must retain original screenshot attribution');
  assert.equal(post.published,true);
- assert.equal(post.updated,'2026-10-25');
+ assert.equal(post.updated,'2026-10-26');
  assert.ok(post.title.includes('사랑니')&&post.title.includes('지혈제'));
  assert.ok(post.body.length>3800,'source-based patient guide must be medically substantial');
  for(const term of ['거즈','압박','혈병','지혈재','항응고제','하치조신경관','삼산동','드라이소켓','진료비']){
@@ -1154,9 +1154,11 @@ test('related clinic stories vary with the patient question rather than repeatin
 });
 
 
-test('all 79 clinic stories have safe mobile call and directions actions without relying on JavaScript',()=>{
+test('all published clinic stories expose verified mobile call, reservation, and directions links without JavaScript',()=>{
  const posts=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
  const css=readFileSync('dist/assets/story-article.css','utf8');
+ const booking=JSON.parse(readFileSync('content/site.json','utf8')).naver_booking_url;
+ assert.match(booking,/^https:\/\/booking\.naver\.com\/booking\/13\/bizes\/\d+/);
  assert.match(css,/\.story-mobile-actions\{display:none\}/);
  assert.match(css,/@media\(max-width:600px\)/);
  assert.match(css,/position:fixed/);
@@ -1169,7 +1171,9 @@ test('all 79 clinic stories have safe mobile call and directions actions without
   const panels=[...html.matchAll(/<nav class="story-mobile-actions" aria-label="전화 문의와 진료 위치 안내">([\s\S]*?)<\/nav>/g)];
   assert.equal(panels.length,1,post.slug+' must have one accessible contact strip');
   const buttons=[...panels[0][1].matchAll(/<a [^>]*href="([^"]+)"[^>]*>/g)].map(m=>m[1]);
-  assert.deepEqual(buttons,['tel:0325132875','/#location'],post.slug+' contains a non-verified or missing action');
+  assert.deepEqual(buttons,['tel:0325132875',booking,'/#location'],post.slug+' contains a non-verified or missing action');
+  assert.ok(panels[0][1].includes('class="story-mobile-booking"'),post.slug+' booking control missing');
+  assert.match(panels[0][1],/target="_blank" rel="noopener noreferrer"/,post.slug+' booking must open securely');
   assert.ok(html.indexOf('class="story-mobile-actions"')>html.indexOf('</main>'),
    post.slug+' strip must not displace the clinical content');
   assert.ok(html.includes('<link rel="canonical" href="https://ejoeundental.com/stories/'+post.slug+'/'),
