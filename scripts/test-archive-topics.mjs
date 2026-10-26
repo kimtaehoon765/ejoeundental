@@ -82,6 +82,27 @@ test('search reveals only matching entries and one-tap reset restores original o
  assert.ok(site.groups.every(g=>g.items.every(li=>!li.hidden)));
 });
 
+test('multiword and reversed-order Korean queries find originals across the title and topic',()=>{
+ const site=setup();
+ site.input.value='출혈 잇몸';
+ site.input.handlers.input();
+ assert.match(site.status.textContent,/15편을 찾았습니다/);
+ assert.equal(site.groups.filter(x=>!x.hidden).length,1);
+ assert.equal(site.groups[0].items.filter(x=>!x.hidden).length,15);
+
+ // A clinical topic can supply one word and an original post title the
+ // other; unrelated terms must never cause arbitrary suggestions.
+ site.input.value='출혈 신경치료';
+ site.input.handlers.input();
+ assert.match(site.status.textContent,/일치하는 원장 글이 없습니다/);
+ assert.ok(site.groups.every(group=>group.hidden));
+
+ site.input.value='치과 신경치료';
+ site.input.handlers.input();
+ assert.match(site.status.textContent,/15편을 찾았습니다/);
+ assert.equal(site.groups.find(x=>x.id==='archive-group-root').hidden,false);
+});
+
 test('nonmatching query is clearly announced and can be cleared',()=>{
  const site=setup();
  site.input.value='없는검색어';
