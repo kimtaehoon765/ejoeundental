@@ -2,6 +2,7 @@
 // This intentionally never changes DNS, hosting, indexing settings, or website files.
 // A missing live domain must NOT turn a passing source build into a failure.
 import dns from 'node:dns/promises';
+import { createHash } from 'node:crypto';
 import { appendFileSync, readFileSync, readdirSync } from 'node:fs';
 import { bookingAction } from './naver-booking-link.mjs';
 
@@ -10,6 +11,11 @@ const verifiedClinic = JSON.parse(readFileSync(new URL('../content/site.json', i
 // figures are derived at check time, so old 178-article checks cannot silently
 // misreport a 333-article site as unfinished.
 const homepageSource = readFileSync(new URL('../index.html',import.meta.url),'utf8');
+// The archive JavaScript is copied unchanged by build.mjs. Compare it to
+// the exact live asset bytes, not merely the presence of a script tag.
+const expectedArchiveScriptHash=createHash('sha256')
+ .update(readFileSync(new URL('../assets/archive-topics.js',import.meta.url)))
+ .digest('hex').slice(0,12);
 const expectedOriginalCount = (homepageSource.match(/class="card owner-story-card"/g)||[]).length;
 const postDirectory = new URL('../content/posts/',import.meta.url);
 const publishedArticles = readdirSync(postDirectory).filter(name=>name.endsWith('.json'))
@@ -118,6 +124,8 @@ const urls = [
   { label: 'remaining route systemic-disease-dental-faq', url: origin + '/systemic-disease-dental-faq.html' },
   { label: 'remaining route clinical-archive', url: origin + '/clinical-archive.html' },
   { label: '통합 검색 모바일 배치', url: origin + '/search.html' },
+  { label: '원장 블로그 검색 자바스크립트 실제 배포 비교',
+    url: origin + '/assets/archive-topics.js?v=' + expectedArchiveScriptHash },
   { label: '검색 결과 더 보기 동작 코드', url: origin + '/assets/search.js' },
   { label: '통합 검색 실제 문서 색인', url: origin + '/content/search-index.json' },
   { label: '검색 결과 더 보기 버튼 스타일', url: origin + '/assets/search-page.css' },
@@ -281,6 +289,17 @@ await Promise.all(urls.map(async ({label,url}) => {
         (localFaq.match(/<details(?: id="faq-[a-z-]+")?>/g)||[]).length===11;
       info.push(faqChoiceReady?'부평치과 선택 기준·원장 직접 진단 11문답 반영':'부평치과 선택 기준·FAQ 추가 배포 확인 필요');
       const visibleStories=body.match(/<section class="section light" id="stories">([\s\S]*?)<\/section>/)?.[1]||'';
+      // Distinguish content committed to GitHub from content actually visible.
+      const originalTopicJumps=body.match(/<nav class="owner-blog-topic-jumps"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+      const jumpTargets=['gum','root','ethics','other'];
+      const topicJumpsReady=jumpTargets.every(topic=>
+        originalTopicJumps.includes('href="/clinical-archive.html#archive-group-'+topic+'"'));
+      info.push(topicJumpsReady?'원장 네이버 원문 주제별 4개 바로가기 실제 배포 확인':
+        '원장 원문 주제별 바로가기 최신 배포 확인 필요');
+      const gumPusShortcut=body.includes('class="symptom-navigator-more"')&&
+        body.includes('href="/health/gum-pus.html"');
+      info.push(gumPusShortcut?'첫 화면 잇몸 고름 증상 글 바로가기 실제 배포 확인':
+        '잇몸 고름 증상 바로가기 최신 배포 확인 필요');
       const storyCards=(visibleStories.match(/class="card owner-story-card"/g)||[]).length;
       const hiddenCopies=/(?:원장이 작성한 네이버 블로그 글입니다|#stories .owner-story-card p\{display:none\})/.test(body);
       info.push('원장 블로그 제목 링크: '+storyCards+'/'+expectedOriginalCount+(storyCards===expectedOriginalCount&&!hiddenCopies?'편 최신 반영':'편 — 실서버 배포 비교 필요'));
@@ -538,6 +557,10 @@ await Promise.all(urls.map(async ({label,url}) => {
         info.push(regionReady?'인천·부평 신경치료 검색 정보·일반/재치료 구분 반영':'신경치료 지역 검색 문구 배포 확인 필요');
         const coverageReady=body.includes('id="root-canal-insurance"')&&body.includes('href="/health/insurance-root-canal.html"');
         info.push(coverageReady?'신경치료 보험 안내·최종 수복 구분·연결 반영':'신경치료 보험 안내 신규 배포 확인 필요');
+        const crossCare=body.includes('href="/gum-treatment.html#gum-or-root-symptoms"')&&
+         body.includes('href="/health/gum-pus.html"');
+        info.push(crossCare?'신경치료·잇몸치료 원인 감별 안내 교차 링크 실제 배포 확인':
+          '신경치료에서 잇몸 고름 감별 안내 연결 최신 배포 확인 필요');
       }
       const hubs={'gum-health':'/gum-treatment.html','root-canal-health':'/retreatment.html',
         'insurance-health':'/insured-care.html','additional-health':'/cervical-abrasion.html'};
@@ -680,6 +703,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       const present=bothAreas.every(term=>gumTitle.includes(term)&&gumDescription.includes(term)) &&
         body.includes('인천·부평 잇몸치료,') && body.includes('세월천로 34');
       info.push(present?'인천·부평 잇몸치료 검색 제목·설명·실제 주소 반영':'지역 잇몸치료 검색 문구 최신 배포 확인 필요');
+      const differentialReady=body.includes('id="gum-or-root-symptoms"')&&
+       body.includes('치주조직의 감염뿐 아니라 치아 안쪽 치수')&&
+       body.includes('href="/health/gum-pus.html"')&&
+       body.includes('href="/root-canal-health.html#root-canal-articles"');
+      info.push(differentialReady?'잇몸 고름의 치주·근관 원인 구분과 건강정보 교차 링크 실제 배포 확인':
+        '잇몸 고름 치주·근관 원인 구분 정보 최신 배포 확인 필요');
     }
     if(label === '자연치아 건강정보 진료 연결' ||
        label.startsWith('보존 진료 연결 건강정보: ')){
@@ -746,14 +775,24 @@ await Promise.all(urls.map(async ({label,url}) => {
         body.includes('id="archive-blog-posts"');
       info.push('원장 아카이브 원문 링크 '+links.length+'/'+expectedOriginalCount+'편 · '+groups+'개 주제'+
         (ready?' · 검색 구조화 데이터 최신 반영':' · 배포 내용 및 구조화 데이터 재점검 필요'));
-      info.push(/src="\/assets\/archive-topics\.js\?v=[a-f0-9]{12}"/.test(body)
-        ?'원장 글 제목 검색·주제 자동 펼침 스크립트 연결 반영'
-        :'원장 글 제목 검색·주제 자동 펼침 신규 배포 확인 필요');
+      const archiveHash=body.match(/src="\/assets\/archive-topics\.js\?v=([a-f0-9]{12})"/)?.[1];
+      info.push(archiveHash===expectedArchiveScriptHash
+        ?'원장 글 검색 JS 주소가 현재 소스의 정확한 내용 해시와 일치'
+        :archiveHash?'원장 글 검색 JS 버전 불일치 (실사이트 '+archiveHash+
+           ' / 소스 '+expectedArchiveScriptHash+') — 새 배포 또는 캐시 확인 필요'
+          :'원장 글 제목 검색·주제 자동 펼침 스크립트 연결 확인 필요');
       const dentistChoiceReady=body.includes('id="archive-choosing-dentist"')&&
         body.includes('부평치과를 선택할 때 확인하면 좋은 다섯 가지')&&
         body.includes('href="#archive-group-ethics"')&&
         body.includes('href="/insured-care.html"');
       info.push(dentistChoiceReady?'부평치과 선택 체크리스트 5가지·원장 글 연결 반영':'부평치과 선택 체크리스트 신규 배포 확인 필요');
+    }
+    if(label==='원장 블로그 검색 자바스크립트 실제 배포 비교'){
+      const liveHash=createHash('sha256').update(body).digest('hex').slice(0,12);
+      info.push(response.status===200 && liveHash===expectedArchiveScriptHash
+       ?'원장 블로그 검색 프로그램 소스와 실제 운영 서버의 JS 내용 해시 일치: '+liveHash
+       :'현재 소스와 운영 서버의 JS 내용 불일치 (서버 '+liveHash+
+         ' / 소스 '+expectedArchiveScriptHash+') — 실제 최신 배포 확인 필요');
     }
     if(label==='검색 결과 더 보기 동작 코드'){
       const newSearchReady=body.includes('scalingComparisonIntent')&&body.includes('scalingOnlyIntent')&&
