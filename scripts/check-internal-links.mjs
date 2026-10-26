@@ -24,14 +24,34 @@ const pages = files.filter(file => file.endsWith('.html'));
 const failures = new Map();
 let checked = 0;
 
-function isBuiltDestination(pathname) {
+function resolveBuiltDestination(pathname) {
   const candidate = pathname.endsWith('/') ? pathname + 'index.html' : pathname;
-  if (built.has(candidate)) return true;
-  // Published pages can have clean links, while the static file is .html.
+  if (built.has(candidate)) return candidate;
+  // On the published domain .html pages also have extensionless addresses.
   if (!pathname.endsWith('/') && !/\.[a-z0-9]{1,8}$/i.test(pathname)) {
-    if (built.has(pathname + '.html') || built.has(pathname + '/index.html')) return true;
+    if (built.has(pathname + '.html')) return pathname + '.html';
+    if (built.has(pathname + '/index.html')) return pathname + '/index.html';
   }
-  return false;
+  return null;
+}
+
+// Read target IDs only once; checking the fragment protects the many
+// diagnosis > treatment > visit links from silently landing at page top.
+const fragmentTargets = new Map();
+function hasFragment(target, fragment) {
+  if (!target.endsWith('.html')) return true; // SVG fragments aren't HTML IDs.
+  if (!fragmentTargets.has(target)) {
+    const html = readFileSync(join(root, target.slice(1)), 'utf8');
+    const ids = new Set();
+    for (const match of html.matchAll(/\bid\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/gi)) {
+      ids.add(match[1] ?? match[2] ?? match[3]);
+    }
+    for (const match of html.matchAll(/<a\b[^>]*\bname\s*=\s*(?:"([^"]*)"|'([^']*)')/gi)) {
+      ids.add(match[1] ?? match[2]);
+    }
+    fragmentTargets.set(target, ids);
+  }
+  return fragmentTargets.get(target).has(fragment);
 }
 
 for (const file of pages) {
@@ -44,8 +64,8 @@ for (const file of pages) {
     const attr = tag.match(/\b(?:href|src)\s*=\s*(["'])(.*?)\1/i);
     if (!attr) continue;
     const raw = attr[2].trim().replace(/&amp;/g, '&');
-    if (!raw || raw.startsWith('#') || raw.startsWith('//') ||
-        /^(?:https?:|mailto:|tel:|data:|blob:|javascript:)/i.test(raw)) continue;
+    if (!raw || raw.startsWith('//') ||
+        /^(?:mailto:|tel:|data:|blob:|javascript:)/i.test(raw)) continue;
     let dest;
     try {
       dest = new URL(raw, 'https://ejoeundental.com' + from);
@@ -63,8 +83,24 @@ for (const file of pages) {
     }
     // URL.pathname is normalized by the browser; check for the final file.
     checked++;
-    if (!isBuiltDestination(pathname)) {
+    const target = resolveBuiltDestination(pathname);
+    if (!target) {
       failures.set(from + ' -> ' + raw, 'No matching file in dist');
+      continue;
+    }
+    // Fragments apply to links only (not CSS/image resources) and must refer
+    // to an ID or named anchor in the destination's built HTML.
+    if (/^<(?:a|area)\b/i.test(tag) && dest.hash.length > 1) {
+      let fragment;
+      try {
+        fragment = decodeURIComponent(dest.hash.slice(1));
+      } catch {
+        failures.set(from + ' -> ' + raw, 'Invalid fragment escaping');
+        continue;
+      }
+      if (!hasFragment(target, fragment)) {
+        failures.set(from + ' -> ' + raw, 'Missing HTML anchor #' + fragment);
+      }
     }
   }
 }
