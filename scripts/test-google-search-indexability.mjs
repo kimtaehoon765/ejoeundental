@@ -308,3 +308,40 @@ test('Google GI and resin insurance answers remain medically cautious and reacha
    'Only genuinely revised Google indexed pages should get a new modification date: '+slug);
  }
 });
+
+
+test('Google root canal insurance guide separates repeat treatment, existing crown and prosthetic cost',()=>{
+ const guide=readFileSync(path.join(output,'health/insurance-root-canal.html'),'utf8');
+ const treatment=readFileSync(path.join(output,'retreatment.html'),'utf8');
+ const hub=readFileSync(path.join(output,'root-canal-health.html'),'utf8');
+ const insuranceHub=readFileSync(path.join(output,'insurance-health.html'),'utf8');
+ const sitemap=readFileSync(path.join(output,'sitemap.xml'),'utf8');
+ const snippet=guide.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+ assert.ok(snippet.includes('인천 부평구 청천동 이조은치과'));
+ assert.ok(snippet.includes('기존 크라운')&&snippet.includes('근관치료·보철 비용'));
+ assert.ok(snippet.includes('적용 여부는 진단과 급여 기준에 따릅니다'));
+ assert.ok(guide.includes('<meta property="og:description" content="'+snippet+'">'));
+ const medical=[...guide.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1])).find(d=>d['@type']==='MedicalWebPage');
+ assert.equal(medical?.url,origin+'/health/insurance-root-canal');
+ assert.equal(medical?.description,snippet);
+ assert.equal(medical?.author?.name,'이조은치과');
+ for(const [id,title] of [
+  ['7','크라운을 씌운 치아도 재신경치료가 가능한가요?'],
+  ['8','재신경치료 상담 전 어떤 비용을 확인해야 하나요?']
+ ]){
+  assert.ok(guide.includes('<h2 id="section-'+id+'">'+title+'</h2>'),
+   'the patient question must have a named anchor for direct navigation');
+  assert.ok(guide.includes('href="#section-'+id+'">'+title+'</a>'),
+   'its table of contents should expose the exact question');
+  assert.ok(treatment.includes('href="/health/insurance-root-canal.html#section-'+id+'"'),
+   'the original treatment page should link to the relevant detailed answer');
+  assert.ok(insuranceHub.includes('href="/health/insurance-root-canal.html#section-'+id+'"'),
+   'the insurance overview should offer direct access to these answers');
+ }
+ assert.match(guide,/기존 크라운을 유지한 채 접근할 수 있는지, 제거·교체가 필요한지는 개별 상태에 따라 다릅니다/);
+ assert.match(guide,/모든 재신경치료에 크라운 교체가 필요한 것도 아니고/);
+ assert.match(guide,/전체 치료비가 자동으로 건강보험 적용되는 것도 아닙니다/);
+ assert.match(hub,/기존 크라운 재사용 가능성과 근관 재치료·보철 비용 구분/);
+ assert.ok(sitemap.includes('<loc>'+origin+'/health/insurance-root-canal</loc><lastmod>2026-10-26</lastmod>'));
+});
