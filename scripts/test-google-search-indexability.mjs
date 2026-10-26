@@ -192,6 +192,16 @@ test('Google Image discovery lists real first-party illustrations only on their 
   assert.ok(markup[0].includes('alt="'+alt+'"'),
    'Google Image and screen readers should distinguish clinical steps, not generic numbers: '+number);
  }
+ const processPage=readFileSync(path.join(output,'health/root-canal-retreatment-process.html'),'utf8');
+ assert.match(processPage,/<a href="\/retreatment\.html#retreatment-procedure">그림으로 보는 재신경치료 4단계:/,
+  'clinical explanation should link directly to the illustrated treatment steps');
+ assert.match(processPage,/단계와 방문 횟수는 실제 치아 상태에 따라 달라집니다/,
+  'educational diagram must not imply every patient undergoes the same exact procedure');
+ assert.match(illustrationHtml,/<h2 id="retreatment-procedure">재신경치료는 어떻게 진행될까요\?<\/h2>/,
+  'the illustration deep link must land on the actual patient-facing heading');
+ assert.ok(siteMap.includes(
+  '<loc>'+origin+'/health/root-canal-retreatment-process</loc><lastmod>2026-10-26</lastmod>'),
+  'Google sitemap date must reflect the real education-page edit');
  const primary=origin+'/assets/retreatment/illustration-01.webp';
  assert.ok(rootEntry.images.includes(primary));
  const treatment=readFileSync(path.join(output,'retreatment.html'),'utf8');
