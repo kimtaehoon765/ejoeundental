@@ -1901,7 +1901,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
 
 
 // Separate primary endodontic guidance from repeat-treatment decisions in every
-// patient journey. FAQs retain the six originally reviewed questions and JSON-LD.
+// patient journey. All visible FAQs, including the original reviewed questions, agree with JSON-LD.
 {
  const hub=readFileSync(join(root,'root-canal-health.html'),'utf8');
  const faq=readFileSync(join(root,'root-canal-retreatment-faq.html'),'utf8');
@@ -1924,9 +1924,10 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  }
  const schemaText=faq.split('<script type="application/ld+json">')[1]?.split('</script>')[0]||'';
  let ld;try{ld=JSON.parse(schemaText);}catch{errors.push('재신경치료 FAQ 구조화 데이터 오류');}
- if(ld && (ld['@type']!=='FAQPage'||ld.mainEntity?.length!==6||
+ if(ld && (ld['@type']!=='FAQPage'||!Array.isArray(ld.mainEntity)||
+    ld.mainEntity.length<6||ld.mainEntity.length!==(faq.match(/<section class="card">/g)||[]).length||
     !ld.mainEntity.every(q=>faq.includes('<h2>'+q.name+'</h2>')&&faq.includes('<p>'+q.acceptedAnswer.text+'</p>')))){
-  errors.push('재신경치료 FAQ 여섯 가지 기존 답변·구조화 데이터 불일치');
+  errors.push('재신경치료 FAQ 화면의 모든 답변·구조화 데이터 불일치');
  }
 }
 
