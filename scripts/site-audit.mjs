@@ -22,9 +22,17 @@ function walk(dir) {
   }
 }
 walk(root);
-const html = files.filter(f => f.endsWith('.html'));
+// Search Console ownership challenge is intentionally not a patient HTML page.
+// Keep Google's exact provided text outside normal SEO/favicons validation.
+const googleChallenge='google4b5b71e2b560cac2.html';
+const html = files.filter(f => f.endsWith('.html') && !f.endsWith('/'+googleChallenge));
 const errors = [];
 const warnings = [];
+const challengePath=join(root,googleChallenge);
+const expectedChallenge='google-site-verification: '+googleChallenge+'\n';
+if(!existsSync(challengePath)||readFileSync(challengePath,'utf8')!==expectedChallenge){
+ errors.push('Google Search Console 소유권 HTML 확인 파일 누락 또는 내용 불일치');
+}
 
 // Verify the new public RSS is a feed of actual, complete local clinic stories,
 // not merely summaries or external blog links. Naver's feed validation requires
