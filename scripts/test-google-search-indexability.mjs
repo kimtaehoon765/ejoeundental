@@ -385,3 +385,14 @@ test('Google denture insurance guide distinguishes adjustment, relining and repl
    'Google must receive the actual last-modified date for edited denture content: '+slug);
  }
 });
+
+test('owner-supplied October 2026 GSC URL-prefix file remains byte-for-byte published at root',()=>{
+ const name='google4b5b71e2b560cac2.html';
+ const expected='google-site-verification: '+name+'\n';
+ const fromSource=readFileSync(name,'utf8');
+ const published=readFileSync(path.join(output,name),'utf8');
+ assert.equal(fromSource,expected,'verification-file content must match the owner-provided GSC file name');
+ assert.equal(published,expected,'build must publish the same exact content in public root');
+ const sitemap=readFileSync(path.join(output,'sitemap.xml'),'utf8');
+ assert.ok(!sitemap.includes(name),'Google verification file must not be advertised as patient content');
+});
