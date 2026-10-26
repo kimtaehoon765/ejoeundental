@@ -1184,3 +1184,38 @@ test('the first patient symptom navigator surfaces extraction vs preservation wi
  assert.ok(html.includes('발치를 고민한다면 자연치아 보존 판단 기준 →'),
   'primary clinical focus should link to the substantive preservation hub');
 });
+
+
+test('all four patient education hubs have accessible visible navigation and matching breadcrumb schema',()=>{
+ const hubs=[
+  ['gum-health.html','잇몸 건강정보'],
+  ['root-canal-health.html','신경치료·재신경치료 건강정보'],
+  ['insurance-health.html','건강보험 치과진료 정보'],
+  ['additional-health.html','치과 건강정보 더 보기']
+ ];
+ for(const [file,label] of hubs){
+  const html=readFileSync('dist/'+file,'utf8');
+  const canonical=html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+  assert.ok(canonical?.startsWith('https://ejoeundental.com/'),
+   file+' requires an official-domain canonical');
+  const nav=html.match(/<nav class="hub-top-trail" aria-label="현재 건강정보와 관련 진료">([\s\S]*?)<\/nav>/)?.[1]||'';
+  assert.ok(nav.includes('href="/"'),file+' must link back to the clinic');
+  assert.ok(nav.includes('aria-current="page"'),file+' must mark its current subject');
+  assert.ok(nav.includes(label),file+' must describe the topic in Korean');
+  assert.match(html,/<a class="health-hub-skip" href="#health-hub-main">건강정보 본문으로 바로가기<\/a>/);
+  assert.match(html,/<main class="article" id="health-hub-main">/);
+  const data=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(match=>JSON.parse(match[1]));
+  const crumbs=data.filter(x=>x['@type']==='BreadcrumbList');
+  const collections=data.filter(x=>x['@type']==='CollectionPage');
+  assert.equal(crumbs.length,1,file+' should publish exactly one BreadcrumbList');
+  assert.equal(collections.length,1,file+' should retain the original patient-topic CollectionPage');
+  const items=crumbs[0].itemListElement;
+  assert.equal(items.length,2);
+  assert.deepEqual(items.map(x=>x.position),[1,2]);
+  assert.equal(items[0].name,'이조은치과 홈');
+  assert.equal(items[0].item,'https://ejoeundental.com/');
+  assert.equal(items[1].name,label);
+  assert.equal(items[1].item,canonical,'structured topic URL must equal this page canonical');
+ }
+});
