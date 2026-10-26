@@ -2091,8 +2091,8 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const known=new Map(stories.map(p=>[p.url,p.title]));
  if(stories.length!==333||known.size!==333)errors.push('네이버 원장 글 인증된 333편 목록 불일치');
  for(const [hub,slug,care,ids,expectedTotal] of [
-   ['gum-health.html','gum','gum-treatment.html',['224422601718','224400753947','224405321060'],'62편'],
-   ['root-canal-health.html','root','retreatment.html',['224415452757','224417329329','224421350291'],'33편']
+   ['gum-health.html','gum','gum-treatment.html',['224422601718','224400753947','224405321060'],'<!-- BUILD_OWNER_GUM_COUNT -->편'],
+   ['root-canal-health.html','root','retreatment.html',['224415452757','224417329329','224421350291'],'<!-- BUILD_OWNER_ROOT_COUNT -->편']
  ]){
   const page=readFileSync(join(root,hub),'utf8');
   const carePage=readFileSync(join(root,care),'utf8');

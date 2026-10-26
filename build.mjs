@@ -1153,6 +1153,25 @@ parsedArchiveSchema.mainEntity={
 archiveCatalogHtml=archiveCatalogHtml.replace(originalArchiveSchema[0],
  '<script type="application/ld+json">'+JSON.stringify(parsedArchiveSchema).replace(/</g,'\\u003c')+'</script>');
 fs.writeFileSync(archiveCatalogFile,archiveCatalogHtml);
+// Use the SAME classified owner blog articles as the archive summary. Both
+// treatment-page counts previously lagged far behind the actual archive
+// (62/33 in the buttons versus 131/46 in the 333-link collection).
+// Render from this single source rather than making the clinician edit counts.
+for(const [id,filename,marker] of [
+ ['gum','gum-treatment.html','<!-- BUILD_OWNER_GUM_COUNT -->'],
+ ['root','retreatment.html','<!-- BUILD_OWNER_ROOT_COUNT -->']
+]){
+ const section=clinicalArchiveGroups.find(group=>group.id===id);
+ if(!section?.items.length)throw new Error('Empty owner source topic: '+id);
+ const target=path.join(out,filename);
+ const original=fs.readFileSync(target,'utf8');
+ if(original.split(marker).length!==2)
+  throw new Error('Missing or repeated owner archive count placeholder in '+filename);
+ fs.writeFileSync(target,original.replace(marker,String(section.items.length)));
+}
+console.log('Treatment links reflect current Naver categories:',
+ clinicalArchiveGroups.filter(group=>['gum','root'].includes(group.id))
+  .map(group=>group.id+':'+group.items.length).join(' '));
 console.log('Original owner Naver articles grouped without duplication:',
  ownerBlogItems.length,'posts across',clinicalArchiveGroups.length,'mobile disclosure sections:',
  clinicalArchiveGroups.map(group=>group.name+' '+group.items.length+'편').join(' · '));

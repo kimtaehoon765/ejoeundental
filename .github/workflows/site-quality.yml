@@ -39,6 +39,8 @@ jobs:
         run: node --test scripts/test-search-content.mjs
       - name: Verify newest stories appear first on home, topics, care guides and RSS
         run: node --test scripts/test-story-chronology.mjs
+      - name: Verify live Naver topic counts and restrained secondary locality mention
+        run: node --test scripts/test-owner-topic-counts.mjs
       - name: Check natural-tooth preservation hub and its clinical links
         run: node --test scripts/test-preservation-hub.mjs
       - name: Test patient-article directory and lazy full-text search
