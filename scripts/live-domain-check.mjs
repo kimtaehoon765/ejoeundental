@@ -267,6 +267,13 @@ await Promise.all(urls.map(async ({label,url}) => {
         pageDescription.includes('부평치과')&&
         body.includes('property="og:title" content="'+localClinicTitle+'"');
       info.push(localSearchReady?'부평치과 대표 검색 제목·원장 진료 소개 최신 반영':'부평치과 대표 검색어 홈페이지 신규 배포 확인 필요');
+      const cheongcheonReady=localClinicTitle.includes('청천동치과 이조은치과')&&
+       pageDescription.includes('청천동치과')&&
+       heroMarkup.includes('class="hero-local-intro"')&&
+       heroMarkup.includes('세월천로 34')&&
+       heroMarkup.includes('href="/visit-guide.html"');
+      info.push(cheongcheonReady?'청천동치과 검색 제목·실제 위치·방문 안내 최신 공개 확인':
+       '청천동치과 첫 화면 지역 정보 실제 배포 확인 필요');
       const localFaq=body.match(/<section[^>]*id="faq"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
       const faqChoiceReady=localFaq.includes('부평치과를 알아볼 때 무엇부터 확인하면 좋을까요?')&&
         localFaq.includes('청천동 세월천로 34')&&
@@ -769,10 +776,14 @@ await Promise.all(urls.map(async ({label,url}) => {
       const visitTitle=body.match(/<title>([^<]+)<\/title>/)?.[1]||'';
       const visitQuickNav=body.match(/<nav class="visit-jump"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
       const visitLinks=['#visit-hours','#visit-parking','#transit-heading','#visit-checklist-title'];
-      const visitSearchReady=visitTitle.startsWith('부평치과 진료시간·오시는 길·주차')&&
+      const visitSearchReady=visitTitle.startsWith('청천동치과 이조은치과 | 진료시간·오시는 길·주차')&&
          visitLinks.every(id=>visitQuickNav.includes('href="'+id+'"'))&&
          body.includes('치과의 실제 위치는 인천 부평구 청천동입니다.');
       info.push(visitSearchReady?'부평치과 방문 안내 제목·모바일 4개 바로가기 반영':'부평치과 방문 안내 제목·모바일 4개 바로가기 배포 확인 필요');
+      info.push(visitSearchReady&&desc.includes('청천동치과')&&
+       body.includes('청천동치과 이조은치과의 진료 장소')?
+       '청천동치과 실제 위치·금토 격주 방문 설명 공개 확인':
+       '청천동치과 방문 안내 신규 배포 확인 필요');
     }
     // Reuse already-fetched 19 public patient resources: no additional requests.
     // Keep social previews, medical schema and search snippets consistent in production.

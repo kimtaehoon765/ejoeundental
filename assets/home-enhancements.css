@@ -1115,3 +1115,15 @@ body.home-page #main-content>.hero .hero-actions{margin:17px 0 12px}
  .symptom-preservation-cta{grid-template-columns:1fr;padding:18px 17px;gap:13px}
  .symptom-preservation-cta>a{min-width:0;min-height:48px;width:100%}
 }
+
+/* Give Cheongcheon-dong visitors a factual address, without repeating
+   location keywords across treatment pages or displacing the clinician name. */
+.hero .hero-local-intro{max-width:650px;margin:3px 0 12px;font-size:14px;
+ line-height:1.65;color:#365647;word-break:keep-all}
+.hero .hero-local-intro strong{font-weight:800;color:#174a39}
+.hero .hero-local-intro a{color:#175c43;font-weight:750;
+ text-underline-offset:3px}
+.hero .hero-local-intro a:focus-visible{outline:3px solid #a47837;
+ outline-offset:3px}
+@media(max-width:600px){.hero .hero-local-intro{margin:4px 0 15px;
+ font-size:13px;line-height:1.75}}

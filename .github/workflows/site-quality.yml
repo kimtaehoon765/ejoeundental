@@ -35,6 +35,8 @@ jobs:
         run: npm run build:check
       - name: Validate mobile Naver booking and fallback labels
         run: node --test scripts/test-mobile-booking.mjs
+      - name: Check Cheongcheon-dong clinic query identity and canonical metadata
+        run: node --test scripts/test-cheongcheon-local-seo.mjs
       - name: Test published patient search index uses clinical text
         run: node --test scripts/test-search-content.mjs
       - name: Verify newest stories appear first on home, topics, care guides and RSS
