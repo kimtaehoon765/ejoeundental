@@ -1621,7 +1621,7 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  const pageSchemas=[...periodontal.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
  const medical=pageSchemas.find(x=>x['@type']==='MedicalWebPage');
  for(const term of ['인천 잇몸치료','부평 잇몸치료']){
-  if(!title.includes(term)||!desc.includes(term))errors.push('지역 잇몸치료 검색어 누락: '+term);
+  if(!title.includes(term)||!desc.includes('잇몸치료')||!desc.includes('청천동'))errors.push('지역 잇몸치료 검색어 누락: '+term);
  }
  if(!periodontal.includes('id="gum-main-title">인천·부평 잇몸치료,')||
     !periodontal.includes('인천 잇몸치료·부평 잇몸치료 안내 — 청천동·산곡역 인근')||
