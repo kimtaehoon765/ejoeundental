@@ -329,3 +329,36 @@ test('scaling and wisdom tooth hubs avoid duplicated claims and link patients to
  assert.ok(index.some(p=>p.url==='/wisdom-tooth.html'&&p.body.includes('사랑니가 붓거나 발치 비용이 궁금하다면')),
   'patient search must expose wisdom tooth symptoms and costs');
 });
+
+test('implant care choices connect patients to published bone graft, flapless, cost and preservation articles',()=>{
+ const implant=readFileSync('dist/implant.html','utf8');
+ const module=implant.match(/<section class="implant-patient-decisions" id="implant-patient-decisions"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.ok(module.includes('임플란트 상담 전에 많이 묻는 네 가지 질문'));
+ assert.equal((module.match(/<article>/g)||[]).length,4,
+  'show distinct bone graft, surgery approach, price and preservation decisions');
+ for(const slug of [
+  '2026-10-25-sangok-implant-bone-graft-always-necessary',
+  '2026-10-25-cheongcheon-flapless-vs-open-flap-implant-surgery',
+  '2026-10-24-bupyeong-affordable-dental-implants-total-cost-checklist',
+  '2026-10-25-bupyeong-natural-tooth-versus-implant-maintenance'
+ ]){
+  assert.ok(posts.some(p=>p.slug===slug),'implant education must point to real published owner article: '+slug);
+  assert.ok(module.includes('href="/stories/'+slug+'/"'),'implant guidance missing clinically related story: '+slug);
+ }
+ assert.ok(implant.includes('발치한 날 바로 임플란트를 심어야 하나요?'));
+ assert.ok(implant.includes('발치 즉시 식립과 발치 부위가 치유된 뒤의 식립'));
+ assert.ok(implant.includes('뼈이식을 하지 않아도 괜찮을까요?'));
+ assert.ok(implant.includes('골증대술이 필요한 경우에는 이유와 다른 선택지를 설명합니다'));
+ assert.ok(implant.includes('국소마취만으로 임플란트 치료를 받을 수 있나요?'));
+ assert.ok(implant.includes('href="/stories/2026-10-24-bupyeong-implant-sedation-need-and-safety/"'),
+  'sedation benefits and risks must link to the reviewed patient explanation');
+ assert.ok(implant.includes('href="/tooth-preservation.html"'),
+  'implant site must retain separate natural tooth preservation assessment');
+ assert.ok(implant.includes('.implant-patient-grid a{display:inline-flex;align-items:center;min-height:48px'),
+  'mobile implant cards must have adequate tap targets');
+ const page=index.find(row=>row.url==='/implant.html');
+ assert.ok(page?.body.includes('발치한 날 바로 임플란트를 심어야 하나요?'),
+  'published implant page should expose actual clinical decisions to onsite search');
+ assert.equal((implant.match(/<h1\b/g)||[]).length,1,
+  'implant landing page needs one main heading');
+});
