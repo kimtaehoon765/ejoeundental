@@ -36,7 +36,7 @@
 | 신경치료 건강정보 | `https://ejoeundental.com/root-canal-health` |
 | 건강보험 진료 | `https://ejoeundental.com/insured-care` |
 | 진료시간·길찾기 | `https://ejoeundental.com/visit-guide` |
-| 자연치아 보존 | `https://ejoeundental.com/tooth-preservation.html` (현재 빌드의 canonical; 실제 리디렉션 재확인 필요) |
+| 자연치아 보존 | `https://ejoeundental.com/tooth-preservation` (실사이트 최종 경로 확인·빌드 canonical 일치하도록 수정) |
 
 신규 사이트맵 제출을 반복하거나 대량 수동 신청하지 않습니다. 우선 **URL 검사 → 사용자 선언 표준 URL·Google에서 선택한 표준 URL**과 **실제 URL 테스트**를 확인합니다. 이 두 검사가 나타내는 대상이 다르다는 점을 구분합니다. 프로덕션 주소 체계는 정적 파일명이 아닌 **최종 배포된 사이트맵의 `<loc>`과 페이지의 canonical**을 우선합니다.
 
