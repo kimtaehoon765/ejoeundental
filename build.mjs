@@ -1298,6 +1298,43 @@ console.log('Health SEO metadata audit:',46,'pages,',healthMetadataIssues.length
 for(const issue of healthMetadataIssues.slice(0,30))console.warn('Health SEO:',issue);
 
 
+// Google health-content trust signals: name the ACTUAL information provider
+// visibly and use the same organization as the page author in JSON-LD.
+// The clinical dentist is linked as a treating clinician, not falsely
+// attributed as the individual writer or a newly certified reviewer.
+// No invented publish/review dates or external trust badges.
+{
+ let count=0;
+ for(const name of fs.readdirSync(healthSchemaDir).filter(n=>n.endsWith('.html'))){
+  const filename=path.join(healthSchemaDir,name);
+  let html=fs.readFileSync(filename,'utf8');
+  if(html.includes('class="health-info-source"'))
+   throw new Error('Repeated health guide provenance panel: '+name);
+  const toc='<nav class="article-toc"';
+  if(html.split(toc).length!==2)throw new Error('Missing health guide contents: '+name);
+  const provider='<aside class="health-info-source" aria-label="건강정보 제공 기관과 진료 담당 의료진">'+
+   '<strong>건강정보 제공: 이조은치과의원</strong>'+
+   '<span>진료 담당: 김태훈 원장 · 고려대학교 의학박사(치과학 전공) · 통합치의학과 전문의</span>'+
+   '<a href="/#doctor">의료진 소개와 진료 원칙 확인 →</a></aside>';
+  html=html.replace(toc,provider+toc);
+  const schemas=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+  if(schemas.length!==1)throw new Error('Health schema absent or repeated: '+name);
+  let schema;
+  try{schema=JSON.parse(schemas[0][1]);}catch{throw new Error('Invalid health schema: '+name)}
+  const canonical=html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+  if(!canonical||schema.url!==canonical||!schema.publisher)
+   throw new Error('Health author must match existing canonical and publisher: '+name);
+  const origin=new URL(canonical).origin;
+  schema.author={'@type':'Organization','name':'이조은치과','url':origin+'/'};
+  html=html.replace(schemas[0][0],
+   '<script type="application/ld+json">'+JSON.stringify(schema).replace(/</g,'\\u003c')+'</script>');
+  fs.writeFileSync(filename,html);
+  count++;
+ }
+ if(count!==46)throw new Error('Missing provider credit on health articles: '+count);
+ console.log('Google medical information provenance:',count,'patient guides with visible clinic attribution and schema author');
+}
+
 // Patient-readable breadcrumbs and matching BreadcrumbList JSON-LD on all 46
 // clinical guides. Derive the category from the page's *existing* header links.
 // This avoids inventing affiliations, bylines or review dates.
