@@ -321,12 +321,13 @@ await Promise.all(urls.map(async ({label,url}) => {
       const twitterDescription=body.match(/<meta name="twitter:description" content="([^"]+)"/)?.[1]||'';
       info.push('검색·공유 소개 문구: '+(pageDescription&&pageDescription===ogDescription&&pageDescription===twitterDescription?'일치':'불일치 또는 누락'));
       const localClinicTitle=body.match(/<title>([^<]+)<\/title>/)?.[1]||'';
-      const localSearchReady=localClinicTitle.startsWith('부평치과 |')&&
+      const localSearchReady=localClinicTitle.startsWith('이조은치과 |')&&
+        localClinicTitle.includes('부평치과')&&
         body.includes('id="intro">부평치과를 찾는 분께')&&
         pageDescription.includes('부평치과')&&
         body.includes('property="og:title" content="'+localClinicTitle+'"');
       info.push(localSearchReady?'부평치과 대표 검색 제목·원장 진료 소개 최신 반영':'부평치과 대표 검색어 홈페이지 신규 배포 확인 필요');
-      const cheongcheonReady=localClinicTitle.includes('청천동치과 이조은치과')&&
+      const cheongcheonReady=localClinicTitle.includes('청천동치과')&&
        pageDescription.includes('청천동치과')&&
        heroMarkup.includes('class="hero-local-intro"')&&
        heroMarkup.includes('세월천로 34')&&
