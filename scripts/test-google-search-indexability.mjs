@@ -272,3 +272,39 @@ test('Google scaling insurance page answers repeat-treatment questions without p
    'only genuinely updated care/insurance pages should receive the current sitemap date: '+slug);
  }
 });
+
+
+test('Google GI and resin insurance answers remain medically cautious and reachable from care hubs',()=>{
+ const html=readFileSync(path.join(output,'health/insurance-cervical.html'),'utf8');
+ const care=readFileSync(path.join(output,'cervical-abrasion.html'),'utf8');
+ const hub=readFileSync(path.join(output,'insurance-health.html'),'utf8');
+ const sitemap=readFileSync(path.join(output,'sitemap.xml'),'utf8');
+ const description=html.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+ assert.match(description,/인천 부평구 청천동 이조은치과/);
+ assert.match(description,/GI·레진 수복 선택/);
+ assert.match(description,/수복물이 떨어졌을 때/);
+ assert.ok(html.includes('<meta property="og:description" content="'+description+'">'));
+ const schema=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1])).find(x=>x['@type']==='MedicalWebPage');
+ assert.equal(schema?.description,description,'Google medical markup should match original page description');
+ assert.equal(schema?.url,origin+'/health/insurance-cervical');
+ assert.equal(schema?.author?.name,'이조은치과');
+ for(const [id,title] of [['7','이미 GI 수복을 했는데 떨어졌다면?'],['8','레진과 GI 중 어느 재료가 보험이 되나요?']]){
+  assert.ok(html.includes('<h2 id="section-'+id+'">'+title+'</h2>'),
+   'Patient questions must have real deep-link headings');
+  assert.ok(html.includes('href="#section-'+id+'">'+title+'</a>'),
+   'The patient's table of contents should let mobile readers skip straight to their question');
+ }
+ assert.match(html,/GI는 무조건 보험, 레진은 무조건 비보험/);
+ assert.match(html,/재료 이름만으로 구분하는 것은 정확하지 않습니다/);
+ assert.match(html,/무조건 무료 재치료나 보험 적용을 약속할 수는 없습니다/);
+ assert.match(html,/충치·균열·치수 상태를 함께 살펴야 합니다/);
+ assert.ok(care.includes('href="/health/insurance-cervical.html#section-7"'));
+ assert.ok(care.includes('href="/health/insurance-cervical.html#section-8"'));
+ assert.ok(hub.includes('href="/health/insurance-cervical.html#section-7"'));
+ assert.ok(hub.includes('href="/health/insurance-cervical.html#section-8"'));
+ for(const slug of ['cervical-abrasion','insurance-health','health/insurance-cervical']){
+  assert.ok(sitemap.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>'),
+   'Only genuinely revised Google indexed pages should get a new modification date: '+slug);
+ }
+});
