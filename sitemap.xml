@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url><loc>https://ejoeundental.com/gum-treatment-faq.html</loc></url>
   <url><loc>https://ejoeundental.com/root-canal-retreatment-faq.html</loc></url>
   <url><loc>https://ejoeundental.com/dental-insurance-faq.html</loc></url>
   <url><loc>https://ejoeundental.com/visit-guide.html</loc><lastmod>2026-10-26</lastmod></url>
-  <url><loc>https://ejoeundental.com/</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://ejoeundental.com/</loc><lastmod>2026-10-26</lastmod><image:image><image:loc>https://ejoeundental.com/assets/ejoeundental-hero-cat.webp</image:loc></image:image><image:image><image:loc>https://ejoeundental.com/assets/impressionist-water-garden.svg</image:loc></image:image></url>
   <url><loc>https://ejoeundental.com/gum-health.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://ejoeundental.com/root-canal-health.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://ejoeundental.com/insurance-health.html</loc><lastmod>2026-10-23</lastmod></url>
   <url><loc>https://ejoeundental.com/additional-health.html</loc><lastmod>2026-10-23</lastmod></url>
   <url><loc>https://ejoeundental.com/gum-treatment.html</loc><lastmod>2026-10-24</lastmod></url>
-  <url><loc>https://ejoeundental.com/retreatment.html</loc><lastmod>2026-10-24</lastmod></url>
+  <url><loc>https://ejoeundental.com/retreatment.html</loc><lastmod>2026-10-26</lastmod><image:image><image:loc>https://ejoeundental.com/assets/retreatment/illustration-01.webp</image:loc></image:image><image:image><image:loc>https://ejoeundental.com/assets/retreatment/illustration-02.webp</image:loc></image:image><image:image><image:loc>https://ejoeundental.com/assets/retreatment/illustration-03.webp</image:loc></image:image><image:image><image:loc>https://ejoeundental.com/assets/retreatment/illustration-04.webp</image:loc></image:image><image:image><image:loc>https://ejoeundental.com/assets/retreatment/illustration-05.webp</image:loc></image:image><image:image><image:loc>https://ejoeundental.com/assets/retreatment/illustration-06.webp</image:loc></image:image><image:image><image:loc>https://ejoeundental.com/assets/retreatment/illustration-07.webp</image:loc></image:image><image:image><image:loc>https://ejoeundental.com/assets/retreatment/illustration-08.webp</image:loc></image:image><image:image><image:loc>https://ejoeundental.com/assets/retreatment/illustration-09.webp</image:loc></image:image><image:image><image:loc>https://ejoeundental.com/assets/retreatment/illustration-10.webp</image:loc></image:image></url>
   <url><loc>https://ejoeundental.com/tooth-preservation.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://ejoeundental.com/cervical-abrasion.html</loc><lastmod>2026-10-23</lastmod></url>
   <url><loc>https://ejoeundental.com/insured-care.html</loc><lastmod>2026-10-23</lastmod></url>
