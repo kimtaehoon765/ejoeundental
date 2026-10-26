@@ -518,3 +518,25 @@ test('treatment questions mentioning opening days keep clinical results visible'
  assert.ok(found.some(x=>x.href==='/wisdom-tooth.html'),
   'opening-hour queries with specific treatment should not suppress relevant medical results');
 });
+
+
+test('every visible suggested patient search reaches a real article, visit answer or separate expert guide',async()=>{
+ const indexPath='dist/content/search-index.json';
+ if(!existsSync(indexPath))return; // Only the production build holds the complete public search collection.
+ const pages=JSON.parse(readFileSync(indexPath,'utf8'));
+ const html=readFileSync('dist/search.html','utf8');
+ const all=[...html.matchAll(/href="\/search(?:\.html)?\?q=([^"]+)"/g)];
+ assert.ok(all.length>=25,'search landing page should have a meaningful collection of suggested queries');
+ const unique=[...new Set(all.map(match=>decodeURIComponent(match[1].replace(/&amp;/g,'&')).replace(/\+/g,' ')))];
+ const failures=[];
+ for(const query of unique){
+  const {results,status}=await search(query,pages,{hostname:'ejoeundental.com'});
+  const resultLinks=walk(results,node=>node.className==='result');
+  const contact=walk(results,node=>node.className==='search-visit-answer');
+  const expert=walk(results,node=>node.className==='search-expert-direct-links');
+  if(resultLinks.length===0&&contact.length===0&&expert.length===0){
+   failures.push(query+' => '+String(status.textContent));
+  }
+ }
+ assert.deepEqual(failures,[],'every search-chip route must be useful, not an empty search page');
+});
