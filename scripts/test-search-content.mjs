@@ -117,8 +117,8 @@ test('expanded clinic FAQ pages keep visible answers and linked patient stories 
  ]){
   const page=readFileSync(new URL('../dist/'+slug+'.html',import.meta.url),'utf8');
   const original=readFileSync(new URL('../'+slug+'.html',import.meta.url),'utf8');
-  const schema=JSON.parse(page.match(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/)?.[1]||'{}');
-  const visibleCards=[...page.matchAll(/<section class="card"><h2>([^<]+)<\\/h2><p>([^<]+)<\\/p><\\/section>/g)];
+  const schema=JSON.parse(page.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1]||'{}');
+  const visibleCards=[...page.matchAll(/<section class="card"><h2>([^<]+)<\/h2><p>([^<]+)<\/p><\/section>/g)];
   assert.equal(schema['@type'],'FAQPage',slug+' must use FAQPage structured data');
   assert.equal(schema.mainEntity?.length,visibleCards.length,slug+' must show every answer supplied to crawlers');
   assert.ok(schema.mainEntity.length>=8,slug+' should have detailed patient questions');
