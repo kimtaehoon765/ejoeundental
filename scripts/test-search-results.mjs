@@ -698,3 +698,27 @@ test('branded dental clinic name and registry hyphenation both resolve to the sa
    'clinic-name-only search should not drown contact details in unrelated blog entries: '+query);
  }
 });
+
+test('new gum symptoms and children dental questions resolve to real public patient guides',async()=>{
+ const pages=JSON.parse(readFileSync(new URL('../dist/content/search-index.json',import.meta.url),'utf8'));
+ const cases=[
+  ['잇몸 색이 이상해요','/stories/2026-10-26-cheongcheon-gum-color-change-red-gums-periodontal-care/'],
+  ['잇몸이 빨개요','/stories/2026-10-26-cheongcheon-gum-color-change-red-gums-periodontal-care/'],
+  ['잇몸이 갑자기 부어요','/stories/2026-10-24-bupyeong-swollen-bleeding-gums-visit-dentist/'],
+  ['치아가 갑자기 흔들려요','/stories/2026-10-25-incheon-loose-tooth-suddenly-periodontal-exam/'],
+  ['아이 치과치료','/stories/2026-10-26-cheongcheon-child-dentist-or-general-dentist/'],
+  ['앞니 반대교합','/pediatric-orthodontics.html']
+ ];
+ for(const [query,expected] of cases){
+  const {results,status}=await search(query,pages);
+  const matches=walk(results,x=>x.className==='result').map(x=>x.href);
+  assert.ok(matches.slice(0,20).includes(expected),
+   'everyday patient search should find its real matching article: '+query+' results: '+JSON.stringify(matches.slice(0,6)));
+  assert.ok(!/불러오지 못했습니다/.test(status.textContent),'new patient search must not fail');
+ }
+ const html=readFileSync(new URL('../search.html',import.meta.url),'utf8');
+ for(const phrase of ['잇몸 색이 이상해요','잇몸이 갑자기 부었어요','아이 치과치료','앞니 반대교합']){
+  assert.ok(html.includes('href="/search.html?q='+encodeURIComponent(phrase)+'"'),
+   'patient should be able to tap the full encoded question without typing: '+phrase);
+ }
+});
