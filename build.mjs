@@ -1495,32 +1495,23 @@ for(const filename of localCarePages){
 }
 console.log('Local care navigation generated:',localCarePages.length,'treatment pages');
 
-// Make local treatment-page search snippets specific without misrepresenting the clinic location.
+// Keep clinical page metadata as the single source of truth. Do not overwrite
+// current physician-reviewed search snippets with stale build-time keyword text.
 const localCareMeta={
- 'gum-treatment.html':{
-  title:'인천 잇몸치료·부평 잇몸치료 | 청천동 이조은치과',
-  description:'인천 잇몸치료·부평 잇몸치료. 청천동·산곡동·산곡역 인근 이조은치과에서 원장이 직접 치주낭·출혈을 검사하고 치석·큐렛치료를 안내합니다.'
- },
- 'retreatment.html':{
-  title:'인천 재신경치료·부평 재신경치료 | 신경치료 후 통증 | 이조은치과',
-  description:'인천 신경치료·부평 신경치료 후 통증? 청천동·산곡동·산곡역 인근 이조은치과에서 근관 재치료와 재신경치료 가능성을 살핍니다.'
- },
- 'cervical-abrasion.html':{
-  title:'인천 치경부마모증·시린 이·GI 수복 | 부평구 이조은치과',
-  description:'인천 부평구 청천동·산곡동·산곡역 인근 치경부마모증·시린 이 안내. GI 수복과 건강보험 적용 여부는 진단·급여 기준에 따라 확인합니다.'
- },
- 'insured-care.html':{
-  title:'인천 치과 건강보험 진료·스케일링 | 부평구 이조은치과',
-  description:'인천 부평구 청천동·산곡동·산곡역 인근 이조은치과. 건강보험 잇몸치료·스케일링·GI 수복 등 급여 적용 여부는 진단 후 안내합니다.'
- }
+ 'gum-treatment.html':{title:'인천 잇몸치료·부평 잇몸치료 | 청천동 이조은치과'},
+ 'retreatment.html':{title:'인천 재신경치료·부평 재신경치료 | 신경치료 후 통증 | 이조은치과'},
+ 'cervical-abrasion.html':{title:'인천 치경부마모증·시린 이·GI 수복 | 부평구 이조은치과'},
+ 'insured-care.html':{title:'인천 치과 건강보험 진료·스케일링 | 부평구 이조은치과'}
 };
 for(const [filename,meta] of Object.entries(localCareMeta)){
- const target=path.join(out,filename);
- let html=fs.readFileSync(target,'utf8');
- if(!/<title>[^<]*<\/title>/i.test(html)||!/<meta\s+name=["']description["']\s+content=["'][^"']*["']/i.test(html))throw new Error('Care SEO metadata missing: '+filename);
- html=html.replace(/<title>[^<]*<\/title>/i,'<title>'+meta.title+'</title>');
- html=html.replace(/(<meta\s+name=["']description["']\s+content=["'])[^"']*(["'])/i,(_,start,end)=>start+meta.description+end);
- fs.writeFileSync(target,html);
+ const html=fs.readFileSync(path.join(out,filename),'utf8');
+ const actualTitle=html.match(/<title>([^<]+)<\/title>/i)?.[1]?.trim();
+ const actualDescription=html.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i)?.[1]?.trim();
+ if(actualTitle!==meta.title||!actualDescription||actualDescription.length<35||
+    actualDescription.length>160||!actualDescription.includes('이조은치과')){
+  throw new Error('Care SEO source metadata invalid: '+filename);
+ }
+ meta.description=actualDescription;
 }
 console.log('Local care SEO snippets refreshed:',Object.keys(localCareMeta).length,'pages');
 
@@ -1541,8 +1532,9 @@ for(const [filename,meta] of Object.entries(localCareMeta)){
   if(!title.includes(keyword)&&!description.includes(keyword))throw new Error('Care snippet missing treatment topic '+keyword+': '+filename);
   if(!visible.includes(keyword))throw new Error('Care snippet mentions topic absent from visible page '+keyword+': '+filename);
  }
- for(const locality of ['청천동','산곡동','산곡역']){
-  if(!description.includes(locality)||!visible.includes(locality))throw new Error('Care local snippet not supported by visible page: '+filename+' / '+locality);
+ if(!description.includes('청천동')||!visible.includes('청천동'))throw new Error('Care snippet missing real clinic locality: '+filename);
+ for(const locality of ['산곡동','산곡역']){
+  if(!visible.includes(locality))throw new Error('Care body missing neighboring location: '+filename+' / '+locality);
  }
  if(!visible.includes('세월천로 34'))throw new Error('Care location missing from visible page: '+filename);
 }
