@@ -293,7 +293,7 @@ test('Google GI and resin insurance answers remain medically cautious and reacha
   assert.ok(html.includes('<h2 id="section-'+id+'">'+title+'</h2>'),
    'Patient questions must have real deep-link headings');
   assert.ok(html.includes('href="#section-'+id+'">'+title+'</a>'),
-   'The patient's table of contents should let mobile readers skip straight to their question');
+   "The patient’s table of contents should let mobile readers skip straight to their question");
  }
  assert.match(html,/GI는 무조건 보험, 레진은 무조건 비보험/);
  assert.match(html,/재료 이름만으로 구분하는 것은 정확하지 않습니다/);
