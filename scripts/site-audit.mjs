@@ -42,9 +42,9 @@ if(!existsSync(challengePath)||readFileSync(challengePath,'utf8')!==expectedChal
 {
  const homepage=readFileSync(join(root,'index.html'),'utf8');
  const expectedVerification='jhH0f8kD6cSko87XBW4I0C53SezkyiDbOEe37Uf-SXI';
- const verificationTags=[...homepage.matchAll(/<meta\\b[^>]*\\bname=["']google-site-verification["'][^>]*>/gi)].map(m=>m[0]);
+ const verificationTags=[...homepage.matchAll(/<meta\b[^>]*\bname=["']google-site-verification["'][^>]*>/gi)].map(m=>m[0]);
  const verificationValues=verificationTags.map(tag=>
-   tag.match(/\\bcontent=["']([^"']+)["']/i)?.[1]||''
+   tag.match(/\bcontent=["']([^"']+)["']/i)?.[1]||''
  );
  if(verificationValues.length!==1||verificationValues[0]!==expectedVerification){
   errors.push('Google Search Console: 인증 성공한 메타태그가 누락·변경되었거나 중복됨');
@@ -62,7 +62,7 @@ if(!existsSync(challengePath)||readFileSync(challengePath,'utf8')!==expectedChal
   const file=join(root,slug+'.html');
   if(!existsSync(file)){errors.push('구글 우선 진료 페이지 빌드 누락: '+slug);continue;}
   const html=readFileSync(file,'utf8');
-  const canonical=html.match(/<link\\s+rel=["']canonical["']\\s+href=["']([^"']+)["']/i)?.[1];
+  const canonical=html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
   const publishedPath=(publicOrigin==='https://ejoeundental.com'&&cleanRoutes.has(slug))
    ?'/'+slug:'/'+slug+'.html';
   const expectedUrl=publicOrigin+publishedPath;
@@ -70,7 +70,7 @@ if(!existsSync(challengePath)||readFileSync(challengePath,'utf8')!==expectedChal
      !sitemapXml.includes('<loc>'+expectedUrl+'</loc>')||
      (publicOrigin==='https://ejoeundental.com'&&cleanRoutes.has(slug)&&
       sitemapXml.includes('<loc>'+publicOrigin+'/'+slug+'.html</loc>'))||
-     /<meta\\s+name=["']robots["']\\s+content=["'][^"']*noindex/i.test(html)){
+     /<meta\s+name=["']robots["']\s+content=["'][^"']*noindex/i.test(html)){
     errors.push('Google 우선 진료 URL·사이트맵·색인 허용 신호 불일치: '+slug);
   }
  }
