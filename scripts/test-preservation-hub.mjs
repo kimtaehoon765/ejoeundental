@@ -124,3 +124,31 @@ test('gum discharge is explained through both periodontal and root-canal pathway
  assert.ok(sitemap.includes('<loc>'+origin+'/gum-treatment</loc>'));
  assert.ok(sitemap.includes('<loc>'+origin+'/root-canal-health</loc>'));
 });
+
+test('the preservation decision guide gives patients four clinically distinct symptom-first links',()=>{
+ const section=page.match(/<section id="preserve-symptom-choices"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.ok(section.includes('id="preserve-symptom-title"'));
+ assert.ok(page.includes('href="#preserve-symptom-choices"'),'new patient choices need a top-of-page jump link');
+ const expected=[
+  ['밤에도 아프고 찬물에 심하게 시려요','2026-10-24-bupyeong-severe-toothache-deep-caries-extraction-vs-root-canal'],
+  ['신경치료한 치아가 다시 아파요','2026-10-25-bupyeong-retreatment-vs-extraction-tooth-prognosis'],
+  ['치아가 갑자기 흔들려요','2026-10-25-incheon-loose-tooth-suddenly-periodontal-exam'],
+  ['치아가 깨지거나 금이 갔어요','2026-10-25-bupyeong-broken-tooth-extraction-vs-restoration']
+ ];
+ assert.equal((section.match(/class="preserve-symptom-item"/g)||[]).length,4,
+  'show four distinct medical situations rather than duplicate keyword pages');
+ for(const [question,slug] of expected){
+  assert.ok(section.includes(question),'missing symptom question: '+question);
+  assert.ok(posts.some(item=>item.slug===slug),'link must point to a published story: '+slug);
+  assert.ok(section.includes('href="/stories/'+slug+'/"'),
+   'visible symptom card must link directly to its corresponding story: '+slug);
+ }
+ for(const phrase of ['무조건 발치','치근파절','치주조직','응급의료기관']){
+  assert.ok(section.includes(phrase),'avoid overgeneralizing extraction and emergency decisions: '+phrase);
+ }
+ const entry=index.find(x=>x.url==='/tooth-preservation.html');
+ assert.ok(entry?.body.includes('치아가 아프거나 흔들린다면, 증상별로 먼저 확인하세요'),
+  'symptom-first clinical guidance must appear in the public site search index');
+ assert.ok(page.includes('.preserve-symptom-item a{display:inline-flex;align-items:center;min-height:48px'),
+  'linked patient paths need comfortable touch targets on phones');
+});
