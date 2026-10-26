@@ -62,6 +62,8 @@ jobs:
           node scripts/audit-story-uniqueness.mjs
       - name: Build and validate production origin
         run: npm run build:production:check
+      - name: Verify Google indexable canonicals and clinic medical attribution
+        run: node --test scripts/test-google-search-indexability.mjs
       - name: Check every published internal page and resource link
         run: node scripts/check-internal-links.mjs
       - name: Regression-test CSS assets and internal heading anchors
