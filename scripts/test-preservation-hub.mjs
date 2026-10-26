@@ -246,3 +246,42 @@ test('denture and cavity clinical guides link to verified patient stories and av
  assert.ok(cavityIndex?.body.includes('건강보험')&&cavityIndex.body.includes('치아'),
   'clinical cavity introduction remains indexed by search engines');
 });
+
+test('cervical GI and insured care pages navigate to original owner content without blanket benefit promises',()=>{
+ const cervical=readFileSync('dist/cervical-abrasion.html','utf8');
+ const insured=readFileSync('dist/insured-care.html','utf8');
+ const cervicalSection=cervical.match(/<section class="section" id="cervical-symptom-guide"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ const insuranceSection=insured.match(/<section class="section" id="insurance-care-paths"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.ok(cervical.includes('href="#cervical-symptom-guide"'),'patient may jump to symptom guide');
+ assert.equal((cervicalSection.match(/<article>/g)||[]).length,4);
+ assert.ok(cervicalSection.includes('치아가 패인 곳은 모르겠어요'));
+ assert.ok(cervicalSection.includes('전에 메운 GI가 떨어져 다시 시려요'));
+ assert.ok(cervicalSection.includes('GI와 레진의 건강보험 적용 차이'));
+ assert.ok(cervicalSection.includes('href="/health/insurance-cervical.html#section-7"'));
+ assert.ok(cervicalSection.includes('href="/health/insurance-cervical.html#section-8"'));
+ assert.ok(cervicalSection.includes('href="/health/abrasion-sensitive.html"'));
+ const giSlug='2026-10-25-samsan-cervical-abrasion-gi-insurance-vs-resin';
+ assert.ok(posts.some(p=>p.slug===giSlug),'GI patient source story must be published');
+ assert.ok(cervicalSection.includes('href="/stories/'+giSlug+'/"'));
+ assert.ok(cervical.includes('.cervical-symptom-cards a{display:inline-flex;align-items:center;min-height:48px'));
+ const cervicalRow=index.find(item=>item.url==='/cervical-abrasion.html');
+ assert.ok(cervicalRow?.body.includes('시린 치아와 치경부마모증, 어떤 상황인지 먼저 확인하세요'));
+ assert.ok(insured.includes('href="#insurance-care-paths"'));
+ assert.equal((insuranceSection.match(/<article>/g)||[]).length,3);
+ assert.ok(insuranceSection.includes('당시 급여 기준'));
+ assert.ok(insuranceSection.includes('신속히 평가받으세요'));
+ assert.ok(insuranceSection.includes('href="/dental-insurance-faq.html"'));
+ for(const slug of [
+  '2026-10-24-bupyeong-cavity-gi-insurance',
+  giSlug,
+  '2026-10-25-cheongcheon-affordable-dental-care-insurance-priorities'
+ ]){
+  assert.ok(posts.some(p=>p.slug===slug),'insured care reference must be real and published: '+slug);
+  assert.ok(insuranceSection.includes('href="/stories/'+slug+'/"'),
+   'insured care page needs direct original article link: '+slug);
+ }
+ const insuredRow=index.find(item=>item.url==='/insured-care.html');
+ assert.ok(insuredRow?.body.includes('치료비가 걱정될 때, 진료별로 확인할 사항'),
+  'patient-oriented insured care decisions must remain searchable');
+ assert.ok(insured.includes('.insurance-care-path-grid a{display:inline-flex;align-items:center;min-height:48px'));
+});
