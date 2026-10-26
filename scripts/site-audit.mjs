@@ -2238,7 +2238,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const titleOg=home.match(/<meta property="og:title" content="([^"]+)"/)?.[1]||'';
  const titleTw=home.match(/<meta name="twitter:title" content="([^"]+)"/)?.[1]||'';
  const row=index.filter(x=>x.url==='/');
- if(!name.startsWith('부평치과 |')||!name.includes('이조은치과')||
+ if(!name.startsWith('이조은치과 |')||!name.includes('부평치과')||!name.includes('청천동치과')||
    !home.includes('<link rel="canonical" href="'+publicOrigin+'/">')||
    name!==titleOg||name!==titleTw||meta!==og||meta!==tw||
    !meta.includes('부평치과')||meta.length>80||
