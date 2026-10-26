@@ -132,3 +132,39 @@ test('pediatric care pages give practical age-appropriate guidance, safe referra
    'pediatric care route must remain in the production sitemap');
  }
 });
+
+test('homepage links to four clinically distinct original patient education articles before the symptom directory',()=>{
+ const feature=home.match(/<section class="home-representative-guides" id="home-representative-guides"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.ok(feature.includes('id="home-representative-guides-title"'));
+ assert.ok(home.indexOf('id="home-representative-guides"')>home.indexOf('id="focus-care"'));
+ assert.ok(home.indexOf('id="home-representative-guides"')<home.indexOf('id="symptoms"'),
+  'questions should be visible with the priority clinical care navigation');
+ const expected=[
+  ['2026-10-24-bupyeong-swollen-bleeding-gums-visit-dentist','잇몸이 갑자기 부었어요'],
+  ['2026-10-26-cheongcheon-gum-color-change-red-gums-periodontal-care','잇몸 색이 빨갛게 변했어요'],
+  ['2026-10-24-bupyeong-severe-toothache-deep-caries-extraction-vs-root-canal','치아가 아픈데 꼭 뽑아야 하나요?'],
+  ['2026-10-24-bupyeong-cavity-gi-insurance','충치치료에 건강보험을 적용할 수 있나요?']
+ ];
+ assert.equal((feature.match(/class="home-representative-guide-grid"/g)||[]).length,1);
+ assert.equal((feature.match(/<a href="\/stories\//g)||[]).length,4,
+  'homepage clinical features should stay compact rather than displaying the full archive');
+ for(const [slug,title] of expected){
+  assert.ok(feature.includes('href="/stories/'+slug+'/"'),slug+' must be linked directly from home');
+  assert.ok(feature.includes(title),title+' must use patient question phrasing');
+  const page=readFileSync('dist/stories/'+slug+'/index.html','utf8');
+  assert.ok(page.includes('<link rel="canonical" href="https://ejoeundental.com/stories/'+slug+'/"'),
+   'home featured story must have a real production self-canonical: '+slug);
+  assert.ok(sitemap.includes('<loc>https://ejoeundental.com/stories/'+slug+'/</loc>'),
+   'home featured story must be discoverable through production sitemap: '+slug);
+ }
+ assert.ok(!feature.includes('전혀 아프지 않')&&!feature.includes('완치'),
+  'homepage cannot promise all patients will have the same clinical outcome');
+ assert.ok(home.includes('/assets/home-enhancements.css?v=20261026-featured-guides1'),
+  'new home layout must update the stylesheet cache key for returning mobile users');
+ assert.ok(css.includes('.home-representative-guide-grid a:focus-visible'),
+  'keyboard users must see a visible focus ring on original clinic stories');
+ assert.ok(css.includes('grid-template-columns:1fr'),
+  'clinical question cards should collapse to one column on narrow phones');
+ assert.ok(css.includes('min-height:72px'),
+  'mobile reading links need comfortable touch targets');
+});
