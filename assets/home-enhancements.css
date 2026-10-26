@@ -1145,3 +1145,9 @@ body.home-page #main-content>.hero .hero-actions{margin:17px 0 12px}
 #doctor .doctor-visible-name{margin:10px 0 5px;color:#f3f4e5;font-size:18px;line-height:1.55;letter-spacing:.01em}
 #doctor .doctor-visible-name strong{font-weight:750}
 @media(max-width:600px){#doctor .doctor-visible-name{font-size:16px;margin:7px 0 5px}}
+
+/* Public hospital directories sometimes use the registered hyphenated name.
+ * Keep this variant unobtrusive, adjacent to the actual clinic address. */
+#location .clinic-name-variant{font-size:13px;line-height:1.7;color:#405c51;margin:8px 0 16px;word-break:keep-all}
+#location .clinic-name-variant strong{font-weight:700}
+@media(max-width:600px){#location .clinic-name-variant{font-size:12px;line-height:1.65;margin:6px 0 12px}}
