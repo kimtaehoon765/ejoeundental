@@ -246,3 +246,29 @@ test('patient bad breath and gingival bleeding search have a complete accurate i
  assert.equal(medical?.author?.name,'이조은치과');
  assert.equal(medical?.url,origin+'/'+target);
 });
+
+
+test('Google scaling insurance page answers repeat-treatment questions without promising coverage',()=>{
+ const html=readFileSync(path.join(output,'health/insurance-scaling.html'),'utf8');
+ const care=readFileSync(path.join(output,'scaling.html'),'utf8');
+ const sitemap=readFileSync(path.join(output,'sitemap.xml'),'utf8');
+ const snippet=html.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+ assert.ok(snippet.includes('다른 치과')&&snippet.includes('치주질환 치료 목적'));
+ assert.ok(snippet.includes('인천 부평구 청천동'),'snippet should retain real local clinic context');
+ assert.ok(html.includes('<meta property="og:description" content="'+snippet+'">'));
+ assert.match(html,/<h2 id="section-4">올해 이미 스케일링을 받았다면\?<\/h2>/);
+ assert.match(html,/이미 스케일링을 받았다고 해서 필요한 잇몸 검진이나 치주치료까지 모두 불가능한 것은 아닙니다/);
+ assert.match(html,/스케일링을 반복한다고 항상 보험이 적용되는 것도 아닙니다/);
+ assert.match(html,/실제 적용은 진료일의 급여 기준에 따릅니다/);
+ assert.match(html,/href="\/health\/periodontal-insurance(?:\.html)?">치주치료 건강보험 기준 알아보기/);
+ assert.match(care,/href="\/health\/insurance-scaling(?:\.html)?#section-4">올해 스케일링을 이미 받은 경우의 보험 기준/);
+ const medical=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1])).find(obj=>obj['@type']==='MedicalWebPage');
+ assert.equal(medical?.description,snippet,'Google medical page must describe the same insurance guidance as the visible metadata');
+ assert.equal(medical?.url,origin+'/health/insurance-scaling');
+ assert.equal(medical?.author?.name,'이조은치과');
+ for(const slug of ['scaling','health/insurance-scaling']){
+  assert.ok(sitemap.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>'),
+   'only genuinely updated care/insurance pages should receive the current sitemap date: '+slug);
+ }
+});
