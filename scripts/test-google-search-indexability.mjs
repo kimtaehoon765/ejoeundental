@@ -48,7 +48,7 @@ test('Google crawl discovery, verification and article authorship remain consist
  const home=readFileSync(path.join(output,'index.html'),'utf8');
  const robots=readFileSync(path.join(output,'robots.txt'),'utf8');
  const headers=readFileSync(path.join(output,'_headers'),'utf8');
- assert.match(home,/<meta name="google-site-verification" content="[A-Za-z0-9_-]+">/);
+ assert.match(home,/<meta name="google-site-verification" content="[A-Za-z0-9_-]+"\s*\/?>/);
  assert.match(home,/<meta name="robots" content="index,follow,max-image-preview:large">/);
  assert.match(robots,/^User-agent:\s*\*\s*$/m);
  assert.match(robots,/^Allow:\s*\/\s*$/m);
