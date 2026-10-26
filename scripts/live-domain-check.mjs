@@ -125,6 +125,9 @@ const urls = [
   { label: '없는 페이지 404 상태', url: origin + '/__missing-page-check-20261023' }
 ];
 
+// Compare the exact Naver topic totals shown on two care pages with the
+// archive that was actually returned by the production domain.
+const topicCountPages=new Map();
 await Promise.all(urls.map(async ({label,url}) => {
   try {
     const response = await fetch(url, {
@@ -135,6 +138,11 @@ await Promise.all(urls.map(async ({label,url}) => {
     const faviconIcoBytes=label==='네이버 소프트 404 파비콘 ICO 개선 확인'?
       new Uint8Array(await response.clone().arrayBuffer()):null;
     const body = await response.text();
+    if(response.ok&&[
+      '잇몸치료 상세 페이지',
+      '재신경치료 이미지 초기 표시',
+      'remaining route clinical-archive'
+    ].includes(label))topicCountPages.set(label,body);
     const info = ['HTTP ' + response.status, '최종 주소: ' + response.url];
     const server = response.headers.get('server');
     if (server) info.push('서버: ' + server);
@@ -815,6 +823,29 @@ await Promise.all(urls.map(async ({label,url}) => {
     add(label, '접속 확인 불가', shortError(e));
   }
 }));
+
+// This assertion is informational: Cloudflare deploys may trail a new commit
+// briefly. Never confuse an archive counting mismatch with a search ranking.
+{
+ const archived=topicCountPages.get('remaining route clinical-archive')||'';
+ const groups=[
+  ['gum','잇몸치료 상세 페이지','잇몸치료'],
+  ['root','재신경치료 이미지 초기 표시','신경치료']
+ ];
+ for(const [topic,label,subject] of groups){
+  const group=archived.split('<details class="archive-blog-group" id="archive-group-'+topic+'"')[1]
+    ?.split('</details>')[0]||'';
+  const count=Number(group.split('class="archive-blog-count">')[1]?.split('편')[0]);
+  const care=topicCountPages.get(label)||'';
+  const n=Number(care.split('href="/clinical-archive.html#archive-group-'+topic+'"')[1]
+    ?.split('원장의 '+subject+' 글 ')[1]?.split('편 보기')[0]);
+  const ok=Number.isInteger(count)&&count>0&&count===n;
+  add('원문 분류 실제 글 수 · '+subject,
+    ok?'일치':'추가 확인 필요',
+    (Number.isFinite(n)?n:'없음')+'편 안내 / 원장 아카이브 '+
+    (Number.isFinite(count)?count:'없음')+'편 · '+(ok?'원문 수 자동 동기화 확인':'실서버 배포 시차 또는 숫자 확인 필요'));
+ }
+}
 
 if (process.env.GITHUB_STEP_SUMMARY) {
   const escape = value => value.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
