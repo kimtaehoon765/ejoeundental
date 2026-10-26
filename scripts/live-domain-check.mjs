@@ -64,6 +64,7 @@ for (const [label, host, method] of [
 
 const urls = [
   { label: '정식 도메인 첫 화면', url: origin + '/' },
+  { label: 'Google 서치콘솔 소유권 HTML 파일', url: origin + '/google4b5b71e2b560cac2.html' },
   { label: '모네풍 갤러리 SVG 공개 확인', url: origin + '/assets/impressionist-water-garden.svg' },
   { label: '모네풍 갤러리 CSS 공개 확인', url: origin + '/assets/home-enhancements.css' },
   { label: 'www HTTPS 연결', url: 'https://www.' + apex + '/' },
@@ -187,6 +188,15 @@ await Promise.all(urls.map(async ({label,url}) => {
         'HTTP '+response.status+' · 표시 '+bylineCount+'개 · '+expectedName+' 원장 / 치과학 전공 / 전문의 자격 / 진단 안내 비교');
     }
 
+    if (label === 'Google 서치콘솔 소유권 HTML 파일') {
+      const expected='google-site-verification: google4b5b71e2b560cac2.html';
+      const published=response.status===200&&response.url===url&&body.trim()===expected;
+      info.push(published?'Google 사용자별 소유권 확인 파일 정식 URL·내용 실배포 확인':
+        'Google 소유권 파일 배포 확인 필요 — 제공된 확인 버튼을 누르기 전에 주소·본문 일치 확인');
+      add('Google 서치콘솔 소유권 파일 실배포',
+        published?'최신 반영 확인':'배포·캐시 확인 필요',
+        'HTTP '+response.status+' · 정확한 파일명/응답 내용 '+(published?'일치':'불일치'));
+    }
     if (label === '연락처 저장 vCard 배포') {
       const valid=response.status===200&&body.startsWith('BEGIN:VCARD\r\nVERSION:3.0\r\n')&&
        body.includes('FN:이조은치과의원')&&
