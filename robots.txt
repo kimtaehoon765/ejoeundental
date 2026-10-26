@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
+
+# ChatGPT Search bot: public pages open, private admin excluded.
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin/
+
 Sitemap: https://ejoeundental.com/sitemap.xml
