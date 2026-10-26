@@ -21,6 +21,7 @@ function walk(dir, result = []) {
 const files = walk(root);
 const built = new Set(files.map(file => '/' + relative(root, file).split(sep).join('/')));
 const pages = files.filter(file => file.endsWith('.html'));
+const stylesheets = files.filter(file => file.endsWith('.css'));
 const failures = new Map();
 let checked = 0;
 
@@ -57,8 +58,8 @@ function hasFragment(target, fragment) {
 for (const file of pages) {
   const from = '/' + relative(root, file).split(sep).join('/');
   const html = readFileSync(file, 'utf8');
-  // Check static HTML links and loaded resources. External URLs, telephone,
-  // email and same-page anchors are intentionally outside this offline audit.
+  // Check static HTML links and loaded resources. External URLs, telephone
+  // and email links are outside the offline audit; same-page anchors are checked.
   const tags = html.match(/<(?:a|area|img|script|link|source)\b[^>]*>/gi) || [];
   for (const tag of tags) {
     const attr = tag.match(/\b(?:href|src)\s*=\s*(["'])(.*?)\1/i);
@@ -105,13 +106,53 @@ for (const file of pages) {
   }
 }
 
+// CSS image backgrounds, fonts and @import files may not be mentioned in HTML.
+// Validate every built stylesheet so a removed Monet image or local font fails
+// CI rather than silently disappearing on patient phones.
+let cssChecked = 0;
+for (const file of stylesheets) {
+  const from = '/' + relative(root, file).split(sep).join('/');
+  const css = readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  const references = [
+    ...[...css.matchAll(/url\(\s*(?:"([^"]*)"|'([^']*)'|([^)]*))\s*\)/gi)]
+      .map(match => match[1] ?? match[2] ?? (match[3] ?? '').trim()),
+    ...[...css.matchAll(/@import\s+(["'])([^"']+)\1/gi)]
+      .map(match => match[2])
+  ];
+  for (const rawValue of references) {
+    const raw = rawValue.trim();
+    if (!raw || raw.startsWith('#') || raw.startsWith('//') ||
+        /^(?:data:|blob:|javascript:)/i.test(raw)) continue;
+    let destination;
+    try {
+      destination = new URL(raw, 'https://ejoeundental.com' + from);
+    } catch {
+      failures.set(from + ' -> ' + raw, 'Invalid stylesheet URL');
+      continue;
+    }
+    if (destination.origin !== 'https://ejoeundental.com') continue;
+    let pathname;
+    try {
+      pathname = decodeURIComponent(destination.pathname);
+    } catch {
+      failures.set(from + ' -> ' + raw, 'Invalid stylesheet URL escaping');
+      continue;
+    }
+    cssChecked++;
+    if (!resolveBuiltDestination(pathname)) {
+      failures.set(from + ' -> ' + raw, 'Missing local CSS image/font/import');
+    }
+  }
+}
+
 if (failures.size) {
-  console.error('Broken internal links or resources: ' + failures.size);
+  console.error('Broken internal links, CSS assets or resources: ' + failures.size);
   for (const [link, reason] of [...failures].slice(0, 40)) {
     console.error(' - ' + link + ': ' + reason);
   }
   if (failures.size > 40) console.error(' ... and ' + (failures.size - 40) + ' more');
   process.exit(1);
 }
-console.log('Internal link audit passed: ' + checked + ' references across ' +
-            pages.length + ' HTML pages.');
+console.log('Internal link audit passed: ' + checked + ' HTML references across ' +
+            pages.length + ' HTML pages, plus ' + cssChecked + ' CSS asset references across ' +
+            stylesheets.length + ' stylesheets.');
