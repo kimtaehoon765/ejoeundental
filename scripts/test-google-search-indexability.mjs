@@ -138,3 +138,55 @@ test('real treating dentist has one consistent visible name and person identity 
   assert.equal(structured.mainEntityOfPage,origin+'/stories/'+article.slug+'/',article.slug+' canonical story URL');
  }
 });
+
+
+test('Google Image discovery lists real first-party illustrations only on their matching HTML pages',()=>{
+ const siteMap=readFileSync(path.join(output,'sitemap.xml'),'utf8');
+ assert.match(siteMap,/<urlset\b[^>]*xmlns:image="http:\/\/www\.google\.com\/schemas\/sitemap-image\/1\.1"/,
+  'the official Google image sitemap namespace must be declared');
+ const blocks=[...siteMap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(m=>m[1]);
+ const entries=blocks.map(block=>({
+  page:block.match(/<loc>([^<]+)<\/loc>/)?.[1]||'',
+  images:[...block.matchAll(/<image:image><image:loc>([^<]+)<\/image:loc><\/image:image>/g)].map(m=>m[1]),
+  declared:(block.match(/<image:image>/g)||[]).length
+ }));
+ const imageEntries=entries.filter(entry=>entry.images.length);
+ const home=origin+'/';
+ const rootCanal=origin+'/retreatment';
+ assert.deepEqual(imageEntries.map(x=>x.page).sort(),[home,rootCanal].sort(),
+  'only pages with actual clinic-owned art should claim Google image results');
+ for(const {page,images,declared} of imageEntries){
+  assert.equal(images.length,declared,'all image sitemap entries must use the current supported image:loc tag');
+  assert.equal(new Set(images).size,images.length,'do not repeat identical artwork');
+  assert.ok(images.length<=1000,'Google limits 1000 images per page');
+  const file=pageFor(new URL(page).pathname);
+  const html=readFileSync(file,'utf8');
+  for(const url of images){
+   const u=new URL(url);
+   assert.equal(u.origin,origin,'patient artwork must not depend on an unverifiable CDN');
+   assert.equal(u.search+u.hash,'','do not list transient version hashes as new image files');
+   assert.match(u.pathname,/^\/assets\/[a-zA-Z0-9./_-]+\.(?:webp|svg)$/);
+   assert.ok(existsSync(path.join(output,u.pathname.slice(1))),'do not advertise missing images: '+url);
+   const tag=[...html.matchAll(/<img\b[^>]*>/g)]
+    .map(m=>m[0]).find(tag=>tag.includes('src="'+u.pathname));
+   assert.ok(tag,'image must actually be displayed on its Google landing page: '+url);
+   assert.match(tag,/alt="[^"]{15,}"/,'visible artwork needs genuinely descriptive text: '+url);
+  }
+ }
+ assert.equal(imageEntries.find(x=>x.page===home).images.length,2);
+ const rootEntry=imageEntries.find(x=>x.page===rootCanal);
+ assert.equal(rootEntry.images.length,10);
+ const primary=origin+'/assets/retreatment/illustration-01.webp';
+ assert.ok(rootEntry.images.includes(primary));
+ const treatment=readFileSync(path.join(output,'retreatment.html'),'utf8');
+ assert.ok(treatment.includes('<meta property="og:image" content="'+primary+'">'));
+ assert.ok(treatment.includes('<meta property="og:image:alt" content="흰 고양이 치과의사와 치근단 염증을 설명하는 치아 단면 그림">'));
+ const medical=[...treatment.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1])).find(data=>data['@type']==='MedicalWebPage');
+ assert.equal(medical?.primaryImageOfPage?.url,primary);
+ assert.equal(medical?.url,rootCanal);
+ assert.equal(medical?.primaryImageOfPage?.width,519);
+ assert.equal(medical?.primaryImageOfPage?.height,327);
+ assert.ok(siteMap.includes('<loc>'+rootCanal+'</loc><lastmod>2026-10-26</lastmod>'),
+  'Google must see the genuine treatment-page update date');
+});
