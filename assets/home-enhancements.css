@@ -1190,3 +1190,19 @@ body.home-page #main-content>.hero .hero-actions{margin:17px 0 12px}
  #home-representative-guides .home-representative-guide-grid a strong{font-size:15px}
  #home-representative-guides .home-representative-guide-grid a span{font-size:13px}
 }
+
+/* Clinic-verified official booking button, rendered from content/site.json.
+   The fixed bottom reservation button already handles the narrow-screen CTA. */
+body.home-page .hero-actions .hero-booking{
+ background:#245d46;color:#fff;border:1px solid #245d46;
+ font-weight:750;min-height:48px;white-space:normal;text-align:center
+}
+body.home-page .hero-actions .hero-booking:hover{
+ background:#194934;border-color:#194934;color:#fff
+}
+body.home-page .hero-actions .hero-booking:focus-visible{
+ outline:3px solid #c99e48;outline-offset:3px
+}
+@media(max-width:600px){
+ body.home-page .hero-actions .hero-booking{display:none}
+}
