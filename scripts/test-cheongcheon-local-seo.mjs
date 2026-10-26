@@ -134,7 +134,7 @@ test('pediatric care pages give practical age-appropriate guidance, safe referra
 });
 
 test('homepage links to four clinically distinct original patient education articles before the symptom directory',()=>{
- const feature=home.match(/<section class="home-representative-guides" id="home-representative-guides"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ const feature=home.match(/<div class="home-representative-guides" id="home-representative-guides"[^>]*>([\s\S]*?)<nav class="care-find-links"/)?.[1]||'';
  assert.ok(feature.includes('id="home-representative-guides-title"'));
  assert.ok(home.indexOf('id="home-representative-guides"')>home.indexOf('id="focus-care"'));
  assert.ok(home.indexOf('id="home-representative-guides"')<home.indexOf('id="symptoms"'),
