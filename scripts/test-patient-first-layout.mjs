@@ -1168,7 +1168,7 @@ test('all published clinic stories expose verified mobile call, reservation, and
  for(const post of posts){
   const html=readFileSync('dist/stories/'+post.slug+'/index.html','utf8');
   assert.ok(html.includes('<body class="owner-story-page">'),post.slug+' mobile story scope missing');
-  const panels=[...html.matchAll(/<nav class="story-mobile-actions" aria-label="전화 문의와 진료 위치 안내">([\s\S]*?)<\/nav>/g)];
+  const panels=[...html.matchAll(/<nav class="story-mobile-actions" aria-label="전화 문의·네이버 예약·오시는 길">([\s\S]*?)<\/nav>/g)];
   assert.equal(panels.length,1,post.slug+' must have one accessible contact strip');
   const buttons=[...panels[0][1].matchAll(/<a [^>]*href="([^"]+)"[^>]*>/g)].map(m=>m[1]);
   assert.deepEqual(buttons,['tel:0325132875',booking,'/#location'],post.slug+' contains a non-verified or missing action');
