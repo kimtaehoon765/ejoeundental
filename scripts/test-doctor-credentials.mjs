@@ -77,3 +77,36 @@ test('medical field of doctorate is consistent with source clinic data and all p
    name+' old ambiguous qualification statement remains');
  }
 });
+
+test('standalone clinic care pages show one verified clinician byline near the first clinical explanation',()=>{
+ const source=JSON.parse(readFileSync('content/site.json','utf8'));
+ const clinician=String(source.footer_representative||'').trim();
+ assert.equal(clinician,'김태훈','visible clinic doctor identity must match verified source');
+ const carePages=[
+  'implant.html','denture.html','cavity-treatment.html','scaling.html',
+  'wisdom-tooth.html','pediatric-dentistry.html','pediatric-orthodontics.html'
+ ];
+ for(const page of carePages){
+  const html=read(page);
+  const badges=[...html.matchAll(/<aside class="clinician-byline" aria-label="진료 안내 담당 의료진">([\s\S]*?)<\/aside>/g)];
+  assert.equal(badges.length,1,page+' must show exactly one verified clinician');
+  const visible=badges[0][1];
+  assert.ok(visible.includes('이조은치과 · '+clinician+' 원장'),page+' has wrong responsible clinician');
+  assert.ok(visible.includes(degree+' · '+specialty),page+' has incorrect academic credentials');
+  assert.ok(visible.includes('2003년부터 청천동 진료'),page+' missing clinic continuity');
+  assert.ok(visible.includes('원장이 직접 검진·진단'),page+' missing direct diagnostic principle');
+  assert.ok(visible.includes('href="/#doctor"'),page+' must link to the real medical staff biography');
+  assert.ok(html.includes('<link rel="stylesheet" href="/assets/clinician-byline.css">'),
+   page+' must actually load the accessible responsive component');
+  assert.ok(html.indexOf('class="clinician-byline"')>html.indexOf('<main'),
+   page+' clinician identity must be visible rather than search-only metadata');
+  assert.ok(html.indexOf('class="clinician-byline"')<html.indexOf('<h2'),
+   page+' clinician byline should appear before detailed clinical paragraphs');
+  assert.equal((html.match(/<h1\b/g)||[]).length,1,page+' must retain a single clear H1 heading');
+ }
+ const style=read('assets/clinician-byline.css');
+ assert.match(style,/\.clinician-byline a:focus-visible/);
+ assert.match(style,/min-height:44px/);
+ assert.match(style,/@media\(max-width:600px\)/);
+ assert.match(style,/min-height:48px/);
+});
