@@ -2613,6 +2613,40 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  }
 }
 
+// Check every generated patient story exposes only the owner's verified
+// Naver reservation link, alongside real phone and directions actions.
+{
+ const bookingData=JSON.parse(readFileSync('content/site.json','utf8'));
+ const officialBooking=String(bookingData.naver_booking_url||'');
+ const storyRoot=join(root,'stories');
+ const directories=existsSync(storyRoot)
+  ? readdirSync(storyRoot,{withFileTypes:true}).filter(item=>item.isDirectory()).map(item=>item.name)
+  : [];
+ if(!/^https:\/\/(?:m\.)?booking\.naver\.com\/booking\/\d+\/bizes\/\d+(?:\/.*)?$/.test(officialBooking))
+  errors.push('확인된 이조은치과 공식 네이버 예약 URL 형식 오류');
+ if(!directories.length)errors.push('치과 이야기 전체 글이 빌드에서 누락됨');
+ let correctStories=0;
+ for(const slug of directories){
+  const file=join(storyRoot,slug,'index.html');
+  if(!existsSync(file)){errors.push('치과 이야기 HTML 누락: '+slug);continue;}
+  const content=readFileSync(file,'utf8');
+  const actions=content.match(/<nav class="story-mobile-actions"[\s\S]*?<\/nav>/)?.[0]||'';
+  const bookingHref='href="'+officialBooking.replace(/&/g,'&amp;')+'"';
+  if(!actions.includes('class="story-mobile-call"')||
+     !actions.includes('class="story-mobile-booking"')||
+     !actions.includes('class="story-mobile-location"')||
+     !actions.includes(bookingHref)||
+     !actions.includes('target="_blank" rel="noopener noreferrer"')||
+     !content.includes('<a '+bookingHref+' target="_blank"')){
+   errors.push('치과 이야기 공식 네이버 예약·전화·오시는 길 연결 오류: '+slug);
+  }else correctStories++;
+ }
+ const storyCss=readFileSync(join(root,'assets/story-article.css'),'utf8');
+ if(!storyCss.includes('.story-mobile-booking')||!storyCss.includes('grid-template-columns:minmax(0,1fr)'))
+  errors.push('치과 이야기 네이버 예약 모바일 버튼 반응형 스타일 누락');
+ console.log('Clinic story official booking buttons checked:',correctStories,'of',directories.length);
+}
+
 // Report every audit error, including the checks above this final line.
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);
