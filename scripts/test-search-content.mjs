@@ -87,3 +87,54 @@ test('all 19 previously omitted FAQ, safety and visit resources contain real sea
   assert.ok(row[0].body.length<=24000,slug+' should not inflate the index');
  }
 });
+
+test('expanded clinic FAQ pages keep visible answers and linked patient stories synchronized with structured data',()=>{
+ for(const [slug,expectedQuestions,stories] of [
+  ['gum-treatment-faq',[
+   '잇몸 색이 평소보다 더 빨개졌다면 잇몸병인가요?',
+   '잇몸이 갑자기 부었는데 며칠 기다려도 될까요?'
+  ],[
+   '2026-10-26-cheongcheon-gum-color-change-red-gums-periodontal-care',
+   '2026-10-24-bupyeong-swollen-bleeding-gums-visit-dentist'
+  ]],
+  ['root-canal-retreatment-faq',[
+   '신경치료한 치아의 잇몸에 고름주머니가 생기면 재신경치료가 필요한가요?',
+   '재신경치료는 건강보험이 적용되나요?',
+   '재신경치료할 때 기존 크라운을 반드시 제거해야 하나요?'
+  ],[
+   '2026-10-24-incheon-root-canal-tooth-gum-swelling-retreatment',
+   '2026-10-25-bupyeong-retreatment-vs-extraction-tooth-prognosis'
+  ]],
+  ['dental-insurance-faq',[
+   '어린이 충치치료에도 건강보험이 적용되나요?',
+   '만 65세 이상이면 틀니와 임플란트가 모두 보험이 되나요?',
+   '치료비가 부담되면 꼭 필요한 보험 진료부터 받을 수 있나요?'
+  ],[
+   '2026-10-25-incheon-affordable-cavity-resin-gi-inlay-cost',
+   '2026-10-26-cheongcheon-how-to-choose-denture-dentist',
+   '2026-10-25-cheongcheon-affordable-dental-care-insurance-priorities'
+  ]]
+ ]){
+  const page=readFileSync(new URL('../dist/'+slug+'.html',import.meta.url),'utf8');
+  const original=readFileSync(new URL('../'+slug+'.html',import.meta.url),'utf8');
+  const schema=JSON.parse(page.match(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/)?.[1]||'{}');
+  const visibleCards=[...page.matchAll(/<section class="card"><h2>([^<]+)<\\/h2><p>([^<]+)<\\/p><\\/section>/g)];
+  assert.equal(schema['@type'],'FAQPage',slug+' must use FAQPage structured data');
+  assert.equal(schema.mainEntity?.length,visibleCards.length,slug+' must show every answer supplied to crawlers');
+  assert.ok(schema.mainEntity.length>=8,slug+' should have detailed patient questions');
+  for(let i=0;i<visibleCards.length;i++){
+   assert.equal(schema.mainEntity[i].name,visibleCards[i][1],slug+' question order must match visible HTML');
+   assert.equal(schema.mainEntity[i].acceptedAnswer.text,visibleCards[i][2],slug+' answer must match visible HTML');
+  }
+  for(const question of expectedQuestions){
+   assert.ok(page.includes('<h2>'+question+'</h2>'),slug+' missing new patient question: '+question);
+  }
+  for(const story of stories){
+   const relative='/stories/'+story+'/';
+   assert.ok(original.includes('href="'+relative+'"'),slug+' missing editorial source link '+story);
+   assert.ok(page.includes('href="'+relative+'"'),slug+' missing published local link '+story);
+   assert.ok(existsSync(new URL('../dist/stories/'+story+'/index.html',import.meta.url)),
+    slug+' linked story does not exist: '+story);
+  }
+ }
+});
