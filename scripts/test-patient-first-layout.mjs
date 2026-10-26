@@ -261,7 +261,7 @@ test('long dental stories expose a collapsible anchor-linked table of contents',
  assert.ok(outlined>20,'most long-form dental stories should have a practical article outline');
 });
 
-test('three distinct owner-blog topics become full, independently written patient education articles',()=>{
+test('three distinct owner-blog topics retain accurate source attribution in patient education articles',()=>{
  const targets=[
   ['2026-10-25-incheon-gum-treatment-after-scaling-sensitivity','https://blog.naver.com/kook765/224306244253','치근'],
   ['2026-10-25-incheon-loose-tooth-suddenly-periodontal-exam','https://blog.naver.com/kook765/224304247968','동요도'],
@@ -274,15 +274,23 @@ test('three distinct owner-blog topics become full, independently written patien
   const item=posts.find(p=>p.slug===slug);
   assert.ok(item,slug+' must be publicly listed');
   const authorCopy=JSON.parse(readFileSync('content/posts/'+slug+'.json','utf8'));
-  assert.equal(authorCopy.source_note,'topic_only',slug+' must not claim original text was scraped');
+  const hasProvidedScreenshots=slug==='2026-10-25-incheon-gum-treatment-after-scaling-sensitivity';
+  assert.equal(authorCopy.source_note,
+   hasProvidedScreenshots?'owner_blog_full_screenshots_integrated':'topic_only',
+   slug+' must accurately distinguish owner-provided screenshots from topic-only content');
   assert.equal(authorCopy.source_url,original,slug+' original blog reference must not change');
   assert.ok(authorCopy.body.length>1800,'avoid a thin SEO-only page: '+slug);
   assert.ok(authorCopy.body.includes(clinicalTerm),'missing useful clinical detail: '+slug);
   assert.ok(storyDirectory.includes('href="/stories/'+slug+'/">'),slug+' must be linked from index');
   assert.ok(sitemap.includes('/stories/'+slug+'/</loc>'),slug+' must be crawlable');
   const html=readFileSync('dist/stories/'+slug+'/index.html','utf8');
-  assert.ok(html.includes('원문의 문장을 복제')||html.includes('원문을 직접 복제하거나 요약한 글은 아닙니다'),
+  if(hasProvidedScreenshots){
+   assert.ok(html.includes('본문 화면 사진 5장을 확인해 기존 홈페이지 글에 통합'),
+    slug+' should disclose owner-provided blog screenshots');
+  }else{
+   assert.ok(html.includes('원문의 문장을 복제')||html.includes('원문을 직접 복제하거나 요약한 글은 아닙니다'),
     slug+' blog source disclosure must not misrepresent independent writing');
+  }
   assert.ok(html.includes('href="'+original+'"'),slug+' must link to real owner original');
   assert.match(html,/<section class="story-prose" aria-label="치과 이야기 본문">/);
   assert.ok((html.match(/<h2 id="story-section-\d+">/g)||[]).length>=4,
