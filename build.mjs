@@ -955,6 +955,20 @@ const searchScriptHash=createHash('sha256').update(searchJs).digest('hex').slice
 const searchHtmlPath=path.join(out,'search.html');
 let searchHtml=fs.readFileSync(searchHtmlPath,'utf8');
 searchHtml=searchHtml.replace(/(src=["']\/assets\/search\.js)(?:\?[^"']*)?(["'])/g,(_,start,end)=>start+'?v='+searchScriptHash+end);
+// The patient-site booking search card must use the same vetted Naver
+// destination and honest direct-vs-search label as the mobile home CTA.
+// This is build-time data only: no client API request or invented booking ID.
+const searchBookingConfig=JSON.parse(fs.readFileSync(path.join(root,'content/site.json'),'utf8'));
+const searchBookingAction=bookingAction(searchBookingConfig.naver_booking_url);
+const bookingAttribute=s=>String(s).replace(/[&<>"']/g,char=>({
+ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+}[char]));
+const searchResultsMarker='<section id="results" aria-label="홈페이지 검색 결과"></section>';
+if(searchHtml.split(searchResultsMarker).length!==2)throw new Error('Search results landmark missing or duplicated');
+searchHtml=searchHtml.replace(searchResultsMarker,
+ '<section id="results" aria-label="홈페이지 검색 결과"'+
+ ' data-booking-url="'+bookingAttribute(searchBookingAction.url)+'"'+
+ ' data-booking-label="'+bookingAttribute(searchBookingAction.label)+'"></section>');
 fs.writeFileSync(searchHtmlPath,searchHtml);
 
 // Until the custom domain is connected, keep canonical links aligned with the Pages preview site.
