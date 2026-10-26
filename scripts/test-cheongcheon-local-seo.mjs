@@ -134,11 +134,11 @@ test('pediatric care pages give practical age-appropriate guidance, safe referra
 });
 
 test('homepage links to four clinically distinct original patient education articles before the symptom directory',()=>{
- const feature=home.match(/<div class="home-representative-guides" id="home-representative-guides"[^>]*>([\s\S]*?)<nav class="care-find-links"/)?.[1]||'';
+ const feature=home.match(/<section class="section light" id="home-representative-guides"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
  assert.ok(feature.includes('id="home-representative-guides-title"'));
  assert.ok(home.indexOf('id="home-representative-guides"')>home.indexOf('id="focus-care"'));
  assert.ok(home.indexOf('id="home-representative-guides"')<home.indexOf('id="symptoms"'),
-  'questions should be visible with the priority clinical care navigation');
+  'questions should be visible immediately after the focused treatment shortcuts');
  const expected=[
   ['2026-10-24-bupyeong-swollen-bleeding-gums-visit-dentist','잇몸이 갑자기 부었어요'],
   ['2026-10-26-cheongcheon-gum-color-change-red-gums-periodontal-care','잇몸 색이 빨갛게 변했어요'],
