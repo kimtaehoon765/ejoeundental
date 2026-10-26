@@ -137,6 +137,7 @@ const urls = [
 // archive that was actually returned by the production domain.
 const topicCountPages=new Map();
 let deployedSearchScript='';
+let deployedSearchCss='';
 await Promise.all(urls.map(async ({label,url}) => {
   try {
     const response = await fetch(url, {
@@ -596,6 +597,8 @@ await Promise.all(urls.map(async ({label,url}) => {
       // unversioned /assets/search.js endpoint which CDNs may cache differently.
       const scriptRef=body.match(/<script defer src="(\/assets\/search\.js\?v=[a-f0-9]{12})"><\/script>/)?.[1]||'';
       if(response.ok&&scriptRef)deployedSearchScript=scriptRef;
+      const stylesheetRef=body.match(/href="(\/assets\/search-page\.css\?v=[a-f0-9]{12})"/)?.[1]||'';
+      if(response.ok&&stylesheetRef)deployedSearchCss=stylesheetRef;
       info.push(scriptRef?'검색 페이지가 내용 해시로 버전 지정한 검색 JS를 사용':'검색 JS 버전 지정 누락');
       const form = body.indexOf('<form class="search-form"');
       const results = body.indexOf('<section id="results"');
@@ -926,6 +929,34 @@ if(deployedSearchScript){
  }
 }else{
  add('환자가 실제 로딩하는 검색 프로그램','배포·캐시 확인 필요','검색 화면의 버전 지정 JS 주소를 찾지 못했습니다.');
+}
+
+// Inspect the exact versioned stylesheet used by the live search page.
+// This checks touch-target improvements on public hosting rather than
+// mistaking a locally passing CSS test for a completed deployment.
+if(deployedSearchCss){
+ try{
+  const response=await fetch(origin+deployedSearchCss,{
+   signal:AbortSignal.timeout(8000),
+   headers:{'User-Agent':'EjoeunDentalReadOnlyHealthCheck/1.0'}
+  });
+  const css=await response.text();
+  const declared=deployedSearchCss.match(/\?v=([a-f0-9]{12})$/)?.[1]||'';
+  const delivered=createHash('sha256').update(css).digest('hex').slice(0,12);
+  const sourceHash=createHash('sha256')
+   .update(readFileSync(new URL('../assets/search-page.css',import.meta.url)))
+   .digest('hex').slice(0,12);
+  const targets44=/\.search-suggestions a\{[^}]*min-height:44px/.test(css);
+  const targets48=/\.search-suggestions a\{min-height:48px/.test(css);
+  const current=response.ok&&declared===delivered&&delivered===sourceHash&&targets44&&targets48;
+  add('검색 추천 버튼 모바일 터치 영역',current?'최신 버전 확인':'배포·캐시 확인 필요',
+   'HTTP '+response.status+' · 링크 '+declared+' / 실제 '+delivered+' / 소스 '+sourceHash+
+   (targets44&&targets48?' · 44px 기본·48px 모바일 버튼 반영':' · 터치 영역 개선 반영 필요'));
+ }catch(error){
+  add('검색 추천 버튼 모바일 터치 영역','접속 확인 불가',shortError(error));
+ }
+}else{
+ add('검색 추천 버튼 모바일 터치 영역','배포·캐시 확인 필요','검색 화면에서 CSS 내용 해시 URL을 찾지 못했습니다.');
 }
 
 // This assertion is informational: Cloudflare deploys may trail a new commit
