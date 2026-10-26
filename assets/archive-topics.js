@@ -10,6 +10,11 @@
 
   const normalize = value => String(value || '')
     .toLocaleLowerCase('ko-KR').replace(/[^\p{L}\p{N}]/gu, '');
+  // Patients often type two separate terms, such as "부평 잇몸치료".
+  // Match both words even when the original blog title places them apart,
+  // while preserving existing unspaced Korean phrase matches.
+  const searchTerms = value => [...new Set(String(value || '')
+    .split(/[\s,，、;；/!?()·.\-]+/u).map(normalize).filter(Boolean))];
 
   // Create controls only when scripting is available. Without JS the original
   // topic summaries and every source link stay fully accessible.
@@ -23,7 +28,7 @@
   const input = document.createElement('input');
   input.id = 'archive-post-search';
   input.type = 'search';
-  input.placeholder = '예: 잇몸, 신경치료, 과잉진료';
+  input.placeholder = '예: 부평 잇몸치료, 산곡동 신경치료';
   input.autocomplete = 'off';
   input.setAttribute('aria-controls', 'archive-blog-collections');
   const clearButton = document.createElement('button');
@@ -58,6 +63,7 @@
 
   function filterPosts() {
     const query = normalize(input.value);
+    const terms = searchTerms(input.value);
     clearButton.hidden = !query;
     if (!query) {
       for (const { group, items } of groupsWithLinks) {
@@ -77,7 +83,9 @@
       const wholeTopicMatches = topic.includes(query);
       let inGroup = 0;
       for (const { li, title } of items) {
-        const matched = wholeTopicMatches || title.includes(query);
+        const matched = wholeTopicMatches || title.includes(query) ||
+          (terms.length > 1 && terms.every(term =>
+            title.includes(term) || topic.includes(term)));
         li.hidden = !matched;
         if (matched) inGroup++;
       }
