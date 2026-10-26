@@ -170,6 +170,6 @@ test('gum symptoms point to distinct published gingival education instead of gen
  }
  assert.ok(gum.includes('.gum-symptom-stories a{display:inline-flex;align-items:center;box-sizing:border-box;min-height:48px'),
   'mobile gum symptom links should meet comfortable touch targets');
- assert.ok(index.some(x=>x.url==='/gum-treatment.html'&&x.body.includes('잇몸 색이 갑자기 빨개졌어요')),
-  'public gum treatment page needs descriptive links in on-site search');
+ assert.ok(index.some(x=>x.url==='/gum-treatment.html'&&x.body.includes('잇몸 검사를 받아보세요')),
+  'the public clinical introduction must remain searchable independent of navigation links');
 });
