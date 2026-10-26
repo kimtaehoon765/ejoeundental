@@ -136,6 +136,7 @@ const urls = [
 // Compare the exact Naver topic totals shown on two care pages with the
 // archive that was actually returned by the production domain.
 const topicCountPages=new Map();
+let deployedSearchScript='';
 await Promise.all(urls.map(async ({label,url}) => {
   try {
     const response = await fetch(url, {
@@ -591,6 +592,11 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push(breadcrumb&&keyboard&&seoTrail?
         '환자 안내 이동경로·본문 바로가기·구조화 데이터 정상':'환자 안내 이동경로 적용 여부 확인 필요');
     } else if (label === '통합 검색 모바일 배치') {
+      // Inspect the exact script URL from the live search page, not only the
+      // unversioned /assets/search.js endpoint which CDNs may cache differently.
+      const scriptRef=body.match(/<script defer src="(\/assets\/search\.js\?v=[a-f0-9]{12})"><\/script>/)?.[1]||'';
+      if(response.ok&&scriptRef)deployedSearchScript=scriptRef;
+      info.push(scriptRef?'검색 페이지가 내용 해시로 버전 지정한 검색 JS를 사용':'검색 JS 버전 지정 누락');
       const form = body.indexOf('<form class="search-form"');
       const results = body.indexOf('<section id="results"');
       const suggestions = body.indexOf('<p class="search-suggestions"');
@@ -814,18 +820,6 @@ await Promise.all(urls.map(async ({label,url}) => {
       const newSearchReady=body.includes('scalingComparisonIntent')&&body.includes('scalingOnlyIntent')&&
         body.includes('치주낭치료')&&body.includes('신경치료비용');
       info.push(newSearchReady?'치주치료·스케일링·잇몸 증상 검색 관련도 개선 반영':'치주·스케일링 자연어 검색 개선 신규 배포 확인 필요');
-      const bookingCardReady=body.includes('const reservationIntent=')&&
-       body.includes('data'+'set.bookingUrl')&&
-       body.includes('예약 확정을 의미하지 않습니다');
-      info.push(bookingCardReady?'예약·네이버예약 검색어에서 전화·검증된 네이버 연결을 안내하는 JS 반영':
-       '검색어 예약 분류·네이버 예약 연결 프로그램 실제 배포 확인 필요');
-      const clinicHoursReady=body.includes('const hoursOnlyIntent=')&&
-       body.includes('금요일 격주 오전 09:30~13:00')&&
-       body.includes('접수 마감 오전 12:30 / 오후 18:00')&&
-       body.includes('이번 주 확정 진료일은 표시되지 않습니다');
-      info.push(clinicHoursReady?
-       '금·토요일 격주 일정·오전 12:30/오후 18:00 접수 마감·공휴일 휴진 안내 최신 JS 배포 확인':
-       '정확한 격주 진료·접수 마감 안내 검색 JS 최신 배포 확인 필요');
     }
     if(label==='환자용 모바일 전화·이동 메뉴 CSS'){
       const homepageOnly=body.includes('.mobile-quick + .navlinks{display:none}');
@@ -901,6 +895,38 @@ await Promise.all(urls.map(async ({label,url}) => {
     add(label, '접속 확인 불가', shortError(e));
   }
 }));
+
+// Query the precise versioned JS referenced by the LIVE search page. If a CDN
+// serves an obsolete byte stream under its fingerprinted URL, report that
+// separately from general HTTP 200 and legacy unversioned cache responses.
+if(deployedSearchScript){
+ try{
+  const response=await fetch(origin+deployedSearchScript,{
+   signal:AbortSignal.timeout(8000),
+   headers:{'User-Agent':'EjoeunDentalReadOnlyHealthCheck/1.0'}
+  });
+  const client=await response.text();
+  const declared=deployedSearchScript.match(/\?v=([a-f0-9]{12})$/)?.[1]||'';
+  const delivered=createHash('sha256').update(client).digest('hex').slice(0,12);
+  const hashOk=response.ok&&declared===delivered;
+  const bookingOk=client.includes('const reservationIntent=')&&
+   client.includes('dataset.bookingUrl')&&
+   client.includes('예약 확정을 의미하지 않습니다');
+  const hoursOk=client.includes('const hoursOnlyIntent=')&&
+   client.includes('금요일 격주 오전 09:30~13:00')&&
+   client.includes('접수 마감 오전 12:30 / 오후 18:00')&&
+   client.includes('이번 주 확정 진료일은 표시되지 않습니다');
+  add('환자가 실제 로딩하는 검색 프로그램',''+(hashOk&&bookingOk&&hoursOk?'최신 버전 확인':'배포·캐시 확인 필요'),
+   'HTTP '+response.status+' · 검색 페이지 지정 버전 '+declared+' / 실제 JS '+delivered+
+   (hashOk?' · 파일 해시 일치':' · 파일 해시 불일치')+
+   (bookingOk?' · 네이버 예약 찾기 연결 반영':' · 예약 검색 코드 최신 반영 필요')+
+   (hoursOk?' · 격주 금·토요일·접수 마감 안내 반영':' · 진료시간 검색 코드 최신 반영 필요'));
+ }catch(error){
+  add('환자가 실제 로딩하는 검색 프로그램','접속 확인 불가',shortError(error));
+ }
+}else{
+ add('환자가 실제 로딩하는 검색 프로그램','배포·캐시 확인 필요','검색 화면의 버전 지정 JS 주소를 찾지 못했습니다.');
+}
 
 // This assertion is informational: Cloudflare deploys may trail a new commit
 // briefly. Never confuse an archive counting mismatch with a search ranking.
