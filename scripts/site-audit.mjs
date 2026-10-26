@@ -56,7 +56,7 @@ if(!existsSync(challengePath)||readFileSync(challengePath,'utf8')!==expectedChal
  ];
  const cleanRoutes=new Set([
   'gum-treatment','retreatment','cervical-abrasion',
-  'root-canal-health','insured-care','visit-guide'
+  'root-canal-health','insured-care','visit-guide','tooth-preservation'
  ]);
  for(const slug of canonicalPriority){
   const file=join(root,slug+'.html');
