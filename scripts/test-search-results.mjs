@@ -650,3 +650,32 @@ test('retreatment cost and existing crown insurance queries prioritize itemized 
   'insurance-specific question should lead to the careful cost/benefits guide first');
  assert.match(html,/모든 재신경치료에 크라운 교체가 필요한 것도 아니고/);
 });
+
+
+test('denture adjustment, repair and insurance searches lead to cautious existing-denture advice',async()=>{
+ const html=readFileSync(new URL('../health/insurance-denture.html',import.meta.url),'utf8');
+ const guide={
+  url:'/health/insurance-denture.html',
+  title:html.match(/<title>([^<]+)<\/title>/)?.[1],
+  description:html.match(/<meta name="description" content="([^"]+)"/)?.[1],
+  body:html.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ')
+ };
+ const pages=[
+  {url:'/denture.html',title:'청천동 부분틀니 완전틀니 진료',description:'틀니를 조정하거나 새로 제작',body:'현재 구강 상태를 살펴봅니다'},
+  {url:'/health/denture-loose.html',title:'틀니가 헐거워졌어요',description:'틀니 내면과 잇몸 적합도 검사',body:'개상과 수리를 고려합니다'},
+  {url:'/insured-care.html',title:'치과 건강보험 진료 안내',description:'보험 자격과 비용',body:'건강보험 진료 설명'},
+  guide
+ ];
+ for(const query of [
+  '틀니 조정 보험','틀니 수리 보험','틀니 재제작 보험',
+  '틀니 개상 보험','다른 치과 틀니 수리','틀니 다시 만들면 보험',
+  '부평 틀니 조정 보험','청천동 틀니 재제작 보험'
+ ]){
+  const {results}=await search(query,pages);
+  const ranked=walk(results,node=>node.className==='result').slice(0,5).map(node=>node.href);
+  assert.ok(ranked.includes(guide.url),query+' should find the factual insurance article: '+JSON.stringify(ranked));
+ }
+ const {results}=await search('부평 틀니 조정 보험',pages);
+ assert.equal(walk(results,node=>node.className==='result')[0]?.href,guide.url);
+ assert.match(html,/모든 틀니를 반드시 수리할 수 있는 것은 아닙니다/);
+});
