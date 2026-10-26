@@ -617,3 +617,36 @@ test('patient queries about failed GI restoration and resin insurance link to ca
  }
  assert.match(html,/무조건 무료 재치료나 보험 적용을 약속할 수는 없습니다/);
 });
+
+
+test('retreatment cost and existing crown insurance queries prioritize itemized dental coverage guidance',async()=>{
+ const html=readFileSync(new URL('../health/insurance-root-canal.html',import.meta.url),'utf8');
+ const guide={
+  url:'/health/insurance-root-canal.html',
+  title:html.match(/<title>([^<]+)<\/title>/)?.[1],
+  description:html.match(/<meta name="description" content="([^"]+)"/)?.[1],
+  body:html.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ')
+ };
+ const pages=[
+  {url:'/retreatment.html',title:'인천·부평 재신경치료',description:'근관 치료 이후 통증과 치료 방법',body:'기존 크라운 보철물을 진찰합니다.'},
+  {url:'/root-canal-health.html',title:'인천 신경치료 건강정보',description:'근관치료 안내',body:'재신경치료 보험과 크라운 진료 정보'},
+  {url:'/health/root-canal-retreatment.html',title:'재신경치료 필요한 경우',description:'치아 보존 가능성',body:'크라운이 있는 경우'},
+  guide,
+  {url:'/insured-care.html',title:'건강보험 치과진료',description:'치과 급여 진료',body:'재신경치료 보험 가능성'}
+ ];
+ for(const query of [
+  '재신경치료 보험','재신경치료 비용','재신경치료 크라운 비용',
+  '인천 재신경치료 보험','부평 신경치료 크라운 교체 비용',
+  '크라운 재신경치료 보험','기존 크라운 재사용',
+  '크라운 씌운 이 재신경치료'
+ ]){
+  const {results}=await search(query,pages);
+  const found=walk(results,node=>node.className==='result').slice(0,5).map(x=>x.href);
+  assert.ok(found.includes(guide.url),
+   query+' must find factual costs and coverage explanations: '+JSON.stringify(found));
+ }
+ const specific=await search('부평 재신경치료 보험',pages);
+ assert.equal(walk(specific.results,node=>node.className==='result')[0]?.href,guide.url,
+  'insurance-specific question should lead to the careful cost/benefits guide first');
+ assert.match(html,/모든 재신경치료에 크라운 교체가 필요한 것도 아니고/);
+});
