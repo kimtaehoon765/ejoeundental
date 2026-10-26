@@ -92,6 +92,7 @@ const urls = [
   { label: 'care route wisdom', url: origin + '/wisdom-tooth.html' },
   { label: 'care route pediatric', url: origin + '/pediatric-orthodontics.html' },
   { label: 'care route scaling', url: origin + '/scaling.html' },
+  { label: 'Google 스케일링 건강보험 재방문 안내', url: origin + '/health/insurance-scaling.html' },
   { label: 'care route cavity', url: origin + '/cavity-treatment.html' },
   { label: 'care route denture', url: origin + '/denture.html' },
   { label: 'care route child', url: origin + '/pediatric-dentistry.html' },
@@ -476,6 +477,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       const remainingSlugs=["gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive"];
       const remainingFinalCount=remainingSlugs.filter(slug=>body.includes('<loc>'+origin+'/'+slug+'</loc>')).length;
       info.push('나머지 FAQ·의료안전·정보 페이지 최종 URL: '+remainingFinalCount+'/16');
+      const scalingInsuranceDates=['scaling','health/insurance-scaling'];
+      const scalingDates= scalingInsuranceDates.filter(slug=>
+       body.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>'));
+      info.push(scalingDates.length===scalingInsuranceDates.length?
+       'Google 실제 개정 스케일링·건강보험 안내 2개 사이트맵 수정일 게시 확인':
+       '스케일링·보험 건강정보 사이트맵 개정일 배포 확인 필요 ('+scalingDates.length+'/2)');
       const breathUpdated=['health/gum-bleeding','gum-health','gum-treatment'];
       const readyCount=breathUpdated.filter(slug=>
        body.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>')).length;
@@ -921,6 +928,28 @@ await Promise.all(urls.map(async ({label,url}) => {
           return body.split(tag).length===2;
         });
       info.push(verified?'의학정보 제목·소개·대표주소·공유 미리보기 일치':'의학정보 공유 카드 최신 반영 확인 필요');
+    }
+    if(label==='care route scaling'){
+      const direct=body.includes('href="/health/insurance-scaling.html#section-4"')&&
+       body.includes('올해 스케일링을 이미 받은 경우의 보험 기준')&&
+       body.includes('올해 다른 치과에서 스케일링을 받으셨나요?');
+      info.push(direct?
+       '스케일링 진료 페이지에서 기존 보험 이용 환자에게 필요한 설명 실제 연결':
+       '스케일링 진료의 반복 보험 적용 도움말 신규 배포 확인 필요');
+    }
+    if(label==='Google 스케일링 건강보험 재방문 안내'){
+      const snippet=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+      const schema=[...body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+       .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
+       .find(x=>x?.['@type']==='MedicalWebPage');
+      const good=snippet.includes('다른 치과')&&snippet.includes('인천 부평구 청천동')&&
+       body.includes('이미 스케일링을 받았다고 해서 필요한 잇몸 검진이나 치주치료까지 모두 불가능한 것은 아닙니다')&&
+       body.includes('스케일링을 반복한다고 항상 보험이 적용되는 것도 아닙니다')&&
+       body.includes('href="/health/periodontal-insurance.html"')&&
+       schema?.description===snippet&&schema?.url===response.url;
+      info.push(good?
+       'Google 스케일링 건강보험 검색설명·재시술 주의점·의료기관 구조화 내용 실제 공개 확인':
+       'Google 스케일링 반복 보험 적용 건강정보 최신 배포 확인 필요');
     }
     if(label==='Google 검색 잇몸 뾰루지·고름 건강정보'){
       const meta=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
