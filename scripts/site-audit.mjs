@@ -163,6 +163,15 @@ function hasFreshCss(html,basename){
  const hubs=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
  for(const pageName of hubs){
    const page=readFileSync(join(root,pageName),'utf8');
+   // Public medical education must disclose the responsible clinician visibly,
+   // not only rely on invisible schema or a homepage footer.
+   const mainBody=page.split('<main class="article" id="health-hub-main">')[1]?.split('</main>')[0]||'';
+   const credentials=['class="hub-clinician-note"','김태훈 원장','고려대학교 의학박사(치과학 전공)',
+     '통합치의학과 전문의','2003년부터 청천동 진료','href="/#doctor"'];
+   if(credentials.some(value=>!mainBody.includes(value))||
+      (mainBody.match(/class="hub-clinician-note"/g)||[]).length!==1){
+     errors.push(pageName+': 환자 교육 책임 의료진·검증 가능한 자격 안내 누락');
+   }
    if(!page.includes('<a class="health-hub-skip" href="#health-hub-main">건강정보 본문으로 바로가기</a>')||
       !page.includes('<main class="article" id="health-hub-main">')||
       !page.includes('href="tel:0325132875"')||
