@@ -187,6 +187,27 @@ function hasFreshCss(html,basename){
    }
  }
 }
+// The 46 public patient guides' clinician identity must remain visible near
+// the beginning of the actual article. This identifies the treating clinic,
+// not an invented individual review/author/date for these educational guides.
+{
+ const guides=html.filter(filename=>filename.includes('/health/')&&filename.endsWith('.html'));
+ if(guides.length!==46)errors.push('의료정보 46편 대상 의료진 안내 검사 누락');
+ for(const filename of guides){
+  const article=readFileSync(filename,'utf8');
+  const body=article.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1]||'';
+  const notices=[...body.matchAll(/class=["']health-clinician-signpost["']/g)];
+  const position=body.indexOf('health-clinician-signpost');
+  const firstHeading=body.indexOf('<h2');
+  const required=['김태훈 원장','고려대학교 의학박사(치과학 전공)',
+    '통합치의학과 전문의','일반적인 건강정보','href="/#doctor"'];
+  if(notices.length!==1||position<0||(firstHeading>=0&&position>firstHeading)||
+    required.some(term=>!body.includes(term))){
+    errors.push('의료정보 책임 의료진 안내 또는 첫 문단 배치 오류: '+filename.slice(root.length+1));
+  }
+ }
+ console.log('Patient health guide clinician attribution audited:',guides.length);
+}
 // CI must parse deployed JavaScript, not merely check that script files exist.
 const javascriptFiles = files.filter(f => f.endsWith('.js') || f.endsWith('.mjs'));
 for (const file of javascriptFiles) {
