@@ -67,6 +67,8 @@ test('onsite search index matches visible homepage title and summary',()=>{
 test('sitemap dates reflect genuine homepage and visit revisions, not invented daily changes',()=>{
  for(const route of ['', 'visit-guide.html']){
   const entry='<loc>https://ejoeundental.com/'+route+'</loc><lastmod>2026-10-26</lastmod>';
-  assert.ok(sitemap.includes(entry),'changed page must have accurate modified date: '+route);
+  const normalized=entry.replace('visit-guide.html</loc>','visit-guide</loc>');
+  assert.ok(sitemap.includes(entry)||sitemap.includes(normalized),
+   'changed page must have an accurate modified date, with or without the published .html route: '+route);
  }
 });
