@@ -156,6 +156,24 @@ await Promise.all(urls.map(async ({label,url}) => {
     const faviconIcoBytes=label==='네이버 소프트 404 파비콘 ICO 개선 확인'?
       new Uint8Array(await response.clone().arrayBuffer()):null;
     const body = await response.text();
+    // Compare a few already-fetched public medical guides with genuinely
+    // revised source content. This is read-only: a stale deployment is reported
+    // explicitly, never confused with a Google indexing or ranking outcome.
+    const latestMedicalCopy=new Map([
+      ['잇몸 건강정보 탐색 경로',['같은 부위에서 계속 피가 나거나','치주낭 깊이']],
+      ['신경치료 건강정보 탐색 경로',['통증이 시작된 시점','교합 조정']],
+      ['보존 진료 연결 건강정보: 보존 원칙',['남아 있는 치질과 치근의 건전성','개별 검사 결과']]
+    ]);
+    if(latestMedicalCopy.has(label)){
+      const needed=latestMedicalCopy.get(label);
+      const current=response.ok&&needed.every(phrase=>body.includes(phrase))&&
+        body.includes('class="health-clinician-signpost"');
+      add('2026-10-26 핵심 환자교육 새 문단 · '+label,
+        current?'실사이트 반영 확인':'추가 확인 필요',
+        current?'원장 정보와 새 임상 설명을 공개 홈페이지 본문에서 확인':
+          'GitHub 소스 수정과 운영 홈페이지 배포는 별개이므로 최신 본문·의료진 정보를 재확인');
+    }
+
     if(response.ok&&[
       '잇몸치료 상세 페이지',
       '재신경치료 이미지 초기 표시',
