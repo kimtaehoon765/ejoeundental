@@ -176,6 +176,22 @@ test('Google Image discovery lists real first-party illustrations only on their 
  assert.equal(imageEntries.find(x=>x.page===home).images.length,2);
  const rootEntry=imageEntries.find(x=>x.page===rootCanal);
  assert.equal(rootEntry.images.length,10);
+ const clinicalSteps=[
+  ['06','기존 충전재 제거','기존 근관 충전재를 제거하는 재신경치료 첫 번째 단계 설명 그림'],
+  ['07','근관 세척·소독','치아 근관 내부를 다시 탐색하고 세척·소독하는 재신경치료 과정 그림'],
+  ['08','근관 형태 정리','근관 상태를 확인하고 충전할 수 있도록 형태를 정리하는 재신경치료 그림'],
+  ['09','새로운 근관 충전','근관을 새로 충전해 밀폐하고 최종 치아 수복을 계획하는 재신경치료 그림']
+ ];
+ const illustrationHtml=readFileSync(path.join(output,'retreatment.html'),'utf8');
+ for(const [number,heading,alt] of clinicalSteps){
+  const imagePath='/assets/retreatment/illustration-'+number+'.webp';
+  const markup=illustrationHtml.match(
+   new RegExp('<img\\b[^>]*src="'+imagePath.replace(/\//g,'\\/')+'"[^>]*>\\s*<h3>([^<]+)<\\/h3>'));
+  assert.ok(markup,'process step image needs a truthful adjacent description: '+number);
+  assert.equal(markup[1],heading,'clinical step heading should match educational illustration');
+  assert.ok(markup[0].includes('alt="'+alt+'"'),
+   'Google Image and screen readers should distinguish clinical steps, not generic numbers: '+number);
+ }
  const primary=origin+'/assets/retreatment/illustration-01.webp';
  assert.ok(rootEntry.images.includes(primary));
  const treatment=readFileSync(path.join(output,'retreatment.html'),'utf8');
