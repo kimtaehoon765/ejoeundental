@@ -163,6 +163,30 @@ await Promise.all(urls.map(async ({label,url}) => {
     const info = ['HTTP ' + response.status, '최종 주소: ' + response.url];
     const server = response.headers.get('server');
     if (server) info.push('서버: ' + server);
+    // Newly added clinical bylines must reach the actual public host, not
+    // merely pass source/build tests. Every expected page already has a normal
+    // HTTP check above, so reuse the response and add no external requests.
+    const doctorBylineRoutes=[
+      '/implant.html','/denture.html','/cavity-treatment.html',
+      '/scaling.html','/wisdom-tooth.html',
+      '/pediatric-dentistry.html','/pediatric-orthodontics.html'
+    ];
+    if(doctorBylineRoutes.includes(new URL(url).pathname)){
+      const expectedName=String(verifiedClinic.footer_representative||'').trim();
+      const bylineCount=(body.match(/<aside class="clinician-byline" /g)||[]).length;
+      const bylineReady=response.ok&&bylineCount===1&&
+        body.includes('이조은치과 · '+expectedName+' 원장')&&
+        body.includes('고려대학교 의학박사(치과학 전공) · 통합치의학과 전문의')&&
+        body.includes('원장이 직접 검진·진단')&&
+        body.includes('href="/#doctor"')&&
+        /href="\/assets\/clinician-byline\.css(?:\?v=[a-f0-9]{12})?"/.test(body);
+      info.push('의료진 실명·자격·원장 직접 진단 안내: '+
+        (bylineReady?'정식 홈페이지 실제 반영 확인':'GitHub 최신 내용과 공개 홈페이지 배포 차이 확인 필요'));
+      add('의료진 안내 실배포 · '+new URL(url).pathname,
+        bylineReady?'최신 반영 확인':'배포·캐시 확인 필요',
+        'HTTP '+response.status+' · 표시 '+bylineCount+'개 · '+expectedName+' 원장 / 치과학 전공 / 전문의 자격 / 진단 안내 비교');
+    }
+
     if (label === '연락처 저장 vCard 배포') {
       const valid=response.status===200&&body.startsWith('BEGIN:VCARD\r\nVERSION:3.0\r\n')&&
        body.includes('FN:이조은치과의원')&&
@@ -218,6 +242,26 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push(ok ? 'www 경로·쿼리 유지 301 정상' : 'www 하위 페이지 301 또는 쿼리 유지 미설정 (Cloudflare 규칙 필요)');
       if (location) info.push('이동 위치: ' + location);
     } else if (label === '정식 도메인 첫 화면') {
+      // Compare the exact four owner-written patient-story links recently
+      // featured on the actual home page. A successful GitHub build is NOT
+      // evidence the custom domain was updated by its deployment provider.
+      const featuredSlugs=[
+        '2026-10-24-bupyeong-swollen-bleeding-gums-visit-dentist',
+        '2026-10-26-cheongcheon-gum-color-change-red-gums-periodontal-care',
+        '2026-10-24-bupyeong-severe-toothache-deep-caries-extraction-vs-root-canal',
+        '2026-10-24-bupyeong-cavity-gi-insurance'
+      ];
+      const sourceHasFeatured=featuredSlugs.every(slug=>homepageSource.includes('href="/stories/'+slug+'/ "'.trim()));
+      const featureSection=body.match(/<section class="section light" id="home-representative-guides"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+      const liveFeatures=featuredSlugs.filter(slug=>featureSection.includes('href="/stories/'+slug+'/"'));
+      const featureReady=response.ok&&sourceHasFeatured&&liveFeatures.length===featuredSlugs.length&&
+        body.includes('id="home-representative-guides-title"')&&
+        body.indexOf('id="home-representative-guides"')<body.indexOf('id="symptoms"');
+      info.push('첫 화면 원장 환자 교육 글: '+(featureReady?'4편 신규 배치 실배포 확인':'실배포 대기/내용 불일치')+
+        ' ('+liveFeatures.length+'/4)');
+      add('홈 첫 화면 원장 글 4편 실제 배포',featureReady?'최신 반영 확인':'배포·캐시 확인 필요',
+        '소스 4편 / 정식 도메인 '+liveFeatures.length+'편 · 잇몸 붓기·색깔 변화·발치 전 신경치료·GI 보험');
+
       // Identify HTTP/3 advertisement for real-device intermittent QUIC errors.
       // This request may use HTTP/1.1/2 and CANNOT validate QUIC itself.
       // Cloudflare zone HTTP/3 is changed only in the provider dashboard.
