@@ -251,7 +251,7 @@ await Promise.all(urls.map(async ({label,url}) => {
         '2026-10-24-bupyeong-severe-toothache-deep-caries-extraction-vs-root-canal',
         '2026-10-24-bupyeong-cavity-gi-insurance'
       ];
-      const sourceHasFeatured=featuredSlugs.every(slug=>homepageSource.includes('href="/stories/'+slug+'/ "'.trim()));
+      const sourceHasFeatured=featuredSlugs.every(slug=>homepageSource.includes('href="/stories/'+slug+'/"'));
       const featureSection=body.match(/<section class="section light" id="home-representative-guides"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
       const liveFeatures=featuredSlugs.filter(slug=>featureSection.includes('href="/stories/'+slug+'/"'));
       const featureReady=response.ok&&sourceHasFeatured&&liveFeatures.length===featuredSlugs.length&&
