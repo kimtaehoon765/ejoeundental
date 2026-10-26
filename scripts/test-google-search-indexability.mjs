@@ -345,3 +345,43 @@ test('Google root canal insurance guide separates repeat treatment, existing cro
  assert.match(hub,/기존 크라운 재사용 가능성과 근관 재치료·보철 비용 구분/);
  assert.ok(sitemap.includes('<loc>'+origin+'/health/insurance-root-canal</loc><lastmod>2026-10-26</lastmod>'));
 });
+
+
+test('Google denture insurance guide distinguishes adjustment, relining and replacement without claiming automatic coverage',()=>{
+ const article=readFileSync(path.join(output,'health/insurance-denture.html'),'utf8');
+ const care=readFileSync(path.join(output,'denture.html'),'utf8');
+ const insurance=readFileSync(path.join(output,'insurance-health.html'),'utf8');
+ const sitemap=readFileSync(path.join(output,'sitemap.xml'),'utf8');
+ const description=article.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+ assert.match(description,/인천 부평구 청천동 이조은치과/);
+ assert.match(description,/부분틀니·완전틀니/);
+ assert.match(description,/조정·수리·개상/);
+ assert.match(description,/다른 치과에서 만든 틀니/);
+ const schema=[...article.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1])).find(x=>x['@type']==='MedicalWebPage');
+ assert.equal(schema?.description,description,'Google medical markup must agree with patient-facing summary');
+ assert.equal(schema?.url,origin+'/health/insurance-denture');
+ assert.equal(schema?.author?.name,'이조은치과');
+ for(const [id,title] of [
+  ['7','틀니가 헐거워졌다면 새로 만들어야 하나요?'],
+  ['8','다른 치과에서 만든 틀니도 조정·수리할 수 있나요?']
+ ]){
+  assert.ok(article.includes('<h2 id="section-'+id+'">'+title+'</h2>'),
+   'patients need their real symptom question in a direct-link heading');
+  assert.ok(article.includes('href="#section-'+id+'">'+title+'</a>'),
+   'the guide contents should point to the exact answer');
+  assert.ok(care.includes('href="/health/insurance-denture.html#section-'+id+'"'),
+   'denture care page must link patients to this answer');
+  assert.ok(insurance.includes('href="/health/insurance-denture.html#section-'+id+'"'),
+   'the insurance topic hub should crosslink patients to this answer');
+ }
+ assert.match(article,/새 틀니 제작.*틀니 조정·수리·개상/);
+ assert.match(article,/접착제로 계속 버티거나 틀니를 직접 갈아내지 마세요/);
+ assert.match(article,/다른 치과에서 제작한 틀니라도 현재 구강과 틀니의 상태를 검사/);
+ assert.match(article,/모든 틀니를 반드시 수리할 수 있는 것은 아닙니다/);
+ assert.match(article,/실제 급여 대상과 본인부담금은 진찰 후 안내합니다/);
+ for(const slug of ['denture','insurance-health','health/insurance-denture']){
+  assert.ok(sitemap.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>'),
+   'Google must receive the actual last-modified date for edited denture content: '+slug);
+ }
+});
