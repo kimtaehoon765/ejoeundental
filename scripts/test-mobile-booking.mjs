@@ -48,3 +48,25 @@ test('mobile homepage offers accessible phone and honest Naver booking fallback'
  assert.match(css,/safe-area-inset-bottom/);
  assert.match(css,/body\.home-page\.music-reopen|body\.home-page \.music-reopen/);
 });
+
+test('owner-confirmed clinic booking ID appears as an actual direct booking link throughout published site',()=>{
+ const url='https://booking.naver.com/booking/13/bizes/1162931';
+ const clinic=JSON.parse(readFileSync('content/site.json','utf8'));
+ assert.equal(clinic.naver_booking_url,url,'owner-provided official booking URL must be retained exactly');
+ const direct=bookingAction(clinic.naver_booking_url);
+ assert.equal(direct.url,url);
+ assert.equal(direct.direct,true,'booking button must not be a search fallback');
+ assert.equal(direct.label,'네이버 예약하기 ↗');
+ assert.equal(direct.aria,'이조은치과 공식 네이버 예약 페이지 새 창 열림');
+
+ const homepage=readFileSync('dist/index.html','utf8');
+ const actions=homepage.match(/<nav class="mobile-booking-actions"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ assert.ok(actions.includes('href="'+url+'"'));
+ assert.ok(actions.includes(direct.label));
+ assert.ok(actions.includes('target="_blank" rel="noopener noreferrer"'));
+ assert.ok(!actions.includes('search.naver.com/search.naver'),'booking is now a direct link, not a search result');
+
+ const search=readFileSync('dist/search.html','utf8');
+ assert.ok(search.includes('data-booking-url="'+url+'"'));
+ assert.ok(search.includes('data-booking-label="'+direct.label+'"'));
+});
