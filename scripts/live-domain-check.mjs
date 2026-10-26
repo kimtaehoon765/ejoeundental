@@ -223,6 +223,11 @@ await Promise.all(urls.map(async ({label,url}) => {
       // Missing headers are deployment signals, never claims of compromise.
       const securityKeys=['x-frame-options','x-content-type-options',
        'referrer-policy','permissions-policy'];
+      const googleVerification=homepageSource.match(/<meta name="google-site-verification" content="([^"]+)">/)?.[1]||'';
+      const googleReady=Boolean(googleVerification)&&
+       body.includes('<meta name="google-site-verification" content="'+googleVerification+'">');
+      info.push(googleReady?'Google Search Console 소유권 확인용 메타 태그 실제 서버에 게시됨':
+       'Google Search Console 소유권 확인 태그 배포 상태 점검 필요 (계정 인증 여부와 별개)');
       const missingHeaders=securityKeys.filter(name=>!response.headers.get(name));
       info.push(missingHeaders.length===0
        ? 'Cloudflare Pages 응답 보안 헤더 4종 반영'
@@ -535,6 +540,23 @@ await Promise.all(urls.map(async ({label,url}) => {
       const hasBreadcrumbSchema=body.includes('"@type":"BreadcrumbList"') &&
         [correctHub,correctHubPublished].some(route=>body.includes('"'+origin+route+'"'));
       const hasCanonical = body.includes('<link rel="canonical" href="' + response.url + '">');
+      // A provider credit is not a fabricated individual author or a claim of
+      // successful Search Console verification. Match live copy to JSON-LD.
+      const medicalPage=[...body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+       .map(match=>{try{return JSON.parse(match[1])}catch{return null}})
+       .find(entry=>entry?.['@type']==='MedicalWebPage'||entry?.['@type']==='WebPage');
+      const clinicAttribution=body.includes('class="health-info-source"')&&
+       body.includes('건강정보 제공: 이조은치과의원')&&
+       body.includes('진료 담당: 김태훈 원장')&&
+       body.includes('고려대학교 의학박사(치과학 전공)')&&
+       body.includes('href="/#doctor"')&&
+       medicalPage?.author?.name==='이조은치과'&&
+       medicalPage.author.url===origin+'/'&&
+       medicalPage.url===response.url;
+      info.push(clinicAttribution?
+       'Google 건강정보 제공 주체·원장 자격 소개·구조화 작성기관 실제 배포 일치':
+       'Google 건강정보 제공 기관과 의료진 소개 신규 배포 확인 필요');
+
       info.push(hasVisible&&hasBreadcrumbSchema&&hasCanonical ? '홈→건강정보→글 이동 및 구조화 데이터 일치' : '탐색 경로 반영 확인 필요');
       const carePanel = body.match(/<nav class="patient-care-journey"[^>]*>([\s\S]*?)<\/nav>/)?.[1] || '';
       const expectedCare = label.includes('잇몸') ? '/gum-treatment.html' : '/retreatment.html';
