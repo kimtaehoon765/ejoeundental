@@ -540,3 +540,17 @@ test('every visible suggested patient search reaches a real article, visit answe
  }
  assert.deepEqual(failures,[],'every search-chip route must be useful, not an empty search page');
 });
+
+
+test('touch-screen query shortcuts have 44px+ target height and preserve keyboard focus',()=>{
+ if(!existsSync('dist/assets/search-page.css'))return;
+ const css=readFileSync('dist/assets/search-page.css','utf8');
+ const suggest=css.match(/\.search-suggestions a\{([^}]+)\}/)?.[1]||'';
+ assert.match(suggest,/display:inline-flex/);
+ assert.match(suggest,/min-height:44px/);
+ assert.match(suggest,/box-sizing:border-box/);
+ assert.match(css,/\.search-suggestions a:focus-visible\{outline:3px/);
+ assert.match(css,/@media\(max-width:600px\)\{[\s\S]*?\.search-suggestions a\{min-height:48px/);
+ const html=readFileSync('dist/search.html','utf8');
+ assert.match(html,/<link rel="stylesheet" href="\/assets\/search-page\.css\?v=[a-f0-9]{12}"/);
+});
