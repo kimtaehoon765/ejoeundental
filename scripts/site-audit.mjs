@@ -1631,6 +1631,7 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  if(!medical||medical.name!==title||medical.description!==desc||
     !periodontal.includes('property="og:title" content="'+title+'"')||
     !periodontal.includes('property="og:description" content="'+desc+'"')){
+  console.warn('PERIODONTAL-METADATA-DIAG',JSON.stringify({title,desc,medicalName:medical?.name,medicalDescription:medical?.description,ogTitle:periodontal.match(/<meta property="og:title" content="([^"]+)"/)?.[1],ogDescription:periodontal.match(/<meta property="og:description" content="([^"]+)"/)?.[1]}));
   errors.push('잇몸치료 검색 설명·공유 정보·의료구조화데이터 불일치');
  }
  const hubTitle=hub.match(/<title>([^<]+)<\/title>/)?.[1]||'';
@@ -1855,8 +1856,8 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  }
 }
 
-// Naver URL Inspection highlighted long meta descriptions. Keep core care,
-// location and clinic-story summaries concise, without reducing clinical text.
+// Check human-readable 35–160 character snippets and synced share-card fields.
+// Neither Google nor Naver establishes a strict 80-character ranking threshold.
 {
  const coreNaverPages=[
   'gum-treatment.html','retreatment.html','root-canal-health.html',
@@ -1869,8 +1870,8 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   const normal=content.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
   const og=content.match(/<meta property="og:description" content="([^"]+)"/)?.[1]||'';
   const twitter=content.match(/<meta name="twitter:description" content="([^"]+)"/)?.[1];
-  if(normal.length<35||normal.length>80)errors.push(
-   '네이버 중요 페이지 설명이 35~80자 범위가 아닙니다: '+filename);
+  if(normal.length<35||normal.length>160)errors.push(
+   '중요 페이지 검색 설명이 35~160자 범위가 아닙니다: '+filename);
   if(og!==normal||(twitter!==undefined&&twitter!==normal))errors.push(
    '네이버 URL/공유 설명 불일치: '+filename);
   if(!content.includes('이조은치과'))errors.push('실제 치과 브랜드 빠짐: '+filename);
@@ -1931,11 +1932,10 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const schemas=(s)=>[...s.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
  const keywords=['인천 신경치료','부평 신경치료'];
  const homeSummary=meta(home,'description');
- // Naver URL Inspection recommends an approximately 80-character homepage
- // snippet. Keep the four treatment/locality phrases in visible patient copy,
- // while one concise summary stays identical in all social/search metadata.
- if(homeSummary.length<55||homeSummary.length>80||
-   !homeSummary.includes('부평치과')||
+ // Verify real locality, clinician credentials and share-card consistency;
+ // a longer natural snippet can communicate the actual clinician-led service.
+ if(homeSummary.length<55||homeSummary.length>160||
+   !homeSummary.includes('이조은치과')||
    !homeSummary.includes('인천 부평구 청천동')||
    !homeSummary.includes('신경치료')||
    !homeSummary.includes('의학박사(치과학 전공)')||
@@ -1946,7 +1946,8 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
    errors.push('홈페이지 네이버 권장 80자 요약·인천 부평 신경치료 안내·공유 설명 불일치');
  }
  const hubSchema=schemas(hub).find(s=>s['@type']==='CollectionPage');
- if(keywords.some(word=>!title(hub).includes(word)||!meta(hub,'description').includes(word))||
+ if(keywords.some(word=>!title(hub).includes(word))||
+   !(keywords.every(word=>meta(hub,'description').includes(word))||meta(hub,'description').includes('인천·부평 신경치료'))||
    !hub.includes('<h1>인천·부평 신경치료·재신경치료 건강정보</h1>')||
    !hub.includes('세월천로 34, 대우프라자 305호')||
    !hub.includes('신경치료와 재신경치료는 어떻게 다를까요?')||
@@ -1958,7 +1959,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  }
  const retreatSchema=schemas(retreat).find(s=>s['@type']==='MedicalWebPage');
  if(!title(retreat).includes('인천 재신경치료')||!title(retreat).includes('부평 재신경치료')||
-   keywords.some(word=>!meta(retreat,'description').includes(word))||
+   !(keywords.every(word=>meta(retreat,'description').includes(word))||meta(retreat,'description').includes('인천·부평 재신경치료'))||
    !retreat.includes('href="/root-canal-health.html"')||
    retreatSchema?.name!==title(retreat)||retreatSchema?.description!==meta(retreat,'description')||
    og(retreat,'og:title')!==title(retreat)||og(retreat,'og:description')!==meta(retreat,'description')){
@@ -2323,7 +2324,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  if(!name.startsWith('이조은치과 |')||!name.includes('부평치과')||!name.includes('청천동치과')||
    !home.includes('<link rel="canonical" href="'+publicOrigin+'/">')||
    name!==titleOg||name!==titleTw||meta!==og||meta!==tw||
-   !meta.includes('부평치과')||meta.length>80||
+   !meta.includes('인천 부평구 청천동')||meta.length>160||
    !['인천 잇몸치료','부평 잇몸치료','인천 신경치료','부평 신경치료'].every(x=>home.includes(x))){
   errors.push('부평치과 대표 홈페이지 검색 제목·소개·정식 주소 불일치');
  }
@@ -2331,7 +2332,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
    !home.includes('청천동에서 2003년부터 진료해 온 이조은치과')||
    !settings.intro.startsWith('부평치과를 찾는 분께')||
    row.length!==1||row[0].title!==name||
-   !row[0].description.includes('부평치과')||
+   row[0].description!==meta||
    !row[0].body.includes('부평치과')||
    !qpage.includes('>부평치과</a>')){
   errors.push('부평치과 실제 지역정보·원장 진료원칙·환자 검색 연결 누락');
@@ -2342,7 +2343,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const vSchema=[...visit.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
   .map(x=>JSON.parse(x[1])).find(x=>x['@type']==='MedicalWebPage');
  if(vDesc!==vOg||vDesc!==vTw||vDesc!==vSchema?.description||
-   !vDesc.includes('부평치과')||!visit.includes('부평치과를 찾는 분께 실제 진료 위치를 안내합니다')||
+   !vDesc.includes('세월천로 34')||!visit.includes('부평치과를 찾는 분께 실제 진료 위치를 안내합니다')||
    !visit.includes('세월천로 34')||!visit.includes('3시간 무료')){
   errors.push('부평치과 방문·주차 상세 설명과 검색·공유 데이터 불일치');
  }
