@@ -10,7 +10,7 @@ const ownerOnlyFiles=["dental-equipment.html","handpiece-maintenance.html","suct
 if(ownerPrivateReady && process.env.OWNER_LIBRARY_MIGRATION_VERIFIED!=='YES_PRIVATE_COPY_AND_LOGIN_TESTED'){
  throw new Error('Owner library migration is not verified. Keep the public copy until private files, login, links and CSV backup are confirmed.');
 }
-const root=process.cwd(),out=path.join(root,'dist');fs.rmSync(out,{recursive:true,force:true});fs.mkdirSync(out,{recursive:true});function cp(src,dst){fs.cpSync(path.join(root,src),path.join(out,dst),{recursive:true})}cp('_headers','_headers');cp('index.html','index.html');cp('404.html','404.html');cp('favicon.svg','favicon.svg');cp('favicon.ico','favicon.ico');cp('google4b5b71e2b560cac2.html','google4b5b71e2b560cac2.html');cp('clinical-archive.html','clinical-archive.html');cp('stories.html','stories.html');cp('search.html','search.html');cp('medical-history.html','medical-history.html')
+const root=process.cwd(),out=path.join(root,'dist');fs.rmSync(out,{recursive:true,force:true});fs.mkdirSync(out,{recursive:true});function cp(src,dst){fs.cpSync(path.join(root,src),path.join(out,dst),{recursive:true})}cp('_headers','_headers');cp('index.html','index.html');cp('doctor.html','doctor.html');cp('404.html','404.html');cp('favicon.svg','favicon.svg');cp('favicon.ico','favicon.ico');cp('google4b5b71e2b560cac2.html','google4b5b71e2b560cac2.html');cp('clinical-archive.html','clinical-archive.html');cp('stories.html','stories.html');cp('search.html','search.html');cp('medical-history.html','medical-history.html')
 cp('visit-guide.html','visit-guide.html');cp('medical-safety-guide.html','medical-safety-guide.html');cp('previsit-checklist.html','previsit-checklist.html');cp('medication-dental-faq.html','medication-dental-faq.html');cp('systemic-disease-dental-faq.html','systemic-disease-dental-faq.html');cp('gum-treatment-faq.html','gum-treatment-faq.html');cp('root-canal-retreatment-faq.html','root-canal-retreatment-faq.html');cp('dental-insurance-faq.html','dental-insurance-faq.html');cp('osteoporosis-medication-dental.html','osteoporosis-medication-dental.html');cp('blood-thinners-dental.html','blood-thinners-dental.html');cp('diabetes-dental-care.html','diabetes-dental-care.html');cp('heart-disease-dental-care.html','heart-disease-dental-care.html');cp('kidney-disease-dental-care.html','kidney-disease-dental-care.html');cp('liver-disease-dental-care.html','liver-disease-dental-care.html');cp('cancer-immunosuppression-dental-care.html','cancer-immunosuppression-dental-care.html');cp('pregnancy-dental-care.html','pregnancy-dental-care.html');if(!ownerPrivateReady)cp('dental-equipment.html','dental-equipment.html');if(!ownerPrivateReady)cp('handpiece-maintenance.html','handpiece-maintenance.html');if(!ownerPrivateReady)cp('suction-maintenance.html','suction-maintenance.html');if(!ownerPrivateReady)cp('compressor-maintenance.html','compressor-maintenance.html');if(!ownerPrivateReady)cp('autoclave-maintenance.html','autoclave-maintenance.html');if(!ownerPrivateReady)cp('curing-light-maintenance.html','curing-light-maintenance.html');if(!ownerPrivateReady)cp('scaler-maintenance.html','scaler-maintenance.html');if(!ownerPrivateReady)cp('dental-chair-maintenance.html','dental-chair-maintenance.html');if(!ownerPrivateReady)cp('intraoral-camera-maintenance.html','intraoral-camera-maintenance.html');if(!ownerPrivateReady)cp('dental-xray-maintenance.html','dental-xray-maintenance.html');if(!ownerPrivateReady)cp('dental-materials.html','dental-materials.html');if(!ownerPrivateReady)cp('glass-ionomer-guide.html','glass-ionomer-guide.html');if(!ownerPrivateReady)cp('root-canal-materials-guide.html','root-canal-materials-guide.html');if(!ownerPrivateReady)cp('composite-bonding-guide.html','composite-bonding-guide.html');if(!ownerPrivateReady)cp('impression-materials-guide.html','impression-materials-guide.html');if(!ownerPrivateReady)cp('dental-cements-guide.html','dental-cements-guide.html');if(!ownerPrivateReady)cp('endodontic-instruments-guide.html','endodontic-instruments-guide.html');if(!ownerPrivateReady)cp('periodontal-instruments-guide.html','periodontal-instruments-guide.html');if(!ownerPrivateReady)cp('extraction-instruments-guide.html','extraction-instruments-guide.html');if(!ownerPrivateReady)cp('equipment-log.html','equipment-log.html');cp('gum-treatment.html','gum-treatment.html');cp('scaling.html','scaling.html');cp('cavity-treatment.html','cavity-treatment.html');cp('tooth-preservation.html','tooth-preservation.html');cp('cervical-abrasion.html','cervical-abrasion.html');cp('insured-care.html','insured-care.html');cp('retreatment.html','retreatment.html');// Resolve optional Pages CMS illustrations during build time instead of fetching
 // retreatment-images.json on each patient visit and swapping images after load.
 const retreatmentPath=path.join(out,'retreatment.html');
@@ -614,7 +614,7 @@ for(const entry of entries){
 // were missing from the website's own search. Add only this explicit allowlist:
 // never sweep admin, owner-only maintenance files, or unpublished documents into
 // the public index. Article text comes from <main>, not global navigation.
-const publicStandaloneSearchSlugs=["visit-guide","medical-safety-guide","previsit-checklist","gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive","stories","tooth-preservation"];
+const publicStandaloneSearchSlugs=["doctor","visit-guide","medical-safety-guide","previsit-checklist","gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive","stories","tooth-preservation"];
 const sourceSitemapForSearch=fs.readFileSync(path.join(root,'sitemap.xml'),'utf8');
 for(const slug of publicStandaloneSearchSlugs){
  const sourceUrl='https://ejoeundental.com/'+slug+'.html';
@@ -990,6 +990,13 @@ function alignCanonicalUrls(folder){
  }
 }
 alignCanonicalUrls(out);
+// The doctor's public ProfilePage and breadcrumb URLs follow the preview host too.
+// Production's later origin pass restores ejoeundental.com before clean-route normalization.
+{
+ const f=path.join(out,'doctor.html');
+ const h=fs.readFileSync(f,'utf8');
+ fs.writeFileSync(f,h.replaceAll('https://ejoeundental.com/','https://ejoeundental.pages.dev/'));
+}
 // The copied homepage contains schema.org URLs written for the public domain.
 // During a preview build, align all homepage JSON-LD references with the
 // preview canonical as well; production later restores the public domain.
@@ -1321,7 +1328,7 @@ for(const issue of healthMetadataIssues.slice(0,30))console.warn('Health SEO:',i
   const provider='<aside class="health-info-source" aria-label="건강정보 제공 기관과 진료 담당 의료진">'+
    '<strong>건강정보 제공: 이조은치과의원</strong>'+
    '<span>진료 담당: 김태훈 원장 · 고려대학교 의학박사(치과학 전공) · 통합치의학과 전문의</span>'+
-   '<a href="/#doctor">의료진 소개와 진료 원칙 확인 →</a></aside>';
+   '<a href="/doctor.html">의료진 소개와 진료 원칙 확인 →</a></aside>';
   html=html.replace(toc,provider+toc);
   const schemas=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
   if(schemas.length!==1)throw new Error('Health schema absent or repeated: '+name);
@@ -2760,7 +2767,7 @@ if(selectedPublicOrigin==='https://ejoeundental.com'){
 // Align *absolute* canonical, Open Graph and structured-data references while
 // retaining existing .html files and internal links for backward compatibility.
 if(selectedPublicOrigin==='https://ejoeundental.com'){
- const remainingPublishedSlugs=["gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive"];
+ const remainingPublishedSlugs=["doctor","gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive"];
  let updated=0;
  function normalizeRemainingPublishedUrls(dir){
   for(const entry of fs.readdirSync(dir,{withFileTypes:true})){
@@ -2788,7 +2795,7 @@ if(selectedPublicOrigin==='https://ejoeundental.com'){
    throw new Error('Unaligned final URL for remaining patient resource: '+slug);
   }
  }
- console.log('Last 16 clinic and patient-safety page URLs aligned:',remainingPublishedSlugs.length,'pages;',updated,'public text assets');
+ console.log('Clinic and patient-safety page URLs aligned:',remainingPublishedSlugs.length,'pages;',updated,'public text assets');
 }
 
 // 16 standalone public pages were missing consistent navigation between FAQs,
