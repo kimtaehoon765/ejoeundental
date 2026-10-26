@@ -249,6 +249,29 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push(doctorIdentityReady?
        'Google 의료진 실명·진료 담당 소개·의료기관 Person/Dentist 구조화 관계 최신 공개 확인':
        'Google 의료진 실명/진료기관 구조화 관계 최신 배포 확인 필요');
+      const expectedHomeTitle=homepageSource.match(/<title>([^<]+)<\/title>/)?.[1]||'';
+      const expectedHomeDescription=homepageSource.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+      const clinicTitle=body.match(/<title>([^<]+)<\/title>/)?.[1]||'';
+      const clinicDescription=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+      const websiteGraph=[...body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+       .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
+       .find(d=>d?.['@type']==='WebSite');
+      const matchingNames=['이조은치과의원','이-조은치과의원'];
+      const aliasesMatch=JSON.stringify(websiteGraph?.alternateName)===JSON.stringify(matchingNames)&&
+       JSON.stringify(clinicGraph?.alternateName)===JSON.stringify(matchingNames)&&
+       websiteGraph?.name==='이조은치과'&&clinicGraph?.name===websiteGraph.name&&
+       websiteGraph?.publisher?.['@id']===clinicGraph?.['@id'];
+      const brandedResultsReady=clinicTitle===expectedHomeTitle&&
+       clinicTitle.startsWith('이조은치과 |')&&
+       clinicDescription===expectedHomeDescription&&
+       clinicDescription.includes('부평치과')&&
+       clinicDescription.includes('청천동치과')&&
+       body.includes('class="clinic-name-variant"')&&
+       body.includes('병원정보 사이트 표기: <strong>이-조은치과의원</strong>')&&
+       body.includes('<link rel="canonical" href="'+origin+'/">')&&aliasesMatch;
+      info.push(brandedResultsReady?
+       '공식 이조은치과 브랜드 우선 제목·외부 등록명 병기·주소·동일한 Google WebSite/Dentist 기관 정보 실제 공개 확인':
+       '구글 이조은치과 공식 명칭·등록명 연결·검색 제목 최신 배포 확인 필요');
       const missingHeaders=securityKeys.filter(name=>!response.headers.get(name));
       info.push(missingHeaders.length===0
        ? 'Cloudflare Pages 응답 보안 헤더 4종 반영'
