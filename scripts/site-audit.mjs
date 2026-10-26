@@ -2211,7 +2211,8 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const expected=['/health/gum-bleeding.html','/health/swollen-gums.html',
                  '/health/loose-tooth.html','/health/scaling-vs-periodontal.html'];
  if(links.length!==4||links.some((v,i)=>v!==expected[i])||
-    !gum.includes('잇몸에서 <a href="/health/gum-pus.html">고름이 나오거나</a>')||
+    !gum.includes('href="/health/gum-pus.html">뾰루지·물집처럼 보이는 돌기가 생기거나 고름이 나오는 경우</a>')||
+    !gum.includes('뾰루지가 모두 치주염은 아니며')||
     !gum.includes('href="/health/periodontal-insurance.html"')||
     !gum.includes('숨쉬기 어렵다면 즉시 응급 진료를 받으세요')||
     !css.includes('.article .gum-symptom-choices a:focus-visible')||
