@@ -2649,6 +2649,44 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  console.log('Clinic story official booking buttons checked:',correctStories,'of',directories.length);
 }
 
+/* Verify public AI-search crawl eligibility and real healthcare provider provenance. */
+{
+ const bots=readFileSync(join(root,'robots.txt'),'utf8');
+ const group=bots.split(/^User-agent: OAI-SearchBot\s*$/m)[1]?.split(/^User-agent:|^Sitemap:/m)[0]||'';
+ if(!group.includes('Allow: /')||!group.includes('Disallow: /admin/')||
+   !bots.includes('Sitemap: '+publicOrigin+'/sitemap.xml'))
+  errors.push('AI 검색: 공개 페이지 크롤링·관리자 제외·사이트맵 설정 오류');
+ const expected=publicOrigin+'/doctor'+(publicOrigin.endsWith('.pages.dev')?'.html':'');
+ const doctorFile=join(root,'doctor.html');
+ if(!existsSync(doctorFile))errors.push('AI 검색: 의료진 프로필 누락');
+ else{
+  const doctor=readFileSync(doctorFile,'utf8');
+  if(!doctor.includes('<link rel="canonical" href="'+expected+'">')||
+     !doctor.includes('name="robots" content="index,follow,max-image-preview:large"'))
+   errors.push('AI 검색: 의료진 프로필 공개 주소·색인 설정 오류');
+  const profile=[...doctor.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
+   .find(x=>x?.['@type']==='ProfilePage');
+  if(profile?.url!==expected||profile?.mainEntity?.name!=='김태훈'||
+     profile?.mainEntity?.['@id']!==publicOrigin+'/#doctor-person'||
+     profile?.publisher?.['@id']!==publicOrigin+'/#clinic')
+   errors.push('AI 검색: 의료진 사람·치과 구조화 데이터 연결 오류');
+ }
+ const home=readFileSync(join(root,'index.html'),'utf8');
+ const dentist=[...home.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
+  .find(x=>x?.['@type']==='Dentist');
+ if(dentist?.employee?.url!==expected||dentist.employee?.['@id']!==publicOrigin+'/#doctor-person')
+  errors.push('AI 검색: 치과 의료진 신원 URL 불일치');
+ for(const n of ['gum-treatment','retreatment','insured-care','cervical-abrasion','tooth-preservation']){
+  const c=readFileSync(join(root,n+'.html'),'utf8');
+  if(!c.includes('href="/doctor.html"')||!c.includes('name="description"')||
+     /name="robots" content="[^"]*noindex/.test(c))
+   errors.push('AI 검색: 진료 안내 스니펫·의료진 소개 연결 오류: '+n);
+ }
+ console.log('AI search crawl and medical identity static checks passed when error count is zero');
+}
+
 // Report every audit error, including the checks above this final line.
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);
@@ -2725,43 +2763,3 @@ if (errors.length) process.exitCode = 1;
   }
  }
 }
-
-
-/* Verify public AI-search crawl eligibility and real healthcare provider provenance. */
-{
- const bots=readFileSync(join(root,'robots.txt'),'utf8');
- const group=bots.split(/^User-agent: OAI-SearchBot\s*$/m)[1]?.split(/^User-agent:|^Sitemap:/m)[0]||'';
- if(!group.includes('Allow: /')||!group.includes('Disallow: /admin/')||
-   !bots.includes('Sitemap: '+publicOrigin+'/sitemap.xml'))
-  errors.push('AI 검색: 공개 페이지 크롤링·관리자 제외·사이트맵 설정 오류');
- const expected=publicOrigin+'/doctor'+(publicOrigin.endsWith('.pages.dev')?'.html':'');
- const doctorFile=join(root,'doctor.html');
- if(!existsSync(doctorFile))errors.push('AI 검색: 의료진 프로필 누락');
- else{
-  const doctor=readFileSync(doctorFile,'utf8');
-  if(!doctor.includes('<link rel="canonical" href="'+expected+'">')||
-     !doctor.includes('name="robots" content="index,follow,max-image-preview:large"'))
-   errors.push('AI 검색: 의료진 프로필 공개 주소·색인 설정 오류');
-  const profile=[...doctor.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
-   .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
-   .find(x=>x?.['@type']==='ProfilePage');
-  if(profile?.url!==expected||profile?.mainEntity?.name!=='김태훈'||
-     profile?.mainEntity?.['@id']!==publicOrigin+'/#doctor-person'||
-     profile?.publisher?.['@id']!==publicOrigin+'/#clinic')
-   errors.push('AI 검색: 의료진 사람·치과 구조화 데이터 연결 오류');
- }
- const home=readFileSync(join(root,'index.html'),'utf8');
- const dentist=[...home.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
-  .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
-  .find(x=>x?.['@type']==='Dentist');
- if(dentist?.employee?.url!==expected||dentist.employee?.['@id']!==publicOrigin+'/#doctor-person')
-  errors.push('AI 검색: 치과 의료진 신원 URL 불일치');
- for(const n of ['gum-treatment','retreatment','insured-care','cervical-abrasion','tooth-preservation']){
-  const c=readFileSync(join(root,n+'.html'),'utf8');
-  if(!c.includes('href="/doctor.html"')||!c.includes('name="description"')||
-     /name="robots" content="[^"]*noindex/.test(c))
-   errors.push('AI 검색: 진료 안내 스니펫·의료진 소개 연결 오류: '+n);
- }
- console.log('AI search crawl and medical identity static checks passed when error count is zero');
-}
-if(errors.length)process.exitCode=1;
