@@ -1151,3 +1151,41 @@ body.home-page #main-content>.hero .hero-actions{margin:17px 0 12px}
 #location .clinic-name-variant{font-size:13px;line-height:1.7;color:#405c51;margin:8px 0 16px;word-break:keep-all}
 #location .clinic-name-variant strong{font-weight:700}
 @media(max-width:600px){#location .clinic-name-variant{font-size:12px;line-height:1.65;margin:6px 0 12px}}
+
+/* Original patient education, reachable from the homepage without a dropdown.
+   Give actual symptoms precedence over slogans or keyword-only text. */
+#focus-care .home-representative-guides{
+ margin:24px 0 22px;padding:20px 21px;background:#f4f9f4;
+ border:1px solid #cbded0;border-radius:14px
+}
+#focus-care .home-representative-guides h3{
+ margin:0 0 9px;color:#204e39;font-size:clamp(19px,2.6vw,23px);line-height:1.45
+}
+#focus-care .home-representative-guides>p{margin:0 0 16px;font-size:15px;line-height:1.8}
+#focus-care .home-representative-guide-grid{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px
+}
+#focus-care .home-representative-guide-grid a{
+ display:flex;flex-direction:column;justify-content:center;box-sizing:border-box;
+ min-height:86px;padding:13px 16px;background:#fff;border:1px solid #d2e3d6;
+ border-radius:10px;color:#1e5239;text-decoration:none;line-height:1.55;min-width:0
+}
+#focus-care .home-representative-guide-grid a strong{
+ color:#194c34;font-size:16px;line-height:1.5;font-weight:750
+}
+#focus-care .home-representative-guide-grid a span{
+ font-size:14px;color:#41614e;margin-top:5px;line-height:1.55
+}
+#focus-care .home-representative-guide-grid a:hover{
+ background:#edf6ee;border-color:#5c9271
+}
+#focus-care .home-representative-guide-grid a:focus-visible{
+ outline:3px solid #b18336;outline-offset:3px
+}
+@media(max-width:640px){
+ #focus-care .home-representative-guides{padding:15px 14px;margin:18px 0}
+ #focus-care .home-representative-guide-grid{grid-template-columns:1fr;gap:8px}
+ #focus-care .home-representative-guide-grid a{min-height:72px;padding:13px 12px}
+ #focus-care .home-representative-guide-grid a strong{font-size:15px}
+ #focus-care .home-representative-guide-grid a span{font-size:13px}
+}
