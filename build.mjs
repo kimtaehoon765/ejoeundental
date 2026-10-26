@@ -3082,8 +3082,8 @@ function brandPublicPages(dir){
   brandedDocumentCount++;
  }
 }
-// Mobile-first phone and Naver reservation discovery. Until the clinic gives
-// its exact official booking URL, the label explicitly says Naver search.
+// Build server-rendered mobile, desktop and visit-guide booking links from the
+// same owner-confirmed URL, with a labeled search fallback only when unset.
 {
  const homepageFile=path.join(out,'index.html');
  const page=fs.readFileSync(homepageFile,'utf8');
@@ -3097,8 +3097,20 @@ function brandPublicPages(dir){
   '<a class="mobile-booking-naver" href="'+safe(action.url)+'" target="_blank" rel="noopener noreferrer"'+
   ' aria-label="'+safe(action.aria)+'">'+safe(action.label)+'</a>'+
   '</nav>';
- fs.writeFileSync(homepageFile,page.replace(marker,buttons));
- console.log('Mobile booking action:',action.direct?'verified booking URL':'labeled Naver search (official booking URL not yet provided)');
+ const heroMarker='<!-- BUILD_NAVER_BOOKING_HERO -->';
+ if(page.split(heroMarker).length!==2)throw new Error('Expected exactly one desktop hero booking placeholder');
+ const visitMarker='<!-- BUILD_NAVER_BOOKING_VISIT -->';
+ const safeUrl=safe(action.url);
+ const heroButton='<a class="btn hero-booking" href="'+safeUrl+'" target="_blank" rel="noopener noreferrer" aria-label="'+safe(action.aria)+'">'+safe(action.label)+'</a>';
+ const homepage=page.replace(marker,buttons).replace(heroMarker,heroButton);
+ fs.writeFileSync(homepageFile,homepage);
+ const visitFile=path.join(out,'visit-guide.html');
+ const visitHtml=fs.readFileSync(visitFile,'utf8');
+ if(visitHtml.split(visitMarker).length!==2)throw new Error('Expected exactly one visit-guide booking placeholder');
+ const visitButton='<a class="quick-route visit-booking" href="'+safeUrl+'" target="_blank" rel="noopener noreferrer" aria-label="'+safe(action.aria)+'">'+safe(action.label)+'</a>';
+ fs.writeFileSync(visitFile,visitHtml.replace(visitMarker,visitButton));
+ console.log('Naver booking actions:',action.direct?'owner-confirmed direct booking URL':'honest Naver search fallback',
+  '(mobile, desktop hero and visit guide)');
 }
 brandPublicPages(out);
 const icoBytes=fs.readFileSync(path.join(out,'favicon.ico'));
