@@ -13,7 +13,7 @@ for(const [topic,care] of Object.entries(careRoutes)){
   const section=archive.split('<details class="archive-blog-group" id="archive-group-'+topic+'"')[1]
    ?.split('</details>')[0]||'';
   assert.ok(section,'topic '+topic+' must be an actual categorized group');
-  const grouped=Number(section.match(/class="archive-blog-count">(\\d+)편<\\/span>/)?.[1]);
+  const grouped=Number(section.split('class="archive-blog-count">')[1]?.split('편')[0]);
   assert.ok(Number.isInteger(grouped)&&grouped>0,'archive group count missing');
   const actualLinks=(section.match(/<li><a href="https:\/\/blog\.naver\.com\//g)||[]).length;
   assert.equal(grouped,actualLinks,'the classified Naver originals count must match actual links');
