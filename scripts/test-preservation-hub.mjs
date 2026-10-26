@@ -13,7 +13,10 @@ test('preservation hub has one authoritative canonical and is discoverable by re
  assert.match(page,/<html lang="ko">/);
  assert.equal((page.match(/<h1\b/g)||[]).length,1);
  assert.match(page,/<title>부평 자연치아 보존/);
- assert.ok(page.includes('href="'+origin+'/tooth-preservation.html"'));
+ assert.ok(page.includes('href="'+origin+'/tooth-preservation"'),
+  'natural-tooth canonical must match the final extensionless published URL');
+ assert.ok(sitemap.includes('<loc>'+origin+'/tooth-preservation</loc>'),
+  'natural-tooth sitemap must list the final canonical, not a redirected .html URL');
  assert.ok(sitemap.includes('<loc>'+origin+'/tooth-preservation'));
  assert.ok(homepage.includes('href="/tooth-preservation.html"'));
  assert.ok(directory.includes('href="/tooth-preservation.html"'));
