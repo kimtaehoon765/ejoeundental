@@ -110,6 +110,7 @@ html{scroll-padding-top:24px}#symptom-search{scroll-margin-top:24px}@media(prefe
 .search-visit-answer>strong{display:block;font-size:18px;line-height:1.55;margin:0 0 8px}
 .search-visit-answer>p{font-size:15px;line-height:1.75;margin:6px 0;word-break:keep-all}
 .search-visit-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:13px}
+.search-visit-actions-with-booking{grid-template-columns:repeat(4,minmax(0,1fr))}
 .search-visit-actions>a{
  display:flex;justify-content:center;align-items:center;box-sizing:border-box;
  min-height:50px;min-width:0;padding:10px 8px;border:1px solid #accab9;
