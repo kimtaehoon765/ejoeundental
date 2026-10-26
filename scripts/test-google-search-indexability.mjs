@@ -216,3 +216,33 @@ test('Google Image discovery lists real first-party illustrations only on their 
  assert.ok(siteMap.includes('<loc>'+rootCanal+'</loc><lastmod>2026-10-26</lastmod>'),
   'Google must see the genuine treatment-page update date');
 });
+
+
+test('patient bad breath and gingival bleeding search have a complete accurate indexed answer',()=>{
+ const target='health/gum-bleeding';
+ const html=readFileSync(path.join(output,target+'.html'),'utf8');
+ const hub=readFileSync(path.join(output,'gum-health.html'),'utf8');
+ const treatment=readFileSync(path.join(output,'gum-treatment.html'),'utf8');
+ const sitemap=readFileSync(path.join(output,'sitemap.xml'),'utf8');
+ const description=html.match(/<meta name="description" content="([^"]+)"/)?.[1];
+ assert.ok(description?.includes('입냄새도 걱정된다면'),'patient symptom snippet must not be restricted to textbook terms');
+ assert.ok(description.includes('치주낭 검사')&&description.includes('혀 설태·구강건조'));
+ assert.ok(html.includes('<meta property="og:description" content="'+description+'">'));
+ const sections=[...html.matchAll(/<h2\b[^>]*id="section-(\d+)"[^>]*>/g)].map(m=>Number(m[1]));
+ assert.ok(sections.includes(8),'halitosis and gum bleeding should be a clearly accessible article section');
+ assert.match(html,/<a href="#section-8">입냄새가 함께 난다면 잇몸 때문일까요\?<\/a>/);
+ assert.match(html,/입냄새만으로 치주염이라고 진단할 수는 없습니다/);
+ assert.match(html,/구강 밖의 원인이 관여할 수도 있습니다/);
+ assert.match(html,/가글로 잠시 냄새를 가리는 것만으로 출혈 원인이나 치주낭 문제가 해결되는 것은 아닙니다/);
+ assert.match(hub,/href="\/health\/gum-bleeding(?:\.html)?#section-8">입냄새와 잇몸 출혈 건강정보<\/a>/);
+ assert.match(treatment,/입냄새나 고름이 반복되면 구강·치주 상태를 검사해 원인을 구분합니다/);
+ for(const slug of ['health/gum-bleeding','gum-health','gum-treatment']){
+  assert.ok(sitemap.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>'),
+    slug+' Google update date must reflect the actual edited patient content');
+ }
+ const medical=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1])).find(obj=>obj['@type']==='MedicalWebPage');
+ assert.equal(medical?.description,description,'medical structured data must agree with the real search snippet');
+ assert.equal(medical?.author?.name,'이조은치과');
+ assert.equal(medical?.url,origin+'/'+target);
+});
