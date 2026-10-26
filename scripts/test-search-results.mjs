@@ -590,3 +590,30 @@ test('production search index includes original bad-breath education when built'
  const topFive=walk(results,node=>node.className==='result').slice(0,5).map(p=>p.href);
  assert.ok(topFive.includes('/health/gum-bleeding.html'));
 });
+
+
+test('patient queries about failed GI restoration and resin insurance link to cautious material guidance',async()=>{
+ const html=readFileSync(new URL('../health/insurance-cervical.html',import.meta.url),'utf8');
+ const guide={
+  url:'/health/insurance-cervical.html',
+  title:html.match(/<title>([^<]+)<\/title>/)?.[1],
+  description:html.match(/<meta name="description" content="([^"]+)"/)?.[1],
+  body:html.replace(/<[^>]+>/g,' ')
+ };
+ const pages=[
+  {url:'/cervical-abrasion.html',title:'치경부마모증 GI 수복',description:'GI 재료와 치료 방법',body:'치아 결손을 검사합니다.'},
+  {url:'/insured-care.html',title:'치과 건강보험 진료',description:'건강보험 급여 상담',body:'진단에 따른 보험 진료'},
+  guide,
+  {url:'/health/abrasion-sensitive.html',title:'찬물에 이가 시린 이유',description:'시린 이 치료',body:'치경부 결손'}
+ ];
+ for(const query of [
+  'GI 수복물이 떨어졌어요','GI 떨어졌어요','지아이 떨어졌어요',
+  '부평 GI 수복 떨어짐','레진 GI 보험 차이','인천 레진 GI 보험 차이','GI 레진 보험'
+ ]){
+  const {results}=await search(query,pages);
+  const ranked=walk(results,node=>node.className==='result').slice(0,3).map(node=>node.href);
+  assert.equal(ranked[0],guide.url,
+   query+' should prioritize the factual GI restoration insurance guidance; got '+JSON.stringify(ranked));
+ }
+ assert.match(html,/무조건 무료 재치료나 보험 적용을 약속할 수는 없습니다/);
+});
