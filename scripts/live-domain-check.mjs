@@ -86,6 +86,7 @@ const urls = [
   { label: '재신경치료 글 진료 연결 확인', url: origin + '/stories/2026-10-24-incheon-root-canal-tooth-gum-swelling-retreatment/' },
   { label: '잇몸치료 상세 페이지', url: origin + '/gum-treatment.html' },
   { label: '재신경치료 이미지 초기 표시', url: origin + '/retreatment.html' },
+  { label: '재신경치료 과정 글·삽화 바로가기', url: origin + '/health/root-canal-retreatment-process.html' },
   { label: 'care route implant', url: origin + '/implant.html' },
   { label: 'care route tmj', url: origin + '/tmj-care.html' },
   { label: 'care route wisdom', url: origin + '/wisdom-tooth.html' },
@@ -490,6 +491,9 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push(imageMapReady?
        'Google 이미지 사이트맵: 병원 창작 이미지 2개·재신경치료 삽화 10개 및 실제 수정일 공개 확인':
        'Google 이미지 사이트맵 최신 배포 확인 필요 (실제 이미지 '+imageLocs.length+'/12)');
+      info.push(body.includes('<loc>'+origin+'/health/root-canal-retreatment-process</loc><lastmod>2026-10-26</lastmod>')?
+       'Google 재신경치료 과정 건강정보의 실제 수정일 게시 확인':
+       'Google 재신경치료 과정 건강정보 최근 수정일 최신 배포 확인 필요');
       const revised=['gum-health','root-canal-health','health/gum-pus'];
       const updated=revised.filter(slug=>
         body.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>'));
@@ -781,6 +785,17 @@ await Promise.all(urls.map(async ({label,url}) => {
       const hasDimensions=allImages.length===10 && allImages.every(x=>/\bwidth="\d+"/.test(x[0])&&/\bheight="\d+"/.test(x[0]));
       info.push(direct?'이미지 10개 첫 HTML 반영·추가 JSON 요청 제거':'실시간 그림 교체 스크립트 또는 개수 확인 필요');
       info.push(hasDimensions?'이미지 원본 크기 지정 확인':'이미지 크기 정보 확인 필요');
+      const processAlts=[
+       '기존 근관 충전재를 제거하는 재신경치료 첫 번째 단계 설명 그림',
+       '치아 근관 내부를 다시 탐색하고 세척·소독하는 재신경치료 과정 그림',
+       '근관 상태를 확인하고 충전할 수 있도록 형태를 정리하는 재신경치료 그림',
+       '근관을 새로 충전해 밀폐하고 최종 치아 수복을 계획하는 재신경치료 그림'
+      ];
+      const informative=processAlts.every(alt=>body.includes('alt="'+alt+'"'))&&
+       body.includes('<h2 id="retreatment-procedure">재신경치료는 어떻게 진행될까요?</h2>');
+      info.push(informative?
+       'Google 재신경치료 4단계 삽화 설명·시각자료 앵커 실제 공개 확인':
+       '재신경치료 4단계 삽화의 상세 대체 텍스트 최신 배포 확인 필요');
       const diagram=origin+'/assets/retreatment/illustration-01.webp';
       const imageSchema=[...body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
        .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
@@ -794,6 +809,12 @@ await Promise.all(urls.map(async ({label,url}) => {
        'Google 재신경치료 대표 삽화 메타데이터 최신 배포 확인 필요');
       info.push(body.includes('<strong>고려대학교 의학박사(치과학 전공) · 통합치의학과 전문의</strong>')?
        '재신경치료 페이지 원장 자격·전공 정확히 표시':'재신경치료 페이지 원장 전공 표기 확인 필요');
+    } else if (label === '재신경치료 과정 글·삽화 바로가기') {
+      const linked=body.includes('href="/retreatment.html#retreatment-procedure"')&&
+       body.includes('그림으로 보는 재신경치료 4단계')&&
+       body.includes('단계와 방문 횟수는 실제 치아 상태에 따라 달라집니다');
+      info.push(linked?'Google 환자 교육 글에서 정확한 재신경치료 4단계 그림으로 실제 이동 가능':
+       '재신경치료 과정 교육 글의 시각자료 직접 연결 최신 배포 확인 필요');
     } else if (label === '잇몸치료 상세 페이지') {
       info.push('치료정보: ' + (body.includes('잇몸치료')?'있음':'미확인'));
       info.push(body.includes('<strong>고려대학교 의학박사(치과학 전공) · 통합치의학과 전문의</strong>')?
