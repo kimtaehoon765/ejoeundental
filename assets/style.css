@@ -809,3 +809,12 @@ main.article .note a[href="/#location"]:focus-visible{
 .hero .art.hero-artwork::before{content:none;display:none}
 .hero .hero-artwork img{display:block;width:100%;height:auto;aspect-ratio:650 / 543;object-fit:cover;border-radius:18px}
 @media(max-width:600px){.hero .art.hero-artwork{height:auto;max-width:340px;box-shadow:8px 10px 0 #e9e7d9}.hero .hero-artwork img{border-radius:15px}}
+
+/* Health information source: visible, verifiable clinic attribution for
+ * patient education. Do not mistake this for an invented review date. */
+.article .health-info-source{display:flex;flex-wrap:wrap;align-items:center;gap:5px 14px;margin:22px 0 18px;padding:12px 16px;background:#f1f6f2;border:1px solid #cadbce;border-left:4px solid #33785f;border-radius:8px;font-size:14px;line-height:1.6;color:#254c3e}
+.article .health-info-source strong{font-size:15px;font-weight:750}
+.article .health-info-source span{flex-basis:100%;word-break:keep-all}
+.article .health-info-source a{display:inline-block;min-height:44px;padding:8px 0;color:#155f47;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.article .health-info-source a:focus-visible{outline:3px solid #b28330;outline-offset:3px}
+@media(max-width:600px){.article .health-info-source{margin:16px 0 13px;padding:11px 13px;font-size:13px}.article .health-info-source strong{font-size:14px}.article .health-info-source a{min-height:48px;padding:11px 0}}
