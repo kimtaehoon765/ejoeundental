@@ -22,7 +22,7 @@ test('Google sitemap uses only live, indexable, self-canonical clinic pages',()=
  const locs=[...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
  assert.ok(locs.length>=150,'clinic sitemap must retain existing indexed health and original stories');
  assert.equal(locs.length,new Set(locs).size,'duplicate sitemap addresses dilute crawl signals');
- assert.ok(!xml.includes('pages.dev'),'temporary preview host must not be in Google's sitemap');
+ assert.ok(!xml.includes('pages.dev'),"temporary preview host must not be in Google sitemap");
  for(const loc of locs){
   const url=new URL(loc);
   assert.equal(url.origin,origin,'sitemap must only publish the HTTPS canonical domain');
