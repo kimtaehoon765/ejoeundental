@@ -1127,3 +1127,15 @@ body.home-page #main-content>.hero .hero-actions{margin:17px 0 12px}
  outline-offset:3px}
 @media(max-width:600px){.hero .hero-local-intro{margin:4px 0 15px;
  font-size:13px;line-height:1.75}}
+
+/* Topic jump links make the original owner blog archive reachable in one tap.
+   Existing 333 original links remain intact below these small shortcuts. */
+#stories .owner-blog-topic-jumps{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 19px}
+#stories .owner-blog-topic-jumps a{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;
+ min-height:44px;padding:8px 13px;border:1px solid #c7d7c9;border-radius:9px;background:#fafcf7;
+ color:#24523e;font-size:13px;font-weight:700;line-height:1.45;text-align:center;word-break:keep-all}
+#stories .owner-blog-topic-jumps a:hover{background:#e6f0e6;border-color:#71947b}
+#stories .owner-blog-topic-jumps a:focus-visible{outline:3px solid #a47b33;outline-offset:3px}
+@media(max-width:600px){#stories .owner-blog-topic-jumps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ #stories .owner-blog-topic-jumps a{font-size:12px;min-width:0;padding:8px 7px;min-height:48px}}
+@media(max-width:350px){#stories .owner-blog-topic-jumps{grid-template-columns:1fr}}
