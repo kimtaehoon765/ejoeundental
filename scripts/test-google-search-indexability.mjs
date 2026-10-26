@@ -1,0 +1,69 @@
+// Google Search quality gate for the actual published production build.
+// Ensures the sitemap advertises crawlable canonical URLs, rather than
+// redirects, duplicate pages, previews, or private/internally searchable URLs.
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync,existsSync} from 'node:fs';
+import path from 'node:path';
+
+const origin='https://ejoeundental.com';
+const output='dist';
+const pageFor=route=>{
+ if(route==='/')return path.join(output,'index.html');
+ const rel=decodeURIComponent(route.slice(1));
+ if(!rel||rel.split('/').includes('..')||rel.includes('\\'))
+  throw new Error('Unsafe indexed path: '+route);
+ return rel.endsWith('/')?path.join(output,rel,'index.html'):
+  path.join(output,rel.endsWith('.html')?rel:rel+'.html');
+};
+
+test('Google sitemap uses only live, indexable, self-canonical clinic pages',()=>{
+ const xml=readFileSync(path.join(output,'sitemap.xml'),'utf8');
+ const locs=[...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
+ assert.ok(locs.length>=150,'clinic sitemap must retain existing indexed health and original stories');
+ assert.equal(locs.length,new Set(locs).size,'duplicate sitemap addresses dilute crawl signals');
+ assert.ok(!xml.includes('pages.dev'),'temporary preview host must not be in Google's sitemap');
+ for(const loc of locs){
+  const url=new URL(loc);
+  assert.equal(url.origin,origin,'sitemap must only publish the HTTPS canonical domain');
+  assert.equal(url.search+url.hash,'','sitemap entries cannot contain tracking queries or fragments');
+  assert.ok(!/\/(?:search|admin)(?:\/|\.html|$)/.test(url.pathname),'internal search/admin must remain out of Google indexing');
+  const file=pageFor(url.pathname);
+  assert.ok(existsSync(file),'sitemap entry must resolve to an actual generated HTML page: '+loc);
+  const html=readFileSync(file,'utf8');
+  const canonicals=[...html.matchAll(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/gi)].map(m=>m[1]);
+  assert.deepEqual(canonicals,[loc],file+' must declare exactly its final self-canonical (not a .html redirect)');
+  assert.doesNotMatch(html,/<meta\b[^>]*\bname=["']robots["'][^>]*\bnoindex\b/i,
+   file+' must not tell Google to exclude a URL that the sitemap offers');
+  assert.ok(/<title>\s*[^<\s][^<]*<\/title>/i.test(html),file+' has no descriptive title');
+  assert.ok(/<meta name="description" content="[^"]{40,}"/i.test(html),
+   file+' needs a meaningful description for search previews');
+ }
+});
+
+test('Google crawl discovery, verification and article authorship remain consistent',()=>{
+ const home=readFileSync(path.join(output,'index.html'),'utf8');
+ const robots=readFileSync(path.join(output,'robots.txt'),'utf8');
+ const headers=readFileSync(path.join(output,'_headers'),'utf8');
+ assert.match(home,/<meta name="google-site-verification" content="[A-Za-z0-9_-]+">/);
+ assert.match(home,/<meta name="robots" content="index,follow,max-image-preview:large">/);
+ assert.match(robots,/^User-agent:\s*\*\s*$/m);
+ assert.match(robots,/^Allow:\s*\/\s*$/m);
+ assert.match(robots,/^Sitemap:\s*https:\/\/ejoeundental\.com\/sitemap\.xml\s*$/m);
+ assert.ok(!/X-Robots-Tag:\s*noindex/i.test(headers.split(/# Prevent indexing/)[0]),
+  'global production Cloudflare headers must not accidentally block indexing');
+ const guides=['gum-bleeding','gum-pus','root-canal-after-pain','root-canal-retreatment','insurance-scaling'];
+ for(const slug of guides){
+  const html=readFileSync(path.join(output,'health',slug+'.html'),'utf8');
+  const medical=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(match=>JSON.parse(match[1]))
+   .find(entry=>entry['@type']==='MedicalWebPage'||entry['@type']==='WebPage');
+  const canonical=origin+'/health/'+slug;
+  assert.equal(medical.url,canonical);
+  assert.equal(medical.author?.name,'이조은치과');
+  assert.equal(medical.author?.url,origin+'/');
+  assert.equal(medical.publisher?.['@id'],origin+'/#clinic');
+  assert.match(html,/class="health-info-source"/);
+  assert.match(html,/href="\/#doctor"/);
+ }
+});
