@@ -500,9 +500,9 @@ const breadcrumbSchema={'@context':'https://schema.org','@type':'BreadcrumbList'
 const breadcrumbJson=JSON.stringify(breadcrumbSchema).replace(/</g,'\\u003c');
 const articleSourceNote=safeSourceBlog?
  '<aside class="notice" aria-label="원문 출처"><strong>원장 블로그 원문</strong><p>'+
- (post.source_note==='topic_only'
+ (String(post.source_note||'').startsWith('topic_only')
   ?'원장이 작성한 네이버 블로그 글의 제목과 주제를 참고해 새로 작성한 환자 교육 글입니다. 원문을 직접 복제하거나 요약한 글은 아닙니다. '
-  :post.source_note==='screenshots_summary'
+  :String(post.source_note||'').startsWith('screenshots_summary')
    ?'원장이 제공한 네이버 블로그 본문 사진을 읽고 핵심 의견을 정리한 글입니다. 일부 의학적 설명은 근거 자료를 참고하여 보완했습니다. '
    :'이 글은 원장이 작성한 네이버 블로그 글을 환자 교육용으로 요약·재구성했습니다. ')+
  '<a href="'+escaped(safeSourceBlog)+'" target="_blank" rel="noopener noreferrer">원문 보기 ↗</a></p></aside>':'';
