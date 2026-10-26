@@ -159,8 +159,10 @@ test('homepage links to four clinically distinct original patient education arti
  }
  assert.ok(!feature.includes('전혀 아프지 않')&&!feature.includes('완치'),
   'homepage cannot promise all patients will have the same clinical outcome');
- assert.ok(home.includes('/assets/home-enhancements.css?v=20261026-featured-guides1'),
-  'new home layout must update the stylesheet cache key for returning mobile users');
+ assert.match(home,/\/assets\/home-enhancements\.css\?v=[a-zA-Z0-9-]+/,
+  'generated homepage must use a cache-versioned stylesheet for returning mobile users');
+ assert.ok(readFileSync('index.html','utf8').includes('home-enhancements.css?v=20261026-featured-guides1'),
+  'source homepage must bump its stylesheet version when featured patient cards change');
  assert.ok(css.includes('.home-representative-guide-grid a:focus-visible'),
   'keyboard users must see a visible focus ring on original clinic stories');
  assert.ok(css.includes('grid-template-columns:1fr'),
