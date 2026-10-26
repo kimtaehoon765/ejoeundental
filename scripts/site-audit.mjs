@@ -860,8 +860,9 @@ else {
 
   // Exercise the actual locality and filler regexps from the shipped search script.
   // A neighborhood + "근처 치과" should resolve to a clinical subject rather than zero results.
-  const localityRaw=script.match(/const localityPattern=(\/[^;\n]+\/);const locationPrefix=/)?.[1];
+  const localityRaw=script.match(/const localityPattern=(\/[^;\n]+\/);const (?:locationPrefix|spacedRegion)=/)?.[1];
   const fillerRaw=script.match(/const clinicalQuery=locationPrefix\.replace\((\/[^;\n]+\/), ''\)/)?.[1];
+  if(!script.includes('const locationPrefix=spacedRegion?normalizedQuery.slice(norm(spacedRegion[0]).length):'))errors.push('공백으로 구분된 인천·부평 지역 검색에서 진료 증상 유실 방지 누락');
   const literalRegexp=raw=>{
     const parts=raw?.match(/^\/(.*)\/([gimsuy]*)$/);
     if(!parts)throw new Error('검색 필터 정규표현식 인식 실패');
