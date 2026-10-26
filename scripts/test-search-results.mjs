@@ -447,7 +447,7 @@ test('booking requests show an honest verified Naver search option plus telephon
   assert.ok(walk(cards[0],x=>x.href==='tel:0325132875').length,
    'telephone booking fallback must always work');
   assert.match(status.textContent,/예약 문의 방법/);
-  assert.match(JSON.stringify(results),/예약 확정을 의미하지 않습니다/);
+  assert.ok(walk(results,x=>String(x.textContent||'').includes('예약 확정을 의미하지 않습니다')).length);
  }
 });
 
