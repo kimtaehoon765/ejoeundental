@@ -616,6 +616,12 @@ await Promise.all(urls.map(async ({label,url}) => {
        (booking.direct?'홈페이지 예약 검색의 공식 네이버 예약 주소·이름이 현재 설정과 일치':
        '홈페이지 예약 검색의 네이버 예약 찾기 주소·이름이 정직한 검색 안내와 일치'):
        '예약 검색 연결이 현재 홈페이지 설정과 일치하는지 확인 필요');
+      const hoursShortcuts=['금요일 진료','토요일 진료','접수 마감'];
+      const shortcutsReady=hoursShortcuts.every(query=>
+       body.includes('href="/search.html?q='+encodeURIComponent(query)+'"'));
+      info.push(shortcutsReady?
+       '금·토요일 격주 진료와 접수 마감 3개 환자 검색 바로가기 실제 공개 확인':
+       '금·토요일·접수 마감 검색 바로가기 최신 배포 확인 필요');
     } else if (label === '통합 검색 실제 문서 색인') {
       let entries=[];
       try { entries=JSON.parse(body); } catch { info.push('검색 색인 JSON 확인 불가'); }
@@ -813,6 +819,13 @@ await Promise.all(urls.map(async ({label,url}) => {
        body.includes('예약 확정을 의미하지 않습니다');
       info.push(bookingCardReady?'예약·네이버예약 검색어에서 전화·검증된 네이버 연결을 안내하는 JS 반영':
        '검색어 예약 분류·네이버 예약 연결 프로그램 실제 배포 확인 필요');
+      const clinicHoursReady=body.includes('const hoursOnlyIntent=')&&
+       body.includes('금요일 격주 오전 09:30~13:00')&&
+       body.includes('접수 마감 오전 12:30 / 오후 18:00')&&
+       body.includes('이번 주 확정 진료일은 표시되지 않습니다');
+      info.push(clinicHoursReady?
+       '금·토요일 격주 일정·오전 12:30/오후 18:00 접수 마감·공휴일 휴진 안내 최신 JS 배포 확인':
+       '정확한 격주 진료·접수 마감 안내 검색 JS 최신 배포 확인 필요');
     }
     if(label==='환자용 모바일 전화·이동 메뉴 CSS'){
       const homepageOnly=body.includes('.mobile-quick + .navlinks{display:none}');
