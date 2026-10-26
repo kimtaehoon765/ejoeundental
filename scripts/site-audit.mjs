@@ -136,7 +136,7 @@ function hasFreshCss(html,basename){
 {
  const visit=readFileSync(join(root,'visit-guide.html'),'utf8');
  const actions=visit.match(/<nav class="visit-quick-actions"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
- if(!actions.includes('href="tel:0325132875"')||
+ if(!actions.includes('href="tel:0326132875"')||
     !actions.includes('href="https://map.naver.com/p/search/')||
     !actions.includes('rel="noopener noreferrer"')||
     !visit.includes('.visit-quick-actions a{display:flex;')){
@@ -174,7 +174,7 @@ function hasFreshCss(html,basename){
    }
    if(!page.includes('<a class="health-hub-skip" href="#health-hub-main">건강정보 본문으로 바로가기</a>')||
       !page.includes('<main class="article" id="health-hub-main">')||
-      !page.includes('href="tel:0325132875"')||
+      !page.includes('href="tel:0326132875"')||
       !page.includes('href="/#location"')||
       !page.includes('<div class="navlinks">')){
       errors.push(pageName+': 모바일 메뉴·본문 건너뛰기 접근성 누락');
@@ -182,7 +182,7 @@ function hasFreshCss(html,basename){
  }
  for(const file of html.filter(f=>f.includes('/health/'))){
    const page=readFileSync(file,'utf8');
-   if(!page.includes('<div class="navlinks">')||!page.includes('href="tel:0325132875"')){
+   if(!page.includes('<div class="navlinks">')||!page.includes('href="tel:0326132875"')){
      errors.push('건강정보 아티클 모바일 메뉴 연락처 누락: '+file.slice(root.length+1));
    }
  }
@@ -749,7 +749,7 @@ for (const file of html) {
  if(mainHrefs.length!==4||extraHrefs.length!==5||expectedPriority.some(x=>!mainHrefs.includes(x))||new Set(allHrefs).size!==9)errors.push('첫 화면 진료 링크 4+5개 구성 오류');
  if(!details.includes('<summary>다른 진료·건강정보 5개 더 보기'))errors.push('첫 화면 진료 메뉴 펼치기 누락');
  if(hero.indexOf('class="hero-actions"')<0||hero.indexOf('class="hero-actions"')>hero.indexOf('class="hero-care-summary"'))errors.push('첫 화면 전화·진료시간 문의가 진료 메뉴보다 아래에 있음');
- if(!hero.includes('href="tel:0325132875"'))errors.push('첫 화면 전화 문의 연결 누락');
+ if(!hero.includes('href="tel:0326132875"'))errors.push('첫 화면 전화 문의 연결 누락');
  if(!homepage.includes('href="/assets/home-enhancements.css'))errors.push('홈페이지 공통 개선 스타일 누락');
 }
 
@@ -1048,7 +1048,7 @@ for (const name of patientPages) {
   if (!/<meta[^>]*name=["']viewport["']/i.test(page)) errors.push(name + ': 모바일 viewport 누락');
   if (!/<title>[^<]+<\/title>/i.test(page)) errors.push(name + ': 페이지 제목 누락');
   if (!page.includes('이조은치과')) errors.push(name + ': 치과 이름 누락');
-  if (!page.includes('032-513-2875') && !page.includes('0325132875')) errors.push(name + ': 전화번호 누락');
+  if (!page.includes('032-513-2875') && !page.includes('0326132875')) errors.push(name + ': 전화번호 누락');
 }
 // Verify practical visit details are kept together for patients on mobile.
 if (existsSync(homepageFile)) {
@@ -1058,14 +1058,14 @@ if (existsSync(homepageFile)) {
   if (visit < 0 || parking < 0 || visit > parking) errors.push('방문 핵심정보 카드 위치 또는 표시 누락');
   else {
     const summary = home.slice(visit, parking);
-    for (const detail of ['세월천로 34', '대우프라자 305호', '3시간 무료', '격주 운영', 'href="#parking-details"', 'href="#weekly-hours"', 'href="tel:0325132875"']) {
+    for (const detail of ['세월천로 34', '대우프라자 305호', '3시간 무료', '격주 운영', 'href="#parking-details"', 'href="#weekly-hours"', 'href="tel:0326132875"']) {
       if (!summary.includes(detail)) errors.push('방문 핵심정보 누락: ' + detail);
     }
   }
   for (const anchor of ['parking-details', 'weekly-hours']) {
     if (!home.includes('id="' + anchor + '"')) errors.push('방문 정보 상세 이동 위치 누락: ' + anchor);
   }
-  if (!home.includes('href="tel:0325132875"')) errors.push('전화 연결 누락');
+  if (!home.includes('href="tel:0326132875"')) errors.push('전화 연결 누락');
 }
 const enhancements = join(root, 'assets/home-enhancements.css');
 if (existsSync(enhancements)) {
@@ -1077,7 +1077,7 @@ const visitGuideFile = join(root, 'visit-guide.html');
 if (!existsSync(visitGuideFile)) errors.push('방문 전 확인사항 페이지가 배포 폴더에 없습니다');
 else {
   const guide = readFileSync(visitGuideFile, 'utf8');
-  for (const detail of ['격주', '3시간 무료', '12:30', '18:00', '임의로 중단하지 마세요', 'href="tel:0325132875"']) {
+  for (const detail of ['격주', '3시간 무료', '12:30', '18:00', '임의로 중단하지 마세요', 'href="tel:0326132875"']) {
     if (!guide.includes(detail)) errors.push('방문 안내 필수정보 누락: ' + detail);
   }
   if (!guide.includes(('rel="canonical" href="' + publicOrigin + '/visit-guide' + (publicOrigin.endsWith('.pages.dev')?'.html':'') + '"'))) errors.push('방문 안내 canonical 주소 누락');
@@ -1096,7 +1096,7 @@ for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-ins
   const page = readFileSync(target, 'utf8');
   if (!page.includes('https://schema.org') || !page.includes('FAQPage')) errors.push('FAQ 구조화 데이터 누락: ' + route);
   if ((page.match(/<section class="card">/g) || []).length < 6) errors.push('FAQ 질문 수 부족: ' + route);
-  if (!page.includes('href="tel:0325132875"')) errors.push('FAQ 전화 연결 누락: ' + route);
+  if (!page.includes('href="tel:0326132875"')) errors.push('FAQ 전화 연결 누락: ' + route);
   if (!page.includes('일반적인 건강정보')) errors.push('FAQ 건강정보 안내 누락: ' + route);
   if (!existsSync(sitemapFile) || !readFileSync(sitemapFile,'utf8').includes(publicOrigin + '/' + slug + (publicOrigin.endsWith('.com')?'':'.html'))) errors.push('FAQ 사이트맵 누락: ' + route);
   if (!existsSync(homepageFile) || !readFileSync(homepageFile,'utf8').includes('href="' + route + '"')) errors.push('FAQ 홈페이지 링크 누락: ' + route);
@@ -1571,11 +1571,11 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
   }
  }
 }
-// The public 333-post archive must identify the real clinic, clinical credentials,
+// The public 334-post archive must identify the real clinic, clinical credentials,
 // article provenance and current search title without claiming other local offices.
 {
  const archive=readFileSync(join(root,'clinical-archive.html'),'utf8');
- const title='부평치과 원장 진료 이야기 333편 | 잇몸치료·재신경치료 | 이조은치과';
+ const title='부평치과 원장 진료 이야기 334편 | 잇몸치료·재신경치료 | 이조은치과';
  const ld=[...archive.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
   .map(m=>JSON.parse(m[1])).find(row=>row['@type']==='CollectionPage');
  if(!archive.includes('<title>'+title+'</title>')||
@@ -1584,7 +1584,7 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
     !archive.includes('인천 부평구 청천동 세월천로 34')||
     !archive.includes('href="/#doctor"')||
     !archive.includes('href="/visit-guide.html"')){
-   errors.push('원장 블로그 333편 아카이브 의료진 자격·실제 위치·출처 설명 SEO 누락');
+   errors.push('원장 블로그 334편 아카이브 의료진 자격·실제 위치·출처 설명 SEO 누락');
  }
 }
 
@@ -1762,7 +1762,7 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  const config=JSON.parse(readFileSync(join(root,'content','site.json'),'utf8'));
  const box=homepage.match(/<section class="footer-business" aria-label="이조은치과 의료기관 정보">([\s\S]*?)<\/section>/)?.[1]||'';
  const expected=['이조은치과의원','대우프라자 305호','세월천로 34',
-  'tel:0325132875','3시간 무료','격주 진료','footer-copyright'];
+  'tel:0326132875','3시간 무료','격주 진료','footer-copyright'];
  if(!box||expected.some(k=>!box.includes(k)))errors.push('홈페이지 하단 의료기관 신원·주소·전화·주차 안내 누락');
  if(homepage.includes('VERIFIED_CLINIC_OPERATOR_DETAILS'))errors.push('치과 사업자 정보 미입력 표시가 공개됨');
  const representative=String(config.footer_representative||'').trim();
@@ -1788,7 +1788,7 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  if(homepage.includes('#stories .owner-story-card p{display:none}'))errors.push('원장 이야기 카드에 숨김 텍스트 스타일이 남아 있음');
  if(/원장이 작성한 네이버 블로그 글입니다/.test(homepage))errors.push('원장 이야기 카드의 반복 문구가 다시 추가됨');
 }
-// 홈페이지 원장 이야기 목록 보호: 모바일에서 8편만 보이고, 325편은 펼치면 읽을 수 있어야 합니다.
+// 홈페이지 원장 이야기 목록 보호: 모바일에서 8편만 보이고, 326편은 펼치면 읽을 수 있어야 합니다.
 {
  const homepage=readFileSync(join(root,'index.html'),'utf8');
  const section=homepage.match(/<section\b[^>]*id="stories"[\s\S]*?<\/section>/i)?.[0]||'';
@@ -1796,9 +1796,9 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  const extra=section.match(/<details class="owner-stories-more">([\s\S]*?)<\/details>/i)?.[1]||'';
  const firstLinks=[...first.matchAll(/<a\b[^>]*href="(https:\/\/blog\.naver\.com\/[^"]+)"[^>]*>/gi)].map(m=>m[1]);
  const extraLinks=[...extra.matchAll(/<a\b[^>]*href="(https:\/\/blog\.naver\.com\/[^"]+)"[^>]*>/gi)].map(m=>m[1]);
- if(firstLinks.length!==8||extraLinks.length!==325||new Set([...firstLinks,...extraLinks]).size!==333)errors.push('원장 이야기 8+325편 링크 또는 중복 오류');
- if(!extra.includes('<summary>치과 이야기 나머지 325편 보기')||!extra.includes('class="owner-stories-grid"'))errors.push('모바일 원장 이야기 펼치기 기능 누락');
- if(!homepage.includes('"numberOfItems": 333'))errors.push('원장 이야기 검색 구조화 데이터 333편 불일치');
+ if(firstLinks.length!==8||extraLinks.length!==326||new Set([...firstLinks,...extraLinks]).size!==334)errors.push('원장 이야기 8+326편 링크 또는 중복 오류');
+ if(!extra.includes('<summary>치과 이야기 나머지 326편 보기')||!extra.includes('class="owner-stories-grid"'))errors.push('모바일 원장 이야기 펼치기 기능 누락');
+ if(!homepage.includes('"numberOfItems": 334'))errors.push('원장 이야기 검색 구조화 데이터 334편 불일치');
 }
 
 if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
@@ -2117,7 +2117,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  }
 }
 
-// Homepage 333 owner blog entries and archive topic rows must be the exact
+// Homepage 334 owner blog entries and archive topic rows must be the exact
 // same verified links/titles, not invented duplicate articles or dated claims.
 {
  const homepage=readFileSync(join(root,'index.html'),'utf8');
@@ -2129,33 +2129,33 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const homeUrls=new Set(original.map(item=>item[0]));
  const archiveUrls=new Set(entries.map(item=>item[0]));
  const expected=new Map(original);
- if(original.length!==333||entries.length!==333||homeUrls.size!==333||archiveUrls.size!==333||
+ if(original.length!==334||entries.length!==334||homeUrls.size!==334||archiveUrls.size!==334||
    entries.some(([url,title])=>expected.get(url)!==title)){
-  errors.push('원장 블로그 333편 홈페이지·임상 아카이브 글 제목/원문 주소 불일치');
+  errors.push('원장 블로그 334편 홈페이지·임상 아카이브 글 제목/원문 주소 불일치');
  }
  const groups=[...archive.matchAll(/<details class="archive-blog-group" id="archive-group-([^"]+)">([\s\S]*?)<\/details>/g)];
  if(groups.length!==5||groups.map(m=>m[1]).join(',')!=='gum,root,ethics,med,other'||
     groups.some(m=>!m[2].includes('<ol>')||!m[2].includes('class="archive-blog-related"'))){
-  errors.push('원장 블로그 333편 주제별 모바일 펼치기 항목 구성이 잘못됨');
+  errors.push('원장 블로그 334편 주제별 모바일 펼치기 항목 구성이 잘못됨');
  }
  if(!archive.includes('id="archive-blog-posts"')||
    !archive.includes('href="#archive-blog-posts"')||
    !archive.includes('aria-label="주제별 원장 네이버 글 모음"')||
    archive.includes('BUILD_OWNER_ARCHIVE_GROUPS')||
    !homepage.includes('href="/clinical-archive.html#archive-blog-posts"')){
-  errors.push('원장 블로그 333편 홈페이지↔아카이브 이동 경로·서버 렌더링 누락');
+  errors.push('원장 블로그 334편 홈페이지↔아카이브 이동 경로·서버 렌더링 누락');
  }
  const schema=[...archive.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
   .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
   .find(data=>data?.['@type']==='CollectionPage');
  const elems=schema?.mainEntity?.itemListElement||[];
- if(schema?.mainEntity?.numberOfItems!==333||elems.length!==333||
+ if(schema?.mainEntity?.numberOfItems!==334||elems.length!==334||
    elems.some((entry,i)=>entry.position!==i+1||
      entry.url!==original[i]?.[0]||entry.name!==original[i]?.[1])){
-   errors.push('원장 원문 333편 ItemList 구조화 데이터·홈페이지 원문 순서 불일치');
+   errors.push('원장 원문 334편 ItemList 구조화 데이터·홈페이지 원문 순서 불일치');
  }
- if(!archive.includes('원장이 직접 쓴 네이버 치과 이야기 333편')||
-    !archive.includes('홈페이지에 소개한 네이버 글 333편을')||
+ if(!archive.includes('원장이 직접 쓴 네이버 치과 이야기 334편')||
+    !archive.includes('홈페이지에 소개한 네이버 글 334편을')||
     !archive.includes('href="https://m.blog.naver.com/tele654"')||
     !archive.includes('href="https://m.blog.naver.com/radio654"')||
     !archive.includes('.archive-blog-group>summary:') &&
@@ -2172,7 +2172,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const stories=[...home.matchAll(/<div class="card owner-story-card"><h3><a href="(https:\/\/blog\.naver\.com\/[a-zA-Z0-9_-]+\/\d+)" target="_blank" rel="noopener noreferrer">([^<]+) ↗<\/a><\/h3><\/div>/g)]
   .map(m=>({url:m[1],title:m[2]}));
  const known=new Map(stories.map(p=>[p.url,p.title]));
- if(stories.length!==333||known.size!==333)errors.push('네이버 원장 글 인증된 333편 목록 불일치');
+ if(stories.length!==334||known.size!==334)errors.push('네이버 원장 글 인증된 334편 목록 불일치');
  const renderedArchive=readFileSync(join(root,'clinical-archive.html'),'utf8');
  for(const [hub,slug,care,ids] of [
    ['gum-health.html','gum','gum-treatment.html',['224422601718','224400753947','224405321060']],
@@ -2514,7 +2514,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const og=page.match(/<meta property="og:description" content="([^"]+)"/)?.[1]||'';
  const schema=[...page.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
    .map(x=>JSON.parse(x[1])).find(x=>x['@type']==='CollectionPage');
- if(!desc.includes('부평치과')||!desc.includes('원장의 네이버 글 333편')||
+ if(!desc.includes('부평치과')||!desc.includes('원장의 네이버 글 334편')||
     desc!==og||desc!==twitter||desc!==schema?.description){
    errors.push('부평치과 선택 원장 아카이브 검색 설명·공유 카드 정합성 누락');
  }
