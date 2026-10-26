@@ -2090,12 +2090,15 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   .map(m=>({url:m[1],title:m[2]}));
  const known=new Map(stories.map(p=>[p.url,p.title]));
  if(stories.length!==333||known.size!==333)errors.push('네이버 원장 글 인증된 333편 목록 불일치');
- for(const [hub,slug,care,ids,expectedTotal] of [
-   ['gum-health.html','gum','gum-treatment.html',['224422601718','224400753947','224405321060'],'<!-- BUILD_OWNER_GUM_COUNT -->편'],
-   ['root-canal-health.html','root','retreatment.html',['224415452757','224417329329','224421350291'],'<!-- BUILD_OWNER_ROOT_COUNT -->편']
+ const renderedArchive=readFileSync(join(root,'clinical-archive.html'),'utf8');
+ for(const [hub,slug,care,ids] of [
+   ['gum-health.html','gum','gum-treatment.html',['224422601718','224400753947','224405321060']],
+   ['root-canal-health.html','root','retreatment.html',['224415452757','224417329329','224421350291']]
  ]){
   const page=readFileSync(join(root,hub),'utf8');
   const carePage=readFileSync(join(root,care),'utf8');
+  const categoryCount=Number(renderedArchive.split('<details class="archive-blog-group" id="archive-group-'+slug+'"')[1]
+   ?.split('class="archive-blog-count">')[1]?.split('편')[0]);
   const section=page.match(new RegExp('<section class="owner-originals" id="owner-originals-'+slug+'"[^>]*>([\\s\\S]*?)<\\/section>'))?.[1]||'';
   const links=[...section.matchAll(/<li><a href="(https:\/\/blog\.naver\.com\/[^"]+)" target="_blank" rel="noopener noreferrer"><strong>([^<]+)<\/strong>/g)]
     .map(m=>({url:m[1],title:m[2]}));
@@ -2108,7 +2111,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
      !section.includes('href="/clinical-archive.html#archive-group-'+slug+'"')||
      !carePage.includes('href="/clinical-archive.html#archive-group-'+slug+'"')||
      !carePage.includes('원장의 ')||
-     !carePage.includes(' 글 '+expectedTotal+' 보기')||
+     (!Number.isInteger(categoryCount)||categoryCount<1||!carePage.includes(' 글 '+categoryCount+'편 보기'))||
      page.includes('href="/clinical-archive.html"')){
     errors.push('주제별 원장 블로그 전체 목록·진료 연결·건강정보 주의문 누락: '+hub);
   }
