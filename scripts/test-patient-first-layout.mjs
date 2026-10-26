@@ -1003,7 +1003,8 @@ test('six original overtreatment screenshots improve existing insurance guide in
  assert.equal(post.published,true);
  assert.equal(post.source_note,'screenshots_summary','owner actually provided original article body screenshots');
  assert.equal(post.source_url,original);
- assert.equal(post.updated,'2026-10-25');
+ assert.ok(/^2026-10-\d{2}$/.test(post.updated)&&post.updated>='2026-10-25',
+  'publication date must reflect the latest screenshot integration');
  assert.ok(post.title.includes('청천동치과')&&post.title.includes('과잉진료'));
  assert.ok(post.body.length>4200,'must give patient useful source-based explanations');
  for(const term of ['광고','건강보험','근관치료','임플란트','뼈이식',
@@ -1032,7 +1033,8 @@ test('six original overtreatment screenshots improve existing insurance guide in
   'expanded content should be sectioned and discoverable');
  assert.match(article,/<details class="story-toc">/);
  assert.ok(readFileSync('dist/stories.html','utf8').includes('href="/stories/'+slug+'/">'));
- assert.ok(readFileSync('dist/sitemap.xml','utf8').includes('/stories/'+slug+'/</loc><lastmod>2026-10-25</lastmod>'));
+ assert.ok(readFileSync('dist/sitemap.xml','utf8').includes('/stories/'+slug+'/</loc><lastmod>'+post.updated+'</lastmod>'),
+  'sitemap date should match actual story update date');
  const search=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
  assert.ok(search.some(item=>item.url==='/stories/'+slug+'/'&&item.body.includes('라미네이트')),
   'revised information must be in internal search index');
