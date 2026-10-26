@@ -415,13 +415,13 @@ test('regional gum-bump and blister descriptions reach careful examination guida
  assert.ok(related.includes('/health/gum-pus.html'),
   'a bump after root canal treatment should still offer periodontal versus root-tip evaluation');
 
- const guide=readFileSync('dist/health/gum-pus.html','utf8');
+ const guide=readFileSync(existsSync('dist/health/gum-pus.html')?'dist/health/gum-pus.html':new URL('../health/gum-pus.html',import.meta.url),'utf8');
  assert.ok(guide.includes('뾰루지나 물집처럼 보이는 돌기'));
  assert.ok(guide.includes('모두 치주염이나 고름이라고 단정할 수는 없습니다'));
  assert.ok(guide.includes('구강 점막 병변'));
  assert.ok(guide.includes('신경치료한 치아'));
  assert.ok(guide.includes('삼키기')&&guide.includes('호흡'));
- const searchHtml=readFileSync('dist/search.html','utf8');
+ const searchHtml=readFileSync(existsSync('dist/search.html')?'dist/search.html':new URL('../search.html',import.meta.url),'utf8');
  const encoded=encodeURIComponent('잇몸에 뾰루지가 났어요');
  assert.ok(searchHtml.includes('href="/search.html?q='+encoded+'"'));
  assert.ok(searchHtml.includes('잇몸에 뾰루지가 생겼어요'));
