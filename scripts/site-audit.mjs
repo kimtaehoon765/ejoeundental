@@ -2397,9 +2397,9 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const twitter=page.match(/<meta name="twitter:title" content="([^"]+)"/)?.[1]||'';
  const schema=[...page.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
    .map(m=>JSON.parse(m[1])).find(x=>x['@type']==='MedicalWebPage');
- const expected='부평치과 진료시간·오시는 길·주차 | 청천동 이조은치과';
+ const expected='청천동치과 이조은치과 | 진료시간·오시는 길·주차';
  if(title!==expected||title!==og||title!==twitter||title!==schema?.name||
-    !page.includes('<h1>이조은치과 진료시간·오시는 길</h1>')){
+    !page.includes('<h1>청천동 이조은치과 진료시간·오시는 길</h1>')){
    errors.push('부평치과 방문 안내 검색 제목·공유 제목·원장 방문정보 정합성 누락');
  }
  const nav=page.match(/<nav class="visit-jump" aria-label="진료시간·주차·길찾기·진료 준비 바로가기">([\s\S]*?)<\/nav>/)?.[1]||'';

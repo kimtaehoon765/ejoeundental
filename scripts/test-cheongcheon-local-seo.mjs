@@ -55,6 +55,15 @@ test('visit page is distinct, honest, share-ready and linked to primary local cl
  assert.ok(visit.includes('href="/"'));
  assert.ok(h.includes('canonical'));
 });
+test('onsite search index matches visible homepage title and summary',()=>{
+ const rows=JSON.parse(readFileSync('dist/content/search-index.json','utf8'));
+ const homepage=rows.filter(item=>item.url==='/');
+ assert.equal(homepage.length,1);
+ assert.equal(homepage[0].title,extract(head(home),/<title>([^<]+)<\/title>/));
+ assert.equal(homepage[0].description,
+  extract(head(home),/<meta name="description" content="([^"]+)"/));
+ assert.ok(homepage[0].body.includes('청천동치과 이조은치과'));
+});
 test('sitemap dates reflect genuine homepage and visit revisions, not invented daily changes',()=>{
  for(const route of ['', 'visit-guide.html']){
   const entry='<loc>https://ejoeundental.com/'+route+'</loc><lastmod>2026-10-26</lastmod>';

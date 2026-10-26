@@ -591,7 +591,18 @@ for(const entry of entries){
  const local=entry.url==='/'?'index.html':entry.url.replace(/^\/+/, '');
  if(!local||local.includes('..'))continue;
  const htmlFile=path.join(out,local);
- if(fs.existsSync(htmlFile)&&htmlFile.endsWith('.html'))entry.body=extractSearchText(fs.readFileSync(htmlFile,'utf8'));
+ if(fs.existsSync(htmlFile)&&htmlFile.endsWith('.html')){
+  const rendered=fs.readFileSync(htmlFile,'utf8');
+  entry.body=extractSearchText(rendered);
+  if(entry.url==='/'){
+    // Home is a curated clinic-search entry. Its title and description must
+    // never lag behind the actual HTML shown to Google and Naver.
+    const title=rendered.match(/<title>([^<]+)<\/title>/i)?.[1]?.trim();
+    const description=rendered.match(/<meta name="description" content="([^"]+)"/i)?.[1]?.trim();
+    if(!title||!description)throw new Error('Missing canonical clinic metadata for search index');
+    entry.title=title;entry.description=description;
+  }
+}
 }
 // The public sitemap includes standalone FAQ, safety, visit and story-index pages that
 // were missing from the website's own search. Add only this explicit allowlist:
