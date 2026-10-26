@@ -606,6 +606,16 @@ await Promise.all(urls.map(async ({label,url}) => {
        !body.includes('네이버 블로그 원문 323편은');
       info.push(countCurrent?'검색 페이지 블로그 원문 실제 '+expectedOriginalCount+'편 안내 확인':
        '검색 페이지 네이버 원문 수가 최신 홈페이지 수량과 다름');
+      const booking=bookingAction(verifiedClinic.naver_booking_url);
+      const escapeAttribute=value=>String(value).replace(/[&<>"']/g,ch=>({
+       '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[ch]));
+      const searchBookingReady=body.includes('data-booking-url="'+escapeAttribute(booking.url)+'"')&&
+       body.includes('data-booking-label="'+escapeAttribute(booking.label)+'"');
+      info.push(searchBookingReady?
+       (booking.direct?'홈페이지 예약 검색의 공식 네이버 예약 주소·이름이 현재 설정과 일치':
+       '홈페이지 예약 검색의 네이버 예약 찾기 주소·이름이 정직한 검색 안내와 일치'):
+       '예약 검색 연결이 현재 홈페이지 설정과 일치하는지 확인 필요');
     } else if (label === '통합 검색 실제 문서 색인') {
       let entries=[];
       try { entries=JSON.parse(body); } catch { info.push('검색 색인 JSON 확인 불가'); }
@@ -798,6 +808,11 @@ await Promise.all(urls.map(async ({label,url}) => {
       const newSearchReady=body.includes('scalingComparisonIntent')&&body.includes('scalingOnlyIntent')&&
         body.includes('치주낭치료')&&body.includes('신경치료비용');
       info.push(newSearchReady?'치주치료·스케일링·잇몸 증상 검색 관련도 개선 반영':'치주·스케일링 자연어 검색 개선 신규 배포 확인 필요');
+      const bookingCardReady=body.includes('const reservationIntent=')&&
+       body.includes('data'+'set.bookingUrl')&&
+       body.includes('예약 확정을 의미하지 않습니다');
+      info.push(bookingCardReady?'예약·네이버예약 검색어에서 전화·검증된 네이버 연결을 안내하는 JS 반영':
+       '검색어 예약 분류·네이버 예약 연결 프로그램 실제 배포 확인 필요');
     }
     if(label==='환자용 모바일 전화·이동 메뉴 CSS'){
       const homepageOnly=body.includes('.mobile-quick + .navlinks{display:none}');
