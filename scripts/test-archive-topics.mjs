@@ -97,10 +97,10 @@ test('multiword and reversed-order Korean queries find originals across the titl
  assert.match(site.status.textContent,/일치하는 원장 글이 없습니다/);
  assert.ok(site.groups.every(group=>group.hidden));
 
- site.input.value='치과 신경치료';
+ site.input.value='치과 항응고제';
  site.input.handlers.input();
  assert.match(site.status.textContent,/15편을 찾았습니다/);
- assert.equal(site.groups.find(x=>x.id==='archive-group-root').hidden,false);
+ assert.equal(site.groups.find(x=>x.id==='archive-group-med').hidden,false);
 });
 
 test('nonmatching query is clearly announced and can be cleared',()=>{
