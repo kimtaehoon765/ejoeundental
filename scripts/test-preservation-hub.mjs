@@ -90,3 +90,37 @@ test('clinically relevant health questions link to the preservation decision gui
    'the preservation guide should link back to the relevant focused health article: '+name);
  }
 });
+
+
+test('gum discharge is explained through both periodontal and root-canal pathways',()=>{
+ const gum=readFileSync('dist/gum-treatment.html','utf8');
+ const root=readFileSync('dist/root-canal-health.html','utf8');
+ const home=readFileSync('dist/index.html','utf8');
+ const clinicalLinks=[
+  '/health/gum-pus.html','/health/root-canal-lesion.html',
+  '/root-canal-health.html#root-canal-articles'
+ ];
+ const differentialStart=gum.indexOf('id="gum-or-root-symptoms"');
+ assert.ok(differentialStart>gum.indexOf('<main'), 'the explanation must be patient-visible');
+ assert.ok(differentialStart<gum.indexOf('id="gum-scaling-difference"'),
+  'symptom differentiation should be read before treatment selection');
+ for(const link of clinicalLinks)assert.ok(gum.includes('href="'+link+'"'),
+  'gum diagnosis article must link to the existing supporting guide: '+link);
+ for(const word of ['치주낭','치수','근관','방사선 검사','치아 균열','119'])
+  assert.ok(gum.slice(differentialStart,differentialStart+2000).includes(word),
+   'balanced patient guidance missing: '+word);
+ assert.ok(root.includes('href="/gum-treatment.html#gum-or-root-symptoms"'),
+  'root-canal hub should link back to the gum-versus-root diagnosis');
+ assert.ok(root.includes('href="/health/gum-pus.html"'),
+  'root-canal lesion information should link to gum-pus symptoms');
+ assert.ok(home.includes('href="/health/gum-pus.html"'),
+  'homepage should expose the important gum-pus symptom without another duplicate page');
+ for(const path of ['/gum-treatment.html','/root-canal-health.html']){
+  const matched=index.filter(entry=>entry.url===path);
+  assert.equal(matched.length,1,path+' must remain one substantive search entry');
+  assert.ok(matched[0].body.includes('고름'),
+   path+' updated patient-facing explanation must be searchable');
+ }
+ assert.ok(sitemap.includes('<loc>'+origin+'/gum-treatment</loc>'));
+ assert.ok(sitemap.includes('<loc>'+origin+'/root-canal-health</loc>'));
+});
