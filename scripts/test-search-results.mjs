@@ -474,3 +474,47 @@ test('built search page embeds the same vetted Naver destination and label as th
  assert.match(readFileSync('dist/assets/search-page.css','utf8'),
   /\.search-visit-actions-with-booking\{grid-template-columns:repeat\(4,minmax\(0,1fr\)\)\}/);
 });
+
+
+test('clinic schedule questions expose alternating Friday and Saturday hours, cutoffs and holiday closure',async()=>{
+ for(const query of [
+  '금요일 진료','토요일 진료','공휴일 진료시간','접수 마감','점심시간',
+  '오늘 진료시간','이번 주 토요일 진료하나요','청천동치과 진료시간',
+  '산곡역 치과 토요일'
+ ]){
+  const {results,status}=await search(query,[]);
+  const visits=walk(results,x=>x.className==='search-visit-answer');
+  assert.equal(visits.length,1,query+' must show one honest clinic schedule panel');
+  const paragraphs=walk(visits[0],x=>x.tagName==='p').map(x=>x.textContent).join(' | ');
+  for(const text of ['월~목 09:30~18:30','금요일 격주','토요일 격주',
+   '09:30~13:00','13:00~14:00','오전 12:30','오후 18:00','공휴일 휴진',
+   '3시간 무료','방문 전 전화로 확인']){
+   assert.ok(paragraphs.includes(text),query+' missing verified schedule detail: '+text);
+  }
+  assert.ok(walk(visits[0],x=>x.href==='tel:0325132875').length,
+   query+' should allow a one-tap hours confirmation');
+  assert.equal(walk(results,x=>x.className==='result').length,0);
+  assert.match(status.textContent,/진료시간과 접수 마감 안내/);
+ }
+ const html=readFileSync(existsSync('dist/search.html')?'dist/search.html':new URL('../search.html',import.meta.url),'utf8');
+ for(const [query,label] of [
+  ['금요일 진료','금요일 진료'],
+  ['토요일 진료','토요일 진료'],
+  ['접수 마감','접수 마감']
+ ]){
+  assert.ok(html.includes('href="/search.html?q='+encodeURIComponent(query)+'">'+label+'</a>'),
+   'visit search must expose a one-tap shortcut for '+label);
+ }
+});
+
+test('treatment questions mentioning opening days keep clinical results visible',async()=>{
+ const pages=[
+  {url:'/wisdom-tooth.html',title:'토요일 사랑니 발치 상담',description:'사랑니 발치 진료',body:'발치 전 검사'},
+  {url:'/health/gum-bleeding.html',title:'잇몸에서 피가 나요',description:'치주질환 설명',body:'잇몸 출혈 검사'}
+ ];
+ const query='토요일 사랑니 발치';
+ const {results}=await search(query,pages);
+ const found=walk(results,x=>x.className==='result');
+ assert.ok(found.some(x=>x.href==='/wisdom-tooth.html'),
+  'opening-hour queries with specific treatment should not suppress relevant medical results');
+});
