@@ -23,14 +23,22 @@
 3. `www`와 비-www의 차이는 301 리디렉션 및 canonical으로 정리합니다. **동일 도메인의 www ↔ 비-www 변경에는 '주소 변경' 도구를 사용하지 않습니다.**
 4. 검색 실적에서는 노출·클릭·CTR·검색어를 추적하되, 특정 검색어 순위 상승이나 즉시 색인을 보장하지 않습니다.
 
-## 3. 우선 확인할 공식 진료 URL
-- 홈페이지: `https://ejoeundental.com/` — 부평치과·청천동 실제 진료 위치
-- 잇몸치료: `https://ejoeundental.com/gum-treatment.html` — 인천·부평 잇몸치료
-- 신경치료 건강정보: `https://ejoeundental.com/root-canal-health.html` — 인천·부평 신경치료
-- 재신경치료: `https://ejoeundental.com/retreatment.html` — 재신경치료·신경치료 후 통증
-- 치경부마모증: `https://ejoeundental.com/cervical-abrasion.html`
-- 건강보험 진료: `https://ejoeundental.com/insured-care.html`
-- 진료시간·길찾기: `https://ejoeundental.com/visit-guide.html`
+## 3. 구글 URL 검사에는 실제 '최종 대표 URL'을 사용
+
+**중요 교정 (2026-10-26):** 초기 수동 검사 때 잇몸치료·재신경치료·치경부마모증에 `.html`이 붙은 옛 주소를 안내했습니다. 하지만 현행 프로덕션 빌드에서는 이 페이지들의 사이트맵·canonical을 **확장자 없는 URL**로 통일합니다. 실제 호스트의 `.html` → 확장자 없는 최종 주소 리디렉션도 이전 실사이트 점검에 기록되어 있습니다. 구글이 색인할 주소를 검사하려면 아래 대표주소를 우선 사용하세요. 기존 `.html`의 '미색인' 결과만으로 최종 주소가 미색인이라고 단정해서는 안 됩니다.
+
+| 환자가 보는 정보 | 구글 검사 우선 주소(프로덕션 빌드 기준) |
+|---|---|
+| 홈페이지 | `https://ejoeundental.com/` |
+| 잇몸치료 | `https://ejoeundental.com/gum-treatment` |
+| 재신경치료 | `https://ejoeundental.com/retreatment` |
+| 치경부마모증·시린 이 | `https://ejoeundental.com/cervical-abrasion` |
+| 신경치료 건강정보 | `https://ejoeundental.com/root-canal-health` |
+| 건강보험 진료 | `https://ejoeundental.com/insured-care` |
+| 진료시간·길찾기 | `https://ejoeundental.com/visit-guide` |
+| 자연치아 보존 | `https://ejoeundental.com/tooth-preservation.html` (현재 빌드의 canonical; 실제 리디렉션 재확인 필요) |
+
+신규 사이트맵 제출을 반복하거나 대량 수동 신청하지 않습니다. 우선 **URL 검사 → 사용자 선언 표준 URL·Google에서 선택한 표준 URL**과 **실제 URL 테스트**를 확인합니다. 이 두 검사가 나타내는 대상이 다르다는 점을 구분합니다. 프로덕션 주소 체계는 정적 파일명이 아닌 **최종 배포된 사이트맵의 `<loc>`과 페이지의 canonical**을 우선합니다.
 
 ## 4. 2026-10-26 구글 서치콘솔 진행 확인 (원장 직접 화면 기준)
 
@@ -44,13 +52,13 @@
 | Google `https://ejoeundental.com/` URL 접두어 소유권 | **HTML 태그로 확인 완료** | 발급받은 태그를 홈페이지 `<head>`에 유지 |
 | Google 사이트맵 `/sitemap.xml` | **제출 성공, 발견된 페이지 180개** | 발견은 전체 색인 완료와 다름 |
 | Google 홈페이지 `https://ejoeundental.com/` | **URL 검사에서 'Google에 등록되어 있음'** | 검색어별 상위 노출을 보장하지 않음 |
-| Google `/gum-treatment.html` | **색인 생성 요청 접수** | 요청 이후 색인 완료 여부 미확인 |
-| Google `/retreatment.html` | **색인 생성 요청 접수** | 요청 이후 색인 완료 여부 미확인 |
+| Google `/gum-treatment.html` | **옛 URL로 색인 생성 요청 접수** | 최종 대표 URL `/gum-treatment`의 색인 상태는 별도 확인 필요 |
+| Google `/retreatment.html` | **옛 URL로 색인 생성 요청 접수** | 최종 대표 URL `/retreatment`의 색인 상태는 별도 확인 필요 |
 | Google `/tooth-preservation.html` | **색인 생성 요청 접수** | 요청 이후 색인 완료 여부 미확인 |
-| Google `/cervical-abrasion.html` | **발견됨·미색인; 색인 요청 중 오류** | 일시적 제한 여부 단정 불가; 반복 요청보다 이후 상태 확인 |
+| Google `/cervical-abrasion.html` | **옛 URL에서 발견됨·미색인; 요청 중 오류** | 최종 대표 URL `/cervical-abrasion` 검사 전 원인 단정 불가 |
 | 임시 Pages 주소 noindex 응답 | 최신 응답 재확인 필요 | 임시 주소가 별도로 검색 노출되는지 점검 |
 
-**다음 확인 순서:** ① 이미 접수된 세 페이지의 색인 여부가 변했는지 확인 ② 치경부마모증 페이지의 실제 URL 테스트 결과가 정상인지 확인 ③ 오류가 지속될 때만 제한 원인을 조사 ④ Google 색인 생성의 '페이지' 보고서에서 나머지 URL들의 제외·발견·크롤링 상태를 분류. 하루에 많은 수동 요청을 반복하거나 인위적으로 지역 키워드 유사 페이지를 늘리지 않습니다.
+**다음 확인 순서:** ① `.html`로 요청했던 잇몸치료·재신경치료와 치경부마모증의 **최종 대표 주소**를 우선 확인 ② 자연치아 보존 대표 URL 및 실제 리디렉션 확인 ③ 오류가 지속될 때만 제한 원인을 조사 ④ Google 색인 생성의 '페이지' 보고서에서 나머지 URL들의 제외·발견·크롤링 상태를 분류. 하루에 많은 수동 요청을 반복하거나 인위적으로 지역 키워드 유사 페이지를 늘리지 않습니다.
 
 ## 5. 최신 환자 교육 게시글 배포 점검
 - **2026-10-25 재검사 결과:** 정식 도메인의 게시글 목록에서 **93/93편**이 중복 없이 노출되고, 대표 최신 글들의 제목·canonical·HTTP 200을 확인했습니다. 과거 실사이트 검사에서 집계한 **79편**은 당시 스냅샷입니다. 이 결과로 네이버·구글의 검색 색인을 단정할 수는 없습니다.
