@@ -3060,6 +3060,32 @@ console.log('Clinical education sharing metadata aligned:',clinicalSharingCount,
 }
 
 
+// Show the actual treating clinician's qualifications alongside each of the
+// 46 general patient health guides. This is a clinic identity notice, NOT a
+// fabricated personal article author or medical review date.
+{
+ const guideDir=path.join(out,'health');
+ const guides=fs.readdirSync(guideDir).filter(name=>name.endsWith('.html'));
+ if(guides.length!==46)throw new Error('Unexpected number of patient health guides for clinician identity notice');
+ const notice='<aside class="health-clinician-signpost" aria-label="치과 의료진과 건강정보 이용 안내" '+
+  'style="margin:18px 0 24px;padding:13px 16px;background:#f3f7f3;border-left:3px solid #82a68c;border-radius:8px;font-size:15px;line-height:1.75">'+
+  '<strong>진료 의료진</strong> · 김태훈 원장 · 고려대학교 의학박사(치과학 전공) · 통합치의학과 전문의'+
+  '<p style="margin:7px 0 0">이 글은 일반적인 건강정보이며 개인별 치료 여부는 검진과 검사 결과에 따라 달라집니다. '+
+  '<a href="/#doctor">원장 소개·진료 원칙 →</a></p></aside>';
+ for(const name of guides){
+  const filename=path.join(guideDir,name);
+  const document=fs.readFileSync(filename,'utf8');
+  if(document.includes('health-clinician-signpost'))throw new Error('Duplicate clinician notice: '+name);
+  const lead=document.match(/(<main\\b[^>]*>[\\s\\S]*?<h1\\b[^>]*>[\\s\\S]*?<\\/h1>\\s*<p(?:\\s[^>]*)?>[\\s\\S]*?<\\/p>)/i);
+  if(!lead||lead[1].length>2600||document.indexOf('</main>')<document.indexOf(lead[1])){
+   throw new Error('Cannot position clinician notice after health guide introduction: '+name);
+  }
+  const revised=document.replace(lead[1],lead[1]+notice);
+  fs.writeFileSync(filename,revised,'utf8');
+ }
+ console.log('Public medical guide clinician identity notices:',guides.length,'guides');
+}
+
 // The primary SVG is paired with a real 32px ICO fallback at /favicon.ico.
 // Naver specifically requests the default favicon URL; an HTML fallback at
 // that address is a soft 404, not an icon. Keep the existing branded SVG intact.
