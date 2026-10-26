@@ -452,6 +452,14 @@ await Promise.all(urls.map(async ({label,url}) => {
        ?(ownerBooking.direct?'모바일 하단 전화·검증된 네이버 예약 바로가기 반영':
           '모바일 하단 전화·네이버 예약 검색 안내 반영 (직접 예약 URL은 미등록)')
        :'모바일 하단 전화·네이버 예약 안내 최신 배포 여부 확인 필요');
+      const heroBooking=body.match(/<div class="hero-actions"[^>]*>([\s\S]*?)<\/div>/)?.[1]||'';
+      const heroBookingReady=ownerBooking.direct&&heroBooking.includes('class="btn hero-booking"')&&
+        heroBooking.includes('href="'+publicBookingUrl+'"')&&heroBooking.includes(ownerBooking.label);
+      info.push(heroBookingReady?'첫 화면 컴퓨터 네이버 예약 직접 연결 실배포 확인':
+        '첫 화면 컴퓨터 예약 버튼 배포·링크 확인 필요');
+      add('홈 데스크톱 네이버 예약 실제 배포',heroBookingReady?'최신 반영 확인':'배포·캐시 확인 필요',
+        '홈페이지 진료 안내 예약 버튼 → '+ownerBooking.url);
+
       const recentNav=body.split('<nav class="journal-recent-topics"')[1]?.split('</nav>')[0]||'';
       const recentNavLabels=[...recentNav.matchAll(/<span>([^<]+)<\/span>/g)]
        .map(match=>match[1]);
@@ -727,6 +735,19 @@ await Promise.all(urls.map(async ({label,url}) => {
       info.push(foldedToc?'목차 접기/펼치기(자바스크립트 없이) 반영':'목차 접기/펼치기 확인 필요');
     } else if (label.startsWith('public route ')) {
       const slug=label.slice('public route '.length);
+      if(slug==='visit-guide'){
+        const booking=bookingAction(verifiedClinic.naver_booking_url);
+        const nav=body.match(/<nav class="visit-quick-actions"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+        const direct=booking.direct&&response.ok&&
+          nav.includes('class="quick-route visit-booking"')&&
+          nav.includes('href="'+booking.url.replaceAll('&','&amp;')+'"')&&
+          nav.includes(booking.label);
+        info.push(direct?'오시는 길 네이버 예약 버튼 정식 주소 실배포 확인':
+          '오시는 길 예약 버튼 배포·링크 확인 필요');
+        add('오시는 길 네이버 예약 실제 배포',direct?'최신 반영 확인':'배포·캐시 확인 필요',
+          '방문 안내 내 버튼 → '+booking.url);
+      }
+
       const canonical=body.match(/<link\b[^>]*rel="canonical"[^>]*href="([^"]+)"/)?.[1]||'';
       const finalUrl=origin+'/'+slug;
       const resultSuffix=response.url===finalUrl?'확장자 없는 최종 주소':'최종 주소 확인 필요';
