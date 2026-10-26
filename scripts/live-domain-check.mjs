@@ -101,6 +101,7 @@ const urls = [
   { label: '보존 진료 연결 건강정보: 신경치료와 발치', url: origin + '/health/root-canal-or-extraction.html' },
   { label: '보존 진료 연결 건강정보: 흔들리는 치아', url: origin + '/health/loose-tooth.html' },
   { label: 'public route gum-health', url: origin + '/gum-health.html' },
+  { label: 'Google 검색 잇몸 뾰루지·고름 건강정보', url: origin + '/health/gum-pus.html' },
   { label: 'public route root-canal-health', url: origin + '/root-canal-health.html' },
   { label: 'public route insurance-health', url: origin + '/insurance-health.html' },
   { label: 'public route additional-health', url: origin + '/additional-health.html' },
@@ -460,6 +461,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       const remainingSlugs=["gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive"];
       const remainingFinalCount=remainingSlugs.filter(slug=>body.includes('<loc>'+origin+'/'+slug+'</loc>')).length;
       info.push('나머지 FAQ·의료안전·정보 페이지 최종 URL: '+remainingFinalCount+'/16');
+      const revised=['gum-health','root-canal-health','health/gum-pus'];
+      const updated=revised.filter(slug=>
+        body.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>'));
+      info.push(updated.length===revised.length?
+       'Google 사이트맵 실제 편집된 3개 건강정보 페이지의 2026-10-26 수정일 게시 확인':
+       'Google 사이트맵 건강정보 내용 수정일 최신 배포 확인 필요 ('+updated.length+'/'+revised.length+')');
     } else if (label === '홈페이지 치과 이야기 전체 글') {
       const cardUrls=[...body.matchAll(/<a class="story-card" href="(\/stories\/[^"]+\/)"[^>]*>/g)].map(m=>m[1]);
       const uniqueCount=new Set(cardUrls).size;
@@ -778,6 +785,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       const region=body.match(new RegExp('<section class="owner-originals" id="owner-originals-'+slug+'"[^>]*>([\\s\\S]*?)<\\/section>'))?.[1]||'';
       const posts=[...region.matchAll(/<li><a href="https:\/\/blog\.naver\.com\/[^"]+" target="_blank" rel="noopener noreferrer">/g)];
       const good=posts.length===3&&region.includes('href="/clinical-archive.html#archive-group-'+slug+'"');
+      if(!gum){
+       info.push(body.includes('신경치료한 치아 주변에 뾰루지나 물집 같은 돌기가 반복된다면')&&
+        body.includes('href="/health/gum-pus.html"')?
+        'Google 신경치료 후 잇몸뾰루지 원인 감별 글 실제 연결 확인':
+        '신경치료 후 잇몸뾰루지 안내 신규 배포 확인 필요');
+      }
       info.push(good?'원장이 쓴 네이버 원문 3편·주제별 자료 연결 반영':'원장 원문 3편 안내 신규 배포 확인 필요');
     }
     if(['public route gum-health','public route root-canal-health',
@@ -789,6 +802,10 @@ await Promise.all(urls.map(async ({label,url}) => {
         const four=body.match(/<nav class="gum-symptom-choices"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
         const matched=(four.match(/<a href="\/health\//g)||[]).length===4;
         info.push(matched?'잇몸 출혈·붓기·흔들림·스케일링 환자 안내 반영':'잇몸 증상별 환자 안내 신규 배포 확인 필요');
+        info.push(body.includes('뾰루지·물집처럼 보이는 돌기가 생기거나 고름이 나오는 경우')&&
+          body.includes('뾰루지가 모두 치주염은 아니며')?
+          'Google 환자말 잇몸 뾰루지·고름 증상 안내와 직접 건강정보 링크 실제 배포 확인':
+          '잇몸뾰루지 환자 검색 연결 최신 배포 확인 필요');
       }
     }
     // Reuse fetched pages: check actual public metadata without another request.
@@ -810,6 +827,17 @@ await Promise.all(urls.map(async ({label,url}) => {
           return body.split(tag).length===2;
         });
       info.push(verified?'의학정보 제목·소개·대표주소·공유 미리보기 일치':'의학정보 공유 카드 최신 반영 확인 필요');
+    }
+    if(label==='Google 검색 잇몸 뾰루지·고름 건강정보'){
+      const meta=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+      const schema=[...body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+       .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
+       .find(entry=>entry?.['@type']==='MedicalWebPage');
+      const good=meta.includes('뾰루지·물집처럼 보이는 돌기')&&
+       meta.includes('부평구 청천동 이조은치과')&&
+       schema?.description===meta&&schema?.url===response.url;
+      info.push(good?'Google 잇몸뾰루지 검색 설명·치과 위치·구조화 데이터 실제 게시 확인':
+       'Google 잇몸뾰루지 의료정보 검색 설명 최신 배포 확인 필요');
     }
     if(label==='remaining route clinical-archive'){
       const groups=(body.match(/class="archive-blog-group"/g)||[]).length;
