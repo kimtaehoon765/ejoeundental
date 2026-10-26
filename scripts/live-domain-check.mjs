@@ -476,6 +476,12 @@ await Promise.all(urls.map(async ({label,url}) => {
       const remainingSlugs=["gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive"];
       const remainingFinalCount=remainingSlugs.filter(slug=>body.includes('<loc>'+origin+'/'+slug+'</loc>')).length;
       info.push('나머지 FAQ·의료안전·정보 페이지 최종 URL: '+remainingFinalCount+'/16');
+      const breathUpdated=['health/gum-bleeding','gum-health','gum-treatment'];
+      const readyCount=breathUpdated.filter(slug=>
+       body.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>')).length;
+      info.push(readyCount===breathUpdated.length?
+       'Google 입냄새·잇몸출혈 환자교육 3개 페이지 실제 수정일 사이트맵 반영 확인':
+       'Google 입냄새·잇몸출혈 건강정보 사이트맵 수정일 최신 배포 확인 필요 ('+readyCount+'/3)');
       const googleImageNamespace=body.includes('xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"');
       const imageLocs=[...body.matchAll(/<image:image><image:loc>([^<]+)<\/image:loc><\/image:image>/g)]
        .map(m=>m[1]);
@@ -602,6 +608,17 @@ await Promise.all(urls.map(async ({label,url}) => {
        medicalPage?.author?.name==='이조은치과'&&
        medicalPage.author.url===origin+'/'&&
        medicalPage.url===response.url;
+      if(label==='잇몸 건강정보 탐색 경로'){
+       const meta=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
+       const breathReady=meta.includes('입냄새도 걱정된다면')&&
+        body.includes('id="section-8"')&&
+        body.includes('입냄새만으로 치주염이라고 진단할 수는 없습니다')&&
+        body.includes('href="#section-8"')&&
+        medicalPage?.description===meta;
+       info.push(breathReady?
+        'Google 잇몸 출혈·구취 감별 진료정보와 정확한 의료기관 구조화 설명 실제 공개 확인':
+        '구취·잇몸출혈 Google 건강정보 검색 설명 최신 배포 확인 필요');
+      }
       info.push(clinicAttribution?
        'Google 건강정보 제공 주체·원장 자격 소개·구조화 작성기관 실제 배포 일치':
        'Google 건강정보 제공 기관과 의료진 소개 신규 배포 확인 필요');
@@ -833,6 +850,9 @@ await Promise.all(urls.map(async ({label,url}) => {
        body.includes('href="/root-canal-health.html#root-canal-articles"');
       info.push(differentialReady?'잇몸 고름의 치주·근관 원인 구분과 건강정보 교차 링크 실제 배포 확인':
         '잇몸 고름 치주·근관 원인 구분 정보 최신 배포 확인 필요');
+      info.push(body.includes('입냄새나 고름이 반복되면 구강·치주 상태를 검사해 원인을 구분합니다')?
+       '치주치료 소개에 입냄새만으로 잇몸병을 단정하지 않는 환자 안내 최신 게시':
+       '잇몸치료 증상 안내의 입냄새 감별 문장 최신 배포 확인 필요');
     }
     if(label === '자연치아 건강정보 진료 연결' ||
        label.startsWith('보존 진료 연결 건강정보: ')){
@@ -872,6 +892,10 @@ await Promise.all(urls.map(async ({label,url}) => {
         const four=body.match(/<nav class="gum-symptom-choices"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
         const matched=(four.match(/<a href="\/health\//g)||[]).length===4;
         info.push(matched?'잇몸 출혈·붓기·흔들림·스케일링 환자 안내 반영':'잇몸 증상별 환자 안내 신규 배포 확인 필요');
+        info.push(body.includes('양치해도 입냄새가 나고 잇몸에서 피도 나나요?')&&
+         body.includes('href="/health/gum-bleeding.html#section-8"')?
+         'Google 구취·잇몸출혈 증상 모음에서 실제 감별 설명으로 안내 최신 공개 확인':
+         '구취·잇몸출혈 건강정보 바로가기 최신 배포 확인 필요');
         info.push(body.includes('뾰루지·물집처럼 보이는 돌기가 생기거나 고름이 나오는 경우')&&
           body.includes('뾰루지가 모두 치주염은 아니며')?
           'Google 환자말 잇몸 뾰루지·고름 증상 안내와 직접 건강정보 링크 실제 배포 확인':
@@ -1035,6 +1059,9 @@ if(deployedSearchScript){
   const bookingOk=client.includes('const reservationIntent=')&&
    client.includes('dataset.bookingUrl')&&
    client.includes('예약 확정을 의미하지 않습니다');
+  const breathScriptReady=client.includes("'입냄새':['입냄새','구취'")&&
+   client.includes("const spacedRegion=q.match(")&&
+   client.includes("/(?:입냄새|입에서냄새|구취)/");
   const hoursOk=client.includes('const hoursOnlyIntent=')&&
    client.includes('금요일 격주 오전 09:30~13:00')&&
    client.includes('접수 마감 오전 12:30 / 오후 18:00')&&
@@ -1043,7 +1070,8 @@ if(deployedSearchScript){
    'HTTP '+response.status+' · 검색 페이지 지정 버전 '+declared+' / 실제 JS '+delivered+
    (hashOk?' · 파일 해시 일치':' · 파일 해시 불일치')+
    (bookingOk?' · 네이버 예약 찾기 연결 반영':' · 예약 검색 코드 최신 반영 필요')+
-   (hoursOk?' · 격주 금·토요일·접수 마감 안내 반영':' · 진료시간 검색 코드 최신 반영 필요'));
+   (hoursOk?' · 격주 금·토요일·접수 마감 안내 반영':' · 진료시간 검색 코드 최신 반영 필요')+
+   (breathScriptReady?' · 구취·복수 지역명 검색 보정 반영':' · 구취·지역명 검색 개선 배포 확인 필요'));
  }catch(error){
   add('환자가 실제 로딩하는 검색 프로그램','접속 확인 불가',shortError(error));
  }
