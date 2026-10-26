@@ -33,9 +33,8 @@
 @media(max-width:600px){.story-toc nav{grid-template-columns:1fr;gap:5px;padding:8px 10px 11px}.story-toc{margin:18px 0 15px}}
 @media print{.story-toc{display:none}}
 
-/* A clinic-story-specific mobile contact strip. No booking URL is guessed:
-   the only actions are verified telephone and the clinic visit guide.
-   Source article, links and footer remain present in the HTML without JS. */
+/* Mobile patient action strip: verified telephone, official Naver booking,
+   and clinic directions. All actions are ordinary links without JavaScript. */
 .story-mobile-actions{display:none}
 @media(max-width:600px){
  body.owner-story-page{
@@ -47,8 +46,8 @@
   inset-inline:0;
   bottom:0;
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.08fr) minmax(0,1fr);
+  gap:6px;
   box-sizing:border-box;
   padding:9px max(12px,env(safe-area-inset-right,0px))
           calc(9px + env(safe-area-inset-bottom,0px))
@@ -66,8 +65,8 @@
   justify-content:center;
   text-align:center;
   border-radius:9px;
-  padding:8px 10px;
-  font:750 14px/1.4 system-ui,"Apple SD Gothic Neo",sans-serif;
+  padding:8px 5px;
+  font:750 13px/1.4 system-ui,"Apple SD Gothic Neo",sans-serif;
   text-decoration:none;
   word-break:keep-all;
  }
@@ -75,6 +74,11 @@
   background:#173e35;
   border:1px solid #173e35;
   color:white;
+ }
+ .story-mobile-actions .story-mobile-booking{
+  background:#e0efe5;
+  border:1px solid #80aa8c;
+  color:#174937;
  }
  .story-mobile-actions .story-mobile-location{
   background:white;
