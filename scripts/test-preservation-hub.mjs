@@ -285,3 +285,47 @@ test('cervical GI and insured care pages navigate to original owner content with
   'patient-oriented insured care decisions must remain searchable');
  assert.ok(insured.includes('.insurance-care-path-grid a{display:inline-flex;align-items:center;min-height:48px'));
 });
+
+test('scaling and wisdom tooth hubs avoid duplicated claims and link patients to reviewed clinical stories',()=>{
+ const scaling=readFileSync('dist/scaling.html','utf8');
+ const wisdom=readFileSync('dist/wisdom-tooth.html','utf8');
+ assert.equal((scaling.match(/<h2>스케일링과 잇몸치료는 어떻게 다를까요\?<\/h2>/g)||[]).length,0,
+  'do not repeat a nearly identical periodontal comparison below the first explanation');
+ assert.equal((scaling.match(/<h2>스케일링과 잇몸치료는 어떻게 다른가요\?<\/h2>/g)||[]).length,1);
+ const scalingGuide=scaling.match(/<section id="scaling-patient-concerns"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.ok(scalingGuide.includes('스케일링 전후에 이런 점이 걱정되신다면'));
+ const scalingSources=[
+  '2026-10-25-incheon-gum-treatment-after-scaling-sensitivity',
+  '2026-10-25-bupyeong-scaling-after-gum-swelling',
+  '2026-10-24-bupyeong-orthodontic-scaling-gum-care'
+ ];
+ for(const slug of scalingSources){
+  assert.ok(posts.some(p=>p.slug===slug),'scaling guide must link only to published owner story: '+slug);
+  assert.ok(scalingGuide.includes('href="/stories/'+slug+'/"'),'scaling link missing: '+slug);
+ }
+ assert.ok(scalingGuide.includes('정상 회복이라고 단정해서는 안 됩니다'));
+ assert.ok(scalingGuide.includes('숨쉬기 어렵다면 즉시 응급 진료'));
+ assert.ok(scaling.includes('href="/stories/2026-10-24-sangok-scaling-gargle-anesthesia-pain-control/"'),
+  'preserve existing source article on gargle-anesthesia concerns');
+ assert.ok(scaling.includes('.scaling-patient-reading a{display:inline-flex;align-items:center;min-height:48px'));
+ assert.ok(index.some(p=>p.url==='/scaling.html'&&p.body.includes('스케일링 전후에 이런 점이 걱정되신다면')),
+  'new aftercare context should appear in the patient-facing public search index');
+ const wisdomSection=wisdom.match(/<section class="section" id="wisdom-patient-paths"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.equal((wisdomSection.match(/<article>/g)||[]).length,2);
+ assert.ok(wisdom.includes('이조은치과는 위험이 높은 사랑니를 무리하게 직접 발치하기보다'));
+ assert.ok(wisdom.includes('하치조신경관'));
+ assert.ok(wisdomSection.includes('모든 환자에게 국소 지혈재를 일률적으로 사용할 필요는 없습니다'));
+ assert.ok(wisdomSection.includes('추가 지혈 처치가 필요할 수 있습니다'));
+ assert.ok(wisdomSection.includes('처방약을 임의로 중단해서는 안 됩니다'));
+ for(const slug of [
+  'naver-223665456537-sangok-wisdom-tooth-gum',
+  '2026-10-25-bupyeong-wisdom-tooth-extraction-hemostatic-dressing'
+ ]){
+  assert.ok(posts.some(p=>p.slug===slug),'wisdom guidance must link to a published story: '+slug);
+  assert.ok(wisdomSection.includes('href="/stories/'+slug+'/"'),'missing wisdom tooth owner story: '+slug);
+ }
+ assert.ok(wisdomSection.includes('href="/health/insurance-extraction.html"'));
+ assert.ok(wisdom.includes('.wisdom-patient-grid a{display:inline-flex;align-items:center;min-height:48px'));
+ assert.ok(index.some(p=>p.url==='/wisdom-tooth.html'&&p.body.includes('사랑니가 붓거나 발치 비용이 궁금하다면')),
+  'patient search must expose wisdom tooth symptoms and costs');
+});
