@@ -18,8 +18,8 @@ test('Cheongcheon-dong and Bupyeong clinic queries have one truthful branded hom
  assert.equal(twitter,title);
  assert.ok(meta.includes('청천동치과')&&meta.includes('부평치과'));
  assert.ok(title.startsWith('이조은치과 |'),'exact brand must lead the Google homepage title');
- assert.ok(meta.startsWith('이조은치과('),'snippet must identify the official clinic first');
- assert.ok(meta.includes('이-조은치과의원'),'recognize hospital registry directory name');
+ assert.ok(meta.startsWith('이조은치과,'),'snippet must identify the official clinic first');
+ assert.ok(meta.includes('고려대학교 의학박사(치과학 전공)·통합치의학과 전문의'),'retain actual credentials in the short branded snippet');
  assert.ok(meta.length<=80);
  assert.equal(extract(h,/<meta property="og:description" content="([^"]+)"/),meta);
  assert.equal(extract(h,/<meta name="twitter:description" content="([^"]+)"/),meta);
