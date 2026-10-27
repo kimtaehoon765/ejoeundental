@@ -512,6 +512,34 @@ test('clinic schedule questions expose alternating Friday and Saturday hours, cu
  }
 });
 
+test('search visitors reach the full verified clinic schedule, parking and recent area queries',async()=>{
+ const source=readFileSync('dist/search.html','utf8');
+ const visit=readFileSync('dist/visit-guide.html','utf8');
+ assert.ok(visit.includes('id="visit-hours"')&&visit.includes('id="visit-parking"'),
+  'the detailed schedule and parking sections must exist');
+ assert.ok(source.includes('href="/visit-guide.html#visit-hours"'),
+  'static search page should link to the precise alternating-day hours section');
+ assert.ok(!source.includes('href="/#location"'),
+  'standalone search should not bounce patients back to the homepage');
+ for(const q of ['부평역 잇몸치료','굴포천역 재신경치료'])
+  assert.ok(source.includes('href="/search.html?q='+encodeURIComponent(q)+'"'),
+   'patient should see a discoverable station-related clinical query '+q);
+ assert.ok(source.includes('실제 진료 장소는 인천 부평구 청천동'),
+  'search terms must not suggest a clinic branch outside Cheongcheon-dong');
+ for(const query of ['토요일 진료','접수 마감','주차','부평역 치과']){
+  const {results}=await search(query,[]);
+  const panels=walk(results,x=>x.className==='search-visit-answer');
+  assert.equal(panels.length,1,'must provide real visit details: '+query);
+  const links=walk(panels[0],x=>typeof x.href==='string').map(x=>x.href);
+  assert.ok(links.includes('/visit-guide.html#visit-hours'),query+' needs direct hours');
+  assert.ok(links.includes('/visit-guide.html#visit-parking'),query+' needs direct parking');
+ }
+ const caseOnApex=await search('토요일 진료',[],{hostname:'ejoeundental.com'});
+ const links=walk(caseOnApex.results,x=>typeof x.href==='string').map(x=>x.href);
+ assert.ok(links.includes('/visit-guide#visit-hours'),
+  'live host should use its redirect-free canonical visit path with hour anchor');
+});
+
 test('treatment questions mentioning opening days keep clinical results visible',async()=>{
  const pages=[
   {url:'/wisdom-tooth.html',title:'토요일 사랑니 발치 상담',description:'사랑니 발치 진료',body:'발치 전 검사'},
