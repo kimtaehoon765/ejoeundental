@@ -1236,3 +1236,42 @@ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:focus-
  }
  body.home-page #main-content>#philosophy .card p{font-size:15px}
 }
+
+
+/* Patient-mobile dock edition 2026-10-27: three useful, independent links.
+   The confirmed direct Naver booking link remains untouched. */
+@media(max-width:600px){
+ body.home-page .mobile-booking-actions{
+  grid-template-columns:minmax(0,.92fr) minmax(0,1.32fr) minmax(0,.94fr);
+  align-items:stretch;gap:7px;padding-inline:10px;
+ }
+ body.home-page .mobile-booking-actions a{
+  box-sizing:border-box;min-width:0;min-height:49px;
+  padding:9px 6px;border-radius:11px;
+  font-size:clamp(11.5px,3.2vw,13px);
+  line-height:1.42;white-space:normal;word-break:keep-all;
+ }
+ body.home-page .mobile-booking-actions .mobile-booking-naver{
+  background:#216947;border-color:#216947;color:#fff;font-weight:850;
+ }
+ body.home-page .mobile-booking-actions .mobile-booking-visit{
+  background:#f5f8f1;border:1px solid #c5d9c5;
+  color:#27513b;font-weight:750;
+ }
+ body.home-page .mobile-booking-actions .mobile-booking-visit:active,
+ body.home-page .mobile-booking-actions .mobile-booking-call:active{
+  background:#e4efe2;
+ }
+ body.home-page .mobile-booking-actions a:focus-visible{
+  outline:3px solid #b18a47;outline-offset:2px;
+ }
+ body.home-page:has(.symptom-quick-search:focus-within) .mobile-booking-actions{
+  display:none;
+ }
+}
+@media print{
+ body.home-page .mobile-booking-actions{display:none!important}
+}
+@media(forced-colors:active){
+ body.home-page .mobile-booking-actions a{border:1px solid CanvasText}
+}

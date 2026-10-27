@@ -3126,10 +3126,11 @@ function brandPublicPages(dir){
  const bookingData=JSON.parse(fs.readFileSync(path.join(root,'content/site.json'),'utf8'));
  const action=bookingAction(bookingData.naver_booking_url);
  const safe=val=>String(val).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
- const buttons='<nav class="mobile-booking-actions" aria-label="휴대폰 진료 문의와 네이버 예약 안내">'+
-  '<a class="mobile-booking-call" href="tel:0325132875" aria-label="이조은치과 032-513-2875로 전화">☎ 전화 문의</a>'+
+ const buttons='<nav class="mobile-booking-actions" aria-label="휴대폰 전화 문의·네이버 예약·오시는 길">'+
+  '<a class="mobile-booking-call" href="tel:0325132875" aria-label="이조은치과 032-513-2875로 전화">☎ 전화</a>'+
   '<a class="mobile-booking-naver" href="'+safe(action.url)+'" target="_blank" rel="noopener noreferrer"'+
   ' aria-label="'+safe(action.aria)+'">'+safe(action.label)+'</a>'+
+  '<a class="mobile-booking-visit" href="/visit-guide.html" aria-label="진료시간·청천동 위치·주차 안내">오시는 길</a>'+
   '</nav>';
  const heroMarker='<!-- BUILD_NAVER_BOOKING_HERO -->';
  if(page.split(heroMarker).length!==2)throw new Error('Expected exactly one desktop hero booking placeholder');

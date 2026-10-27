@@ -2961,6 +2961,24 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  }
 }
 
+/* Three verified mobile patient actions, search-keyboard and print comfort. */
+{
+ const html=readFileSync(join(root,'index.html'),'utf8');
+ const bar=html.match(/<nav class="mobile-booking-actions"[\s\S]*?<\/nav>/)?.[0]||'';
+ const css=readFileSync(join(root,'assets/gallery-upgrade.css'),'utf8');
+ const expected=JSON.parse(readFileSync(join(root,'content/site.json'),'utf8')).naver_booking_url;
+ const valid=bar.includes('class="mobile-booking-call"')&&
+  bar.includes('class="mobile-booking-naver"')&&
+  bar.includes('class="mobile-booking-visit"')&&
+  bar.includes('href="tel:0325132875"')&&
+  bar.includes('href="'+expected+'"')&&
+  bar.includes('href="/visit-guide.html"')&&
+  css.includes('Patient-mobile dock edition 2026-10-27')&&
+  css.includes('.symptom-quick-search:focus-within')&&
+  css.includes('@media print');
+ if(!valid)errors.push('홈페이지 모바일 전화·네이버 예약·오시는 길 3개 버튼 및 검색 입력 UX 오류');
+}
+
 // Report every audit error, including the checks above this final line.
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);

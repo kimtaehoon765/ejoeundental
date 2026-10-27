@@ -686,11 +686,13 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       const publicBookingUrl=ownerBooking.url.replaceAll('&','&amp;');
       const bookingVisible=bookingHtml.includes('href="tel:0325132875"')&&
        bookingHtml.includes('href="'+publicBookingUrl+'"')&&
-       bookingHtml.includes(ownerBooking.label);
+       bookingHtml.includes(ownerBooking.label)&&
+       bookingHtml.includes('class="mobile-booking-visit"')&&
+       bookingHtml.includes('href="/visit-guide.html"');
       info.push(bookingVisible
-       ?(ownerBooking.direct?'모바일 하단 전화·검증된 네이버 예약 바로가기 반영':
+       ?(ownerBooking.direct?'모바일 하단 전화·네이버 예약·오시는 길 3개 버튼 반영':
           '모바일 하단 전화·네이버 예약 검색 안내 반영 (직접 예약 URL은 미등록)')
-       :'모바일 하단 전화·네이버 예약 안내 최신 배포 여부 확인 필요');
+       :'모바일 하단 전화·예약·길찾기 3개 버튼 배포 확인 필요');
       const heroBooking=body.match(/<div class="hero-actions"[^>]*>([\s\S]*?)<\/div>/)?.[1]||'';
       const heroBookingReady=ownerBooking.direct&&heroBooking.includes('class="btn hero-booking"')&&
         heroBooking.includes('href="'+publicBookingUrl+'"')&&heroBooking.includes(ownerBooking.label);
