@@ -515,6 +515,16 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        (exactDoctorHero?'확인':'미반영')+', 소개 '+(exactDoctorBio?'확인':'미반영')+
        ', 구조화 데이터 '+(degreeSchemaReady?'확인':'미반영')+')');
       const heroMarkup=body.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
+      const galleryEditorialReady=heroMarkup.includes('class="hero-editorial-detail"')&&
+        heroMarkup.includes('class="hero-editorial-choices"')&&
+        heroMarkup.includes('class="hero-editorial-story"')&&
+        heroMarkup.includes('class="hero-stories-shortcut"')&&
+        heroMarkup.includes('class="hero-care-summary"')&&
+        heroMarkup.includes('class="hero-actions"');
+      info.push(galleryEditorialReady?
+        '메인 편집형 미술관 레이아웃: 상단 원장·예약, 하단 진료·철학 두 칸 실배포 확인':
+        '메인 편집형 미술관 레이아웃 신규 배포 확인 필요');
+
       const credentialAt=heroMarkup.indexOf('고려대학교 의학박사');
       const galleryAt=heroMarkup.indexOf('class="hero-gallery-window"');
       const introAt=heroMarkup.indexOf('id="intro"');

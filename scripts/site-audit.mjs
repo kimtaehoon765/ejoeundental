@@ -2857,6 +2857,27 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  }
 }
 
+// Protect homepage gallery hierarchy and first-screen patient navigation.
+{
+ const homepage=readFileSync(join(root,'index.html'),'utf8');
+ const hero=homepage.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
+ const positions=['class="hero-actions"','class="art hero-artwork"','class="hero-editorial-detail"','class="hero-editorial-choices"','class="hero-care-summary"','class="hero-editorial-story"','class="hero-stories-shortcut"','id="intro"'];
+ const complete=positions.every(k=>hero.includes(k))&&
+   (hero.match(/class="hero-care-summary"/g)||[]).length===1&&
+   (hero.match(/class="hero-actions"/g)||[]).length===1&&
+   (hero.match(/class="hero-stories-shortcut"/g)||[]).length===1&&
+   hero.indexOf('class="hero-actions"')<hero.indexOf('class="hero-care-summary"')&&
+   hero.indexOf('class="hero-editorial-detail"')<hero.indexOf('class="hero-care-summary"')&&
+   hero.includes('BUILD_NAVER_BOOKING_HERO')&&
+   hero.includes('BUILD_STORY_LINK_COUNT');
+ const sheet=readFileSync(join(root,'assets/gallery-upgrade.css'),'utf8');
+ if(!complete||!sheet.includes('Gallery editorial home: the 2026-10-27 second pass')||
+    !sheet.includes('grid-column:1/-1;grid-row:2')||
+    !sheet.includes('@media(max-width:600px)')){
+  errors.push('미술관 메인 홈: 의료진·진료·예약·원장 이야기 편집형 레이아웃 누락');
+ }
+}
+
 // Report every audit error, including the checks above this final line.
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);
