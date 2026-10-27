@@ -448,10 +448,13 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       // Missing headers are deployment signals, never claims of compromise.
       const securityKeys=['x-frame-options','x-content-type-options',
        'referrer-policy','permissions-policy'];
-      const googleVerification=homepageSource.match(/<meta name="google-site-verification" content="([^"]+)">/)?.[1]||'';
+      // HTML permits both > and /> with or without whitespace. Compare the
+      // verification token, not a particular formatting of the meta tag.
+      const googleTag=/<meta\\s+name="google-site-verification"\\s+content="([^"]+)"\\s*\\/?>/i;
+      const googleVerification=homepageSource.match(googleTag)?.[1]||'';
+      const liveGoogleVerification=body.match(googleTag)?.[1]||'';
       const googleReady=Boolean(googleVerification)&&
-       (body.includes('<meta name="google-site-verification" content="'+googleVerification+'">')||
-        body.includes('<meta name="google-site-verification" content="'+googleVerification+'" />'));
+       liveGoogleVerification===googleVerification;
       info.push(googleReady?'Google Search Console 소유권 확인용 메타 태그 실제 서버에 게시됨':
        'Google Search Console 소유권 확인 태그 배포 상태 점검 필요 (계정 인증 여부와 별개)');
       const clinicGraph=[...body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
@@ -578,11 +581,11 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       const localSearchReady=localClinicTitle.startsWith('이조은치과 |')&&
         localClinicTitle.includes('부평치과')&&
         body.includes('id="intro">부평치과를 찾는 분께')&&
-        pageDescription.includes('부평치과')&&
+        pageDescription.includes('인천 부평구 청천동')&&
         body.includes('property="og:title" content="'+localClinicTitle+'"');
       info.push(localSearchReady?'부평치과 대표 검색 제목·원장 진료 소개 최신 반영':'부평치과 대표 검색어 홈페이지 신규 배포 확인 필요');
       const cheongcheonReady=localClinicTitle.includes('청천동치과')&&
-       pageDescription.includes('청천동치과')&&
+       pageDescription.includes('청천동')&&
        heroMarkup.includes('class="hero-local-intro"')&&
        heroMarkup.includes('세월천로 34')&&
        heroMarkup.includes('href="/visit-guide.html"');
@@ -1437,9 +1440,9 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
     }
     if(label==='public route visit-guide'){
       const desc=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
-      info.push(desc.includes('부평치과')&&body.includes('부평치과를 찾는 분께 실제 진료 위치를 안내합니다')
-        ?'부평치과 진료시간·방문정보 신규 검색 안내 반영'
-        :'부평치과 진료시간·방문정보 신규 배포 확인 필요');
+      info.push(desc.includes('청천동치과')&&body.includes('부평치과를 찾는 분께 실제 진료 위치를 안내합니다')
+        ?'청천동치과 진료시간·방문정보 신규 검색 안내 반영'
+        :'청천동치과 진료시간·방문정보 신규 배포 확인 필요');
       const visitTitle=body.match(/<title>([^<]+)<\/title>/)?.[1]||'';
       const visitQuickNav=body.match(/<nav class="visit-jump"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
       const visitLinks=['#visit-hours','#visit-parking','#transit-heading','#visit-checklist-title'];
