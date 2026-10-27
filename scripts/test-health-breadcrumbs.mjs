@@ -1,8 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync,existsSync} from 'node:fs';
+import {bookingAction} from './naver-booking-link.mjs';
 
 const dist=new URL('../dist/health/',import.meta.url);
+const booking=bookingAction(JSON.parse(readFileSync(new URL('../content/site.json',import.meta.url),'utf8')).naver_booking_url);
 const hubs=new Map([
  ['/gum-health.html','잇몸 건강정보'],
  ['/root-canal-health.html','신경치료·재신경치료 건강정보'],
@@ -61,10 +63,14 @@ test('all 46 health pages have truthful, visible three-level breadcrumbs',()=>{
   assert.ok(journey.includes('<h2>관련 진료와 다음 단계</h2>'),filename+' missing next-step heading');
   assert.ok(journey.includes('실제 치료 필요성은 진찰 결과에 따라 달라집니다'),filename+' missing diagnostic qualification');
   const links=[...journey.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(m=>m[1]);
-  assert.equal(links.length,4,filename+' should have two topic links plus location and telephone');
-  assert.equal(new Set(links).size,4,filename+' should not duplicate any links');
+  assert.equal(links.length,5,filename+' should have two topic links plus location, telephone and owner-confirmed booking');
+  assert.equal(new Set(links).size,5,filename+' should not duplicate any links');
   assert.equal(links[2],'/'+'#location',filename+' needs a directions and opening-hours link');
   assert.equal(links[3],'tel:0325132875',filename+' needs a mobile-friendly call link');
+  assert.equal(links[4],booking.url.replace(/&/g,'&amp;'),
+   filename+' needs the official, owner-confirmed Naver booking destination');
+  assert.match(journey,/class="patient-care-journey-booking"[^>]*target="_blank" rel="noopener noreferrer"/,
+   filename+' external booking must open safely in a new tab');
   const isGum=/^(gum-|swollen-gums|periodontal-|scaling-|root-planing|curette-|receding-gums|loose-tooth)/.test(filename);
   const isRoot=filename.startsWith('root-canal-');
   const isRetreatment=isRoot&&/(?:retreatment|after-pain|or-extraction|lesion)/.test(filename);
