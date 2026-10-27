@@ -3,6 +3,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
+import { bookingAction } from './naver-booking-link.mjs';
 
 const root = resolve('dist');
 const publicOrigin = process.env.SITE_PUBLIC_ORIGIN || 'https://ejoeundental.com';
@@ -3110,6 +3111,38 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   indexed+=count;
  }
  if(indexed!==40)errors.push('FAQ 바로가기 총 질문 수 오류: '+indexed);
+}
+
+/* Every guide's native next-step navigation should keep a safe,
+   owner-confirmed booking action, as well as telephone and clinically relevant
+   reading. No external script, pop-up or visitor tracking is required. */
+{
+ const healthDir=join(root,'health');
+ const published=readdirSync(healthDir).filter(x=>x.endsWith('.html'));
+ const bookingSource=JSON.parse(readFileSync(join('content','site.json'),'utf8')).naver_booking_url;
+ const action=bookingAction(bookingSource);
+ const encoded=action.url.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+ const expected='<a class="patient-care-journey-booking" href="'+encoded+'"';
+ let working=0;
+ for(const file of published){
+  const page=readFileSync(join(healthDir,file),'utf8');
+  const journey=page.match(/<nav class="patient-care-journey"[^>]*>[\s\S]*?<\/nav>/)?.[0]||'';
+  if(journey.includes(expected) &&
+     (journey.match(/class="patient-care-journey-booking"/g)||[]).length===1 &&
+     journey.includes('target="_blank" rel="noopener noreferrer"') &&
+     journey.includes('href="tel:0325132875"') &&
+     journey.includes('href="/#location"') &&
+     journey.includes('patient-care-journey-primary')){
+   working++;
+  }else{
+   errors.push('건강정보 네이버 예약·전화·진료 연결 누락: '+file);
+  }
+ }
+ if(published.length!==46||working!==46)
+  errors.push('46개 건강정보 예약 경로 점검 미완료: '+working+'/'+published.length);
+ const css=readFileSync(join(root,'assets','style.css'),'utf8');
+ if(!css.includes('.patient-care-journey-links .patient-care-journey-booking'))
+  errors.push('건강정보 예약 버튼 모바일 디자인 누락');
 }
 
 // Report every audit error, including the checks above this final line.
