@@ -1544,6 +1544,22 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        '잇몸치료 후 재발·유지관리 원장 글로 연결되는 실제 HTML 최신 배포 확인':
        '잇몸치료 후 재발·유지관리 글 내부 링크 최신 배포 확인 필요');
     }
+    if(label==='public route insurance-health'||label==='remaining route dental-insurance-faq'){
+      const stories=[
+       '2026-10-24-bupyeong-cavity-gi-insurance',
+       '2026-10-25-samsan-cervical-abrasion-gi-insurance-vs-resin',
+       '2026-10-25-cheongcheon-affordable-dental-care-insurance-priorities',
+       '2026-10-25-incheon-periodontal-maintenance-after-treatment'
+      ];
+      const current=label==='public route insurance-health'?
+       response.ok&&body.includes('class="note insurance-story-bridge"')&&
+       stories.every(slug=>body.includes('href="/stories/'+slug+'/"'))&&
+       body.includes('href="/dental-insurance-faq.html"'):
+       response.ok&&body.includes('href="/insurance-health.html"');
+      info.push(current?
+       '건강보험 진료 10편과 원장 교육 글 간 환자용 내부 연결 실제 배포 확인':
+       '건강보험 진료정보와 원장 교육 글 연결 배포·캐시 점검 필요');
+    }
     const redirectLocation=response.headers.get('location')||'';
     let redirectUrl=null;
     try { redirectUrl=redirectLocation?new URL(redirectLocation,url):null; }catch{}
