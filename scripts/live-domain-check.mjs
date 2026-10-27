@@ -1519,6 +1519,19 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
         !body.includes('<th scope="row">병원 발급 치료확인서</th>');
       info.push(ready?'제증명 수수료 4종 초기 HTML 반영':'제증명 수수료 최신 표시 확인 필요');
     }
+    // Internal, contextual links to periodontal maintenance should appear on
+    // both the treatment questions and the main gum-health education hub.
+    // Check the already-fetched live HTML so this does not add network calls.
+    if(label==='public route gum-health'||label==='remaining route gum-treatment-faq'){
+      const target='/stories/2026-10-25-incheon-periodontal-maintenance-after-treatment/';
+      const linked=response.ok&&body.includes('href="'+target+'"');
+      const usefulContext=label==='public route gum-health'?
+       body.includes('잇몸치료 후에도 재발하는 이유와 유지관리 간격'):
+       body.includes('재진 간격은 모든 환자에게 동일하지 않으며');
+      info.push(linked&&usefulContext?
+       '잇몸치료 후 재발·유지관리 원장 글로 연결되는 실제 HTML 최신 배포 확인':
+       '잇몸치료 후 재발·유지관리 글 내부 링크 최신 배포 확인 필요');
+    }
     const redirectLocation=response.headers.get('location')||'';
     let redirectUrl=null;
     try { redirectUrl=redirectLocation?new URL(redirectLocation,url):null; }catch{}
