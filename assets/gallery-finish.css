@@ -267,3 +267,61 @@ body.home-page #main-content :is(a,button,input,summary):focus-visible{
     body.home-page #main-content > .home-archive-gallery{contain-intrinsic-size:auto 900px;}
   }
 }
+
+
+/* Responsive navigation and reading comfort · 2026-10-27 */
+/* Mid-size screens should have one calm, scrollable navigation row instead of
+   two or three ragged rows. The scrollbar remains keyboard-accessible. */
+@media (min-width:601px) and (max-width:850px){
+ body.home-page header .nav{
+  display:flex;flex-wrap:wrap;align-items:center;
+  row-gap:4px;padding:12px 20px 6px;
+ }
+ body.home-page header .nav .logo{flex:0 0 100%;font-size:23px}
+ body.home-page header .navlinks{
+  display:flex;flex:0 0 100%;min-width:0;max-width:100%;
+  flex-wrap:nowrap;gap:18px;
+  overflow-x:auto;overflow-y:hidden;
+  white-space:nowrap;-webkit-overflow-scrolling:touch;
+  overscroll-behavior-inline:contain;
+  scrollbar-width:thin;
+  padding:0 1px 5px;
+ }
+ body.home-page header .navlinks>a{flex:0 0 auto}
+ body.home-page header .navlinks>a:focus-visible{
+  outline:3px solid #a6844b;outline-offset:1px;
+ }
+}
+/* Below the two-column breakpoint, give the patient guidance full line width.
+   Links, clinical explanations, and appointment routes are not hidden. */
+@media (min-width:601px) and (max-width:760px){
+ body.home-page #main-content>.hero{
+  grid-template-columns:minmax(0,1fr) minmax(0,.67fr);
+  gap:20px;
+ }
+ body.home-page #main-content>.hero>.hero-editorial-detail{
+  grid-template-columns:minmax(0,1fr);gap:13px;
+ }
+ body.home-page #main-content>.hero .hero-editorial-detail>div,
+ body.home-page #main-content>.hero .hero-editorial-detail>aside{
+  padding:20px 22px;
+ }
+ body.home-page #main-content>.hero .hero-editorial-choices .hero-care-summary{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+ }
+ body.home-page #main-content>.hero .hero-editorial-choices .hero-more-care{
+  grid-column:1/-1;
+ }
+}
+@media(max-width:600px){
+ body.home-page #main-content>.hero .hero-editorial-choices .hero-care-summary>a{
+  line-height:1.6;min-height:53px;
+ }
+ body.home-page #main-content>.hero .hero-stories-shortcut a,
+ body.home-page #main-content>.hero .hero-more-care summary{
+  min-height:44px;
+ }
+ body.home-page .mobile-booking-actions a{
+  text-wrap:balance;
+ }
+}
