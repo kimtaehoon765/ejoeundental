@@ -3023,7 +3023,20 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
    style.includes('.doctor-care-trails')&&
    style.includes('details>summary::after')&&
    style.includes('@media(max-width:600px)');
- if(!good) errors.push('홈페이지 의료진 미술관·대표 진료 3가지·환자 교육 4편·FAQ 11개 디자인 불일치');
+ if(!good) errors.push('홈페이지 의료진 미술관·대표 진료 3가지·환자 교육 4편·FAQ 11개 디자인 불일치 '+
+  JSON.stringify({
+   doctor:section.includes('id="doctor_title"'),date:section.includes('2003년부터'),
+   links:['gum-treatment','retreatment','tooth-preservation'].map(slug=>[slug,trails.includes('href="/'+slug+'"')||trails.includes('href="/'+slug+'.html"')]),
+   trailCount:(trails.match(/<a\\b/g)||[]).length,
+   specialty:section.includes('통합치의학과 전문의'),
+   guideGrid:guide.includes('class="home-representative-guide-grid"'),
+   guideLinks:(guide.match(/<a\\s+href="\\/stories\\//g)||[]).length,
+   faq:faq.includes('class="faq-list"'),faqCount:(faq.match(/<details>/g)||[]).length,
+   stylesheet:style.includes('Physician provenance gallery |'),
+   navStyle:style.includes('.doctor-care-trails'),
+   faqStyle:style.includes('details>summary::after'),
+   mobileStyle:style.includes('@media(max-width:600px)')
+  }));
 }
 
 // Report every audit error, including the checks above this final line.
