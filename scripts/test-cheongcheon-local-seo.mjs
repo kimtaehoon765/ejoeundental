@@ -298,3 +298,15 @@ test('root canal regional search descriptions stay natural and retreatment FAQ l
  assert.ok(label.includes('질문 '+faqCards+'가지'), 'visible link count should match the FAQ itself');
  assert.ok(!label.includes('질문 9가지'),'do not show stale counts');
 });
+
+test('sitemap uses real October 27 revisions of four materially edited care hubs, not a blanket timestamp',()=>{
+ const edited=['gum-health','insurance-health','additional-health','dental-insurance-faq'];
+ for(const slug of edited){
+  const line='<loc>https://ejoeundental.com/'+slug+'</loc><lastmod>2026-10-27</lastmod>';
+  assert.ok(sitemap.includes(line),slug+' requires an accurate source-backed editorial lastmod');
+ }
+ assert.equal((sitemap.match(/<loc>https:\/\/ejoeundental.com\/(?:gum-health|insurance-health|additional-health|dental-insurance-faq)<\/loc><lastmod>2026-10-27<\/lastmod>/g)||[]).length,4);
+ assert.ok(sitemap.includes('<loc>https://ejoeundental.com/health/insurance-cavity</loc>')&&
+  !sitemap.includes('<loc>https://ejoeundental.com/health/insurance-cavity</loc><lastmod>2026-10-27</lastmod>'),
+  'do not pretend unrelated health guide content was revised today');
+});
