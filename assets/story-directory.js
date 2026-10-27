@@ -89,8 +89,18 @@
       return;
     }
     corpusState = 'loading';
+    // Slow mobile networks must not leave the UI stuck on "본문을 불러오는 중".
+    // The archive can still filter titles and summaries when the full-text
+    // response fails or times out.
+    const abortable = typeof AbortController === 'function'
+      && typeof setTimeout === 'function' && typeof clearTimeout === 'function';
+    const controller = abortable ? new AbortController() : null;
+    const timer = controller ? setTimeout(() => controller.abort(), 12000) : null;
     try {
-      const response = await fetch(source, { credentials: 'same-origin' });
+      const response = await fetch(source, {
+        credentials: 'same-origin',
+        ...(controller ? { signal: controller.signal } : {})
+      });
       if (!response.ok) throw new Error('Search corpus unavailable');
       const data = await response.json();
       if (data?.version !== 1 || !Array.isArray(data.entries) ||
@@ -114,6 +124,8 @@
     } catch (_) {
       // A flaky mobile connection should not hide the immediate title results.
       corpusState = 'error';
+    } finally {
+      if (timer !== null) clearTimeout(timer);
     }
     filter();
   }

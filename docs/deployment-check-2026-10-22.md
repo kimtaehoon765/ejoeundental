@@ -1,4 +1,6 @@
-# 배포 전 점검 기록 (2026-10-22)
+# 배포 전 점검 기록 (2026-10-22, 과거 자료)
+
+> **현재 운영 지침이 아닙니다.** 당시 Netlify 검토 중 작성한 보존 기록입니다. 2026-10-27 점검에서 Cloudflare 서버의 대표 도메인 HTTP 200, www → 대표 도메인 HTTP 301, Pages 임시 주소 noindex가 확인되었습니다. 최신 내용은 [정식 도메인 검증](canonical-domain-redirect.md)을 따르세요. Netlify 관리 화면에서 추가 작업할 필요가 없습니다.
 
 ## 확인된 저장소 설정
 - 저장소: kimtaehoon765/ejoeundental, 기본 브랜치 main.

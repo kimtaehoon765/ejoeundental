@@ -213,3 +213,13 @@ test('the published directory gives a safe readable excerpt for full-text-only m
   'the excerpt must be hidden when its associated full-text query clears');
  assert.ok(!/innerHTML\s*=/.test(script),'never inject the CMS article body as HTML');
 });
+
+
+test('full-text article lookup has a finite timeout and keeps the title-search fallback',()=>{
+ assert.match(script,/setTimeout\(\(\) => controller\.abort\(\), 12000\)/,
+  'patients on unreliable mobile connections should not see endless loading');
+ assert.match(script,/clearTimeout\(timer\)/,
+  'a completed download must clear its timer');
+ assert.match(script,/corpusState = 'error';/,
+  'when the request fails, the title and summary results must still work');
+});
