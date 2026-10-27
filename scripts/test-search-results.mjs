@@ -513,8 +513,8 @@ test('clinic schedule questions expose alternating Friday and Saturday hours, cu
 });
 
 test('search visitors reach the full verified clinic schedule, parking and recent area queries',async()=>{
- const source=readFileSync('dist/search.html','utf8');
- const visit=readFileSync('dist/visit-guide.html','utf8');
+ const source=readFileSync(existsSync('dist/search.html')?'dist/search.html':'search.html','utf8');
+ const visit=readFileSync(existsSync('dist/visit-guide.html')?'dist/visit-guide.html':'visit-guide.html','utf8');
  assert.ok(visit.includes('id="visit-hours"')&&visit.includes('id="visit-parking"'),
   'the detailed schedule and parking sections must exist');
  assert.ok(source.includes('href="/visit-guide.html#visit-hours"'),
