@@ -258,3 +258,23 @@ test('insurance guide links four distinctive published patient articles and back
  assert.equal(schema?.mainEntity?.numberOfItems,10,'ten health guides unchanged');
  assert.equal(schema?.mainEntity?.itemListElement?.length,10,'do not alter the medical guide count');
 });
+
+test('four-topic dental health hub links distinct original articles without changing its 16 guides',()=>{
+ const html=readFileSync('dist/additional-health.html','utf8');
+ const panel=html.match(/<section class="note additional-story-bridge"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.ok(panel.includes('치료를 결정하기 전, 원장이 정리한 실제 질문'));
+ const posts=[
+  '2026-10-24-bupyeong-denture-adjustment-dentist-evaluation',
+  '2026-10-25-samsan-cervical-abrasion-gi-insurance-vs-resin',
+  '2026-10-25-bupyeong-black-line-cavity-overtreatment-decision',
+  '2026-10-25-bupyeong-broken-tooth-extraction-vs-restoration'
+ ];
+ for(const slug of posts)assert.ok(panel.includes('href="/stories/'+slug+'/"'),slug+' article must be linked');
+ assert.equal((panel.match(/href="\/stories\/2026-[^"]+"/g)||[]).length,4,'only four curated article links');
+ assert.ok(panel.includes('href="/doctor.html"'),'medical author identity should be accessible');
+ assert.ok(html.includes('grid-template-columns:1fr'),'mobile links stack on narrow screens');
+ const meta=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(x=>JSON.parse(x[1])).find(x=>x['@type']==='CollectionPage');
+ assert.equal(meta?.mainEntity?.numberOfItems,16);
+ assert.equal(meta?.mainEntity?.itemListElement?.length,16);
+});
