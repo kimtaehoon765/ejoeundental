@@ -5,6 +5,7 @@ import {createHash} from 'node:crypto';
 
 const home=readFileSync('dist/index.html','utf8');
 const css=readFileSync('dist/assets/home-enhancements.css','utf8');
+const galleryCss=readFileSync('dist/assets/gallery-upgrade.css','utf8');
 const artwork=readFileSync('dist/assets/impressionist-water-garden.svg','utf8');
 
 test('the mobile homepage shows original painterly artwork after credentials and before the long clinical description',()=>{
@@ -82,26 +83,36 @@ test('mobile music remains opt-in without overlapping the Monet picture or care 
 
 test('patients see actions and real treatment destinations before long homepage narrative',()=>{
  const hero=home.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
- const sequence=['class="hero-gallery-window"','class="hero-actions"','class="hero-care-prompt"',
+ // The opening call and clinic hours must now precede the decorative painting
+ // in both DOM/focus order and the mobile reading layout.
+ const sequence=['class="hero-doctor-credentials"','class="hero-actions"',
+   'class="hero-local-intro"','class="hero-gallery-window"','class="hero-care-prompt"',
    'class="hero-care-summary"','id="intro"','class="hero-principles"','class="hero-visit-note"'];
  const positions=sequence.map(marker=>hero.indexOf(marker));
  assert.ok(positions.every(x=>x>=0),'Missing patient-first navigation block');
  assert.ok(positions.every((x,i)=>i===0||x>positions[i-1]),
-   'Monet gallery, contact, care choices and full introduction must be in patient-first order');
+   'Clinician credentials, phone/hours, gallery and treatment links must remain in patient-first order');
  const main=hero.slice(hero.indexOf('<nav class="hero-care-summary"'),hero.indexOf('</nav>',hero.indexOf('<nav class="hero-care-summary"')));
  for(const href of ['/gum-treatment.html','/retreatment.html','/cervical-abrasion.html','/insured-care.html'])
    assert.ok(main.includes('href="'+href+'"'),'Missing direct major care option '+href);
  assert.match(css,/body\.home-page #main-content>\.hero \.hero-actions \.hero-call,/);
  assert.match(css,/body\.home-page #main-content>\.hero \.hero-actions \.hero-symptoms\{grid-column:1\/-1\}/);
  assert.match(css,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
- const mobileHeaderFix=css.slice(css.indexOf('Visual QA, Galaxy mobile screenshot 2026-10-24 at 07:06'));
- for(const [className,order] of [['hero-call',0],['hero-symptoms',1],['hero-hours',2],['hero-map',3]]){
-  const pattern=new RegExp('\\.hero-actions \\.'+className+'\\{order:'+order+';grid-column:');
-  assert.match(mobileHeaderFix,pattern,
-   'Mobile visual order must match the semantic HTML order for '+className);
+ assert.match(galleryCss,/Mobile first-screen clinical action path \\|/,
+  'The final responsive layer must carry the updated mobile patient action order');
+ const finalMobileCss=galleryCss.slice(galleryCss.indexOf('Mobile first-screen clinical action path |'));
+ for(const [className,order] of [['hero-call',0],['hero-hours',1],['hero-symptoms',2],['hero-map',3]]){
+  const pattern=new RegExp('\\.hero-actions \\.'+className+'\\{\\s*order:'+order+';grid-column:');
+  assert.match(finalMobileCss,pattern,
+   'Final mobile visual order must match the semantic HTML for '+className);
  }
  const actionBlock=hero.slice(hero.indexOf('class="hero-actions"'),hero.indexOf('</div>',hero.indexOf('class="hero-actions"')));
- const expected=['hero-call','hero-symptoms','hero-hours','hero-map'].map(x=>actionBlock.indexOf(x));
- assert.ok(expected.every((x,i)=>x>=0&&(i===0||x>expected[i-1])));
+ const expected=['hero-call','hero-hours','hero-symptoms','hero-map'].map(x=>actionBlock.indexOf(x));
+ assert.ok(expected.every((x,i)=>x>=0&&(i===0||x>expected[i-1])),
+   'Keyboard tab order should follow visible phone, hours, symptom, map actions');
+ assert.match(finalMobileCss,/min-height:99px;max-height:125px/,
+   'Mobile gallery must remain visible but avoid hiding the telephone actions');
+ assert.match(finalMobileCss,/@media\\(max-width:365px\\)/,
+   'Narrow phones must receive their own single-column fallbacks');
 
 });
