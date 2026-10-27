@@ -830,35 +830,42 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       const remainingSlugs=["gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive"];
       const remainingFinalCount=remainingSlugs.filter(slug=>body.includes('<loc>'+origin+'/'+slug+'</loc>')).length;
       info.push('나머지 FAQ·의료안전·정보 페이지 최종 URL: '+remainingFinalCount+'/16');
-      const revisedDenture=['denture','insurance-health','health/insurance-denture'];
-      const dentureCount=revisedDenture.filter(slug=>
-       body.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>')).length;
-      info.push(dentureCount===3?
-       'Google 틀니 진료·보험 설명 3개 페이지 실제 개정 날짜 게시 확인':
-       'Google 틀니 진료·보험 설명 사이트맵 수정일 최신 배포 확인 필요 ('+dentureCount+'/3)');
-      info.push(body.includes('<loc>'+origin+'/health/insurance-root-canal</loc><lastmod>2026-10-26</lastmod>')?
+      // Compare real hosting to the editorial dates in the *source* sitemap.
+      // Links and medical content changes may warrant a new lastmod, while
+      // unrelated build runs must not silently invent a newer date.
+      const editorialSitemap=readFileSync(new URL('../sitemap.xml',import.meta.url),'utf8');
+      const revisedDate=slug=>{
+        const entry=editorialSitemap.split('<loc>'+origin+'/'+slug+'.html</loc>')[1]?.split('</url>')[0]||'';
+        return entry.match(/<lastmod>(\\d{4}-\\d{2}-\\d{2})<\\/lastmod>/)?.[1]||null;
+      };
+      const dateDeployed=slug=>{
+        const expected=revisedDate(slug);
+        return Boolean(expected)&&body.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>'+expected+'</lastmod>');
+      };
+      const checkGroup=(labelOk,labelBad,slugs)=>{
+        const present=slugs.filter(dateDeployed).length;
+        info.push(present===slugs.length?labelOk:labelBad+' ('+present+'/'+slugs.length+')');
+      };
+      checkGroup('Google 틀니 진료·보험 설명 3개 페이지의 실제 개정일 게시 확인',
+       'Google 틀니 진료·보험 설명 사이트맵 수정일 배포 확인 필요',
+       ['denture','insurance-health','health/insurance-denture']);
+      info.push(dateDeployed('health/insurance-root-canal')?
        'Google 재신경치료·크라운 보험비용 건강정보 실제 수정일 사이트맵 반영 확인':
        '재신경치료·크라운 보험 설명 사이트맵 최신 배포 확인 필요');
-      const revisedGI=['cervical-abrasion','insurance-health','health/insurance-cervical'];
-      const datesGI=revisedGI.filter(slug=>
-       body.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>'));
-      info.push(datesGI.length===3?
-       'Google 치경부 GI 진료·보험 건강정보 3개 페이지 수정일 실제 게시 확인':
-       'Google 치경부 GI 보험 페이지 사이트맵 최신 배포 확인 필요 ('+datesGI.length+'/3)');
-      const scalingInsuranceDates=['scaling','health/insurance-scaling'];
-      const scalingDates= scalingInsuranceDates.filter(slug=>
-       body.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>'));
-      info.push(scalingDates.length===scalingInsuranceDates.length?
-       'Google 실제 개정 스케일링·건강보험 안내 2개 사이트맵 수정일 게시 확인':
-       '스케일링·보험 건강정보 사이트맵 개정일 배포 확인 필요 ('+scalingDates.length+'/2)');
-      const breathUpdated=['health/gum-bleeding','gum-health','gum-treatment'];
-      const readyCount=breathUpdated.filter(slug=>
-       body.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>')).length;
-      info.push(readyCount===breathUpdated.length?
-       'Google 입냄새·잇몸출혈 환자교육 3개 페이지 실제 수정일 사이트맵 반영 확인':
-       'Google 입냄새·잇몸출혈 건강정보 사이트맵 수정일 최신 배포 확인 필요 ('+readyCount+'/3)');
+      checkGroup('Google 치경부 GI 진료·보험 건강정보 3개 페이지 실제 수정일 확인',
+       'Google 치경부 GI 보험 페이지 사이트맵 수정일 배포 확인 필요',
+       ['cervical-abrasion','insurance-health','health/insurance-cervical']);
+      checkGroup('Google 스케일링·건강보험 2개 페이지 실제 수정일 확인',
+       '스케일링·보험 건강정보 사이트맵 수정일 배포 확인 필요',
+       ['scaling','health/insurance-scaling']);
+      checkGroup('Google 입냄새·잇몸출혈 관련 건강정보 3개 페이지 실제 수정일 확인',
+       'Google 입냄새·잇몸출혈 건강정보 사이트맵 수정일 배포 확인 필요',
+       ['health/gum-bleeding','gum-health','gum-treatment']);
+      checkGroup('실제 수정된 건강정보 모음 3개·보험 FAQ의 10월 27일 사이트맵 수정일 확인',
+       '건강정보 모음·보험 FAQ 사이트맵의 실제 편집 날짜 확인 필요',
+       ['gum-health','insurance-health','additional-health','dental-insurance-faq']);
       const googleImageNamespace=body.includes('xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"');
-      const imageLocs=[...body.matchAll(/<image:image><image:loc>([^<]+)<\/image:loc><\/image:image>/g)]
+      const imageLocs=[...body.matchAll(/<image:image><image:loc>([^<]+)<\\/image:loc><\\/image:image>/g)]
        .map(m=>m[1]);
       const indexedHeroImages=[
        origin+'/assets/ejoeundental-hero-cat.webp',
@@ -868,19 +875,16 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        origin+'/assets/retreatment/illustration-'+String(i+1).padStart(2,'0')+'.webp');
       const imageMapReady=googleImageNamespace&&imageLocs.length===12&&
        [...indexedHeroImages,...indexedRootImages].every(url=>imageLocs.includes(url))&&
-       body.includes('<loc>'+origin+'/retreatment</loc><lastmod>2026-10-26</lastmod>');
+       dateDeployed('retreatment');
       info.push(imageMapReady?
-       'Google 이미지 사이트맵: 병원 창작 이미지 2개·재신경치료 삽화 10개 및 실제 수정일 공개 확인':
+       'Google 이미지 사이트맵: 창작 이미지 2개·재신경치료 삽화 10개와 실제 수정일 공개 확인':
        'Google 이미지 사이트맵 최신 배포 확인 필요 (실제 이미지 '+imageLocs.length+'/12)');
-      info.push(body.includes('<loc>'+origin+'/health/root-canal-retreatment-process</loc><lastmod>2026-10-26</lastmod>')?
+      info.push(dateDeployed('health/root-canal-retreatment-process')?
        'Google 재신경치료 과정 건강정보의 실제 수정일 게시 확인':
        'Google 재신경치료 과정 건강정보 최근 수정일 최신 배포 확인 필요');
-      const revised=['gum-health','root-canal-health','health/gum-pus'];
-      const updated=revised.filter(slug=>
-        body.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>'));
-      info.push(updated.length===revised.length?
-       'Google 사이트맵 실제 편집된 3개 건강정보 페이지의 2026-10-26 수정일 게시 확인':
-       'Google 사이트맵 건강정보 내용 수정일 최신 배포 확인 필요 ('+updated.length+'/'+revised.length+')');
+      checkGroup('Google 잇몸·신경치료 건강정보 3개 페이지 실제 개정일 게시 확인',
+       'Google 사이트맵 건강정보 내용 수정일 배포 확인 필요',
+       ['gum-health','root-canal-health','health/gum-pus']);
     } else if (label === '홈페이지 치과 이야기 전체 글') {
       const cardUrls=[...body.matchAll(/<a class="story-card" href="(\/stories\/[^"]+\/)"[^>]*>/g)].map(m=>m[1]);
       const uniqueCount=new Set(cardUrls).size;
