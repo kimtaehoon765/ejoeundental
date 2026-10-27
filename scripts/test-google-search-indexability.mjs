@@ -8,6 +8,13 @@ import path from 'node:path';
 
 const origin='https://ejoeundental.com';
 const output='dist';
+const editorialSitemap=readFileSync(new URL('../sitemap.xml',import.meta.url),'utf8');
+const actualEditorialDate=slug=>{
+ const entry=editorialSitemap.split('<loc>'+origin+'/'+slug+'.html</loc>')[1]?.split('</url>')[0]||'';
+ const date=entry.match(/<lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/)?.[1]||'';
+ assert.ok(date,'Source sitemap should declare a meaningful reviewed lastmod: '+slug);
+ return date;
+};
 const pageFor=route=>{
  if(route==='/')return path.join(output,'index.html');
  const rel=decodeURIComponent(route.slice(1));
@@ -75,7 +82,7 @@ test('Google crawl discovery, verification and article authorship remain consist
 test('Google search users can follow gum bumps and post-treatment infection to a helpful clinical answer',()=>{
  const sitemap=readFileSync(path.join(output,'sitemap.xml'),'utf8');
  for(const slug of ['gum-health','root-canal-health','health/gum-pus']){
-  const date=slug==='root-canal-health'?'2026-10-27':'2026-10-26';
+  const date=actualEditorialDate(slug);
   const entry=new RegExp('<loc>https://ejoeundental\\.com/'+slug+'<\\/loc><lastmod>'+date+'<\\/lastmod>');
   assert.match(sitemap,entry,'Google sitemap should signal only these genuine medically edited pages: '+slug);
  }
@@ -242,7 +249,7 @@ test('patient bad breath and gingival bleeding search have a complete accurate i
  assert.match(hub,/href="\/health\/gum-bleeding(?:\.html)?#section-8">입냄새와 잇몸 출혈 건강정보<\/a>/);
  assert.match(treatment,/입냄새나 고름이 반복되면 구강·치주 상태를 검사해 원인을 구분합니다/);
  for(const slug of ['health/gum-bleeding','gum-health','gum-treatment']){
-  const date=slug==='gum-treatment'?'2026-10-27':'2026-10-26';
+  const date=actualEditorialDate(slug);
   assert.ok(sitemap.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>'+date+'</lastmod>'),
     slug+' Google update date must reflect the actual edited patient content');
  }
@@ -310,7 +317,7 @@ test('Google GI and resin insurance answers remain medically cautious and reacha
  assert.ok(hub.includes('href="/health/insurance-cervical.html#section-7"'));
  assert.ok(hub.includes('href="/health/insurance-cervical.html#section-8"'));
  for(const slug of ['cervical-abrasion','insurance-health','health/insurance-cervical']){
-  const date=slug==='cervical-abrasion'?'2026-10-27':'2026-10-26';
+  const date=actualEditorialDate(slug);
   assert.ok(sitemap.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>'+date+'</lastmod>'),
    'Only genuinely revised Google indexed pages should get a new modification date: '+slug);
  }
@@ -388,7 +395,7 @@ test('Google denture insurance guide distinguishes adjustment, relining and repl
  assert.match(article,/모든 틀니를 반드시 수리할 수 있는 것은 아닙니다/);
  assert.match(article,/실제 급여 대상과 본인부담금은 진찰 후 안내합니다/);
  for(const slug of ['denture','insurance-health','health/insurance-denture']){
-  assert.ok(sitemap.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-26</lastmod>'),
+  assert.ok(sitemap.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>'+actualEditorialDate(slug)+'</lastmod>'),
    'Google must receive the actual last-modified date for edited denture content: '+slug);
  }
 });
