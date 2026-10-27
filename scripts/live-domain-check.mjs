@@ -693,6 +693,15 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        ?(ownerBooking.direct?'모바일 하단 전화·네이버 예약·오시는 길 3개 버튼 반영':
           '모바일 하단 전화·네이버 예약 검색 안내 반영 (직접 예약 URL은 미등록)')
        :'모바일 하단 전화·예약·길찾기 3개 버튼 배포 확인 필요');
+      const finish=body.match(/<nav class="home-finish-nav"[\s\S]*?<\/nav>/)?.[0]||'';
+      const finishReady=finish.includes('href="'+publicBookingUrl+'"')&&
+        finish.includes('href="/visit-guide.html"')&&
+        finish.includes('href="#focus-care"')&&
+        finish.includes('href="#main-content"')&&
+        finish.includes('class="home-finish-booking"');
+      info.push(finishReady?
+        '홈페이지 마지막 환자 안내: 예약·오시는 길·중점 진료·처음으로 4개 링크 배포 확인':
+        '홈페이지 하단 환자 안내 신규 디자인 배포·캐시 확인 필요');
       const heroBooking=body.match(/<div class="hero-actions"[^>]*>([\s\S]*?)<\/div>/)?.[1]||'';
       const heroBookingReady=ownerBooking.direct&&heroBooking.includes('class="btn hero-booking"')&&
         heroBooking.includes('href="'+publicBookingUrl+'"')&&heroBooking.includes(ownerBooking.label);

@@ -3137,7 +3137,10 @@ function brandPublicPages(dir){
  const visitMarker='<!-- BUILD_NAVER_BOOKING_VISIT -->';
  const safeUrl=safe(action.url);
  const heroButton='<a class="btn hero-booking" href="'+safeUrl+'" target="_blank" rel="noopener noreferrer" aria-label="'+safe(action.aria)+'">'+safe(action.label)+'</a>';
- const homepage=page.replace(marker,buttons).replace(heroMarker,heroButton);
+ const finishMarker='<!-- BUILD_NAVER_BOOKING_FINISH -->';
+ if(page.split(finishMarker).length!==2)throw new Error('Expected exactly one end-of-page direct booking placeholder');
+ const finishButton='<a class="home-finish-booking" href="'+safeUrl+'" target="_blank" rel="noopener noreferrer" aria-label="'+safe(action.aria)+'">'+safe(action.label)+'</a>';
+ const homepage=page.replace(marker,buttons).replace(heroMarker,heroButton).replace(finishMarker,finishButton);
  fs.writeFileSync(homepageFile,homepage);
  const visitFile=path.join(out,'visit-guide.html');
  const visitHtml=fs.readFileSync(visitFile,'utf8');

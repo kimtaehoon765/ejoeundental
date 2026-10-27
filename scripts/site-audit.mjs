@@ -2979,6 +2979,27 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  if(!valid)errors.push('홈페이지 모바일 전화·네이버 예약·오시는 길 3개 버튼 및 검색 입력 UX 오류');
 }
 
+/* Gallery end-of-page actions: verify the real, owner-confirmed booking link
+   and four navigable next steps, after the full medical patient content. */
+{
+ const h=readFileSync(join(root,'index.html'),'utf8');
+ const link=JSON.parse(readFileSync(join(root,'content/site.json'),'utf8')).naver_booking_url;
+ const last=h.match(/<nav class="home-finish-nav"[\s\S]*?<\/nav>/)?.[0]||'';
+ const styles=readFileSync(join(root,'assets/gallery-upgrade.css'),'utf8');
+ if(!last.includes('id="home-finish-title"')||
+    !last.includes('class="home-finish-booking"')||
+    !last.includes('href="'+link+'"')||
+    !last.includes('href="/visit-guide.html"')||
+    !last.includes('href="#focus-care"')||
+    !last.includes('href="#main-content"')||
+    (h.match(/class="home-finish-nav"/g)||[]).length!==1||
+    h.indexOf('class="home-finish-nav"')<h.indexOf('class="home-previsit-links"')||
+    !styles.includes('Patient finish-line navigation |')||
+    !styles.includes('@media(max-width:350px)')){
+  errors.push('메인 하단 환자 이동: 예약·방문·중점진료·위로 이동 및 모바일 디자인 누락');
+ }
+}
+
 // Report every audit error, including the checks above this final line.
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);
