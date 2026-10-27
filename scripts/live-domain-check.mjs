@@ -27,6 +27,9 @@ const expectedCareGalleryHash=createHash('sha256')
  .update(readFileSync(new URL('../assets/care-gallery.css',import.meta.url)))
  .digest('hex').slice(0,12);
 const verifiedBookingUrl=bookingAction(verifiedClinic.naver_booking_url).url;
+const expectedSecondaryGalleryHash=createHash('sha256')
+ .update(readFileSync(new URL('../assets/care-gallery-secondary.css',import.meta.url)))
+ .digest('hex').slice(0,12);
 const postDirectory = new URL('../content/posts/',import.meta.url);
 const publishedArticles = readdirSync(postDirectory).filter(name=>name.endsWith('.json'))
  .map(name=>({name,post:JSON.parse(readFileSync(new URL(name,postDirectory),'utf8'))}))
@@ -79,6 +82,7 @@ const urls = [
   { label: '모네풍 갤러리 CSS 공개 확인', url: origin + '/assets/home-enhancements.css' },
   { label: '미술관형 리디자인 CSS 실제 배포', url: origin + '/assets/gallery-upgrade.css' },
   { label: '진료 안내 미술관 통합 디자인 CSS', url: origin + '/assets/care-gallery.css' },
+  { label: '추가 진료 8개 미술관 디자인 CSS', url: origin + '/assets/care-gallery-secondary.css' },
   { label: 'www HTTPS 연결', url: 'https://www.' + apex + '/' },
   { label: 'Cloudflare Pages 임시주소 색인 확인', url: 'https://ejoeundental.pages.dev/' },
   { label: 'www 하위 경로·쿼리 리디렉션', url: 'https://www.' + apex + '/gum-treatment?utm_source=redirect_check' },
@@ -187,6 +191,37 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       add('진료 페이지 5종 통합 미술관 CSS 실제 공개',
         match?'실사이트 반영 확인':'배포·캐시 확인 필요',
         'HTTP '+response.status+' · 스타일시트 SHA-256 '+(match?'GitHub 원본과 일치':'불일치'));
+    }
+    if(label==='추가 진료 8개 미술관 디자인 CSS'){
+      const valid=response.status===200&&
+        createHash('sha256').update(body).digest('hex').slice(0,12)===expectedSecondaryGalleryHash&&
+        body.includes('Clinical Gallery Edition');
+      add('미술관형 추가 진료 CSS 실사이트 배포',valid?'실사이트 반영 확인':'배포·캐시 확인 필요',
+        'HTTP '+response.status+' · CSS SHA-256 '+(valid?'GitHub 소스와 일치':'불일치/미확인'));
+    }
+    const secondaryGalleryPages={
+      'care route cavity':'cavity-treatment',
+      'care route scaling':'scaling',
+      'care route denture':'denture',
+      'care route implant':'implant',
+      'care route child':'pediatric-dentistry',
+      'care route pediatric':'pediatric-orthodontics',
+      'care route wisdom':'wisdom-tooth',
+      'care route tmj':'tmj-care'
+    };
+    if(secondaryGalleryPages[label]){
+      const slug=secondaryGalleryPages[label];
+      const ready=response.status===200&&
+        body.includes('class="care-gallery care-gallery-secondary secondary-')&&
+        body.includes('/assets/care-gallery-secondary.css?v='+expectedSecondaryGalleryHash)&&
+        body.includes('class="treatment-hero-actions"')&&
+        body.includes('class="care-gallery-booking"')&&
+        body.includes('class="care-gallery-bottom-actions"')&&
+        body.includes('href="'+verifiedBookingUrl+'"')&&
+        body.includes('href="/visit-guide.html"');
+      add('8종 진료 고급 디자인 및 예약 실배포 · '+slug+'.html',
+        ready?'실사이트 반영 확인':'배포·캐시 확인 필요',
+        'HTTP '+response.status+' · 신뢰성 설명·정식 네이버예약·모바일 버튼 '+(ready?'일치':'불일치/미확인'));
     }
     const careGalleryPages={
       '잇몸치료 상세 페이지':'gum-treatment',
