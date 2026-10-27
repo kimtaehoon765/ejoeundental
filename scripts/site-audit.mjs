@@ -3012,7 +3012,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const good=
    section.includes('id="doctor_title"')&&
    section.includes('2003년부터')&&
-   ['href="/gum-treatment.html"','href="/retreatment.html"','href="/tooth-preservation.html"'].every(x=>trails.includes(x))&&
+   ['gum-treatment','retreatment','tooth-preservation'].every(slug=>trails.includes('href="/'+slug+'"')||trails.includes('href="/'+slug+'.html"'))&&
    (trails.match(/<a\b/g)||[]).length===3&&
    section.includes('통합치의학과 전문의')&&
    guide.includes('class="home-representative-guide-grid"')&&
