@@ -184,6 +184,43 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
     const info = ['HTTP ' + response.status, '최종 주소: ' + response.url];
     const server = response.headers.get('server');
     if (server) info.push('서버: ' + server);
+
+    // Read-only AI citation readiness: verify the medically cautious answers
+    // AND the treating dentist's linked credentials actually reached production.
+    // A successful source build alone never proves a new public FAQ is deployed.
+    const aiFaqCases={
+      'remaining route gum-treatment-faq':{
+        file:'gum-treatment-faq.html',
+        question:'스케일링 후 치아 사이가 벌어진 것 같은데 치료가 잘못된 건가요?'
+      },
+      'remaining route root-canal-retreatment-faq':{
+        file:'root-canal-retreatment-faq.html',
+        question:'재신경치료 전에 치과 CT를 꼭 찍어야 하나요?'
+      }
+    };
+    if(aiFaqCases[label]){
+      const {file,question}=aiFaqCases[label];
+      const source=readFileSync(new URL('../'+file,import.meta.url),'utf8');
+      const fromMarkup=txt=>[...txt.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+        .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
+        .find(obj=>obj?.['@type']==='FAQPage');
+      const original=fromMarkup(source)?.mainEntity?.find(item=>item.name===question);
+      const published=fromMarkup(body)?.mainEntity?.find(item=>item.name===question);
+      const finalUrl=origin+'/'+file.replace(/\.html$/,'');
+      const verified=response.status===200&&new URL(response.url).pathname===new URL(finalUrl).pathname&&
+        body.includes('<link rel="canonical" href="'+finalUrl+'">')&&
+        body.includes('<h2>'+question+'</h2>')&&
+        Boolean(original?.acceptedAnswer?.text)&&
+        published?.acceptedAnswer?.text===original.acceptedAnswer.text&&
+        body.includes('<p>'+original.acceptedAnswer.text+'</p>')&&
+        body.includes('class="faq-care-authority"')&&
+        body.includes('고려대학교 의학박사(치과학 전공)')&&
+        body.includes('href="/doctor.html"');
+      add('AI 핵심 FAQ 실제 배포·의료진 출처 · '+file,
+        verified?'최신 반영 확인':'배포·캐시 확인 필요',
+        'HTTP '+response.status+' · 임상 답변·FAQ 구조화 데이터·원장 이력 링크 '+
+        (verified?'서로 일치':'일부 불일치 또는 미배포'));
+    }
     // Newly added clinical bylines must reach the actual public host, not
     // merely pass source/build tests. Every expected page already has a normal
     // HTTP check above, so reuse the response and add no external requests.
