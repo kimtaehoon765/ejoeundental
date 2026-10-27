@@ -748,7 +748,7 @@ console.log('Homepage journal entries rendered without browser fetch:',posts.len
 
 // Build a separate clinic-story directory from the same verified published CMS
 // posts used by /stories/{slug}/. All titles are visible in static HTML without JS.
-// This intentionally keeps 401 external original Naver blog links as a separate
+// This intentionally keeps 405 external original Naver blog links as a separate
 // archive, so the count of homepage articles is not confused with those links.
 {
  const groups=[
@@ -1145,8 +1145,8 @@ const ownerBlogItems=[...ownerStoriesSection.matchAll(/<div class="card owner-st
   url,
   title:label.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").trim()
  }));
-if(ownerBlogItems.length!==401||new Set(ownerBlogItems.map(item=>item.url)).size!==401){
- throw new Error('The clinical archive must mirror exactly 401 original owner blog links');
+if(ownerBlogItems.length!==405||new Set(ownerBlogItems.map(item=>item.url)).size!==405){
+ throw new Error('The clinical archive must mirror exactly 405 original owner blog links');
 }
 const clinicalArchiveGroups=[
  {id:'gum',name:'잇몸치료·스케일링',url:'/gum-health.html',label:'잇몸 건강정보 10편 더 읽기',
@@ -1206,7 +1206,7 @@ fs.writeFileSync(archiveCatalogFile,archiveCatalogHtml);
 console.log('Owner blog archive search asset fingerprinted:',archiveSearchHash);
 // Use the SAME classified owner blog articles as the archive summary. Both
 // treatment-page counts previously lagged far behind the actual archive
-// (62/33 in the buttons versus 131/46 in the 401-link collection).
+// (62/33 in the buttons versus 131/46 in the 405-link collection).
 // Render from this single source rather than making the clinician edit counts.
 for(const [id,filename,marker] of [
  ['gum','gum-treatment.html','<!-- BUILD_OWNER_GUM_COUNT -->'],
@@ -3052,7 +3052,7 @@ console.log('Clinical education sharing metadata aligned:',clinicalSharingCount,
    '<ul class="patient-story-links-topical">'+suggestions.join('')+'</ul>'+
    '<div class="patient-story-links-row">'+
    '<a href="/stories.html">📖 홈페이지 치과 이야기 전체 보기</a>'+
-   '<a href="/clinical-archive.html#archive-blog-posts">네이버 블로그 원문 401편 보기 →</a>'+
+   '<a href="/clinical-archive.html#archive-blog-posts">네이버 블로그 원문 405편 보기 →</a>'+
    '</div></nav>';
  }
  let linked=0;
