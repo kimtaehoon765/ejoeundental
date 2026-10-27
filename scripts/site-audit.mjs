@@ -2878,6 +2878,27 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  }
 }
 
+/* Patient-first mobile hero: phone/hours before non-essential artwork.
+   Keep this source-order meaningful for screen readers and keyboard users. */
+{
+ const page=readFileSync(join(root,'index.html'),'utf8');
+ const block=page.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
+ const n=p=>block.indexOf(p);
+ const css=readFileSync(join(root,'assets/gallery-upgrade.css'),'utf8');
+ const correct=n('class="hero-doctor-credentials"')>=0&&
+   n('class="hero-actions"')>n('class="hero-doctor-credentials"')&&
+   n('class="hero-actions"')<n('class="hero-local-intro"')&&
+   n('class="hero-actions"')<n('class="hero-gallery-window"')&&
+   n('class="hero-gallery-window"')<n('class="hero-editorial-detail"')&&
+   n('class="btn hero-call"')<n('class="btn hero-hours"')&&
+   n('class="btn hero-hours"')<n('class="btn hero-symptoms"')&&
+   block.includes('class="btn hero-booking"')&&
+   css.includes('Mobile first-screen clinical action path |')&&
+   css.includes('min-height:99px;max-height:125px')&&
+   css.includes('@media(max-width:365px)');
+ if(!correct)errors.push('모바일 첫 화면: 자격·전화·진료시간·진료정보 우선 탐색 경로 오류');
+}
+
 // Report every audit error, including the checks above this final line.
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);

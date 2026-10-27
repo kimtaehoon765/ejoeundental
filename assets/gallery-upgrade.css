@@ -521,3 +521,78 @@ body.home-page #main-content>.hero .hero-editorial-story .hero-visit-note{
   margin-bottom:11px;font-size:10px;
  }
 }
+
+
+/* Mobile first-screen clinical action path | 2026-10-27 final spacing pass.
+   User sees dentist credentials -> real phone/clinic hours -> patient content.
+   The garden remains visible but no longer pushes telephone actions downward.
+   The fixed phone / Naver booking bar stays distinct and accessible. */
+@media(max-width:600px){
+ body.home-page #main-content>.hero .hero-actions{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  margin:15px 0 12px;gap:8px;align-items:stretch;
+ }
+ body.home-page #main-content>.hero .hero-actions .hero-call{
+  order:0;grid-column:1;
+  min-height:51px;padding:9px 8px;
+  font-size:13px;line-height:1.5;
+ }
+ body.home-page #main-content>.hero .hero-actions .hero-hours{
+  order:1;grid-column:2;
+  min-height:51px;padding:9px 8px;
+  font-size:13px;line-height:1.5;
+ }
+ body.home-page #main-content>.hero .hero-actions .hero-symptoms{
+  order:2;grid-column:1/-1;
+  min-height:46px;padding:10px 12px;
+  font-size:13px;line-height:1.5;
+ }
+ body.home-page #main-content>.hero .hero-actions .hero-map{
+  order:3;grid-column:1/-1;
+  box-sizing:border-box;min-height:41px;
+  display:inline-flex;align-items:center;justify-content:center;
+  margin:0;padding:5px 8px;
+  border:0;border-bottom:1px solid #c5d7c9;
+  border-radius:0;box-shadow:none;
+  background:transparent;font-size:12px;font-weight:700;
+  text-decoration:underline;text-decoration-color:#a0b9a8;
+  text-underline-offset:4px;
+ }
+ body.home-page #main-content>.hero .hero-actions .hero-booking{
+  display:none;
+ }
+ body.home-page #main-content>.hero .hero-local-intro{
+  max-width:none;margin:7px 0 12px;
+  font-size:14px;line-height:1.72;
+  color:#42604b;
+ }
+ body.home-page #main-content>.hero .hero-gallery-window{
+  min-height:99px;max-height:125px;
+  aspect-ratio:3/1;margin:4px 0 8px;
+ }
+ body.home-page #main-content>.hero .hero-doctor-credentials{
+  margin:0 0 10px;
+ }
+ /* The first action buttons remain legible at narrow common phone sizes. */
+ body.home-page #main-content>.hero .hero-actions .hero-call .hero-phone{
+  display:block;margin:0;
+  font-variant-numeric:tabular-nums;
+ }
+}
+@media(max-width:365px){
+ body.home-page #main-content>.hero .hero-actions{
+  grid-template-columns:1fr;
+ }
+ body.home-page #main-content>.hero .hero-actions .hero-call,
+ body.home-page #main-content>.hero .hero-actions .hero-hours,
+ body.home-page #main-content>.hero .hero-actions .hero-symptoms,
+ body.home-page #main-content>.hero .hero-actions .hero-map{
+  grid-column:1;
+ }
+ body.home-page #main-content>.hero .hero-actions .hero-call .hero-phone{
+  display:inline;margin-left:3px;
+ }
+ body.home-page #main-content>.hero .hero-gallery-window{
+  max-height:110px;min-height:92px;
+ }
+}

@@ -529,6 +529,14 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       const galleryAt=heroMarkup.indexOf('class="hero-gallery-window"');
       const introAt=heroMarkup.indexOf('id="intro"');
       const firstScreenGallery=credentialAt>=0&&galleryAt>credentialAt&&introAt>galleryAt;
+      const ctaAt=heroMarkup.indexOf('class="hero-actions"');
+      const localAt=heroMarkup.indexOf('class="hero-local-intro"');
+      const patientFirst=credentialAt>=0&&ctaAt>credentialAt&&localAt>ctaAt&&
+        galleryAt>localAt&&
+        heroMarkup.indexOf('class="btn hero-call"')<
+        heroMarkup.indexOf('class="btn hero-hours"');
+      info.push('모바일 첫 화면 전화·진료시간 우선 배치: '+
+        (patientFirst?'실사이트 HTML 반영 확인':'배포·캐시 확인 필요'));
       info.push('모바일 첫 화면 수련 그림: '+(firstScreenGallery?'자격 소개 다음·진료 설명 앞 배치 확인':'신규 모바일 수련 그림 미반영'));
       const phoneGardenFirst=heroMarkup.includes('loading="lazy" decoding="async"') &&
         !heroMarkup.includes('fetchpriority="high"') &&
