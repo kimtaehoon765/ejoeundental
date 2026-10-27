@@ -1573,11 +1573,11 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
   }
  }
 }
-// The public 408-post archive must identify the real clinic, clinical credentials,
+// The public 410-post archive must identify the real clinic, clinical credentials,
 // article provenance and current search title without claiming other local offices.
 {
  const archive=readFileSync(join(root,'clinical-archive.html'),'utf8');
- const title='부평치과 원장 진료 이야기 408편 | 잇몸치료·재신경치료 | 이조은치과';
+ const title='부평치과 원장 진료 이야기 410편 | 잇몸치료·재신경치료 | 이조은치과';
  const ld=[...archive.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
   .map(m=>JSON.parse(m[1])).find(row=>row['@type']==='CollectionPage');
  if(!archive.includes('<title>'+title+'</title>')||
@@ -1586,7 +1586,7 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
     !archive.includes('인천 부평구 청천동 세월천로 34')||
     !(archive.includes('href="/#doctor"')||archive.includes('href="/doctor.html"'))||
     !archive.includes('href="/visit-guide.html"')){
-   errors.push('원장 블로그 408편 아카이브 의료진 자격·실제 위치·출처 설명 SEO 누락');
+   errors.push('원장 블로그 410편 아카이브 의료진 자격·실제 위치·출처 설명 SEO 누락');
  }
 }
 
@@ -1793,7 +1793,7 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  if(homepage.includes('#stories .owner-story-card p{display:none}'))errors.push('원장 이야기 카드에 숨김 텍스트 스타일이 남아 있음');
  if(/원장이 작성한 네이버 블로그 글입니다/.test(homepage))errors.push('원장 이야기 카드의 반복 문구가 다시 추가됨');
 }
-// 홈페이지 원장 이야기 목록 보호: 모바일에서 8편만 보이고, 400편은 펼치면 읽을 수 있어야 합니다.
+// 홈페이지 원장 이야기 목록 보호: 모바일에서 8편만 보이고, 402편은 펼치면 읽을 수 있어야 합니다.
 {
  const homepage=readFileSync(join(root,'index.html'),'utf8');
  const section=homepage.match(/<section\b[^>]*id="stories"[\s\S]*?<\/section>/i)?.[0]||'';
@@ -1801,9 +1801,9 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  const extra=section.match(/<details class="owner-stories-more">([\s\S]*?)<\/details>/i)?.[1]||'';
  const firstLinks=[...first.matchAll(/<a\b[^>]*href="(https:\/\/blog\.naver\.com\/[^"]+)"[^>]*>/gi)].map(m=>m[1]);
  const extraLinks=[...extra.matchAll(/<a\b[^>]*href="(https:\/\/blog\.naver\.com\/[^"]+)"[^>]*>/gi)].map(m=>m[1]);
- if(firstLinks.length!==8||extraLinks.length!==400||new Set([...firstLinks,...extraLinks]).size!==408)errors.push('원장 이야기 8+400편 링크 또는 중복 오류');
- if(!extra.includes('<summary>치과 이야기 나머지 400편 보기')||!extra.includes('class="owner-stories-grid"'))errors.push('모바일 원장 이야기 펼치기 기능 누락');
- if(!homepage.includes('"numberOfItems": 408'))errors.push('원장 이야기 검색 구조화 데이터 408편 불일치');
+ if(firstLinks.length!==8||extraLinks.length!==402||new Set([...firstLinks,...extraLinks]).size!==410)errors.push('원장 이야기 8+402편 링크 또는 중복 오류');
+ if(!extra.includes('<summary>치과 이야기 나머지 402편 보기')||!extra.includes('class="owner-stories-grid"'))errors.push('모바일 원장 이야기 펼치기 기능 누락');
+ if(!homepage.includes('"numberOfItems": 410'))errors.push('원장 이야기 검색 구조화 데이터 410편 불일치');
 }
 
 if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
@@ -2123,7 +2123,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  }
 }
 
-// Homepage 408 owner blog entries and archive topic rows must be the exact
+// Homepage 410 owner blog entries and archive topic rows must be the exact
 // same verified links/titles, not invented duplicate articles or dated claims.
 {
  const homepage=readFileSync(join(root,'index.html'),'utf8');
@@ -2135,33 +2135,33 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const homeUrls=new Set(original.map(item=>item[0]));
  const archiveUrls=new Set(entries.map(item=>item[0]));
  const expected=new Map(original);
- if(original.length!==408||entries.length!==408||homeUrls.size!==408||archiveUrls.size!==408||
+ if(original.length!==410||entries.length!==410||homeUrls.size!==410||archiveUrls.size!==410||
    entries.some(([url,title])=>expected.get(url)!==title)){
-  errors.push('원장 블로그 408편 홈페이지·임상 아카이브 글 제목/원문 주소 불일치');
+  errors.push('원장 블로그 410편 홈페이지·임상 아카이브 글 제목/원문 주소 불일치');
  }
  const groups=[...archive.matchAll(/<details class="archive-blog-group" id="archive-group-([^"]+)">([\s\S]*?)<\/details>/g)];
  if(groups.length!==5||groups.map(m=>m[1]).join(',')!=='gum,root,ethics,med,other'||
     groups.some(m=>!m[2].includes('<ol>')||!m[2].includes('class="archive-blog-related"'))){
-  errors.push('원장 블로그 408편 주제별 모바일 펼치기 항목 구성이 잘못됨');
+  errors.push('원장 블로그 410편 주제별 모바일 펼치기 항목 구성이 잘못됨');
  }
  if(!archive.includes('id="archive-blog-posts"')||
    !archive.includes('href="#archive-blog-posts"')||
    !archive.includes('aria-label="주제별 원장 네이버 글 모음"')||
    archive.includes('BUILD_OWNER_ARCHIVE_GROUPS')||
    !homepage.includes('href="/clinical-archive.html#archive-blog-posts"')){
-  errors.push('원장 블로그 408편 홈페이지↔아카이브 이동 경로·서버 렌더링 누락');
+  errors.push('원장 블로그 410편 홈페이지↔아카이브 이동 경로·서버 렌더링 누락');
  }
  const schema=[...archive.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
   .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
   .find(data=>data?.['@type']==='CollectionPage');
  const elems=schema?.mainEntity?.itemListElement||[];
- if(schema?.mainEntity?.numberOfItems!==408||elems.length!==408||
+ if(schema?.mainEntity?.numberOfItems!==410||elems.length!==410||
    elems.some((entry,i)=>entry.position!==i+1||
      entry.url!==original[i]?.[0]||entry.name!==original[i]?.[1])){
-   errors.push('원장 원문 408편 ItemList 구조화 데이터·홈페이지 원문 순서 불일치');
+   errors.push('원장 원문 410편 ItemList 구조화 데이터·홈페이지 원문 순서 불일치');
  }
- if(!archive.includes('원장이 직접 쓴 네이버 치과 이야기 408편')||
-    !archive.includes('홈페이지에 소개한 네이버 글 408편을')||
+ if(!archive.includes('원장이 직접 쓴 네이버 치과 이야기 410편')||
+    !archive.includes('홈페이지에 소개한 네이버 글 410편을')||
     !archive.includes('href="https://m.blog.naver.com/tele654"')||
     !archive.includes('href="https://m.blog.naver.com/radio654"')||
     !archive.includes('.archive-blog-group>summary:') &&
@@ -2178,7 +2178,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const stories=[...home.matchAll(/<div class="card owner-story-card"><h3><a href="(https:\/\/blog\.naver\.com\/[a-zA-Z0-9_-]+\/\d+)" target="_blank" rel="noopener noreferrer">([^<]+) ↗<\/a><\/h3><\/div>/g)]
   .map(m=>({url:m[1],title:m[2]}));
  const known=new Map(stories.map(p=>[p.url,p.title]));
- if(stories.length!==408||known.size!==408)errors.push('네이버 원장 글 인증된 408편 목록 불일치');
+ if(stories.length!==410||known.size!==410)errors.push('네이버 원장 글 인증된 410편 목록 불일치');
  const renderedArchive=readFileSync(join(root,'clinical-archive.html'),'utf8');
  for(const [hub,slug,care,ids] of [
    ['gum-health.html','gum','gum-treatment.html',['224422601718','224400753947','224405321060']],
@@ -2520,7 +2520,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const og=page.match(/<meta property="og:description" content="([^"]+)"/)?.[1]||'';
  const schema=[...page.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
    .map(x=>JSON.parse(x[1])).find(x=>x['@type']==='CollectionPage');
- if(!desc.includes('부평치과')||!desc.includes('원장의 네이버 글 408편')||
+ if(!desc.includes('부평치과')||!desc.includes('원장의 네이버 글 410편')||
     desc!==og||desc!==twitter||desc!==schema?.description){
    errors.push('부평치과 선택 원장 아카이브 검색 설명·공유 카드 정합성 누락');
  }
@@ -2906,7 +2906,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
 }
 
 /* Gallery patient journey regression: CSS must make symptom navigation, 4 curated
-   clinic articles, 408 source links and clinic visit accessible at small sizes. */
+   clinic articles, 410 source links and clinic visit accessible at small sizes. */
 {
  const home=readFileSync(join(root,'index.html'),'utf8');
  const sheet=readFileSync(join(root,'assets/gallery-upgrade.css'),'utf8');
@@ -2936,7 +2936,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const accessible=requiredTargets.every(x=>home.includes(x))&&
    requiredStyles.every(x=>sheet.includes(x))&&
    home.includes('aria-label="치과 증상과 진료정보 검색"')&&
-   home.includes('aria-label="원장이 작성한 치과 이야기 400편"')&&
+   home.includes('aria-label="원장이 작성한 치과 이야기 402편"')&&
    home.includes('href="/stories.html"');
  if(!accessible)errors.push('갤러리형 환자 증상 찾기·원장 글·오시는 길 모바일 디자인 누락');
 }
