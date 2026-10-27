@@ -200,3 +200,18 @@ test('clinic social links identify the same real Incheon dental practice',()=>{
  assert.equal(clinic?.telephone,'+82-32-513-2875');
  assert.ok(clinic?.address?.streetAddress?.includes('세월천로 34'),'prevent confusion with similarly named clinics elsewhere');
 });
+
+test('periodontal hub and FAQ provide direct crawlable post-treatment care paths',()=>{
+ const hub=readFileSync('dist/gum-health.html','utf8');
+ const faq=readFileSync('dist/gum-treatment-faq.html','utf8');
+ const href='/stories/2026-10-25-incheon-periodontal-maintenance-after-treatment/';
+ assert.ok(hub.includes('href="'+href+'"'),'main gum-care hub should link to the established maintenance guide');
+ assert.ok(faq.includes('href="'+href+'"'),'gum treatment FAQ should link to the same clinical follow-up');
+ assert.ok(hub.includes('재발하는 이유와 유지관리 간격'),'link text must describe the patient question');
+ assert.ok(faq.includes('재진 간격은 모든 환자에게 동일하지 않으며'),'avoid fixed, ungrounded follow-up schedules');
+ const cards=(faq.match(/<section class="card">/g)||[]).length;
+ const faqSchema=[...faq.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(x=>{try{return JSON.parse(x[1])}catch{return null}})
+  .find(x=>x?.['@type']==='FAQPage');
+ assert.equal(faqSchema?.mainEntity?.length,cards,'do not add an unmatched FAQ question to structured data');
+});
