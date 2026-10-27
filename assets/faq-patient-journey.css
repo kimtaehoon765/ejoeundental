@@ -1,0 +1,85 @@
+/* Patient-first FAQ navigation, 2026-10-27.
+   Scoped to five authentic clinic FAQ pages; preserves their original answers. */
+body:has(.faq-patient-actions) {
+  --faq-forest:#244f3c;
+  --faq-border:#d0e0d4;
+}
+.faq-patient-actions{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:9px;margin:5px 0 20px;
+}
+.faq-patient-actions a{
+ box-sizing:border-box;display:flex;align-items:center;justify-content:center;
+ text-align:center;min-width:0;min-height:50px;padding:11px 10px;
+ border:1px solid #bccfbd;border-radius:11px;
+ background:#f5f9f2;color:#204936;font-weight:750;font-size:14px;
+ text-decoration:none;line-height:1.5;word-break:keep-all;
+}
+.faq-patient-actions a.faq-call{
+ border-color:#285d45;background:#20533f;color:#fff;
+}
+.faq-patient-actions a.faq-booking{
+ border-color:#b8cbb5;background:#eef5e9;
+}
+.faq-patient-actions a:focus-visible,
+.faq-question-index summary:focus-visible,
+.faq-question-index a:focus-visible{
+ outline:3px solid #a7854c;outline-offset:3px;
+}
+.faq-patient-actions a:hover{filter:brightness(.96);}
+.faq-question-index{
+ box-sizing:border-box;margin:7px 0 24px;
+ border:1px solid #c9dacc;border-radius:15px;
+ background:#f8faf5;overflow:hidden;
+}
+.faq-question-index summary{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:12px;cursor:pointer;padding:14px 17px;
+ min-height:52px;box-sizing:border-box;
+ color:#204e39;font-weight:800;line-height:1.55;
+ list-style:none;word-break:keep-all;
+}
+.faq-question-index summary::-webkit-details-marker{display:none;}
+.faq-question-index summary::after{
+ content:"+";font-size:24px;font-weight:450;line-height:1;
+}
+.faq-question-index[open] summary::after{content:"−";}
+.faq-question-index[open] summary{
+ background:#edf4e9;border-bottom:1px solid #d5e1d1;
+}
+.faq-question-index ol{
+ margin:0;padding:13px 18px 18px 43px;
+ columns:2;column-gap:27px;
+}
+.faq-question-index li{
+ margin:0 0 3px;padding:2px 0 2px 3px;
+ break-inside:avoid;
+ color:#476c54;
+}
+.faq-question-index li a{
+ display:inline-flex;align-items:center;box-sizing:border-box;
+ min-height:43px;padding:6px 0;
+ line-height:1.55;font-size:14px;color:#22553e;
+ overflow-wrap:anywhere;text-underline-offset:4px;
+}
+.faq-question-target{
+ display:block;height:0;scroll-margin-top:80px;
+}
+.faq-question-target:target+.card{
+ border-color:#5d9574;
+ box-shadow:0 0 0 2px rgba(55,105,76,.12);
+}
+@media(max-width:700px){
+ .faq-question-index ol{columns:1;padding:10px 15px 15px 34px;}
+}
+@media(max-width:530px){
+ .faq-patient-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;}
+ .faq-patient-actions a{min-height:50px;padding:8px 6px;font-size:13px;}
+ .faq-patient-actions a:last-child{grid-column:1/-1;}
+ .faq-question-index summary{padding:13px 14px;font-size:14px;}
+ .faq-question-index li a{font-size:14px;min-height:46px;}
+}
+@media print{
+ .faq-patient-actions,.faq-question-index{display:none!important;}
+ .faq-question-target{display:none;}
+}
