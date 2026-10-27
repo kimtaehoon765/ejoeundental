@@ -246,3 +246,24 @@ body.home-page #main-content :is(a,button,input,summary):focus-visible{
     border:1px solid CanvasText;box-shadow:none;
   }
 }
+
+/* Mobile/desktop rendering: defer expensive painting of lengthy, noncritical
+   sections far below the first viewport while keeping their HTML, links and
+   heading structure available to crawlers, keyboard users and direct anchors.
+   Browsers without content-visibility support retain the original layout. */
+@supports (content-visibility:auto){
+  body.home-page #main-content > #stories,
+  body.home-page #main-content > #faq,
+  body.home-page #main-content > .home-archive-gallery{
+    content-visibility:auto;
+    contain-intrinsic-size:auto 850px;
+  }
+}
+/* Keep visual estimates conservative for narrow, vertically stacked pages. */
+@supports (content-visibility:auto){
+  @media(max-width:600px){
+    body.home-page #main-content > #stories{contain-intrinsic-size:auto 1100px;}
+    body.home-page #main-content > #faq{contain-intrinsic-size:auto 850px;}
+    body.home-page #main-content > .home-archive-gallery{contain-intrinsic-size:auto 900px;}
+  }
+}
