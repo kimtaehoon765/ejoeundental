@@ -357,3 +357,67 @@ body.care-gallery-secondary #main-content{
 @media print{
  body.care-gallery-secondary .care-secondary-skip{display:none!important;}
 }
+
+/* Visible clinical location path. Its two items mirror each page's existing
+   BreadcrumbList; no duplicate schema or artificial location keywords. */
+body.care-gallery-secondary .care-secondary-breadcrumb{
+ display:flex;align-items:center;flex-wrap:wrap;
+ box-sizing:border-box;gap:7px 10px;
+ width:calc(100% - 36px);max-width:1050px;
+ margin:18px auto 0;padding:11px 17px;
+ border:1px solid #d6e3d5;border-radius:12px;
+ background:#f6f9f2;color:#3f6049;
+ font:650 13px/1.6 'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+ word-break:keep-all;
+}
+body.care-gallery-secondary .care-secondary-breadcrumb a{
+ display:inline-flex;align-items:center;min-height:43px;
+ color:#245840;text-decoration:underline;
+ text-underline-offset:4px;
+}
+body.care-gallery-secondary .care-secondary-breadcrumb>span:last-child{
+ color:#234b38;font-weight:800;
+}
+body.care-gallery-secondary .care-secondary-breadcrumb .care-crumb-sep{
+ color:#839b85;font-size:17px;font-weight:400;
+}
+body.care-gallery-secondary .care-secondary-breadcrumb a:focus-visible{
+ outline:3px solid #a78145;outline-offset:3px;
+}
+/* A small reading trail supplements rather than duplicates clinic details. */
+body.care-gallery-secondary .care-secondary-reading{
+ box-sizing:border-box;max-width:1030px;
+ margin:30px auto 26px;
+ padding:19px 22px;
+ border:1px solid #d5e4d1;border-radius:15px;
+ background:linear-gradient(115deg,#f3f8ef,#fffcf6);
+}
+body.care-gallery-secondary .care-secondary-reading>strong{
+ display:block;color:#254d39;font-size:17px;
+ margin-bottom:9px;line-height:1.55;
+}
+body.care-gallery-secondary .care-secondary-reading>p{
+ margin:0;color:#3c5544;line-height:1.8;font-size:14px;
+}
+body.care-gallery-secondary .care-secondary-reading a{
+ display:inline-flex;align-items:center;min-height:44px;
+ color:#216046;font-weight:750;
+ text-underline-offset:4px;
+}
+body.care-gallery-secondary .care-secondary-reading a:focus-visible{
+ outline:3px solid #a78145;outline-offset:3px;
+}
+@media(max-width:600px){
+ body.care-gallery-secondary .care-secondary-breadcrumb{
+  width:calc(100% - 24px);margin:11px auto 0;
+  padding:7px 12px;gap:4px 8px;font-size:12px;
+ }
+ body.care-gallery-secondary .care-secondary-reading{
+  margin:25px 14px 18px;padding:16px 15px;
+ }
+ body.care-gallery-secondary .care-secondary-reading>strong{font-size:16px}
+}
+@media print{
+ body.care-gallery-secondary .care-secondary-breadcrumb,
+ body.care-gallery-secondary .care-secondary-reading{box-shadow:none}
+}
