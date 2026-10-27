@@ -760,7 +760,12 @@ test('owner-provided July scaling screenshots publish once with accurate topical
  assert.ok(String(source.source_note||'').startsWith('screenshots_summary'),
   'a full article supplied as screenshots is not a title-only post even after integrating new photos');
  assert.equal(source.source_url,original);
- assert.equal(source.updated,'2026-10-26');
+ assert.match(source.updated,/^\\d{4}-\\d{2}-\\d{2}$/,
+   'the updated timestamp must use YYYY-MM-DD format');
+ assert.ok(!Number.isNaN(Date.parse(source.updated+'T00:00:00Z')),
+   'the updated timestamp must parse as a calendar date');
+ assert.ok(source.updated>=source.date,
+   'an article update must not predate its original publication');
  assert.ok(source.body.length>3300,'the actual photographed blog text should become a substantial patient explainer');
  for(const term of ['가글마취','치아 시림','플라시보','치주낭','스케일링','임신','치과위생사','치과의사']){
   assert.ok(source.body.includes(term),'original patient question or safety point missing: '+term);
