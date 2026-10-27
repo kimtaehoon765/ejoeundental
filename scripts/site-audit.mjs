@@ -2899,6 +2899,42 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  if(!correct)errors.push('모바일 첫 화면: 자격·전화·진료시간·진료정보 우선 탐색 경로 오류');
 }
 
+/* Gallery patient journey regression: CSS must make symptom navigation, 4 curated
+   clinic articles, 363 source links and clinic visit accessible at small sizes. */
+{
+ const home=readFileSync(join(root,'index.html'),'utf8');
+ const sheet=readFileSync(join(root,'assets/gallery-upgrade.css'),'utf8');
+ const requiredTargets=[
+   'class="symptom-navigator wrap"',
+   'class="symptom-quick-search"',
+   'class="symptom-navigator-grid"',
+   'class="home-representative-guide-grid"',
+   'class="story-collection-menu"',
+   'class="story-featured-questions"',
+   'class="clinic-native-stories"',
+   'class="owner-stories-more"',
+   'class="owner-blog-topic-jumps"',
+   'class="visit-quick-facts"'
+ ];
+ const requiredStyles=[
+   'Patient journey gallery polish: 2026-10-27',
+   'body.home-page #main-content>.symptom-navigator.wrap',
+   'body.home-page #main-content>.symptom-navigator .symptom-quick-search-row input',
+   'body.home-page #home-representative-guides .home-representative-guide-grid',
+   'body.home-page #stories .story-collection-menu',
+   'body.home-page #stories .owner-blog-topic-jumps',
+   'body.home-page #location .visit-quick-facts',
+   '@media(max-width:600px)',
+   '@media(prefers-reduced-motion:reduce)'
+ ];
+ const accessible=requiredTargets.every(x=>home.includes(x))&&
+   requiredStyles.every(x=>sheet.includes(x))&&
+   home.includes('aria-label="치과 증상과 진료정보 검색"')&&
+   home.includes('aria-label="원장이 작성한 치과 이야기 355편"')&&
+   home.includes('href="/stories.html"');
+ if(!accessible)errors.push('갤러리형 환자 증상 찾기·원장 글·오시는 길 모바일 디자인 누락');
+}
+
 // Report every audit error, including the checks above this final line.
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);
