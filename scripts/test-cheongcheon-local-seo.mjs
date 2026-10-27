@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 const home=readFileSync('dist/index.html','utf8');
 const visit=readFileSync('dist/visit-guide.html','utf8');
 const sitemap=readFileSync('dist/sitemap.xml','utf8');
@@ -162,8 +163,12 @@ test('homepage links to four clinically distinct original patient education arti
   'homepage cannot promise all patients will have the same clinical outcome');
  assert.match(home,/\/assets\/home-enhancements\.css\?v=[a-zA-Z0-9-]+/,
   'generated homepage must use a cache-versioned stylesheet for returning mobile users');
- assert.ok(readFileSync('index.html','utf8').includes('home-enhancements.css?v=20261026-featured-guides1'),
-  'source homepage must bump its stylesheet version when featured patient cards change');
+ assert.match(readFileSync('index.html','utf8'),
+  /\/assets\/home-enhancements\.css\?v=[A-Za-z0-9-]+/,
+  'source homepage must carry a cache-versioned featured patient stylesheet');
+ const actualStyleHash=createHash('sha256').update(css).digest('hex').slice(0,12);
+ assert.ok(home.includes('/assets/home-enhancements.css?v='+actualStyleHash),
+  'published homepage must use the current stylesheet content hash, not an obsolete version');
  assert.ok(css.includes('.home-representative-guide-grid a:focus-visible'),
   'keyboard users must see a visible focus ring on original clinic stories');
  assert.ok(css.includes('grid-template-columns:1fr'),
