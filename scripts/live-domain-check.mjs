@@ -554,7 +554,7 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       const heroMarkup=body.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
       const doctorGallery=body.match(/<section class="section dark" id="doctor">([\s\S]*?)<\/section>/)?.[1]||'';
       const doctorCare=doctorGallery.match(/<nav class="doctor-care-trails"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
-      const physicianGalleryLive=['/gum-treatment.html','/retreatment.html','/tooth-preservation.html'].every(path=>doctorCare.includes('href="'+path+'"'))&&
+      const physicianGalleryLive=['gum-treatment','retreatment','tooth-preservation'].every(slug=>doctorCare.includes('href="/'+slug+'"')||doctorCare.includes('href="/'+slug+'.html"'))&&
         doctorGallery.includes('고려대학교 의학박사(치과학 전공)')&&
         doctorGallery.includes('통합치의학과 전문의');
       info.push('원장 소개 미술관 진료 3종 링크: '+(physicianGalleryLive?'실사이트 게시 확인':'신규 배포 확인 필요'));
