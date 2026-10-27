@@ -483,14 +483,22 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       const brandedResultsReady=clinicTitle===expectedHomeTitle&&
        clinicTitle.startsWith('이조은치과 |')&&
        clinicDescription===expectedHomeDescription&&
-       clinicDescription.includes('부평치과')&&
-       clinicDescription.includes('청천동치과')&&
+       clinicDescription.startsWith('인천 부평구 청천동 이조은치과(')&&
+       clinicDescription.includes('이-조은치과의원')&&
        body.includes('class="clinic-name-variant"')&&
        body.includes('병원정보 사이트 표기: <strong>이-조은치과의원</strong>')&&
-       body.includes('<link rel="canonical" href="'+origin+'/">')&&aliasesMatch;
+       body.includes('<link rel="canonical" href="'+origin+'/">')&&
+       clinicGraph?.legalName==='이-조은치과의원'&&aliasesMatch;
       info.push(brandedResultsReady?
        '공식 이조은치과 브랜드 우선 제목·외부 등록명 병기·주소·동일한 Google WebSite/Dentist 기관 정보 실제 공개 확인':
        '구글 이조은치과 공식 명칭·등록명 연결·검색 제목 최신 배포 확인 필요');
+      const exactNaverPlace='https://map.naver.com/p/entry/place/13239400';
+      const exactPlaceDeployed=clinicGraph?.hasMap===exactNaverPlace&&
+       Array.isArray(clinicGraph?.sameAs)&&clinicGraph.sameAs.includes(exactNaverPlace)&&
+       body.includes('href="'+exactNaverPlace+'"');
+      info.push(exactPlaceDeployed?
+       '네이버 플레이스 치과 상세주소·지도 버튼·의료기관 구조화 데이터 실제 배포 확인':
+       '네이버 플레이스 상세주소 GitHub 수정본 실사이트 미반영 — 배포·캐시 점검 필요');
       const missingHeaders=securityKeys.filter(name=>!response.headers.get(name));
       info.push(missingHeaders.length===0
        ? 'Cloudflare Pages 응답 보안 헤더 4종 반영'
@@ -1443,6 +1451,11 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        body.includes('청천동치과 이조은치과의 진료 장소')?
        '청천동치과 실제 위치·금토 격주 방문 설명 공개 확인':
        '청천동치과 방문 안내 신규 배포 확인 필요');
+      const visitPlaceReady=body.includes('href="https://map.naver.com/p/entry/place/13239400"')&&
+       body.includes('의료기관 등록명은 <strong>이-조은치과의원</strong>');
+      info.push(visitPlaceReady?
+       '청천동치과 오시는 길 네이버 플레이스 상세 연결·등록명 병기 실사이트 확인':
+       '오시는 길 네이버 플레이스 상세 연결·등록명 병기 배포 확인 필요');
     }
     // Reuse already-fetched 19 public patient resources: no additional requests.
     // Keep social previews, medical schema and search snippets consistent in production.
