@@ -325,3 +325,35 @@ body.care-gallery-secondary .care-gallery-article-shell>nav[aria-label="주요 �
 body.care-gallery-secondary .gallery-section-index>a:focus-visible{
  outline:3px solid #a88346;outline-offset:3px;
 }
+
+/* A real keyboard skip-to-content link for all secondary clinical guides.
+   The six historically missing guides now use the same reachable entry point
+   as the already-accessible cavity and scaling pages. */
+body.care-gallery-secondary .care-secondary-skip{
+ position:absolute;
+ top:-120px;left:15px;z-index:150;
+ display:inline-flex;align-items:center;justify-content:center;
+ min-height:46px;box-sizing:border-box;
+ padding:10px 16px;
+ border:2px solid #24543b;border-radius:9px;
+ background:#fffefa;color:#194734;
+ font:750 15px/1.5 system-ui,'Apple SD Gothic Neo',sans-serif;
+ text-decoration:none;
+ box-shadow:0 8px 20px rgba(15,44,30,.14);
+}
+body.care-gallery-secondary .care-secondary-skip:focus,
+body.care-gallery-secondary .care-secondary-skip:focus-visible{
+ top:12px;outline:3px solid #a88346;outline-offset:3px;
+}
+body.care-gallery-secondary #main-content{
+ scroll-margin-top:80px;
+}
+@media(max-width:600px){
+ body.care-gallery-secondary .care-secondary-skip:focus,
+ body.care-gallery-secondary .care-secondary-skip:focus-visible{
+  top:9px;left:10px;
+ }
+}
+@media print{
+ body.care-gallery-secondary .care-secondary-skip{display:none!important;}
+}
