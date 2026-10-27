@@ -137,7 +137,7 @@ function hasFreshCss(html,basename){
  const visit=readFileSync(join(root,'visit-guide.html'),'utf8');
  const actions=visit.match(/<nav class="visit-quick-actions"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
  if(!actions.includes('href="tel:0325132875"')||
-    !actions.includes('href="https://map.naver.com/p/search/')||
+    !actions.includes('href="https://map.naver.com/p/entry/place/13239400')||
     !actions.includes('rel="noopener noreferrer"')||
     !visit.includes('.visit-quick-actions a{display:flex;')){
    errors.push('방문 안내 모바일 전화·네이버 지도 빠른 버튼 누락');
@@ -681,7 +681,7 @@ if (existsSync(homepageFile)) {
   for(const detail of ['산곡역','도보 약 10분','세월천사거리','대우프라자 305호','/#location']){
    if(!guide.includes(detail))errors.push('방문 안내 길찾기 정보 누락: '+detail);
   }
-  if(!guide.includes('https://map.naver.com/p/search/'))errors.push('방문 안내 네이버 지도 연결 누락');
+  if(!guide.includes('https://map.naver.com/p/entry/place/13239400'))errors.push('방문 안내 네이버 지도 연결 누락');
  }
  for(const detail of ['class="local-transit-hint"','/visit-guide.html','산곡역에서 도보 약 10분']){
   if(!home.includes(detail))errors.push('홈페이지 산곡역 접근 안내 누락: '+detail);
