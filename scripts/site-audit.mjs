@@ -201,7 +201,7 @@ function hasFreshCss(html,basename){
   const position=body.indexOf('health-clinician-signpost');
   const firstHeading=body.indexOf('<h2');
   const required=['김태훈 원장','고려대학교 의학박사(치과학 전공)',
-    '통합치의학과 전문의','일반적인 건강정보','href="/#doctor"'];
+    '통합치의학과 전문의','일반적인 건강정보','href="/doctor.html"'];
   if(notices.length!==1||position<0||(firstHeading>=0&&position>firstHeading)||
     required.some(term=>!body.includes(term))){
     errors.push('의료정보 책임 의료진 안내 또는 첫 문단 배치 오류: '+filename.slice(root.length+1));
@@ -724,7 +724,7 @@ for (const treatment of ['gum-treatment.html', 'retreatment.html', 'cervical-abr
 for(const pageName of ['health/gum-bleeding.html','health/root-canal-after-pain.html','health/tooth-preservation.html']){
  const pageFile=join(root,pageName);
  if(!existsSync(pageFile)){errors.push('임상 건강정보 페이지 누락: '+pageName);continue;}
- if(!readFileSync(pageFile,'utf8').includes('href="/#doctor"'))errors.push('건강정보 의료진 소개 링크 누락: '+pageName);
+ if(!readFileSync(pageFile,'utf8').includes('href="/doctor.html"'))errors.push('건강정보 의료진 소개 링크 누락: '+pageName);
 }
 // Catch duplicate IDs that make in-page navigation ambiguous.
 for (const file of html) {
