@@ -2910,11 +2910,14 @@ const clinicalSharingFiles=[
 if(clinicalSharingFiles.length!==54||new Set(clinicalSharingFiles).size!==54){
  throw new Error('Expected 54 unique public clinical pages for social preview metadata');
 }
+const additionalCareSharingFiles=["implant.html","denture.html","scaling.html","cavity-treatment.html","wisdom-tooth.html","pediatric-dentistry.html","pediatric-orthodontics.html","tmj-care.html"];
+if(additionalCareSharingFiles.length!==8||new Set([...clinicalSharingFiles,...additionalCareSharingFiles]).size!==62)
+ throw new Error('Expected 62 unique public clinical pages for share metadata');
 const escapeSharingValue=value=>String(value)
  .replace(/&(?!#\d+;|#x[\da-f]+;|[a-z][a-z\d]+;)/gi,'&amp;')
  .replace(/"/g,'&quot;').replace(/</g,'&lt;');
 let clinicalSharingCount=0;
-for(const relative of clinicalSharingFiles){
+for(const relative of [...clinicalSharingFiles,...additionalCareSharingFiles]){
  const target=path.join(out,relative);
  let html=fs.readFileSync(target,'utf8');
  const title=html.match(/<title>([^<]+)<\/title>/i)?.[1]?.trim();
@@ -2946,6 +2949,7 @@ for(const relative of clinicalSharingFiles){
  fs.writeFileSync(target,html);
  clinicalSharingCount++;
 }
+if(clinicalSharingCount!==62)throw new Error('Incomplete social metadata: '+clinicalSharingCount);
 console.log('Clinical education sharing metadata aligned:',clinicalSharingCount,'public pages.');
 
 // Give patients a consistent way back to the full homepage dental story archive

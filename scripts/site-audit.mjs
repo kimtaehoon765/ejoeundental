@@ -223,8 +223,9 @@ console.log('JavaScript syntax checked:', javascriptFiles.length);
 {
  const hubs=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
  const guides=html.filter(file=>file.includes('/health/')).map(file=>file.slice(root.length+1));
+ const additionalCare=["implant.html","denture.html","scaling.html","cavity-treatment.html","wisdom-tooth.html","pediatric-dentistry.html","pediatric-orthodontics.html","tmj-care.html"];
  if(guides.length!==46)errors.push('공개 건강정보 글 수가 예상과 다름: '+guides.length);
- for(const relative of [...hubs,...guides]){
+ for(const relative of [...hubs,...guides,...additionalCare]){
   const markup=readFileSync(join(root,relative),'utf8');
   const canonical=markup.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1];
   for(const [type,name] of [
@@ -241,7 +242,7 @@ console.log('JavaScript syntax checked:', javascriptFiles.length);
     errors.push(relative+': 글 요약 공유 카드 설정 오류');
   }
  }
- console.log('Patient social preview metadata audited:',guides.length,'health guides +',hubs.length,'topic hubs');
+ console.log('Patient social preview metadata audited:',guides.length,'health guides +',hubs.length,'topic hubs +',additionalCare.length,'care pages');
 }
 
 

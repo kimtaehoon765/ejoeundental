@@ -531,6 +531,34 @@ test('implant and periodontal care guide visibly link to the owner-provided new 
  assert.match(gum,/href="\/stories\/2026-10-27-incheon-food-impaction-gum-pain\/"/);
 });
 
+test('eight other treatment guides have current consistent social metadata',()=>{
+ const pages=["implant.html","denture.html","scaling.html","cavity-treatment.html","wisdom-tooth.html","pediatric-dentistry.html","pediatric-orthodontics.html","tmj-care.html"];
+ const sitemap=readFileSync('dist/sitemap.xml','utf8');
+ for(const file of pages){
+  const h=readFileSync('dist/'+file,'utf8');
+  const title=h.match(/<title>([^<]+)<\/title>/)?.[1];
+  const desc=h.match(/<meta name="description" content="([^"]+)"/)?.[1];
+  const url=h.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+  assert.ok(title&&desc&&url?.startsWith('https://ejoeundental.com/'),file+' SEO fields');
+  for(const [kind,key,value] of [
+   ['property','og:title',title],['property','og:description',desc],
+   ['property','og:url',url],['property','og:site_name','이조은치과'],
+   ['name','twitter:title',title],['name','twitter:description',desc]]){
+   assert.ok(h.includes('<meta '+kind+'="'+key+'" content="'+value+'">'),file+' mismatch '+key);
+  }
+ }
+ const ortho=readFileSync('dist/pediatric-orthodontics.html','utf8');
+ const wisdom=readFileSync('dist/wisdom-tooth.html','utf8');
+ const implant=readFileSync('dist/implant.html','utf8');
+ assert.ok(ortho.includes('<h1>어린이 앞니 반대교합·가철성 교정 상담</h1>'));
+ assert.ok(ortho.includes('일부 경우 가철성 교정 장치'));
+ assert.ok(wisdom.includes('전문 진료 의뢰 여부'));
+ assert.ok(implant.includes('원장이 직접 식립 수술'));
+ for(const slug of ['implant','pediatric-orthodontics','wisdom-tooth'])
+  assert.ok(sitemap.includes('<loc>https://ejoeundental.com/'+slug+'</loc><lastmod>2026-10-28</lastmod>'),
+   slug+' edited medical page must have real revised sitemap date');
+});
+
 test('full dental story directory derives its Naver original count from the verified homepage list',()=>{
  const home=readFileSync('dist/index.html','utf8');
  const directory=readFileSync('dist/stories.html','utf8');
