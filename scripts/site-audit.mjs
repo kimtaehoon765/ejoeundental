@@ -3040,6 +3040,39 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   }));
 }
 
+/* Trustworthy source notes for medical FAQ pages: search snippets and
+   AI-crawlable answers should clearly identify the real treating clinician.
+   Do not invent a personal article authorship or a medical review date. */
+{
+ const clinicFaqs=[
+  'gum-treatment-faq','root-canal-retreatment-faq','dental-insurance-faq',
+  'medication-dental-faq','systemic-disease-dental-faq'
+ ];
+ for(const slug of clinicFaqs){
+  const document=readFileSync(join(root,slug+'.html'),'utf8');
+  const schemas=[...document.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(match=>JSON.parse(match[1]));
+  const faq=schemas.find(data=>data['@type']==='FAQPage');
+  const trails=schemas.filter(data=>data['@type']==='BreadcrumbList');
+  const canonical=document.match(/<link\s+rel="canonical"\s+href="([^"]+)"/)?.[1];
+  const origin=canonical?new URL(canonical).origin:'';
+  const notice=document.match(/<aside class="faq-care-authority"[^>]*>[\s\S]*?<\/aside>/)?.[0]||'';
+  const trail=trails[0]?.itemListElement||[];
+  if(!faq||!canonical||faq.publisher?.['@id']!==origin+'/#clinic'||
+     faq.isPartOf?.['@id']!==origin+'/#website'||
+     trails.length!==1||trail.length!==3||
+     trail[0].item!==origin+'/'||
+     trail[2].item!==canonical||
+     !document.includes('class="patient-standalone-trail"')||
+     !notice.includes('김태훈 원장')||
+     !notice.includes('고려대학교 의학박사')||
+     !notice.includes('통합치의학과 전문의')||
+     !notice.includes('href="/doctor.html"')){
+    errors.push('의료 FAQ 의료진 출처·병원 연결·환자 이동 경로 불일치: '+slug);
+  }
+ }
+}
+
 // Report every audit error, including the checks above this final line.
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);
