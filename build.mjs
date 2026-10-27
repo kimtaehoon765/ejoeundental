@@ -1599,6 +1599,15 @@ const healthCareDestinations = {
   'insurance-checkup.html': ['/insured-care.html','건강보험 진료 기준','/visit-guide.html','처음 방문 안내'],
   'insurance-priority.html': ['/insured-care.html','건강보험 진료 기준','/#philosophy','필요한 진료부터 설명하는 원칙']
 };
+// Keep optional direct Naver booking consistent with the owner-confirmed clinic
+// profile. The existing booking helper validates the destination and supplies
+// a labeled search fallback if the owner ever unsets the direct URL.
+const healthBookingAction=bookingAction(
+ JSON.parse(fs.readFileSync(path.join(root,'content/site.json'),'utf8')).naver_booking_url
+);
+if(!healthBookingAction.url.startsWith('https://')){
+ throw new Error('Unsafe patient booking action in health guides');
+}
 let careJourneyCount=0;
 for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
   const specific=healthCareDestinations[filename];
@@ -1639,6 +1648,9 @@ for(const filename of fs.readdirSync(healthDir).filter(x=>x.endsWith('.html'))){
     '<a href="'+secondary+'">'+escapeBreadcrumbText(secondaryLabel)+' →</a>'+
     '<a href="/#location">진료시간·오시는 길 →</a>'+
     '<a href="tel:0325132875">☎ 032-513-2875 전화 문의</a>'+
+    '<a class="patient-care-journey-booking" href="'+escapeBreadcrumbText(healthBookingAction.url)+'"'+
+    ' target="_blank" rel="noopener noreferrer" aria-label="'+escapeBreadcrumbText(healthBookingAction.aria)+'">'+
+    escapeBreadcrumbText(healthBookingAction.label)+' →</a>'+
     '</div></nav>';
   const insertionPoint=html.includes('<div class="bottom">')?'<div class="bottom">':
     html.includes('<footer class="bottom"')?'<footer class="bottom"':
