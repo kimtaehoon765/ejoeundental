@@ -836,7 +836,7 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       const editorialSitemap=readFileSync(new URL('../sitemap.xml',import.meta.url),'utf8');
       const revisedDate=slug=>{
         const entry=editorialSitemap.split('<loc>'+origin+'/'+slug+'.html</loc>')[1]?.split('</url>')[0]||'';
-        return entry.match(/<lastmod>(\\d{4}-\\d{2}-\\d{2})<\\/lastmod>/)?.[1]||null;
+        return entry.match(/<lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/)?.[1]||null;
       };
       const dateDeployed=slug=>{
         const expected=revisedDate(slug);
@@ -865,7 +865,7 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        '건강정보 모음·보험 FAQ 사이트맵의 실제 편집 날짜 확인 필요',
        ['gum-health','insurance-health','additional-health','dental-insurance-faq']);
       const googleImageNamespace=body.includes('xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"');
-      const imageLocs=[...body.matchAll(/<image:image><image:loc>([^<]+)<\\/image:loc><\\/image:image>/g)]
+      const imageLocs=[...body.matchAll(/<image:image><image:loc>([^<]+)<\/image:loc><\/image:image>/g)]
        .map(m=>m[1]);
       const indexedHeroImages=[
        origin+'/assets/ejoeundental-hero-cat.webp',
