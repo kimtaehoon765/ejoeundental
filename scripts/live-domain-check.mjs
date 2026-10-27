@@ -502,6 +502,14 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       info.push(exactPlaceDeployed?
        '네이버 플레이스 치과 상세주소·지도 버튼·의료기관 구조화 데이터 실제 배포 확인':
        '네이버 플레이스 상세주소 GitHub 수정본 실사이트 미반영 — 배포·캐시 점검 필요');
+      const instagram='https://www.instagram.com/indifan2/';
+      const instagramReady=Array.isArray(clinicGraph?.sameAs)&&
+       clinicGraph.sameAs.includes(instagram)&&
+       body.includes('href="'+instagram+'"')&&
+       body.includes('이조은치과 인스타그램 보기');
+      info.push(instagramReady?
+       '스마트플레이스 등록 치과 인스타그램 링크·의료기관 관계 정보 실사이트 반영 확인':
+       '이조은치과 인스타그램 관계 정보 실사이트 신규 배포 확인 필요');
       const missingHeaders=securityKeys.filter(name=>!response.headers.get(name));
       info.push(missingHeaders.length===0
        ? 'Cloudflare Pages 응답 보안 헤더 4종 반영'
