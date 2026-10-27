@@ -82,7 +82,7 @@ const urls = [
   { label: '모네풍 갤러리 CSS 공개 확인', url: origin + '/assets/home-enhancements.css' },
   { label: '미술관형 리디자인 CSS 실제 배포', url: origin + '/assets/gallery-upgrade.css' },
   { label: '진료 안내 미술관 통합 디자인 CSS', url: origin + '/assets/care-gallery.css' },
-  { label: '추가 진료 8개 미술관 디자인 CSS', url: origin + '/assets/care-gallery-secondary.css' },
+  { label: '추가 진료 8개 미술관 디자인 CSS', url: origin + '/assets/care-gallery-secondary.css?v=' + expectedSecondaryGalleryHash },
   { label: 'www HTTPS 연결', url: 'https://www.' + apex + '/' },
   { label: 'Cloudflare Pages 임시주소 색인 확인', url: 'https://ejoeundental.pages.dev/' },
   { label: 'www 하위 경로·쿼리 리디렉션', url: 'https://www.' + apex + '/gum-treatment?utm_source=redirect_check' },
