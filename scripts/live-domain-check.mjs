@@ -103,6 +103,7 @@ const urls = [
   })),
   { label: '최근 블로그 원고 대표 글 게시', url: origin + '/stories/2026-10-25-bupyeong-cavity-treatment-overtreatment-checklist/' },
   { label: '재신경치료 글 진료 연결 확인', url: origin + '/stories/2026-10-24-incheon-root-canal-tooth-gum-swelling-retreatment/' },
+  { label: '재신경치료 치유 경과 관찰 글 수정 확인', url: origin + '/stories/2026-10-25-incheon-retreatment-root-tip-dark-spot-no-pain/' },
   { label: '잇몸치료 상세 페이지', url: origin + '/gum-treatment.html' },
   { label: '재신경치료 이미지 초기 표시', url: origin + '/retreatment.html' },
   { label: '재신경치료 과정 글·삽화 바로가기', url: origin + '/health/root-canal-retreatment-process.html' },
@@ -904,6 +905,25 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       info.push(doctorConnected?'Google 원장 치과 이야기 작성자·치과 기관 연결 최신 배포 확인':
        '치과 이야기 Google 작성자/기관 구조화 관계 최신 배포 확인 필요');
       if(expected)info.push('소스 원고: '+expected.title);
+    } else if (label === '재신경치료 치유 경과 관찰 글 수정 확인') {
+      // Updating a CMS article must reach real patients, not just the build output.
+      // The article's medically accurate revision date is checked against its
+      // actual live BlogPosting metadata as well as the new clinical explanation.
+      const expectedDoc=JSON.parse(readFileSync(
+       new URL('../content/posts/2026-10-25-incheon-retreatment-root-tip-dark-spot-no-pain.json',import.meta.url),
+       'utf8'));
+      const schema=[...body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+       .map(m=>{try{return JSON.parse(m[1])}catch{return null}})
+       .find(d=>d?.['@type']==='BlogPosting');
+      const contentReady=response.status===200&&
+       schema?.datePublished===expectedDoc.date&&
+       schema?.dateModified===expectedDoc.updated&&
+       body.includes('재신경치료 후 엑스레이의 검은 그림자는 언제 없어질까요?')&&
+       body.includes('검은 부위가 점차 작아지고')&&
+       body.includes('유럽근관치료학회');
+      info.push(contentReady?
+       '재신경치료 엑스레이 치유 경과 글·실제 수정일·의학 근거 최신 배포 확인':
+       '재신경치료 경과 관찰 글의 최근 수정본 실사이트 게시 확인 필요');
     } else if (label === '재신경치료 글 진료 연결 확인') {
       const relatedGuide=body.match(/<aside class="notice" aria-label="관련 진료 안내">([\s\S]*?)<\/aside>/)?.[1]||'';
       const firstGuide=relatedGuide.match(/<a href="([^"]+)"/)?.[1]||'';
