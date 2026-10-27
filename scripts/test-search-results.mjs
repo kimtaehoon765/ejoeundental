@@ -119,6 +119,8 @@ test('searching for a local treatment still links to the primary care guide',asy
  for(const [query,expected] of [
   ['인천 잇몸치료','/gum-treatment.html'],
   ['산곡역 재신경치료','/retreatment.html'],
+  ['부평역 잇몸치료','/gum-treatment.html'],
+  ['굴포천역 재신경치료','/retreatment.html'],
   ['부평 치경부마모증','/cervical-abrasion.html'],
   ['인천 건강보험','/insured-care.html']
  ]){
@@ -141,6 +143,9 @@ test('no-space regional searches find the actual clinic treatment pages',async()
   ['산곡동잇몸치료','/gum-treatment.html'],
   ['산곡역재신경치료','/retreatment.html'],
   ['부평구청역신경치료','/root-canal-health.html'],
+  ['부평역잇몸치료','/gum-treatment.html'],
+  ['굴포천역잇몸치료','/gum-treatment.html'],
+  ['굴포천역재신경치료','/retreatment.html'],
   ['인천치경부마모증','/cervical-abrasion.html']
  ];
  for(const [query,expected] of cases){
@@ -154,7 +159,7 @@ test('no-space regional searches find the actual clinic treatment pages',async()
 test('local clinic discovery without a symptom shows verified visit details instead of unrelated treatments',async()=>{
  const builtIndex=new URL('../dist/content/search-index.json',import.meta.url);
  const index=JSON.parse(readFileSync(existsSync(builtIndex)?builtIndex:new URL('../content/search-index-46.json',import.meta.url),'utf8'));
- for(const query of ['부평치과','청천동치과','산곡역 치과']){
+ for(const query of ['부평치과','청천동치과','산곡역 치과','부평역 치과','굴포천역치과']){
   const {results}=await search(query,index);
   const visits=walk(results,x=>x.className==='search-visit-answer');
   assert.equal(visits.length,1,query+' should show one useful clinic visit panel');
