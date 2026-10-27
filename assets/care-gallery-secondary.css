@@ -1,0 +1,254 @@
+/* 이조은치과 | Clinical Gallery Edition — supporting eight treatment guides.
+   Shared gallery tokens, first-party static CSS, no JavaScript and no changes
+   to clinical claims, search metadata or actual booking destination. */
+body.care-gallery-secondary{
+ --sg-ink:#1e4636;
+ --sg-leaf:#28644a;
+ --sg-moss:#668a6b;
+ --sg-gold:#a28354;
+ --sg-line:#d9e5d8;
+ --sg-white:#fffefa;
+ --sg-paper:#faf8f2;
+ background:var(--sg-paper);color:#2b4739;
+ line-height:1.84;word-break:keep-all;
+}
+body.care-gallery-secondary :is(h1,h2,h3){
+ word-break:keep-all;overflow-wrap:break-word;text-wrap:balance;
+}
+body.care-gallery-secondary a:focus-visible,
+body.care-gallery-secondary button:focus-visible{
+ outline:3px solid var(--sg-gold);outline-offset:3px;
+}
+body.care-gallery-secondary > header{
+ border-bottom:1px solid #d6e0d7;background:#faf9f2;
+}
+body.care-gallery-secondary > header :is(.logo,a.logo){
+ font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+ font-weight:750;letter-spacing:-.07em;color:#20503b;
+}
+body.care-gallery-secondary > header :is(.navlinks,.nav,.bar){
+ min-height:53px;line-height:1.5;
+}
+body.care-gallery-secondary > header a{
+ text-decoration:none;text-underline-offset:4px;
+}
+body.care-gallery-secondary > header a:not(.logo):hover{
+ color:#286e4e;text-decoration:underline;
+}
+body.care-gallery-secondary .care-gallery-article-shell{
+ max-width:1020px;margin:auto;padding:clamp(30px,5vw,65px) 22px 80px;
+}
+body.care-gallery-secondary .care-gallery-article-shell >p:first-child:not(.gallery-secondary-intro){
+ color:#6d826e;font-size:13px;font-weight:770;letter-spacing:.045em;
+ margin-bottom:9px;
+}
+body.care-gallery-secondary .care-gallery-article-shell>h1{
+ max-width:950px;
+ font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+ font-size:clamp(30px,4.1vw,46px);line-height:1.42;
+ letter-spacing:-.05em;color:var(--sg-ink);
+ margin:12px 0 25px;
+}
+body.care-gallery-secondary .care-gallery-article-shell>.intro,
+body.care-gallery-secondary .care-gallery-article-shell>h1+p:not(.intro){
+ background:linear-gradient(120deg,#eef4ed,#fcfdf8);
+ padding:20px 24px;border-left:4px solid #7d9e83;
+ border-radius:0 15px 15px 0;
+ border-top:1px solid #dbe6d9;border-right:1px solid #dbe6d9;
+ border-bottom:1px solid #dbe6d9;
+ margin:0 0 21px;
+ box-shadow:0 6px 20px rgba(34,65,40,.045);
+}
+body.care-gallery-secondary .care-gallery-article-shell>.intro p{
+ margin:7px 0;line-height:1.9;font-size:16px;
+}
+body.care-gallery-secondary :is(.clinician-byline,.gallery-secondary-clinician){
+ box-sizing:border-box;border:1px solid #d1e0d0;
+ border-left:4px solid #79a080;
+ border-radius:15px;background:#fffefa;
+ box-shadow:0 8px 23px rgba(24,59,37,.05);
+ padding:17px 20px;margin:19px 0 20px;
+ color:#2b513b;line-height:1.75;
+}
+body.care-gallery-secondary .clinician-byline-info strong{
+ font-size:16px;color:#1d4936;
+}
+body.care-gallery-secondary :is(.clinician-byline,.gallery-secondary-clinician) a{
+ color:#1f694c;text-decoration:underline;text-underline-offset:4px;
+ font-weight:730;min-height:42px;
+}
+body.care-gallery-secondary :is(.clinician-byline,.gallery-secondary-clinician) a:hover{color:#124b35}
+
+/* The three essential patient actions stay near the physician's credentials. */
+body.care-gallery-secondary .treatment-hero-actions{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ margin:19px 0 31px;gap:10px;max-width:980px;
+}
+body.care-gallery-secondary .treatment-hero-actions a{
+ display:inline-flex;justify-content:center;align-items:center;
+ box-sizing:border-box;min-width:0;min-height:53px;padding:12px 14px;
+ text-decoration:none;text-align:center;
+ border-radius:12px;font-size:14px;font-weight:780;line-height:1.52;
+ transition:box-shadow .18s,border-color .18s;word-break:keep-all;
+}
+body.care-gallery-secondary .treatment-hero-actions .treatment-hero-call{
+ color:#fff;background:#214e39;border:1px solid #214e39;
+ box-shadow:0 7px 19px rgba(32,79,53,.12);
+}
+body.care-gallery-secondary .treatment-hero-actions .care-gallery-booking{
+ color:#fff;background:#28744c;border:1px solid #28744c;
+ box-shadow:0 7px 19px rgba(32,90,48,.10);
+}
+body.care-gallery-secondary .treatment-hero-actions .treatment-hero-location{
+ color:#245a40;background:#fffefa;border:1px solid #adc5ad;
+}
+body.care-gallery-secondary .treatment-hero-actions a:hover{
+ box-shadow:0 11px 27px rgba(29,75,46,.14);
+}
+/* Editorial rhythm: section titles are clear and low-contrast borders organize
+   many medically substantive paragraphs without using advertising imagery. */
+body.care-gallery-secondary .care-gallery-article-shell>section{
+ padding:clamp(19px,2.8vw,29px) clamp(18px,3vw,30px);
+ margin:20px 0;border:1px solid #dde7db;border-radius:18px;
+ background:#fffefa;box-shadow:0 8px 28px rgba(24,57,40,.045);
+}
+body.care-gallery-secondary .care-gallery-article-shell>section:nth-of-type(even){
+ background:#f6f9f3;
+}
+body.care-gallery-secondary .care-gallery-article-shell>h2{
+ color:#204d39;
+ font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+ font-size:clamp(23px,3vw,30px);line-height:1.48;
+ margin:37px 0 15px;padding-top:19px;
+ border-top:1px solid #dce4d9;
+}
+body.care-gallery-secondary .care-gallery-article-shell>h3{
+ color:#2b5e42;font-size:clamp(18px,2.3vw,22px);
+}
+body.care-gallery-secondary .care-gallery-article-shell>:is(p,ul,ol){
+ max-width:900px;line-height:1.88;
+}
+body.care-gallery-secondary .care-gallery-article-shell>:is(p,ul,ol) a{
+ color:#1f644a;text-underline-offset:4px;
+}
+body.care-gallery-secondary .care-gallery-article-shell>section h2{
+ font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+ color:#23513c;font-size:clamp(22px,2.7vw,28px);margin:0 0 14px;
+}
+body.care-gallery-secondary .care-gallery-article-shell>section p{line-height:1.86}
+body.care-gallery-secondary :is(.cavity-patient-grid,.denture-question-grid,.implant-patient-grid,
+ .pediatric-care-decisions,.child-ortho-scope,.wisdom-patient-grid) article{
+ border-radius:14px;background:#f9faf6;border:1px solid #dbe6dc;
+}
+body.care-gallery-secondary .care-gallery-article-shell>nav[aria-label="관련 진료와 건강정보"]{
+ border-radius:17px;background:#edf3eb;border:1px solid #cfdccb;
+}
+body.care-gallery-secondary :is(.cavity-patient-links,.denture-patient-questions,
+ .implant-patient-decisions,.scaling-patient-reading){
+ border-radius:18px;border-color:#d0e1d2;background:#f4f8f1;
+}
+/* Supporting treatment guides that already use full-width illustrated sections. */
+body.care-gallery-secondary.secondary-hero main>.hero{
+ padding:clamp(43px,5vw,72px) 22px;
+ background:linear-gradient(125deg,#fafaf4,#ebf2e9);
+ border-bottom:1px solid #d9e3d6;
+}
+body.care-gallery-secondary.secondary-hero main>.hero::before{
+ opacity:.16;mask-image:linear-gradient(90deg,transparent,black);
+}
+body.care-gallery-secondary.secondary-hero main>.hero h1{
+ color:#1f4b39;
+ font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+ font-size:clamp(31px,4.4vw,49px);line-height:1.38;
+ letter-spacing:-.05em;
+ max-width:900px;
+}
+body.care-gallery-secondary.secondary-hero main>.hero p{
+ max-width:780px;color:#3e5a48;line-height:1.9;
+}
+body.care-gallery-secondary.secondary-hero main>.clinician-byline,
+body.care-gallery-secondary.secondary-hero main>.treatment-hero-actions{
+ max-width:1060px;margin-left:auto;margin-right:auto;
+}
+body.care-gallery-secondary.secondary-hero main>.clinician-byline{
+ margin-top:22px;
+}
+body.care-gallery-secondary.secondary-hero main>.section{
+ padding:clamp(42px,5vw,65px) 22px;
+ background:#fffefa;
+}
+body.care-gallery-secondary.secondary-hero main>.section:nth-of-type(odd){background:#f5f8f2}
+body.care-gallery-secondary.secondary-hero main>.section h2{
+ font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+ font-size:clamp(24px,3.2vw,34px);line-height:1.5;color:#20503a;
+}
+body.care-gallery-secondary.secondary-hero .cta{
+ background:#204e3b;color:#fff;
+}
+body.care-gallery-secondary.secondary-hero .cta h2{color:#fff}
+body.care-gallery-secondary.secondary-hero :is(.wrap,.section p){overflow-wrap:break-word}
+body.care-gallery-secondary.secondary-hero .wisdom-patient-grid article{
+ border-radius:15px;border:1px solid #d8e5d9;
+ box-shadow:0 5px 15px rgba(20,58,38,.05);
+}
+/* Denture template had no clinic navigation bar. A small real header makes it
+   consistent with the other eleven clinical care entrances. */
+body.care-gallery-secondary.secondary-denture .secondary-gallery-header{
+ display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;
+ gap:12px 18px;max-width:1100px;margin:auto;padding:15px 22px;
+}
+body.care-gallery-secondary.secondary-denture .secondary-gallery-header .logo{
+ font-family:'Noto Serif KR',serif;font-size:23px;font-weight:750;
+}
+body.care-gallery-secondary.secondary-denture .secondary-gallery-header nav{
+ display:flex;align-items:center;gap:17px;flex-wrap:wrap;font-size:14px;
+}
+body.care-gallery-secondary.secondary-denture .secondary-gallery-header nav a{
+ min-height:44px;display:inline-flex;align-items:center;
+ font-weight:750;color:#2b6247;
+}
+body.care-gallery-secondary.secondary-denture main>p:first-child{display:none}
+
+/* Existing 3-action mobile bar from care-gallery.css remains the only floating
+   control. Nothing overlays the clinical content or creates a new paywall. */
+@media(max-width:700px){
+ body.care-gallery-secondary > header :is(.nav,.top,.bar){padding:12px 16px;flex-wrap:wrap}
+ body.care-gallery-secondary .care-gallery-article-shell{
+  padding:30px 17px calc(80px + env(safe-area-inset-bottom,0px));
+ }
+ body.care-gallery-secondary .care-gallery-article-shell>h1{
+  font-size:clamp(28px,7.5vw,36px);line-height:1.42;margin:9px 0 18px;
+ }
+ body.care-gallery-secondary .care-gallery-article-shell>.intro,
+ body.care-gallery-secondary .care-gallery-article-shell>h1+p:not(.intro){
+  padding:15px 17px;
+ }
+ body.care-gallery-secondary .care-gallery-article-shell>section{
+  padding:18px 17px;margin:15px 0;
+ }
+ body.care-gallery-secondary :is(.clinician-byline,.gallery-secondary-clinician){
+  padding:13px 15px;margin:15px 0;font-size:14px;
+ }
+ body.care-gallery-secondary .treatment-hero-actions{
+  grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:16px 0 27px;
+ }
+ body.care-gallery-secondary .treatment-hero-actions a{
+  min-height:49px;padding:10px 8px;font-size:13px;
+ }
+ body.care-gallery-secondary .treatment-hero-actions .treatment-hero-location{
+  grid-column:1/-1;
+ }
+ body.care-gallery-secondary.secondary-hero main>.hero{padding:37px 18px 43px}
+ body.care-gallery-secondary.secondary-hero main>.hero h1{font-size:clamp(29px,7vw,36px)}
+ body.care-gallery-secondary.secondary-hero main>.clinician-byline,
+ body.care-gallery-secondary.secondary-hero main>.treatment-hero-actions{
+  margin-left:16px;margin-right:16px;
+ }
+ body.care-gallery-secondary.secondary-hero main>.section{padding:40px 17px}
+ body.care-gallery-secondary.secondary-denture .secondary-gallery-header{padding:10px 16px}
+ body.care-gallery-secondary.secondary-denture .secondary-gallery-header nav{gap:9px}
+ body.care-gallery-secondary.secondary-denture .secondary-gallery-header nav a{font-size:13px}
+}
+@media(prefers-reduced-motion:reduce){
+ body.care-gallery-secondary .treatment-hero-actions a{transition:none}
+}
