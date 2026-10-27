@@ -325,6 +325,18 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
         'HTTP '+response.status+' · 임상 답변·FAQ 구조화 데이터·원장 이력 링크 '+
         (verified?'서로 일치':'일부 불일치 또는 미배포'));
     }
+    if(label==='remaining route root-canal-retreatment-faq'){
+      const rootTip='/stories/2026-10-25-incheon-retreatment-root-tip-dark-spot-no-pain/';
+      const crown='/stories/2026-10-25-bupyeong-retreatment-crown-post-can-tooth-be-saved/';
+      const linked=response.ok&&
+       body.includes('href="'+rootTip+'"')&&
+       body.includes('href="'+crown+'"')&&
+       body.includes('뿌리 끝 검은 그림자의 변화와 재신경치료 후 추적검사')&&
+       body.includes('크라운과 포스트가 있는 치아의 재신경치료 가능성');
+      info.push(linked?
+       '재신경치료 환자 FAQ에서 치근단 치유·크라운/포스트 관련 글로 직접 연결 실사이트 확인':
+       '재신경치료 환자 FAQ의 자세한 원장 글 연결은 신규 배포 확인 필요');
+    }
     // Newly added clinical bylines must reach the actual public host, not
     // merely pass source/build tests. Every expected page already has a normal
     // HTTP check above, so reuse the response and add no external requests.
