@@ -3018,7 +3018,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
    guide.includes('class="home-representative-guide-grid"')&&
    (guide.match(/<a\s+href="\/stories\//g)||[]).length===4&&
    faq.includes('class="faq-list"')&&
-   (faq.match(/<details>/g)||[]).length===11&&
+   (faq.match(/<details\b/g)||[]).length===11&&
    style.includes('Physician provenance gallery |')&&
    style.includes('.doctor-care-trails')&&
    style.includes('details>summary::after')&&
@@ -3031,7 +3031,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
    specialty:section.includes('통합치의학과 전문의'),
    guideGrid:guide.includes('class="home-representative-guide-grid"'),
    guideLinks:guide.split('href="/stories/').length-1,
-   faq:faq.includes('class="faq-list"'),faqCount:(faq.match(/<details>/g)||[]).length,
+   faq:faq.includes('class="faq-list"'),faqCount:(faq.match(/<details\b/g)||[]).length,
    stylesheet:style.includes('Physician provenance gallery |'),
    navStyle:style.includes('.doctor-care-trails'),
    faqStyle:style.includes('details>summary::after'),
