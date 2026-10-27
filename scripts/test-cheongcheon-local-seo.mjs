@@ -278,3 +278,23 @@ test('four-topic dental health hub links distinct original articles without chan
  assert.equal(meta?.mainEntity?.numberOfItems,16);
  assert.equal(meta?.mainEntity?.itemListElement?.length,16);
 });
+
+test('root canal regional search descriptions stay natural and retreatment FAQ labels match real answers',()=>{
+ const hub=readFileSync('dist/root-canal-health.html','utf8');
+ const faq=readFileSync('dist/root-canal-retreatment-faq.html','utf8');
+ const title=extract(head(hub),/<title>([^<]+)<\/title>/);
+ const description=extract(head(hub),/<meta name="description" content="([^"]+)"/);
+ assert.ok(title.includes('인천 신경치료')&&title.includes('부평 신경치료'));
+ assert.ok(description.includes('인천·부평 신경치료')&&description.includes('청천동'));
+ assert.ok(description.includes('근관치료'));
+ assert.ok(!description.includes('인천 신경치료 부평 신경치료'),'avoid redundant keyword-list copy');
+ const faqCards=(faq.match(/<section class="card"><h2>/g)||[]).length;
+ const schemas=[...faq.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1]));
+ const faqData=schemas.find(x=>x['@type']==='FAQPage');
+ assert.equal(faqCards,10);
+ assert.equal(faqData?.mainEntity?.length,faqCards,'FAQ structured answers must match visible questions');
+ const label=hub.match(/<a href="\/root-canal-retreatment-faq\.html"><strong>재신경치료가 가능한지 궁금해요<\/strong><span>([^<]+)<\/span><\/a>/)?.[1]||'';
+ assert.ok(label.includes('질문 '+faqCards+'가지'), 'visible link count should match the FAQ itself');
+ assert.ok(!label.includes('질문 9가지'),'do not show stale counts');
+});
