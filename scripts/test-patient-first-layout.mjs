@@ -1176,7 +1176,8 @@ test('all published clinic stories expose verified mobile call, reservation, and
   const panels=[...html.matchAll(/<nav class="story-mobile-actions" aria-label="전화 문의·네이버 예약·오시는 길">([\s\S]*?)<\/nav>/g)];
   assert.equal(panels.length,1,post.slug+' must have one accessible contact strip');
   const buttons=[...panels[0][1].matchAll(/<a [^>]*href="([^"]+)"[^>]*>/g)].map(m=>m[1]);
-  assert.deepEqual(buttons,['tel:0325132875',booking,'/#location'],post.slug+' contains a non-verified or missing action');
+  assert.deepEqual(buttons,['tel:0325132875',booking,'/visit-guide.html'],post.slug+' contains a non-verified or missing action');
+  assert.ok(panels[0][1].includes('aria-label="이조은치과 진료시간·주소·주차 안내"'),post.slug+' must give patients direct location and parking context');
   assert.ok(panels[0][1].includes('class="story-mobile-booking"'),post.slug+' booking control missing');
   assert.match(panels[0][1],/target="_blank" rel="noopener noreferrer"/,post.slug+' booking must open securely');
   assert.ok(html.indexOf('class="story-mobile-actions"')>html.indexOf('</main>'),
@@ -1184,6 +1185,14 @@ test('all published clinic stories expose verified mobile call, reservation, and
   assert.ok(html.includes('<link rel="canonical" href="https://ejoeundental.com/stories/'+post.slug+'/'),
    post.slug+' canonical URL must not change for a layout improvement');
  }
+});
+
+test('live Cloudflare story-button probe checks current three-button markup',()=>{
+ const probe=readFileSync('scripts/live-domain-check.mjs','utf8');
+ assert.ok(probe.includes('aria-label="전화 문의·네이버 예약·오시는 길"'));
+ assert.ok(probe.includes('class="story-mobile-location" href="/visit-guide.html"'));
+ assert.ok(probe.includes('verifiedBookingUrl.replace(/&/g'));
+ assert.ok(!probe.includes('aria-label="전화 문의와 진료 위치 안내"'));
 });
 
 test('the first patient symptom navigator surfaces extraction vs preservation without displacing six existing questions',()=>{

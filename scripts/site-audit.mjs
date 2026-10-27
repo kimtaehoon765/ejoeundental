@@ -2640,7 +2640,9 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   const bookingHref='href="'+officialBooking.replace(/&/g,'&amp;')+'"';
   if(!actions.includes('class="story-mobile-call"')||
      !actions.includes('class="story-mobile-booking"')||
-     !actions.includes('class="story-mobile-location"')||
+     !actions.includes('class="story-mobile-location" href="/visit-guide.html"')||
+     !actions.includes('aria-label="이조은치과 진료시간·주소·주차 안내"')||
+     !actions.includes('href="tel:0325132875"')||
      !actions.includes(bookingHref)||
      !actions.includes('target="_blank" rel="noopener noreferrer"')||
      !content.includes('<a '+bookingHref+' target="_blank"')){

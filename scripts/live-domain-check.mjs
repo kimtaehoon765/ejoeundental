@@ -994,14 +994,19 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        /\/assets\/article-sharing\.js\?v=[a-f0-9]{12}/.test(body);
       info.push(mobileReader?'모바일 글자 크기·공유·링크복사·인쇄·맨 위로 기능 실제 공개 확인':
        '모바일 글 읽기·공유 기능이 최신 공개 사이트에 있는지 확인 필요');
-      const mobileActions=body.match(/<nav class="story-mobile-actions" aria-label="전화 문의와 진료 위치 안내">([\s\S]*?)<\/nav>/)?.[1]||'';
+      // Compare the current accessible three-action navigation, not the
+      // retired two-button label. Otherwise a correctly deployed story is
+      // reported as missing its patient contact strip.
+      const mobileActions=body.match(/<nav class="story-mobile-actions" aria-label="전화 문의·네이버 예약·오시는 길">([\s\S]*?)<\/nav>/)?.[1]||'';
       const livePatientActions=response.status===200&&
         body.includes('<body class="owner-story-page">')&&
-        mobileActions.includes('href="tel:0325132875"')&&
-        mobileActions.includes('href="/#location"')&&
+        mobileActions.includes('class="story-mobile-call" href="tel:0325132875"')&&
+        mobileActions.includes('class="story-mobile-booking" href="'+verifiedBookingUrl.replace(/&/g,'&amp;')+'"')&&
+        mobileActions.includes('class="story-mobile-location" href="/visit-guide.html"')&&
+        mobileActions.includes('aria-label="이조은치과 진료시간·주소·주차 안내"')&&
         body.includes('/assets/story-article.css?v=');
-      info.push(livePatientActions?'모바일 고정 전화·오시는 길 2개 버튼 실제 공개 확인':
-       '모바일 전화·오시는 길 버튼의 실서버 배포 확인 필요');
+      info.push(livePatientActions?'모바일 전화·네이버 예약·오시는 길 3개 버튼 실제 공개 확인':
+       '모바일 전화·네이버 예약·오시는 길 3개 버튼 최신 배포 확인 필요');
     } else if (label === '잇몸 건강정보 탐색 경로' || label === '신경치료 건강정보 탐색 경로' || label === '자연치아 건강정보 진료 연결') {
       const correctHub = label.includes('잇몸') ? '/gum-health.html' : label.includes('신경치료') ? '/root-canal-health.html' : '/additional-health.html';
       // Cloudflare publishes /gum-health while source anchors can use /gum-health.html.
