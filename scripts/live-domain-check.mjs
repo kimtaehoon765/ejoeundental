@@ -326,6 +326,11 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
         (verified?'서로 일치':'일부 불일치 또는 미배포'));
     }
     if(label==='remaining route root-canal-retreatment-faq'){
+      const actualQuestionCount=(body.match(/<section class="card"><h2>/g)||[]).length;
+      const answerCountReady=response.ok&&actualQuestionCount===10;
+      info.push(answerCountReady?
+       '재신경치료 FAQ 실제 질문 10개·내용 일치 확인':
+       '재신경치료 FAQ 질문 수 또는 신규 배포 확인 필요 ('+actualQuestionCount+'개)');
       const rootTip='/stories/2026-10-25-incheon-retreatment-root-tip-dark-spot-no-pain/';
       const crown='/stories/2026-10-25-bupyeong-retreatment-crown-post-can-tooth-be-saved/';
       const linked=response.ok&&
@@ -1044,10 +1049,18 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       if(slug==='root-canal-health'){
         const pageTitle=body.match(/<title>([^<]+)<\/title>/)?.[1]||'';
         const pageDescription=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
-        const phrases=['인천 신경치료','부평 신경치료'];
-        const regionReady=phrases.every(term=>pageTitle.includes(term)&&pageDescription.includes(term))&&
+        // Grouped '인천·부평 신경치료' is natural Korean. Avoid
+        // demanding duplicated exact keywords in an accurate description.
+        const regionsInTitle=['인천 신경치료','부평 신경치료']
+         .every(term=>pageTitle.includes(term));
+        const regionsInDescription=pageDescription.includes('인천·부평 신경치료')&&
+         pageDescription.includes('청천동')&&pageDescription.includes('근관치료');
+        const regionReady=regionsInTitle&&regionsInDescription&&
           body.includes('신경치료와 재신경치료는 어떻게 다를까요?');
         info.push(regionReady?'인천·부평 신경치료 검색 정보·일반/재치료 구분 반영':'신경치료 지역 검색 문구 배포 확인 필요');
+        info.push(body.includes('재치료의 가능성·한계와 질문 10가지 →')?
+         '재신경치료 FAQ 실제 10개 질문과 건강정보 안내 문구 일치':
+         '재신경치료 FAQ 질문 안내 숫자 최신 배포 확인 필요');
         const coverageReady=body.includes('id="root-canal-insurance"')&&body.includes('href="/health/insurance-root-canal.html"');
         info.push(coverageReady?'신경치료 보험 안내·최종 수복 구분·연결 반영':'신경치료 보험 안내 신규 배포 확인 필요');
         const crossCare=body.includes('href="/gum-treatment.html#gum-or-root-symptoms"')&&
