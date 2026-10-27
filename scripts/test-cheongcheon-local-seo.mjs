@@ -215,3 +215,21 @@ test('periodontal hub and FAQ provide direct crawlable post-treatment care paths
   .find(x=>x?.['@type']==='FAQPage');
  assert.equal(faqSchema?.mainEntity?.length,cards,'do not add an unmatched FAQ question to structured data');
 });
+
+test('retreatment FAQ links specific patient questions to existing clinician articles',()=>{
+ const faq=readFileSync('dist/root-canal-retreatment-faq.html','utf8');
+ const rootRadiolucency='/stories/2026-10-25-incheon-retreatment-root-tip-dark-spot-no-pain/';
+ const crownPost='/stories/2026-10-25-bupyeong-retreatment-crown-post-can-tooth-be-saved/';
+ assert.ok(faq.includes('href="'+rootRadiolucency+'"'),'root-tip follow-up guide must be crawlably linked');
+ assert.ok(faq.includes('href="'+crownPost+'"'),'crown/post treatment guide must be crawlably linked');
+ assert.ok(faq.includes('뿌리 끝 검은 그림자의 변화와 재신경치료 후 추적검사'));
+ assert.ok(faq.includes('크라운과 포스트가 있는 치아의 재신경치료 가능성'));
+ assert.equal((faq.match(/href="\/stories\/2026-10-25-incheon-retreatment-root-tip-dark-spot-no-pain\//g)||[]).length,1);
+ assert.equal((faq.match(/href="\/stories\/2026-10-25-bupyeong-retreatment-crown-post-can-tooth-be-saved\//g)||[]).length,1);
+ const questions=(faq.match(/<section class="card"><h2>/g)||[]).length;
+ const structured=[...faq.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(x=>{try{return JSON.parse(x[1])}catch{return null}})
+  .find(x=>x?.['@type']==='FAQPage');
+ assert.equal(structured?.mainEntity?.length,questions,
+  'contextual reading links must not introduce uncatalogued FAQ questions');
+});
