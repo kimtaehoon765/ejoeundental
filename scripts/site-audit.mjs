@@ -167,8 +167,9 @@ function hasFreshCss(html,basename){
    // not only rely on invisible schema or a homepage footer.
    const mainBody=page.split('<main class="article" id="health-hub-main">')[1]?.split('</main>')[0]||'';
    const credentials=['class="hub-clinician-note"','김태훈 원장','고려대학교 의학박사(치과학 전공)',
-     '통합치의학과 전문의','2003년부터 청천동 진료','href="/#doctor"'];
+     '통합치의학과 전문의','2003년부터 청천동 진료'];
    if(credentials.some(value=>!mainBody.includes(value))||
+      !(mainBody.includes('href="/#doctor"')||mainBody.includes('href="/doctor.html"'))||
       (mainBody.match(/class="hub-clinician-note"/g)||[]).length!==1){
      errors.push(pageName+': 환자 교육 책임 의료진·검증 가능한 자격 안내 누락');
    }
@@ -1582,7 +1583,7 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
     ld?.name!==title||
     !archive.includes('고려대학교 의학박사·통합치의학과 전문의')||
     !archive.includes('인천 부평구 청천동 세월천로 34')||
-    !archive.includes('href="/#doctor"')||
+    !(archive.includes('href="/#doctor"')||archive.includes('href="/doctor.html"'))||
     !archive.includes('href="/visit-guide.html"')){
    errors.push('원장 블로그 363편 아카이브 의료진 자격·실제 위치·출처 설명 SEO 누락');
  }
@@ -1662,7 +1663,9 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  for(const name of hubs){
   const page=readFileSync(join(root,name),'utf8');
   if((page.match(/class="hub-editorial-note"/g)||[]).length!==1)errors.push(name+': 진료정보 이용 안내 개수 오류');
-  if(!page.includes('이 페이지는 일반적인 건강정보')||!page.includes('href="/#doctor"'))errors.push(name+': 일반 건강정보 한계 또는 원장 소개 연결 누락');
+  if(!page.includes('이 페이지는 일반적인 건강정보')||
+     !(page.includes('href="/#doctor"')||page.includes('href="/doctor.html"')))
+    errors.push(name+': 일반 건강정보 한계 또는 원장 소개 연결 누락');
   const schemas=[...page.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
   const collection=schemas.find(schema=>schema['@type']==='CollectionPage');
   if(!collection || collection.mainEntity?.numberOfItems!==(name==='additional-health.html'?16:10))errors.push(name+': 건강정보 글모음 구조화 데이터 누락');
@@ -2804,7 +2807,8 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   .map(m=>{try{return JSON.parse(m[1])}catch{return null}});
  const dentist=jsonlds.find(x=>x?.['@type']==='Dentist');
  if(!hero.includes('class="hero-doctor-credentials"')||!hero.includes(expected)||
-    !hero.includes(specialist)||!hero.includes('href="#doctor"')||
+    !hero.includes(specialist)||
+    !(hero.includes('href="#doctor"')||hero.includes('href="/doctor.html"'))||
     !doctor.includes('<h2 id="doctor_title">'+expected+' · '+specialist+'</h2>')||
     !doctor.includes('id="doctor_degree"')||
     !doctor.includes('doctor-specialist-pill')||
