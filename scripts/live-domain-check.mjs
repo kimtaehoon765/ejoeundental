@@ -16,6 +16,11 @@ const homepageSource = readFileSync(new URL('../index.html',import.meta.url),'ut
 const expectedArchiveScriptHash=createHash('sha256')
  .update(readFileSync(new URL('../assets/archive-topics.js',import.meta.url)))
  .digest('hex').slice(0,12);
+// The final visual layer should reach the public host before marking this
+// design enhancement delivered; build success alone is not live deployment.
+const expectedGalleryCssHash=createHash('sha256')
+ .update(readFileSync(new URL('../assets/gallery-upgrade.css',import.meta.url)))
+ .digest('hex').slice(0,12);
 const expectedOriginalCount = (homepageSource.match(/class="card owner-story-card"/g)||[]).length;
 const postDirectory = new URL('../content/posts/',import.meta.url);
 const publishedArticles = readdirSync(postDirectory).filter(name=>name.endsWith('.json'))
@@ -67,6 +72,7 @@ const urls = [
   { label: 'Google 서치콘솔 소유권 HTML 파일', url: origin + '/google4b5b71e2b560cac2.html' },
   { label: '모네풍 갤러리 SVG 공개 확인', url: origin + '/assets/impressionist-water-garden.svg' },
   { label: '모네풍 갤러리 CSS 공개 확인', url: origin + '/assets/home-enhancements.css' },
+  { label: '미술관형 리디자인 CSS 실제 배포', url: origin + '/assets/gallery-upgrade.css' },
   { label: 'www HTTPS 연결', url: 'https://www.' + apex + '/' },
   { label: 'Cloudflare Pages 임시주소 색인 확인', url: 'https://ejoeundental.pages.dev/' },
   { label: 'www 하위 경로·쿼리 리디렉션', url: 'https://www.' + apex + '/gum-treatment?utm_source=redirect_check' },
@@ -158,6 +164,20 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
     const faviconIcoBytes=label==='네이버 소프트 404 파비콘 ICO 개선 확인'?
       new Uint8Array(await response.clone().arrayBuffer()):null;
     const body = await response.text();
+    if(label==='미술관형 리디자인 CSS 실제 배포'){
+      const delivered=response.status===200&&
+        createHash('sha256').update(body).digest('hex').slice(0,12)===expectedGalleryCssHash&&
+        body.includes('Gallery Edition / 2026-10-27');
+      add('2026-10-27 고급 메인 디자인 CSS 실서버 일치',
+        delivered?'실사이트 게시 확인':'배포·캐시 확인 필요',
+        'HTTP '+response.status+' · CSS 내용 해시 '+(delivered?'GitHub 소스와 일치':'미확인/불일치'));
+    }
+    if(label==='정식 도메인 첫 화면'){
+      const linked=body.includes('/assets/gallery-upgrade.css?v='+expectedGalleryCssHash);
+      add('2026-10-27 미술관형 첫 화면 CSS 링크 실제 배포',
+        linked?'실사이트 반영 확인':'배포·캐시 확인 필요',
+        '메인 HTML의 리디자인 CSS 해시 링크 '+(linked?'일치':'배포되지 않음/확인 필요'));
+    }
     // Compare a few already-fetched public medical guides with genuinely
     // revised source content. This is read-only: a stale deployment is reported
     // explicitly, never confused with a Google indexing or ranking outcome.
