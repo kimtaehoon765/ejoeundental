@@ -2757,7 +2757,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
    page.includes('href="tel:0325132875"')&&
    page.includes('href="/visit-guide.html"');
   const mainSection=(page.match(/<h1[\s\S]*?<\/h1>/)||[])[0]||'';
-  if(!hasMarkup||!mainSection.includes('이조은치과')&&file!=='tmj-care.html'&&file!=='wisdom-tooth.html'&&file!=='pediatric-orthodontics.html'&&file!=='pediatric-dentistry.html')
+  if(!hasMarkup||!mainSection||!page.includes('이조은치과'))
    errors.push('미술관 진료 8개 페이지 중 예약·진료설명·CSS·접근성 연결 오류: '+file);
  }
 }
