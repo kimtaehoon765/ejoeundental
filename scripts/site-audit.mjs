@@ -2868,8 +2868,8 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
    (hero.match(/class="hero-stories-shortcut"/g)||[]).length===1&&
    hero.indexOf('class="hero-actions"')<hero.indexOf('class="hero-care-summary"')&&
    hero.indexOf('class="hero-editorial-detail"')<hero.indexOf('class="hero-care-summary"')&&
-   hero.includes('BUILD_NAVER_BOOKING_HERO')&&
-   hero.includes('BUILD_STORY_LINK_COUNT');
+   hero.includes('href="'+JSON.parse(readFileSync(resolve('content/site.json'),'utf8')).naver_booking_url+'"')&&
+   hero.includes('href="/stories.html"');
  const sheet=readFileSync(join(root,'assets/gallery-upgrade.css'),'utf8');
  if(!complete||!sheet.includes('Gallery editorial home: the 2026-10-27 second pass')||
     !sheet.includes('grid-column:1/-1;grid-row:2')||
