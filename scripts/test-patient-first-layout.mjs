@@ -1209,10 +1209,18 @@ test('live Cloudflare story-button probe checks current three-button markup',()=
  assert.ok(!probe.includes('aria-label="전화 문의와 진료 위치 안내"'));
 });
 
-test('live Cloudflare search and revised-article checks compare actual source metadata',()=>{
+test('live Cloudflare search compares emitted bytes after production build, not raw source',()=>{
  const script=readFileSync('scripts/live-domain-check.mjs','utf8');
- assert.match(script,/const expectedSearchScriptHash=createHash\('sha256'\)/);
- assert.match(script,/sourceMatches=delivered===expectedSearchScriptHash/);
+ const workflow=readFileSync('.github/workflows/public-site-check.yml','utf8');
+ assert.ok(script.includes("new URL('../dist/assets/search.js',import.meta.url)"),
+  'compare the deployed asset to production emitted JS, not the raw repository source');
+ assert.ok(script.includes('sourceMatches=Boolean(expectedSearchScriptHash)&&delivered===expectedSearchScriptHash'));
+ assert.ok(!script.includes("readFileSync(new URL('../assets/search.js',import.meta.url))"),
+  'source search.js has an older checksum-less index reference by design');
+ assert.ok(workflow.indexOf('name: Build public site and run quality audit')>=0);
+ assert.ok(workflow.indexOf('name: Build public site and run quality audit')<
+  workflow.indexOf('name: Check live domain, DNS and indexing entry points'),
+  'build must finish before live-versus-build checksum comparison');
  assert.ok(script.includes('부평역·굴포천역 진료 검색 반영'));
  assert.ok(script.includes('editorialRevisions.map(slug=>'));
  assert.ok(script.includes('posting?.dateModified===source.updated'));

@@ -3,7 +3,7 @@
 // A missing live domain must NOT turn a passing source build into a failure.
 import dns from 'node:dns/promises';
 import { createHash } from 'node:crypto';
-import { appendFileSync, readFileSync, readdirSync } from 'node:fs';
+import { appendFileSync, existsSync, readFileSync, readdirSync } from 'node:fs';
 import { bookingAction } from './naver-booking-link.mjs';
 
 const verifiedClinic = JSON.parse(readFileSync(new URL('../content/site.json', import.meta.url), 'utf8'));
@@ -16,11 +16,13 @@ const homepageSource = readFileSync(new URL('../index.html',import.meta.url),'ut
 const expectedArchiveScriptHash=createHash('sha256')
  .update(readFileSync(new URL('../assets/archive-topics.js',import.meta.url)))
  .digest('hex').slice(0,12);
-// Version tokens alone cannot prove a Cloudflare deployment is current:
-// compare the exact patient-search asset to this GitHub source revision.
-const expectedSearchScriptHash=createHash('sha256')
- .update(readFileSync(new URL('../assets/search.js',import.meta.url)))
- .digest('hex').slice(0,12);
+// The production build embeds the current search-index checksum in search.js.
+// Its bytes therefore intentionally differ from the unbuilt source asset.
+// Compare live Cloudflare search.js with the FINAL emitted build artifact.
+const builtSearchAsset=new URL('../dist/assets/search.js',import.meta.url);
+const expectedSearchScriptHash=existsSync(builtSearchAsset)
+ ?createHash('sha256').update(readFileSync(builtSearchAsset)).digest('hex').slice(0,12)
+ :'';
 // The final visual layer should reach the public host before marking this
 // design enhancement delivered; build success alone is not live deployment.
 const expectedGalleryCssHash=createHash('sha256')
@@ -1702,7 +1704,7 @@ if(deployedSearchScript){
   const declared=deployedSearchScript.match(/\?v=([a-f0-9]{12})$/)?.[1]||'';
   const delivered=createHash('sha256').update(client).digest('hex').slice(0,12);
   const hashOk=response.ok&&declared===delivered;
-  const sourceMatches=delivered===expectedSearchScriptHash;
+  const sourceMatches=Boolean(expectedSearchScriptHash)&&delivered===expectedSearchScriptHash;
   const newStationSearch=client.includes('부평구청역|부평역|부평구|부평')&&
    client.includes('산곡역|굴포천역|갈산동')&&
    client.includes("'부평역','굴포천역'");
@@ -1728,7 +1730,9 @@ if(deployedSearchScript){
   add('환자가 실제 로딩하는 검색 프로그램',''+(hashOk&&sourceMatches&&newStationSearch&&bookingOk&&hoursOk?'최신 버전 확인':'배포·캐시 확인 필요'),
    'HTTP '+response.status+' · 검색 페이지 지정 버전 '+declared+' / 실제 JS '+delivered+' / GitHub 원본 '+expectedSearchScriptHash+
    (hashOk?' · 페이지 지정 해시 일치':' · 페이지 지정 해시 불일치')+
-   (sourceMatches?' · GitHub 검색 코드 최신 반영':' · GitHub 검색 코드 버전 불일치')+
+   (sourceMatches?' · GitHub 빌드 산출물과 동일':
+    !expectedSearchScriptHash?' · 빌드 산출물이 없어 버전 비교 불가':
+     ' · GitHub 빌드 산출물과 버전 불일치')+
    (newStationSearch?' · 부평역·굴포천역 진료 검색 반영':' · 신규 역세권 검색 보정 미반영')+
    (bookingOk?' · 네이버 예약 찾기 연결 반영':' · 예약 검색 코드 최신 반영 필요')+
    (hoursOk?' · 격주 금·토요일·접수 마감 안내 반영':' · 진료시간 검색 코드 최신 반영 필요')+
