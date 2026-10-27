@@ -79,7 +79,7 @@ test('owner-confirmed clinic booking ID appears as an actual direct booking link
  assert.ok(quick.includes('target="_blank" rel="noopener noreferrer"'));
  assert.ok(!homepage.includes('BUILD_NAVER_BOOKING_HERO'));
  assert.ok(!visit.includes('BUILD_NAVER_BOOKING_VISIT'));
- const visitActions=[...visit.matchAll(/<nav class="visit-mobile-actions" aria-label="휴대폰 전화·네이버 예약·길찾기 바로가기">([\\s\\S]*?)<\\/nav>/g)];
+ const visitActions=[...visit.matchAll(/<nav class="visit-mobile-actions" aria-label="휴대폰 전화·네이버 예약·길찾기 바로가기">([\s\S]*?)<\/nav>/g)];
  assert.equal(visitActions.length,1,'visit-guide should have one fixed mobile patient action strip');
  const strip=visitActions[0][1];
  const hrefs=[...strip.matchAll(/<a [^>]*href="([^"]+)"/g)].map(x=>x[1]);
@@ -88,10 +88,10 @@ test('owner-confirmed clinic booking ID appears as an actual direct booking link
  assert.ok(strip.includes('aria-label="'+direct.aria+'"'),'visit booking must describe the official destination');
  assert.ok(strip.includes('target="_blank" rel="noopener noreferrer"'));
  assert.ok(visit.includes('id="transit-heading"'),'mobile directions need an actual scroll target');
- assert.match(visit,/\\.visit-mobile-actions\\{display:none\\}/);
- assert.match(visit,/@media\\(max-width:600px\\)/);
+ assert.match(visit,/\.visit-mobile-actions\{display:none\}/);
+ assert.match(visit,/@media\(max-width:600px\)/);
  assert.match(visit,/safe-area-inset-bottom/);
- assert.match(visit,/@media print\\{\\.visit-mobile-actions\\{display:none!important\\}/);
+ assert.match(visit,/@media print\{\.visit-mobile-actions\{display:none!important\}/);
  const search=readFileSync('dist/search.html','utf8');
  assert.ok(search.includes('data-booking-url="'+url+'"'));
  assert.ok(search.includes('data-booking-label="'+direct.label+'"'));
