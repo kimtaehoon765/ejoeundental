@@ -22,7 +22,7 @@ test('the mobile homepage shows original painterly artwork after credentials and
   'Second portrait should not compete with the first mobile painting');
  assert.ok(!hero.includes('fetchpriority="high"'),
   'A below-the-fold portrait must not steal mobile first-screen bandwidth');
- assert.ok(home.includes('<link rel="preload" as="image" type="image/webp" media="(min-width: 601px)" href="/assets/ejoeundental-hero-cat.webp">'),
+ assert.match(home,/<link rel="preload" as="image" type="image\/webp" media="\(min-width: 601px\)"(?: fetchpriority="high")? href="\/assets\/ejoeundental-hero-cat\.webp">/,
   'Desktop visitors should still get a fast loading portrait');
 
  assert.match(home,/class="monet-interlude"/);
@@ -51,7 +51,7 @@ test('original gallery and responsive accent are local, cached, and accessible',
  assert.match(artwork,/id="impressionist-pigment"[^>]+fill="none" stroke-linecap="round"/);
  assert.ok(artwork.length<190000,'Keep original SVG painterly artwork optimized for mobile delivery');
  assert.ok(!/<image[^>]+(?:https?:|data:)/.test(artwork),'Avoid external and embedded raster image requests');
- assert.match(home,/loading="lazy" decoding="async" alt="부드러운 햇빛 아래 수련/);
+ assert.match(home,/loading="lazy"(?: fetchpriority="low")? decoding="async" alt="부드러운 햇빛 아래 수련/);
 });
 
 test('patients retain key phone, navigation, SEO and degree information',()=>{
