@@ -971,3 +971,45 @@ body.home-page #location .visit-quick-facts>div span{
   transition:none;transform:none;
  }
 }
+
+
+/* Large-phone symptom cards: 2026-10-27 final readability pass.
+   Numbered guide labels make six topics scannable without replacing the
+   meaningful headings or adding JavaScript, downloads or decorative images. */
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a::before{
+ content:"01 / 06";display:block;flex:none;
+ color:#977c54;font:800 11px/1.5 system-ui,sans-serif;
+ letter-spacing:.13em;margin:0 0 7px;
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:nth-child(2)::before{content:"02 / 06"}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:nth-child(3)::before{content:"03 / 06"}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:nth-child(4)::before{content:"04 / 06"}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:nth-child(5)::before{content:"05 / 06"}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:nth-child(6)::before{content:"06 / 06"}
+@media(min-width:480px) and (max-width:600px){
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;
+ }
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid a{
+  min-height:165px;padding:16px 14px;gap:7px;
+ }
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid a strong{
+  font-size:15px;line-height:1.55;
+ }
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid a span{
+  font-size:12px;line-height:1.5;
+ }
+}
+@media(max-width:479px){
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a::before{
+  margin:0 0 2px;
+ }
+}
+@media(forced-colors:active){
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a{
+  border:1px solid CanvasText;box-shadow:none;
+ }
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a::before{
+  color:CanvasText;
+ }
+}
