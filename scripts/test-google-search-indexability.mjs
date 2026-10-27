@@ -148,6 +148,20 @@ test('real treating dentist has one consistent visible name and person identity 
   assert.equal(structured.author?.worksFor?.['@id'],clinic['@id'],article.slug+' clinic mismatch');
   assert.equal(structured.publisher?.['@id'],clinic['@id'],article.slug+' publisher mismatch');
   assert.equal(structured.mainEntityOfPage,origin+'/stories/'+article.slug+'/',article.slug+' canonical story URL');
+  // Match the published and modified dates across visible content, JSON-LD,
+  // and the Open Graph article fields used by crawlers and sharing previews.
+  const source=JSON.parse(readFileSync('content/posts/'+article.slug+'.json','utf8'));
+  assert.equal(structured.datePublished,source.date,
+   article.slug+' must preserve the original publication date');
+  assert.equal(structured.dateModified,source.updated||source.date,
+   article.slug+' JSON-LD should use the actual latest content update');
+  if(source.date)assert.ok(html.includes('<meta property="article:published_time" content="'+source.date+'">'),
+   article.slug+' social publication date differs from article metadata');
+  if(source.updated||source.date)assert.ok(html.includes('<meta property="article:modified_time" content="'+(source.updated||source.date)+'">'),
+   article.slug+' social modified date must reflect the real page');
+  if(source.updated&&source.updated!==source.date)
+   assert.ok(html.includes('내용 수정 <time datetime="'+source.updated+'">'+source.updated+'</time>'),
+    article.slug+' visible corrected date does not match JSON-LD');
  }
 });
 
