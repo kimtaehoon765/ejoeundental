@@ -233,3 +233,28 @@ test('retreatment FAQ links specific patient questions to existing clinician art
  assert.equal(structured?.mainEntity?.length,questions,
   'contextual reading links must not introduce uncatalogued FAQ questions');
 });
+
+test('insurance guide links four distinctive published patient articles and back to insurance FAQ',()=>{
+ const hub=readFileSync('dist/insurance-health.html','utf8');
+ const faq=readFileSync('dist/dental-insurance-faq.html','utf8');
+ const articleSlugs=[
+  '2026-10-24-bupyeong-cavity-gi-insurance',
+  '2026-10-25-samsan-cervical-abrasion-gi-insurance-vs-resin',
+  '2026-10-25-cheongcheon-affordable-dental-care-insurance-priorities',
+  '2026-10-25-incheon-periodontal-maintenance-after-treatment'
+ ];
+ const block=hub.match(/<section class="note insurance-story-bridge"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.ok(block.includes('환자가 궁금해하는 선택 기준'));
+ for(const slug of articleSlugs){
+  const link='/stories/'+slug+'/';
+  assert.ok(block.includes('href="'+link+'"'),'Missing meaningful article link: '+slug);
+ }
+ assert.equal((block.match(/<li><a href="\/stories\//g)||[]).length,4,'Only four vetted original stories, without extra clutter');
+ assert.ok(block.includes('href="/dental-insurance-faq.html"'),'find FAQ from insurance hub');
+ assert.ok(faq.includes('href="/insurance-health.html"'),'return to insurance hub from FAQ');
+ assert.ok(hub.includes('grid-template-columns:1fr'),'mobile layout should remain readable');
+ const schema=[...hub.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1])).find(x=>x['@type']==='CollectionPage');
+ assert.equal(schema?.mainEntity?.numberOfItems,10,'ten health guides unchanged');
+ assert.equal(schema?.mainEntity?.itemListElement?.length,10,'do not alter the medical guide count');
+});
