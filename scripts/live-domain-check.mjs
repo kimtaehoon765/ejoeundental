@@ -80,7 +80,7 @@ const urls = [
   { label: 'Google 서치콘솔 소유권 HTML 파일', url: origin + '/google4b5b71e2b560cac2.html' },
   { label: '모네풍 갤러리 SVG 공개 확인', url: origin + '/assets/impressionist-water-garden.svg' },
   { label: '모네풍 갤러리 CSS 공개 확인', url: origin + '/assets/home-enhancements.css' },
-  { label: '미술관형 리디자인 CSS 실제 배포', url: origin + '/assets/gallery-upgrade.css' },
+  { label: '미술관형 리디자인 CSS 실제 배포', url: origin + '/assets/gallery-upgrade.css?v=' + expectedGalleryCssHash },
   { label: '진료 안내 미술관 통합 디자인 CSS', url: origin + '/assets/care-gallery.css' },
   { label: '추가 진료 8개 미술관 디자인 CSS', url: origin + '/assets/care-gallery-secondary.css?v=' + expectedSecondaryGalleryHash },
   { label: 'www HTTPS 연결', url: 'https://www.' + apex + '/' },
