@@ -994,7 +994,7 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        body.includes('건강정보 제공: 이조은치과의원')&&
        body.includes('진료 담당: 김태훈 원장')&&
        body.includes('고려대학교 의학박사(치과학 전공)')&&
-       body.includes('href="/#doctor"')&&
+       body.includes('href="/doctor.html"')&&
        medicalPage?.author?.name==='이조은치과'&&
        medicalPage.author.url===origin+'/'&&
        medicalPage.url===response.url;
