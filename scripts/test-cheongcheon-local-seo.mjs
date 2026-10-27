@@ -171,3 +171,19 @@ test('homepage links to four clinically distinct original patient education arti
  assert.ok(css.includes('min-height:72px'),
   'mobile reading links need comfortable touch targets');
 });
+
+// The location is verified by clinic name, address and telephone against the
+// publicly listed Naver Place entry. Keep a stable place ID, not search results.
+test('patient map links and clinic identity point to the same Naver Place listing',()=>{
+ const place='https://map.naver.com/p/entry/place/13239400';
+ const headJson=[...head(home).matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1]));
+ const clinic=headJson.find(x=>x['@type']==='Dentist');
+ assert.ok(clinic,'primary Dentist entity exists');
+ assert.equal(clinic.hasMap,place);
+ assert.ok(clinic.sameAs.includes(place),'Naver Place belongs to the same clinic entity');
+ assert.ok(home.includes('href="'+place+'"'),'homepage offers a direct map destination');
+ assert.ok(visit.includes('href="'+place+'"'),'visiting guide offers the same direct destination');
+ assert.ok(!home.includes('https://map.naver.com/p/search/'),'homepage should not route patients through a search page');
+ assert.ok(!visit.includes('https://map.naver.com/p/search/'),'visiting guide should not route patients through a search page');
+});
