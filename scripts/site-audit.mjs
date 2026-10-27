@@ -3027,10 +3027,10 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   JSON.stringify({
    doctor:section.includes('id="doctor_title"'),date:section.includes('2003년부터'),
    links:['gum-treatment','retreatment','tooth-preservation'].map(slug=>[slug,trails.includes('href="/'+slug+'"')||trails.includes('href="/'+slug+'.html"')]),
-   trailCount:(trails.match(/<a\\b/g)||[]).length,
+   trailCount:trails.split('<a ').length-1,
    specialty:section.includes('통합치의학과 전문의'),
    guideGrid:guide.includes('class="home-representative-guide-grid"'),
-   guideLinks:(guide.match(/<a\\s+href="\\/stories\\//g)||[]).length,
+   guideLinks:guide.split('href="/stories/').length-1,
    faq:faq.includes('class="faq-list"'),faqCount:(faq.match(/<details>/g)||[]).length,
    stylesheet:style.includes('Physician provenance gallery |'),
    navStyle:style.includes('.doctor-care-trails'),
