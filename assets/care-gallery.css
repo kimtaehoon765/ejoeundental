@@ -188,7 +188,8 @@ body.care-gallery :is(.gum-steps,.cards,.steps,.columns,.cervical-symptom-cards,
  gap:clamp(11px,1.5vw,20px);
 }
 body.care-gallery .block .card img{
- border-radius:15px 15px 0 0;object-fit:cover;
+ border-radius:15px 15px 0 0;object-fit:contain;
+ background:#f7f8f3;
 }
 body.care-gallery .block .step img{background:#f5f5ef}
 body.care-gallery .gum-box{padding:24px 28px;background:#f5f8f1}
