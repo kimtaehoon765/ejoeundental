@@ -1560,6 +1560,20 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        '건강보험 진료 10편과 원장 교육 글 간 환자용 내부 연결 실제 배포 확인':
        '건강보험 진료정보와 원장 교육 글 연결 배포·캐시 점검 필요');
     }
+    if(label==='public route additional-health'){
+      const curated=[
+       '2026-10-24-bupyeong-denture-adjustment-dentist-evaluation',
+       '2026-10-25-samsan-cervical-abrasion-gi-insurance-vs-resin',
+       '2026-10-25-bupyeong-black-line-cavity-overtreatment-decision',
+       '2026-10-25-bupyeong-broken-tooth-extraction-vs-restoration'
+      ];
+      const hubReady=response.ok&&body.includes('class="note additional-story-bridge"')&&
+       curated.every(slug=>body.includes('href="/stories/'+slug+'/"'))&&
+       body.includes('원장이 정리한 실제 질문')&&body.includes('href="/doctor.html"');
+      info.push(hubReady?
+       '틀니·치경부·충치·자연치아 보존 원장 글 4편 연결 실제 홈페이지 게시 확인':
+       '틀니·치경부·충치·자연치아 보존 원장 글 연결 신규 배포 확인 필요');
+    }
     const redirectLocation=response.headers.get('location')||'';
     let redirectUrl=null;
     try { redirectUrl=redirectLocation?new URL(redirectLocation,url):null; }catch{}
