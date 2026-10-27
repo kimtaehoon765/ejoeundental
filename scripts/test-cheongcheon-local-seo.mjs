@@ -187,3 +187,16 @@ test('patient map links and clinic identity point to the same Naver Place listin
  assert.ok(!home.includes('https://map.naver.com/p/search/'),'homepage should not route patients through a search page');
  assert.ok(!visit.includes('https://map.naver.com/p/search/'),'visiting guide should not route patients through a search page');
 });
+
+test('clinic social links identify the same real Incheon dental practice',()=>{
+ const instagram='https://www.instagram.com/indifan2/';
+ const schemas=[...head(home).matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1]));
+ const clinic=schemas.find(x=>x['@type']==='Dentist');
+ assert.ok(clinic?.sameAs?.includes(instagram),'existing clinic Instagram account belongs to clinic schema');
+ assert.ok(home.includes('href="'+instagram+'"'),'patients can discover the public clinic Instagram profile');
+ assert.ok(home.includes('aria-label="이조은치과 인스타그램, 새 창 열림"'));
+ assert.equal(clinic?.legalName,'이-조은치과의원');
+ assert.equal(clinic?.telephone,'+82-32-513-2875');
+ assert.ok(clinic?.address?.streetAddress?.includes('세월천로 34'),'prevent confusion with similarly named clinics elsewhere');
+});
