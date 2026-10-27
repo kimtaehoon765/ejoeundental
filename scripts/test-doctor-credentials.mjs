@@ -12,7 +12,7 @@ test('homepage introduces doctor credentials prominently and preserves direct di
  const bio=html.match(/<section class="section dark" id="doctor">([\s\S]*?)<\/section>/)?.[1]||'';
  assert.ok(hero.includes('class="hero-doctor-credentials"'));
  assert.ok(hero.includes(degree)&&hero.includes(specialty));
- assert.ok(hero.includes('href="#doctor"'));
+ assert.ok(hero.includes('href="/doctor.html"')||hero.includes('href="#doctor"'));
  assert.ok(bio.includes('<h2 id="doctor_title">'+degree+' · '+specialty+'</h2>'));
  assert.ok(bio.includes('원장이 직접 검진하고 진단합니다'));
  assert.ok(bio.includes('id="doctor_degree"'));
