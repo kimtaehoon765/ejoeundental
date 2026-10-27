@@ -1061,7 +1061,7 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
         const visible=body.includes('<nav class="hub-top-trail" aria-label="현재 건강정보와 관련 진료">') &&
           body.includes('href="'+hubs[slug]+'"') && body.includes('aria-current="page"');
         info.push(visible?'건강정보 위치·진료 바로가기 반영':'건강정보 이동 경로 확인 필요');
-        const editorial = body.includes('class="hub-editorial-note"') && body.includes('href="/#doctor"') && body.includes('이 페이지는 일반적인 건강정보');
+        const editorial = body.includes('class="hub-editorial-note"') && body.includes('href="/doctor.html"') && body.includes('이 페이지는 일반적인 건강정보');
         info.push(editorial?'건강정보 이용 한계·원장 소개 연결 반영':'건강정보 의료진 소개·이용 한계 반영 확인 필요');
         if(slug==='gum-health'){
           const hubDescription=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
@@ -1573,6 +1573,25 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       info.push(hubReady?
        '틀니·치경부·충치·자연치아 보존 원장 글 4편 연결 실제 홈페이지 게시 확인':
        '틀니·치경부·충치·자연치아 보존 원장 글 연결 신규 배포 확인 필요');
+    }
+    if([
+      'public route gum-health','public route root-canal-health',
+      'public route insurance-health','public route additional-health'
+    ].includes(label)){
+      const directCount=(body.match(/href="\/doctor\.html"/g)||[]).length;
+      info.push(directCount>=2?
+       '건강정보 책임 의료진·진료 원칙 독립 소개 페이지 2개 직접 연결 실사이트 확인':
+       '건강정보 의료진 독립 소개 링크 최신 배포 확인 필요');
+    }
+    if([
+      '잇몸 건강정보 탐색 경로','신경치료 건강정보 탐색 경로',
+      '보존 진료 연결 건강정보: 보존 원칙'
+    ].includes(label)){
+      const direct=response.ok&&body.includes('class="health-clinician-signpost"')&&
+       body.includes('href="/doctor.html"');
+      info.push(direct?
+       '핵심 환자교육 글의 담당 원장·전문의 자격 독립 소개 페이지 실제 연결 확인':
+       '핵심 환자교육 글의 담당 원장 직접 링크 최신 배포 확인 필요');
     }
     const redirectLocation=response.headers.get('location')||'';
     let redirectUrl=null;
