@@ -1,0 +1,384 @@
+/* 이조은치과 · Patient Service Gallery · 2026-10-27
+   A shared visual layer for visit hours, medical safety and on-site search.
+   No changes to operating hours, medication advice, URLs or SEO metadata. */
+body.visit-gallery,body.safety-gallery,body.search-gallery{
+ --ps-forest:#204a38;
+ --ps-leaf:#2b6649;
+ --ps-sage:#eef4e9;
+ --ps-paper:#fbf9f4;
+ --ps-white:#fffefb;
+ --ps-line:#d9e4d8;
+ --ps-brass:#aa8b56;
+ background:radial-gradient(ellipse at 94% 2%,rgba(205,225,202,.36),transparent 36%),var(--ps-paper);
+ color:#2b493a;
+ -webkit-font-smoothing:antialiased;
+}
+body.visit-gallery :is(h1,h2),
+body.safety-gallery :is(h1,h2),
+body.search-gallery :is(h1,h2){
+ font-family:'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+ font-weight:650;
+ color:var(--ps-forest);
+ letter-spacing:-.045em;
+ text-wrap:balance;
+}
+body.visit-gallery :is(p,li),
+body.safety-gallery :is(p,li),
+body.search-gallery :is(p,li){
+ word-break:keep-all;
+ overflow-wrap:break-word;
+}
+body.visit-gallery :is(a,button,input):focus-visible,
+body.safety-gallery :is(a,button,input):focus-visible,
+body.search-gallery :is(a,button,input):focus-visible{
+ outline:3px solid #a47d42;outline-offset:3px;
+}
+body.visit-gallery :is(a,button),
+body.safety-gallery :is(a,button),
+body.search-gallery :is(a,button){
+ text-underline-offset:4px;
+}
+body.visit-gallery :is(a,button):hover,
+body.safety-gallery :is(a,button):hover{
+ text-decoration-thickness:1px;
+}
+/* Opening visit information — simple address and clear, real contact routes. */
+body.visit-gallery header{
+ width:calc(100% - 32px);
+ max-width:1060px;
+ margin:18px auto 0;
+ padding:clamp(25px,4vw,49px);
+ box-sizing:border-box;
+ background:
+  radial-gradient(ellipse at 98% 0%,rgba(202,222,197,.40),transparent 58%),
+  linear-gradient(126deg,#fffefa,#f2f7ed);
+ border:1px solid #d3e3d4;
+ border-radius:21px;
+ box-shadow:0 21px 53px rgba(25,64,42,.075);
+}
+body.visit-gallery header>a:first-child{
+ display:inline-flex;align-items:center;
+ min-height:44px;color:#315e46;
+ font-size:14px;font-weight:750;
+ text-decoration:none;
+}
+body.visit-gallery header h1{
+ font-size:clamp(29px,4.5vw,45px);
+ line-height:1.42;
+ margin:17px 0 16px;
+}
+body.visit-gallery header p{
+ max-width:860px;line-height:1.88;
+ color:#3d5b49;font-size:clamp(15px,1.5vw,17px);
+}
+body.visit-gallery .visit-quick-actions{
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:11px;max-width:840px;margin-top:23px;
+}
+body.visit-gallery .visit-quick-actions a{
+ border-radius:12px;
+ min-height:54px;padding:13px 14px;
+ background:var(--ps-white);border:1px solid #b3cbb6;
+ color:#2a5e43;
+ transition:background-color .18s,border-color .18s,box-shadow .18s;
+}
+body.visit-gallery .visit-quick-actions .quick-call{
+ background:#245b41;color:#fff;border-color:#245b41;
+ box-shadow:0 5px 17px rgba(31,85,51,.12);
+}
+body.visit-gallery .visit-quick-actions .quick-call:hover{
+ background:#194a34;
+}
+body.visit-gallery .visit-quick-actions .quick-route:hover{
+ background:#e9f2e8;border-color:#8cad90;
+}
+body.visit-gallery main{
+ max-width:1020px;
+ padding:28px 22px 75px;
+}
+body.visit-gallery .visit-jump{
+ grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:10px;margin-bottom:28px;
+}
+body.visit-gallery .visit-jump a{
+ min-height:55px;padding:11px 10px;
+ border-radius:12px;
+ border:1px solid #cadcc9;
+ background:#fffefb;
+ box-shadow:0 4px 12px rgba(24,64,38,.035);
+}
+body.visit-gallery .visit-jump a:hover{
+ background:#eff6eb;border-color:#96b99b;
+}
+body.visit-gallery .card{
+ padding:clamp(20px,3.5vw,34px);
+ margin:19px 0 23px;
+ border:1px solid #dbe6d9;
+ border-top:3px solid #a9c1a5;
+ border-radius:18px;
+ background:var(--ps-white);
+ box-shadow:0 9px 28px rgba(29,66,45,.05);
+}
+body.visit-gallery .card h2{
+ font-size:clamp(22px,2.9vw,30px);
+ line-height:1.46;margin-bottom:18px;
+}
+body.visit-gallery .card p,body.visit-gallery .card li{
+ line-height:1.85;
+}
+body.visit-gallery .card>ul{
+ padding-left:1.35em;
+}
+body.visit-gallery .card>ul li::marker{
+ color:#6c9677;
+}
+body.visit-gallery .note{
+ border-left-color:#bc9c62;
+ background:#fbf5e8;
+ border-radius:8px;padding:16px 18px;
+}
+body.visit-gallery .clinic-payment-guide{
+ background:#f1f6ed;
+ border-left-color:#8aab8c;
+}
+body.visit-gallery .call{
+ display:inline-flex;align-items:center;justify-content:center;
+ min-height:49px;
+ border-radius:11px;padding:12px 18px;
+ background:#245b41;color:#fff;
+ text-align:center;
+}
+body.visit-gallery .call:hover{background:#194a34}
+body.visit-gallery footer{max-width:1020px}
+/* Medication and disease information should be clear, not alarming. */
+body.safety-gallery header{
+ border-bottom:1px solid #d8e2d6;
+}
+body.safety-gallery header>a{
+ display:inline-flex;align-items:center;
+ min-height:44px;color:#2e6047;
+ text-decoration:none;font-weight:750;
+}
+body.safety-gallery main{
+ width:100%;box-sizing:border-box;
+ max-width:940px;padding-top:clamp(29px,4vw,51px);
+ padding-bottom:74px;
+}
+body.safety-gallery main>p:first-child{
+ font-weight:800;font-size:12px;
+ color:#68836b;letter-spacing:.14em;
+ margin:5px 0 13px;
+}
+body.safety-gallery h1{
+ font-size:clamp(29px,4.5vw,44px);
+ line-height:1.43;margin:0 0 23px;
+}
+body.safety-gallery h2{
+ font-size:clamp(22px,2.8vw,28px);
+ line-height:1.48;margin:0 0 15px;
+}
+body.safety-gallery h3{
+ color:#2f5d44;line-height:1.55;
+}
+body.safety-gallery .card{
+ border:1px solid #dbe5da;
+ border-radius:18px;
+ padding:clamp(20px,3vw,29px);
+ margin:18px 0;
+ background:var(--ps-white);
+ box-shadow:0 10px 30px rgba(30,65,44,.05);
+}
+body.safety-gallery .card li{
+ line-height:1.84;
+}
+body.safety-gallery .notice{
+ border:1px solid #cfdfcc;
+ border-left:5px solid #86a78a;
+ border-radius:12px;
+ background:linear-gradient(120deg,#ecf5ec,#f8faf4);
+ padding:19px 20px;
+ color:#2b503d;
+ line-height:1.85;
+}
+body.safety-gallery nav[aria-label="약물과 질환별 상세 안내"] a{
+ box-sizing:border-box;
+ display:flex;align-items:center;
+ min-height:56px;padding:13px 15px;
+ background:#f7faf5;
+ border-color:#d5e3d3;
+ color:#285a42;
+ border-radius:11px;
+}
+body.safety-gallery nav[aria-label="약물과 질환별 상세 안내"] a:hover{
+ background:#eaf4e8;border-color:#9ab99e;
+}
+body.safety-gallery button{
+ min-height:46px;background:#265b42;
+ padding:11px 17px;border-radius:10px;
+}
+body.safety-gallery button:hover{background:#194732;}
+body.safety-gallery .checklist-caution{
+ background:#f1f5ed;
+}
+body.safety-gallery footer{
+ border-top:1px solid #dbe5da;
+}
+/* Search needs a tranquil, clearly framed input and scannable real results. */
+body.search-gallery header{
+ background:rgba(250,249,242,.98);
+ border-bottom-color:#d9e4d8;
+}
+body.search-gallery .search-wrap{
+ width:100%;max-width:1000px;
+ padding-top:clamp(40px,5vw,68px);
+}
+body.search-gallery .search-wrap>h1{
+ font-size:clamp(31px,4.8vw,46px);
+ line-height:1.4;margin-bottom:15px;
+}
+body.search-gallery .search-wrap>p{
+ max-width:850px;line-height:1.82;
+}
+body.search-gallery .search-primary{
+ border:1px solid #d5e2d3;
+ background:linear-gradient(120deg,#f2f7ee,#fbfcf7);
+ border-radius:17px;
+ padding:clamp(17px,2.8vw,28px);
+ box-shadow:0 15px 37px rgba(25,64,43,.06);
+}
+body.search-gallery .search-form{
+ gap:11px;
+ margin:12px 0 19px;
+}
+body.search-gallery .search-form .search-label{
+ font-weight:800;color:#2a513d;
+}
+body.search-gallery .search-form input{
+ min-height:53px;border-radius:11px;
+ border:1px solid #a7beaa;
+ background:#fffefa;color:#233f33;
+}
+body.search-gallery .search-form button{
+ min-height:53px;border-radius:11px;
+ background:#245b40;color:#fff;
+ font-weight:780;
+}
+body.search-gallery .search-form button:hover{
+ background:#194932;
+}
+body.search-gallery .result{
+ padding:21px 20px;
+ margin:11px 0;
+ border:1px solid #e0e7dc;
+ border-radius:13px;
+ background:#fffefa;
+ box-shadow:0 5px 14px rgba(25,64,43,.025);
+}
+body.search-gallery .result h2{
+ color:#1d5038;
+ font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+ font-size:clamp(19px,2.5vw,24px);
+ line-height:1.48;
+}
+body.search-gallery .result-kind{
+ border-radius:999px;
+}
+body.search-gallery .search-suggestions a,
+body.search-gallery .symptom-links a,
+body.search-gallery .search-fallback a{
+ border-radius:11px;
+ background:#fffefa;
+ border-color:#cbdccb;
+}
+body.search-gallery .search-suggestions a:hover,
+body.search-gallery .symptom-links a:hover{
+ background:#edf5e9;
+}
+body.search-gallery .search-contact{
+ border-color:#d3e2d0;
+ border-radius:17px;
+ background:#f5f9f1;
+}
+@media(max-width:700px){
+ body.visit-gallery header{
+  width:calc(100% - 24px);
+  padding:22px 18px;margin-top:12px;
+  border-radius:16px;
+ }
+ body.visit-gallery header h1{
+  font-size:clamp(27px,7.4vw,34px);
+ }
+ body.visit-gallery .visit-quick-actions{
+  grid-template-columns:1fr;
+  gap:8px;
+ }
+ body.visit-gallery .visit-quick-actions a{
+  min-height:50px;padding:12px;
+ }
+ body.visit-gallery main{padding:23px 16px 58px;}
+ body.visit-gallery .visit-jump{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;margin-bottom:17px;
+ }
+ body.visit-gallery .visit-jump a{
+  padding:10px 7px;
+  min-height:50px;
+  font-size:13px;
+ }
+ body.visit-gallery .card{
+  padding:21px 17px;
+  border-radius:14px;
+  margin:14px 0;
+ }
+ body.visit-gallery .card h2{
+  font-size:clamp(21px,6vw,27px);
+ }
+ body.visit-gallery .call{
+  width:100%;box-sizing:border-box;
+ }
+ body.safety-gallery header,body.safety-gallery main,body.safety-gallery footer{
+  padding-inline:17px;
+ }
+ body.safety-gallery main{padding-top:31px;}
+ body.safety-gallery h1{font-size:clamp(28px,7.4vw,36px);}
+ body.safety-gallery .card{padding:20px 17px;border-radius:14px;}
+ body.safety-gallery .notice{padding:16px 15px;}
+ body.safety-gallery nav[aria-label="약물과 질환별 상세 안내"] a{
+  min-height:50px;
+ }
+ body.search-gallery .search-wrap{
+  padding:34px 16px 76px;
+ }
+ body.search-gallery .search-primary{
+  padding:17px 14px;
+  border-radius:14px;
+ }
+ body.search-gallery .search-form{
+  gap:8px;
+ }
+ body.search-gallery .search-form input{
+  min-height:50px;
+ }
+ body.search-gallery .search-form button{
+  min-height:50px;
+ }
+ body.search-gallery .result{
+  padding:18px 16px;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ body.visit-gallery .visit-quick-actions a{transition:none;}
+}
+@media print{
+ body.safety-gallery{
+  background:#fff;color:#000;
+  -webkit-print-color-adjust:economy;
+ }
+ body.safety-gallery .printable-checklist{
+  background:#fff;box-shadow:none;
+  border:1px solid #777;
+ }
+ body.safety-gallery header,body.safety-gallery footer,body.safety-gallery nav{
+  display:none!important;
+ }
+}
