@@ -3206,9 +3206,14 @@ function brandPublicPages(dir){
  const visitHtml=fs.readFileSync(visitFile,'utf8');
  if(visitHtml.split(visitMarker).length!==2)throw new Error('Expected exactly one visit-guide booking placeholder');
  const visitButton='<a class="quick-route visit-booking" href="'+safeUrl+'" target="_blank" rel="noopener noreferrer" aria-label="'+safe(action.aria)+'">'+safe(action.label)+'</a>';
- fs.writeFileSync(visitFile,visitHtml.replace(visitMarker,visitButton));
+ const visitMobile='<nav class="visit-mobile-actions" aria-label="휴대폰 전화·네이버 예약·길찾기 바로가기">'+
+  '<a class="visit-mobile-call" href="tel:0325132875" aria-label="이조은치과 032-513-2875 전화 문의">☎ 전화</a>'+
+  '<a class="visit-mobile-booking" href="'+safeUrl+'" target="_blank" rel="noopener noreferrer" aria-label="'+safe(action.aria)+'">'+safe(action.label)+'</a>'+
+  '<a class="visit-mobile-route" href="#transit-heading" aria-label="산곡역·네이버 지도 길찾기 안내로 이동">오시는 길</a></nav>';
+ if(visitHtml.split('</body>').length!==2)throw new Error('Visit guide body end missing or duplicated');
+ fs.writeFileSync(visitFile,visitHtml.replace(visitMarker,visitButton).replace('</body>',visitMobile+'</body>'));
  console.log('Naver booking actions:',action.direct?'owner-confirmed direct booking URL':'honest Naver search fallback',
-  '(mobile, desktop hero and visit guide)');
+  '(mobile, desktop hero and visit guide with mobile action strip)');
 }
 brandPublicPages(out);
 const icoBytes=fs.readFileSync(path.join(out,'favicon.ico'));

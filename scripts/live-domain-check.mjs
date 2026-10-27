@@ -1323,9 +1323,14 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       const gumTitle=body.match(/<title>([^<]+)<\/title>/)?.[1]||'';
       const gumDescription=body.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
       const bothAreas=['인천 잇몸치료','부평 잇몸치료'];
-      const present=bothAreas.every(term=>gumTitle.includes(term)&&gumDescription.includes(term)) &&
-        body.includes('인천·부평 잇몸치료,') && body.includes('세월천로 34');
-      info.push(present?'인천·부평 잇몸치료 검색 제목·설명·실제 주소 반영':'지역 잇몸치료 검색 문구 최신 배포 확인 필요');
+      // A concise, factual description need not repeat the exact title keywords:
+      // verify regional intent, the actual Cheongcheon-dong address and direct care.
+      const present=bothAreas.every(term=>gumTitle.includes(term))&&
+        gumDescription.includes('인천 부평구 청천동')&&
+        gumDescription.includes('원장이 직접')&&
+        gumDescription.includes('잇몸치료')&&
+        body.includes('인천·부평 잇몸치료,')&&body.includes('세월천로 34');
+      info.push(present?'인천·부평 잇몸치료 검색 제목·실제 지역·진료 설명 반영':'잇몸치료 제목·지역·원장 직접진료 설명 실제 공개 재확인 필요');
       const differentialReady=body.includes('id="gum-or-root-symptoms"')&&
        body.includes('치주조직의 감염뿐 아니라 치아 안쪽 치수')&&
        body.includes('href="/health/gum-pus.html"')&&
