@@ -2762,6 +2762,29 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  }
 }
 
+/* Clinical gallery section index must point to real patient-visible headings.
+   This guards against pretty but broken quick navigation. */
+{
+ const guides=[{"file":"cavity-treatment.html","anchors":["gallery-cavity-early","gallery-cavity-methods","gallery-cavity-faq"]},{"file":"scaling.html","anchors":["gallery-scaling-timing","gallery-scaling-vs-gum","gallery-scaling-insurance"]},{"file":"denture.html","anchors":["gallery-denture-types","gallery-denture-loose","gallery-denture-faq"]},{"file":"implant.html","anchors":["implant-patient-decisions-heading","gallery-implant-exam","gallery-implant-preservation"]},{"file":"wisdom-tooth.html","anchors":["gallery-wisdom-decision","gallery-wisdom-exam","gallery-wisdom-aftercare"]},{"file":"tmj-care.html","anchors":["gallery-tmj-symptoms","gallery-tmj-care","gallery-tmj-aftercare"]},{"file":"pediatric-dentistry.html","anchors":["gallery-child-babyteeth","gallery-child-prevention","pediatric-treatment-heading"]},{"file":"pediatric-orthodontics.html","anchors":["gallery-ortho-exam","gallery-ortho-timing","child-removable-orthodontics-heading"]}];
+ const sheet=readFileSync(join(root,'assets/care-gallery-secondary.css'),'utf8');
+ if(!sheet.includes('Gallery section-index treatment navigation')||
+    !sheet.includes('.care-gallery-toc-anchor')||
+    !sheet.includes('.gallery-section-index>a:focus-visible')&&!sheet.includes('body.care-gallery-secondary :is(a,button):focus-visible'))
+   errors.push('진료 페이지 목차·접근성 스타일 누락');
+ for(const guide of guides){
+  const page=readFileSync(join(root,guide.file),'utf8');
+  if(!page.includes('class="treatment-page-toc gallery-section-index"')||
+     !page.includes('href="/visit-guide.html"')){
+   errors.push('진료 페이지 빠른 목차 누락: '+guide.file);
+  }
+  for(const id of guide.anchors){
+   if((page.split('id="'+id+'"').length-1)!==1||
+      (page.split('href="#'+id+'"').length-1)!==1)
+    errors.push('진료 페이지 목차 대상 id 중복·누락: '+guide.file+' #'+id);
+  }
+ }
+}
+
 // Report every audit error, including the checks above this final line.
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);

@@ -252,3 +252,76 @@ body.care-gallery-secondary.secondary-denture main>p:first-child{display:none}
 @media(prefers-reduced-motion:reduce){
  body.care-gallery-secondary .treatment-hero-actions a{transition:none}
 }
+
+/* Gallery section-index treatment navigation: a concise 3-topic reading guide.
+   Uses real HTML anchors, works without JS and keeps original medical H2s. */
+body.care-gallery-secondary .care-gallery-toc-anchor{
+ display:block;height:0;scroll-margin-top:105px;
+}
+body.care-gallery-secondary .gallery-section-index{
+ margin:23px auto 28px;max-width:1050px;
+ border-radius:17px;background:#fffefa;border:1px solid #d5e3d3;
+ box-shadow:0 11px 26px rgba(24,65,43,.055);
+ padding:15px 18px;gap:9px;
+}
+body.care-gallery-secondary .gallery-section-index>strong{
+ font-size:13px;letter-spacing:.02em;
+ color:#1c4c35;padding:8px 2px;
+}
+body.care-gallery-secondary .gallery-section-index>a{
+ border:1px solid #d8e4d4;border-radius:10px;
+ min-height:44px;padding:11px 14px;background:#f4f8f0;
+ color:#245940;font-weight:730;text-decoration:none;
+ display:inline-flex;align-items:center;justify-content:center;
+ line-height:1.45;word-break:keep-all;
+}
+body.care-gallery-secondary .gallery-section-index>a:hover{
+ border-color:#97b99c;background:#e9f2e7;
+}
+body.care-gallery-secondary .care-gallery-article-shell>.gallery-section-index{
+ box-sizing:border-box;width:100%;
+}
+body.care-gallery-secondary .care-gallery-article-shell>nav.carelinks,
+body.care-gallery-secondary .care-gallery-article-shell>nav[aria-label="주요 진료 바로가기"]{
+ display:flex!important;flex-wrap:wrap;gap:8px 10px;
+ margin:0 0 28px;
+ padding:13px 15px;border:1px solid #d3e2d3;
+ border-radius:15px;background:#f2f6ef;
+}
+body.care-gallery-secondary .care-gallery-article-shell>nav.carelinks a,
+body.care-gallery-secondary .care-gallery-article-shell>nav[aria-label="주요 진료 바로가기"] a{
+ box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;
+ padding:8px 13px;border:1px solid #d8e5d7;border-radius:999px;
+ background:#fffdf8;color:#315d44;min-height:43px;
+ font-size:13px;font-weight:720;text-decoration:none;line-height:1.4;
+}
+body.care-gallery-secondary .care-gallery-article-shell>nav.carelinks a[aria-current="page"],
+body.care-gallery-secondary .care-gallery-article-shell>nav[aria-label="주요 진료 바로가기"] a[aria-current="page"]{
+ background:#224f3a;color:#fff;border-color:#224f3a;
+}
+@media(max-width:600px){
+ body.care-gallery-secondary .gallery-section-index{
+  margin:16px 16px 22px;padding:11px 12px;
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;
+ }
+ body.care-gallery-secondary .care-gallery-article-shell>.gallery-section-index{
+  margin-left:0;margin-right:0;
+ }
+ body.care-gallery-secondary .gallery-section-index>strong{grid-column:1/-1}
+ body.care-gallery-secondary .gallery-section-index>a{
+  min-width:0;min-height:47px;padding:9px 8px;
+  font-size:12px;text-align:center;line-height:1.45;
+ }
+ body.care-gallery-secondary .care-gallery-article-shell>nav.carelinks,
+ body.care-gallery-secondary .care-gallery-article-shell>nav[aria-label="주요 진료 바로가기"]{
+  padding:10px;margin-bottom:22px;gap:7px;
+ }
+ body.care-gallery-secondary .care-gallery-article-shell>nav.carelinks a,
+ body.care-gallery-secondary .care-gallery-article-shell>nav[aria-label="주요 진료 바로가기"] a{
+  font-size:12px;min-height:41px;padding:8px 10px;
+ }
+}
+
+body.care-gallery-secondary .gallery-section-index>a:focus-visible{
+ outline:3px solid #a88346;outline-offset:3px;
+}
