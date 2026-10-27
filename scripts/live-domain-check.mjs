@@ -75,6 +75,8 @@ const urls = [
   { label: '연락처 저장 vCard 배포', url: origin + '/clinic-contact.vcf' },
   { label: '검색엔진 robots', url: origin + '/robots.txt' },
   { label: '검색엔진 sitemap', url: origin + '/sitemap.xml' },
+  { label: 'AI 의료진 출처 페이지', url: origin + '/doctor.html' },
+  { label: 'AI 검색봇 접근 모의 검사', url: origin + '/gum-treatment.html', userAgent: 'OAI-SearchBot/1.0' },
   { label: '네이버 최신글 RSS', url: origin + '/rss.xml' },
   { label: '홈페이지 치과 이야기 전체 글', url: origin + '/stories.html' },
   { label: '자연치아 보존 진료 안내', url: origin + '/tooth-preservation.html' },
@@ -146,12 +148,12 @@ const urls = [
 const topicCountPages=new Map();
 let deployedSearchScript='';
 let deployedSearchCss='';
-await Promise.all(urls.map(async ({label,url}) => {
+await Promise.all(urls.map(async ({label,url,userAgent}) => {
   try {
     const response = await fetch(url, {
       redirect: label.startsWith('www ') ? 'manual' : 'follow',
       signal: AbortSignal.timeout(8000),
-      headers: { 'User-Agent': 'EjoeunDentalReadOnlyHealthCheck/1.0' }
+      headers: { 'User-Agent': userAgent || 'EjoeunDentalReadOnlyHealthCheck/1.0' }
     });
     const faviconIcoBytes=label==='네이버 소프트 404 파비콘 ICO 개선 확인'?
       new Uint8Array(await response.clone().arrayBuffer()):null;
@@ -321,7 +323,7 @@ await Promise.all(urls.map(async ({label,url}) => {
        body.includes('진료 담당 원장 '+verifiedClinic.footer_representative)&&
        treatingDoctor?.name===verifiedClinic.footer_representative&&
        treatingDoctor?.['@id']===origin+'/#doctor-person'&&
-       treatingDoctor?.url===origin+'/#doctor'&&
+       treatingDoctor?.url===origin+'/doctor'&&
        treatingDoctor?.worksFor?.['@id']===origin+'/#clinic';
       info.push(doctorIdentityReady?
        'Google 의료진 실명·진료 담당 소개·의료기관 Person/Dentist 구조화 관계 최신 공개 확인':
@@ -564,6 +566,40 @@ await Promise.all(urls.map(async ({label,url}) => {
     } else if (label === '검색엔진 robots') {
       const sitemapValue = body.split('Sitemap: ')[1]?.split('\n')[0]?.trim() || '(없음)';
       info.push('사이트맵: ' + sitemapValue);
+      const searchbot = body.split(/^User-agent:\s*OAI-SearchBot\s*$/mi)[1]
+        ?.split(/^User-agent:|^Sitemap:/mi)[0]||'';
+      const publicAccess=response.status===200&&searchbot.includes('Allow: /')&&
+        searchbot.includes('Disallow: /admin/')&&sitemapValue===origin+'/sitemap.xml';
+      add('ChatGPT 검색봇 robots 실제 배포',
+        publicAccess?'설정 확인':'배포·설정 확인 필요',
+        '공개 페이지 허용, /admin/ 제외, 사이트맵 '+(publicAccess?'일치':'미확인'));
+    } else if (label === 'AI 의료진 출처 페이지') {
+      const livePath=new URL(response.url).pathname;
+      const schemas=[...body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+        .map(m=>{try{return JSON.parse(m[1])}catch{return null}});
+      const profile=schemas.find(j=>j?.['@type']==='ProfilePage');
+      const published=response.status===200&&livePath==='/doctor'&&
+        body.includes('<link rel="canonical" href="'+origin+'/doctor">')&&
+        profile?.url===origin+'/doctor'&&
+        profile?.mainEntity?.name===verifiedClinic.footer_representative&&
+        profile?.mainEntity?.['@id']===origin+'/#doctor-person'&&
+        profile?.publisher?.['@id']===origin+'/#clinic'&&
+        body.includes('고려대학교 의학박사(치과학 전공)')&&
+        body.includes('통합치의학과 전문의');
+      add('AI 의료진 실명·자격·출처 실사이트 확인',
+        published?'실사이트 반영 확인':'배포·캐시 확인 필요',
+        'HTTP '+response.status+' · 공개 경로 '+livePath+' · ProfilePage 연결 '+(published?'일치':'미확인'));
+    } else if (label === 'AI 검색봇 접근 모의 검사') {
+      // User-Agent simulation does not verify OpenAI IP access, AI indexing
+      // or whether an AI engine will cite/recommend this site.
+      const simulated=response.status===200&&new URL(response.url).pathname==='/gum-treatment'&&
+        !/noindex/i.test(String(response.headers.get('x-robots-tag')||''))&&
+        body.includes('스케일링만으로 잇몸질환을 치료할 수 있을까요?')&&
+        body.includes('href="/doctor.html"');
+      add('AI 검색봇 User-Agent 모의 응답·환자 정보 확인',
+        simulated?'본문·접속 확인':'접근·배포 확인 필요',
+        'HTTP '+response.status+' · 치료 질문·의료진 링크 '+(simulated?'게시됨':'미확인')+
+        ' · 모의 검사로 실제 AI 색인·인용 여부는 확인할 수 없음');
     } else if (label === '네이버 최신글 RSS') {
       const itemLinks=[...body.matchAll(/<item>[\s\S]*?<link>([^<]+)<\/link>[\s\S]*?<\/item>/g)]
        .map(m=>m[1]);
