@@ -1962,8 +1962,14 @@ const searchPageHtml=fs.readFileSync(path.join(out,'search.html'),'utf8');
 if(!/<form\b[^>]*role=["']search["'][^>]*>/.test(searchPageHtml))throw new Error('Search page missing search landmark');
 if(!/<input\b[^>]*id=["']q["'][^>]*aria-describedby=["']search-help["']/.test(searchPageHtml))throw new Error('Search field missing accessible help reference');
 if(!/<p\b[^>]*id=["']search-help["'][^>]*>/.test(searchPageHtml))throw new Error('Search help description missing');
-for(const destination of ['/#focus-care','/#location','tel:0325132875']){
+for(const destination of ['/#focus-care','/visit-guide.html#visit-hours','tel:0325132875']){
  if(!searchPageHtml.includes('href="'+destination+'"'))throw new Error('Search page missing patient quick action: '+destination);
+}
+if(searchPageHtml.includes('href="/#location"'))
+ throw new Error('Search page should open the complete verified visit guide, not jump away to the homepage');
+const visitPageForSearch=fs.readFileSync(path.join(out,'visit-guide.html'),'utf8');
+for(const anchor of ['visit-hours','visit-parking']){
+ if(!visitPageForSearch.includes('id="'+anchor+'"'))throw new Error('Search links to missing visit-guide section: '+anchor);
 }
 if(!/<a\b[^>]*href=["']\/search\.html["'][^>]*aria-current=["']page["']/.test(searchPageHtml))throw new Error('Search page current navigation marker missing');
 console.log('Search page mobile navigation and accessibility audit passed');
