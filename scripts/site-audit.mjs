@@ -2717,6 +2717,51 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  }
 }
 
+// Gallery-design regression: the eight remaining clinical pages should keep
+// their existing medical information and their immediate booking/phone links.
+// This source-level audit cannot prove Google rank or patient conversion.
+{
+ const booking=JSON.parse(readFileSync(resolve('content/site.json'),'utf8')).naver_booking_url;
+ const galleryFiles=[
+  ['cavity-treatment.html','secondary-article'],
+  ['scaling.html','secondary-article'],
+  ['denture.html','secondary-article'],
+  ['implant.html','secondary-article'],
+  ['pediatric-dentistry.html','secondary-article'],
+  ['pediatric-orthodontics.html','secondary-article'],
+  ['wisdom-tooth.html','secondary-hero'],
+  ['tmj-care.html','secondary-hero']
+ ];
+ const stylesheet=join(root,'assets/care-gallery-secondary.css');
+ const base=join(root,'assets/care-gallery.css');
+ if(!existsSync(stylesheet)||!existsSync(base)){
+  errors.push('미술관형 진료 디자인 통합 CSS 파일 누락');
+ }else{
+  const sheet=readFileSync(stylesheet,'utf8');
+  if(!sheet.includes('.care-gallery-secondary')||
+    !sheet.includes('@media(max-width:700px)')||
+    !sheet.includes('prefers-reduced-motion:reduce'))
+   errors.push('추가 진료 디자인 접근성·모바일 스타일 누락');
+ }
+ for(const [file,type] of galleryFiles){
+  const target=join(root,file);
+  if(!existsSync(target)){errors.push('진료 안내 페이지 누락: '+file);continue}
+  const page=readFileSync(target,'utf8');
+  const hasMarkup=page.includes('class="care-gallery care-gallery-secondary '+type)&&
+   page.includes('/assets/care-gallery.css')&&
+   page.includes('/assets/care-gallery-secondary.css')&&
+   page.includes('class="treatment-hero-actions"')&&
+   page.includes('class="care-gallery-booking"')&&
+   page.includes('class="care-gallery-bottom-actions"')&&
+   page.includes('href="'+booking+'"')&&
+   page.includes('href="tel:0325132875"')&&
+   page.includes('href="/visit-guide.html"');
+  const mainSection=(page.match(/<h1[\s\S]*?<\/h1>/)||[])[0]||'';
+  if(!hasMarkup||!mainSection.includes('이조은치과')&&file!=='tmj-care.html'&&file!=='wisdom-tooth.html'&&file!=='pediatric-orthodontics.html'&&file!=='pediatric-dentistry.html')
+   errors.push('미술관 진료 8개 페이지 중 예약·진료설명·CSS·접근성 연결 오류: '+file);
+ }
+}
+
 // Report every audit error, including the checks above this final line.
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);
