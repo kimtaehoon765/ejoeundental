@@ -527,6 +527,15 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
 
       const credentialAt=heroMarkup.indexOf('고려대학교 의학박사');
       const galleryAt=heroMarkup.indexOf('class="hero-gallery-window"');
+      const previsit=body.match(/<aside class="symptom-previsit"[\s\S]*?<\/aside>/)?.[0]||'';
+      const alert=previsit.slice(0,previsit.indexOf('<details'));
+      const mobileEducationReady=alert.includes('약은 임의로 중단하지 말고')&&
+        previsit.includes('<details class="symptom-previsit-checklist">')&&
+        previsit.includes('<details class="symptom-previsit-more">');
+      info.push('모바일 방문 준비 안내: '+
+        (mobileEducationReady?'안전 문구는 보이고 두 안내 목록 접기·펼치기 실배포':
+         '새 모바일 접이식 방문 안내 배포 확인 필요'));
+
       const introAt=heroMarkup.indexOf('id="intro"');
       const firstScreenGallery=credentialAt>=0&&galleryAt>credentialAt&&introAt>galleryAt;
       const ctaAt=heroMarkup.indexOf('class="hero-actions"');

@@ -2935,6 +2935,28 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  if(!accessible)errors.push('갤러리형 환자 증상 찾기·원장 글·오시는 길 모바일 디자인 누락');
 }
 
+
+/* Patient medical precaution stays visible before two optional information
+   disclosures; visit links and the 3-item checklist remain in HTML. */
+{
+ const p=readFileSync(join(root,'index.html'),'utf8');
+ const sec=p.match(/<aside class="symptom-previsit"[\s\S]*?<\/aside>/)?.[0]||'';
+ const before=sec.slice(0,sec.indexOf('<details'));
+ const css=readFileSync(join(root,'assets/gallery-upgrade.css'),'utf8');
+ if(!before.includes('약은 임의로 중단하지 말고')||
+    (sec.match(/<details\b/g)||[]).length!==2||
+    (sec.match(/<\/details>/g)||[]).length!==2||
+    !sec.includes('<details class="symptom-previsit-checklist">')||
+    !sec.includes('<details class="symptom-previsit-more">')||
+    !sec.includes('<summary>진료 전 준비할 정보 3가지 보기')||
+    !sec.includes('<summary>복용약·전신질환별 안내 6가지 보기')||
+    !sec.includes('복용약의 중단·변경 여부는 처방 의료진과 치과의사가 확인한 후 결정해야 합니다.')||
+    !css.includes('Native no-JS patient disclosures')||
+    !css.includes('details>summary:focus-visible')){
+  errors.push('방문 전 준비사항: 의료 안전 안내 상시 표시·접이식 상세 내용 또는 키보드 접근성 누락');
+ }
+}
+
 // Report every audit error, including the checks above this final line.
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);
