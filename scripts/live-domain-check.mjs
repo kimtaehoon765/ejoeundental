@@ -450,7 +450,7 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        'referrer-policy','permissions-policy'];
       // HTML permits both > and /> with or without whitespace. Compare the
       // verification token, not a particular formatting of the meta tag.
-      const googleTag=/<meta\\s+name="google-site-verification"\\s+content="([^"]+)"\\s*\\/?>/i;
+      const googleTag=/<meta\s+name="google-site-verification"\s+content="([^"]+)"\s*\/?>/i;
       const googleVerification=homepageSource.match(googleTag)?.[1]||'';
       const liveGoogleVerification=body.match(googleTag)?.[1]||'';
       const googleReady=Boolean(googleVerification)&&
