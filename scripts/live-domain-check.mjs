@@ -222,6 +222,16 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       add('8종 진료 고급 디자인 및 예약 실배포 · '+slug+'.html',
         ready?'실사이트 반영 확인':'배포·캐시 확인 필요',
         'HTTP '+response.status+' · 신뢰성 설명·정식 네이버예약·모바일 버튼 '+(ready?'일치':'불일치/미확인'));
+      const anchors={"cavity-treatment":["gallery-cavity-early","gallery-cavity-methods","gallery-cavity-faq"],"scaling":["gallery-scaling-timing","gallery-scaling-vs-gum","gallery-scaling-insurance"],"denture":["gallery-denture-types","gallery-denture-loose","gallery-denture-faq"],"implant":["implant-patient-decisions-heading","gallery-implant-exam","gallery-implant-preservation"],"wisdom-tooth":["gallery-wisdom-decision","gallery-wisdom-exam","gallery-wisdom-aftercare"],"tmj-care":["gallery-tmj-symptoms","gallery-tmj-care","gallery-tmj-aftercare"],"pediatric-dentistry":["gallery-child-babyteeth","gallery-child-prevention","pediatric-treatment-heading"],"pediatric-orthodontics":["gallery-ortho-exam","gallery-ortho-timing","child-removable-orthodontics-heading"]}[slug]||[];
+      const sectionIndex=body.match(/<nav class="treatment-page-toc gallery-section-index"[\s\S]*?<\/nav>/)?.[0]||'';
+      const navigationReady=response.status===200&&
+        sectionIndex.includes('이 페이지에서 바로 찾기')&&
+        sectionIndex.includes('href="/visit-guide.html"')&&
+        anchors.length===3&&anchors.every(id=>
+          sectionIndex.includes('href="#'+id+'"')&&body.includes('id="'+id+'"'));
+      add('환자용 진료 목차 8종 실제 배포 · '+slug+'.html',
+        navigationReady?'실사이트 목차 반영 확인':'배포·캐시 확인 필요',
+        '섹션 바로가기 3곳과 방문 안내 링크 '+(navigationReady?'정상 공개':'미확인'));
     }
     const careGalleryPages={
       '잇몸치료 상세 페이지':'gum-treatment',

@@ -2785,12 +2785,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  }
 }
 
-// Report every audit error, including the checks above this final line.
-console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
-for (const e of errors) console.error('ERROR', e);
-for (const w of [...new Set(warnings)].slice(0, 100)) console.warn('WARN', w);
-if (warnings.length > 100) console.warn('추가 경고:', warnings.length - 100);
-if (errors.length) process.exitCode = 1;
+
 
 
 /* Credential fidelity: the owner's confirmed degree and professional specialty
@@ -2861,3 +2856,10 @@ if (errors.length) process.exitCode = 1;
   }
  }
 }
+
+// Report every audit error, including the checks above this final line.
+console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
+for (const e of errors) console.error('ERROR', e);
+for (const w of [...new Set(warnings)].slice(0, 100)) console.warn('WARN', w);
+if (warnings.length > 100) console.warn('추가 경고:', warnings.length - 100);
+if (errors.length) process.exitCode = 1;
