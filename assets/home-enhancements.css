@@ -1206,3 +1206,85 @@ body.home-page .hero-actions .hero-booking:focus-visible{
 @media(max-width:600px){
  body.home-page .hero-actions .hero-booking{display:none}
 }
+
+
+/* 2026-10-27 gallery finishing pass: restrained museum look; CSS only, preserving all patient guidance, SEO and booking links. */
+body.home-page #main-content>.hero .kicker{
+ display:inline-flex;align-items:center;gap:10px;color:#856840;letter-spacing:.14em
+}
+body.home-page #main-content>.hero .kicker::before{
+ content:"";display:block;width:22px;height:1px;background:#a58856
+}
+body.home-page #main-content>.hero #headline{
+ color:#193f32;text-wrap:balance;font-feature-settings:"kern" 1
+}
+body.home-page #main-content>.hero .hero-doctor-credentials{
+ border-left:3px solid #c3a772;padding-left:14px
+}
+body.home-page #main-content>#philosophy,
+body.home-page #main-content>#health-info{
+ background:linear-gradient(145deg,#f0f2e9,#faf8f1 55%,#f3f1e8)
+}
+body.home-page #main-content>#care,
+body.home-page #main-content>#symptoms{background:#fdfbf7}
+body.home-page #main-content>#stories{background:#faf8f2}
+body.home-page #main-content>#philosophy h2::after,
+body.home-page #main-content>#focus-care h2::after,
+body.home-page #main-content>#care h2::after,
+body.home-page #main-content>#health-info h2::after,
+body.home-page #main-content>#stories h2::after{
+ content:"";display:block;width:62px;height:2px;margin:17px 0 0;
+ border-radius:2px;background:linear-gradient(90deg,#9f8052,#d5c7a4)
+}
+body.home-page #main-content>#philosophy .wrap.center h2::after{
+ margin-left:auto;margin-right:auto
+}
+body.home-page #main-content>#philosophy .card,
+body.home-page #main-content>#focus-care .card,
+body.home-page #main-content>#care .card,
+body.home-page #main-content>#health-info .card,
+body.home-page #main-content>#symptoms .card{
+ border-radius:15px;border-color:#d9dfd1;
+ box-shadow:0 7px 22px rgba(29,59,43,.045)
+}
+body.home-page #main-content>#doctor .frame{
+ border-color:#b69d71;
+ box-shadow:inset 0 0 0 5px rgba(252,249,237,.38),
+            0 18px 40px rgba(7,31,21,.18)
+}
+body.home-page .monet-interlude__painting{
+ outline:1px solid rgba(116,101,69,.32);outline-offset:4px
+}
+body.home-page :where(.hero-actions a,.symptom-navigator-grid a,
+ .home-representative-guide-grid a,.monet-interlude__links a):focus-visible{
+ outline:3px solid #a87b35;outline-offset:4px
+}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ body.home-page #main-content>#philosophy .card,
+ body.home-page #main-content>#care .card,
+ body.home-page #main-content>#health-info .card{
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease
+ }
+ body.home-page #main-content>#philosophy .card:hover,
+ body.home-page #main-content>#care .card:hover,
+ body.home-page #main-content>#health-info .card:hover{
+  transform:translateY(-3px);border-color:#abc2ad;
+  box-shadow:0 12px 26px rgba(29,59,43,.09)
+ }
+}
+@media(max-width:700px){
+ body.home-page #main-content>.hero .kicker{gap:7px;letter-spacing:.09em}
+ body.home-page #main-content>.hero .kicker::before{width:14px}
+ body.home-page #main-content>.hero .hero-doctor-credentials{padding-left:10px}
+ body.home-page #main-content>#philosophy h2::after,
+ body.home-page #main-content>#focus-care h2::after,
+ body.home-page #main-content>#care h2::after,
+ body.home-page #main-content>#health-info h2::after,
+ body.home-page #main-content>#stories h2::after{margin-top:12px;width:44px}
+ body.home-page #main-content>#philosophy .card,
+ body.home-page #main-content>#focus-care .card,
+ body.home-page #main-content>#care .card,
+ body.home-page #main-content>#health-info .card,
+ body.home-page #main-content>#symptoms .card{border-radius:12px;box-shadow:none}
+ body.home-page .monet-interlude__painting{outline-offset:2px}
+}
