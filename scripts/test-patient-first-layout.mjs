@@ -479,6 +479,12 @@ test('all 54 care guides link to two topic-matched published, nonduplicated pati
  const valid=new Set(published.map(x=>x.slug));
  assert.equal(pages.length,54);
  const guideSpecific={
+  'implant.html':'2026-10-27-cheongcheon-implant-who-performs-surgery-and-aftercare',
+  'scaling.html':'2026-10-27-bupyeong-subgingival-calculus-treatment',
+  'denture.html':'2026-10-26-cheongcheon-how-to-choose-denture-dentist',
+  'wisdom-tooth.html':'2026-10-25-bupyeong-wisdom-tooth-extraction-hemostatic-dressing',
+  'pediatric-dentistry.html':'2026-10-26-cheongcheon-child-dentist-or-general-dentist',
+  'pediatric-orthodontics.html':'2026-10-24-bupyeong-orthodontic-scaling-gum-care',
   'gum-treatment.html':'2026-10-25-incheon-periodontal-maintenance-after-treatment',
   'retreatment.html':'2026-10-25-incheon-retreatment-root-tip-dark-spot-no-pain',
   'health/gum-pus.html':'naver-224400753947-gum-pus-periodontal-abscess',
@@ -515,6 +521,14 @@ test('all 54 care guides link to two topic-matched published, nonduplicated pati
  const css=readFileSync('dist/assets/patient-story-links.css','utf8');
  assert.match(css,/\.patient-story-links \.patient-story-links-topical\{/);
  assert.match(css,/@media\(max-width:600px\)\{[\s\S]*?\.patient-story-links \.patient-story-links-topical/);
+});
+
+test('implant and periodontal care guide visibly link to the owner-provided new patient questions',()=>{
+ const implant=readFileSync('dist/implant.html','utf8');
+ const gum=readFileSync('dist/gum-treatment.html','utf8');
+ assert.match(implant,/href="\/stories\/2026-10-27-cheongcheon-implant-who-performs-surgery-and-aftercare\/"/);
+ assert.match(gum,/href="\/stories\/2026-10-27-bupyeong-subgingival-calculus-treatment\/"/);
+ assert.match(gum,/href="\/stories\/2026-10-27-incheon-food-impaction-gum-pain\/"/);
 });
 
 test('full dental story directory derives its Naver original count from the verified homepage list',()=>{

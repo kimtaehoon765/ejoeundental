@@ -2961,6 +2961,27 @@ console.log('Clinical education sharing metadata aligned:',clinicalSharingCount,
   path.basename(name,'.json'),String(post.title||'')
  ]));
  const storyCareRules=[
+  // Keep high-intent care pages aligned with actual patient questions.
+  // Without these rules their two footer links fall back to unrelated root/
+  // periodontal topics even though topic-specific articles are published.
+  {test:/^implant\.html$/,slugs:[
+   '2026-10-27-cheongcheon-implant-who-performs-surgery-and-aftercare',
+   '2026-10-25-sangok-implant-bone-graft-always-necessary']},
+  {test:/^scaling\.html$/,slugs:[
+   '2026-10-27-bupyeong-subgingival-calculus-treatment',
+   '2026-10-24-sangok-scaling-gargle-anesthesia-pain-control']},
+  {test:/^denture\.html$/,slugs:[
+   '2026-10-26-cheongcheon-how-to-choose-denture-dentist',
+   '2026-10-25-sangok-denture-partial-vs-complete-denture']},
+  {test:/^wisdom-tooth\.html$/,slugs:[
+   '2026-10-25-bupyeong-wisdom-tooth-extraction-hemostatic-dressing',
+   'naver-223665456537-sangok-wisdom-tooth-gum']},
+  {test:/^pediatric-dentistry\.html$/,slugs:[
+   '2026-10-26-cheongcheon-child-dentist-or-general-dentist',
+   '2026-10-24-bupyeong-orthodontic-scaling-gum-care']},
+  {test:/^pediatric-orthodontics\.html$/,slugs:[
+   '2026-10-24-bupyeong-orthodontic-scaling-gum-care',
+   '2026-10-26-cheongcheon-child-dentist-or-general-dentist']},
   {test:/^(?:gum-treatment|gum-health)\.html$/,slugs:[
    '2026-10-25-incheon-periodontal-maintenance-after-treatment',
    '2026-10-25-incheon-loose-tooth-suddenly-periodontal-exam']},
