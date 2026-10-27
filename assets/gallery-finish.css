@@ -1,0 +1,248 @@
+/* Ejoeun Dental · gallery finishing pass · 2026-10-27.
+   Homepage-only visual layer. No clinical copy, links or indexable text changed. */
+body.home-page{
+  --finish-forest:#1c4335;
+  --finish-leaf:#3b6a51;
+  --finish-cream:#fbf9f3;
+  --finish-paper:#fffefb;
+  --finish-brass:#a78b58;
+  --finish-border:#d9e1d5;
+  -webkit-font-smoothing:antialiased;
+}
+body.home-page header .nav .logo{
+  font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+  font-weight:700;
+}
+body.home-page #main-content>.hero{
+  isolation:isolate;
+  box-shadow:0 2px 4px rgba(24,62,43,.025),0 30px 80px rgba(24,62,43,.09);
+}
+body.home-page #main-content>.hero>.hero-artwork{
+  border-color:#fffcf5;
+  outline-color:#d4ceb8;
+  box-shadow:0 21px 40px rgba(34,69,47,.18),11px 12px 0 #e5e6d9;
+}
+body.home-page #main-content>.hero .kicker{
+  display:flex;align-items:center;gap:11px;
+  color:#4c6c5a;
+}
+body.home-page #main-content>.hero .kicker::before{
+  content:"";width:22px;height:1px;flex:none;
+  background:var(--finish-brass);
+}
+body.home-page #main-content>.hero #headline{
+  letter-spacing:-.055em;
+  text-wrap:balance;
+}
+body.home-page #main-content>.hero .hero-doctor-credentials{
+  border-color:#d7e1d6;
+  background:linear-gradient(120deg,#fffefb,rgba(247,249,244,.89));
+}
+body.home-page #main-content>.hero .hero-actions>.btn{
+  transition:background-color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease;
+}
+body.home-page #main-content>.hero .hero-editorial-detail{
+  border-top-color:#cbd8ca;
+}
+body.home-page #main-content>.hero .hero-editorial-label{
+  letter-spacing:.1em;
+}
+body.home-page #main-content>.hero .hero-editorial-detail>div,
+body.home-page #main-content>.hero .hero-editorial-detail>aside{
+  border-color:#d9e3d8;
+  box-shadow:0 14px 33px rgba(29,66,46,.055);
+}
+body.home-page #main-content>.hero .hero-editorial-choices{
+  background:linear-gradient(145deg,#f5faf5 0%,#fffefa 100%);
+}
+body.home-page #main-content>.hero .hero-editorial-story{
+  background:linear-gradient(145deg,#fffefb 0%,#f9f6ed 100%);
+}
+body.home-page #main-content>.hero .hero-care-summary>a{
+  border-color:#d5e1d4;
+  background:#fffefa;
+  box-shadow:0 2px 7px rgba(24,63,43,.025);
+}
+body.home-page #main-content .section .eyebrow,
+body.home-page #main-content>.symptom-navigator>.eyebrow{
+  color:#60795d;
+  letter-spacing:.17em;
+}
+body.home-page #main-content .section h2,
+body.home-page #main-content>.symptom-navigator h2{
+  color:#204636;
+  text-wrap:balance;
+}
+body.home-page #main-content>.symptom-navigator{
+  border-color:#d4e1d3;
+  background:
+    radial-gradient(circle at 100% 0,rgba(202,220,200,.29),transparent 37%),
+    linear-gradient(145deg,#f8fbf6,#f1f6ee);
+  box-shadow:0 18px 35px rgba(25,67,42,.052);
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a{
+  background:var(--finish-paper);
+  border-color:#dbe4d7;
+  box-shadow:0 8px 22px rgba(28,68,40,.045);
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a strong{
+  letter-spacing:-.035em;
+}
+body.home-page #main-content>#philosophy .card{
+  position:relative;
+  border-color:#e2e5db;
+  background:linear-gradient(160deg,#fffefa 0%,#fbfcf8 100%);
+  box-shadow:0 13px 35px rgba(31,68,48,.055);
+}
+body.home-page #main-content>#philosophy .card::before{
+  content:"";position:absolute;top:0;left:26px;
+  width:36px;height:3px;background:#9db09b;
+  border-radius:0 0 3px 3px;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a,
+body.home-page #home-representative-guides .home-representative-guide-grid>a{
+  box-shadow:0 8px 23px rgba(33,71,48,.05);
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a strong{
+  letter-spacing:-.035em;
+}
+body.home-page .monet-interlude{
+  background:
+    radial-gradient(ellipse at 4% 10%,rgba(188,207,186,.28),transparent 38%),
+    radial-gradient(ellipse at 93% 94%,rgba(215,198,180,.22),transparent 40%),
+    linear-gradient(180deg,#f9f7f0,#f3f2e9);
+}
+body.home-page .monet-interlude__painting{
+  border:1px solid #bdb69e;
+  box-shadow:0 28px 55px rgba(28,57,42,.15),8px 8px 0 #e9e0d1;
+}
+body.home-page .monet-interlude__copy h2{
+  font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+  color:#244b3c;
+  letter-spacing:-.055em;
+  line-height:1.5;
+  text-wrap:balance;
+}
+body.home-page .monet-interlude__copy p{
+  word-break:keep-all;
+}
+body.home-page #stories .owner-stories-grid>.owner-story-card{
+  box-shadow:none;
+  background:#fffefb;
+  border-color:#e0e6dc;
+}
+body.home-page #stories .owner-stories-grid>.owner-story-card h3{
+  line-height:1.54;
+}
+body.home-page #stories .owner-stories-grid>.owner-story-card a{
+  text-decoration:none;
+  text-underline-offset:4px;
+}
+body.home-page #faq .faq-list details{
+  border-color:#dce5da;
+  background:var(--finish-paper);
+}
+body.home-page #main-content :is(a,button,input,summary):focus-visible{
+  outline:3px solid #9b793b;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine){
+  body.home-page #main-content>.hero .hero-actions>.btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(24,62,43,.14);
+  }
+  body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:hover{
+    transform:translateY(-3px);
+    box-shadow:0 16px 30px rgba(25,65,40,.11);
+    border-color:#91ad94;
+  }
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a:hover,
+  body.home-page #home-representative-guides .home-representative-guide-grid>a:hover{
+    transform:translateY(-3px);
+    border-color:#99b4a0;
+    box-shadow:0 16px 32px rgba(26,65,43,.105);
+  }
+}
+@media(min-width:901px){
+  body.home-page #main-content>.hero{margin-top:22px;}
+  body.home-page .monet-interlude__copy{padding-right:clamp(0px,2.5vw,38px);}
+  body.home-page #main-content>#philosophy .grid{align-items:stretch;}
+}
+@media(max-width:900px){
+  body.home-page #main-content>.hero{box-shadow:0 13px 35px rgba(27,64,44,.065);}
+  body.home-page #main-content>.hero>.hero-artwork{box-shadow:0 11px 24px rgba(27,64,44,.12),6px 7px 0 #e5e6d9;}
+}
+@media(max-width:600px){
+  body.home-page header .nav .logo{letter-spacing:-.065em;}
+  body.home-page #main-content>.hero{
+    border-radius:19px;
+    margin:10px 12px 12px;
+    width:auto;max-width:none;
+    padding:23px 16px 28px;
+    gap:16px;
+  }
+  body.home-page #main-content>.hero .kicker{
+    font-size:10px;letter-spacing:.12em;
+  }
+  body.home-page #main-content>.hero #headline{
+    font-size:clamp(28px,7.6vw,36px);
+    line-height:1.37;margin:12px 0 15px;
+    text-wrap:pretty;
+  }
+  body.home-page #main-content>.hero .hero-doctor-credentials{
+    padding:13px 14px;
+    border-radius:11px;
+  }
+  body.home-page #main-content>.hero>.hero-artwork{
+    max-width:100%;margin-inline:auto;
+    border-width:6px;
+    box-shadow:0 9px 20px rgba(34,69,47,.11),5px 6px 0 #e5e6d9;
+  }
+  body.home-page #main-content>.hero .hero-editorial-detail{
+    padding-top:17px;gap:12px;
+  }
+  body.home-page #main-content>.hero .hero-editorial-detail>div,
+  body.home-page #main-content>.hero .hero-editorial-detail>aside{
+    padding:17px 15px;
+    border-radius:13px;
+    box-shadow:none;
+  }
+  body.home-page #main-content>.symptom-navigator{
+    margin:18px 12px 12px;
+    width:auto;max-width:none;
+    padding:21px 16px;
+    border-radius:17px;
+  }
+  body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a{
+    min-height:96px;
+    padding:17px 16px;
+    border-radius:13px;
+    box-shadow:none;
+  }
+  body.home-page .monet-interlude{padding:28px 0 36px;}
+  body.home-page .monet-interlude__painting{
+    transform:none;
+    box-shadow:0 13px 28px rgba(28,57,42,.12);
+  }
+  body.home-page .monet-interlude__copy h2{font-size:clamp(25px,7vw,33px);}
+  body.home-page #main-content>#philosophy .card::before{left:20px;}
+  body.home-page #stories .owner-stories-grid{gap:7px;}
+  body.home-page #stories .owner-stories-grid>.owner-story-card{padding:10px 13px;}
+  body.home-page #stories .owner-stories-grid>.owner-story-card a{font-size:14px;}
+}
+@media(prefers-reduced-motion:reduce){
+  body.home-page #main-content>.hero .hero-actions>.btn,
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a,
+  body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a,
+  body.home-page #home-representative-guides .home-representative-guide-grid>a{
+    transition:none;transform:none;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>.hero,
+  body.home-page #main-content>.symptom-navigator,
+  body.home-page #main-content>#philosophy .card{
+    border:1px solid CanvasText;box-shadow:none;
+  }
+}
