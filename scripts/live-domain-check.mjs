@@ -1586,8 +1586,8 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       // Verify the actual Cloudflare HTML, not just the GitHub build:
       // patients must always be able to call, book at the confirmed URL or
       // jump to a real directions anchor on small-screen devices.
-      const visitMobilePanel=body.match(/<nav class="visit-mobile-actions" aria-label="휴대폰 전화·네이버 예약·길찾기 바로가기">([\\s\\S]*?)<\\/nav>/)?.[1]||'';
-      const visitMobileHrefs=[...visitMobilePanel.matchAll(/<a\\b[^>]*href="([^"]+)"[^>]*>/g)]
+      const visitMobilePanel=body.match(/<nav class="visit-mobile-actions" aria-label="휴대폰 전화·네이버 예약·길찾기 바로가기">([\s\S]*?)<\/nav>/)?.[1]||'';
+      const visitMobileHrefs=[...visitMobilePanel.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>/g)]
        .map(link=>link[1].replace(/&amp;/g,'&'));
       const visitMobileReady=response.status===200&&
        JSON.stringify(visitMobileHrefs)===JSON.stringify([
