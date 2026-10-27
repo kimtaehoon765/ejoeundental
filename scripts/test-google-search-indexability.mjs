@@ -134,6 +134,10 @@ test('real treating dentist has one consistent visible name and person identity 
   assert.equal(structured.author?.name,realName,article.slug+' byline must match the visible clinic name');
   assert.equal(structured.author?.['@id'],clinic.employee['@id'],article.slug+' person identity drift');
   assert.equal(structured.author?.url,origin+'/doctor',article.slug+' author profile link');
+  assert.ok(html.includes('자료 제공: 이조은치과 원장 <a href="/doctor.html"'),
+    article.slug+' visible treating-clinician provenance must link to same verified profile');
+  assert.ok(html.includes(realName+' · 의료진 소개</a>'),
+    article.slug+' clinician identity must be readable and clickable');
   assert.equal(structured.author?.worksFor?.['@id'],clinic['@id'],article.slug+' clinic mismatch');
   assert.equal(structured.publisher?.['@id'],clinic['@id'],article.slug+' publisher mismatch');
   assert.equal(structured.mainEntityOfPage,origin+'/stories/'+article.slug+'/',article.slug+' canonical story URL');

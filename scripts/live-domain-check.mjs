@@ -737,7 +737,8 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       const canonical=body.match(/<link rel="canonical" href="([^"]+)"/)?.[1]||'';
       const articleReady=response.status===200&&canonical===url&&body.includes('<h1>'+title+'</h1>')&&
        body.includes('href="/stories.html#topic-cavity"')&&
-       body.includes('자료 제공: 이조은치과 원장');
+       body.includes('자료 제공: 이조은치과 원장 <a href="/doctor.html"')&&
+       body.includes(String(verifiedClinic.footer_representative)+' · 의료진 소개</a>');
       info.push(articleReady?'2026-10-25 작성 원고·진료 주제 연결·원장 표시 실제 공개 확인':
        '2026-10-25 원고가 최신 버전으로 게시되었는지 확인 필요');
       const mobileReader=body.includes('class="reading-controls" role="group"')&&
