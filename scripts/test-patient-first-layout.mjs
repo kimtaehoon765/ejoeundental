@@ -1209,6 +1209,16 @@ test('live Cloudflare story-button probe checks current three-button markup',()=
  assert.ok(!probe.includes('aria-label="전화 문의와 진료 위치 안내"'));
 });
 
+test('live Cloudflare search and revised-article checks compare actual source metadata',()=>{
+ const script=readFileSync('scripts/live-domain-check.mjs','utf8');
+ assert.match(script,/const expectedSearchScriptHash=createHash\('sha256'\)/);
+ assert.match(script,/sourceMatches=delivered===expectedSearchScriptHash/);
+ assert.ok(script.includes('부평역·굴포천역 진료 검색 반영'));
+ assert.ok(script.includes('editorialRevisions.map(slug=>'));
+ assert.ok(script.includes('posting?.dateModified===source.updated'));
+ assert.ok(script.includes('article:modified_time'));
+});
+
 test('the first patient symptom navigator surfaces extraction vs preservation without displacing six existing questions',()=>{
  const html=readFileSync('dist/index.html','utf8');
  const css=readFileSync('dist/assets/home-enhancements.css','utf8');

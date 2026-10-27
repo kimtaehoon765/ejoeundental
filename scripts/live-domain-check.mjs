@@ -16,6 +16,11 @@ const homepageSource = readFileSync(new URL('../index.html',import.meta.url),'ut
 const expectedArchiveScriptHash=createHash('sha256')
  .update(readFileSync(new URL('../assets/archive-topics.js',import.meta.url)))
  .digest('hex').slice(0,12);
+// Version tokens alone cannot prove a Cloudflare deployment is current:
+// compare the exact patient-search asset to this GitHub source revision.
+const expectedSearchScriptHash=createHash('sha256')
+ .update(readFileSync(new URL('../assets/search.js',import.meta.url)))
+ .digest('hex').slice(0,12);
 // The final visual layer should reach the public host before marking this
 // design enhancement delivered; build success alone is not live deployment.
 const expectedGalleryCssHash=createHash('sha256')
@@ -40,6 +45,18 @@ const publishedArticles = readdirSync(postDirectory).filter(name=>name.endsWith(
 // This catches new posts that build successfully but never reach public hosting.
 const latestArticleSamples=publishedArticles.slice(-3).reverse()
  .map(({name,post})=>({slug:name.slice(0,-5),title:String(post.title||'')}));
+// Validate revised dental explanations as well as newly published posts.
+// Revisions to older blog articles must not disappear from deployment checks.
+const editorialRevisions=[
+ '2026-10-24-sangok-scaling-gargle-anesthesia-pain-control',
+ '2026-10-25-incheon-loose-tooth-suddenly-periodontal-exam'
+];
+const expectedEditorialRevisions=new Map(editorialRevisions.map(slug=>{
+ const entry=publishedArticles.find(item=>item.name===slug+'.json');
+ if(!entry||!entry.post.updated||!entry.post.date)
+  throw new Error('Missing source revision for live SEO check: '+slug);
+ return [slug,entry.post];
+}));
 const expectedPublishedCount=publishedArticles.length;
 const newestPublishedArticles=[...publishedArticles].sort((a,b)=>
  String(b.post.date||'').localeCompare(String(a.post.date||''))||
@@ -99,6 +116,10 @@ const urls = [
   { label: '홈페이지 글 본문검색 데이터', url: origin + '/content/story-search-text.json' },
   ...latestArticleSamples.map(({slug})=>({
     label: '최신 공개 글 원본 비교: '+slug,
+    url: origin + '/stories/' + encodeURIComponent(slug) + '/'
+  })),
+  ...editorialRevisions.map(slug=>({
+    label: '수정 글 SEO 메타정보: '+slug,
     url: origin + '/stories/' + encodeURIComponent(slug) + '/'
   })),
   { label: '최근 블로그 원고 대표 글 게시', url: origin + '/stories/2026-10-25-bupyeong-cavity-treatment-overtreatment-checklist/' },
@@ -922,6 +943,23 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       const script=body.match(/src="(\/assets\/story-directory\.js\?v=[a-f0-9]{12})"/)?.[1];
       info.push(indexed&&script?'모바일 글 검색에 최신 버전 본문 색인과 검색 프로그램 연결됨':
        '치과 이야기 본문 검색 프로그램 연결 또는 캐시 버전 확인 필요');
+    } else if (label.startsWith('수정 글 SEO 메타정보: ')) {
+      const slug=label.slice('수정 글 SEO 메타정보: '.length);
+      const source=expectedEditorialRevisions.get(slug);
+      const canonical=origin+'/stories/'+encodeURIComponent(slug)+'/';
+      const schemas=[...body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+       .map(m=>{try{return JSON.parse(m[1])}catch{return null}});
+      const posting=schemas.find(data=>data?.['@type']==='BlogPosting');
+      const correct=response.status===200&&source&&
+       body.includes('<link rel="canonical" href="'+canonical+'">')&&
+       body.includes('<meta property="og:url" content="'+canonical+'">')&&
+       body.includes('<meta property="article:published_time" content="'+source.date+'">')&&
+       body.includes('<meta property="article:modified_time" content="'+source.updated+'">')&&
+       posting?.datePublished===source.date&&
+       posting?.dateModified===source.updated&&
+       posting?.headline===source.title;
+      info.push(correct?'수정된 원장 글의 작성·수정 날짜, OG 및 구조화 데이터 실서버 일치':
+       '수정 글의 공개 SEO 메타정보가 최신 GitHub 원고와 일치하지 않음');
     } else if (label.startsWith('최신 공개 글 원본 비교: ')) {
       const slug=label.slice('최신 공개 글 원본 비교: '.length);
       const expected=latestArticleSamples.find(entry=>entry.slug===slug);
@@ -1664,6 +1702,10 @@ if(deployedSearchScript){
   const declared=deployedSearchScript.match(/\?v=([a-f0-9]{12})$/)?.[1]||'';
   const delivered=createHash('sha256').update(client).digest('hex').slice(0,12);
   const hashOk=response.ok&&declared===delivered;
+  const sourceMatches=delivered===expectedSearchScriptHash;
+  const newStationSearch=client.includes('부평구청역|부평역|부평구|부평')&&
+   client.includes('산곡역|굴포천역|갈산동')&&
+   client.includes("'부평역','굴포천역'");
   const bookingOk=client.includes('const reservationIntent=')&&
    client.includes('dataset.bookingUrl')&&
    client.includes('예약 확정을 의미하지 않습니다');
@@ -1683,9 +1725,11 @@ if(deployedSearchScript){
    client.includes('금요일 격주 오전 09:30~13:00')&&
    client.includes('접수 마감 오전 12:30 / 오후 18:00')&&
    client.includes('이번 주 확정 진료일은 표시되지 않습니다');
-  add('환자가 실제 로딩하는 검색 프로그램',''+(hashOk&&bookingOk&&hoursOk?'최신 버전 확인':'배포·캐시 확인 필요'),
-   'HTTP '+response.status+' · 검색 페이지 지정 버전 '+declared+' / 실제 JS '+delivered+
-   (hashOk?' · 파일 해시 일치':' · 파일 해시 불일치')+
+  add('환자가 실제 로딩하는 검색 프로그램',''+(hashOk&&sourceMatches&&newStationSearch&&bookingOk&&hoursOk?'최신 버전 확인':'배포·캐시 확인 필요'),
+   'HTTP '+response.status+' · 검색 페이지 지정 버전 '+declared+' / 실제 JS '+delivered+' / GitHub 원본 '+expectedSearchScriptHash+
+   (hashOk?' · 페이지 지정 해시 일치':' · 페이지 지정 해시 불일치')+
+   (sourceMatches?' · GitHub 검색 코드 최신 반영':' · GitHub 검색 코드 버전 불일치')+
+   (newStationSearch?' · 부평역·굴포천역 진료 검색 반영':' · 신규 역세권 검색 보정 미반영')+
    (bookingOk?' · 네이버 예약 찾기 연결 반영':' · 예약 검색 코드 최신 반영 필요')+
    (hoursOk?' · 격주 금·토요일·접수 마감 안내 반영':' · 진료시간 검색 코드 최신 반영 필요')+
    (breathScriptReady?' · 구취·복수 지역명 검색 보정 반영':' · 구취·지역명 검색 개선 배포 확인 필요')+
