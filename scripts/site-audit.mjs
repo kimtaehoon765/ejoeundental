@@ -241,6 +241,18 @@ console.log('JavaScript syntax checked:', javascriptFiles.length);
    if(name==='twitter:card'&&matches.length===1&&matches[0][1]!=='summary')
     errors.push(relative+': 글 요약 공유 카드 설정 오류');
   }
+  if(additionalCare.includes(relative)){
+   const title=markup.match(/<title>([^<]+)<\/title>/i)?.[1]||'';
+   const description=markup.match(/<meta name="description" content="([^"]+)"/i)?.[1]||'';
+   const medical=[...markup.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+    .map(match=>{try{return JSON.parse(match[1])}catch{return null}})
+    .filter(schema=>schema?.['@type']==='MedicalWebPage');
+   if(medical.length!==1||
+      medical[0]?.name!==title||
+      medical[0]?.description!==description||
+      medical[0]?.url!==canonical)
+    errors.push(relative+': 의료 페이지 JSON-LD와 화면·대표주소의 제목 및 설명 불일치');
+  }
  }
  console.log('Patient social preview metadata audited:',guides.length,'health guides +',hubs.length,'topic hubs +',additionalCare.length,'care pages');
 }

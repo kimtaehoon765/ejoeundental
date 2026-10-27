@@ -546,6 +546,13 @@ test('eight other treatment guides have current consistent social metadata',()=>
    ['name','twitter:title',title],['name','twitter:description',desc]]){
    assert.ok(h.includes('<meta '+kind+'="'+key+'" content="'+value+'">'),file+' mismatch '+key);
   }
+  const medical=[...h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(match=>JSON.parse(match[1]))
+   .filter(schema=>schema?.['@type']==='MedicalWebPage');
+  assert.equal(medical.length,1,file+' must have one truthful MedicalWebPage');
+  assert.equal(medical[0].name,title,file+' structured name differs from the visible page title');
+  assert.equal(medical[0].description,desc,file+' structured description differs from page summary');
+  assert.equal(medical[0].url,url,file+' structured URL differs from canonical');
  }
  const ortho=readFileSync('dist/pediatric-orthodontics.html','utf8');
  const wisdom=readFileSync('dist/wisdom-tooth.html','utf8');

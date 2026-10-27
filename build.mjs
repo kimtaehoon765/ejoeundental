@@ -2946,6 +2946,23 @@ for(const relative of [...clinicalSharingFiles,...additionalCareSharingFiles]){
   const expectedMarkup='<meta '+kind+'="'+key+'" content="'+escapeSharingValue(value)+'">';
   if(html.split(expectedMarkup).length!==2)throw new Error('Incorrect clinical sharing field '+key+': '+relative);
  }
+ // These eight treatment guides publish a MedicalWebPage JSON-LD block.
+ // Keep its factual title, description and canonical URL in lockstep with
+ // the visible metadata rather than preserving outdated pre-edit snippets.
+ if(additionalCareSharingFiles.includes(relative)){
+  let medicalPages=0;
+  html=html.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,(whole,source)=>{
+   let structured;
+   try{structured=JSON.parse(source)}catch{throw new Error('Invalid JSON-LD for '+relative)}
+   if(structured?.['@type']!=='MedicalWebPage')return whole;
+   medicalPages++;
+   structured.name=title;
+   structured.description=description;
+   structured.url=canonical;
+   return '<script type="application/ld+json">'+JSON.stringify(structured).replace(/</g,'\\u003c')+'</script>';
+  });
+  if(medicalPages!==1)throw new Error('Expected one MedicalWebPage on '+relative+': '+medicalPages);
+ }
  fs.writeFileSync(target,html);
  clinicalSharingCount++;
 }
