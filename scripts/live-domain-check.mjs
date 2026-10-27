@@ -1583,6 +1583,26 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       info.push(visitPlaceReady?
        '청천동치과 오시는 길 네이버 플레이스 상세 연결·등록명 병기 실사이트 확인':
        '오시는 길 네이버 플레이스 상세 연결·등록명 병기 배포 확인 필요');
+      // Verify the actual Cloudflare HTML, not just the GitHub build:
+      // patients must always be able to call, book at the confirmed URL or
+      // jump to a real directions anchor on small-screen devices.
+      const visitMobilePanel=body.match(/<nav class="visit-mobile-actions" aria-label="휴대폰 전화·네이버 예약·길찾기 바로가기">([\\s\\S]*?)<\\/nav>/)?.[1]||'';
+      const visitMobileHrefs=[...visitMobilePanel.matchAll(/<a\\b[^>]*href="([^"]+)"[^>]*>/g)]
+       .map(link=>link[1].replace(/&amp;/g,'&'));
+      const visitMobileReady=response.status===200&&
+       JSON.stringify(visitMobileHrefs)===JSON.stringify([
+        'tel:0325132875',verifiedBookingUrl,'#transit-heading'
+       ])&&
+       visitMobilePanel.includes('aria-label="이조은치과 032-513-2875 전화 문의"')&&
+       visitMobilePanel.includes('target="_blank" rel="noopener noreferrer"')&&
+       body.includes('id="transit-heading"')&&
+       body.includes('.visit-mobile-actions{display:none}')&&
+       body.includes('position:fixed;z-index:45')&&
+       body.includes('safe-area-inset-bottom')&&
+       body.includes('@media print{.visit-mobile-actions{display:none!important}');
+      info.push(visitMobileReady?
+       '모바일 전화·공식 네이버 예약·길찾기 고정 버튼 3개 실서버 공개 확인':
+       '모바일 고정 전화·네이버 예약·길찾기 버튼 실서버 배포 확인 필요');
     }
     // Reuse already-fetched 19 public patient resources: no additional requests.
     // Keep social previews, medical schema and search snippets consistent in production.

@@ -49,6 +49,16 @@ test('mobile homepage offers accessible phone and honest Naver booking fallback'
  assert.match(css,/body\.home-page\.music-reopen|body\.home-page \.music-reopen/);
 });
 
+test('live Cloudflare verification checks the actual mobile visit CTA strip',()=>{
+ const probe=readFileSync('scripts/live-domain-check.mjs','utf8');
+ assert.ok(probe.includes('const visitMobilePanel=body.match('));
+ assert.ok(probe.includes('const visitMobileHrefs='));
+ assert.ok(probe.includes("'tel:0325132875',verifiedBookingUrl,'#transit-heading'"));
+ assert.ok(probe.includes('visitMobilePanel.includes(\'target="_blank" rel="noopener noreferrer"\')'));
+ assert.ok(probe.includes("body.includes('position:fixed;z-index:45')"));
+ assert.ok(probe.includes('모바일 전화·공식 네이버 예약·길찾기 고정 버튼 3개 실서버 공개 확인'));
+});
+
 test('owner-confirmed clinic booking ID appears as an actual direct booking link throughout published site',()=>{
  const url='https://booking.naver.com/booking/13/bizes/1162931';
  const clinic=JSON.parse(readFileSync('content/site.json','utf8'));
