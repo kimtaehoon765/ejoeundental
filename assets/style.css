@@ -818,3 +818,22 @@ main.article .note a[href="/#location"]:focus-visible{
 .article .health-info-source a{display:inline-block;min-height:44px;padding:8px 0;color:#155f47;font-weight:700;text-decoration:underline;text-underline-offset:3px}
 .article .health-info-source a:focus-visible{outline:3px solid #b28330;outline-offset:3px}
 @media(max-width:600px){.article .health-info-source{margin:16px 0 13px;padding:11px 13px;font-size:13px}.article .health-info-source strong{font-size:14px}.article .health-info-source a{min-height:48px;padding:11px 0}}
+
+/* Optional direct booking at the end of each published health-information
+   guide. The native link remains visible without JavaScript and does not
+   interrupt the medical information or emergency guidance above it. */
+.article .patient-care-journey-links .patient-care-journey-booking{
+ grid-column:1/-1;
+ justify-content:center;text-align:center;
+ border:1px solid #789b7e;
+ background:#e5f1e6;color:#184c35;
+ font-weight:800;
+}
+.article .patient-care-journey-links .patient-care-journey-booking:hover{
+ background:#d9eadb;
+}
+@media(max-width:600px){
+ .article .patient-care-journey-links .patient-care-journey-booking{
+  grid-column:auto;min-height:50px;
+ }
+}
