@@ -2687,6 +2687,36 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  console.log('AI search crawl and medical identity static checks passed when error count is zero');
 }
 
+
+// AI search information quality: patient answers are visible before navigation,
+// and clinic provenance must be consistent with the physician's public profile.
+{
+ const doctor=readFileSync(join(root,'doctor.html'),'utf8');
+ for(const [file,question,related] of [
+  ['gum-treatment-faq.html','스케일링 후 치아 사이가 벌어진 것 같은데 치료가 잘못된 건가요?','/gum-treatment-faq.html'],
+  ['root-canal-retreatment-faq.html','재신경치료 전에 치과 CT를 꼭 찍어야 하나요?','/root-canal-retreatment-faq.html']
+ ]){
+  const page=readFileSync(join(root,file),'utf8');
+  const clinician=page.match(/<aside class="faq-care-authority"[\s\S]*?<\/aside>/)?.[0]||'';
+  const h2=page.indexOf('<section class="card">');
+  if(!clinician||page.indexOf(clinician)>h2||
+     !clinician.includes('김태훈 원장')||
+     !clinician.includes('고려대학교 의학박사(치과학 전공)')||
+     !clinician.includes('통합치의학과 전문의')||
+     !clinician.includes('href="/doctor.html"')||
+     !page.includes('<h2>'+question+'</h2>')||
+     !doctor.includes('href="'+related+'"')){
+   errors.push('AI 검색: 의료진 출처·실제 진료 질문 연결 누락: '+file);
+  }
+  const ld=page.split('<script type="application/ld+json">')[1]?.split('</script>')[0]||'';
+  let parsed;try{parsed=JSON.parse(ld)}catch{}
+  const query=parsed?.mainEntity?.find(q=>q.name===question);
+  if(!query||!page.includes('<p>'+query.acceptedAnswer?.text+'</p>')||
+     parsed.mainEntity.length!==(page.match(/<section class="card">/g)||[]).length)
+   errors.push('AI 검색: 환자에게 표시한 실제 질문·FAQ 구조화 답변 불일치: '+file);
+ }
+}
+
 // Report every audit error, including the checks above this final line.
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);
