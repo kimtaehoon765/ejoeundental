@@ -2796,7 +2796,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const retreat=readFileSync(join(root,'retreatment.html'),'utf8');
  const homeCss=readFileSync(join(root,'assets/home-enhancements.css'),'utf8');
  const careCss=readFileSync(join(root,'assets/care-design-system.css'),'utf8');
- const expected='고려대학교 의학박사';
+ const expected='고려대학교 의학박사(치과학 전공)';
  const specialist='통합치의학과 전문의';
  const hero=home.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
  const doctor=home.match(/<section class="section dark" id="doctor">([\s\S]*?)<\/section>/)?.[1]||'';
@@ -2811,7 +2811,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
     !doctor.includes('원장이 직접 검진하고 진단합니다')||
     !dentist?.additionalProperty?.some(x=>x.name==='원장 학위'&&x.value===expected)||
     !dentist?.additionalProperty?.some(x=>x.name==='원장 전문의 자격'&&x.value===specialist)||
-    !home.includes('/assets/home-enhancements.css?v=20261024-credentials')||
+    !/\/assets\/home-enhancements\.css\?v=[0-9a-f]{12}/.test(home)||
     !homeCss.includes('.hero-doctor-credentials a:focus-visible')){
    errors.push('원장 의학박사·통합치의학과 전문의 첫 화면·의료진 소개·구조화 데이터 불일치');
  }
@@ -2819,7 +2819,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   if(!page.includes('<p class="treatment-doctor-credentials">')||
      !page.includes(expected+' · '+specialist)||
      !page.includes('href="/#doctor"')||
-     !page.includes('/assets/care-design-system.css?v=20261024-credentials'))
+     !/\/assets\/care-design-system\.css\?v=[0-9a-f]{12}/.test(page))
     errors.push(label+' 전문의 정보·의료진 연결 오류');
  }
  if(!careCss.includes('.treatment-doctor-credentials a:focus-visible'))
