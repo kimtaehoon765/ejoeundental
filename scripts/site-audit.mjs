@@ -3000,6 +3000,32 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  }
 }
 
+/* Physician gallery and readable FAQ/curated stories are patient-facing,
+   native HTML; preserve navigability, relevant destinations and mobile CSS. */
+{
+ const home=readFileSync(join(root,'index.html'),'utf8');
+ const section=home.match(/<section class="section dark" id="doctor">([\s\S]*?)<\/section>/)?.[1]||'';
+ const trails=section.match(/<nav class="doctor-care-trails"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ const guide=home.match(/<section class="section light" id="home-representative-guides"[^>]*>([\s\S]*?)<\/section>/)?.[1]||'';
+ const faq=home.match(/<section class="section light" id="faq">([\s\S]*?)<\/section>/)?.[1]||'';
+ const style=readFileSync(join(root,'assets/gallery-upgrade.css'),'utf8');
+ const good=
+   section.includes('id="doctor_title"')&&
+   section.includes('2003년부터')&&
+   ['href="/gum-treatment.html"','href="/retreatment.html"','href="/tooth-preservation.html"'].every(x=>trails.includes(x))&&
+   (trails.match(/<a\b/g)||[]).length===3&&
+   section.includes('통합치의학과 전문의')&&
+   guide.includes('class="home-representative-guide-grid"')&&
+   (guide.match(/<a\s+href="\/stories\//g)||[]).length===4&&
+   faq.includes('class="faq-list"')&&
+   (faq.match(/<details>/g)||[]).length===11&&
+   style.includes('Physician provenance gallery |')&&
+   style.includes('.doctor-care-trails')&&
+   style.includes('details>summary::after')&&
+   style.includes('@media(max-width:600px)');
+ if(!good) errors.push('홈페이지 의료진 미술관·대표 진료 3가지·환자 교육 4편·FAQ 11개 디자인 불일치');
+}
+
 // Report every audit error, including the checks above this final line.
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);

@@ -1376,3 +1376,285 @@ body.home-page #main-content .home-finish-actions a:focus-visible{
 @media(forced-colors:active){
  body.home-page #main-content .home-finish-actions a{border:1px solid CanvasText}
 }
+
+
+/* Physician provenance gallery | original artwork and clinic facts only.
+   2026-10-27. No borrowed photos, invented credentials or extra scripts. */
+body.home-page #main-content>#doctor{
+ overflow:hidden;position:relative;isolation:isolate;
+ background:linear-gradient(130deg,#143c31 0%,#1f4b3a 65%,#244b3c 100%);
+ border-top:1px solid #8aa38b;border-bottom:1px solid #304f3b;
+ color:#f8f4e6;
+}
+body.home-page #main-content>#doctor::before{
+ content:"";position:absolute;inset:-10% -12% -10% auto;
+ width:56%;opacity:.085;pointer-events:none;
+ background:url("/assets/impressionist-water-garden.svg") center/cover no-repeat;
+ filter:grayscale(.35);
+}
+body.home-page #main-content>#doctor>.wrap{
+ position:relative;z-index:1;
+ max-width:1180px;
+ grid-template-columns:minmax(300px,.78fr) minmax(0,1.22fr);
+ align-items:center;gap:clamp(30px,5vw,76px);
+}
+body.home-page #main-content>#doctor .frame{
+ position:relative;overflow:hidden;isolation:isolate;
+ box-sizing:border-box;width:100%;min-width:0;
+ min-height:clamp(325px,34vw,445px);padding:35px;
+ display:flex;justify-content:center;align-items:center;
+ border:10px solid #e4d6b9;outline:1px solid #a98c60;
+ border-radius:3px;box-shadow:0 24px 52px rgba(6,25,16,.27);
+ background:linear-gradient(130deg,#d1dfd1,#c3d4b7 60%,#dddfb8);
+ transform:rotate(-.4deg);
+}
+body.home-page #main-content>#doctor .frame::before{
+ content:"";position:absolute;inset:0;
+ background:url("/assets/impressionist-water-garden.svg") center/cover no-repeat;
+ opacity:.61;z-index:-1;
+}
+body.home-page #main-content>#doctor .frame::after{
+ content:"";position:absolute;inset:10px;
+ border:1px solid rgba(255,249,230,.86);
+ box-shadow:inset 0 0 0 10px rgba(248,245,224,.05);
+ pointer-events:none;
+}
+body.home-page #main-content>#doctor .frame>div{
+ max-width:325px;padding:25px 30px;
+ border:1px solid rgba(255,255,255,.62);
+ border-radius:8px;
+ background:rgba(255,253,243,.87);
+ backdrop-filter:blur(4px);
+ color:#244c3a;font-size:clamp(20px,2.3vw,28px);
+ line-height:1.7;
+ box-shadow:0 16px 37px rgba(36,58,40,.12);
+}
+body.home-page #main-content>#doctor .frame small{
+ color:#8e7448;font-weight:750;font-size:11px;
+}
+body.home-page #main-content>#doctor .eyebrow{
+ font-size:11px;letter-spacing:.19em;color:#ddc89f;
+}
+body.home-page #main-content>#doctor .doctor-visible-name{
+ margin:10px 0 11px;color:#f3ecd8;font-size:16px;
+}
+body.home-page #main-content>#doctor #doctor_title{
+ font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+ font-size:clamp(25px,2.8vw,35px);line-height:1.48;
+ letter-spacing:-.055em;overflow-wrap:break-word;
+ margin:8px 0 17px;color:#fffaf0;
+ text-wrap:balance;
+}
+body.home-page #main-content>#doctor .doctor-direct-care{
+ margin:0 0 12px;font-size:17px;
+ line-height:1.62;color:#f4eacb;
+}
+body.home-page #main-content>#doctor #doctor_body{
+ color:#e0e9de;font-size:14px;line-height:1.88;
+ margin:17px 0 20px;max-width:740px;
+}
+body.home-page #main-content>#doctor .doctor-care-trails{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:9px;margin:15px 0 22px;
+}
+body.home-page #main-content>#doctor .doctor-care-trails>a{
+ position:relative;box-sizing:border-box;
+ display:flex;flex-direction:column;justify-content:center;
+ min-height:83px;padding:14px 16px;
+ border:1px solid rgba(224,237,216,.22);
+ border-radius:12px;text-decoration:none;
+ background:rgba(245,248,239,.085);
+ color:#f5f5e7;
+ transition:background-color .16s,border-color .16s;
+}
+body.home-page #main-content>#doctor .doctor-care-trails>a:last-child{
+ grid-column:1/-1;min-height:70px;
+}
+body.home-page #main-content>#doctor .doctor-care-trails>a:hover{
+ background:rgba(248,249,232,.15);
+ border-color:rgba(248,250,238,.6);
+}
+body.home-page #main-content>#doctor .doctor-care-trails a strong{
+ font-size:15px;line-height:1.45;font-weight:800;color:#fff8e6;
+}
+body.home-page #main-content>#doctor .doctor-care-trails a span{
+ margin-top:5px;font-size:12px;line-height:1.65;color:#d6e6d5;
+}
+body.home-page #main-content>#doctor .doctor-care-trails a:focus-visible,
+body.home-page #main-content>#doctor .doctor-profile-link a:focus-visible{
+ outline:3px solid #e0b76a;outline-offset:3px;
+}
+body.home-page #main-content>#doctor .pill{
+ margin:5px 5px 0 0;
+ border-color:rgba(238,230,209,.35);
+ border-radius:999px;
+ background:rgba(255,255,255,.065);
+ color:#f2efe1;font-size:12px;line-height:1.5;
+ padding:7px 11px;
+}
+body.home-page #main-content>#doctor .notice{
+ font-size:12px;line-height:1.7;
+ color:#d8e3d5!important;
+}
+
+/* Four readable patient stories are framed like a curated collection rather
+   than a list of indistinguishable SEO keywords. */
+body.home-page #home-representative-guides .home-representative-guide-grid>a{
+ border-radius:14px;
+ border:1px solid #d9e2d6;
+ border-left:4px solid #819b7b;
+ background:#fffefa;
+ min-height:145px;
+ padding:22px 22px 22px 23px;
+}
+body.home-page #home-representative-guides .home-representative-guide-grid>a:nth-child(2){
+ border-left-color:#a7ad82;
+}
+body.home-page #home-representative-guides .home-representative-guide-grid>a:nth-child(3){
+ border-left-color:#bc9b6a;
+}
+body.home-page #home-representative-guides .home-representative-guide-grid>a:nth-child(4){
+ border-left-color:#79a49a;
+}
+body.home-page #home-representative-guides .home-representative-guide-grid>a::before{
+ content:"01 · 잇몸 출혈";font-size:11px;letter-spacing:.045em;color:#5e7e66;
+}
+body.home-page #home-representative-guides .home-representative-guide-grid>a:nth-child(2)::before{
+ content:"02 · 잇몸 변화";
+}
+body.home-page #home-representative-guides .home-representative-guide-grid>a:nth-child(3)::before{
+ content:"03 · 자연치아 보존";
+}
+body.home-page #home-representative-guides .home-representative-guide-grid>a:nth-child(4)::before{
+ content:"04 · 충치·보험";
+}
+body.home-page #home-representative-guides .home-representative-guide-grid>a strong{
+ font-size:clamp(16px,1.7vw,19px);
+ line-height:1.5;color:#1e4837;
+}
+body.home-page #home-representative-guides .home-representative-guide-grid>a span{
+ line-height:1.7;
+}
+body.home-page #home-representative-guides .home-representative-guide-grid>a:hover{
+ background:#f4f8f0;
+ border-color:#a6c0a6;
+ box-shadow:0 12px 26px rgba(22,67,44,.075);
+}
+
+/* FAQ accordion: native details/summary stay fully keyboard accessible,
+   with a clear affordance for opening and closing an answer. */
+body.home-page #faq .faq-list details{
+ overflow:hidden;border:1px solid #dbe4d7;
+ background:#fffefa;
+}
+body.home-page #faq .faq-list details>summary{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:12px;list-style:none;cursor:pointer;
+ padding:15px 19px;font-size:15px;line-height:1.65;
+}
+body.home-page #faq .faq-list details>summary::-webkit-details-marker{display:none}
+body.home-page #faq .faq-list details>summary::marker{content:""}
+body.home-page #faq .faq-list details>summary::after{
+ content:"+";flex:none;display:inline-flex;
+ width:30px;height:30px;align-items:center;justify-content:center;
+ border:1px solid #d3e1d2;border-radius:50%;
+ background:#f0f5ee;color:#2b6246;
+ font:750 21px/1 system-ui,sans-serif;
+}
+body.home-page #faq .faq-list details[open]>summary{
+ background:#eff5ec;border-bottom:1px solid #d8e5d5;
+}
+body.home-page #faq .faq-list details[open]>summary::after{content:"−"}
+body.home-page #faq .faq-list details>p{
+ padding:0 20px 17px;margin:14px 0 0;
+ color:#3d5846;line-height:1.89;
+ font-size:14px;
+}
+body.home-page #faq .faq-list details:focus-within{
+ border-color:#9db898;
+}
+@media(min-width:601px) and (max-width:900px){
+ body.home-page #main-content>#doctor>.wrap{
+  grid-template-columns:minmax(215px,.78fr) minmax(0,1.22fr);
+  gap:24px;
+ }
+ body.home-page #main-content>#doctor .frame{
+  min-height:330px;padding:14px;border-width:8px;
+ }
+ body.home-page #main-content>#doctor .frame>div{
+  padding:18px;font-size:21px;
+ }
+ body.home-page #main-content>#doctor .doctor-care-trails{grid-template-columns:1fr}
+ body.home-page #main-content>#doctor .doctor-care-trails>a:last-child{
+  grid-column:1;
+ }
+}
+@media(max-width:600px){
+ body.home-page #main-content>#doctor{
+  padding:48px 0;
+ }
+ body.home-page #main-content>#doctor>.wrap{
+  grid-template-columns:minmax(0,1fr);
+  gap:23px;
+ }
+ body.home-page #main-content>#doctor .frame{
+  width:min(100%,360px);min-height:185px;
+  padding:13px;border-width:7px;
+  margin:0 auto;outline-offset:2px;
+ }
+ body.home-page #main-content>#doctor .frame>div{
+  padding:14px 19px;font-size:20px;
+  line-height:1.56;
+ }
+ body.home-page #main-content>#doctor .frame::after{inset:5px}
+ body.home-page #main-content>#doctor .frame small{font-size:10px}
+ body.home-page #main-content>#doctor #doctor_title{
+  font-size:clamp(24px,6.8vw,31px);line-height:1.5;
+ }
+ body.home-page #main-content>#doctor #doctor_body{
+  font-size:14px;line-height:1.86;
+ }
+ body.home-page #main-content>#doctor .doctor-care-trails{
+  grid-template-columns:1fr;gap:8px;
+ }
+ body.home-page #main-content>#doctor .doctor-care-trails>a,
+ body.home-page #main-content>#doctor .doctor-care-trails>a:last-child{
+  min-height:67px;grid-column:1;padding:12px 14px;
+ }
+ body.home-page #main-content>#doctor .doctor-care-trails a span{
+  margin-top:2px;font-size:12px;
+ }
+ body.home-page #home-representative-guides .home-representative-guide-grid>a{
+  min-height:104px;padding:17px 16px;border-radius:13px;
+ }
+ body.home-page #home-representative-guides .home-representative-guide-grid>a strong{
+  font-size:16px;
+ }
+ body.home-page #faq .faq-list details>summary{
+  padding:13px 15px;min-height:54px;font-size:14px;
+ }
+ body.home-page #faq .faq-list details>p{
+  padding:0 15px 15px;font-size:14px;line-height:1.82;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ body.home-page #main-content>#doctor .doctor-care-trails>a{transition:none}
+ body.home-page #home-representative-guides .home-representative-guide-grid>a{transition:none}
+}
+@media(forced-colors:active){
+ body.home-page #main-content>#doctor .doctor-care-trails>a,
+ body.home-page #faq .faq-list details>summary::after{
+  border:1px solid CanvasText;
+ }
+ body.home-page #main-content>#doctor .frame>div{
+  border:1px solid CanvasText;background:Canvas;color:CanvasText;
+ }
+}
+@media print{
+ body.home-page #main-content>#doctor .frame{
+  box-shadow:none;
+ }
+ body.home-page #main-content>#doctor .doctor-care-trails>a{
+  background:transparent;color:#000;border:1px solid #555;
+ }
+}
