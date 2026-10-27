@@ -67,7 +67,7 @@ test('Google crawl discovery, verification and article authorship remain consist
   assert.equal(medical.author?.url,origin+'/');
   assert.equal(medical.publisher?.['@id'],origin+'/#clinic');
   assert.match(html,/class="health-info-source"/);
-  assert.match(html,/href="\/#doctor"/);
+  assert.match(html,/href="\/doctor\.html"/);
  }
 });
 
