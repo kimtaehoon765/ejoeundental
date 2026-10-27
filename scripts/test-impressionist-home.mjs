@@ -98,7 +98,7 @@ test('patients see actions and real treatment destinations before long homepage 
  assert.match(css,/body\.home-page #main-content>\.hero \.hero-actions \.hero-call,/);
  assert.match(css,/body\.home-page #main-content>\.hero \.hero-actions \.hero-symptoms\{grid-column:1\/-1\}/);
  assert.match(css,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
- assert.match(galleryCss,/Mobile first-screen clinical action path \\|/,
+ assert.ok(galleryCss.includes('Mobile first-screen clinical action path |'),
   'The final responsive layer must carry the updated mobile patient action order');
  const finalMobileCss=galleryCss.slice(galleryCss.indexOf('Mobile first-screen clinical action path |'));
  for(const [className,order] of [['hero-call',0],['hero-hours',1],['hero-symptoms',2],['hero-map',3]]){
@@ -112,7 +112,7 @@ test('patients see actions and real treatment destinations before long homepage 
    'Keyboard tab order should follow visible phone, hours, symptom, map actions');
  assert.match(finalMobileCss,/min-height:99px;max-height:125px/,
    'Mobile gallery must remain visible but avoid hiding the telephone actions');
- assert.match(finalMobileCss,/@media\\(max-width:365px\\)/,
+ assert.ok(finalMobileCss.includes('@media(max-width:365px)'),
    'Narrow phones must receive their own single-column fallbacks');
 
 });
