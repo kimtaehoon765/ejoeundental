@@ -195,8 +195,11 @@ test('root-canal patient hub offers verified symptom-specific owner articles and
  }
  for(const phrase of ['치근파절','재신경치료','발치 전 신경치료 가능성','숨쉬기 어렵다면'])
   assert.ok(section.includes(phrase),'root canal symptom guidance needs cautious advice: '+phrase);
- assert.ok(hub.includes('재치료의 가능성·한계와 질문 9가지 →'),
-  'hub should not advertise an outdated count when FAQ content expands');
+ const faq=readFileSync('dist/root-canal-retreatment-faq.html','utf8');
+ const actualFaqCount=(faq.match(/<section class="card"><h2>/g)||[]).length;
+ assert.ok(actualFaqCount>=1,'related retreatment FAQ should have visible questions');
+ assert.ok(hub.includes('재치료의 가능성·한계와 질문 '+actualFaqCount+'가지 →'),
+  'hub should always advertise the actual visible FAQ count');
  const indexed=index.find(item=>item.url==='/root-canal-health.html');
  assert.ok(indexed?.body.includes('신경치료 중 이런 일이 생겼다면?'),
   'the public clinical topic hub should expose actual searchable patient questions');
