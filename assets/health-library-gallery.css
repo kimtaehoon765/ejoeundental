@@ -1,0 +1,321 @@
+/* Ejoeun Dental · Patient Health Library · 2026-10-27.
+   Layout only: the four existing, search-indexable health libraries retain
+   their written medical guidance and original links. */
+body.health-library{
+ --hl-forest:#204938;
+ --hl-leaf:#2d644a;
+ --hl-paper:#fbf9f3;
+ --hl-ivory:#fffefb;
+ --hl-line:#dce5d9;
+ --hl-gold:#ad905e;
+ color:#2d4b3b;
+ background:
+  radial-gradient(ellipse at 93% 0%,rgba(201,221,202,.32),transparent 39%),
+  linear-gradient(180deg,#fbfaf6 0%,#f8f8f2 65%,#fbfaf6 100%);
+ -webkit-font-smoothing:antialiased;
+}
+body.health-library header{
+ background:rgba(250,249,244,.96);
+ border-bottom:1px solid #dce3d9;
+ box-shadow:0 5px 19px rgba(25,60,41,.035);
+}
+body.health-library header .logo{
+ color:#1d4936;
+ font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+ font-weight:750;letter-spacing:-.055em;
+}
+body.health-library header .navlinks{
+ row-gap:4px;align-items:center;
+}
+body.health-library header .navlinks a{
+ color:#315746;
+ line-height:1.5;
+ text-underline-offset:4px;
+}
+body.health-library header .navlinks a:hover{color:#1b6544;text-decoration:underline;}
+body.health-library header .navlinks .call{color:#fff;background:#24573e;}
+body.health-library main.article{
+ box-sizing:border-box;
+ width:100%;
+ max-width:1040px;
+ padding:clamp(39px,5vw,65px) clamp(18px,4vw,40px) 90px;
+}
+body.health-library .article>.crumb{
+ display:flex;align-items:center;gap:11px;
+ margin:0 0 18px;
+ color:#65816a;
+ font-size:12px;
+ font-weight:800;
+ letter-spacing:.15em;
+}
+body.health-library .article>.crumb::before{
+ content:"";
+ display:block;
+ width:28px;height:1px;
+ background:var(--hl-gold);
+ flex:none;
+}
+body.health-library .article>h1{
+ max-width:890px;
+ font-family:'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+ font-size:clamp(31px,4.35vw,47px);
+ line-height:1.44;
+ letter-spacing:-.05em;
+ font-weight:650;
+ color:var(--hl-forest);
+ margin:0 0 19px;
+ text-wrap:balance;
+}
+body.health-library .article>h1+p{
+ max-width:865px;
+ color:#405d4b;
+ font-size:clamp(16px,1.65vw,18px);
+ line-height:1.95;
+ margin:0 0 24px;
+ word-break:keep-all;
+}
+body.health-library .article>.hub-clinician-note{
+ border:1px solid #d4e3d4;
+ border-left:4px solid #87a989;
+ border-radius:13px;
+ box-shadow:0 7px 21px rgba(28,66,42,.04);
+ color:#36543e;
+}
+body.health-library .article>.hub-clinician-note a{
+ color:#235e42;
+ font-weight:750;
+ line-height:1.65;
+ text-underline-offset:4px;
+}
+body.health-library .article>.hub-editorial-note{
+ border:1px solid #dbe6d7;
+ border-radius:14px;
+ background:#f3f7f0;
+ padding:20px 23px;
+ margin:19px 0 27px;
+ box-shadow:0 5px 16px rgba(25,60,35,.027);
+ color:#34533f;
+}
+body.health-library .article>.hub-editorial-note>strong{
+ font-size:16px;
+ color:#24563c;
+}
+body.health-library .article>.hub-editorial-note p{
+ margin:8px 0 0;
+ font-size:15px;
+ line-height:1.82;
+}
+body.health-library .article>.gum-learning-nav{
+ gap:11px;margin:19px 0 29px;
+}
+body.health-library .article>.gum-learning-nav a{
+ min-height:58px;
+ border-radius:12px;
+ background:#fffefa;
+ border:1px solid #d0dfcd;
+ box-shadow:0 5px 15px rgba(29,66,44,.038);
+ font-weight:750;
+}
+body.health-library .article>.root-topic-choices{
+ gap:12px;
+ margin:22px 0 27px;
+}
+body.health-library .article>.root-topic-choices>a{
+ background:#fffefa;
+ border-color:#d5e3d2;
+ border-radius:14px;
+ box-shadow:0 5px 17px rgba(28,63,41,.04);
+}
+body.health-library .article>.note{
+ box-sizing:border-box;
+ border:1px solid #d1e1ce;
+ border-radius:17px;
+ padding:24px 25px;
+ background:linear-gradient(130deg,#f1f6ed,#fbfcf8);
+ box-shadow:0 11px 30px rgba(30,66,42,.045);
+ color:#31513e;
+}
+body.health-library .article>.note>strong:first-child{
+ display:block;
+ margin-bottom:12px;
+ color:#224d38;
+ font-size:clamp(17px,2vw,21px);
+ line-height:1.55;
+}
+body.health-library .article>.note p{
+ font-size:15px;
+ line-height:1.83;
+}
+body.health-library .article>.note a{
+ color:#1c6142;font-weight:700;
+ text-underline-offset:4px;
+}
+body.health-library .article .gum-symptom-choices>a{
+ background:#fffefa;
+ border:1px solid #dbe5d9;
+ border-radius:13px;
+ box-shadow:0 5px 13px rgba(29,70,43,.04);
+}
+body.health-library .article>.root-real-questions{
+ padding:25px 24px;
+ margin:25px 0 23px;
+ border:1px solid #dae4d9;
+ border-radius:18px;
+ background:#fffefa;
+ box-shadow:0 9px 27px rgba(25,63,40,.045);
+}
+body.health-library .article>.root-real-questions h2{
+ margin:0 0 12px;
+}
+body.health-library .root-real-question-grid article{
+ border-color:#dbe6da;
+ background:#f8faf5;
+}
+body.health-library .article>section:not([class]){
+ box-sizing:border-box;
+ position:relative;
+ border:1px solid var(--hl-line);
+ border-top:3px solid #a9bfaa;
+ border-radius:15px;
+ margin:15px 0;
+ padding:clamp(19px,2.7vw,28px);
+ background:var(--hl-ivory);
+ box-shadow:0 7px 22px rgba(26,63,41,.035);
+ scroll-margin-top:100px;
+}
+body.health-library .article>section:not([class]) h2{
+ margin:0 0 11px;
+ color:var(--hl-forest);
+ font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+ font-size:clamp(20px,2.5vw,26px);
+ line-height:1.53;
+ letter-spacing:-.035em;
+ text-wrap:balance;
+}
+body.health-library .article>section:not([class]) h2 a{
+ color:var(--hl-forest);
+ font-weight:730;
+ text-decoration:none;
+}
+body.health-library .article>section:not([class]) h2 a:hover{
+ color:#1d6b46;
+ text-decoration:underline;
+ text-underline-offset:4px;
+}
+body.health-library .article>section:not([class]) p{
+ font-size:15px;
+ line-height:1.85;
+ margin:10px 0;
+ color:#435e4a;
+}
+body.health-library .article>section:not([class]) p:last-child{margin-bottom:0}
+body.health-library .article .additional-story-grid a,
+body.health-library .article .insurance-story-bridge li{
+ border-color:#d8e5d8;
+ border-radius:12px;
+ background:#fffefa;
+}
+body.health-library .article>.bottom{
+ margin-top:42px;
+ padding-top:23px;
+ border-top:1px solid #d7e4d8;
+}
+body.health-library .article>.owner-originals{
+ border-radius:14px;
+}
+body.health-library .article>.owner-originals-more{
+ border-radius:12px;
+}
+body.health-library .article :is(a,button,summary):focus-visible{
+ outline:3px solid #a07d44;
+ outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine){
+ body.health-library .article>section:not([class]):hover{
+  border-color:#a7bfaa;
+  box-shadow:0 12px 26px rgba(30,66,43,.073);
+ }
+ body.health-library .article>.root-topic-choices>a:hover,
+ body.health-library .article>.gum-learning-nav a:hover{
+  background:#f0f7ef;
+  border-color:#9cbca1;
+ }
+}
+@media(max-width:680px){
+ body.health-library header .nav{
+  box-sizing:border-box;
+  flex-wrap:wrap;
+  padding:13px 16px;
+  gap:8px 12px;
+ }
+ body.health-library header .navlinks{
+  display:flex;
+  flex-wrap:wrap;
+  width:100%;gap:3px 11px;
+ }
+ body.health-library header .navlinks a{
+  box-sizing:border-box;
+  display:inline-flex;align-items:center;
+  min-height:43px;
+  font-size:13px;
+ }
+ body.health-library header .navlinks .call{
+  padding:8px 12px;
+ }
+ body.health-library main.article{
+  padding:33px 16px 68px;
+ }
+ body.health-library .article>h1{
+  font-size:clamp(28px,7.6vw,36px);
+  line-height:1.43;
+ }
+ body.health-library .article>h1+p{
+  font-size:16px;
+  line-height:1.87;
+ }
+ body.health-library .article>.hub-editorial-note,
+ body.health-library .article>.note{
+  padding:18px 16px;
+  border-radius:13px;
+ }
+ body.health-library .article>.note p{
+  font-size:15px;
+ }
+ body.health-library .article>.root-real-questions{
+  padding:18px 16px;
+ }
+ body.health-library .article>section:not([class]){
+  padding:19px 17px;
+  border-radius:12px;
+  margin:12px 0;
+ }
+ body.health-library .article>section:not([class]) h2{
+  font-size:clamp(20px,5.6vw,25px);
+  line-height:1.49;
+ }
+ body.health-library .article>section:not([class]) p{
+  font-size:15px;line-height:1.85;
+ }
+ body.health-library .article>.gum-learning-nav{
+  gap:8px;
+ }
+ body.health-library .article>.root-topic-choices{
+  gap:9px;
+ }
+}
+@media print{
+ body.health-library{
+  background:#fff;
+  color:#111;
+ }
+ body.health-library .article>section:not([class]){
+  box-shadow:none;border-color:#777;
+  break-inside:avoid;
+ }
+ body.health-library .article>.note{
+  background:#fff;box-shadow:none;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ body.health-library{scroll-behavior:auto;}
+}
