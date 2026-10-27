@@ -22,6 +22,11 @@ const expectedGalleryCssHash=createHash('sha256')
  .update(readFileSync(new URL('../assets/gallery-upgrade.css',import.meta.url)))
  .digest('hex').slice(0,12);
 const expectedOriginalCount = (homepageSource.match(/class="card owner-story-card"/g)||[]).length;
+// Validate full-page gallery delivery, not just a successful source build.
+const expectedCareGalleryHash=createHash('sha256')
+ .update(readFileSync(new URL('../assets/care-gallery.css',import.meta.url)))
+ .digest('hex').slice(0,12);
+const verifiedBookingUrl=bookingAction(verifiedClinic.naver_booking_url).url;
 const postDirectory = new URL('../content/posts/',import.meta.url);
 const publishedArticles = readdirSync(postDirectory).filter(name=>name.endsWith('.json'))
  .map(name=>({name,post:JSON.parse(readFileSync(new URL(name,postDirectory),'utf8'))}))
@@ -73,6 +78,7 @@ const urls = [
   { label: '모네풍 갤러리 SVG 공개 확인', url: origin + '/assets/impressionist-water-garden.svg' },
   { label: '모네풍 갤러리 CSS 공개 확인', url: origin + '/assets/home-enhancements.css' },
   { label: '미술관형 리디자인 CSS 실제 배포', url: origin + '/assets/gallery-upgrade.css' },
+  { label: '진료 안내 미술관 통합 디자인 CSS', url: origin + '/assets/care-gallery.css' },
   { label: 'www HTTPS 연결', url: 'https://www.' + apex + '/' },
   { label: 'Cloudflare Pages 임시주소 색인 확인', url: 'https://ejoeundental.pages.dev/' },
   { label: 'www 하위 경로·쿼리 리디렉션', url: 'https://www.' + apex + '/gum-treatment?utm_source=redirect_check' },
@@ -102,6 +108,7 @@ const urls = [
   { label: 'care route pediatric', url: origin + '/pediatric-orthodontics.html' },
   { label: 'care route scaling', url: origin + '/scaling.html' },
   { label: 'Google 치경부마모증 GI 진료', url: origin + '/cervical-abrasion.html' },
+  { label: '건강보험 진료 디자인 확인', url: origin + '/insured-care.html' },
   { label: 'Google GI 수복 보험·재수복 건강정보', url: origin + '/health/insurance-cervical.html' },
   { label: 'Google 스케일링 건강보험 재방문 안내', url: origin + '/health/insurance-scaling.html' },
   { label: 'Google 재신경치료 건강보험·크라운 비용 안내', url: origin + '/health/insurance-root-canal.html' },
@@ -171,6 +178,37 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       add('2026-10-27 고급 메인 디자인 CSS 실서버 일치',
         delivered?'실사이트 게시 확인':'배포·캐시 확인 필요',
         'HTTP '+response.status+' · CSS 내용 해시 '+(delivered?'GitHub 소스와 일치':'미확인/불일치'));
+    }
+    // Source-derived checksum confirms the CSS on the real custom domain.
+    if(label==='진료 안내 미술관 통합 디자인 CSS'){
+      const match=response.status===200&&
+        createHash('sha256').update(body).digest('hex').slice(0,12)===expectedCareGalleryHash&&
+        body.includes('Gallery Care Edition, 2026-10-27');
+      add('진료 페이지 5종 통합 미술관 CSS 실제 공개',
+        match?'실사이트 반영 확인':'배포·캐시 확인 필요',
+        'HTTP '+response.status+' · 스타일시트 SHA-256 '+(match?'GitHub 원본과 일치':'불일치'));
+    }
+    const careGalleryPages={
+      '잇몸치료 상세 페이지':'gum-treatment',
+      '재신경치료 이미지 초기 표시':'retreatment',
+      '자연치아 보존 진료 안내':'tooth-preservation',
+      'Google 치경부마모증 GI 진료':'cervical-abrasion',
+      '건강보험 진료 디자인 확인':'insured-care'
+    };
+    if(careGalleryPages[label]){
+      const slug=careGalleryPages[label];
+      const expectedPath=slug+'.html';
+      const published=response.status===200&&
+        body.includes('class="care-gallery care-'+slug+'"')&&
+        body.includes('/assets/care-gallery.css?v='+expectedCareGalleryHash)&&
+        body.includes('class="care-gallery-bottom-actions"')&&
+        body.includes('href="'+verifiedBookingUrl+'"')&&
+        body.includes('href="tel:0325132875"')&&
+        body.includes('href="/visit-guide.html"');
+      add('갤러리 진료 디자인 5종 실배포 · '+expectedPath,
+        published?'디자인·예약 경로 확인':'배포·캐시 확인 필요',
+        'HTTP '+response.status+' · 환자 전화·정식 네이버예약·길찾기·최신 CSS 링크 '+
+        (published?'원본과 일치':'미확인/불일치'));
     }
     if(label==='정식 도메인 첫 화면'){
       const linked=body.includes('/assets/gallery-upgrade.css?v='+expectedGalleryCssHash);
