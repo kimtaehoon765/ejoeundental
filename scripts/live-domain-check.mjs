@@ -309,6 +309,25 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       'remaining route clinical-archive'
     ].includes(label))topicCountPages.set(label,body);
     const info = ['HTTP ' + response.status, '최종 주소: ' + response.url];
+    // Inspect the actual publicly returned HTML for high-traffic sharing pages.
+    // One existing branded first-party image is used as an honest, lightweight
+    // fallback; no fabricated clinic photograph or new external dependency.
+    if(['잇몸치료 상세 페이지','홈페이지 치과 이야기 전체 글','public route visit-guide'].includes(label)){
+      const expectedImage=origin+'/assets/ejoeundental-hero-cat.webp';
+      const imageFields=[
+       ['property','og:image',expectedImage],
+       ['property','og:image:type','image/webp'],
+       ['property','og:image:width','650'],
+       ['property','og:image:height','543'],
+       ['property','og:image:alt','이조은치과의 하얀 고양이와 치과의사 일러스트'],
+       ['name','twitter:image',expectedImage]
+      ];
+      const socialImageReady=response.status===200&&imageFields.every(([kind,key,value])=>
+       body.includes('<meta '+kind+'="'+key+'" content="'+value+'">'));
+      info.push(socialImageReady?
+       '공식 그림 공유 미리보기 이미지·크기·대체설명 실사이트 반영':
+       '공유 미리보기 이미지 메타정보 실사이트 최신 배포 확인 필요');
+    }
     const server = response.headers.get('server');
     if (server) info.push('서버: ' + server);
 
@@ -484,7 +503,8 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       const advertisesHttp3=/(?:^|[,\s])h3(?:-[0-9]+)?\s*=/.test(altSvc);
       info.push('HTTP/3(QUIC) 사용 안내 헤더: '+(advertisesHttp3
         ?'h3 광고 확인 — 모바일 ERR_QUIC_PROTOCOL_ERROR가 반복되면 Cloudflare Speed > Settings > Protocol Optimization에서 HTTP/3 임시 해제 후 비교'
-        :altSvc?'Alt-Svc 다른 프로토콜 광고 / HTTP/3 헤더 미검출':'h3 광고 헤더 미검출 — 다른 연결·DNS 레코드 또는 브라우저 캐시 확인 필요'));
+        :altSvc?'현재 검사 연결의 Alt-Svc에 h3 미표기 (HTTP/3 활성화 여부 단정 불가)':
+         '현재 검사 연결에 h3 안내 헤더 없음 (HTTP/3 사용 여부는 이 검사만으로 판단 불가)'));
       // Read the response already fetched, without extra network requests.
       // Missing headers are deployment signals, never claims of compromise.
       const securityKeys=['x-frame-options','x-content-type-options',
@@ -613,10 +633,17 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       info.push('모바일 첫 화면 전화·진료시간 우선 배치: '+
         (patientFirst?'실사이트 HTML 반영 확인':'배포·캐시 확인 필요'));
       info.push('모바일 첫 화면 수련 그림: '+(firstScreenGallery?'자격 소개 다음·진료 설명 앞 배치 확인':'신규 모바일 수련 그림 미반영'));
-      const phoneGardenFirst=heroMarkup.includes('loading="lazy" decoding="async"') &&
-        !heroMarkup.includes('fetchpriority="high"') &&
-        body.includes('<link rel="preload" as="image" type="image/webp" media="(min-width: 601px)" href="/assets/ejoeundental-hero-cat.webp">');
-      info.push('모네 그림 모바일 우선 로딩: '+(phoneGardenFirst?'모바일 후순위 의사 그림·데스크톱 사진 프리로드 확인':'새로운 우선 로딩 설정의 실서버 적용 확인 필요'));
+      // The production build fingerprints the mobile SVG URL. Desktop WebP
+      // preload uses fetchpriority=high; comparing a stale literal without
+      // either property incorrectly reports healthy live deployment as stale.
+      const mobileGardenPreload=/<link rel="preload" as="image" type="image\/svg\+xml" media="\(max-width: 600px\)" href="\/assets\/impressionist-water-garden\.svg\?v=[a-f0-9]{12}">/.test(body);
+      const desktopHeroPreload=body.includes('<link rel="preload" as="image" type="image/webp" media="(min-width: 601px)" fetchpriority="high" href="/assets/ejoeundental-hero-cat.webp">');
+      const phoneGardenFirst=heroMarkup.includes('loading="lazy" decoding="async"')&&
+       !heroMarkup.includes('fetchpriority="high"')&&
+       mobileGardenPreload&&desktopHeroPreload;
+      info.push('모바일 수련 그림·데스크톱 이미지 로딩: '+(phoneGardenFirst?
+       '모바일 SVG 프리로드와 데스크톱 WebP 우선 요청·그림 지연 로딩 HTML 확인':
+       '모바일·데스크톱 그림 요청 설정 실제 배포 확인 필요'));
       const fingerprint=body.match(/href="\/assets\/home-enhancements\.css\?v=([a-f0-9]{12})"/)?.[1]||'';
       info.push('모바일 디자인 CSS 버전: '+(fingerprint?'자동 버전('+fingerprint+') 적용':'버전 자동갱신 미확인'));
       const hasCanonical = body.includes('<link rel="canonical" href="' + origin + '/">');

@@ -24,6 +24,30 @@ const pageFor=route=>{
   path.join(output,rel.endsWith('.html')?rel:rel+'.html');
 };
 
+test('three priority public clinic pages publish authentic share-preview images',()=>{
+ const image='https://ejoeundental.com/assets/ejoeundental-hero-cat.webp';
+ const imagePath='dist/assets/ejoeundental-hero-cat.webp';
+ assert.ok(existsSync(imagePath),'branded photo must be in production build');
+ for(const file of ['gum-treatment.html','stories.html','visit-guide.html']){
+  const html=readFileSync('dist/'+file,'utf8');
+  const fields=[
+   ['property','og:image',image],['property','og:image:type','image/webp'],
+   ['property','og:image:width','650'],['property','og:image:height','543'],
+   ['property','og:image:alt','이조은치과의 하얀 고양이와 치과의사 일러스트'],
+   ['name','twitter:image',image]
+  ];
+  for(const [kind,key,value] of fields){
+   const markup='<meta '+kind+'="'+key+'" content="'+value+'">';
+   assert.equal(html.split(markup).length-1,1,file+' needs exactly one '+key);
+  }
+ }
+ const probe=readFileSync('scripts/live-domain-check.mjs','utf8');
+ assert.ok(probe.includes('const socialImageReady='));
+ assert.ok(probe.includes('const mobileGardenPreload='));
+ assert.ok(probe.includes('const desktopHeroPreload='));
+ assert.ok(!probe.includes('h3 광고 헤더 미검출 — 다른 연결'));
+});
+
 test('Google sitemap uses only live, indexable, self-canonical clinic pages',()=>{
  const xml=readFileSync(path.join(output,'sitemap.xml'),'utf8');
  const locs=[...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
