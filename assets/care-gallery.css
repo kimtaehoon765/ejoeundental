@@ -1,0 +1,346 @@
+/* 이조은치과 · Gallery Care Edition, 2026-10-27.
+   This is a presentation layer: medically reviewed words, canonical addresses
+   and structured medical data remain unmodified. Scoped to five care pages. */
+body.care-gallery{
+ --gallery-ink:#1b3f31;
+ --gallery-deep:#1c4b39;
+ --gallery-forest:#275d47;
+ --gallery-gold:#a28450;
+ --gallery-cream:#faf8f1;
+ --gallery-sage:#eff4ed;
+ --gallery-border:#d5e1d4;
+ --gallery-soft-shadow:0 12px 30px rgba(28,69,47,.065);
+ background:var(--gallery-cream);color:#213e32;
+ font-family:'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+ line-height:1.82;word-break:keep-all;
+}
+body.care-gallery :is(h1,h2,h3){word-break:keep-all;overflow-wrap:break-word;text-wrap:balance}
+body.care-gallery :is(h1,h2){
+ font-family:'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+ letter-spacing:-.05em;color:var(--gallery-ink);
+}
+body.care-gallery :is(p,li){overflow-wrap:break-word}
+body.care-gallery :is(a,button,summary):focus-visible{
+ outline:3px solid #ae8547;outline-offset:3px;
+}
+body.care-gallery :is(.gum-section,.block,.section,.preserve-section){scroll-margin-top:104px}
+body.care-gallery :is(header,.top,.preserve-head){
+ border-bottom:1px solid #d5dfd5;
+ background:rgba(250,249,243,.98);
+}
+body.care-gallery header :is(.logo,a.logo),body.care-gallery .preserve-head nav>a:first-child{
+ color:#224c3b;font-weight:800;letter-spacing:-.045em;
+}
+body.care-gallery :is(.navlinks,.top .nav,.bar nav,.preserve-head nav) a{
+ text-underline-offset:5px;
+}
+body.care-gallery :is(.navlinks,.top .nav,.bar nav,.preserve-head nav) a:hover{
+ color:#287054;
+}
+body.care-gallery .treatment-quick-links{
+ padding-block:7px;
+ background:#f0f3eb;
+ border-bottom:1px solid #d5e0d3;
+ scrollbar-width:thin;scrollbar-color:#b6c8b9 transparent;
+}
+body.care-gallery .treatment-quick-links a{
+ min-height:43px;padding:9px 15px;border-radius:999px;
+ border:1px solid #d1ded2;
+ background:#fffdf8;color:#345844;
+ font-weight:680;line-height:1.42;
+}
+body.care-gallery .treatment-quick-links a[aria-current="page"]{
+ background:#224c3a;color:white;border-color:#224c3a;
+ box-shadow:0 5px 12px rgba(31,74,50,.14);
+}
+body.care-gallery .treatment-scroll-hint{
+ background:#f0f3eb;color:#637a66;
+ font-size:12px;line-height:1.6;
+}
+
+/* Opening message: calm, gallery-like clinical header with a small art detail. */
+body.care-gallery :is(.gum-hero,main>.hero){
+ position:relative;isolation:isolate;overflow:hidden;
+ border-bottom:1px solid #dce4d8;
+ background:linear-gradient(132deg,#fbfaf4 10%,#f2f5ed 64%,#e9efe6 100%);
+ padding-top:clamp(50px,6vw,86px);
+ padding-bottom:clamp(46px,5vw,78px);
+}
+body.care-gallery :is(.gum-hero,main>.hero)::before{
+ content:"";position:absolute;inset:0 0 auto auto;
+ width:47%;height:100%;pointer-events:none;opacity:.23;
+ background:url("/assets/impressionist-water-garden.svg") right center/cover no-repeat;
+ mask-image:linear-gradient(90deg,transparent,black 58%);
+}
+body.care-gallery :is(.gum-hero,main>.hero)>.wrap{
+ position:relative;z-index:1;
+}
+body.care-gallery :is(.gum-hero,main>.hero) :is(.gum-tag,.eyebrow){
+ color:#5e7b68;font:800 12px/1.7 system-ui,sans-serif;
+ letter-spacing:.14em;
+}
+body.care-gallery :is(.gum-hero,main>.hero) h1{
+ color:#1c4937;
+ font-family:'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+ font-size:clamp(33px,4.2vw,50px);
+ letter-spacing:-.052em;line-height:1.4;
+ max-width:900px;margin:18px 0 24px;
+}
+body.care-gallery :is(.gum-hero,main>.hero) p{
+ max-width:850px;line-height:1.89;
+ color:#385947;font-size:clamp(15px,1.45vw,17px);
+}
+body.care-gallery :is(.gum-hero,main>.hero) p>strong:first-child{color:#244c38}
+body.care-gallery .treatment-doctor-credentials,
+body.care-gallery .care-gallery-clinician{
+ display:block;box-sizing:border-box;
+ max-width:850px;margin:20px 0 16px;padding:15px 19px;
+ border:1px solid #c8dac9;border-left:4px solid #6e9676;
+ border-radius:14px;background:rgba(255,255,253,.88);
+ color:#31503d;font-size:14px;line-height:1.8;
+ box-shadow:0 8px 20px rgba(31,71,47,.05);
+}
+body.care-gallery .treatment-doctor-credentials a,
+body.care-gallery .care-gallery-clinician a{
+ color:#176044;display:inline-flex;align-items:center;min-height:42px;
+ font-weight:750;text-decoration:underline;text-decoration-color:#bad1bf;
+ text-underline-offset:4px;
+}
+body.care-gallery .gum-hero-related a{
+ display:inline-flex;align-items:center;min-height:44px;font-weight:750;
+ color:#1f6548;
+}
+
+/* Three clearly separated patient actions, without popups or false urgency. */
+body.care-gallery .treatment-hero-actions{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ max-width:850px;gap:11px;margin:21px 0 5px;
+}
+body.care-gallery .treatment-hero-actions a{
+ display:flex;align-items:center;justify-content:center;box-sizing:border-box;
+ min-width:0;min-height:55px;
+ padding:12px 15px;border-radius:12px;
+ font-size:14px;font-weight:780;text-align:center;line-height:1.5;
+ text-decoration:none;word-break:keep-all;
+ transition:box-shadow .18s ease,background-color .18s ease;
+}
+body.care-gallery .treatment-hero-actions .treatment-hero-call{
+ background:#214f3b;color:#fff;border:1px solid #214f3b;
+ box-shadow:0 7px 16px rgba(28,77,47,.12);
+}
+body.care-gallery .treatment-hero-actions .care-gallery-booking{
+ background:#27744d;color:#fff;border:1px solid #27744d;
+ box-shadow:0 7px 16px rgba(29,103,60,.10);
+}
+body.care-gallery .treatment-hero-actions .treatment-hero-location{
+ background:#fffdfa;color:#255942;border:1px solid #9fb8a3;
+}
+body.care-gallery .treatment-hero-actions a:hover{box-shadow:0 10px 25px rgba(30,75,48,.16)}
+
+/* A gallery-label contents rail directs patients to the correct section. */
+body.care-gallery .treatment-page-toc{
+ max-width:1110px;margin:21px auto 32px;padding:15px 18px;
+ border:1px solid #d3e0d0;border-radius:16px;
+ background:#fffefa;box-shadow:var(--gallery-soft-shadow);
+ display:flex;gap:9px 13px;flex-wrap:wrap;align-items:center;
+}
+body.care-gallery .treatment-page-toc strong{
+ color:#234c3a;font-size:14px;letter-spacing:-.025em;margin-right:5px;
+}
+body.care-gallery .treatment-page-toc a{
+ display:inline-flex;align-items:center;min-height:44px;
+ padding:8px 13px;border:1px solid #e0e7d9;border-radius:999px;
+ color:#2f6047;background:#f8faf5;font-size:13px;font-weight:740;
+ text-decoration:none;
+}
+body.care-gallery .treatment-page-toc a:hover{background:#edf4ea;border-color:#96b79b}
+
+/* Sections and cards read as a calm publication, not an advertising wall. */
+body.care-gallery :is(.gum-section,.block,.section){
+ padding-top:clamp(48px,5vw,72px);
+ padding-bottom:clamp(48px,5vw,72px);
+}
+body.care-gallery :is(.gum-section,.block,.section) h2{
+ font-size:clamp(25px,3vw,36px);line-height:1.47;margin:0 0 21px;
+ color:#204b36;
+}
+body.care-gallery :is(.gum-section,.block,.section) h3{
+ color:#265740;font-size:clamp(18px,2vw,22px);line-height:1.5;
+}
+body.care-gallery :is(.gum-section,.block,.section) p,
+body.care-gallery :is(.gum-section,.block,.section) li{
+ max-width:920px;line-height:1.9;color:#3b5546;
+}
+body.care-gallery :is(.gum-step,.gum-box,.block .card,.block .panel,.block .step,.section .card,
+ .cervical-symptom-cards article,.insurance-care-path-grid article){
+ border:1px solid #d8e2d7;border-radius:17px;
+ background:#fffefa;box-shadow:0 9px 26px rgba(24,63,40,.055);
+}
+body.care-gallery :is(.gum-step,.block .card,.block .panel,.block .step,.section .card,
+ .cervical-symptom-cards article,.insurance-care-path-grid article){
+ transition:border-color .18s,box-shadow .18s;
+}
+body.care-gallery :is(.gum-step,.block .card,.block .panel,.block .step,.section .card,
+ .cervical-symptom-cards article,.insurance-care-path-grid article):hover{
+ border-color:#a7c6ad;box-shadow:0 13px 32px rgba(26,68,42,.08);
+}
+body.care-gallery :is(.gum-steps,.cards,.steps,.columns,.cervical-symptom-cards,.insurance-care-path-grid){
+ gap:clamp(11px,1.5vw,20px);
+}
+body.care-gallery .block .card img{
+ border-radius:15px 15px 0 0;object-fit:cover;
+}
+body.care-gallery .block .step img{background:#f5f5ef}
+body.care-gallery .gum-box{padding:24px 28px;background:#f5f8f1}
+body.care-gallery .gum-step{padding:25px}
+body.care-gallery :is(.gum-section,.block,.section) a:not(.button):not(.treatment-hero-call):not(.treatment-hero-location){
+ text-underline-offset:4px;
+}
+body.care-gallery details{
+ border-radius:12px;
+}
+body.care-gallery details summary{cursor:pointer;min-height:46px}
+body.care-gallery :is(.gum-cta,.cta){
+ background:#204c39;color:#fff;
+}
+body.care-gallery :is(.gum-cta,.cta) h2{color:#fff}
+body.care-gallery :is(.gum-cta,.cta) a{
+ border-radius:12px;min-height:48px;
+}
+body.care-gallery footer{border-top:1px solid #cadacf}
+
+/* The preservation page has its own thoughtful long-form document layout. */
+body.care-gallery .preserve-head nav{max-width:1100px;align-items:center}
+body.care-gallery .preserve-container{
+ max-width:1060px;
+ padding-top:clamp(40px,6vw,78px);
+ padding-bottom:clamp(56px,6vw,82px);
+}
+body.care-gallery .preserve-eyebrow{
+ color:#66836d;letter-spacing:.16em;font-size:12px;font-weight:850;
+}
+body.care-gallery .preserve-title{
+ max-width:960px;color:#1c4735;
+ font-size:clamp(33px,4.4vw,50px);line-height:1.39;
+ margin:17px 0 29px;
+}
+body.care-gallery .preserve-lead{
+ border-radius:20px;border:1px solid #dbe3d7;
+ background:linear-gradient(115deg,#f4f7ef,#fffef9);
+ box-shadow:var(--gallery-soft-shadow);padding:clamp(20px,3vw,32px);
+}
+body.care-gallery .preserve-lead p{line-height:1.9;color:#365344}
+body.care-gallery .preserve-trust{
+ padding:15px 19px;border-radius:14px;
+ border:1px solid #cfdfce;border-left:4px solid #729b7b;
+ background:#f4f8f1;color:#31543c;
+}
+body.care-gallery .preserve-actions{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:10px;margin:22px 0;
+}
+body.care-gallery .preserve-actions a{
+ display:flex;justify-content:center;align-items:center;
+ box-sizing:border-box;min-width:0;min-height:54px;
+ margin:0;padding:13px 16px;border-radius:12px;
+ font-size:14px;line-height:1.5;text-align:center;word-break:keep-all;
+ text-decoration:none;
+}
+body.care-gallery .preserve-actions .care-gallery-booking{
+ background:#27744d;color:#fff;border:1px solid #27744d;
+}
+body.care-gallery .preserve-toc{
+ padding:16px 17px;background:#fffefa;border:1px solid #d8e2d5;
+ border-radius:16px;box-shadow:0 8px 20px rgba(25,66,42,.045);
+}
+body.care-gallery .preserve-section{margin-block:34px}
+body.care-gallery .preserve-section h2{font-size:clamp(24px,3.1vw,34px);color:#1f4b38}
+body.care-gallery :is(.preserve-symptom-item,.preserve-card,.preserve-callout){
+ border:1px solid #d5e2d4;border-radius:16px;
+ background:#fffefa;box-shadow:var(--gallery-soft-shadow);
+}
+
+/* A single modest mobile footer for phone, real Naver booking and directions. */
+body.care-gallery .care-gallery-bottom-actions{display:none}
+@media(max-width:900px) and (min-width:601px){
+ body.care-gallery .treatment-page-toc{margin-inline:18px}
+ body.care-gallery .treatment-hero-actions{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:600px){
+ body.care-gallery{padding-bottom:calc(78px + env(safe-area-inset-bottom,0px))}
+ body.care-gallery :is(.gum-hero,main>.hero){padding:39px 0 43px}
+ body.care-gallery :is(.gum-hero,main>.hero)::before{opacity:.11;width:70%}
+ body.care-gallery :is(.gum-hero,main>.hero) h1{
+  font-size:clamp(27px,7.4vw,36px);margin:13px 0 20px;line-height:1.39;
+ }
+ body.care-gallery :is(.gum-hero,main>.hero) p{
+  font-size:15px;line-height:1.83;
+ }
+ body.care-gallery .treatment-doctor-credentials,
+ body.care-gallery .care-gallery-clinician{
+  margin:14px 0;padding:13px 14px;font-size:13px;line-height:1.75;
+ }
+ body.care-gallery .treatment-hero-actions{
+  grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;
+ }
+ body.care-gallery .treatment-hero-actions a{
+  min-height:49px;padding:10px 9px;font-size:13px;
+ }
+ body.care-gallery .treatment-hero-actions .treatment-hero-location{
+  grid-column:1/-1;
+ }
+ body.care-gallery .treatment-page-toc{
+  margin:14px 16px 26px;padding:13px;border-radius:14px;
+  gap:7px;
+ }
+ body.care-gallery .treatment-page-toc strong{
+  flex-basis:100%;font-size:13px;
+ }
+ body.care-gallery .treatment-page-toc a{
+  min-height:42px;flex:1 1 calc(50% - 7px);
+  font-size:12px;padding:9px 10px;
+ }
+ body.care-gallery :is(.gum-section,.block,.section){
+  padding-top:44px;padding-bottom:44px;
+ }
+ body.care-gallery :is(.gum-section,.block,.section) h2{
+  font-size:clamp(22px,6.3vw,30px);margin:0 0 16px;
+ }
+ body.care-gallery :is(.gum-step,.gum-box,.block .panel,
+  .cervical-symptom-cards article,.insurance-care-path-grid article){
+  padding:18px;
+ }
+ body.care-gallery .preserve-container{padding:32px 17px 65px}
+ body.care-gallery .preserve-title{font-size:clamp(28px,7vw,36px)}
+ body.care-gallery .preserve-lead{padding:18px}
+ body.care-gallery .preserve-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ body.care-gallery .preserve-actions a{padding:11px 9px;min-height:50px;font-size:13px}
+ body.care-gallery .preserve-actions a:last-child{grid-column:1/-1}
+ body.care-gallery .preserve-section{margin-block:24px}
+ body.care-gallery .care-gallery-bottom-actions{
+  display:grid;grid-template-columns:1fr 1.25fr 1fr;
+  position:fixed;bottom:0;left:0;right:0;z-index:45;
+  gap:8px;padding:9px 10px calc(9px + env(safe-area-inset-bottom,0px));
+  border-top:1px solid #c9dbc9;background:rgba(252,252,249,.97);
+  box-shadow:0 -7px 23px rgba(18,56,35,.13);
+ }
+ body.care-gallery .care-gallery-bottom-actions a{
+  display:flex;align-items:center;justify-content:center;
+  box-sizing:border-box;min-width:0;min-height:47px;
+  padding:9px 5px;border-radius:11px;
+  background:#edf3eb;border:1px solid #cadacb;
+  color:#254d39;text-align:center;font-size:13px;
+  font-weight:800;line-height:1.5;text-decoration:none;
+ }
+ body.care-gallery .care-gallery-bottom-actions a:nth-child(2){
+  color:#fff;background:#257249;border-color:#257249;
+ }
+}
+@media(max-width:355px){
+ body.care-gallery .care-gallery-bottom-actions{gap:5px;padding-inline:6px}
+ body.care-gallery .care-gallery-bottom-actions a{font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ body.care-gallery .treatment-hero-actions a,
+ body.care-gallery .treatment-quick-links a{transition:none}
+}
