@@ -43,3 +43,26 @@ test('doctor-authored answers match visible clinical information and link to det
  assert.match(doctor,/rel="canonical" href="https:\/\/ejoeundental\.com\/doctor(?:\.html)?"/);
  assert.ok(section.includes('개별 치료 여부와 계획은 검진 결과에 따라 달라질 수 있습니다'));
 });
+
+test('Cheongcheon-dong local clinic identity answers remain visible and consistent',()=>{
+ const local=read('visit-guide.html'),home=read('index.html'),doctor=read('doctor.html');
+ const section=local.match(/<section class="card clinic-local-questions" aria-labelledby="clinic-local-questions-title">([\s\S]*?)<\/section>/)?.[1];
+ assert.ok(section,'visible clinic identity answers missing');
+ assert.equal((section.match(/<dt>/g)||[]).length,4);
+ assert.equal((section.match(/<dd>/g)||[]).length,4);
+ for(const fact of ['인천광역시 부평구','세월천로 34, 대우프라자 305호',
+  '이-조은치과의원','032-513-2875','김태훈 원장','금요일과 토요일은 격주 일정']){
+  assert.ok(local.includes(fact),'missing documented clinic fact: '+fact);
+ }
+ for(const p of ['doctor.html','gum-treatment.html','retreatment.html']){
+  assert.ok(section.includes('href="/'+p+'"'),'missing physician/service source link '+p);
+ }
+ assert.ok(local.includes('href="tel:0325132875"'));
+ assert.ok(home.includes('김태훈')&&doctor.includes('2003년부터'));
+ const graphs=[...local.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1]));
+ const visitSchema=graphs.find(x=>x['@type']==='MedicalWebPage');
+ assert.equal(visitSchema?.mainEntity?.['@id'],'https://ejoeundental.com/#clinic');
+ assert.ok(visitSchema.about?.some(x=>x['@id']==='https://ejoeundental.com/#clinic'));
+ assert.ok(section.includes('이 페이지에 실시간 진료 여부를 표시하지는 않습니다'));
+});
