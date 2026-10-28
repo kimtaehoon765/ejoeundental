@@ -313,7 +313,7 @@ test('Google Image discovery lists real first-party illustrations only on their 
  assert.match(illustrationHtml,/<h2 id="retreatment-procedure">재신경치료는 어떻게 진행될까요\?<\/h2>/,
   'the illustration deep link must land on the actual patient-facing heading');
  assert.ok(siteMap.includes(
-  '<loc>'+origin+'/health/root-canal-retreatment-process</loc><lastmod>2026-10-26</lastmod>'),
+  '<loc>'+origin+'/health/root-canal-retreatment-process</loc><lastmod>2026-10-28</lastmod>'),
   'Google sitemap date must reflect the real education-page edit');
  const primary=origin+'/assets/retreatment/illustration-01.webp';
  assert.ok(rootEntry.images.includes(primary));
