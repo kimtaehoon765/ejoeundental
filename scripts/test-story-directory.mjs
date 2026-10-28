@@ -54,6 +54,8 @@ function setup(fetchStub) {
     insertAdjacentElement(_position,what){this.inserted=what;},
     getAttribute(key){return this.attrs[key];},
     focus(){this.focused=true;},
+    blur(){this.blurred=true;},
+    scrollIntoView(options){this.scrolled=options;},
     setAttribute(key,value){this.attrs[key]=value;},
     append(...elements){this.children=(this.children||[]).concat(elements);}
   });
@@ -123,6 +125,23 @@ test('story directory finds Korean words, hides unmatched groups, and restores e
   assert.equal(ui.gumJump.hidden,false);
   assert.equal(ui.reset.hidden,true);
   assert.equal(ui.field.focused,true);
+});
+
+test('submitting a real query jumps to results without jumping on every typed character',()=>{
+ const ui=setup();
+ assert.equal(ui.field.attrs['aria-controls'],'story-directory');
+ assert.equal(ui.field.attrs['aria-describedby'],'story-filter-status');
+ assert.equal(ui.status.id,'story-filter-status');
+ ui.field.value='재신경치료';
+ ui.field.handlers.input();
+ assert.equal(ui.status.scrolled,undefined,'typing must not move the document');
+ assert.equal(ui.field.blurred,undefined,'typing must keep the mobile keyboard available');
+ let prevented=false;
+ ui.form.handlers.submit({preventDefault(){prevented=true;}});
+ assert.equal(prevented,true,'submitting should filter locally rather than navigate away');
+ assert.equal(ui.field.blurred,true,'submitting should close the mobile keyboard');
+ assert.equal(ui.status.scrolled?.block,'start','search result count should be scrolled into view');
+ assert.match(ui.status.textContent,/검색 결과 1편/);
 });
 
 test('on-page story search never redirects on submit and handles empty results',()=>{
