@@ -1135,12 +1135,12 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       // magic number that incorrectly flags 16/14 after every art release.
       const publishedImageXml=readFileSync(new URL('../dist/sitemap.xml',import.meta.url),'utf8');
       const expectedImageLocs=[...publishedImageXml.matchAll(
-       /<image:image><image:loc>([^<]+)<\\/image:loc><\\/image:image>/g
+       /<image:image><image:loc>([^<]+)<\/image:loc><\/image:image>/g
       )].map(m=>m[1]);
       const galleryImageLocs=xml=>{
        const block=xml.split('<loc>'+origin+'/gallery</loc>')[1]?.split('</url>')[0]||
         xml.split('<loc>'+origin+'/gallery.html</loc>')[1]?.split('</url>')[0]||'';
-       return [...block.matchAll(/<image:image><image:loc>([^<]+)<\\/image:loc><\\/image:image>/g)]
+       return [...block.matchAll(/<image:image><image:loc>([^<]+)<\/image:loc><\/image:image>/g)]
         .map(m=>m[1]);
       };
       const galleryNine=[
