@@ -248,3 +248,25 @@ test('mobile art and medical SEO survive the curatorial mobile layer',()=>{
  }
  assert.equal(depth,0,'curatorial CSS has an unclosed block');
 });
+
+
+test('release fingerprint matches the GitHub or Cloudflare build commit',()=>{
+ const commit=home.match(/<meta name="ejoeundental-build-commit" content="([^"]+)">/)?.[1];
+ const source=home.match(/<meta name="ejoeundental-build-source" content="([^"]+)">/)?.[1];
+ assert.ok(commit,'build must expose a version identifier for deployment verification');
+ assert.match(commit,/^(?:[0-9a-f]{40}|local)$/);
+ assert.ok(['cloudflare-pages','github-actions','local'].includes(source));
+ const expectedCloudflare=String(process.env.CF_PAGES_COMMIT_SHA||'').toLowerCase();
+ const expectedGitHub=String(process.env.GITHUB_SHA||'').toLowerCase();
+ const sha=/^[0-9a-f]{40}$/;
+ if(sha.test(expectedCloudflare)){
+  assert.equal(commit,expectedCloudflare);
+  assert.equal(source,'cloudflare-pages');
+ }else if(sha.test(expectedGitHub)){
+  assert.equal(commit,expectedGitHub);
+  assert.equal(source,'github-actions');
+ }else{
+  assert.equal(commit,'local');
+  assert.equal(source,'local');
+ }
+});
