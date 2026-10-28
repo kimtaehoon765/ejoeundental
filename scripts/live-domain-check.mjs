@@ -301,8 +301,15 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       const mainEnd=body.indexOf('</main>');
       const footerStart=body.indexOf('<footer');
       const targetAt=body.indexOf(target);
+      const targetFaq={
+       'blood-thinners-dental':'/medication-dental-faq.html#faq-question-2',
+       'osteoporosis-medication-dental':'/medication-dental-faq.html#faq-question-3',
+       'diabetes-dental-care':'/systemic-disease-dental-faq.html#faq-question-1',
+       'heart-disease-dental-care':'/systemic-disease-dental-faq.html#faq-question-2'
+      }[slug];
+      const directlyLinked=!targetFaq||body.slice(0,mainEnd).includes('href="'+targetFaq+'"');
       const correct=response.status===200&&mainEnd>0&&footerStart>mainEnd&&
-       targetAt>0&&targetAt<mainEnd;
+       targetAt>0&&targetAt<mainEnd&&directlyLinked;
       add('환자 안전정보 후속자료 올바른 위치: '+slug,
        correct?'실사이트 반영 확인':'배포·캐시 확인 필요',
        'HTTP '+response.status+' · 관련 FAQ·추가정보 '+(correct?'본문 안에서 확인':'배치 확인 필요'));
