@@ -335,6 +335,24 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
         'HTTP '+response.status+' · 3개 버튼 '+(hasLinks?'확인':'미확인')+
         ' · CSS '+(styled?'최신':'미확인')+' · 본문 바로가기 '+(skip?'확인':'미확인'));
     }
+    if(label.startsWith('모바일 환자 안전정보 버튼: ')){
+      const slug=label.slice('모바일 환자 안전정보 버튼: '.length);
+      const checklistPages=new Set(['blood-thinners-dental','osteoporosis-medication-dental',
+       'diabetes-dental-care','heart-disease-dental-care','kidney-disease-dental-care',
+       'liver-disease-dental-care','cancer-immunosuppression-dental-care',
+       'pregnancy-dental-care','medical-history']);
+      if(checklistPages.has(slug)){
+       const notice=body.indexOf('<p class="notice">');
+       const shortcut=body.indexOf('<nav class="patient-checklist-jump"');
+       const target=body.indexOf('id="visit-checklist"');
+       const ordered=response.status===200&&notice>=0&&shortcut>notice&&target>shortcut&&
+        body.includes('<a href="#visit-checklist">진료 전 확인 체크리스트 바로가기</a>')&&
+        (body.match(/class="patient-checklist-jump"/g)||[]).length===1;
+       add('복용약·질환 체크리스트 빠른 이동: '+slug,
+        ordered?'실사이트 반영 확인':'배포·캐시 확인 필요',
+        'HTTP '+response.status+' · 글 초반 링크 및 실제 준비 체크리스트 '+(ordered?'연결 확인':'미확인'));
+      }
+    }
     if(label==='미술관형 리디자인 CSS 실제 배포'){
       const delivered=response.status===200&&
         createHash('sha256').update(body).digest('hex').slice(0,12)===expectedGalleryCssHash&&
