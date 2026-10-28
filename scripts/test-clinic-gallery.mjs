@@ -213,3 +213,38 @@ test('home exhibits the new nine-piece collection without heavy images or lost l
  assert.ok(home.includes('BUILD_NAVER_BOOKING_HERO') || home.includes('class="btn hero-booking"'));
  assert.equal((home.match(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)||[]).length,509);
 });
+
+
+test('Google Image sitemap includes each of nine gallery originals without changing indexed page URLs',()=>{
+ const source=readFileSync('sitemap.xml','utf8');
+ const sitemap=read('sitemap.xml');
+ const gallery=read('gallery.html');
+ const names=[
+  'gallery-starry-clinic.svg','impressionist-water-garden.svg',
+  'gallery-golden-garden.svg','ejoeundental-hero-cat.webp',
+  'cubist-cat-clinic.webp','lakeside-flower-clinic.webp',
+  'starry-night-clinic.webp','quiet-window-cat.webp',
+  'street-art-tooth-heart.webp'
+ ];
+ const galleryImages=xml=>{
+  const block=xml.split('<loc>https://ejoeundental.com/gallery</loc>')[1]?.split('</url>')[0]||
+   xml.split('<loc>https://ejoeundental.com/gallery.html</loc>')[1]?.split('</url>')[0]||'';
+  return [...block.matchAll(/<image:image><image:loc>([^<]+)<\/image:loc><\/image:image>/g)]
+   .map(match=>match[1]);
+ };
+ assert.deepEqual(galleryImages(source),names.map(name=>'https://ejoeundental.com/assets/'+name));
+ assert.deepEqual(galleryImages(sitemap),galleryImages(source));
+ assert.equal((sitemap.match(/<image:image>/g)||[]).length,23,
+  '14 original medical picture references + 9 gallery references');
+ for(const name of names){
+  assert.ok(gallery.includes('/assets/'+name));
+  assert.ok(existsSync('dist/assets/'+name));
+ }
+ const checker=readFileSync('scripts/live-domain-check.mjs','utf8');
+ assert.match(checker,/const expectedImageLocs=/);
+ assert.match(checker,/const galleryImageMapReady=/);
+ assert.match(checker,/galleryNine\.every\(url=>expectedGallery\.includes/);
+ assert.ok(!checker.includes('imageLocs.length===14'),
+  'live release check must follow the generated sitemap, not old counts');
+ assert.match(source,/xmlns:image="http:\/\/www.google.com\/schemas\/sitemap-image\/1.1"/);
+});
