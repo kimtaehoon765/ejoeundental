@@ -1774,6 +1774,10 @@ for(const post of posts){
 for(const filename of ['index.html','content/posts-index.json','sitemap.xml']){
  if(!fs.existsSync(path.join(out,filename)))throw new Error('Missing required output: '+filename);
 }
+// Generate only the two original clinical schematic images before link validation.
+// These PNGs appear as accessible <img> elements, not just social-preview tags.
+const generatedCareImages=generateClinicShareImages(out);
+console.log('Distinct clinic treatment social artwork:',generatedCareImages);
 // Check local navigation targets in generated HTML without blocking deployment for old optional links.
 const brokenLinks=new Set();
 function checkLocalLinks(folder){
@@ -2920,8 +2924,7 @@ if(clinicalSharingFiles.length!==54||new Set(clinicalSharingFiles).size!==54){
 const additionalCareSharingFiles=["implant.html","denture.html","scaling.html","cavity-treatment.html","wisdom-tooth.html","pediatric-dentistry.html","pediatric-orthodontics.html","tmj-care.html"];
 if(additionalCareSharingFiles.length!==8||new Set([...clinicalSharingFiles,...additionalCareSharingFiles]).size!==62)
  throw new Error('Expected 62 unique public clinical pages for share metadata');
-const generatedCareImages=generateClinicShareImages(out);
-console.log('Distinct clinic treatment social artwork:',generatedCareImages);
+// Care images were generated before navigation validation so every image link is live.
 const careSocialImage={
  'implant.html':{id:'implant',alt:'이조은치과 임플란트 상담 주제를 나타내는 도식형 삽화'},
  'denture.html':{id:'denture',alt:'이조은치과 틀니 치료 주제를 나타내는 도식형 삽화'}
