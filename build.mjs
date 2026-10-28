@@ -3416,3 +3416,26 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
  }
  console.log('Accessible pre-visit checklist quick links added:',pages.length,'patient safety guides');
 }
+
+
+// Ejoeundental deployment fingerprint: source-only version evidence for checking
+// whether a given Cloudflare Pages deployment includes the latest GitHub commit.
+// Use the SHA injected by Cloudflare Pages, or GitHub Actions when running CI.
+// No personal data, tracking scripts, network calls, redirects or SEO copy changes.
+{
+ const file=path.join(out,'index.html');
+ if(!fs.existsSync(file))throw new Error('Homepage missing before deployment fingerprint');
+ const cloudflareSha=String(process.env.CF_PAGES_COMMIT_SHA||'').trim().toLowerCase();
+ const githubSha=String(process.env.GITHUB_SHA||'').trim().toLowerCase();
+ const isSha=value=>/^[0-9a-f]{40}$/.test(value);
+ const commit=isSha(cloudflareSha)?cloudflareSha:isSha(githubSha)?githubSha:'local';
+ const source=isSha(cloudflareSha)?'cloudflare-pages':isSha(githubSha)?'github-actions':'local';
+ let html=fs.readFileSync(file,'utf8');
+ if(!html.includes('</head>')||html.includes('name="ejoeundental-build-commit"'))
+  throw new Error('Deployment fingerprint insertion is ambiguous');
+ const marker='<meta name="ejoeundental-build-commit" content="'+commit+'">'+
+  '<meta name="ejoeundental-build-source" content="'+source+'">';
+ html=html.replace('</head>',marker+'\n</head>');
+ fs.writeFileSync(file,html);
+ console.log('Homepage build fingerprint:',source,commit.slice(0,12));
+}
