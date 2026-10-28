@@ -256,7 +256,7 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       const slug=label.slice('개정 건강정보 읽기 순서: '.length);
       const main=body.split('</main>')[0]||'';
       const footerAt=main.lastIndexOf('<div class="bottom">');
-      const ordered=footerAt>=0&&!/<section\\b/i.test(main.slice(footerAt));
+      const ordered=footerAt>=0&&!/<section\b/i.test(main.slice(footerAt));
       const medicalRef=slug==='loose-tooth'
        ?'https://www.mouthhealthy.org/all-topics-a-z/gum-disease/'
        :slug==='gum-pus'
