@@ -1,0 +1,19 @@
+/* Patient-first clinical decision excerpts for grounded AI and conventional search.
+   Visible text, links and rationale; not hidden SEO text or artificial doorway pages. */
+.clinical-answer-strip{padding:34px 18px 39px;background:linear-gradient(145deg,#f2f6ef,#fbf9f1 65%,#eef3ec);border-block:1px solid #d9e2d5;color:#234338}
+.clinical-answer-strip .clinical-answer-inner{max-width:1120px;margin:0 auto}
+.clinical-answer-strip .clinical-answer-kicker{display:block;margin:0 0 9px;color:#7b7659;font:800 11px/1.6 system-ui,sans-serif;letter-spacing:.12em}
+.clinical-answer-strip h2{margin:0 0 11px;color:#204436;font:700 clamp(22px,3vw,30px)/1.45 "Noto Serif KR","Apple SD Gothic Neo",serif;letter-spacing:-.045em;word-break:keep-all}
+.clinical-answer-strip .clinical-answer-lead{max-width:880px;margin:0 0 18px;line-height:1.9;color:#466253;font-size:15px}
+.clinical-answer-strip .clinical-answer-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.clinical-answer-strip .clinical-answer-card{box-sizing:border-box;min-width:0;padding:21px 20px;background:#fffcf5;border:1px solid #d7dfd0;border-top:3px solid #bca477;border-radius:9px}
+.clinical-answer-strip .clinical-answer-card:nth-child(2){border-top-color:#80a183}
+.clinical-answer-strip .clinical-answer-card:nth-child(3){border-top-color:#a5ad8e}
+.clinical-answer-strip .clinical-answer-card h3{margin:0 0 9px;font:750 17px/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;letter-spacing:-.025em;color:#214936;word-break:keep-all}
+.clinical-answer-strip .clinical-answer-card p{margin:0 0 12px;font-size:14px;line-height:1.82;color:#476154;word-break:keep-all}
+.clinical-answer-strip a{color:#175d40;font-weight:750;text-underline-offset:4px;text-decoration-color:#a2b69e}
+.clinical-answer-strip .clinical-answer-evidence{border-top:1px solid #dce1d5;margin:18px 0 0;padding-top:15px;font-size:13px;line-height:1.8;color:#4e6554}
+.clinical-answer-strip :is(a):focus-visible{outline:3px solid #ae8549;outline-offset:3px}
+@media(max-width:820px){.clinical-answer-strip .clinical-answer-grid{grid-template-columns:minmax(0,1fr)}.clinical-answer-strip .clinical-answer-card{padding:17px 19px}.clinical-answer-strip .clinical-answer-card h3{font-size:17px}}
+@media(max-width:600px){.clinical-answer-strip{padding:28px 15px 33px}.clinical-answer-strip h2{font-size:23px}.clinical-answer-strip .clinical-answer-lead{font-size:14px}.clinical-answer-strip .clinical-answer-card p{font-size:14px}.clinical-answer-strip .clinical-answer-evidence{font-size:13px}}
+@media(forced-colors:active){.clinical-answer-strip,.clinical-answer-strip .clinical-answer-card{background:Canvas;color:CanvasText;border:1px solid CanvasText}}
