@@ -80,7 +80,7 @@ test('sitemap dates reflect genuine homepage and visit revisions, not invented d
   const found=sourceSitemap.split(sourcePrefix);
   assert.equal(found.length,2,'source sitemap must contain one dated clinic URL: '+route);
   const date=found[1].split('</lastmod>')[0];
-  assert.match(date,/^\\d{4}-\\d{2}-\\d{2}$/,'source modification date needs ISO format: '+route);
+  assert.match(date,/^\d{4}-\d{2}-\d{2}$/,'source modification date needs ISO format: '+route);
   assert.ok(date>=earliestKnownRevision&&date<=latestAllowed,
    'use a documented, non-future modification date for: '+route);
   const publishedRoutes=route==='visit-guide.html'?['visit-guide.html','visit-guide']:[route];
