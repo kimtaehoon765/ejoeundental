@@ -496,3 +496,162 @@ body.home-page #main-content>#stories .story-featured-questions a{
   background:ButtonFace;color:ButtonText;border:1px solid ButtonText;
  }
 }
+
+
+/* Museum third pass: original illustration is a real, lazy-loaded
+   accessible decorative image, not an invented photo of the dentist. */
+body.home-page #main-content>#doctor .frame{
+ padding:13px;min-height:clamp(310px,33vw,438px);
+ background:#e5e2ce;
+}
+body.home-page #main-content>#doctor .frame::before{
+ opacity:.12;
+}
+body.home-page #main-content>#doctor .frame>.doctor-gallery-art{
+ box-sizing:border-box;
+ display:grid;grid-template-rows:minmax(0,1fr) auto;
+ width:100%;max-width:100%;min-width:0;
+ padding:0;
+ overflow:hidden;border-radius:3px;
+ border:1px solid #e1d6be;
+ background:#fff9ea;
+ box-shadow:0 13px 32px rgba(17,40,29,.17);
+ backdrop-filter:none;
+}
+body.home-page #main-content>#doctor .doctor-gallery-art img{
+ display:block;width:100%;height:clamp(160px,21vw,265px);
+ object-fit:cover;object-position:center;
+}
+body.home-page #main-content>#doctor .doctor-gallery-art p{
+ box-sizing:border-box;
+ margin:0;padding:16px 18px 18px;
+ font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+ color:#254938;text-align:center;
+ font-size:clamp(19px,2.2vw,26px);line-height:1.65;
+ font-weight:650;letter-spacing:-.04em;
+ background:#fffcf4;
+}
+body.home-page #main-content>#doctor .doctor-gallery-art small{
+ display:inline-block;margin-bottom:5px;
+ letter-spacing:.19em;font-family:"DM Sans",sans-serif;
+ font-size:10px;font-weight:750;
+}
+body.home-page #main-content>#doctor #doctor_title{
+ max-width:640px;line-height:1.44;
+}
+body.home-page #main-content>#doctor .doctor-care-trails>a{
+ border-radius:10px;
+}
+body.home-page #main-content>#doctor .doctor-care-trails>a strong{
+ font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+ letter-spacing:-.02em;
+}
+/* Magazine-style reading entrance. Existing long-form source links,
+   searchable story counts, and all articles below this remain intact. */
+body.home-page #stories .journal-gallery-cover{
+ display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+ align-items:stretch;overflow:hidden;
+ margin:22px 0 25px;min-height:245px;
+ background:#234b3c;color:#fff9ec;
+ border:1px solid #496a53;
+ border-radius:14px;
+ box-shadow:0 19px 45px rgba(33,68,47,.12);
+ text-decoration:none;
+}
+body.home-page #stories .journal-gallery-cover>img{
+ display:block;width:100%;height:100%;min-height:245px;
+ max-height:300px;object-fit:cover;
+ object-position:center 46%;
+ background:#dfe9d8;
+}
+body.home-page #stories .journal-gallery-cover__caption{
+ box-sizing:border-box;display:flex;flex-direction:column;
+ align-items:flex-start;justify-content:center;
+ min-width:0;gap:14px;
+ padding:clamp(22px,4vw,44px);
+ background:radial-gradient(ellipse at 100% 5%,rgba(154,176,138,.17),transparent 61%),#214a3a;
+}
+body.home-page #stories .journal-gallery-cover__caption>small{
+ color:#e0c795;
+ font-size:10px;font-weight:750;letter-spacing:.13em;
+ line-height:1.5;
+}
+body.home-page #stories .journal-gallery-cover__caption>strong{
+ font:650 clamp(23px,2.7vw,32px)/1.5 "Noto Serif KR","Apple SD Gothic Neo",serif;
+ letter-spacing:-.05em;color:#fff9eb;
+ word-break:keep-all;
+}
+body.home-page #stories .journal-gallery-cover__caption>span{
+ color:#e9f4e5;
+ padding-bottom:5px;border-bottom:1px solid #adbf99;
+ font-size:13px;line-height:1.6;font-weight:750;
+}
+body.home-page #stories .journal-gallery-cover:hover{
+ border-color:#9db68d;box-shadow:0 22px 52px rgba(33,68,47,.17);
+}
+body.home-page #stories .journal-gallery-cover:focus-visible{
+ outline:3px solid #b58e4f;outline-offset:4px;
+}
+body.home-page #main-content>#doctor .doctor-profile-link a{
+ text-decoration-thickness:1px;
+}
+@media(max-width:900px){
+ body.home-page #main-content>#doctor .frame{
+  padding:10px;min-height:275px;
+ }
+ body.home-page #main-content>#doctor .doctor-gallery-art img{
+  height:clamp(135px,19vw,204px);
+ }
+ body.home-page #main-content>#doctor .doctor-gallery-art p{
+  padding:11px 12px 14px;font-size:clamp(17px,2.5vw,22px);
+ }
+}
+@media(max-width:600px){
+ body.home-page #main-content>#doctor .frame{
+  padding:7px;min-height:0;max-width:390px;
+ }
+ body.home-page #main-content>#doctor .frame>.doctor-gallery-art{
+  display:grid;padding:0;border-radius:3px;
+  max-width:100%;
+ }
+ body.home-page #main-content>#doctor .doctor-gallery-art img{
+  height:clamp(145px,45vw,210px);
+ }
+ body.home-page #main-content>#doctor .doctor-gallery-art p{
+  margin:0;padding:9px 14px 13px;
+  font-size:19px;line-height:1.5;
+ }
+ body.home-page #stories .journal-gallery-cover{
+  grid-template-columns:minmax(0,1fr);
+  min-height:0;margin:17px 0 21px;
+  border-radius:12px;
+ }
+ body.home-page #stories .journal-gallery-cover>img{
+  height:140px;min-height:0;max-height:140px;
+ }
+ body.home-page #stories .journal-gallery-cover__caption{
+  gap:8px;padding:19px 21px 23px;
+ }
+ body.home-page #stories .journal-gallery-cover__caption>strong{
+  font-size:23px;line-height:1.45;
+ }
+ body.home-page #stories .journal-gallery-cover__caption>span{
+  font-size:13px;
+ }
+}
+@media(forced-colors:active){
+ body.home-page #stories .journal-gallery-cover{
+  border:1px solid CanvasText;background:Canvas;color:CanvasText;
+ }
+ body.home-page #stories .journal-gallery-cover__caption{
+  background:Canvas;color:CanvasText;
+ }
+ body.home-page #stories .journal-gallery-cover__caption :is(small,strong,span){
+  color:CanvasText;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ body.home-page #stories .journal-gallery-cover{
+  transition:none;transform:none;
+ }
+}
