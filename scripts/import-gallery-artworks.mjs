@@ -49,6 +49,27 @@ tests=tests.replace('gallery is published with four paintings','gallery is publi
 const originalIds="for(const anchor of ['art-starry','art-pond','art-golden','art-cat'])";
 assert.equal(tests.split(originalIds).length,2);
 tests=tests.replace(originalIds,"for(const anchor of ['art-starry','art-pond','art-golden','art-cat',"+names.map(n=>"'art-"+n+"'").join(',')+"])");
+// The four-piece lightbox regression now needs to test wrapping at work nine.
+// Keep keyboard, close-focus and modified-shortcut checks intact.
+const lightboxStart=tests.indexOf("test('lightbox moves between all four artworks");
+assert.ok(lightboxStart>0,'Expected lightbox navigation coverage');
+const beforeLightbox=tests.slice(0,lightboxStart);
+let lightbox=tests.slice(lightboxStart);
+const required=[
+ ["lightbox moves between all four artworks","lightbox moves between all nine artworks"],
+ ["assert.equal(markup.length,4,'all four original gallery zoom controls remain');",
+  "assert.equal(markup.length,9,'all nine original gallery zoom controls remain');"],
+ ["artworks[2]","artworks[7]"],
+ ["artworks[3]","artworks[8]"],
+ ["'03 / 04'","'08 / 09'"],
+ ["'04 / 04'","'09 / 09'"],
+ ["'01 / 04'","'01 / 09'"]
+];
+for(const [old,next] of required){
+ assert.ok(lightbox.includes(old),'Missing original lightbox test expectation: '+old);
+ lightbox=lightbox.replaceAll(old,next);
+}
+tests=beforeLightbox+lightbox;
 tests+='\n\ntest(\'gallery publishes five optimized original image pairs\',()=>{\n const g=read(\'gallery.html\');\n for(const name of '+JSON.stringify(names)+'){\n assert.ok(g.includes(\'id="art-\'+name+\'"\'));\n for(const suffix of [\'.webp\',\'-thumb.webp\'])assert.ok(existsSync(\'dist/assets/\'+name+suffix));\n }\n assert.ok(g.includes(\'그림 아홉 점, 아홉 가지 이야기\'));\n});\n';
 mkdirSync('assets',{recursive:true});
 for(const [p,bytes] of images)writeFileSync(p,bytes);
