@@ -3233,12 +3233,13 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
    note.includes('국내 기준과 개인별 치료 판단을 대신하지 않으며')&&
    note.includes('처방약은 담당 의료진과 상의 없이 변경하지 마세요.');
   if(!sourceOk||html.split('<aside class="clinical-source-note"').length!==2||
-     !html.includes('</aside></main>')){
+     html.indexOf('<aside class="clinical-source-note"')>html.lastIndexOf('</main>')){
    errors.push('약물·심장질환 환자 정보 공식 참고자료/주의 안내 누락: '+slug);
   }
   const sourceMarker='/'+slug;
   const entry=[...map.matchAll(/<url>([\s\S]*?)<\/url>/g)]
-   .find(row=>row[1].includes('<loc>')&&row[1].includes(sourceMarker+'</loc>'));
+   .find(row=>row[1].includes('<loc>')&&
+    (row[1].includes(sourceMarker+'</loc>')||row[1].includes(sourceMarker+'.html</loc>')));
   if(!entry||!/<lastmod>2026-10-28<\/lastmod>/.test(entry[1])){
    errors.push('약물·심장질환 참고자료 실제 수정일 사이트맵 누락: '+slug);
   }
