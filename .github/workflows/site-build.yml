@@ -28,7 +28,7 @@ jobs:
       - name: Build and run SEO audits
         run: npm run build
       - name: Verify mobile Monet painting and patient-first homepage
-        run: node --test scripts/test-impressionist-home.mjs
+        run: node --test scripts/test-impressionist-home.mjs scripts/test-museum-responsive.mjs
       - name: Verify generated output
         run: |
           test -s dist/index.html
