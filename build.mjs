@@ -1,6 +1,7 @@
 import fs from 'node:fs';import path from 'node:path';import {createHash} from 'node:crypto';
 import {extractSearchText} from './scripts/search-content-extractor.mjs';
 import {bookingAction} from './scripts/naver-booking-link.mjs';
+import {generateClinicShareImages} from './scripts/generate-clinic-share-images.mjs';
 import {analyzePublishedStories,canonicalNaverSource} from './scripts/audit-story-uniqueness.mjs';
 // Owner-only documents may be omitted ONLY after the authenticated replacement is live.
 // A single environment flag is not proof that migration and backups succeeded.
@@ -2919,6 +2920,12 @@ if(clinicalSharingFiles.length!==54||new Set(clinicalSharingFiles).size!==54){
 const additionalCareSharingFiles=["implant.html","denture.html","scaling.html","cavity-treatment.html","wisdom-tooth.html","pediatric-dentistry.html","pediatric-orthodontics.html","tmj-care.html"];
 if(additionalCareSharingFiles.length!==8||new Set([...clinicalSharingFiles,...additionalCareSharingFiles]).size!==62)
  throw new Error('Expected 62 unique public clinical pages for share metadata');
+const generatedCareImages=generateClinicShareImages(out);
+console.log('Distinct clinic treatment social artwork:',generatedCareImages);
+const careSocialImage={
+ 'implant.html':{id:'implant',alt:'이조은치과 임플란트 상담 주제를 나타내는 도식형 삽화'},
+ 'denture.html':{id:'denture',alt:'이조은치과 틀니 치료 주제를 나타내는 도식형 삽화'}
+};
 const escapeSharingValue=value=>String(value)
  .replace(/&(?!#\d+;|#x[\da-f]+;|[a-z][a-z\d]+;)/gi,'&amp;')
  .replace(/"/g,'&quot;').replace(/</g,'&lt;');
@@ -2951,6 +2958,23 @@ for(const relative of [...clinicalSharingFiles,...additionalCareSharingFiles]){
  for(const [kind,key,value] of expected){
   const expectedMarkup='<meta '+kind+'="'+key+'" content="'+escapeSharingValue(value)+'">';
   if(html.split(expectedMarkup).length!==2)throw new Error('Incorrect clinical sharing field '+key+': '+relative);
+ }
+ const topicPicture=careSocialImage[relative];
+ if(topicPicture){
+  const imageUrl=selectedPublicOrigin+'/assets/clinical-share/'+topicPicture.id+'.png';
+  const fields=[
+   ['property','og:image',imageUrl],['property','og:image:type','image/png'],
+   ['property','og:image:width','1200'],['property','og:image:height','630'],
+   ['property','og:image:alt',topicPicture.alt],['name','twitter:image',imageUrl]
+  ];
+  for(const [kind,key,value] of fields){
+   const existing=[...html.matchAll(/<meta\b[^>]*>/gi)]
+    .filter(m=>m[0].includes(kind+'="'+key+'"'));
+   if(existing.length>1)throw new Error('Duplicate treatment image metadata: '+relative+': '+key);
+   const tag='<meta '+kind+'="'+key+'" content="'+escapeSharingValue(value)+'">';
+   html=existing.length?html.replace(existing[0][0],tag):html.replace('</head>',tag+'</head>');
+   if(html.split(tag).length!==2)throw new Error('Invalid treatment image metadata: '+relative+': '+key);
+  }
  }
  // These eight treatment guides publish a MedicalWebPage JSON-LD block.
  // Keep its factual title, description and canonical URL in lockstep with

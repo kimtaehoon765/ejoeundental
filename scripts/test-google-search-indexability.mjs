@@ -24,6 +24,36 @@ const pageFor=route=>{
   path.join(output,rel.endsWith('.html')?rel:rel+'.html');
 };
 
+test('implant and denture have separate genuine PNG sharing images with Korean wordmarks',()=>{
+ const metas=[
+  ['implant.html','implant','이조은치과 임플란트 상담 주제를 나타내는 도식형 삽화'],
+  ['denture.html','denture','이조은치과 틀니 치료 주제를 나타내는 도식형 삽화']
+ ];
+ const bytes=[];
+ for(const [page,id,alt] of metas){
+  const data=readFileSync('dist/assets/clinical-share/'+id+'.png');
+  assert.ok(data.length>8000&&data.length<2000000,id+' original banner must be a reasonable size');
+  assert.equal(data.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
+  assert.equal(data.readUInt32BE(16),1200);
+  assert.equal(data.readUInt32BE(20),630);
+  const html=readFileSync('dist/'+page,'utf8');
+  const root=process.env.SITE_PUBLIC_ORIGIN||'https://ejoeundental.pages.dev';
+  const expected=[
+   ['property','og:image',root+'/assets/clinical-share/'+id+'.png'],
+   ['property','og:image:type','image/png'],
+   ['property','og:image:width','1200'],['property','og:image:height','630'],
+   ['property','og:image:alt',alt],
+   ['name','twitter:image',root+'/assets/clinical-share/'+id+'.png']
+  ];
+  for(const [kind,key,value] of expected){
+   const tag='<meta '+kind+'="'+key+'" content="'+value+'">';
+   assert.equal(html.split(tag).length-1,1,page+' lacks one '+key);
+  }
+  bytes.push(data.toString('base64'));
+ }
+ assert.notEqual(bytes[0],bytes[1],'different treatments need different real artwork');
+});
+
 test('three priority public clinic pages publish authentic share-preview images',()=>{
  const image='https://ejoeundental.com/assets/ejoeundental-hero-cat.webp';
  const imagePath='dist/assets/ejoeundental-hero-cat.webp';
