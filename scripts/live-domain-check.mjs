@@ -64,8 +64,23 @@ const latestArticleSamples=publishedArticles.slice(-3).reverse()
 // Revisions to older blog articles must not disappear from deployment checks.
 const editorialRevisions=[
  '2026-10-24-sangok-scaling-gargle-anesthesia-pain-control',
- '2026-10-25-incheon-loose-tooth-suddenly-periodontal-exam'
+ '2026-10-25-incheon-loose-tooth-suddenly-periodontal-exam',
+ '2026-10-25-sangok-implant-bone-graft-always-necessary',
+ '2026-10-25-bupyeong-wisdom-tooth-extraction-hemostatic-dressing',
+ '2026-10-26-cheongcheon-child-dentist-or-general-dentist',
+ '2026-10-25-bupyeong-natural-tooth-versus-implant-maintenance',
+ '2026-10-25-incheon-choosing-periodontal-clinic-what-to-check',
+ '2026-10-24-bupyeong-good-dentist-selection'
 ];
+const revisionTextMarkers=new Map([
+ ['2026-10-25-sangok-implant-bone-graft-always-necessary','발치 당일 뼈이식이 필요한가요?'],
+ ['2026-10-25-bupyeong-wisdom-tooth-extraction-hemostatic-dressing','부평두산위브·산곡동 환자 질문'],
+ ['2026-10-26-cheongcheon-child-dentist-or-general-dentist','산곡동·청천동 보호자 질문'],
+ ['2026-10-25-bupyeong-natural-tooth-versus-implant-maintenance','산곡역 임플란트 상담'],
+ ['2026-10-25-incheon-choosing-periodontal-clinic-what-to-check','청천푸르지오 주변에서 잇몸치료'],
+ ['2026-10-24-bupyeong-good-dentist-selection','부평 그랑힐스 주변에서 치과를'],
+ ['2026-10-25-incheon-loose-tooth-suddenly-periodontal-exam','산곡동 풍치']
+]);
 const expectedEditorialRevisions=new Map(editorialRevisions.map(slug=>{
  const entry=publishedArticles.find(item=>item.name===slug+'.json');
  if(!entry||!entry.post.updated||!entry.post.date)
@@ -1210,9 +1225,10 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        body.includes('<meta property="article:modified_time" content="'+source.updated+'">')&&
        posting?.datePublished===source.date&&
        posting?.dateModified===source.updated&&
-       posting?.headline===source.title;
-      info.push(correct?'수정된 원장 글의 작성·수정 날짜, OG 및 구조화 데이터 실서버 일치':
-       '수정 글의 공개 SEO 메타정보가 최신 GitHub 원고와 일치하지 않음');
+       posting?.headline===source.title&&
+       (!revisionTextMarkers.has(slug)||body.includes(revisionTextMarkers.get(slug)));
+      info.push(correct?'수정된 원장 글의 작성·수정 날짜, 핵심 본문, OG 및 구조화 데이터 실서버 일치':
+       '수정 글의 본문 또는 SEO 메타정보가 최신 GitHub 원고와 일치하지 않음');
     } else if (label.startsWith('최신 공개 글 원본 비교: ')) {
       const slug=label.slice('최신 공개 글 원본 비교: '.length);
       const expected=latestArticleSamples.find(entry=>entry.slug===slug);
