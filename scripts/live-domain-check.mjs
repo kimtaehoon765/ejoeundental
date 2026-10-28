@@ -127,6 +127,9 @@ const urls = [
   // independently of a successful source build.
   ...['loose-tooth','receding-gums','periodontal-pocket','root-canal-retreatment-process','gum-pus']
    .map(slug=>({label:'개정 건강정보 읽기 순서: '+slug,url:origin+'/health/'+slug+'.html'})),
+  { label: '검증된 ADA 항응고제 환자 안전 출처', url: origin + '/blood-thinners-dental.html' },
+  { label: '검증된 ADA 골다공증약 환자 안전 출처', url: origin + '/osteoporosis-medication-dental.html' },
+  { label: '검증된 ADA 심장질환 환자 안전 출처', url: origin + '/heart-disease-dental-care.html' },
   { label: 'AI 의료진 출처 페이지', url: origin + '/doctor.html' },
   { label: 'AI 검색봇 접근 모의 검사', url: origin + '/gum-treatment.html', userAgent: 'OAI-SearchBot/1.0' },
   { label: '네이버 최신글 RSS', url: origin + '/rss.xml' },
@@ -268,6 +271,18 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        ready?'실사이트 반영 확인':'배포·캐시 확인 필요',
        'HTTP '+response.status+' · 글 끝 이동 링크 '+(ordered?'올바른 위치':'본문 위치 확인 필요')+
        (medicalRef?' · 공식 의학자료 '+(refOk?'연결 확인':'미확인'):''));
+    }
+    if(label.startsWith('검증된 ADA ')){
+      const refs={
+       '검증된 ADA 항응고제 환자 안전 출처':'https://www.ada.org/resources/ada-library/oral-health-topics/oral-anticoagulant-and-antiplatelet-medications-and-dental-procedures',
+       '검증된 ADA 골다공증약 환자 안전 출처':'https://www.ada.org/resources/ada-library/oral-health-topics/osteoporosis-medications',
+       '검증된 ADA 심장질환 환자 안전 출처':'https://www.ada.org/resources/ada-library/oral-health-topics/antibiotic-prophylaxis'
+      };
+      const a=refs[label];
+      const found=response.status===200&&body.includes('href="'+a+'" target="_blank" rel="noopener noreferrer"')&&
+       body.includes('aria-label="전문기관 참고자료"')&&body.includes('처방약은 담당 의료진과 상의 없이 변경하지 마세요.');
+      add('의학 근거 출처 실제 게시: '+label,found?'실사이트 반영 확인':'배포·캐시 확인 필요',
+       'HTTP '+response.status+' · ADA 공식 링크 '+(found?'안내 및 연결 확인':'미확인'));
     }
     if(label==='미술관형 리디자인 CSS 실제 배포'){
       const delivered=response.status===200&&
