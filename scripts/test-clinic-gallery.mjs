@@ -15,7 +15,7 @@ test('gallery is published with four paintings and three clinical illustration l
 });
 test('gallery artwork and style files are present in built Cloudflare output',()=>{
  const g=read('gallery.html');
- for(const src of new Set([...g.matchAll(/(?:src|href)="(\/assets\/[^"]+)"/g)].map(m=>m[1]))){
+ for(const src of new Set([...g.matchAll(/(?:src|href)="(\/assets\/[^"]+)"/g)].map(m=>m[1].split('?')[0]))){
   assert.ok(existsSync('dist'+src),'gallery missing artifact: '+src);
  }
  for(const p of ['assets/gallery-starry-clinic.svg','assets/gallery-golden-garden.svg']){
