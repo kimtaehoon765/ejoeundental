@@ -134,6 +134,11 @@ const urls = [
       'diabetes-dental-care','heart-disease-dental-care',
       'medical-history','medical-safety-guide']
     .map(slug=>({label:'환자 안전정보 본문 후속안내: '+slug,url:origin+'/'+slug+'.html'})),
+  ...['blood-thinners-dental','osteoporosis-medication-dental','diabetes-dental-care',
+       'heart-disease-dental-care','kidney-disease-dental-care','liver-disease-dental-care',
+       'cancer-immunosuppression-dental-care','pregnancy-dental-care',
+       'medical-history','medical-safety-guide','medication-dental-faq','systemic-disease-dental-faq']
+    .map(slug=>({label:'모바일 환자 안전정보 버튼: '+slug,url:origin+'/'+slug+'.html'})),
   { label: 'AI 의료진 출처 페이지', url: origin + '/doctor.html' },
   { label: 'AI 검색봇 접근 모의 검사', url: origin + '/gum-treatment.html', userAgent: 'OAI-SearchBot/1.0' },
   { label: '네이버 최신글 RSS', url: origin + '/rss.xml' },
@@ -313,6 +318,22 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       add('환자 안전정보 후속자료 올바른 위치: '+slug,
        correct?'실사이트 반영 확인':'배포·캐시 확인 필요',
        'HTTP '+response.status+' · 관련 FAQ·추가정보 '+(correct?'본문 안에서 확인':'배치 확인 필요'));
+    }
+    if(label.startsWith('모바일 환자 안전정보 버튼: ')){
+      const slug=label.slice('모바일 환자 안전정보 버튼: '.length);
+      const nav=body.match(/<nav class="clinic-info-mobile-actions"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+      const hasLinks=nav.includes('href="tel:0325132875"')&&
+        nav.includes('href="'+verifiedBookingUrl+'"')&&nav.includes('href="/visit-guide.html"');
+      const styled=body.includes('clinic-info-mobile-actions.css?v='+expectedInfoActionsHash);
+      const main=body.match(/<main\b[^>]*id="([^"]+)"/)?.[1]||'';
+      const skip=main && body.includes('href="#'+main+'">')&&
+        (body.includes('class="patient-standalone-skip"')||body.includes('class="clinic-info-skip-link"'));
+      const one=(body.match(/class="clinic-info-mobile-actions"/g)||[]).length===1;
+      const ready=response.status===200&&hasLinks&&styled&&skip&&one;
+      add('모바일 의료안내 전화·예약·오시는 길: '+slug,
+        ready?'실사이트 반영 확인':'배포·캐시 확인 필요',
+        'HTTP '+response.status+' · 3개 버튼 '+(hasLinks?'확인':'미확인')+
+        ' · CSS '+(styled?'최신':'미확인')+' · 본문 바로가기 '+(skip?'확인':'미확인'));
     }
     if(label==='미술관형 리디자인 CSS 실제 배포'){
       const delivered=response.status===200&&
