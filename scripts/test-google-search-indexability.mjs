@@ -31,7 +31,9 @@ test('live Cloudflare audit checks exact OG preview and real 1200x630 PNG respon
  assert.ok(probe.includes('tagsReady&&actualPngReady'));
  assert.ok(probe.includes('const indexedTopicImages='));
  assert.ok(probe.includes('const correctTopicImage=kind=>'));
- assert.ok(probe.includes('imageLocs.length===14'));
+ assert.ok(probe.includes('imageLocs.length===expectedImageLocs.length')); 
+ assert.ok(probe.includes('galleryImageMapReady'));
+ assert.ok(probe.includes('const expectedImageLocs='));
  assert.ok(probe.includes("['implant','denture'].every(kind=>dateDeployed(kind)&&correctTopicImage(kind))"));
 });
 
@@ -272,8 +274,15 @@ test('Google Image discovery lists real first-party illustrations only on their 
  const galleryEntry=imageEntries.find(x=>x.page===origin+'/gallery.html');
  assert.deepEqual(galleryEntry?.images,[
   origin+'/assets/gallery-starry-clinic.svg',
-  origin+'/assets/gallery-golden-garden.svg'
- ],'the new gallery owns two original painting assets');
+  origin+'/assets/impressionist-water-garden.svg',
+  origin+'/assets/gallery-golden-garden.svg',
+  origin+'/assets/ejoeundental-hero-cat.webp',
+  origin+'/assets/cubist-cat-clinic-thumb.webp',
+  origin+'/assets/lakeside-flower-clinic-thumb.webp',
+  origin+'/assets/starry-night-clinic-thumb.webp',
+  origin+'/assets/quiet-window-cat-thumb.webp',
+  origin+'/assets/street-art-tooth-heart-thumb.webp'
+ ],'nine visible original and optimized artworks should be discoverable from the gallery sitemap entry');
  assert.equal(imageEntries.find(x=>x.page===home).images.length,2);
  const rootEntry=imageEntries.find(x=>x.page===rootCanal);
  assert.equal(rootEntry.images.length,10);
