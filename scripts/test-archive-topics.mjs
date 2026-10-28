@@ -6,7 +6,7 @@ import {runInNewContext} from 'node:vm';
 
 const script=readFileSync(new URL('../assets/archive-topics.js',import.meta.url),'utf8');
 
-function setup({perGroup=15,hash=''}={}){
+function setup({perGroup=15,hash='',mixedGumTitles=false}={}){
  const groupDefs=[
   ['gum','잇몸치료·스케일링','잇몸 출혈'],
   ['root','신경치료·재신경치료','신경치료 경과'],
@@ -17,7 +17,7 @@ function setup({perGroup=15,hash=''}={}){
  const groups=groupDefs.map(([id,topic,base],i)=>{
   const summary={focused:false,focus(){this.focused=true;}};
   const items=Array.from({length:perGroup},(_,index)=>({
-   hidden:false,querySelector:selector=>selector==='a'?{textContent:base+' '+(index+1)}:null
+   hidden:false,querySelector:selector=>selector==='a'?{textContent:mixedGumTitles&&id==='gum'&&index>=6?'스케일링 경과 '+(index+1):base+' '+(index+1)}:null
   }));
   return {
    id:'archive-group-'+id,hidden:false,open:i===0,items,summary,scrolled:false,
@@ -102,6 +102,27 @@ test('multiword and reversed-order Korean queries find originals across the titl
  site.input.handlers.input();
  assert.match(site.status.textContent,/15편을 찾았습니다/);
  assert.equal(site.groups.find(x=>x.id==='archive-group-med').hidden,false);
+});
+
+test('archive search prioritizes actual article titles instead of treating a whole category as exact matches',()=>{
+ const site=setup({mixedGumTitles:true});
+ site.input.value='잇몸';
+ site.input.handlers.input();
+ const gum=site.groups.find(group=>group.id==='archive-group-gum');
+ assert.equal(gum.items.filter(item=>!item.hidden).length,6,
+  'category title alone must not make unrelated scaling articles look like gum-title matches');
+ assert.match(site.status.textContent,/6편을 찾았습니다/);
+ assert.equal(site.groups.filter(group=>!group.hidden).length,1);
+ site.input.value='스케일링';
+ site.input.handlers.input();
+ assert.equal(gum.items.filter(item=>!item.hidden).length,9,
+  'the other real article titles in the same category remain searchable');
+ // If the exact title has no result, retain topic-level discovery rather than
+ // treating a valid clinical category as an empty query.
+ site.input.value='재신경치료';
+ site.input.handlers.input();
+ assert.equal(site.groups.find(group=>group.id==='archive-group-root').items.filter(item=>!item.hidden).length,15,
+  'a topic-only phrase must still provide category navigation as fallback');
 });
 
 test('nonmatching query is clearly announced and can be cleared',()=>{
