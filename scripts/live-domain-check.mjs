@@ -726,11 +726,17 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        JSON.stringify(clinicGraph?.alternateName)===JSON.stringify(matchingNames)&&
        websiteGraph?.name==='이조은치과'&&clinicGraph?.name===websiteGraph.name&&
        websiteGraph?.publisher?.['@id']===clinicGraph?.['@id'];
+      const naverDescriptionReady=clinicDescription===expectedHomeDescription&&
+       clinicDescription.startsWith('인천 부평구 청천동 이조은치과.')&&
+       clinicDescription.length>0&&clinicDescription.length<=80&&
+       body.includes('<meta property="og:description" content="'+clinicDescription+'">')&&
+       body.includes('<meta name="twitter:description" content="'+clinicDescription+'">');
+      info.push(naverDescriptionReady?
+       '네이버 홈페이지 80자 메타 설명·공유 설명 GitHub 수정본 실사이트 반영 확인':
+       '네이버 홈페이지 메타 설명이 최신 GitHub 수정본과 다름 — 배포·캐시 재확인 필요');
       const brandedResultsReady=clinicTitle===expectedHomeTitle&&
        clinicTitle.startsWith('이조은치과 |')&&
-       clinicDescription===expectedHomeDescription&&
-       clinicDescription.startsWith('인천 부평구 청천동 이조은치과(')&&
-       clinicDescription.includes('이-조은치과의원')&&
+       naverDescriptionReady&&
        body.includes('class="clinic-name-variant"')&&
        body.includes('병원정보 사이트 표기: <strong>이-조은치과의원</strong>')&&
        body.includes('<link rel="canonical" href="'+origin+'/">')&&
