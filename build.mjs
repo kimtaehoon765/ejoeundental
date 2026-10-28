@@ -615,7 +615,7 @@ for(const entry of entries){
 // were missing from the website's own search. Add only this explicit allowlist:
 // never sweep admin, owner-only maintenance files, or unpublished documents into
 // the public index. Article text comes from <main>, not global navigation.
-const publicStandaloneSearchSlugs=["doctor","visit-guide","medical-safety-guide","previsit-checklist","gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive","stories","tooth-preservation"];
+const publicStandaloneSearchSlugs=["doctor","visit-guide","medical-safety-guide","previsit-checklist","gum-treatment-faq","root-canal-retreatment-faq","dental-insurance-faq","medical-history","osteoporosis-medication-dental","blood-thinners-dental","diabetes-dental-care","heart-disease-dental-care","kidney-disease-dental-care","liver-disease-dental-care","cancer-immunosuppression-dental-care","pregnancy-dental-care","noncovered-fees","medication-dental-faq","systemic-disease-dental-faq","clinical-archive","stories","tooth-preservation","gallery"];
 const sourceSitemapForSearch=fs.readFileSync(path.join(root,'sitemap.xml'),'utf8');
 for(const slug of publicStandaloneSearchSlugs){
  const sourceUrl='https://ejoeundental.com/'+slug+'.html';
