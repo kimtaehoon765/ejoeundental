@@ -128,6 +128,7 @@ const urls = [
   { label: '모네풍 갤러리 SVG 공개 확인', url: origin + '/assets/impressionist-water-garden.svg' },
   { label: '모네풍 갤러리 CSS 공개 확인', url: origin + '/assets/home-enhancements.css' },
   { label: '미술관형 리디자인 CSS 실제 배포', url: origin + '/assets/gallery-upgrade.css?v=' + expectedGalleryCssHash },
+  { label: '신규 창작 그림 전시 스타일', url: origin + '/assets/curatorial-home.css?v=20261029-gallery1' },
   { label: '진료 안내 미술관 통합 디자인 CSS', url: origin + '/assets/care-gallery.css' },
   { label: '추가 진료 8개 미술관 디자인 CSS', url: origin + '/assets/care-gallery-secondary.css?v=' + expectedSecondaryGalleryHash },
   { label: 'www HTTPS 연결', url: 'https://www.' + apex + '/' },
@@ -466,11 +467,35 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
         'HTTP '+response.status+' · 환자 전화·정식 네이버예약·길찾기·최신 CSS 링크 '+
         (published?'원본과 일치':'미확인/불일치'));
     }
+    if(label==='신규 창작 그림 전시 스타일'){
+      const expectedCss=readFileSync(new URL('../assets/curatorial-home.css',import.meta.url),'utf8');
+      const ready=response.status===200&&body===expectedCss&&
+        body.includes('scroll-snap-type:x mandatory')&&
+        body.includes('@media(max-width:600px)');
+      add('미술관 창작 그림 전시 스타일 공개',ready?'실사이트 반영 확인':'배포·캐시 확인 필요',
+        'HTTP '+response.status+' · 원본 CSS와 운영 홈페이지의 CSS '+(ready?'일치':'불일치 또는 미배포'));
+    }
     if(label==='정식 도메인 첫 화면'){
       const linked=body.includes('/assets/gallery-upgrade.css?v='+expectedGalleryCssHash);
       add('2026-10-27 미술관형 첫 화면 CSS 링크 실제 배포',
         linked?'실사이트 반영 확인':'배포·캐시 확인 필요',
         '메인 HTML의 리디자인 CSS 해시 링크 '+(linked?'일치':'배포되지 않음/확인 필요'));
+      const artTargets=[
+        ['gallery-starry-clinic.svg','/gallery.html#art-starry'],
+        ['quiet-window-cat-thumb.webp','/gallery.html#art-quiet-window-cat'],
+        ['cubist-cat-clinic-thumb.webp','/gallery.html#art-cubist-cat-clinic']
+      ];
+      const firstSection=body.indexOf('class="hero wrap"');
+      const paintingSection=body.indexOf('class="curated-threshold wrap"');
+      const patientSearch=body.indexOf('class="symptom-navigator wrap"');
+      const artReady=response.status===200&&firstSection>=0&&
+        paintingSection>firstSection&&patientSearch>paintingSection&&
+        body.includes('href="/assets/curatorial-home.css?v=20261029-gallery1"')&&
+        (body.match(/class="curated-threshold__piece"/g)||[]).length===3&&
+        artTargets.every(([img,href])=>body.includes(img)&&body.includes('href="'+href+'"'));
+      add('홈페이지 창작 그림 세 점 첫 화면 아래 전시',artReady?'실사이트 반영 확인':'배포·캐시 확인 필요',
+        'HTTP '+response.status+' · 원장 캐리커처 다음 그림 3점 · 모바일 가로 감상 · 갤러리 이동 '+
+        (artReady?'공개 확인':'최신 배포 확인 필요'));
     }
     // Compare a few already-fetched public medical guides with genuinely
     // revised source content. This is read-only: a stale deployment is reported
