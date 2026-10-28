@@ -9,7 +9,17 @@ const originals=[
  'assets/clinic-gallery.css',
  'assets/clinic-gallery.js',
  'assets/museum-home-v2.css',
- 'assets/atelier-home-2026.css'
+ 'assets/atelier-home-2026.css',
+ 'assets/cubist-cat-clinic-thumb.webp',
+ 'assets/cubist-cat-clinic.webp',
+ 'assets/lakeside-flower-clinic-thumb.webp',
+ 'assets/lakeside-flower-clinic.webp',
+ 'assets/starry-night-clinic-thumb.webp',
+ 'assets/starry-night-clinic.webp',
+ 'assets/quiet-window-cat-thumb.webp',
+ 'assets/quiet-window-cat.webp',
+ 'assets/street-art-tooth-heart-thumb.webp',
+ 'assets/street-art-tooth-heart.webp'
 ];
 async function get(path){
  const response=await fetch(origin+path,{
@@ -62,11 +72,28 @@ try{
  record('모바일 상단 환자 메뉴',menuOk,
    '실사이트 메뉴 '+actualLinks+'개 · 증상·검색·치과 이야기·오시는 길·전화 링크');
  good&&=menuOk;
- const idsOk=['art-starry','art-pond','art-golden','art-cat']
-   .every(id=>gallery.includes('id="'+id+'"'));
- record('그림 갤러리 작품 연결',idsOk,
-   idsOk?'네 작품의 직접 연결 위치 있음':'일부 작품의 링크 위치 확인 필요');
+ const nineIds=['art-starry','art-pond','art-golden','art-cat',
+  'art-cubist-cat-clinic','art-lakeside-flower-clinic',
+  'art-starry-night-clinic','art-quiet-window-cat','art-street-art-tooth-heart'];
+ const idsOk=nineIds.every(id=>gallery.includes('id="'+id+'"'))&&
+   nineIds.every(id=>gallery.includes('href="#'+id+'"'))&&
+   (gallery.match(/<figure class="gallery-piece/g)||[]).length===9&&
+   (gallery.match(/class="gallery-zoom"/g)||[]).length===9&&
+   gallery.includes('id="gallery-dialog-position" aria-live="polite" aria-atomic="true">01 / 09</span>');
+ record('9점 갤러리 작품·인덱스·확대창',idsOk,
+   idsOk?'그림 9점·작품 이동 링크 9개·확대 버튼 9개·01/09 표시 확인':
+    '실사이트 갤러리 일부가 4점 구성 또는 이전 디자인입니다.');
  good&&=idsOk;
+ const thumbnailNames=['cubist-cat-clinic','lakeside-flower-clinic',
+  'starry-night-clinic','quiet-window-cat','street-art-tooth-heart'];
+ const linkedImagesOk=thumbnailNames.every(name=>
+  gallery.includes('src="/assets/'+name+'-thumb.webp"')&&
+  gallery.includes('data-image="/assets/'+name+'.webp"')&&
+  gallery.includes('href="/assets/'+name+'.webp"'));
+ record('신규 5점 미리보기·원본 링크',linkedImagesOk,
+   linkedImagesOk?'5개 WebP 미리보기·고화질 원본 연결 확인':
+    '일부 신규 그림의 미리보기·고화질 원본 링크가 없습니다.');
+ good&&=linkedImagesOk;
  // Follow the exact CSS and JS query hashes written in the live document.
  // Bare unversioned URLs can be cached by Cloudflare long after a new release.
  const livePaths=originals.map(p=>{
@@ -75,6 +102,9 @@ try{
   const attrs=[...document.matchAll(/(?:href|src)="([^"]+)"/g)].map(m=>m[1]);
   return attrs.find(a=>a.split('?')[0]===name)||name;
  });
+ // All ten new WebP artwork files are byte-for-byte checked against
+ // the GitHub build. A passing build alone is not evidence of Cloudflare
+ // deployment, and the cards must never point to missing picture files.
  const files=await Promise.all(livePaths.map(get));
  for(let i=0;i<originals.length;i++){
   const path=originals[i];
@@ -104,7 +134,7 @@ try{
 if(process.env.GITHUB_STEP_SUMMARY){
  const safe=value=>String(value).replaceAll('&','&amp;')
   .replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('|','/');
- const allCurrent=checks.length>=10&&checks.every(x=>x.status==='일치')&&good;
+ const allCurrent=checks.length>=19&&checks.every(x=>x.status==='일치')&&good;
  const summary=[
   '## 정식 홈페이지 최신 디자인 공개 상태 (실서버 직접 비교)',
   '',
