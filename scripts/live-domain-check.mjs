@@ -968,12 +968,21 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       ];
       const indexedRootImages=Array.from({length:10},(_,i)=>
        origin+'/assets/retreatment/illustration-'+String(i+1).padStart(2,'0')+'.webp');
-      const imageMapReady=googleImageNamespace&&imageLocs.length===12&&
-       [...indexedHeroImages,...indexedRootImages].every(url=>imageLocs.includes(url))&&
+      const indexedTopicImages=['implant','denture'].map(kind=>
+       origin+'/assets/clinical-share/'+kind+'.png');
+      const correctTopicImage=kind=>{
+       const block=body.split('<loc>'+origin+'/'+kind+'</loc>')[1]?.split('</url>')[0]||'';
+       return block.includes('<image:image><image:loc>'+origin+
+        '/assets/clinical-share/'+kind+'.png</image:loc></image:image>');
+      };
+      const imageMapReady=googleImageNamespace&&imageLocs.length===14&&
+       new Set(imageLocs).size===14&&
+       [...indexedHeroImages,...indexedRootImages,...indexedTopicImages].every(url=>imageLocs.includes(url))&&
+       ['implant','denture'].every(kind=>dateDeployed(kind)&&correctTopicImage(kind))&&
        dateDeployed('retreatment');
       info.push(imageMapReady?
-       'Google 이미지 사이트맵: 창작 이미지 2개·재신경치료 삽화 10개와 실제 수정일 공개 확인':
-       'Google 이미지 사이트맵 최신 배포 확인 필요 (실제 이미지 '+imageLocs.length+'/12)');
+       'Google 이미지 사이트맵: 홈페이지 2개·재신경치료 10개·임플란트 및 틀니 고유 삽화 2개 실사이트 공개 확인':
+       'Google 이미지 사이트맵 최신 배포 확인 필요 (실제 이미지 '+imageLocs.length+'/14)');
       info.push(dateDeployed('health/root-canal-retreatment-process')?
        'Google 재신경치료 과정 건강정보의 실제 수정일 게시 확인':
        'Google 재신경치료 과정 건강정보 최근 수정일 최신 배포 확인 필요');

@@ -29,6 +29,10 @@ test('live Cloudflare audit checks exact OG preview and real 1200x630 PNG respon
  assert.ok(probe.includes("if(label==='care route implant'||label==='care route denture')"));
  assert.ok(probe.includes("buffer.readUInt32BE(16)===1200&&buffer.readUInt32BE(20)===630"));
  assert.ok(probe.includes('tagsReady&&actualPngReady'));
+ assert.ok(probe.includes('const indexedTopicImages='));
+ assert.ok(probe.includes('const correctTopicImage=kind=>'));
+ assert.ok(probe.includes('imageLocs.length===14'));
+ assert.ok(probe.includes("['implant','denture'].every(kind=>dateDeployed(kind)&&correctTopicImage(kind))"));
 });
 
 test('implant and denture have separate genuine PNG sharing images with Korean wordmarks',()=>{
