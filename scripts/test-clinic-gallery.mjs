@@ -7,6 +7,12 @@ test('gallery is published with four paintings and three clinical illustration l
  assert.match(g,/<title>치과 갤러리 /);
  assert.match(g,/rel="canonical" href="https:\/\/ejoeundental\.com\/gallery\.html"/);
  assert.equal((g.match(/<figure class="gallery-piece/g)||[]).length,4);
+ assert.equal((g.match(/class="gallery-piece[^"]*gallery-piece-feature/g)||[]).length,2,
+  'gallery must have two museum-sized feature artworks');
+ assert.match(g,/class="gallery-exhibition-index" aria-label="갤러리 작품 찾아보기"/);
+ for(const anchor of ['art-starry','art-pond','art-golden','art-cat']){
+  assert.ok(g.includes('href="#'+anchor+'"'),'missing direct exhibition index link: '+anchor);
+ }
  assert.equal((g.match(/class="gallery-note"/g)||[]).length,3);
  assert.match(g,/고흐풍에서 영감/);
  assert.match(g,/실제 작품을 전시하는 것이 아니라/);
@@ -25,6 +31,9 @@ test('gallery artwork and style files are present in built Cloudflare output',()
   assert.match(svg,/이조은치과/);
  }
  assert.match(read('assets/clinic-gallery.css'),/max-width:600px/);
+ assert.match(read('assets/clinic-gallery.css'),/grid-column:1\/-1/);
+ assert.match(read('assets/clinic-gallery.css'),/gallery-exhibition-index/);
+ assert.match(read('assets/clinic-gallery.css'),/gallery-piece-feature/);
  assert.match(read('assets/clinic-gallery.js'),/showModal\(/);
 });
 test('gallery is discoverable from homepage and sitemap without losing search or booking',()=>{
