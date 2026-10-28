@@ -1913,3 +1913,160 @@ body.home-page #main-content>#stories .owner-blog-direct-search>p{
   border:1px solid ButtonText;
  }
 }
+
+
+/* Atelier edition XV · New works salon.
+ * Reveal only two lightweight WebP previews after the existing four-art
+ * homepage curation; all other pictures remain in the nine-art gallery.
+ * Images are native lazy loading with no added JavaScript. */
+body.home-page #main-content>#gallery .gallery-new-arrivals{
+  display:grid;
+  grid-template-columns:minmax(0,.92fr) minmax(0,1.35fr);
+  align-items:center;
+  gap:clamp(20px,3.5vw,43px);
+  max-width:1120px;
+  margin:clamp(23px,3.7vw,43px) auto 0;
+  padding:clamp(21px,3vw,34px);
+  border:1px solid #d8ddcb;
+  border-top:3px solid #9eae90;
+  border-radius:5px 18px 5px 18px;
+  background:linear-gradient(120deg,#f1f5ec,#fbf9ee 63%,#f8f3e8);
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__intro{
+  min-width:0;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__eyebrow{
+  margin:0 0 8px;
+  color:#877145;
+  font:750 11px/1.55 system-ui,sans-serif;
+  letter-spacing:.17em;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__intro h3{
+  margin:0 0 11px;
+  font-family:var(--atelier-serif);
+  color:#234936;
+  font-size:clamp(20px,2.25vw,25px);
+  font-weight:700;
+  line-height:1.45;
+  letter-spacing:-.055em;
+  text-wrap:balance;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__intro>p:not(.gallery-new-arrivals__eyebrow){
+  margin:0 0 16px;
+  max-width:50ch;
+  line-height:1.78;
+  font-size:14px;
+  color:#536454;
+  word-break:keep-all;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__intro>a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  min-height:44px;
+  padding:9px 14px;
+  font-size:13px;
+  line-height:1.55;
+  font-weight:750;
+  color:#fffaf1;
+  border-radius:5px;
+  background:#2a5941;
+  text-decoration:none;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__intro>a:hover{
+  background:#194a35;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(10px,1.7vw,16px);
+  min-width:0;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews>a{
+  display:flex;
+  flex-direction:column;
+  box-sizing:border-box;
+  min-width:0;
+  height:100%;
+  overflow:hidden;
+  border:1px solid #d8d1b9;
+  border-radius:3px 11px 3px 11px;
+  background:#fffdf7;
+  text-decoration:none;
+  box-shadow:0 8px 18px rgba(31,56,40,.045);
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews img{
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:680/420;
+  object-fit:contain;
+  background:#eee9de;
+  border:5px solid #fbf7eb;
+  box-sizing:border-box;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews span{
+  flex:1;
+  display:flex;
+  align-items:center;
+  min-height:52px;
+  padding:11px 13px;
+  color:#2e5541;
+  font:750 13px/1.5 system-ui,"Noto Sans KR",sans-serif;
+  word-break:keep-all;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews>a:hover{
+  border-color:#8eac92;
+  box-shadow:0 10px 22px rgba(31,56,40,.09);
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals :is(a):focus-visible{
+  outline:3px solid #a88649;
+  outline-offset:3px;
+}
+@media(max-width:760px){
+  body.home-page #main-content>#gallery .gallery-new-arrivals{
+    grid-template-columns:minmax(0,1fr);
+    gap:19px;
+    padding:clamp(18px,4vw,24px);
+  }
+  body.home-page #main-content>#gallery .gallery-new-arrivals__intro>p:not(.gallery-new-arrivals__eyebrow){
+    max-width:75ch;
+  }
+}
+@media(max-width:460px){
+  body.home-page #main-content>#gallery .gallery-new-arrivals{
+    margin-top:22px;
+    gap:17px;
+    padding:19px 15px;
+  }
+  body.home-page #main-content>#gallery .gallery-new-arrivals__previews{
+    gap:9px;
+  }
+  body.home-page #main-content>#gallery .gallery-new-arrivals__previews img{
+    border-width:3px;
+  }
+  body.home-page #main-content>#gallery .gallery-new-arrivals__previews span{
+    min-height:52px;
+    padding:10px;
+    font-size:12px;
+  }
+  body.home-page #main-content>#gallery .gallery-new-arrivals__intro>a{
+    width:100%;
+    box-sizing:border-box;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#gallery .gallery-new-arrivals,
+  body.home-page #main-content>#gallery .gallery-new-arrivals__previews>a{
+    background:Canvas;
+    color:CanvasText;
+    border:1px solid CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#gallery .gallery-new-arrivals__intro>a{
+    background:Canvas;
+    color:LinkText;
+    border:1px solid LinkText;
+  }
+}
