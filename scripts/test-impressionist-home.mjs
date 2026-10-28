@@ -37,6 +37,10 @@ test('original gallery and responsive accent are local, cached, and accessible',
  const hash=createHash('sha256').update(artwork).digest('hex').slice(0,12);
  const artUrl='/assets/impressionist-water-garden.svg?v='+hash;
  assert.ok(css.includes('background-image:url("'+artUrl+'")'),'CSS must load the latest painting');
+ const galleryReferences=[...galleryCss.matchAll(/\/assets\/impressionist-water-garden\.svg(?:\?v=[0-9a-f]{12})?/g)].map(m=>m[0]);
+ assert.ok(galleryReferences.length>=3,'Gallery CSS must still show the original Monet-inspired background');
+ assert.ok(galleryReferences.every(url=>url===artUrl),
+  'Mobile image preload and every gallery background must share the exact URL to avoid duplicate downloads');
  assert.ok(home.includes('<link rel="preload" as="image" type="image/svg+xml" media="(max-width: 600px)" href="'+artUrl+'">'),
    'Phones should begin loading the original painting early');
  assert.ok(home.includes('<img src="'+artUrl+'"'),'The displayed art should use the same versioned URL');
