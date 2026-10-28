@@ -331,3 +331,229 @@ body.home-page .museum-route__links>a:focus-visible{
 @media print{
   body.home-page #main-content>.museum-route{break-inside:avoid;box-shadow:none}
 }
+
+
+/*
+ * Museum edition III: editorial hero and clinical-art cards (2026-10-29).
+ * A final visual layer only: the one-column mobile grid, booking, patient text,
+ * search metadata and clinic-original art remain intact.
+ */
+body.home-page #main-content>.hero.wrap{
+  border-color:#cfc5ad;
+  background:
+    radial-gradient(ellipse at 5% 0%,rgba(248,229,190,.27),transparent 48%),
+    radial-gradient(ellipse at 92% 84%,rgba(153,190,165,.18),transparent 45%),
+    linear-gradient(140deg,#fffdf7 0%,#f7f6ed 62%,#f4f4e9 100%);
+  box-shadow:0 19px 48px rgba(29,54,39,.075);
+}
+body.home-page #main-content>.hero.wrap .kicker{
+  display:inline-flex;align-items:center;gap:11px;
+  color:#796643;letter-spacing:.16em;font-size:11px;
+}
+body.home-page #main-content>.hero.wrap .kicker::before{
+  content:"";display:inline-block;flex:none;
+  width:24px;height:1px;background:#aa8b58;
+}
+body.home-page #main-content>.hero.wrap #headline{
+  color:#173e31;
+  line-height:1.39;
+  letter-spacing:-.057em;
+  text-wrap:balance;
+  word-break:keep-all;
+}
+body.home-page #main-content>.hero.wrap .hero-doctor-credentials{
+  box-sizing:border-box;max-width:100%;
+  background:rgba(255,253,245,.8);
+  border:1px solid #e1dac8;border-left:3px solid #ac905e;
+  border-radius:2px 8px 8px 2px;
+  padding:12px 15px;
+  color:#315244;
+}
+body.home-page #main-content>.hero.wrap .hero-doctor-credentials strong{
+  color:#204738;
+}
+body.home-page #main-content>.hero.wrap .hero-actions>.hero-call,
+body.home-page #main-content>.hero.wrap .hero-actions>.hero-booking{
+  box-shadow:0 6px 14px rgba(28,61,44,.10);
+  border-radius:7px;
+}
+body.home-page #main-content>.hero.wrap .hero-actions>.hero-call{
+  background:#1b4a39;border-color:#1b4a39;color:#fff;
+}
+body.home-page #main-content>.hero.wrap .hero-actions>.hero-booking{
+  background:#ebe0c7;border-color:#b9a274;color:#234635;
+}
+body.home-page #main-content>.hero.wrap .hero-actions>a:focus-visible,
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:focus-visible{
+  outline:3px solid #9b773e;outline-offset:4px;
+}
+body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+  padding:10px;
+  background:#f9f5eb;
+  border:1px solid #c6b389;
+  box-shadow:0 21px 39px rgba(35,56,39,.12),8px 9px 0 rgba(221,207,176,.35);
+}
+body.home-page #main-content>.hero.wrap>.art.hero-artwork img{
+  background:#f8f5ea;
+  object-fit:contain;
+}
+body.home-page #main-content>.hero.wrap>.hero-editorial-detail>div,
+body.home-page #main-content>.hero.wrap>.hero-editorial-detail>aside{
+  border-color:#e4dccb;background:rgba(255,254,250,.9);
+  box-shadow:0 6px 20px rgba(28,58,39,.025);
+}
+body.home-page #main-content>.hero.wrap .hero-editorial-label{
+  color:#806c49;
+}
+body.home-page #main-content>#focus-care .focus-care-lead-copy h2{
+  max-width:22ch;
+  color:#173f32;
+  letter-spacing:-.055em;
+  line-height:1.48;
+}
+body.home-page #main-content>#focus-care .focus-care-lead-art{
+  border:1px solid #c8b992;
+  background:#fffdf5;
+  box-shadow:0 15px 34px rgba(26,51,37,.09);
+}
+body.home-page #main-content>#focus-care .focus-care-lead-art img{
+  object-fit:contain;
+  background:#f6f4eb;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts{
+  gap:clamp(11px,1.5vw,19px);
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a{
+  border:1px solid #ddd8c8;border-bottom:2px solid #bba57c;
+  border-radius:5px 15px 5px 15px;
+  background:#fffefa;
+  box-shadow:0 9px 23px rgba(35,57,40,.045);
+  padding:13px 15px 20px;
+  transition:box-shadow .2s ease,border-color .2s ease;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(even){
+  border-bottom-color:#829f8b;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a::before{
+  box-sizing:border-box;
+  height:clamp(122px,13vw,173px);
+  margin:0 0 12px;
+  border:1px solid #e4ddcd;
+  border-radius:2px;
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-color:#f4f1e7;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:first-child::before{
+  background-image:url('/assets/impressionist-water-garden.svg');
+  background-size:cover;
+  background-position:center;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(2)::before{
+  background-image:url('/assets/retreatment/illustration-01.webp');
+  background-size:contain;
+  background-position:center;
+  background-color:#f4f4ed;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(3)::before{
+  background:#f5f1e7 url('/assets/care-illustration-abrasion.svg') center/contain no-repeat;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(4)::before{
+  background:#f1f5ed url('/assets/care-illustration-insurance.svg') center/contain no-repeat;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(5)::before{
+  background:#f3f4eb url('/assets/care-illustration-scaling.svg') center/contain no-repeat;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a strong{
+  color:#244635;line-height:1.55;
+  word-break:keep-all;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a span{
+  color:#526b5a;font-size:13px;
+  line-height:1.65;word-break:keep-all;
+}
+body.home-page .museum-route__label small{
+  font-size:11px;
+}
+@media(hover:hover) and (pointer:fine){
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a:hover{
+    border-color:#aa966d;
+    box-shadow:0 14px 30px rgba(33,61,42,.10);
+  }
+}
+@media(min-width:901px){
+  body.home-page #main-content>.hero.wrap{
+    column-gap:clamp(24px,4vw,57px);
+  }
+  body.home-page #main-content>.hero.wrap #headline{
+    font-size:clamp(36px,3.75vw,50px);
+  }
+}
+@media(max-width:700px){
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a{
+    padding:11px 12px 17px;
+  }
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a::before{
+    height:116px;margin-bottom:8px;
+  }
+}
+@media(max-width:600px){
+  /* Respect the existing critical 1-column hero / explicit portrait row. */
+  body.home-page #main-content>.hero.wrap{
+    border-radius:15px;
+    box-shadow:0 10px 26px rgba(26,52,37,.055);
+  }
+  body.home-page #main-content>.hero.wrap #headline{
+    font-size:clamp(28px,7.4vw,37px);
+    line-height:1.42;
+  }
+  body.home-page #main-content>.hero.wrap .hero-doctor-credentials{
+    padding:10px 12px;
+    font-size:13px;line-height:1.7;
+  }
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+    padding:7px;
+    margin:6px auto 15px;
+    box-shadow:0 11px 23px rgba(27,54,38,.10);
+  }
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a,
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(-n+2){
+    min-height:0;
+    padding:10px 10px 15px;
+    border-radius:5px 12px 5px 12px;
+  }
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(-n+2){
+    grid-column:1/-1;
+  }
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a::before{
+    height:108px;margin-bottom:7px;
+  }
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(-n+2)::before{
+    height:145px;
+  }
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a strong{
+    font-size:15px;line-height:1.55;
+  }
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(-n+2) strong{
+    font-size:17px;
+  }
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a span{
+    font-size:12px;line-height:1.62;
+  }
+  body.home-page .museum-route__label small{
+    font-size:11px;line-height:1.5;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a{
+    transition:none;transform:none;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>.hero.wrap,
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a{
+    background:Canvas;color:CanvasText;
+    border-color:CanvasText;box-shadow:none;
+  }
+}
