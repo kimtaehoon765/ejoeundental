@@ -148,3 +148,32 @@ test('gallery publishes five optimized original image pairs',()=>{
  }
  assert.ok(g.includes('그림 아홉 점, 아홉 가지 이야기'));
 });
+
+
+test('live read-only gallery probe checks all nine original artworks and 10 optimized images',()=>{
+ const gallery=read('gallery.html');
+ const script=readFileSync('scripts/check-live-gallery.mjs','utf8');
+ const zoomButtons=[...gallery.matchAll(/class="gallery-zoom"/g)];
+ const indices=[...gallery.matchAll(/href="#art-[a-z-]+"/g)];
+ assert.equal((gallery.match(/<figure class="gallery-piece/g)||[]).length,9);
+ assert.equal(zoomButtons.length,9);
+ assert.equal(indices.length,9);
+ assert.ok(gallery.includes('aria-atomic="true">01 / 09</span>'),
+  'visible counter must not claim a four-piece exhibition before JS loads');
+ const names=['cubist-cat-clinic','lakeside-flower-clinic',
+  'starry-night-clinic','quiet-window-cat','street-art-tooth-heart'];
+ for(const name of names){
+  assert.match(script,new RegExp("'assets/"+name+"-thumb\\\\.webp'"));
+  assert.match(script,new RegExp("'assets/"+name+"\\\\.webp'"));
+  for(const suffix of ['-thumb.webp','.webp']){
+   const target='assets/'+name+suffix;
+   assert.ok(existsSync('dist/'+target),'missing deployed source '+target);
+  }
+ }
+ assert.ok(script.includes("gallery.includes('id=\"'+id+'\"')"),
+  'public verification should check nine actual art anchors');
+ assert.ok(script.includes('checks.length>=19'));
+ assert.ok(script.includes('expected===actual'),
+  'public verification must compare source and live SHA, not just HTTP status');
+ assert.ok(script.includes('Cache-Control'));
+});
