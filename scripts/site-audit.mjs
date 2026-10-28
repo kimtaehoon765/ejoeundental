@@ -89,13 +89,29 @@ if(!existsSync(challengePath)||readFileSync(challengePath,'utf8')!==expectedChal
   const xml=readFileSync(rssPath,'utf8');
   const items=[...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].map(m=>m[1]);
   const list=JSON.parse(readFileSync(join(root,'content/posts-index.json'),'utf8'));
-  const latest=list.slice(0,20);
+  // Naver's latest full-text RSS includes genuine revisions to older stories.
+  // The public index remains ordered by original publication date.
+  const edited=list.map(entry=>({
+   ...entry,
+   updated:JSON.parse(readFileSync(join('content','posts',entry.slug+'.json'),'utf8')).updated
+  }));
+  const lastChanged=post=>[post.updated,post.date]
+   .filter(value=>/^\d{4}-\d{2}-\d{2}$/.test(String(value||'')))
+   .sort().at(-1)||'';
+  const latest=edited.sort((a,b)=>
+   lastChanged(b).localeCompare(lastChanged(a))||
+   String(b.date||'').localeCompare(String(a.date||''))||
+   String(a.slug).localeCompare(String(b.slug))).slice(0,20);
   if(!xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>')||
      !xml.includes('<rss version="2.0"><channel>')||
      !xml.includes('<language>ko-KR</language>')||
      items.length!==latest.length||
      Buffer.byteLength(xml,'utf8')>=10*1024*1024){
    errors.push('네이버 RSS XML 규격·문서 개수 또는 10MB 상한 오류');
+  }
+  const lastBuildDate=new Date(lastChanged(latest[0])+'T03:00:00Z').toUTCString();
+  if(!xml.includes('<lastBuildDate>'+lastBuildDate+'</lastBuildDate>')){
+   errors.push('네이버 RSS 마지막 수정일과 실제 본문 수정일 불일치');
   }
   const encodeXml=value=>String(value??'').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,'')
    .replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
