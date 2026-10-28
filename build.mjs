@@ -3334,7 +3334,15 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
 // This changes navigation only, not page text, indexing or clinical information.
 {
  const pages=['stories.html','clinical-archive.html','doctor.html',
-  'gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
+  'gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html',
+  // Patient medication, disease and FAQ guides also need direct contact,
+  // a booking route and a keyboard shortcut past the header.
+  'blood-thinners-dental.html','osteoporosis-medication-dental.html',
+  'diabetes-dental-care.html','heart-disease-dental-care.html',
+  'kidney-disease-dental-care.html','liver-disease-dental-care.html',
+  'cancer-immunosuppression-dental-care.html','pregnancy-dental-care.html',
+  'medical-history.html','medical-safety-guide.html',
+  'medication-dental-faq.html','systemic-disease-dental-faq.html'];
  const cssFile=path.join(out,'assets/clinic-info-mobile-actions.css');
  if(!fs.existsSync(cssFile))throw new Error('Missing shared patient mobile actions stylesheet');
  const cssVersion=createHash('sha256').update(fs.readFileSync(cssFile)).digest('hex').slice(0,12);
