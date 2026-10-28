@@ -337,3 +337,162 @@ body.home-page #main-content>#stories .owner-story-card h3{
   background:Canvas;border:1px solid CanvasText;box-shadow:none
  }
 }
+
+
+/* Gallery edition II · illustration-first reading, no hidden SEO text. */
+body.home-page #home-representative-guides .home-representative-guide-grid>a{
+ padding-top:clamp(137px,15vw,160px);
+ min-height:270px;
+ background-repeat:no-repeat;
+ background-position:center 0;
+ background-size:100% 126px;
+ background-color:#fffefa;
+ border-top:1px solid #e0d9c7;
+ box-shadow:0 12px 35px rgba(28,63,44,.07);
+}
+body.home-page #home-representative-guides .home-representative-guide-grid>a:first-child{
+ background-image:url('/assets/care-illustration-scaling.svg');
+}
+body.home-page #home-representative-guides .home-representative-guide-grid>a:nth-child(2){
+ background-image:url('/assets/impressionist-water-garden.svg');
+}
+body.home-page #home-representative-guides .home-representative-guide-grid>a:nth-child(3){
+ background-image:url('/assets/retreatment/illustration-01.webp');
+ background-position:center top;
+}
+body.home-page #home-representative-guides .home-representative-guide-grid>a:nth-child(4){
+ background-image:url('/assets/care-illustration-insurance.svg');
+}
+body.home-page #home-representative-guides .home-representative-guide-grid>a::before{
+ display:block;margin-bottom:7px;color:#8a7653;
+ font-size:11px;letter-spacing:.09em;
+}
+body.home-page #home-representative-guides .home-representative-guide-grid>a strong{
+ display:block;font-size:clamp(17px,1.8vw,21px);color:#194a38;
+}
+body.home-page #home-representative-guides .home-representative-guide-grid>a span{
+ display:block;margin-top:5px;color:#4e6857;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(3)::before{
+ background:url('/assets/care-illustration-abrasion.svg') center/cover no-repeat;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(4)::before{
+ background:url('/assets/care-illustration-insurance.svg') center/cover no-repeat;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(5)::before{
+ background:url('/assets/care-illustration-scaling.svg') center/cover no-repeat;
+}
+/* Health guides: small different picture captions to break long rows of copy. */
+body.home-page #main-content>#health-info .grid>.card{
+ overflow:hidden;
+ background:#fffdf8;
+}
+body.home-page #main-content>#health-info .grid>.card::before{
+ content:"";display:block;height:88px;
+ margin:-18px -20px 19px;
+ border-radius:8px 8px 4px 4px;
+ background:#edf2e8 center/cover no-repeat;
+}
+body.home-page #main-content>#health-info .grid>.card:nth-child(1)::before{
+ background-image:url('/assets/care-illustration-scaling.svg');
+}
+body.home-page #main-content>#health-info .grid>.card:nth-child(2)::before{
+ background-image:url('/assets/retreatment/illustration-02.webp');
+}
+body.home-page #main-content>#health-info .grid>.card:nth-child(3)::before{
+ background-image:url('/assets/care-illustration-abrasion.svg');
+}
+body.home-page #main-content>#health-info .grid>.card:nth-child(4)::before{
+ background-image:url('/assets/care-illustration-insurance.svg');
+}
+body.home-page #main-content>#health-info .grid>.card:nth-child(5)::before{
+ background-image:url('/assets/impressionist-water-garden.svg');
+}
+body.home-page #main-content>#health-info .grid>.card:nth-child(6)::before{
+ background-image:url('/assets/ejoeundental-hero-cat.webp');
+ background-position:center 42%;
+}
+body.home-page #main-content>#health-info .grid>.card p{
+ font-size:14px;line-height:1.78;color:#4c6153;
+}
+body.home-page #main-content>#care .card h3{
+ padding-left:13px;border-left:3px solid #ad9468;
+ color:#204938;
+}
+body.home-page #main-content>#care .card:nth-child(2) h3,
+body.home-page #main-content>#care .card:nth-child(3) h3{
+ border-left-color:#87ad8e;
+}
+body.home-page #main-content>#stories .story-featured-questions{
+ background:linear-gradient(135deg,#f3f1e7,#fcfaf4);
+ border:1px solid #d9d4be;
+ border-radius:13px;
+}
+body.home-page #main-content>#stories .owner-blog-topic-jumps a,
+body.home-page #main-content>#stories .story-featured-questions a{
+ word-break:keep-all;
+}
+/* Dedicated clinic-action row on phones. Reserve a visible position for
+   Naver booking; the existing fixed bottom bar remains available as well. */
+@media(max-width:600px){
+ body.home-page #main-content>.hero .hero-actions{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+ }
+ body.home-page #main-content>.hero .hero-actions .hero-call{
+  display:flex;order:0;grid-column:1;min-height:51px;
+ }
+ body.home-page #main-content>.hero .hero-actions .hero-booking{
+  display:flex;order:1;grid-column:2;min-height:51px;
+  padding:9px 7px;font-size:12px;
+  background:#255f43;color:#fff;border:1px solid #255f43;
+ }
+ body.home-page #main-content>.hero .hero-actions .hero-hours{
+  display:flex;order:2;grid-column:1;min-height:48px;
+  background:#f1ebdc;color:#204b38;border:1px solid #c6b595;
+ }
+ body.home-page #main-content>.hero .hero-actions .hero-symptoms{
+  display:flex;order:3;grid-column:2;min-height:48px;
+  background:#f3f7f0;color:#2c634b;border:1px solid #d3e0d0;
+ }
+ body.home-page #main-content>.hero .hero-actions .hero-map{
+  display:flex;order:4;grid-column:1/-1;min-height:43px;
+  background:transparent;border:0;
+  font-size:12px;text-decoration:underline;
+ }
+ body.home-page #main-content>.hero .hero-gallery-window{
+  min-height:74px;max-height:74px;height:74px;
+ }
+ body.home-page #home-representative-guides .home-representative-guide-grid>a{
+  padding:112px 16px 17px;
+  background-size:100% 99px;
+  min-height:211px;
+ }
+ body.home-page #main-content>#health-info .grid>.card::before{
+  height:70px;margin:-12px -12px 15px;
+ }
+ body.home-page #main-content>#care .card h3{
+  padding-left:10px;
+ }
+}
+@media(max-width:365px){
+ body.home-page #main-content>.hero .hero-actions{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+ }
+ body.home-page #main-content>.hero .hero-actions .hero-call{
+  grid-column:1;font-size:12px;
+ }
+ body.home-page #main-content>.hero .hero-actions .hero-booking{
+  grid-column:2;font-size:11px;
+ }
+ body.home-page #main-content>.hero .hero-actions .hero-hours{grid-column:1}
+ body.home-page #main-content>.hero .hero-actions .hero-symptoms{grid-column:2}
+}
+@media(forced-colors:active){
+ body.home-page #main-content>#health-info .grid>.card::before{
+  border:1px solid CanvasText;background:Canvas;
+ }
+ body.home-page #main-content>.hero .hero-actions .hero-booking{
+  background:ButtonFace;color:ButtonText;border:1px solid ButtonText;
+ }
+}
