@@ -115,10 +115,10 @@ test('seven clinic information hubs have working mobile contact actions and keyb
   ['stories.html','main'],
   ['clinical-archive.html','main'],
   ['doctor.html','doctor-profile-main'],
-  ['gum-health.html','main-content'],
-  ['root-canal-health.html','main-content'],
-  ['insurance-health.html','main-content'],
-  ['additional-health.html','main-content']
+  ['gum-health.html','health-hub-main'],
+  ['root-canal-health.html','health-hub-main'],
+  ['insurance-health.html','health-hub-main'],
+  ['additional-health.html','health-hub-main']
  ];
  const css=readFileSync('dist/assets/clinic-info-mobile-actions.css','utf8');
  assert.match(css,/@media\(max-width:600px\)/);
@@ -137,7 +137,8 @@ test('seven clinic information hubs have working mobile contact actions and keyb
   assert.ok(strips[0][1].includes('rel="noopener noreferrer"'),'safe booking link: '+page);
   assert.match(html,/<link rel="stylesheet" href="\/assets\/clinic-info-mobile-actions\.css\?v=[a-f0-9]{12}">/);
   assert.ok(html.includes('id="'+id+'"'),'skip-link target must exist: '+page);
-  assert.ok(html.includes('href="#'+id+'">본문 바로가기</a>'),'keyboard skip link must point to page main: '+page);
+  const label=id==='health-hub-main'?'건강정보 본문으로 바로가기':'본문 바로가기';
+  assert.ok(html.includes('href="#'+id+'">'+label+'</a>'),'keyboard skip link must point to page main: '+page);
  }
  const visit=readFileSync('dist/visit-guide.html','utf8');
  const home=readFileSync('dist/index.html','utf8');
