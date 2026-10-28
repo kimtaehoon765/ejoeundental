@@ -128,6 +128,7 @@ const urls = [
   { label: '모네풍 갤러리 SVG 공개 확인', url: origin + '/assets/impressionist-water-garden.svg' },
   { label: '모네풍 갤러리 CSS 공개 확인', url: origin + '/assets/home-enhancements.css' },
   { label: '미술관형 리디자인 CSS 실제 배포', url: origin + '/assets/gallery-upgrade.css?v=' + expectedGalleryCssHash },
+  { label: '아틀리에 읽기공간 디자인 스타일', url: origin + '/assets/atelier-home-2026.css' },
   { label: '신규 창작 그림 전시 스타일', url: origin + '/assets/curatorial-home.css?v=20261029-gallery1' },
   { label: '진료 안내 미술관 통합 디자인 CSS', url: origin + '/assets/care-gallery.css' },
   { label: '추가 진료 8개 미술관 디자인 CSS', url: origin + '/assets/care-gallery-secondary.css?v=' + expectedSecondaryGalleryHash },
@@ -466,6 +467,20 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
         published?'디자인·예약 경로 확인':'배포·캐시 확인 필요',
         'HTTP '+response.status+' · 환자 전화·정식 네이버예약·길찾기·최신 CSS 링크 '+
         (published?'원본과 일치':'미확인/불일치'));
+    }
+    if(label==='아틀리에 읽기공간 디자인 스타일'){
+      const expected=readFileSync(new URL('../assets/atelier-home-2026.css',import.meta.url),'utf8');
+      const actualHash=createHash('sha256').update(body).digest('hex');
+      const sourceHash=createHash('sha256').update(expected).digest('hex');
+      const ready=response.status===200&&actualHash===sourceHash&&
+        body.includes('Atelier edition XVI · Quiet reading gallery, 2026-10-29.')&&
+        body.includes('body.home-page #main-content>.symptom-navigator')&&
+        body.includes('body.home-page #main-content>#philosophy .grid>.card')&&
+        body.includes('body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card');
+      add('고급 독서형 증상·진료철학·블로그 디자인 실제 배포',
+        ready?'실사이트 반영 확인':'배포·캐시 확인 필요',
+        'HTTP '+response.status+' · CSS 원본과 배포본 '+(ready?'일치':'불일치/미배포')+
+        ' · SHA256 '+actualHash.slice(0,12));
     }
     if(label==='신규 창작 그림 전시 스타일'){
       const expectedCss=readFileSync(new URL('../assets/curatorial-home.css',import.meta.url),'utf8');
