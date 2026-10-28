@@ -1562,3 +1562,128 @@ body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p:last-child a
     background:Canvas;color:LinkText;border:1px solid LinkText;
   }
 }
+
+
+/* Atelier edition XII · Patient education reading room.
+   Six intact medical summaries, six original art panels and all original links.
+   The layout stays readable without shortening indexed patient explanations. */
+body.home-page #main-content>#health-info .health-topic-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:stretch;
+  gap:clamp(15px,2.1vw,24px);
+  margin-top:clamp(23px,3.3vw,34px);
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  min-width:0;
+  padding:clamp(21px,2.3vw,29px);
+  border:1px solid #d9d5c6;
+  border-top:3px solid #bba06c;
+  border-radius:5px 17px 5px 17px;
+  background:linear-gradient(145deg,#fffdf8,#f9faf5);
+  box-shadow:0 10px 27px rgba(31,59,42,.045);
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card:nth-child(even){
+  border-top-color:#8ba78a;
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card::before{
+  flex:0 0 auto;
+  height:clamp(125px,14vw,158px);
+  margin:calc(-1 * clamp(21px,2.3vw,29px)) calc(-1 * clamp(21px,2.3vw,29px)) 20px;
+  border-radius:3px 14px 1px 1px;
+  background-position:center;
+  background-size:cover;
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card:nth-child(6)::before{
+  background-size:contain;
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card>h3{
+  margin:0 0 12px;
+  color:#244d3b;
+  font-family:var(--atelier-serif);
+  font-size:clamp(19px,1.9vw,23px);
+  line-height:1.5;
+  letter-spacing:-.045em;
+  word-break:keep-all;
+  text-wrap:balance;
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card>p:not(.health-topic-actions){
+  margin:0 0 18px;
+  color:#495d4f;
+  font-size:15px;
+  line-height:1.9;
+  word-break:keep-all;
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card>.health-topic-actions{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:stretch;
+  gap:9px;
+  margin:auto 0 0;
+  padding-top:17px;
+  border-top:1px solid #deded1;
+  font-size:14px;
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card>.health-topic-actions>a{
+  display:inline-flex;
+  align-items:center;
+  box-sizing:border-box;
+  min-width:0;
+  min-height:44px;
+  padding:9px 12px;
+  color:#265943;
+  background:#edf4eb;
+  border:1px solid #cbdccb;
+  border-radius:5px;
+  font-size:13px;
+  line-height:1.55;
+  font-weight:750;
+  text-decoration:none;
+  overflow-wrap:anywhere;
+  word-break:keep-all;
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card>.health-topic-actions>a:hover{
+  background:#e4efe1;
+  border-color:#93b195;
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card>.health-topic-actions>a:focus-visible{
+  outline:3px solid #b18b4b;
+  outline-offset:3px;
+}
+@media(max-width:760px){
+  body.home-page #main-content>#health-info .health-topic-grid{
+    grid-template-columns:minmax(0,1fr);
+    gap:14px;
+  }
+  body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card{
+    padding:20px 18px 22px;
+  }
+  body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card::before{
+    height:clamp(126px,28vw,170px);
+    margin:-20px -18px 19px;
+  }
+  body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card>.health-topic-actions>a{
+    min-height:46px;
+    font-size:14px;
+  }
+}
+@media(max-width:440px){
+  body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card>.health-topic-actions>a{
+    width:100%;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card{
+    background:Canvas;
+    border:1px solid CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card>.health-topic-actions>a{
+    background:Canvas;
+    color:LinkText;
+    border:1px solid LinkText;
+  }
+}
