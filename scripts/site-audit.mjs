@@ -3247,6 +3247,33 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  console.log('Medication and heart disease patient references checked:',guides.length);
 }
 
+// On six patient-facing medicine and medical history guides, related FAQ and
+// reading links must appear inside <main> before the copyright footer. Keeping
+// a semantic ending also makes mobile keyboard navigation more predictable.
+{
+ const cases=[
+  ['blood-thinners-dental.html','<aside aria-label="자주 묻는 질문"','href="/medication-dental-faq.html"'],
+  ['osteoporosis-medication-dental.html','<aside aria-label="자주 묻는 질문"','href="/medication-dental-faq.html"'],
+  ['diabetes-dental-care.html','<aside aria-label="자주 묻는 질문"','href="/systemic-disease-dental-faq.html"'],
+  ['heart-disease-dental-care.html','<aside aria-label="자주 묻는 질문"','href="/systemic-disease-dental-faq.html"'],
+  ['medical-history.html','<nav aria-label="진료 전 건강정보 FAQ"','href="/medical-safety-guide.html"'],
+  ['medical-safety-guide.html','<aside aria-label="원장의 임상 아카이브"','href="/previsit-checklist.html"']
+ ];
+ for(const [file,landmark,followup] of cases){
+  const html=readFileSync(join(root,file),'utf8');
+  const mainEnd=html.indexOf('</main>');
+  const footerStart=html.indexOf('<footer');
+  const markerAt=html.indexOf(landmark);
+  const linkAt=html.indexOf(followup);
+  const footerEnd=html.indexOf('</footer>');
+  const okay=mainEnd>=0 && footerStart>mainEnd && footerEnd>footerStart &&
+   markerAt>=0 && markerAt<mainEnd && linkAt>=0 && linkAt<mainEnd &&
+   (html.match(/<\/footer>/g)||[]).length===1;
+  if(!okay) errors.push('환자 안전 안내 관련 FAQ·후속 글이 페이지 바깥에 있거나 누락됨: '+file);
+ }
+ console.log('Medication and medical-history reading order checked:',cases.length,'patient pages');
+}
+
 // Report every audit error, including the checks above this final line.
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);
