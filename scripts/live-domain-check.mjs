@@ -426,6 +426,24 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
         navigationReady?'실사이트 목차 반영 확인':'배포·캐시 확인 필요',
         '섹션 바로가기 3곳과 방문 안내 링크 '+(navigationReady?'정상 공개':'미확인'));
     }
+    // Verify that October 28 patient education links are discoverable from
+    // their relevant public care guides, beyond simply checking story URLs.
+    const clinicalStoryLinks=new Map([
+      ['care route cavity', {
+        href:'/stories/2026-10-28-sangok-front-tooth-resin-cavity-repair/',
+        label:'충치치료 → 앞니 레진 환자교육 내부 링크'
+      }],
+      ['remaining route diabetes-dental-care', {
+        href:'/stories/2026-10-28-cheongcheon-diabetes-implant-anesthesia-checklist/',
+        label:'당뇨환자 안내 → 임플란트·마취 환자교육 내부 링크'
+      }]
+    ]);
+    if(clinicalStoryLinks.has(label)){
+      const {href,label:linkLabel}=clinicalStoryLinks.get(label);
+      const found=response.status===200&&body.includes('href="'+href+'"');
+      add(linkLabel,found?'실사이트 반영 확인':'배포·캐시 확인 필요',
+       'HTTP '+response.status+' · 관련 진료 설명에서 정확한 공개 교육 글 주소 '+(found?'연결됨':'미확인'));
+    }
     const careGalleryPages={
       '잇몸치료 상세 페이지':'gum-treatment',
       '재신경치료 이미지 초기 표시':'retreatment',
