@@ -149,3 +149,22 @@ test('featured exhibition thumbnails open the matching artwork with a visible ta
  assert.match(homeCss, /Atelier edition VIII/,
   'homepage gallery numbering polish should ship');
 });
+
+
+test('mobile hero artwork preload prioritizes the visible doctor-cat portrait',()=>{
+ const hero=home.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
+ const portrait=hero.match(/<img\b[^>]*src="\/assets\/ejoeundental-hero-cat\.webp"[^>]*>/)?.[0]||'';
+ assert.ok(portrait,'the original doctor and white cat hero portrait must stay');
+ assert.match(portrait,/loading="eager"/,'above-the-fold mobile portrait must not lazy-load');
+ assert.match(portrait,/fetchpriority="high"/,'load the visible portrait early');
+ const imagePreloads=[...home.matchAll(/<link rel="preload" as="image"[^>]*>/g)].map(x=>x[0]);
+ assert.equal(imagePreloads.length,1,'avoid preloading multiple competing hero images');
+ assert.ok(imagePreloads[0].includes('href="/assets/ejoeundental-hero-cat.webp"'),
+  'preload should match the portrait shown on phones and desktops');
+ assert.ok(!imagePreloads[0].includes('media="(min-width: 601px)"'),
+  'preload must also apply to the mobile layout');
+ assert.ok(!home.includes('media="(max-width: 600px)" href="/assets/impressionist-water-garden.svg"'),
+  'do not prioritize the redundant garden decorative strip that is hidden on phones');
+ assert.ok(hero.indexOf('class="hero-actions"')<hero.indexOf('class="art hero-artwork"'),
+  'telephone and booking calls to action remain before the portrait on phones');
+});
