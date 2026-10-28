@@ -70,3 +70,71 @@ test('four distinct original works appear across two complementary homepage exhi
    assert.ok(read('gallery.html').includes('id="'+id+'"'),'missing complete exhibition anchor '+id);
  }
 });
+
+
+test('lightbox moves between all four artworks with keyboard and restores focus',async()=>{
+ const {runInNewContext}=await import('node:vm');
+ const g=read('gallery.html');
+ const script=read('assets/clinic-gallery.js');
+ const css=read('assets/clinic-gallery.css');
+ const markup=[...g.matchAll(/<button type="button" class="gallery-zoom" data-image="([^"]+)" data-alt="([^"]+)" data-title="([^"]+)"/g)];
+ assert.equal(markup.length,4,'all four original gallery zoom controls remain');
+ const mock=(dataset={})=>{
+  const handlers={};
+  return {dataset,handlers,isConnected:true,focused:false,
+   addEventListener(type,fn){handlers[type]=fn;},
+   focus(){this.focused=true;},
+   click(){handlers.click?.({target:this});}
+  };
+ };
+ const artworks=markup.map(m=>mock({image:m[1],alt:m[2],title:m[3]}));
+ const picture={src:'',alt:''},caption={textContent:''},counter={textContent:''};
+ const close=mock(),previous=mock(),next=mock();
+ const dialog=mock();
+ dialog.open=false;
+ dialog.showModal=()=>{dialog.open=true;};
+ dialog.close=()=>{dialog.open=false;dialog.handlers.close?.();};
+ const ids={'gallery-dialog':dialog,'gallery-dialog-image':picture,
+  'gallery-dialog-title':caption,'gallery-dialog-position':counter,
+  'gallery-close':close,'gallery-prev':previous,'gallery-next':next};
+ const classes=[];
+ const document={
+  documentElement:{classList:{add(v){classes.push(v);}}},
+  getElementById:id=>ids[id]||null,
+  querySelectorAll:selector=>selector==='.gallery-zoom'?artworks:[]
+ };
+ runInNewContext(script,{document});
+ assert.ok(classes.includes('gallery-js'));
+ artworks[2].click();
+ assert.equal(dialog.open,true);
+ assert.equal(picture.src,artworks[2].dataset.image);
+ assert.equal(caption.textContent,artworks[2].dataset.title);
+ assert.equal(counter.textContent,'03 / 04');
+ assert.equal(close.focused,true);
+ next.click();
+ assert.equal(picture.src,artworks[3].dataset.image);
+ assert.equal(counter.textContent,'04 / 04');
+ next.click();
+ assert.equal(picture.src,artworks[0].dataset.image,'last wraps to first');
+ assert.equal(counter.textContent,'01 / 04');
+ previous.click();
+ assert.equal(picture.src,artworks[3].dataset.image,'first wraps to last');
+ let prevented=0;
+ dialog.handlers.keydown({key:'ArrowLeft',preventDefault(){prevented++}});
+ assert.equal(picture.src,artworks[2].dataset.image);
+ dialog.handlers.keydown({key:'ArrowRight',preventDefault(){prevented++}});
+ assert.equal(picture.src,artworks[3].dataset.image);
+ assert.equal(prevented,2,'keyboard arrows must prevent page scroll');
+ dialog.handlers.keydown({key:'ArrowLeft',altKey:true,preventDefault(){prevented++}});
+ assert.equal(prevented,2,'modified shortcuts must not be intercepted');
+ close.click();
+ assert.equal(dialog.open,false);
+ assert.equal(artworks[2].focused,true,'closing restores the original trigger');
+ assert.ok(g.includes('id="gallery-prev" aria-label="이전 작품 보기"'));
+ assert.ok(g.includes('id="gallery-next" aria-label="다음 작품 보기"'));
+ assert.ok(g.includes('id="gallery-dialog-position" aria-live="polite"'));
+ assert.ok(g.includes('src="/assets/clinic-gallery.js?v=20261028-gallery-navigator2"'));
+ assert.match(css,/Museum edition XVIII · Navigate four paintings/);
+ assert.match(css,/@media\(max-width:520px\)/);
+ assert.match(css,/\.gallery-dialog-controls button\{[\s\S]*?min-height:46px/);
+});
