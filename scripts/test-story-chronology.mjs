@@ -2,9 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 
-// The generator sorts published posts newest-first. Regression protection is
-// important: an accidental reverse() caused the homepage and RSS to promote
-// old stories even after newer patient education articles were published.
+// The public story pages use original publication order. The Naver RSS instead
+// includes most recently published OR substantively edited articles, without
+// inventing new publication dates for revised clinical guidance.
 const published=readdirSync(new URL('../content/posts/',import.meta.url))
  .filter(name=>name.endsWith('.json'))
  .map(name=>({slug:name.slice(0,-5),post:JSON.parse(
@@ -51,13 +51,31 @@ test('every topic directory section keeps its patient articles newest-first',()=
   'generic extraction wording must not automatically mean wisdom teeth');
 });
 
-test('RSS 20 patient-education entries are the twenty most recent',()=>{
+test('Naver RSS lists twenty most recently revised or published articles without falsifying publication dates',()=>{
  const feed=readFileSync('dist/rss.xml','utf8');
+ const modified=x=>[x.post.updated,x.post.date].filter(d=>/^\d{4}-\d{2}-\d{2}$/.test(String(d||'')))
+  .sort().at(-1)||'';
+ const byRevision=[...published].sort((a,b)=>
+  modified(b).localeCompare(modified(a))||
+  String(b.post.date||'').localeCompare(String(a.post.date||''))||
+  a.slug.localeCompare(b.slug));
  const actual=[...feed.matchAll(/<item><title>[\s\S]*?<link>([^<]+)<\/link>/g)]
   .map(m=>hrefSlug(m[1]));
- const expected=published.slice(0,20).map(x=>x.slug);
- assert.deepEqual(actual,expected,'RSS newest 20 must not be the oldest 20');
+ assert.deepEqual(actual,byRevision.slice(0,20).map(x=>x.slug),
+  'RSS must surface real clinical revisions, not just newly created URLs');
  assert.equal(actual.length,20);
+ const latestDate=modified(byRevision[0]);
+ assert.ok(feed.includes('<lastBuildDate>'+new Date(latestDate+'T03:00:00Z').toUTCString()+'</lastBuildDate>'),
+  'lastBuildDate must reflect real content modifications, not a build timestamp');
+ for(const item of byRevision.slice(0,20)){
+  const expectedDate=new Date(item.post.date+'T03:00:00Z').toUTCString();
+  const block=feed.split('<link>https://ejoeundental.com/stories/'+item.slug+'/</link>')[1]
+   ?.split('</item>')[0]||'';
+  assert.ok(block.includes('<pubDate>'+expectedDate+'</pubDate>'),
+   'published date must never be replaced by the updated date: '+item.slug);
+  assert.ok(block.includes('<description>')&&block.includes('</description>'),
+   'RSS must include the full patient education text: '+item.slug);
+ }
 });
 
 test('treatment guide related-story links include recent relevant articles',()=>{
