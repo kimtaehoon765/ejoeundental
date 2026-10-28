@@ -3198,7 +3198,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   if(footer<0 || /<section\b/i.test(main.slice(footer))){
    errors.push('환자 교육글 마지막 안내보다 아래에 본문이 이어짐: '+filename);
   }
-  const entry=new RegExp('<loc>https://ejoeundental\\.com/health/'+slug+'(?:\\.html)?<\\/loc><lastmod>2026-10-28<\\/lastmod>');
+  const entry=new RegExp('<loc>https://(?:ejoeundental\\.com|ejoeundental\\.pages\\.dev)/health/'+slug+'(?:\\.html)?<\\/loc><lastmod>2026-10-28<\\/lastmod>');
   if(!entry.test(sitemap))errors.push('건강정보 실제 수정일 사이트맵 누락: '+filename);
  }
  const references=[
