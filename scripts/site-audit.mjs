@@ -558,6 +558,30 @@ console.log('Published HTML IDs checked:',auditedHtmlIdentifiers,
  console.log('Unique indexed clinic page titles, descriptions and canonicals checked:',auditedIndexable);
 }
 
+// Keep the clinic's three high-value patient navigation pages understandable
+// to visitors and crawlers. The visible breadcrumb and JSON-LD must agree with
+// each page's final canonical URL, including production clean-route rewrites.
+{
+ const navigablePages=['stories.html','clinical-archive.html','visit-guide.html'];
+ for (const relative of navigablePages) {
+  const page=readFileSync(join(root,relative),'utf8');
+  const canonical=page.match(/<link\b[^>]*rel=["']canonical["'][^>]*href=["']([^"']+)["']/i)?.[1];
+  const schemas=[...page.matchAll(/<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/gi)]
+   .map(match=>{try{return JSON.parse(match[1]);}catch{return null;}});
+  const crumbs=schemas.filter(data=>data?.['@type']==='BreadcrumbList');
+  const items=crumbs[0]?.itemListElement;
+  if(crumbs.length!==1||!Array.isArray(items)||items.length!==2||
+     items[0]?.position!==1||items[0]?.item!==publicOrigin+'/'||
+     items[1]?.position!==2||items[1]?.item!==canonical||
+     !canonical?.startsWith(publicOrigin+'/')||
+     !/<nav\b[^>]*aria-label=["']현재 위치["']/i.test(page)||
+     !/<span\b[^>]*aria-current=["']page["']/i.test(page)){
+   errors.push(relative+': 구글 경로 구조화 데이터·현재 위치·canonical 불일치');
+  }
+ }
+ console.log('Visible and structured breadcrumb navigation checked:',navigablePages.length);
+}
+
 const sitemap = join(root, 'sitemap.xml');
 if (!existsSync(sitemap)) errors.push('sitemap.xml 누락');
 else {
