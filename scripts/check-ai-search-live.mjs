@@ -38,11 +38,11 @@ for(let i=0;i<routes.length;i++){
  if(label==='Local clinic identity and directions')good=good&&item.content.includes('clinic-local-questions')&&item.content.includes('김태훈 원장')&&item.content.includes('대우프라자 305호')&&item.content.includes('격주 일정');
  if(label==='Home verified clinical service destinations'){
   try{
-   const entities=[...item.content.matchAll(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/g)]
+   const entities=[...item.content.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
     .map(m=>JSON.parse(m[1]));
    const clinic=entities.find(x=>x['@type']==='Dentist');
    const expected=['gum-treatment','root-canal-health','retreatment','cervical-abrasion','insured-care'];
-   const urls=(clinic?.availableService||[]).map(x=>x.url?.replace(/\\.html$/,''));
+   const urls=(clinic?.availableService||[]).map(x=>x.url?.replace(/\.html$/,''));
    good=good&&expected.every(slug=>urls.includes('https://ejoeundental.com/'+slug));
   }catch{good=false}
  }
