@@ -2989,6 +2989,14 @@ for(const relative of [...clinicalSharingFiles,...additionalCareSharingFiles]){
    structured.name=title;
    structured.description=description;
    structured.url=canonical;
+   if(topicPicture){
+    structured.primaryImageOfPage={
+     '@type':'ImageObject',
+     url:selectedPublicOrigin+'/assets/clinical-share/'+topicPicture.id+'.png',
+     width:1200,height:630,
+     caption:topicPicture.alt
+    };
+   }
    return '<script type="application/ld+json">'+JSON.stringify(structured).replace(/</g,'\\u003c')+'</script>';
   });
   if(medicalPages!==1)throw new Error('Expected one MedicalWebPage on '+relative+': '+medicalPages);

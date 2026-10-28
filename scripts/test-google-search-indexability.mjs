@@ -243,8 +243,10 @@ test('Google Image discovery lists real first-party illustrations only on their 
  const imageEntries=entries.filter(entry=>entry.images.length);
  const home=origin+'/';
  const rootCanal=origin+'/retreatment';
- assert.deepEqual(imageEntries.map(x=>x.page).sort(),[home,rootCanal].sort(),
-  'only pages with actual clinic-owned art should claim Google image results');
+ const implant=origin+'/implant';
+ const denture=origin+'/denture';
+ assert.deepEqual(imageEntries.map(x=>x.page).sort(),[home,rootCanal,implant,denture].sort(),
+  'only pages with visible authentic clinic-owned art should claim Google image results');
  for(const {page,images,declared} of imageEntries){
   assert.equal(images.length,declared,'all image sitemap entries must use the current supported image:loc tag');
   assert.equal(new Set(images).size,images.length,'do not repeat identical artwork');
@@ -255,7 +257,7 @@ test('Google Image discovery lists real first-party illustrations only on their 
    const u=new URL(url);
    assert.equal(u.origin,origin,'patient artwork must not depend on an unverifiable CDN');
    assert.equal(u.search+u.hash,'','do not list transient version hashes as new image files');
-   assert.match(u.pathname,/^\/assets\/[a-zA-Z0-9./_-]+\.(?:webp|svg)$/);
+   assert.match(u.pathname,/^\/assets\/[a-zA-Z0-9./_-]+\.(?:webp|svg|png)$/);
    assert.ok(existsSync(path.join(output,u.pathname.slice(1))),'do not advertise missing images: '+url);
    const tag=[...html.matchAll(/<img\b[^>]*>/g)]
     .map(m=>m[0]).find(tag=>tag.includes('src="'+u.pathname));
@@ -266,6 +268,23 @@ test('Google Image discovery lists real first-party illustrations only on their 
  assert.equal(imageEntries.find(x=>x.page===home).images.length,2);
  const rootEntry=imageEntries.find(x=>x.page===rootCanal);
  assert.equal(rootEntry.images.length,10);
+ for(const kind of ['implant','denture']){
+  const page=origin+'/'+kind;
+  const entry=imageEntries.find(x=>x.page===page);
+  const image=origin+'/assets/clinical-share/'+kind+'.png';
+  assert.deepEqual(entry?.images,[image],kind+' image must be in the canonical page sitemap entry');
+  const html=readFileSync(path.join(output,kind+'.html'),'utf8');
+  const img=html.match(new RegExp('<img\\b[^>]*src="/assets/clinical-share/'+kind+'\\.png"[^>]*>'))?.[0]||'';
+  assert.ok(img&&img.includes('loading="lazy"'),kind+' original schematic should be visible without prioritizing the download');
+  assert.match(img,/alt="[^"]{24,}"/,kind+' schematic alt text should accurately describe it');
+  assert.ok(html.includes('개념 삽화입니다'),kind+' picture requires a clear conceptual illustration disclaimer');
+  const schemas=[...html.matchAll(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/g)]
+   .map(m=>JSON.parse(m[1]));
+  const pageSchema=schemas.find(x=>x['@type']==='MedicalWebPage');
+  assert.equal(pageSchema?.primaryImageOfPage?.url,image);
+  assert.equal(pageSchema?.primaryImageOfPage?.width,1200);
+  assert.equal(pageSchema?.primaryImageOfPage?.height,630);
+ }
  const clinicalSteps=[
   ['06','기존 충전재 제거','기존 근관 충전재를 제거하는 재신경치료 첫 번째 단계 설명 그림'],
   ['07','근관 세척·소독','치아 근관 내부를 다시 탐색하고 세척·소독하는 재신경치료 과정 그림'],
