@@ -98,3 +98,36 @@ test('five real clinic services resolve to existing detailed medical explanation
  }
  assert.equal(represented.size,verified.size,'each service must have its own destination');
 });
+
+
+test('AI-readable, clinician-authored treatment decisions cite seven real patient guides',()=>{
+ const doctor=read('doctor.html');
+ const home=read('index.html');
+ const source=read('sitemap.xml');
+ const section=doctor.match(/<section class="card" id="clinical-decision-answers"[\s\S]*?<\/section>/)?.[0]||'';
+ assert.ok(section,'doctor clinical decision guidance must be server-rendered');
+ const questions=[...section.matchAll(/<dt>([^<]+)<\/dt>/g)].map(x=>x[1]);
+ const answers=[...section.matchAll(/<dd>([\s\S]*?)<\/dd>/g)].map(x=>x[1]);
+ assert.equal(questions.length,5,'five distinct real patient decisions should be explained');
+ assert.equal(answers.length,5,'every question must have an evidence-linked answer');
+ assert.ok(questions.every(x=>x.endsWith('?')),'patients should see concrete questions');
+ assert.ok(answers.every(x=>x.length>100&&x.includes('href="/stories/')),
+  'each answer must contain a substantial explanation and original clinical article');
+ const links=[...section.matchAll(/href="(\/stories\/[^"]+\/)"/g)].map(m=>m[1]);
+ assert.equal(links.length,7,'seven recently reviewed real stories need direct internal citations');
+ assert.equal(new Set(links).size,7,'repeating the same story would not improve traceability');
+ for(const uri of links){
+  const slug=uri.match(/^\/stories\/([\w-]+)\/$/)?.[1];
+  assert.ok(slug,'invalid local story link: '+uri);
+  const page=read('stories/'+slug+'/index.html');
+  assert.ok(page.includes('rel="canonical"'),'linked source needs an indexable canonical');
+ }
+ assert.ok(home.includes('href="/doctor.html#clinical-decision-answers"'),
+  'homepage must expose the answer section as a crawlable HTML link');
+ assert.ok(source.includes('<loc>https://ejoeundental.com/doctor.html</loc><lastmod>2026-10-29</lastmod>'),
+  'the doctor answer page real modification date must be updated');
+ assert.ok(section.includes('이조은치과에서 모든 진정치료를 제공한다는 뜻은 아닙니다'),
+  'public content must not claim an unverified sedation service');
+ assert.ok(doctor.includes('고려대학교 의학박사')&&doctor.includes('통합치의학과 전문의'),
+  'responsible clinician credentials must remain');
+});
