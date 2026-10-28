@@ -1243,3 +1243,91 @@ body.home-page #main-content>#health-info .grid>.card p{
 }
 
 /* Atelier edition VIII · Exhibition numbering and linked-art cues. */
+
+
+/* Atelier edition IX · Mobile wayfinding.
+ * Keep the five existing quick links, original clinic logo, Naver booking
+ * and the separate bottom reservation/call dock. No controls added/removed. */
+@media(max-width:600px){
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick{
+    gap:5px;
+    padding:7px 0 0;
+    border-top:1px solid rgba(233,217,184,.2);
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick>a{
+    display:flex;align-items:center;justify-content:center;
+    min-width:0;min-height:49px;
+    padding:8px 3px;
+    font-size:clamp(11px,2.95vw,12.5px);
+    line-height:1.34;
+    font-weight:750;
+    letter-spacing:-.035em;
+    text-align:center;
+    text-wrap:balance;
+    word-break:keep-all;
+    overflow-wrap:break-word;
+    color:#214b38;
+    background:#fffdf6;
+    border:1px solid #e1d5bc;
+    border-radius:6px;
+    box-shadow:0 2px 7px rgba(0,0,0,.07);
+    text-decoration:none;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick>a[href="#location"]{
+    color:#214e3b;
+    background:#e8f0e4;
+    border-color:#b8cdb9;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick>a.mobile-call{
+    color:#fffaf0;
+    background:#2a6249;
+    border-color:#c3a36c;
+  }
+  /* The compact, scrolled header keeps its three existing useful shortcuts. */
+  html.home-scrolled body.home-page header .nav .mobile-quick a[href="#home-symptom-query"],
+  html.home-scrolled body.home-page header .nav .mobile-quick a.stories-mobile-link,
+  html.home-scrolled body.home-page header .nav .mobile-quick a.mobile-call{
+    box-sizing:border-box;
+    min-height:44px;
+    padding:5px 3px;
+    font-size:clamp(10.5px,2.9vw,12px);
+    line-height:1.33;
+    border-radius:5px;
+    word-break:keep-all;
+    text-align:center;
+    text-wrap:balance;
+    text-decoration:none;
+  }
+  html.home-scrolled body.home-page header .nav .mobile-quick a[href="#home-symptom-query"],
+  html.home-scrolled body.home-page header .nav .mobile-quick a.stories-mobile-link{
+    color:#214b38;
+    background:#fffdf6;
+    border:1px solid #d5cbb5;
+  }
+  html.home-scrolled body.home-page header .nav .mobile-quick a.mobile-call{
+    color:#fffaf0;
+    background:#2a6249;
+    border:1px solid #bba276;
+  }
+  body.home-page header .nav .mobile-quick>a:focus-visible{
+    outline:3px solid #e3c88d;
+    outline-offset:3px;
+  }
+}
+@media(max-width:360px){
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick{
+    gap:3px;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick>a{
+    padding-inline:2px;
+    font-size:11px;
+  }
+}
+@media(forced-colors:active){
+  body.home-page header .nav .mobile-quick>a{
+    background:Canvas!important;
+    color:CanvasText!important;
+    border:1px solid CanvasText!important;
+    box-shadow:none;
+  }
+}
