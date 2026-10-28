@@ -106,3 +106,41 @@ test('owner-confirmed clinic booking ID appears as an actual direct booking link
  assert.ok(search.includes('data-booking-url="'+url+'"'));
  assert.ok(search.includes('data-booking-label="'+direct.label+'"'));
 });
+
+
+test('seven clinic information hubs have working mobile contact actions and keyboard skip links',()=>{
+ const clinic=JSON.parse(readFileSync('content/site.json','utf8'));
+ const booking=bookingAction(clinic.naver_booking_url);
+ const pages=[
+  ['stories.html','main'],
+  ['clinical-archive.html','main'],
+  ['doctor.html','doctor-profile-main'],
+  ['gum-health.html','main-content'],
+  ['root-canal-health.html','main-content'],
+  ['insurance-health.html','main-content'],
+  ['additional-health.html','main-content']
+ ];
+ const css=readFileSync('dist/assets/clinic-info-mobile-actions.css','utf8');
+ assert.match(css,/@media\(max-width:600px\)/);
+ assert.match(css,/safe-area-inset-bottom/);
+ assert.match(css,/\.clinic-info-mobile-actions a:focus-visible/);
+ assert.match(css,/\.clinic-info-skip-link:focus/);
+ assert.match(css,/@media print/);
+ for(const [page,id] of pages){
+  const html=readFileSync('dist/'+page,'utf8');
+  const strips=[...html.matchAll(/<nav class="clinic-info-mobile-actions"[^>]*>([\s\S]*?)<\/nav>/g)];
+  assert.equal(strips.length,1,'exactly one phone/booking/directions bar: '+page);
+  const links=[...strips[0][1].matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(m=>m[1]);
+  assert.deepEqual(links,['tel:0325132875',booking.url,'/visit-guide.html'],
+   'mobile patient actions must link to the real telephone, official booking and clinic directions: '+page);
+  assert.ok(strips[0][1].includes('aria-label="'+booking.aria+'"'),'honest booking action label: '+page);
+  assert.ok(strips[0][1].includes('rel="noopener noreferrer"'),'safe booking link: '+page);
+  assert.match(html,/<link rel="stylesheet" href="\/assets\/clinic-info-mobile-actions\.css\?v=[a-f0-9]{12}">/);
+  assert.ok(html.includes('id="'+id+'"'),'skip-link target must exist: '+page);
+  assert.ok(html.includes('href="#'+id+'">본문 바로가기</a>'),'keyboard skip link must point to page main: '+page);
+ }
+ const visit=readFileSync('dist/visit-guide.html','utf8');
+ const home=readFileSync('dist/index.html','utf8');
+ assert.ok(!visit.includes('class="clinic-info-mobile-actions"'),'preserve visit guide original mobile controls');
+ assert.ok(!home.includes('class="clinic-info-mobile-actions"'),'preserve homepage original mobile controls');
+});
