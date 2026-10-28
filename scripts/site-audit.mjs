@@ -3215,6 +3215,37 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  console.log('Patient health article footer and verified source references checked:',pages.length,'page layouts; 2 sources');
 }
 
+// Patients should be able to inspect original professional guidance for
+// higher-risk dental medication and heart disease decisions. The references
+// are explanatory and must never tell patients to stop prescribed medicine.
+{
+ const guides=[
+  ['blood-thinners-dental','https://www.ada.org/resources/ada-library/oral-health-topics/oral-anticoagulant-and-antiplatelet-medications-and-dental-procedures'],
+  ['osteoporosis-medication-dental','https://www.ada.org/resources/ada-library/oral-health-topics/osteoporosis-medications'],
+  ['heart-disease-dental-care','https://www.ada.org/resources/ada-library/oral-health-topics/antibiotic-prophylaxis']
+ ];
+ const map=readFileSync(join(root,'sitemap.xml'),'utf8');
+ for(const [slug,url] of guides){
+  const html=readFileSync(join(root,slug+'.html'),'utf8');
+  const note=html.match(/<aside class="clinical-source-note"[^>]*>([\s\S]*?)<\/aside>/)?.[1]||'';
+  const expected='href="'+url+'" target="_blank" rel="noopener noreferrer"';
+  const sourceOk=note.includes(expected)&&note.includes('영문 원문, 새 창')&&
+   note.includes('국내 기준과 개인별 치료 판단을 대신하지 않으며')&&
+   note.includes('처방약은 담당 의료진과 상의 없이 변경하지 마세요.');
+  if(!sourceOk||html.split('<aside class="clinical-source-note"').length!==2||
+     !html.includes('</aside></main>')){
+   errors.push('약물·심장질환 환자 정보 공식 참고자료/주의 안내 누락: '+slug);
+  }
+  const sourceMarker='/'+slug;
+  const entry=[...map.matchAll(/<url>([\s\S]*?)<\/url>/g)]
+   .find(row=>row[1].includes('<loc>')&&row[1].includes(sourceMarker+'</loc>'));
+  if(!entry||!/<lastmod>2026-10-28<\/lastmod>/.test(entry[1])){
+   errors.push('약물·심장질환 참고자료 실제 수정일 사이트맵 누락: '+slug);
+  }
+ }
+ console.log('Medication and heart disease patient references checked:',guides.length);
+}
+
 // Report every audit error, including the checks above this final line.
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);
