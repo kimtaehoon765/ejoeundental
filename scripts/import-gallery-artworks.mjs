@@ -40,7 +40,7 @@ gallery=gallery.replace(idx,links+'\n'+idx).replace(grid,figures+'\n'+grid)
  .replace('/assets/clinic-gallery.css?v=20261028-gallery-navigator2','/assets/clinic-gallery.css?v=20261028-gallery-nine-artworks');
 assert.equal((gallery.match(/<figure class="gallery-piece/g)||[]).length,9);
 let style=readFileSync('assets/clinic-gallery.css','utf8');
-style+='\n/* Nine original artworks · owner approved gallery expansion */\n'+extract('new-gallery-style.css').toString()+'\n';
+style=style.trimEnd()+'\n\n/* Nine original artworks · owner approved gallery expansion */\n'+extract('new-gallery-style.css').toString().trimEnd()+'\n';
 let tests=readFileSync('scripts/test-clinic-gallery.mjs','utf8');
 const originalCount='assert.equal((g.match(/<figure class="gallery-piece/g)||[]).length,4);';
 assert.equal(tests.split(originalCount).length,2);
