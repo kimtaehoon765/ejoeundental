@@ -130,6 +130,10 @@ const urls = [
   { label: '검증된 ADA 항응고제 환자 안전 출처', url: origin + '/blood-thinners-dental.html' },
   { label: '검증된 ADA 골다공증약 환자 안전 출처', url: origin + '/osteoporosis-medication-dental.html' },
   { label: '검증된 ADA 심장질환 환자 안전 출처', url: origin + '/heart-disease-dental-care.html' },
+  ...['blood-thinners-dental','osteoporosis-medication-dental',
+      'diabetes-dental-care','heart-disease-dental-care',
+      'medical-history','medical-safety-guide']
+    .map(slug=>({label:'환자 안전정보 본문 후속안내: '+slug,url:origin+'/'+slug+'.html'})),
   { label: 'AI 의료진 출처 페이지', url: origin + '/doctor.html' },
   { label: 'AI 검색봇 접근 모의 검사', url: origin + '/gum-treatment.html', userAgent: 'OAI-SearchBot/1.0' },
   { label: '네이버 최신글 RSS', url: origin + '/rss.xml' },
@@ -283,6 +287,25 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        body.includes('aria-label="전문기관 참고자료"')&&body.includes('처방약은 담당 의료진과 상의 없이 변경하지 마세요.');
       add('의학 근거 출처 실제 게시: '+label,found?'실사이트 반영 확인':'배포·캐시 확인 필요',
        'HTTP '+response.status+' · ADA 공식 링크 '+(found?'안내 및 연결 확인':'미확인'));
+    }
+    if(label.startsWith('환자 안전정보 본문 후속안내: ')){
+      const slug=label.slice('환자 안전정보 본문 후속안내: '.length);
+      const target={
+       'blood-thinners-dental':'<aside aria-label="자주 묻는 질문"',
+       'osteoporosis-medication-dental':'<aside aria-label="자주 묻는 질문"',
+       'diabetes-dental-care':'<aside aria-label="자주 묻는 질문"',
+       'heart-disease-dental-care':'<aside aria-label="자주 묻는 질문"',
+       'medical-history':'<nav aria-label="진료 전 건강정보 FAQ"',
+       'medical-safety-guide':'<aside aria-label="원장의 임상 아카이브"'
+      }[slug];
+      const mainEnd=body.indexOf('</main>');
+      const footerStart=body.indexOf('<footer');
+      const targetAt=body.indexOf(target);
+      const correct=response.status===200&&mainEnd>0&&footerStart>mainEnd&&
+       targetAt>0&&targetAt<mainEnd;
+      add('환자 안전정보 후속자료 올바른 위치: '+slug,
+       correct?'실사이트 반영 확인':'배포·캐시 확인 필요',
+       'HTTP '+response.status+' · 관련 FAQ·추가정보 '+(correct?'본문 안에서 확인':'배치 확인 필요'));
     }
     if(label==='미술관형 리디자인 CSS 실제 배포'){
       const delivered=response.status===200&&
