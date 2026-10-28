@@ -80,12 +80,19 @@
     }
     let found = 0;
     for (const { group, topic, items } of groupsWithLinks) {
+      // An archive heading such as "잇몸치료" describes many different posts.
+      // Prefer articles whose own titles match, rather than labeling every
+      // article in that category as an exact search result. If no title
+      // matches, the topic may still be opened as a broad navigation fallback.
+      const titleMatches = items.map(({ title }) =>
+        title.includes(query) ||
+        (terms.length > 1 && terms.every(term =>
+          title.includes(term) || topic.includes(term))));
+      const anyTitleMatch = titleMatches.some(Boolean);
       const wholeTopicMatches = topic.includes(query);
       let inGroup = 0;
-      for (const { li, title } of items) {
-        const matched = wholeTopicMatches || title.includes(query) ||
-          (terms.length > 1 && terms.every(term =>
-            title.includes(term) || topic.includes(term)));
+      for (const [index, { li }] of items.entries()) {
+        const matched = titleMatches[index] || (!anyTitleMatch && wholeTopicMatches);
         li.hidden = !matched;
         if (matched) inGroup++;
       }
