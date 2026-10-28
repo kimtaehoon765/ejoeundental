@@ -68,5 +68,7 @@ jobs:
         run: node scripts/check-internal-links.mjs
       - name: Regression-test CSS assets and internal heading anchors
         run: node --test scripts/test-internal-link-audit.mjs
+      - name: Verify museum/mobile art, booking buttons and responsive layout
+        run: node --test scripts/test-museum-responsive.mjs
       - name: Exercise patient site search queries and document indexing
         run: node --test scripts/test-cheongcheon-local-seo.mjs scripts/test-owner-topic-counts.mjs scripts/test-preservation-hub.mjs scripts/test-mobile-booking.mjs scripts/test-story-directory.mjs scripts/test-story-chronology.mjs scripts/test-search-results.mjs scripts/test-search-content.mjs scripts/test-address-copy.mjs scripts/test-contact-card.mjs scripts/test-homepage-static-contact.mjs scripts/test-article-sharing.mjs scripts/test-faq-deep-links.mjs scripts/test-patient-first-layout.mjs scripts/test-archive-topics.mjs scripts/test-doctor-credentials.mjs
