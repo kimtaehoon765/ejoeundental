@@ -50,6 +50,33 @@
 .gallery-exhibition-index>a:hover{
  background:#f0f1e7;
 }
+/* Linked from the homepage: show which exhibit was selected.
+   Anchors work natively without JavaScript or a modal. */
+#paintings .gallery-piece{
+ scroll-margin-top:105px;
+}
+#paintings .gallery-piece:target{
+ border-color:#947545;
+ box-shadow:0 2px 0 #c2a677,0 19px 45px rgba(24,51,35,.15);
+}
+#paintings .gallery-piece:target .gallery-art-frame{
+ background:linear-gradient(130deg,#d4b982,#efe1bb 45%,#b69e6e);
+}
+#paintings .gallery-piece:target figcaption::before{
+ content:"선택한 작품";
+ display:inline-block;
+ width:fit-content;
+ margin:0 0 8px;
+ padding:4px 11px;
+ color:#fefaf0;
+ background:#285340;
+ border:1px solid #a98b55;
+ border-radius:2px;
+ font-size:11px;
+ font-weight:800;
+ letter-spacing:.07em;
+}
+
 .gallery-exhibition-index>a:focus-visible{
  outline:3px solid #aa8852;outline-offset:-4px;position:relative;z-index:1;
 }
@@ -198,3 +225,24 @@
 /* On browsers without modal dialog support, show the direct original-image link only. */
 #paintings .gallery-piece .gallery-links button{display:none}
 .gallery-js #paintings .gallery-piece .gallery-links button{display:inline-flex}
+
+
+/* Mobile artwork navigation should retain generous tap areas and the
+   selected frame should stay visible below the sticky gallery header. */
+@media(max-width:650px){
+ #paintings .gallery-piece{scroll-margin-top:92px}
+ #paintings .gallery-piece:target figcaption::before{font-size:11px}
+ .gallery-exhibition-index>a{min-height:72px}
+}
+@media(forced-colors:active){
+ #paintings .gallery-piece:target{
+  outline:3px solid Highlight;
+  outline-offset:3px;
+  box-shadow:none;
+ }
+ #paintings .gallery-piece:target figcaption::before{
+  border:1px solid CanvasText;
+  background:Canvas;
+  color:CanvasText;
+ }
+}
