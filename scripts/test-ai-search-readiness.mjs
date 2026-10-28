@@ -66,3 +66,35 @@ test('Cheongcheon-dong local clinic identity answers remain visible and consiste
  assert.ok(visitSchema.about?.some(x=>x['@id']==='https://ejoeundental.com/#clinic'));
  assert.ok(section.includes('이 페이지에 실시간 진료 여부를 표시하지는 않습니다'));
 });
+
+
+test('five real clinic services resolve to existing detailed medical explanations',()=>{
+ const html=read('index.html');
+ const blocks=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1]));
+ const dentist=blocks.find(x=>x['@type']==='Dentist');
+ const sitemap=read('sitemap.xml');
+ const verified=new Map([
+  ['잇몸치료','gum-treatment'],
+  ['신경치료(근관치료)','root-canal-health'],
+  ['재신경치료','retreatment'],
+  ['치경부마모증 수복','cervical-abrasion'],
+  ['건강보험 적용 치과진료','insured-care']
+ ]);
+ assert.equal(dentist?.availableService?.length,verified.size);
+ const represented=new Set();
+ for(const service of dentist.availableService){
+  const slug=verified.get(service.name);
+  assert.ok(slug,'unrecognized claimed clinical service');
+  assert.equal(service['@type'],'MedicalProcedure');
+  const normalized=service.url?.replace(/\.html$/,'');
+  assert.equal(normalized,'https://ejoeundental.com/'+slug);
+  assert.ok(sitemap.includes('<loc>https://ejoeundental.com/'+slug+'</loc>'),
+   'service page must have a real crawlable canonical URL');
+  const target=read(slug+'.html');
+  assert.match(target,/<h1\b[^>]*>/,'service URL must display genuine patient content');
+  assert.match(target,/<link rel="canonical" href="https:\/\/ejoeundental\.com\//);
+  represented.add(slug);
+ }
+ assert.equal(represented.size,verified.size,'each service must have its own destination');
+});
