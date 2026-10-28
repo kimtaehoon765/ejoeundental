@@ -69,11 +69,24 @@ test('onsite search index matches visible homepage title and summary',()=>{
  assert.ok(homepage[0].body.includes('청천동치과 이조은치과'));
 });
 test('sitemap dates reflect genuine homepage and visit revisions, not invented daily changes',()=>{
- for(const route of ['', 'visit-guide.html']){
-  const entry='<loc>https://ejoeundental.com/'+route+'</loc><lastmod>2026-10-27</lastmod>';
-  const normalized=entry.replace('visit-guide.html</loc>','visit-guide</loc>');
-  assert.ok(sitemap.includes(entry)||sitemap.includes(normalized),
-   'changed page must have an accurate modified date, with or without the published .html route: '+route);
+ // Derive each expected date from the checked-in source instead of freezing
+ // the former 2026-10-27 value after a genuine page revision. The build may
+ // normalize the visit route to extensionless /visit-guide.
+ const sourceSitemap=readFileSync('sitemap.xml','utf8');
+ const minimumRealRevisions=new Map([['','2026-10-27'],['visit-guide.html','2026-10-28']]);
+ const latestAllowed=new Date(Date.now()+86400000).toISOString().slice(0,10);
+ for(const [route,earliestKnownRevision] of minimumRealRevisions){
+  const sourcePrefix='<loc>https://ejoeundental.com/'+route+'</loc><lastmod>';
+  const found=sourceSitemap.split(sourcePrefix);
+  assert.equal(found.length,2,'source sitemap must contain one dated clinic URL: '+route);
+  const date=found[1].split('</lastmod>')[0];
+  assert.match(date,/^\\d{4}-\\d{2}-\\d{2}$/,'source modification date needs ISO format: '+route);
+  assert.ok(date>=earliestKnownRevision&&date<=latestAllowed,
+   'use a documented, non-future modification date for: '+route);
+  const publishedRoutes=route==='visit-guide.html'?['visit-guide.html','visit-guide']:[route];
+  assert.ok(publishedRoutes.some(path=>
+    sitemap.includes('<loc>https://ejoeundental.com/'+path+'</loc><lastmod>'+date+'</lastmod>')),
+   'published sitemap date must match the actual source revision: '+route);
  }
 });
 
