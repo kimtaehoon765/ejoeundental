@@ -3383,3 +3383,36 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
  }
  console.log('Patient directory mobile contact bars:',pages.length,'pages;',action.direct?'confirmed Naver booking':'booking fallback');
 }
+
+
+// The eight medication/disease detail guides and medical history have
+// printable "visit-checklist" sections, often several screens below the
+// introductory safety notice. Offer a no-JS anchor immediately after that
+// notice; keep all medical advice and existing checklist state untouched.
+{
+ const pages=[
+  'blood-thinners-dental.html','osteoporosis-medication-dental.html',
+  'diabetes-dental-care.html','heart-disease-dental-care.html',
+  'kidney-disease-dental-care.html','liver-disease-dental-care.html',
+  'cancer-immunosuppression-dental-care.html','pregnancy-dental-care.html',
+  'medical-history.html'
+ ];
+ const shortcut='<nav class="patient-checklist-jump" aria-label="진료 전 준비 빠른 이동">'+
+  '<a href="#visit-checklist">진료 전 확인 체크리스트 바로가기</a>'+
+  '<span>안내 내용을 읽고 방문 전 준비할 사항을 확인하세요.</span></nav>';
+ for(const filename of pages){
+  const file=path.join(out,filename);
+  let html=fs.readFileSync(file,'utf8');
+  const main=html.match(/<main\\b[^>]*>[\\s\\S]*?<\\/main>/i)?.[0];
+  if(!main)throw new Error('Patient checklist navigation missing main: '+filename);
+  const notice=main.match(/<p class="notice">[\\s\\S]*?<\\/p>/i)?.[0];
+  if(!notice || main.split(notice).length!==2||
+     !main.includes('id="visit-checklist"')||
+     html.includes('class="patient-checklist-jump"'))
+   throw new Error('Patient checklist navigation target ambiguous: '+filename);
+  const changed=main.replace(notice,notice+shortcut);
+  html=html.replace(main,changed);
+  fs.writeFileSync(file,html);
+ }
+ console.log('Accessible pre-visit checklist quick links added:',pages.length,'patient safety guides');
+}
