@@ -37,3 +37,65 @@
 }
 .clinic-info-skip-link:focus{transform:translateY(0)}
 @media print{.clinic-info-skip-link{display:none!important}}
+
+/* Mobile reading and menu refinement for the seven informational pages.
+   Keep all original menu items reachable; no script, hidden links or altered
+   medical text. The bottom actions remain unchanged. */
+@media(max-width:600px){
+  /* The full story index header used to compress its brand and links together. */
+  body.stories-gallery header .inner{
+    flex-wrap:wrap;align-items:center;row-gap:5px;
+  }
+  body.stories-gallery header nav{
+    display:flex;flex:1 1 100%;min-width:0;max-width:100%;
+    flex-wrap:nowrap;gap:9px;overflow-x:auto;overflow-y:hidden;
+    overscroll-behavior-x:contain;scrollbar-width:thin;
+    -webkit-overflow-scrolling:touch;padding:3px 2px 7px;
+  }
+  body.stories-gallery header nav a{
+    flex:0 0 auto;min-height:48px;font-size:14px;padding:10px 12px;
+    white-space:nowrap;
+  }
+  body.stories-gallery .story-card p,
+  body.stories-gallery .story-card .story-match-excerpt{
+    font-size:15px;line-height:1.8;
+  }
+  body.stories-gallery .story-card time,
+  body.stories-gallery .story-topic-heading span{
+    font-size:14px;
+  }
+
+  /* The doctor's navigation stays compact even on narrow phones. */
+  body.doctor-gallery header .bar{align-items:stretch;row-gap:7px;}
+  body.doctor-gallery header nav{
+    width:100%;max-width:100%;min-width:0;
+    display:flex;flex-wrap:nowrap;gap:12px;
+    overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;
+    overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;
+    padding:2px 2px 6px;
+  }
+  body.doctor-gallery header nav a{
+    flex:0 0 auto;min-height:48px;
+    display:inline-flex;align-items:center;font-size:14px;
+    white-space:nowrap;padding:7px 5px;
+  }
+  body.doctor-gallery .credentials span{font-size:14px;line-height:1.55;}
+  body.doctor-gallery .note{font-size:15px;line-height:1.8;}
+
+  /* Health topics already have usable wrap navigation and a skip link.
+     Increase hit targets without replacing those existing features. */
+  html.health-library body header .navlinks a{
+    min-height:48px;font-size:14px;line-height:1.5;
+  }
+  html.health-library body main.article :is(p,li){
+    font-size:max(16px,1rem);line-height:1.85;overflow-wrap:anywhere;
+  }
+  body.archive-gallery .archive-blog-group li a{
+    font-size:15px;line-height:1.8;
+  }
+}
+/* At phone text zoom, don't clip the navigation or fixed patient actions. */
+@media(max-width:380px){
+  .clinic-info-mobile-actions{gap:5px;padding-left:8px;padding-right:8px;}
+  .clinic-info-mobile-actions a{font-size:12px;line-height:1.45;padding:8px 3px;}
+}
