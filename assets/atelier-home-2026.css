@@ -411,3 +411,120 @@ body.home-page #main-content>#gallery .gallery-home-more{
     background:Canvas;border:1px solid CanvasText;box-shadow:none;
   }
 }
+
+
+/* Atelier edition III · Featured exhibition.
+   The gallery invitation is intentionally after the hero, before the symptom navigator:
+   visitors retain phone/booking as the first interactive clinic actions. */
+body.home-page #main-content>.atelier-collection-peek{
+  position:relative;
+  margin:clamp(20px,3vw,42px) 0 clamp(16px,2.5vw,32px);
+  padding:clamp(28px,4vw,55px) 0;
+  color:#fbf6e9;
+  background:
+    radial-gradient(ellipse at 90% 10%,rgba(169,148,101,.18),transparent 47%),
+    linear-gradient(125deg,#142f2a 0%,#24493b 61%,#1c3e35 100%);
+  border-block:1px solid #a58e64;
+}
+body.home-page #main-content>.atelier-collection-peek::before,
+body.home-page #main-content>.atelier-collection-peek::after{
+  content:"";display:block;position:absolute;pointer-events:none;
+  left:18px;right:18px;height:1px;background:rgba(234,217,180,.20);
+}
+body.home-page #main-content>.atelier-collection-peek::before{top:9px}
+body.home-page #main-content>.atelier-collection-peek::after{bottom:9px}
+body.home-page .atelier-collection-peek__layout{
+  display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);
+  align-items:center;gap:clamp(25px,4vw,58px);
+}
+body.home-page .atelier-collection-peek__eyebrow{
+  font-size:11px;font-weight:700;letter-spacing:.18em;line-height:1.7;
+  color:#e2c895;margin:0 0 14px;
+}
+body.home-page .atelier-collection-peek__intro h2{
+  font:600 clamp(24px,2.6vw,34px)/1.47 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.06em;color:#fff8e9;margin:0 0 15px;word-break:keep-all;
+}
+body.home-page .atelier-collection-peek__intro>p:not(.atelier-collection-peek__eyebrow){
+  max-width:36ch;margin:0;color:#e3e9df;font-size:14px;line-height:1.84;word-break:keep-all;
+}
+body.home-page .atelier-collection-peek__intro>a{
+  display:inline-flex;align-items:center;gap:17px;
+  min-height:46px;margin-top:20px;padding:7px 1px;
+  border-bottom:1px solid #d3b785;color:#fff4d7;
+  font-weight:700;font-size:14px;
+}
+body.home-page .atelier-collection-peek__pieces{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(11px,1.6vw,20px);min-width:0;
+}
+body.home-page .atelier-collection-peek__pieces>a{
+  display:flex;flex-direction:column;min-width:0;color:#fbf6e9;
+}
+body.home-page .atelier-collection-peek__frame{
+  display:block;padding:7px;overflow:hidden;
+  border:1px solid #bca778;background:#ede6d3;
+  box-shadow:0 12px 24px rgba(0,0,0,.21);
+}
+body.home-page .atelier-collection-peek__frame img{
+  display:block;width:100%;height:auto;aspect-ratio:5/3;object-fit:cover;
+  background:#ece6d8;
+}
+body.home-page .atelier-collection-peek__caption{
+  display:flex;flex-direction:column;gap:2px;padding-top:13px;line-height:1.5;
+}
+body.home-page .atelier-collection-peek__caption>span{
+  font:600 10px/1.5 "DM Sans",sans-serif;letter-spacing:.1em;color:#d6be8e;
+}
+body.home-page .atelier-collection-peek__caption strong{
+  font:600 clamp(13px,1.35vw,16px)/1.7 "Noto Serif KR",serif;word-break:keep-all;
+}
+body.home-page .atelier-collection-peek__intro>a:focus-visible,
+body.home-page .atelier-collection-peek__pieces>a:focus-visible{
+  outline:3px solid #eed5a0;outline-offset:6px;
+}
+@media(max-width:750px){
+  body.home-page .atelier-collection-peek__layout{
+    grid-template-columns:minmax(0,1fr);gap:23px;
+  }
+  body.home-page .atelier-collection-peek__intro h2{font-size:27px;}
+  body.home-page .atelier-collection-peek__intro>a{margin-top:11px;}
+}
+@media(max-width:600px){
+  body.home-page #main-content>.atelier-collection-peek{
+    margin:19px 0 12px;padding:27px 0 29px;
+  }
+  body.home-page .atelier-collection-peek__layout{
+    padding-inline:18px;gap:21px;
+  }
+  body.home-page .atelier-collection-peek__eyebrow{font-size:10px;margin-bottom:8px}
+  body.home-page .atelier-collection-peek__intro h2{
+    font-size:25px;line-height:1.47;margin-bottom:8px;
+  }
+  body.home-page .atelier-collection-peek__intro>p:not(.atelier-collection-peek__eyebrow){
+    font-size:13px;line-height:1.72;
+  }
+  body.home-page .atelier-collection-peek__intro>a{
+    min-height:42px;font-size:13px;margin-top:5px;
+  }
+  body.home-page .atelier-collection-peek__pieces{gap:10px}
+  body.home-page .atelier-collection-peek__frame{padding:4px}
+  body.home-page .atelier-collection-peek__caption{padding-top:7px}
+  body.home-page .atelier-collection-peek__caption>span{font-size:9px}
+  body.home-page .atelier-collection-peek__caption strong{font-size:12px}
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  body.home-page .atelier-collection-peek__pieces>a .atelier-collection-peek__frame{
+    transition:transform .22s ease,box-shadow .22s ease;
+  }
+  body.home-page .atelier-collection-peek__pieces>a:hover .atelier-collection-peek__frame{
+    transform:translateY(-4px);
+    box-shadow:0 17px 30px rgba(0,0,0,.27);
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>.atelier-collection-peek{background:Canvas;color:CanvasText;border:1px solid CanvasText}
+  body.home-page .atelier-collection-peek__intro h2,
+  body.home-page .atelier-collection-peek__intro>a,
+  body.home-page .atelier-collection-peek__caption strong{color:CanvasText}
+}
