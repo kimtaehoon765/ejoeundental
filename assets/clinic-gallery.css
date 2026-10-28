@@ -319,3 +319,18 @@
  }
  .gallery-dialog #gallery-dialog-position{color:CanvasText}
 }
+
+/* Nine original artworks · owner approved gallery expansion */
+/* New original artwork frames: same aspect ratio, no forced crop */
+#paintings .gallery-piece[id^="art-cubist-"],
+#paintings .gallery-piece[id^="art-lakeside-"],
+#paintings .gallery-piece[id^="art-starry-night-"],
+#paintings .gallery-piece[id^="art-quiet-"],
+#paintings .gallery-piece[id^="art-street-"]{scroll-margin-top:100px}
+#paintings .gallery-piece[id^="art-cubist-"] .gallery-art-frame img,
+#paintings .gallery-piece[id^="art-lakeside-"] .gallery-art-frame img,
+#paintings .gallery-piece[id^="art-starry-night-"] .gallery-art-frame img,
+#paintings .gallery-piece[id^="art-quiet-"] .gallery-art-frame img,
+#paintings .gallery-piece[id^="art-street-"] .gallery-art-frame img{object-fit:contain;background:#f3efe6}
+.gallery-exhibition-index{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+@media(max-width:650px){.gallery-exhibition-index{grid-template-columns:repeat(2,minmax(0,1fr))}}

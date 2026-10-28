@@ -2,15 +2,15 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
 const read=p=>readFileSync('dist/'+p,'utf8');
-test('gallery is published with four paintings and three clinical illustration links',()=>{
+test('gallery is published with nine paintings and three clinical illustration links',()=>{
  const g=read('gallery.html');
  assert.match(g,/<title>치과 갤러리 /);
  assert.match(g,/rel="canonical" href="https:\/\/ejoeundental\.com\/gallery\.html"/);
- assert.equal((g.match(/<figure class="gallery-piece/g)||[]).length,4);
+ assert.equal((g.match(/<figure class="gallery-piece/g)||[]).length,9);
  assert.equal((g.match(/class="gallery-piece[^"]*gallery-piece-feature/g)||[]).length,2,
   'gallery must have two museum-sized feature artworks');
  assert.match(g,/class="gallery-exhibition-index" aria-label="갤러리 작품 찾아보기"/);
- for(const anchor of ['art-starry','art-pond','art-golden','art-cat']){
+ for(const anchor of ['art-starry','art-pond','art-golden','art-cat','art-cubist-cat-clinic','art-lakeside-flower-clinic','art-starry-night-clinic','art-quiet-window-cat','art-street-art-tooth-heart']){
   assert.ok(g.includes('href="#'+anchor+'"'),'missing direct exhibition index link: '+anchor);
  }
  assert.equal((g.match(/class="gallery-note"/g)||[]).length,3);
@@ -72,13 +72,13 @@ test('four distinct original works appear across two complementary homepage exhi
 });
 
 
-test('lightbox moves between all four artworks with keyboard and restores focus',async()=>{
+test('lightbox moves between all nine artworks with keyboard and restores focus',async()=>{
  const {runInNewContext}=await import('node:vm');
  const g=read('gallery.html');
  const script=read('assets/clinic-gallery.js');
  const css=read('assets/clinic-gallery.css');
  const markup=[...g.matchAll(/<button type="button" class="gallery-zoom" data-image="([^"]+)" data-alt="([^"]+)" data-title="([^"]+)"/g)];
- assert.equal(markup.length,4,'all four original gallery zoom controls remain');
+ assert.equal(markup.length,9,'all nine original gallery zoom controls remain');
  const mock=(dataset={})=>{
   const handlers={};
   return {dataset,handlers,isConnected:true,focused:false,
@@ -105,31 +105,31 @@ test('lightbox moves between all four artworks with keyboard and restores focus'
  };
  runInNewContext(script,{document});
  assert.ok(classes.includes('gallery-js'));
- artworks[2].click();
+ artworks[7].click();
  assert.equal(dialog.open,true);
- assert.equal(picture.src,artworks[2].dataset.image);
- assert.equal(caption.textContent,artworks[2].dataset.title);
- assert.equal(counter.textContent,'03 / 04');
+ assert.equal(picture.src,artworks[7].dataset.image);
+ assert.equal(caption.textContent,artworks[7].dataset.title);
+ assert.equal(counter.textContent,'08 / 09');
  assert.equal(close.focused,true);
  next.click();
- assert.equal(picture.src,artworks[3].dataset.image);
- assert.equal(counter.textContent,'04 / 04');
+ assert.equal(picture.src,artworks[8].dataset.image);
+ assert.equal(counter.textContent,'09 / 09');
  next.click();
  assert.equal(picture.src,artworks[0].dataset.image,'last wraps to first');
- assert.equal(counter.textContent,'01 / 04');
+ assert.equal(counter.textContent,'01 / 09');
  previous.click();
- assert.equal(picture.src,artworks[3].dataset.image,'first wraps to last');
+ assert.equal(picture.src,artworks[8].dataset.image,'first wraps to last');
  let prevented=0;
  dialog.handlers.keydown({key:'ArrowLeft',preventDefault(){prevented++}});
- assert.equal(picture.src,artworks[2].dataset.image);
+ assert.equal(picture.src,artworks[7].dataset.image);
  dialog.handlers.keydown({key:'ArrowRight',preventDefault(){prevented++}});
- assert.equal(picture.src,artworks[3].dataset.image);
+ assert.equal(picture.src,artworks[8].dataset.image);
  assert.equal(prevented,2,'keyboard arrows must prevent page scroll');
  dialog.handlers.keydown({key:'ArrowLeft',altKey:true,preventDefault(){prevented++}});
  assert.equal(prevented,2,'modified shortcuts must not be intercepted');
  close.click();
  assert.equal(dialog.open,false);
- assert.equal(artworks[2].focused,true,'closing restores the original trigger');
+ assert.equal(artworks[7].focused,true,'closing restores the original trigger');
  assert.ok(g.includes('id="gallery-prev" aria-label="이전 작품 보기"'));
  assert.ok(g.includes('id="gallery-next" aria-label="다음 작품 보기"'));
  assert.ok(g.includes('id="gallery-dialog-position" aria-live="polite"'));
@@ -137,4 +137,14 @@ test('lightbox moves between all four artworks with keyboard and restores focus'
  assert.match(css,/Museum edition XVIII · Navigate four paintings/);
  assert.match(css,/@media\(max-width:520px\)/);
  assert.match(css,/\.gallery-dialog-controls button\{[\s\S]*?min-height:46px/);
+});
+
+
+test('gallery publishes five optimized original image pairs',()=>{
+ const g=read('gallery.html');
+ for(const name of ["cubist-cat-clinic","lakeside-flower-clinic","starry-night-clinic","quiet-window-cat","street-art-tooth-heart"]){
+ assert.ok(g.includes('id="art-'+name+'"'));
+ for(const suffix of ['.webp','-thumb.webp'])assert.ok(existsSync('dist/assets/'+name+suffix));
+ }
+ assert.ok(g.includes('그림 아홉 점, 아홉 가지 이야기'));
 });
