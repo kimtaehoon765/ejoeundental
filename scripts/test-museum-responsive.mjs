@@ -89,6 +89,10 @@ test('original director and cat portrait remains visible on mobile after the pho
   'the health information card should show the same original image without cropping');
  assert.match(museum,/#health-info \.grid>\.card::before\{\s*content:"";display:block;height:126px;/,
   'desktop thumbnails must not be narrow cropped slits');
+ assert.match(museum,/#main-content>#health-info \.grid>\.card\{\s*display:flex;flex-direction:column;align-items:stretch;/,
+  'health guides should retain vertical editorial structure');
+ assert.match(museum,/#main-content>#health-info \.grid>\.card>p:last-child\{\s*margin-top:auto;/,
+  'short health information cards should align the reading link to their foot');
  assert.match(museum,/#health-info \.grid>\.card::before\{\s*height:112px;/,
   'mobile health card thumbnails must remain legible');
 });
