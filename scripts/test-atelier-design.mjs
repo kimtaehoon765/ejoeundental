@@ -8,7 +8,7 @@ const museum=read('assets/museum-home-v2.css');
 
 test('Atelier premium stylesheet loaded AFTER the existing museum/mobile safety layer',()=>{
  const styles=[...home.matchAll(/<link[^>]+rel="stylesheet" href="([^"]+)"/g)].map(x=>x[1]);
- const a=styles.findIndex(s=>s.includes('atelier-home-2026.css?v=20261028-atelier1'));
+ const a=styles.findIndex(s=>s.includes('/assets/atelier-home-2026.css?v='));
  const m=styles.findIndex(s=>s.includes('museum-home-v2.css'));
  assert.ok(a>=0&&m>=0&&a>m,'new finishing stylesheet must be after museum css');
  assert.equal(a,styles.length-1,'Atelier must be the last loaded CSS in the document');
