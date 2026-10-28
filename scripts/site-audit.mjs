@@ -1251,7 +1251,7 @@ for (const [source,faq] of [
  ['heart-disease-dental-care.html','systemic-disease-dental-faq.html']
 ]) {
  const file=join(root,source);
- if (!existsSync(file) || !readFileSync(file,'utf8').includes('href="/'+faq+'"')) errors.push('전신질환 상세 페이지 FAQ 링크 누락: '+source);
+ if (!existsSync(file) || !readFileSync(file,'utf8').includes('href="/'+faq+'#faq-question-')) errors.push('전신질환 상세 페이지 FAQ 바로가기 누락: '+source);
 }
 // Keep the patient safety hub discoverable and all critical resources connected.
 const safetyHub = join(root,'medical-safety-guide.html');
