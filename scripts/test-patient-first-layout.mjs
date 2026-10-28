@@ -531,6 +531,30 @@ test('implant and periodontal care guide visibly link to the owner-provided new 
  assert.match(gum,/href="\/stories\/2026-10-27-incheon-food-impaction-gum-pain\/"/);
 });
 
+test('treatment guidance never sends visitors back to homepage for hours or parking',()=>{
+ const pages=["gum-treatment.html","retreatment.html","cervical-abrasion.html","insured-care.html","implant.html","denture.html","scaling.html","cavity-treatment.html","wisdom-tooth.html","pediatric-dentistry.html","pediatric-orthodontics.html","tmj-care.html"];
+ const sourceVisit=readFileSync('dist/visit-guide.html','utf8');
+ for(const id of ['visit-hours','visit-parking'])
+  assert.ok(sourceVisit.includes('id="'+id+'"'),'visit guide missing '+id);
+ for(const file of pages){
+  const html=readFileSync('dist/'+file,'utf8');
+  const main=html.match(/<main\\b[^>]*>([\\s\\S]*?)<\\/main>/)?.[1];
+  assert.ok(main,file+' must have a single patient-visible main element');
+  assert.ok(!main.includes('href="/#location"'),
+   file+' care body must not send visitor back to the homepage to find hours');
+  if(main.includes('href="/visit-guide.html#visit-hours"'))
+   assert.ok(sourceVisit.includes('id="visit-hours"'),file+' hours destination');
+  if(main.includes('href="/visit-guide.html#visit-parking"'))
+   assert.ok(sourceVisit.includes('id="visit-parking"'),file+' parking destination');
+ }
+ for(const file of ["gum-treatment.html","retreatment.html","cervical-abrasion.html","insured-care.html","implant.html","denture.html","scaling.html","cavity-treatment.html","wisdom-tooth.html","pediatric-dentistry.html","pediatric-orthodontics.html","tmj-care.html"]){
+  const html=readFileSync('dist/'+file,'utf8');
+  const main=html.match(/<main\\b[^>]*>([\\s\\S]*?)<\\/main>/)?.[1]||'';
+  assert.ok(/href="\\/visit-guide\\.html#visit-(?:hours|parking)"/.test(main),
+   file+' should directly open a relevant visit section');
+ }
+});
+
 test('eight other treatment guides have current consistent social metadata',()=>{
  const pages=["implant.html","denture.html","scaling.html","cavity-treatment.html","wisdom-tooth.html","pediatric-dentistry.html","pediatric-orthodontics.html","tmj-care.html"];
  const sitemap=readFileSync('dist/sitemap.xml','utf8');
