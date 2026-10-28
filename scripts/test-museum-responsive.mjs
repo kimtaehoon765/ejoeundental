@@ -42,7 +42,7 @@ test('phone-sized arrival facts are full-width with readable clinic information'
 
 test('medical text, all eleven accessible FAQs and original images survive visual pass',()=>{
  const faq=home.match(/<section class="section light" id="faq">([\s\S]*?)<\/section>/)?.[1]||'';
- assert.equal((faq.match(/<details\\b[^>]*>/g)||[]).length,11);
+ assert.equal((faq.match(/<details\b[^>]*>/g)||[]).length,11);
  assert.equal((faq.match(/<summary>/g)||[]).length,11);
  assert.equal((faq.match(/<details id="faq-[a-z-]+">/g)||[]).length,11,
   'the build must assign a stable linkable id to each question');
