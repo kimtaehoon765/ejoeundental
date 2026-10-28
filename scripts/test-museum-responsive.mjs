@@ -96,3 +96,31 @@ test('original director and cat portrait remains visible on mobile after the pho
  assert.match(museum,/#health-info \.grid>\.card::before\{\s*height:112px;/,
   'mobile health card thumbnails must remain legible');
 });
+
+
+test('regression: portrait cannot create a second grid column that squashes title on phones',()=>{
+ const hero=home.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.ok(hero.includes('<h1 id="headline">')&&hero.includes('class="art hero-artwork"'));
+ const fix=museum.slice(museum.lastIndexOf('CRITICAL MOBILE FIRST-SCREEN FIX'));
+ assert.ok(fix.startsWith('CRITICAL MOBILE FIRST-SCREEN FIX'),'fix must be final CSS to win cascade');
+ assert.match(fix,/@media \(max-width:600px\)\{/);
+ assert.match(fix,/#main-content>\.hero\.wrap\{\s*display:grid;\s*grid-template-columns:minmax\(0,1fr\);/);
+ for (const [selector,row] of [
+  ['>div:first-child',1],
+  ['>.art.hero-artwork',2],
+  ['>.hero-editorial-detail',3]
+ ]){
+  const literal='body.home-page #main-content>.hero.wrap'+selector;
+  const block=fix.slice(fix.indexOf(literal),fix.indexOf('}',fix.indexOf(literal))+1);
+  assert.ok(block.startsWith(literal+'{'), 'missing mobile row: '+literal);
+  assert.match(block,/grid-column:1\s*\/\s*-1;/,'must span the sole grid column: '+selector);
+  assert.ok(block.includes('grid-row:'+row+';'),'wrong vertical order of '+selector);
+ }
+ const art=fix.slice(fix.indexOf('body.home-page #main-content>.hero.wrap>.art.hero-artwork{'));
+ assert.match(art,/grid-row:2;[\s\S]*?display:block;/);
+ const title=fix.slice(fix.indexOf('body.home-page #main-content>.hero.wrap #headline{'));
+ assert.match(title,/width:100%;[\s\S]*?word-break:keep-all;/);
+ const buttons=fix.slice(fix.indexOf('body.home-page #main-content>.hero.wrap .hero-actions{'));
+ assert.match(buttons,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+ assert.match(fix,/#main-content>\.hero\.wrap \.hero-actions>\.hero-booking\{\s*grid-column:2;order:1;/);
+});
