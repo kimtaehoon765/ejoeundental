@@ -16,6 +16,9 @@ const homepageSource = readFileSync(new URL('../index.html',import.meta.url),'ut
 const expectedArchiveScriptHash=createHash('sha256')
  .update(readFileSync(new URL('../assets/archive-topics.js',import.meta.url)))
  .digest('hex').slice(0,12);
+const expectedStoryDirectoryHash=createHash('sha256')
+ .update(readFileSync(new URL('../assets/story-directory.js',import.meta.url)))
+ .digest('hex').slice(0,12);
 // The production build embeds the current search-index checksum in search.js.
 // Its bytes therefore intentionally differ from the unbuilt source asset.
 // Compare live Cloudflare search.js with the FINAL emitted build artifact.
@@ -189,6 +192,7 @@ const urls = [
     url: origin + '/assets/clinic-info-mobile-actions.css?v=' + expectedInfoActionsHash },
   { label: '원장 블로그 검색 자바스크립트 실제 배포 비교',
     url: origin + '/assets/archive-topics.js?v=' + expectedArchiveScriptHash },
+  { label: '치과 이야기 검색 결과 이동 동작 코드', url: origin + '/assets/story-directory.js?v=' + expectedStoryDirectoryHash },
   { label: '검색 결과 더 보기 동작 코드', url: origin + '/assets/search.js' },
   { label: '통합 검색 실제 문서 색인', url: origin + '/content/search-index.json' },
   { label: '검색 결과 더 보기 버튼 스타일', url: origin + '/assets/search-page.css' },
@@ -235,6 +239,14 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        ready?'실사이트 반영 확인':'배포·캐시 확인 필요',
        'HTTP '+response.status+' · 3개 버튼 '+(hasLinks?'확인':'미확인')+
        ' · CSS '+(styled?'최신':'미확인')+' · 본문 바로가기 '+(accessible?'확인':'미확인'));
+    }
+    if(label==='치과 이야기 검색 결과 이동 동작 코드'){
+      const match=response.status===200&&
+        createHash('sha256').update(body).digest('hex').slice(0,12)===expectedStoryDirectoryHash&&
+        body.includes("status.scrollIntoView?.({ block: 'start', behavior: 'auto' })")&&
+        body.includes("field.setAttribute('aria-describedby', 'story-filter-status')");
+      add('치과 이야기 검색 후 결과로 이동 기능',match?'실사이트 반영 확인':'배포·캐시 확인 필요',
+        'HTTP '+response.status+' · 검색 프로그램 최신 내용 '+(match?'일치':'확인 필요'));
     }
     if(label==='미술관형 리디자인 CSS 실제 배포'){
       const delivered=response.status===200&&
