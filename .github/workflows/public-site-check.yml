@@ -13,6 +13,8 @@ on:
       - 'visit-guide.html'
       - '*-faq.html'
       - 'gum-treatment.html'
+      - 'cavity-treatment.html'
+      - 'diabetes-dental-care.html'
       - 'retreatment.html'
       - 'tooth-preservation.html'
       - 'insured-care.html'
