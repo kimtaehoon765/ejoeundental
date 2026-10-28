@@ -1,5 +1,16 @@
 # 이조은치과 홈페이지
 
+## 현행 홈페이지 운영 기준 (원장 확인: 2026-10-28)
+
+**현재 운영 기준은 GitHub → Cloudflare Pages → https://ejoeundental.com 입니다. Netlify가 아닙니다.**
+
+- GitHub 저장소: `kimtaehoon765/ejoeundental`
+- Pages 관련 주소: `https://ejoeundental.pages.dev` (미리보기 빌드 설정에 사용)
+- 이전 서비스인 Netlify의 `netlify.toml` 파일과 가이드는 **과거 흔적**이며 현행 배포 서비스의 증거가 아닙니다.
+- GitHub Actions에서 빌드가 성공해도 Cloudflare Pages 배포 성공과 실제 도메인 최신 반영은 별도 확인이 필요합니다.
+- 이전 완료한 호스팅/도메인 작업을 반복하거나 네임서버·DNS를 임의 변경하지 않습니다.
+- 프로젝트 작업 기준은 [AGENTS.md](AGENTS.md)를 먼저 확인해 주세요.
+
 이 저장소는 이조은치과의 정적 홈페이지와 건강정보, 게시글을 관리합니다.
 
 ## 콘텐츠 편집
@@ -26,8 +37,8 @@ GitHub Actions의 읽기 전용 실서비스 검사에서 `https://ejoeundental.
 
 기존 `docs/www-301-redirect.md` 및 `DOMAIN-MIGRATION-CHECKLIST.md`는 **과거에 301이 미설정이던 상태의 기록**입니다. 현행 운영 상태보다 우선하여 적용하거나 DNS/호스팅을 임의로 변경하지 마세요. Cloudflare 네임서버와 중계 응답만으로 **실제 원본 호스팅이 Cloudflare Pages인지 Netlify인지**는 단정하지 않습니다.
 
-## Netlify 배포 설정 (소스 기준)
-현재 확인된 `netlify.toml` 설정은 다음과 같습니다. 실제 Netlify 프로젝트의 연결·배포 성공 여부는 별도로 확인해야 합니다.
+## 과거 Netlify 설정 (현행 배포 서비스 아님)
+아래는 이전 서비스 Netlify의 저장소 설정을 역사적 참고용으로 남긴 내용입니다. **현재 운영은 Cloudflare Pages 기준**이며, 파일이 존재한다는 이유로 Netlify에 재연결하거나 전환 작업을 다시 진행하지 마세요.
 
 | 항목 | 소스 기준 설정 |
 | --- | --- |
@@ -37,7 +48,7 @@ GitHub Actions의 읽기 전용 실서비스 검사에서 `https://ejoeundental.
 | 배포 디렉터리 | `dist` |
 | Node.js | 22 |
 
-Netlify 연결 및 도메인 이전 절차는 [Netlify 점검 안내](docs/netlify-cutover-guide.md)를 참고하세요.
+과거 기록: [Netlify 점검 안내](docs/netlify-cutover-guide.md). 현재 작업에 적용하지 않습니다.
 
 ## 정식 도메인·미리보기 주소 구분
 정식 홈페이지 `https://ejoeundental.com`은 **이미 HTTPS로 서비스 중**이며, `build.mjs`의 기본 `SITE_PUBLIC_ORIGIN`도 정식 주소입니다. 별도 미리보기 빌드에서는 `SITE_PUBLIC_ORIGIN=https://ejoeundental.pages.dev`를 사용하며, 두 빌드의 SEO 메타데이터와 사이트맵은 각각 검사합니다.
@@ -47,7 +58,7 @@ Netlify 연결 및 도메인 이전 절차는 [Netlify 점검 안내](docs/netli
 ## 참고
 - `/admin/`은 외부 Pages CMS 안내 페이지이며 자체 로그인 시스템이 아닙니다.
 - 사진이나 글에 환자 개인정보를 게시하지 마세요.
-- `netlify.toml`은 현재 저장소의 Netlify 배포 설정 파일입니다. 실제 Netlify 사이트와 연동되었는지는 별도 확인이 필요합니다.
+- `netlify.toml`은 **이전 Netlify 시절의 남은 설정**이며, 현행 Cloudflare Pages 운영을 대체하지 않습니다.
 
 ## 원장 전용 자료 공개 주의
 - 현재 `OWNER_LIBRARY_PRIVATE_READY`가 활성화되지 않은 빌드에서는 치과 기구·재료 및 장비 관리 HTML 파일이 `dist`에 복사되어 **공개 웹주소로 접근 가능**합니다. 메뉴에서 숨기거나 `noindex`를 설정하는 것은 비공개 보호가 아닙니다.
