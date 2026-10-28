@@ -1,3 +1,7 @@
+# LEGACY CONFIGURATION ONLY — former Netlify setup, NOT current production hosting.
+# Current owner-confirmed workflow: GitHub → Cloudflare Pages → https://ejoeundental.com
+# Do not use this file to infer that the live site runs on Netlify; see AGENTS.md.
+
 [build]
   command = "npm run build"
   publish = "dist"
