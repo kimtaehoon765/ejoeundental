@@ -3252,10 +3252,10 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
 // a semantic ending also makes mobile keyboard navigation more predictable.
 {
  const cases=[
-  ['blood-thinners-dental.html','<aside aria-label="자주 묻는 질문"','href="/medication-dental-faq.html"'],
-  ['osteoporosis-medication-dental.html','<aside aria-label="자주 묻는 질문"','href="/medication-dental-faq.html"'],
-  ['diabetes-dental-care.html','<aside aria-label="자주 묻는 질문"','href="/systemic-disease-dental-faq.html"'],
-  ['heart-disease-dental-care.html','<aside aria-label="자주 묻는 질문"','href="/systemic-disease-dental-faq.html"'],
+  ['blood-thinners-dental.html','<aside aria-label="자주 묻는 질문"','href="/medication-dental-faq.html#faq-question-2"'],
+  ['osteoporosis-medication-dental.html','<aside aria-label="자주 묻는 질문"','href="/medication-dental-faq.html#faq-question-3"'],
+  ['diabetes-dental-care.html','<aside aria-label="자주 묻는 질문"','href="/systemic-disease-dental-faq.html#faq-question-1"'],
+  ['heart-disease-dental-care.html','<aside aria-label="자주 묻는 질문"','href="/systemic-disease-dental-faq.html#faq-question-2"'],
   ['medical-history.html','<nav aria-label="진료 전 건강정보 FAQ"','href="/medical-safety-guide.html"'],
   ['medical-safety-guide.html','<aside aria-label="원장의 임상 아카이브"','href="/previsit-checklist.html"']
  ];
@@ -3266,6 +3266,16 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   const markerAt=html.indexOf(landmark);
   const linkAt=html.indexOf(followup);
   const footerEnd=html.indexOf('</footer>');
+  // In addition to the correct landmark, each targeted FAQ hash must exist
+  // in the corresponding real published question page.
+  if(followup.includes('#faq-question-')){
+   const faqPath=followup.match(/href="\/([^"#]+)#faq-question-/)?.[1];
+   const targetId=followup.match(/#(faq-question-\d+)"/)?.[1];
+   const linked=faqPath&&readFileSync(join(root,faqPath),'utf8')||'';
+   if(!targetId||!linked.includes('id="'+targetId+'"'))
+    errors.push('환자 안전 안내 질문 바로가기 대상 누락: '+file);
+  }
+
   const okay=mainEnd>=0 && footerStart>mainEnd && footerEnd>footerStart &&
    markerAt>=0 && markerAt<mainEnd && linkAt>=0 && linkAt<mainEnd &&
    (html.match(/<\/footer>/g)||[]).length===1;
