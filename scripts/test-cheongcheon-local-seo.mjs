@@ -21,7 +21,7 @@ test('Cheongcheon-dong and Bupyeong clinic queries have one truthful branded hom
  assert.ok(title.startsWith('이조은치과 |'),'exact brand must lead the Google homepage title');
  assert.ok(/^인천 부평구 청천동 이조은치과(?:\.|\()/.test(meta),'name and actual location should lead the summary');
  assert.ok(meta.includes('고려대학교 의학박사(치과학 전공)·통합치의학과 전문의'),'retain actual credentials in the short branded snippet');
- assert.ok(meta.length<=160,'natural and accurate treatment snippets may need more than 80 characters');
+ assert.ok(meta.length<=80,'Naver homepage URL inspection recommends a concise description of 80 characters or less');
  assert.equal(extract(h,/<meta property="og:description" content="([^"]+)"/),meta);
  assert.equal(extract(h,/<meta name="twitter:description" content="([^"]+)"/),meta);
  assert.ok(h.includes('<link rel="canonical" href="https://ejoeundental.com/">'));
