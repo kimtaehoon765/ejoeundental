@@ -37,7 +37,10 @@ test('implant and denture have separate genuine PNG sharing images with Korean w
   assert.equal(data.readUInt32BE(16),1200);
   assert.equal(data.readUInt32BE(20),630);
   const html=readFileSync('dist/'+page,'utf8');
-  const root=process.env.SITE_PUBLIC_ORIGIN||'https://ejoeundental.pages.dev';
+  const canonical=html.match(/<link rel="canonical" href="(https:\/\/[^/]+)\//)?.[1];
+  assert.ok(['https://ejoeundental.com','https://ejoeundental.pages.dev'].includes(canonical),
+   page+' must use the actual production or preview canonical domain');
+  const root=canonical;
   const expected=[
    ['property','og:image',root+'/assets/clinical-share/'+id+'.png'],
    ['property','og:image:type','image/png'],
