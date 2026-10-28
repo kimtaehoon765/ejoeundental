@@ -3403,9 +3403,9 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
  for(const filename of pages){
   const file=path.join(out,filename);
   let html=fs.readFileSync(file,'utf8');
-  const main=html.match(/<main\\b[^>]*>[\\s\\S]*?<\\/main>/i)?.[0];
+  const main=html.match(/<main\b[^>]*>[\s\S]*?<\/main>/i)?.[0];
   if(!main)throw new Error('Patient checklist navigation missing main: '+filename);
-  const notice=main.match(/<p class="notice">[\\s\\S]*?<\\/p>/i)?.[0];
+  const notice=main.match(/<p class="notice">[\s\S]*?<\/p>/i)?.[0];
   if(!notice || main.split(notice).length!==2||
      !main.includes('id="visit-checklist"')||
      html.includes('class="patient-checklist-jump"'))
