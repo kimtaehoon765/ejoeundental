@@ -49,7 +49,7 @@ function setup({perGroup=15,hash='',search='',mixedGumTitles=false}={}){
   location:{hash,search,pathname:'/clinical-archive.html'},
   history:{changes:[],replaceState(_state,_title,target){
     this.changes.push(target);
-    window.location.search=target.match(/\\?[^#]*/)?.[0]||'';
+    window.location.search=target.match(/\?[^#]*/)?.[0]||'';
     window.location.hash=target.match(/#[^#]*$/)?.[0]||'';
   }},
   addEventListener(name,fn){handlers[name]=fn;}
