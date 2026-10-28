@@ -71,3 +71,24 @@ test('mobile typography does not fall back to tiny size in the final museum laye
  for(const ch of css){if(ch==='{')depth++;if(ch==='}')depth--;assert.ok(depth>=0,'unbalanced CSS block')}
  assert.equal(depth,0,'unclosed CSS block');
 });
+
+
+test('original director and cat portrait remains visible on mobile after the phone and booking actions',()=>{
+ const hero=home.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.ok(hero.includes('class="art hero-artwork"') && hero.includes('src="/assets/ejoeundental-hero-cat.webp"'),
+  'the original clinic painting must remain in the hero');
+ const actions=hero.indexOf('class="hero-actions"');
+ const artwork=hero.indexOf('class="art hero-artwork"');
+ const editorial=hero.indexOf('class="hero-editorial-detail"');
+ assert.ok(actions>=0 && artwork>actions && editorial>artwork,
+  'the doctor painting must appear after phone/booking and before detailed prose');
+ assert.match(museum,/Museum edition IX:/);
+ assert.match(museum,/@media\(max-width:600px\)\{[\s\S]*?#main-content>\.hero>\.art\.hero-artwork\{[\s\S]*?display:block;/,
+  'mobile portrait visibility must override earlier gallery display:none');
+ assert.match(museum,/#main-content>#health-info \.grid>\.card:nth-child\(6\)::before\{[\s\S]*?background-size:contain;/,
+  'the health information card should show the same original image without cropping');
+ assert.match(museum,/#health-info \.grid>\.card::before\{\s*content:"";display:block;height:126px;/,
+  'desktop thumbnails must not be narrow cropped slits');
+ assert.match(museum,/#health-info \.grid>\.card::before\{\s*height:112px;/,
+  'mobile health card thumbnails must remain legible');
+});
