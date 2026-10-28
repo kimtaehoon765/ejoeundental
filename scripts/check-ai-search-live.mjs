@@ -6,7 +6,8 @@ const routes=[
  ['OpenAI public doctor','/doctor','OAI-SearchBot'],
  ['Naver public gum information','/gum-treatment','Yeti'],
  ['Google public retreatment information','/retreatment','Googlebot'],
- ['Local clinic identity and directions','/visit-guide','OAI-SearchBot']
+ ['Local clinic identity and directions','/visit-guide','OAI-SearchBot'],
+ ['Home verified clinical service destinations','/','Googlebot']
 ];
 async function probe([label,path,agent]){
  const response=await fetch(origin+path,{
@@ -35,6 +36,16 @@ for(let i=0;i<routes.length;i++){
  if(label==='Naver public gum information')good=good&&item.content.includes('gum-clinical-decisions')&&item.content.includes('스케일링만으로 충분할까요?');
  if(label==='Google public retreatment information')good=good&&item.content.includes('retreatment-clinical-decisions')&&item.content.includes('발치가 필요한 경우는 언제인가요?');
  if(label==='Local clinic identity and directions')good=good&&item.content.includes('clinic-local-questions')&&item.content.includes('김태훈 원장')&&item.content.includes('대우프라자 305호')&&item.content.includes('격주 일정');
+ if(label==='Home verified clinical service destinations'){
+  try{
+   const entities=[...item.content.matchAll(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/g)]
+    .map(m=>JSON.parse(m[1]));
+   const clinic=entities.find(x=>x['@type']==='Dentist');
+   const expected=['gum-treatment','root-canal-health','retreatment','cervical-abrasion','insured-care'];
+   const urls=(clinic?.availableService||[]).map(x=>x.url?.replace(/\\.html$/,''));
+   good=good&&expected.every(slug=>urls.includes('https://ejoeundental.com/'+slug));
+  }catch{good=false}
+ }
  verified&&=good;
  console.log('[AI READINESS]',label,'HTTP',item.status,good?'공개 본문 점검 통과':'본문 미반영/접근 문제',item.url);
 }
