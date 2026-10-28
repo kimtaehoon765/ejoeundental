@@ -1364,3 +1364,120 @@ body.home-page #gallery .gallery-home-artworks>a:hover{
   transition:none;transform:none;
  }
 }
+
+
+/*
+ * CRITICAL MOBILE FIRST-SCREEN FIX (2026-10-28).
+ * The original desktop hero-artwork kept grid-column:2/grid-row:1.
+ * Re-displaying it on phones created an implicit second grid column and
+ * squeezed the headline, medical qualifications and booking into a narrow strip.
+ * Force one full-width track with three explicit grid rows.
+ */
+@media (max-width:600px){
+ body.home-page #main-content>.hero.wrap{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  grid-template-rows:auto auto auto;
+  grid-auto-columns:minmax(0,1fr);
+  gap:16px;
+  max-width:calc(100% - 24px);
+  width:auto;
+  box-sizing:border-box;
+  overflow:visible;
+ }
+ body.home-page #main-content>.hero.wrap>div:first-child{
+  grid-column:1 / -1;
+  grid-row:1;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  justify-self:stretch;
+ }
+ body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+  grid-column:1 / -1;
+  grid-row:2;
+  justify-self:center;
+  align-self:start;
+  position:relative;
+  display:block;
+  box-sizing:border-box;
+  width:min(100%,278px);
+  max-width:278px;
+  min-width:0;
+  height:auto;
+  margin:6px auto 15px;
+  transform:none;
+ }
+ body.home-page #main-content>.hero.wrap>.hero-editorial-detail{
+  grid-column:1 / -1;
+  grid-row:3;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  box-sizing:border-box;
+  margin-top:6px;
+ }
+ body.home-page #main-content>.hero.wrap #headline{
+  display:block;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  overflow-wrap:normal;
+  word-break:keep-all;
+  font-size:clamp(28px,7.4vw,37px);
+  line-height:1.42;
+  text-wrap:pretty;
+ }
+ body.home-page #main-content>.hero.wrap .hero-doctor-credentials{
+  box-sizing:border-box;
+  width:100%;max-width:100%;
+  min-width:0;
+  display:flex;flex-wrap:wrap;align-items:center;
+  font-size:13px;line-height:1.7;
+  word-break:keep-all;overflow-wrap:break-word;
+ }
+ body.home-page #main-content>.hero.wrap .hero-doctor-credentials strong,
+ body.home-page #main-content>.hero.wrap .hero-doctor-credentials a{
+  display:inline-block;
+  max-width:100%;
+  white-space:normal;
+  word-break:keep-all;
+ }
+ body.home-page #main-content>.hero.wrap .hero-actions{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  width:100%;
+  min-width:0;max-width:100%;
+  gap:8px;
+ }
+ body.home-page #main-content>.hero.wrap .hero-actions>a{
+  box-sizing:border-box;min-width:0;
+  width:100%;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+  white-space:normal;
+  padding:10px 8px;
+  line-height:1.5;
+ }
+ body.home-page #main-content>.hero.wrap .hero-actions>.hero-call{
+  grid-column:1;order:0;
+ }
+ body.home-page #main-content>.hero.wrap .hero-actions>.hero-booking{
+  grid-column:2;order:1;
+ }
+ body.home-page #main-content>.hero.wrap .hero-actions>.hero-hours{
+  grid-column:1;order:2;
+ }
+ body.home-page #main-content>.hero.wrap .hero-actions>.hero-symptoms{
+  grid-column:2;order:3;
+ }
+ body.home-page #main-content>.hero.wrap .hero-actions>.hero-map{
+  grid-column:1/-1;order:4;
+ }
+}
+@media(max-width:365px){
+ body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+  width:min(100%,248px);
+  max-width:248px;
+ }
+}
