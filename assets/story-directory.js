@@ -49,6 +49,10 @@
 
   const status = document.createElement('p');
   status.className = 'story-filter-status';
+  status.id = 'story-filter-status';
+  // Explain what the submitted query controls to keyboard and screen readers.
+  field.setAttribute('aria-controls', 'story-directory');
+  field.setAttribute('aria-describedby', 'story-filter-status');
   status.setAttribute('role', 'status');
   status.setAttribute('aria-live', 'polite');
   status.textContent = '전체 ' + total + '편 · 주제별로 골라 읽을 수 있습니다.';
@@ -194,6 +198,14 @@
   form.addEventListener('submit', event => {
     event.preventDefault();
     search();
+    // Filtering is already live while typing. A deliberate submit should
+    // additionally bring the result count and first visible matches into view
+    // so patients on a small phone do not need to hunt below the search box.
+    // Keep typing/clearing steady: never jump the page on every keystroke.
+    if (norm(field.value)) {
+      field.blur?.();
+      status.scrollIntoView?.({ block: 'start', behavior: 'auto' });
+    }
   });
   field.addEventListener('input', search);
   reset.addEventListener('click', () => {
