@@ -525,3 +525,43 @@ test('owner-supplied October 2026 GSC URL-prefix file remains byte-for-byte publ
  const sitemap=readFileSync(path.join(output,'sitemap.xml'),'utf8');
  assert.ok(!sitemap.includes(name),'Google verification file must not be advertised as patient content');
 });
+
+
+test('seven revised dental articles have truthful Google dates and two crawlable discovery paths',()=>{
+ const page=readFileSync(path.join(output,'index.html'),'utf8');
+ const directory=readFileSync(path.join(output,'stories.html'),'utf8');
+ const sitemap=readFileSync(path.join(output,'sitemap.xml'),'utf8');
+ const homeLinks=page.match(/<details class="doctor-journal-latest"[\s\S]*?<\/details>/)?.[0]||'';
+ const journalLinks=directory.match(/<section class="updated-story-guides"[\s\S]*?<\/section>/)?.[0]||'';
+ assert.ok(homeLinks&&journalLinks,'both homepage and story directory must have crawlable links');
+ const slugs=[
+  '2026-10-27-cheongcheon-implant-who-performs-surgery-and-aftercare',
+  '2026-10-25-bupyeong-broken-tooth-extraction-vs-restoration',
+  '2026-10-25-cheongcheon-affordable-dental-care-insurance-priorities',
+  '2026-10-25-bupyeong-wisdom-tooth-extraction-hemostatic-dressing',
+  '2026-10-24-dental-sedation-risks-guide',
+  '2026-10-28-sangok-front-tooth-resin-cavity-repair',
+  '2026-10-25-bupyeong-root-canal-how-many-visits-and-why'
+ ];
+ for(const slug of slugs){
+  const source=JSON.parse(readFileSync('content/posts/'+slug+'.json','utf8'));
+  assert.equal(source.updated,'2026-10-29',slug+' was not revised on the claimed date');
+  const link='href="/stories/'+slug+'/"';
+  assert.ok(homeLinks.includes(link),slug+' absent from homepage journal');
+  assert.ok(journalLinks.includes(link),slug+' absent from public directory');
+  const canonical=origin+'/stories/'+slug+'/';
+  assert.ok(sitemap.includes('<loc>'+canonical+'</loc><lastmod>'+source.updated+'</lastmod>'),
+    slug+' sitemap lastmod does not match real article revision');
+  const html=readFileSync(path.join(output,'stories',slug,'index.html'),'utf8');
+  assert.ok(html.includes('<link rel="canonical" href="'+canonical+'">'),
+   slug+' Google canonical points to wrong origin');
+  assert.ok(html.includes('"dateModified":"'+source.updated+'"'),
+   slug+' structured-data modification date mismatch');
+ }
+ for(const route of ['/','/stories.html']){
+  assert.ok(sitemap.includes('<loc>'+origin+route+'</loc><lastmod>2026-10-29</lastmod>'),
+   route+' lastmod should record the current substantive navigation change');
+ }
+ assert.ok(!directory.includes('<!-- BUILD_STORY_DIRECTORY -->'),
+  'Google must receive server-rendered article links, not a template placeholder');
+});
