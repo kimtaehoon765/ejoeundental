@@ -3326,3 +3326,37 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
  }
  console.log('Final patient navigation breadcrumbs reconciled:',navigationPages.length,selectedPublicOrigin);
 }
+
+
+// Patient information hubs did not yet have the mobile contact actions already
+// available on the homepage, individual clinic stories and visit guide.
+// Reuse the confirmed Naver booking configuration and ordinary no-JS links.
+// This changes navigation only, not page text, indexing or clinical information.
+{
+ const pages=['stories.html','clinical-archive.html','doctor.html',
+  'gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
+ const cssFile=path.join(out,'assets/clinic-info-mobile-actions.css');
+ if(!fs.existsSync(cssFile))throw new Error('Missing shared patient mobile actions stylesheet');
+ const cssVersion=createHash('sha256').update(fs.readFileSync(cssFile)).digest('hex').slice(0,12);
+ const site=JSON.parse(fs.readFileSync(path.join(root,'content/site.json'),'utf8'));
+ const action=bookingAction(site.naver_booking_url);
+ const esc=value=>String(value).replace(/[&<>"']/g,c=>
+  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const nav='<nav class="clinic-info-mobile-actions" aria-label="모바일 전화·네이버 예약·오시는 길">'+
+  '<a class="clinic-info-call" href="tel:0325132875">☎ 전화 문의</a>'+
+  '<a class="clinic-info-book" href="'+esc(action.url)+'" target="_blank" rel="noopener noreferrer" aria-label="'+esc(action.aria)+'">'+esc(action.label)+'</a>'+
+  '<a class="clinic-info-directions" href="/visit-guide.html">오시는 길</a></nav>';
+ const cssLink='<link rel="stylesheet" href="/assets/clinic-info-mobile-actions.css?v='+cssVersion+'">';
+ for(const name of pages){
+  const file=path.join(out,name);
+  let html=fs.readFileSync(file,'utf8');
+  if(html.split('</head>').length!==2||html.split('</body>').length!==2||
+     html.includes('class="clinic-info-mobile-actions"')||
+     html.includes('class="story-mobile-actions"')||
+     html.includes('class="visit-mobile-actions"'))
+   throw new Error('Cannot safely add a unique mobile contact bar: '+name);
+  html=html.replace('</head>',cssLink+'</head>').replace('</body>',nav+'</body>');
+  fs.writeFileSync(file,html);
+ }
+ console.log('Patient directory mobile contact bars:',pages.length,'pages;',action.direct?'confirmed Naver booking':'booking fallback');
+}
