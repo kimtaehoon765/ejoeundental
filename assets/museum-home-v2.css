@@ -985,7 +985,10 @@ body.home-page #main-content>#when-to-call .grid>.card h3{
   font-size:18px;
  }
  body.home-page #main-content>#location .visit-quick-facts{
-  grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;
+  grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;
+ }
+ body.home-page #main-content>#location .visit-quick-facts>div:first-child{
+  grid-column:1/-1;
  }
  body.home-page #main-content>#location .visit-quick-facts>div{
   min-width:0;padding:13px 9px;
