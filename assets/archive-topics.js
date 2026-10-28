@@ -116,10 +116,8 @@
       (remaining ? '?' + remaining : '') + (window.location.hash || '');
     window.history?.replaceState?.(null, '', target);
   }
-  input.addEventListener('input', () => {
-    filterPosts();
-    discardStaleQueryFromAddress();
-  });
+  input.addEventListener('input', filterPosts);
+  input.addEventListener('input', discardStaleQueryFromAddress);
   clearButton.addEventListener('click', () => {
     input.value = '';
     filterPosts();
