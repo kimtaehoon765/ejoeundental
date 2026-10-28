@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - gallery-artworks-import.zip
+      - scripts/import-gallery-artworks.mjs
+      - .github/workflows/import-gallery-artworks.yml
   workflow_dispatch:
 
 permissions:
