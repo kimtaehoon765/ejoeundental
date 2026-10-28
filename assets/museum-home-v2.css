@@ -688,7 +688,7 @@ body.home-page #main-content>#visit-guide .grid>.card h3{
  word-break:keep-all;
 }
 body.home-page #main-content>#visit-guide .grid>.card p{
- margin:0 0 13px;font-size:13px;line-height:1.8;color:#506557;
+ margin:0 0 13px;font-size:15px;line-height:1.8;color:#506557;
 }
 body.home-page #main-content>#visit-guide .grid>.card a{
  color:#1a6246;font-weight:750;text-underline-offset:4px;
@@ -748,7 +748,7 @@ body.home-page #main-content>#location .visit-quick-facts strong{
  color:#24523e;word-break:keep-all;
 }
 body.home-page #main-content>#location .visit-quick-facts span{
- font-size:13px;line-height:1.75;color:#495f51;
+ font-size:15px;line-height:1.75;color:#495f51;
 }
 body.home-page #main-content>#location .visit-quick-facts a{
  display:inline-block;padding-top:7px;
@@ -869,7 +869,7 @@ body.home-page #main-content>#faq .faq-list details[open]{
 body.home-page #main-content>#faq .faq-list summary{
  display:flex;align-items:center;gap:12px;
  padding:13px 18px;min-height:58px;
- font-size:15px;line-height:1.6;font-weight:700;
+ font-size:16px;line-height:1.6;font-weight:700;
  color:#244b3a;word-break:keep-all;
  background:#fffefa;
 }
@@ -887,7 +887,7 @@ body.home-page #main-content>#faq .faq-list details[open] summary{
 body.home-page #main-content>#faq .faq-list details>p{
  color:#496154;background:#fffefa;
  padding:17px 21px 20px;margin:0;
- font-size:14px;line-height:1.92;
+ font-size:15px;line-height:1.92;
 }
 body.home-page #main-content>#faq .faq-list details a{
  color:#146144;text-decoration:underline;
@@ -997,10 +997,10 @@ body.home-page #main-content>#when-to-call .grid>.card h3{
   font-size:13px;
  }
  body.home-page #main-content>#location .visit-quick-facts span{
-  font-size:11px;line-height:1.6;overflow-wrap:anywhere;
+  font-size:14px;line-height:1.6;overflow-wrap:anywhere;
  }
  body.home-page #main-content>#location .visit-quick-facts a{
-  font-size:11px;
+  font-size:14px;
  }
  body.home-page #main-content>#location .place-visit-actions{
   grid-template-columns:repeat(2,minmax(0,1fr));
@@ -1015,13 +1015,32 @@ body.home-page #main-content>#when-to-call .grid>.card h3{
   min-height:290px;
  }
  body.home-page #main-content>#faq .faq-list summary{
-  padding:13px 12px;gap:8px;font-size:14px;
+  padding:13px 12px;gap:8px;font-size:15px;
  }
  body.home-page #main-content>#faq .faq-list summary::before{
   width:26px;height:26px;font-size:10px;
  }
  body.home-page #main-content>#faq .faq-list details>p{
-  padding:14px 15px 17px;font-size:14px;
+  padding:14px 15px 17px;font-size:15px;
+ }
+}
+/* On phones, stacking practical visit facts avoids 11px two-column text. */
+@media(max-width:600px){
+ body.home-page #main-content>#location .visit-quick-facts{
+  grid-template-columns:minmax(0,1fr);gap:9px;
+ }
+ body.home-page #main-content>#location .visit-quick-facts>div:first-child{
+  grid-column:auto;
+ }
+ body.home-page #main-content>#location .visit-quick-facts>div{
+  padding:14px 17px;gap:6px;
+ }
+ body.home-page #main-content>#location .visit-quick-facts strong{
+  font-size:15px;
+ }
+ body.home-page #main-content>#location .visit-quick-facts span,
+ body.home-page #main-content>#location .visit-quick-facts a{
+  font-size:14px;line-height:1.6;
  }
 }
 @media(max-width:380px){
