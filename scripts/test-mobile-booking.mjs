@@ -186,3 +186,32 @@ test('nineteen clinic information and patient safety guides have mobile contact 
  assert.ok(!visit.includes('class="clinic-info-mobile-actions"'),'preserve visit guide original mobile controls');
  assert.ok(!home.includes('class="clinic-info-mobile-actions"'),'preserve homepage original mobile controls');
 });
+
+
+test('nine patient medication and medical-history checklists have a direct, safe reading shortcut',()=>{
+ const pages=[
+  'blood-thinners-dental.html','osteoporosis-medication-dental.html',
+  'diabetes-dental-care.html','heart-disease-dental-care.html',
+  'kidney-disease-dental-care.html','liver-disease-dental-care.html',
+  'cancer-immunosuppression-dental-care.html','pregnancy-dental-care.html',
+  'medical-history.html'
+ ];
+ const css=readFileSync('dist/assets/clinic-info-mobile-actions.css','utf8');
+ assert.match(css,/\.patient-checklist-jump a:focus-visible/);
+ assert.match(css,/\.patient-checklist-jump a\{[\s\S]*?min-height:44px/);
+ assert.match(css,/#visit-checklist\{scroll-margin-top:25px/);
+ assert.match(css,/@media print\{\.patient-checklist-jump\{display:none!important\}\}/);
+ for(const p of pages){
+  const html=readFileSync('dist/'+p,'utf8');
+  const main=html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1]||'';
+  const notice=main.indexOf('<p class="notice">');
+  const nav=main.indexOf('<nav class="patient-checklist-jump"');
+  const checklist=main.indexOf('id="visit-checklist"');
+  assert.ok(notice>=0&&nav>notice&&checklist>nav,'pre-visit shortcut must lead into an actual checklist: '+p);
+  assert.equal((main.match(/class="patient-checklist-jump"/g)||[]).length,1,'one quick shortcut per page: '+p);
+  assert.ok(main.includes('<a href="#visit-checklist">진료 전 확인 체크리스트 바로가기</a>'),
+   'patients can reach checklist without scrolling through long medical advice: '+p);
+  assert.ok(main.includes('안내 내용을 읽고 방문 전 준비할 사항을 확인하세요.'),
+   'jump navigation should not encourage skipping medical precautions: '+p);
+ }
+});
