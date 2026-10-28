@@ -992,3 +992,101 @@ body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card a:fo
     box-shadow:none;
   }
 }
+
+
+/* Seven source-informed story updates: accessible compact journal index (2026-10-29). */
+body.home-page #main-content>#stories .doctor-journal-latest{
+  margin:22px 0 24px;
+  border:1px solid #cbb997;
+  border-radius:5px;
+  overflow:hidden;
+  background:#fffdf7;
+  box-shadow:0 12px 25px rgba(25,54,37,.045);
+}
+body.home-page #main-content>#stories .doctor-journal-latest>summary{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:7px 14px;
+  min-height:58px;
+  box-sizing:border-box;
+  cursor:pointer;
+  list-style:none;
+  padding:17px 19px;
+  background:linear-gradient(115deg,#f2eee2,#fcfaf3);
+  color:#244936;
+}
+body.home-page #main-content>#stories .doctor-journal-latest>summary::-webkit-details-marker{display:none}
+body.home-page #main-content>#stories .doctor-journal-latest__tag{
+  color:#927448;
+  font:600 10px/1.4 Georgia,serif;
+  letter-spacing:.13em;
+}
+body.home-page #main-content>#stories .doctor-journal-latest>summary strong{
+  flex:1 1 260px;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:18px;
+  line-height:1.55;
+  letter-spacing:-.04em;
+}
+body.home-page #main-content>#stories .doctor-journal-latest__hint{
+  font-size:12px;
+  font-weight:650;
+  color:#476553;
+}
+body.home-page #main-content>#stories .doctor-journal-latest__links{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:1px;
+  padding:9px;
+  background:#ddd8ca;
+}
+body.home-page #main-content>#stories .doctor-journal-latest__links>a{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:9px;
+  min-width:0;
+  min-height:48px;
+  box-sizing:border-box;
+  padding:12px 14px;
+  background:#fffdf8;
+  color:#28513d;
+  text-decoration:none;
+  font-size:14px;
+  line-height:1.6;
+  font-weight:650;
+  word-break:keep-all;
+}
+body.home-page #main-content>#stories .doctor-journal-latest__links>a span{color:#9a7b48}
+body.home-page #main-content>#stories .doctor-journal-latest a:focus-visible,
+body.home-page #main-content>#stories .doctor-journal-latest>summary:focus-visible{
+  outline:3px solid #9e7c42;
+  outline-offset:-3px;
+}
+@media(max-width:700px){
+  body.home-page #main-content>#stories .doctor-journal-latest>summary{
+    padding:14px 13px;
+    gap:5px;
+  }
+  body.home-page #main-content>#stories .doctor-journal-latest>summary strong{
+    flex-basis:100%;
+    font-size:16px;
+  }
+  body.home-page #main-content>#stories .doctor-journal-latest__links{
+    grid-template-columns:minmax(0,1fr);
+    padding:5px;
+  }
+  body.home-page #main-content>#stories .doctor-journal-latest__links>a{
+    padding:12px 10px;
+    font-size:13px;
+    min-height:48px;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#stories .doctor-journal-latest,
+  body.home-page #main-content>#stories .doctor-journal-latest>summary,
+  body.home-page #main-content>#stories .doctor-journal-latest__links>a{
+    color:CanvasText;background:Canvas;border-color:CanvasText;
+  }
+}
