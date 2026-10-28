@@ -31,8 +31,8 @@ for(let i=0;i<routes.length;i++){
   item.content.includes('Disallow: /admin/');
  if(label==='OpenAI public doctor')good=good&&item.content.includes('doctor-common-questions')&&
   item.content.includes('김태훈 원장이 직접');
- if(label==='Naver public gum information')good=good&&item.content.includes('잇몸치료');
- if(label==='Google public retreatment information')good=good&&item.content.includes('재신경치료');
+ if(label==='Naver public gum information')good=good&&item.content.includes('gum-clinical-decisions')&&item.content.includes('스케일링만으로 충분할까요?');
+ if(label==='Google public retreatment information')good=good&&item.content.includes('retreatment-clinical-decisions')&&item.content.includes('발치가 필요한 경우는 언제인가요?');
  verified&&=good;
  console.log('[AI READINESS]',label,'HTTP',item.status,good?'공개 본문 점검 통과':'본문 미반영/접근 문제',item.url);
 }
