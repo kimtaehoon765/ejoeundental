@@ -655,3 +655,397 @@ body.home-page #main-content>#doctor .doctor-profile-link a{
   transition:none;transform:none;
  }
 }
+
+
+/* Museum Edition IV · elegant arrival, readable questions, quieter footer.
+   Design-only rules; all original appointment, medical and search text remains. */
+body.home-page #main-content>#visit-guide{
+ background:linear-gradient(166deg,#faf8f0 0%,#f5f1e6 52%,#faf8f2 100%);
+ padding-block:clamp(46px,6vw,82px);
+}
+body.home-page #main-content>#visit-guide .grid{
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:13px;margin-top:26px;
+}
+body.home-page #main-content>#visit-guide .grid>.card{
+ position:relative;min-width:0;min-height:250px;
+ padding:29px 21px 24px;border:1px solid #dedacc;
+ border-top:3px solid #bda477;border-radius:3px 16px 3px 16px;
+ background:#fffcf7;box-shadow:0 12px 27px rgba(32,62,42,.045);
+}
+body.home-page #main-content>#visit-guide .grid>.card:nth-child(2){
+ border-top-color:#88a88c;
+}
+body.home-page #main-content>#visit-guide .grid>.card:nth-child(3){
+ border-top-color:#a2ad8f;
+}
+body.home-page #main-content>#visit-guide .grid>.card:nth-child(4){
+ border-top-color:#bba083;
+}
+body.home-page #main-content>#visit-guide .grid>.card h3{
+ margin:0 0 15px;color:#214c3a;
+ font:650 clamp(17px,1.5vw,20px)/1.52 "Noto Serif KR","Apple SD Gothic Neo",serif;
+ word-break:keep-all;
+}
+body.home-page #main-content>#visit-guide .grid>.card p{
+ margin:0 0 13px;font-size:13px;line-height:1.8;color:#506557;
+}
+body.home-page #main-content>#visit-guide .grid>.card a{
+ color:#1a6246;font-weight:750;text-underline-offset:4px;
+ text-decoration:underline;text-decoration-color:#a1bea7;
+}
+body.home-page #main-content>#visit-guide .grid>.card a:focus-visible{
+ outline:3px solid #aa8549;outline-offset:3px;
+}
+/* Read first: actual clinic address, parking, dates, map.
+   More detailed neighborhood descriptions remain below for visitors/search. */
+body.home-page #main-content>#location{
+ background:#f9f6ee;border-top:1px solid #e8e0cd;
+ padding-block:clamp(55px,7vw,98px);
+}
+body.home-page #main-content>#location>.wrap.split{
+ align-items:start;
+ grid-template-columns:minmax(0,1.15fr) minmax(230px,.67fr);
+ gap:clamp(20px,4vw,55px);
+}
+body.home-page #main-content>#location>.wrap.split>div:first-child{min-width:0}
+body.home-page #main-content>#location h2{
+ color:#234735;line-height:1.45;
+}
+body.home-page #main-content>#location #address{
+ display:block;margin:0 0 9px;
+ font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+ font-weight:650;font-size:clamp(18px,2vw,23px);
+ line-height:1.6;color:#204a3b;
+ padding:13px 0 15px;border-bottom:1px solid #d8cbb2;
+ word-break:keep-all;
+}
+body.home-page #main-content>#location .clinic-name-variant{
+ color:#607369;margin:9px 0 15px;
+}
+body.home-page #main-content>#location .visit-facts-eyebrow{
+ margin:21px 0 12px;font-size:11px;font-weight:800;
+ line-height:1.6;letter-spacing:.105em;color:#846e49;
+}
+body.home-page #main-content>#location .visit-quick-facts{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:10px;margin:0 0 15px;
+}
+body.home-page #main-content>#location .visit-quick-facts>div{
+ display:flex;flex-direction:column;gap:10px;
+ min-width:0;padding:17px 14px 16px;
+ background:#fffef9;border:1px solid #dadbcc;
+ border-radius:12px;box-shadow:0 6px 19px rgba(31,60,40,.035);
+}
+body.home-page #main-content>#location .visit-quick-facts>div:nth-child(2){
+ background:#f0f5ed;border-color:#cedfd0;
+}
+body.home-page #main-content>#location .visit-quick-facts>div:nth-child(3){
+ background:#f8f2e6;border-color:#e4d9c3;
+}
+body.home-page #main-content>#location .visit-quick-facts strong{
+ font:750 15px/1.35 "Noto Serif KR","Apple SD Gothic Neo",serif;
+ color:#24523e;word-break:keep-all;
+}
+body.home-page #main-content>#location .visit-quick-facts span{
+ font-size:13px;line-height:1.75;color:#495f51;
+}
+body.home-page #main-content>#location .visit-quick-facts a{
+ display:inline-block;padding-top:7px;
+ text-decoration:underline;text-underline-offset:4px;
+ color:#24684a;font-weight:750;
+}
+body.home-page #main-content>#location .place-visit-actions{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:9px;margin:15px 0 28px;
+}
+body.home-page #main-content>#location .place-visit-actions>a{
+ display:flex;align-items:center;justify-content:center;
+ min-width:0;min-height:50px;padding:12px;
+ font-size:13px;line-height:1.5;font-weight:750;
+ text-align:center;word-break:keep-all;
+ border:1px solid #c6d3c4;
+ border-radius:10px;background:#fffdf7;color:#244c3a;
+ text-decoration:none;box-shadow:none;
+}
+body.home-page #main-content>#location .place-visit-actions>.place-visit-map{
+ background:#235a42;color:#fff;border-color:#235a42;
+}
+body.home-page #main-content>#location .place-visit-actions>a:last-child{
+ grid-column:1/-1;
+ background:#e8efe6;border-color:#bed3c1;
+}
+body.home-page #main-content>#location :is(.place-visit-actions>a,.visit-quick-facts a):focus-visible{
+ outline:3px solid #a98147;outline-offset:3px;
+}
+body.home-page #main-content>#location .nearby-location,
+body.home-page #main-content>#location .nearby-landmarks,
+body.home-page #main-content>#location .local-transit-hint,
+body.home-page #main-content>#location .place-visit-note{
+ color:#4d6456;font-size:13px;line-height:1.8;
+}
+body.home-page #main-content>#location .parking-info,
+body.home-page #main-content>#location .hours-box{
+ margin-block:19px;padding:clamp(17px,2.2vw,24px);
+ border:1px solid #d9e0d0;border-radius:13px;
+ background:#fdfdf7;box-shadow:none;
+}
+body.home-page #main-content>#location .parking-info h3,
+body.home-page #main-content>#location .hours-box h3{
+ margin-top:0;font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+ font-size:clamp(18px,2vw,23px);line-height:1.5;
+}
+body.home-page #main-content>#location .alternating-hours{
+ border-color:#d8d5c6;background:#f5f2e9;
+ border-radius:12px;
+}
+body.home-page #main-content>#location .alternating-hours h4{
+ font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+ color:#244d3c;
+}
+body.home-page #main-content>#location .alternating-hours-card{
+ background:#fffefa;border:1px solid #e0dbcb;
+ border-radius:9px;
+}
+body.home-page #main-content>#location .alternating-hours-card:first-child{
+ border-top:3px solid #77a07e;
+}
+body.home-page #main-content>#location .alternating-hours-card:nth-child(2){
+ border-top:3px solid #b79b6a;
+}
+body.home-page #main-content>#location .frame{
+ position:sticky;top:115px;align-self:start;
+ box-sizing:border-box;overflow:hidden;
+ min-height:430px;padding:30px;
+ display:flex;align-items:flex-end;justify-content:center;
+ border:10px solid #c3ad83;
+ outline:1px solid #98764f;
+ border-radius:3px;
+ background:
+  linear-gradient(0deg,rgba(28,67,45,.37),rgba(239,242,227,.04) 70%),
+  url('/assets/impressionist-water-garden.svg') center/cover no-repeat;
+ box-shadow:0 22px 48px rgba(31,59,43,.12);
+}
+body.home-page #main-content>#location .frame>div{
+ background:rgba(255,253,240,.90);
+ border:1px solid #d6caac;border-radius:4px;
+ padding:18px 21px;
+ color:#234735;
+ font:650 clamp(19px,2vw,25px)/1.65 "Noto Serif KR","Apple SD Gothic Neo",serif;
+ box-shadow:0 7px 24px rgba(25,47,37,.1);
+}
+body.home-page #main-content>#location .frame small{
+ color:#7c6842;
+}
+/* FAQ becomes a calm vertical index rather than a long paragraph bank. */
+body.home-page #main-content>#faq{
+ padding-block:clamp(45px,6vw,86px);
+ background:linear-gradient(165deg,#f0f3ec,#fbfaf5 59%,#f5f0e6);
+}
+body.home-page #main-content>#faq>.wrap{
+ max-width:1040px;
+}
+body.home-page #main-content>#faq h2{
+ margin-bottom:14px;
+}
+body.home-page #main-content>#faq>.wrap>p:not(.notice){
+ max-width:850px;color:#567060;
+}
+body.home-page #main-content>#faq .faq-list{
+ counter-reset:gallery-faq;
+ display:grid;grid-template-columns:minmax(0,1fr);
+ gap:8px;margin:24px 0 20px;
+}
+body.home-page #main-content>#faq .faq-list details{
+ counter-increment:gallery-faq;
+ margin:0;border:1px solid #dedfd3;
+ border-radius:11px;background:#fffefa;
+ box-shadow:0 4px 13px rgba(26,53,39,.033);
+ overflow:hidden;
+}
+body.home-page #main-content>#faq .faq-list details[open]{
+ border-color:#a7c0a7;box-shadow:0 8px 22px rgba(30,66,40,.055);
+}
+body.home-page #main-content>#faq .faq-list summary{
+ display:flex;align-items:center;gap:12px;
+ padding:13px 18px;min-height:58px;
+ font-size:15px;line-height:1.6;font-weight:700;
+ color:#244b3a;word-break:keep-all;
+ background:#fffefa;
+}
+body.home-page #main-content>#faq .faq-list summary::before{
+ content:counter(gallery-faq,decimal-leading-zero);
+ display:flex;align-items:center;justify-content:center;flex:none;
+ width:32px;height:32px;
+ background:#f2efe4;border:1px solid #e3dccd;border-radius:50%;
+ color:#947b52;
+ font:750 11px/1 "DM Sans",sans-serif;
+}
+body.home-page #main-content>#faq .faq-list details[open] summary{
+ background:#edf5ed;
+}
+body.home-page #main-content>#faq .faq-list details>p{
+ color:#496154;background:#fffefa;
+ padding:17px 21px 20px;margin:0;
+ font-size:14px;line-height:1.92;
+}
+body.home-page #main-content>#faq .faq-list details a{
+ color:#146144;text-decoration:underline;
+ text-decoration-color:#b0cbb6;text-underline-offset:4px;
+ font-weight:700;
+}
+body.home-page #main-content>#faq .faq-list details :is(a,summary):focus-visible{
+ outline:3px solid #a9834a;outline-offset:3px;
+}
+/* A quieter clinic signature at the bottom, not another marketing wall. */
+body.home-page .home-previsit-links{
+ background:#f9f6ef;
+}
+body.home-page .footer{
+ background:
+  radial-gradient(ellipse at 4% 0%,rgba(94,129,94,.16),transparent 50%),
+  #15372e;
+}
+body.home-page .footer .wrap.footgrid{
+ padding-block:10px 22px;
+ border-bottom:1px solid rgba(244,236,210,.23);
+}
+body.home-page .footer .footgrid h3{
+ font:650 clamp(24px,3vw,30px)/1.5 "Noto Serif KR","Apple SD Gothic Neo",serif;
+ color:#fff9e7;
+}
+body.home-page .footer .bloglinks a{
+ margin-bottom:7px;text-decoration:none;color:#e6e9da;
+ border-bottom:1px solid rgba(244,239,212,.48);
+}
+body.home-page .footer .footer-care-panel{
+ border:1px solid rgba(236,233,205,.22);
+ border-radius:12px;
+ background:rgba(248,248,229,.075);
+ box-shadow:none;
+}
+body.home-page .footer .footer-care-panel h2{
+ color:#fff8e5;font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+ line-height:1.55;
+}
+body.home-page .footer .footer-care-panel p{
+ color:#e6e9dc;line-height:1.8;
+}
+body.home-page .footer .footer-care-nav-links a{
+ border-radius:9px;box-shadow:none;
+}
+body.home-page .footer .footer-business{
+ margin-top:32px;padding-top:25px;
+ border-top:1px solid rgba(236,233,205,.21);
+}
+body.home-page .footer .footer-business-name strong{
+ color:#f4efdf;
+}
+body.home-page .footer .footer-copyright{
+ border-top-color:rgba(238,233,200,.19);
+}
+/* Acknowledging important emergencies with readable contrast, not scare tactics. */
+body.home-page #main-content>#when-to-call .grid>.card{
+ border-radius:11px;background:#fffefa;
+ border:1px solid #e1dfd3;border-top:3px solid #bd9f70;
+ min-height:0;
+}
+body.home-page #main-content>#when-to-call .grid>.card:nth-child(2){
+ border-top-color:#b76c56;background:#fff9f5;
+}
+body.home-page #main-content>#when-to-call .grid>.card h3{
+ line-height:1.55;color:#234a39;
+}
+@media(min-width:700px) and (max-width:1050px){
+ body.home-page #main-content>#visit-guide .grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+ }
+ body.home-page #main-content>#visit-guide .grid>.card{min-height:210px}
+ body.home-page #main-content>#location>.wrap.split{
+  grid-template-columns:minmax(0,1fr) minmax(210px,.54fr);gap:20px;
+ }
+ body.home-page #main-content>#location .visit-quick-facts{
+  grid-template-columns:minmax(0,1fr);
+ }
+ body.home-page #main-content>#location .frame{
+  min-height:350px;
+ }
+}
+@media(max-width:699px){
+ body.home-page #main-content>#visit-guide .grid{
+  grid-template-columns:minmax(0,1fr);gap:10px;
+ }
+ body.home-page #main-content>#visit-guide .grid>.card{
+  min-height:0;padding:20px 18px 17px;
+ }
+ body.home-page #main-content>#location>.wrap.split{
+  grid-template-columns:minmax(0,1fr);
+ }
+ body.home-page #main-content>#location #address{
+  font-size:18px;
+ }
+ body.home-page #main-content>#location .visit-quick-facts{
+  grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;
+ }
+ body.home-page #main-content>#location .visit-quick-facts>div{
+  min-width:0;padding:13px 9px;
+ }
+ body.home-page #main-content>#location .visit-quick-facts strong{
+  font-size:13px;
+ }
+ body.home-page #main-content>#location .visit-quick-facts span{
+  font-size:11px;line-height:1.6;overflow-wrap:anywhere;
+ }
+ body.home-page #main-content>#location .visit-quick-facts a{
+  font-size:11px;
+ }
+ body.home-page #main-content>#location .place-visit-actions{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px;
+ }
+ body.home-page #main-content>#location .place-visit-actions>a{
+  padding:10px 7px;font-size:12px;
+ }
+ body.home-page #main-content>#location .frame{
+  position:relative;top:auto;
+  max-width:420px;margin:8px auto 0;
+  min-height:290px;
+ }
+ body.home-page #main-content>#faq .faq-list summary{
+  padding:13px 12px;gap:8px;font-size:14px;
+ }
+ body.home-page #main-content>#faq .faq-list summary::before{
+  width:26px;height:26px;font-size:10px;
+ }
+ body.home-page #main-content>#faq .faq-list details>p{
+  padding:14px 15px 17px;font-size:14px;
+ }
+}
+@media(max-width:380px){
+ body.home-page #main-content>#location .visit-quick-facts{
+  grid-template-columns:minmax(0,1fr);gap:8px;
+ }
+ body.home-page #main-content>#location .visit-quick-facts>div{
+  padding:13px 16px;
+ }
+ body.home-page #main-content>#location .visit-quick-facts span,
+ body.home-page #main-content>#location .visit-quick-facts a{
+  font-size:13px;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ body.home-page #main-content>#faq .faq-list details,
+ body.home-page #main-content>#location .place-visit-actions>a{
+  transition:none;transform:none;
+ }
+}
+@media(forced-colors:active){
+ body.home-page #main-content>#location .visit-quick-facts>div,
+ body.home-page #main-content>#faq .faq-list details,
+ body.home-page #main-content>#visit-guide .grid>.card{
+  background:Canvas;border:1px solid CanvasText;box-shadow:none;
+ }
+ body.home-page #main-content>#faq .faq-list summary::before{
+  background:Canvas;color:CanvasText;border:1px solid CanvasText;
+ }
+}
