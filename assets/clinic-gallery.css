@@ -334,3 +334,79 @@
 #paintings .gallery-piece[id^="art-street-"] .gallery-art-frame img{object-fit:contain;background:#f3efe6}
 .gallery-exhibition-index{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
 @media(max-width:650px){.gallery-exhibition-index{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* Gallery finale: uncropped originals with a consistent museum frame, 2026-10-29.
+   Existing nine paintings, zoom controls, captions and accessible anchor targets stay. */
+.gallery-hero-image{
+  background:#172f44;
+  border:1px solid #d3c098;
+}
+.gallery-hero-image img{
+  object-fit:contain;
+  object-position:center;
+  background:#172f44;
+}
+.gallery-piece{
+  border:1px solid #d8c8aa;
+  border-radius:4px;
+  background:#fffdf8;
+  box-shadow:0 13px 33px rgba(33,53,39,.075);
+}
+.gallery-piece .gallery-art-frame,
+.gallery-piece .gallery-art-frame-cat{
+  padding:clamp(9px,1.15vw,14px);
+  background:linear-gradient(145deg,#e8ddc7,#f7f1e5);
+}
+.gallery-piece .gallery-art-frame img,
+.gallery-piece .gallery-art-frame-cat img{
+  object-fit:contain;
+  object-position:center;
+  background:#f2efe8;
+  border:1px solid #d7cdb9;
+  box-shadow:0 5px 19px rgba(37,44,35,.09);
+}
+.gallery-piece figcaption{
+  border-top:1px solid #e5dbcb;
+}
+.gallery-piece h3{
+  color:#1f4535;
+  line-height:1.5;
+}
+.gallery-exhibition-index>a:focus-visible,
+.gallery-piece .gallery-links :is(a,button):focus-visible{
+  outline:3px solid #af864b;outline-offset:3px;
+}
+@media(max-width:850px){
+  .gallery-hero-image img{
+    aspect-ratio:1200/720;
+    height:auto;
+    min-height:0;
+    max-height:460px;
+    object-fit:contain;
+  }
+  .gallery-piece .gallery-art-frame img{
+    object-fit:contain;
+  }
+}
+@media(max-width:600px){
+  .gallery-piece .gallery-art-frame,
+  .gallery-piece .gallery-art-frame-cat{padding:9px}
+  .gallery-piece .gallery-art-frame img{
+    object-fit:contain;
+    height:auto;
+    max-height:350px;
+  }
+  .gallery-piece figcaption{padding:19px 19px 23px}
+  .gallery-links a,.gallery-links button{
+    display:inline-flex;
+    align-items:center;
+    min-height:44px;
+    line-height:1.5;
+  }
+  .gallery-links button{display:none}
+  .gallery-js .gallery-links button{display:inline-flex}
+}
+@media(forced-colors:active){
+  .gallery-piece,.gallery-hero-image{background:Canvas;border:1px solid CanvasText;box-shadow:none}
+}
