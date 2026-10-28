@@ -25,8 +25,15 @@ const expectedSearchScriptHash=existsSync(builtSearchAsset)
  :'';
 // The final visual layer should reach the public host before marking this
 // design enhancement delivered; build success alone is not live deployment.
+// The public gallery CSS now uses the same content-fingerprinted SVG URL as
+// the mobile preload. Derive its deployed bytes without requiring dist locally.
+const gardenImageHash=createHash('sha256')
+ .update(readFileSync(new URL('../assets/impressionist-water-garden.svg',import.meta.url)))
+ .digest('hex').slice(0,12);
 const expectedGalleryCssHash=createHash('sha256')
- .update(readFileSync(new URL('../assets/gallery-upgrade.css',import.meta.url)))
+ .update(readFileSync(new URL('../assets/gallery-upgrade.css',import.meta.url),'utf8')
+  .replace(/\/assets\/impressionist-water-garden\.svg(?:\?v=[0-9a-f]{12})?/g,
+   '/assets/impressionist-water-garden.svg?v='+gardenImageHash))
  .digest('hex').slice(0,12);
 const expectedOriginalCount = (homepageSource.match(/class="card owner-story-card"/g)||[]).length;
 // Validate full-page gallery delivery, not just a successful source build.
