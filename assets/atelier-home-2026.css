@@ -1415,3 +1415,150 @@ body.home-page #main-content>#gallery .gallery-home-intro p{
     box-shadow:none;
   }
 }
+
+
+/* Atelier edition XI · Patient treatment catalogue.
+ * One full-width preservation introduction + four numbered treatments in
+ * a balanced two-column editorial reading room. Link text is unchanged;
+ * only the reading rhythm and the actual touch targets are refined. */
+body.home-page #main-content>#care>.wrap>.grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(15px,2vw,22px);
+  align-items:stretch;
+  margin-block:28px 24px;
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-preservation-feature{
+  grid-column:1/-1;
+  position:relative;
+  padding:clamp(26px,3.5vw,43px);
+  border:1px solid #b0c3ae;
+  border-left:5px solid #799a7c;
+  border-radius:5px 20px 5px 20px;
+  background:
+    radial-gradient(circle at 94% 15%,rgba(197,168,105,.16),transparent 33%),
+    linear-gradient(125deg,#edf5ec,#fffdf5);
+  box-shadow:0 13px 30px rgba(27,65,44,.055);
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-preservation-feature h3{
+  font-family:var(--atelier-serif);
+  letter-spacing:-.055em;
+  text-wrap:balance;
+  max-width:29ch;
+  margin-block:9px 16px;
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-preservation-feature>p{
+  max-width:89ch;
+  line-height:1.87;
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  position:relative;
+  padding:clamp(22px,2.6vw,33px);
+  border:1px solid #d9d5c4;
+  border-top:3px solid #c3ab79;
+  border-radius:5px 16px 5px 16px;
+  background:linear-gradient(155deg,#fffef9 0%,#fafaf4 100%);
+  box-shadow:0 10px 25px rgba(29,57,42,.04);
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card:nth-child(odd){
+  border-top-color:#809d85;
+  background:linear-gradient(145deg,#fffef9,#f5f8f2);
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>.num{
+  align-self:flex-start;
+  font:750 11px/1.5 system-ui,sans-serif;
+  letter-spacing:.19em;
+  padding:3px 1px 7px;
+  color:#967b4d;
+  border-bottom:2px solid #c9ac75;
+  margin:0 0 13px;
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>h3{
+  font-family:var(--atelier-serif);
+  font-size:clamp(19px,2.1vw,23px);
+  line-height:1.48;
+  margin:0 0 16px;
+  padding:0;
+  border-left:none;
+  color:#244c39;
+  text-wrap:balance;
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p{
+  color:#465c4d;
+  font-size:15px;
+  line-height:1.9;
+  word-break:keep-all;
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p:last-child{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:stretch;
+  gap:8px 10px;
+  margin:auto 0 0;
+  padding-top:18px;
+  border-top:1px solid #e1dfd3;
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p:last-child br{
+  display:none;
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p:last-child a{
+  display:inline-flex;
+  align-items:center;
+  box-sizing:border-box;
+  max-width:100%;
+  min-height:42px;
+  padding:9px 12px;
+  line-height:1.52;
+  font-size:13px;
+  font-weight:750;
+  color:#295a42;
+  background:#f2f5ed;
+  border:1px solid #d3dfd0;
+  border-radius:5px;
+  text-decoration:none;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p:last-child a:hover{
+  background:#e7f0e4;
+  border-color:#90ac94;
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p:last-child a:focus-visible{
+  outline:3px solid #ad8748;
+  outline-offset:3px;
+}
+@media(max-width:760px){
+  body.home-page #main-content>#care>.wrap>.grid{
+    grid-template-columns:minmax(0,1fr);
+    gap:13px;
+  }
+  body.home-page #main-content>#care>.wrap>.grid>.care-preservation-feature{
+    grid-column:1;
+    padding:24px 20px;
+  }
+  body.home-page #main-content>#care>.wrap>.grid>.care-primary-card{
+    padding:22px 19px;
+  }
+  body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p:last-child a{
+    min-height:44px;
+    font-size:14px;
+  }
+}
+@media(max-width:440px){
+  body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p:last-child a{
+    width:100%;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#care>.wrap>.grid>:is(.care-primary-card,.care-preservation-feature){
+    background:Canvas;
+    border:1px solid CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p:last-child a{
+    background:Canvas;color:LinkText;border:1px solid LinkText;
+  }
+}
