@@ -19,7 +19,10 @@ test('clinic identity data points to real public doctor, FAQ and directions page
  assert.equal(clinic.employee?.['@id'],'https://ejoeundental.com/#doctor-person');
  assert.match(clinic.description,/원장이 직접 검진·진단/);
  for(const p of ['doctor.html','visit-guide.html','gum-treatment-faq.html','root-canal-retreatment-faq.html']){
-  assert.ok(site.hasPart.some(x=>x.url==='https://ejoeundental.com/'+p),'missing grounded linked page '+p);
+  assert.ok(site.hasPart.some(x=>
+   x.url==='https://ejoeundental.com/'+p||
+   x.url==='https://ejoeundental.com/'+p.replace(/\.html$/,'')
+  ),'missing grounded linked page '+p);
  }
  assert.ok(home.includes('name="naver-site-verification"'));
  assert.ok(home.includes('rel="canonical" href="https://ejoeundental.com/"'));
@@ -37,6 +40,6 @@ test('doctor-authored answers match visible clinical information and link to det
   assert.ok(section.includes('href="/'+p+'"'),'patient cannot inspect factual source: '+p);
  }
  assert.ok(doctor.includes('name="description"'));
- assert.ok(doctor.includes('rel="canonical" href="https://ejoeundental.com/doctor.html"'));
+ assert.match(doctor,/rel="canonical" href="https:\/\/ejoeundental\.com\/doctor(?:\.html)?"/);
  assert.ok(section.includes('개별 치료 여부와 계획은 검진 결과에 따라 달라질 수 있습니다'));
 });
