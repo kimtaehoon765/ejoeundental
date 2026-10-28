@@ -278,7 +278,7 @@ test('Google Image discovery lists real first-party illustrations only on their 
   assert.ok(img&&img.includes('loading="lazy"'),kind+' original schematic should be visible without prioritizing the download');
   assert.match(img,/alt="[^"]{24,}"/,kind+' schematic alt text should accurately describe it');
   assert.ok(html.includes('개념 삽화입니다'),kind+' picture requires a clear conceptual illustration disclaimer');
-  const schemas=[...html.matchAll(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/g)]
+  const schemas=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
    .map(m=>JSON.parse(m[1]));
   const pageSchema=schemas.find(x=>x['@type']==='MedicalWebPage');
   assert.equal(pageSchema?.primaryImageOfPage?.url,image);
