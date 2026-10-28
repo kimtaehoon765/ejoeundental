@@ -82,3 +82,27 @@ test('treatment catalogue gives four equal headline topics with readable mobile 
  assert.match(home,/name="naver-site-verification"/);
  assert.match(home,/name="google-site-verification"/);
 });
+
+
+test('six illustrated patient education cards retain all topics and links',()=>{
+ const section=home.match(/<section class="section light" id="health-info">([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.ok(section.includes('class="grid health-topic-grid"'));
+ assert.equal((section.match(/class="card health-topic-card"/g)||[]).length,6);
+ assert.equal((section.match(/class="health-topic-actions"/g)||[]).length,6);
+ const topics=['잇몸질환 · 스케일링','신경치료 · 재신경치료',
+  '시린 이 · 치경부마모증','건강보험 치과진료',
+  '사랑니 · 발치 후 관리','치과 의학상식 · 약물'];
+ for(const t of topics)assert.ok(section.includes('<h3>'+t+'</h3>'),'health topic missing '+t);
+ for(const link of ['/gum-health.html','/root-canal-health.html',
+  '/additional-health.html#abrasion','/insurance-health.html',
+  '/wisdom-tooth.html','https://m.blog.naver.com/radio654']){
+  assert.ok(section.includes('href="'+link+'"'),'health link removed '+link);
+ }
+ assert.match(atelier,/Atelier edition XII · Patient education reading room/);
+ assert.match(atelier,/\.health-topic-grid\{\s*display:grid;\s*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+ assert.match(atelier,/@media\(max-width:760px\)\{[\s\S]*?\.health-topic-grid\{\s*grid-template-columns:minmax\(0,1fr\)/);
+ assert.match(atelier,/\.health-topic-actions>a\{[\s\S]*?min-height:44px/);
+ assert.match(atelier,/\.health-topic-card:nth-child\(6\)::before\{\s*background-size:contain/);
+ assert.ok(home.includes('https://booking.naver.com/booking/13/bizes/1162931'),
+  'patient booking link missing');
+});
