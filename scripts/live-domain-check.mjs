@@ -1146,8 +1146,8 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       const galleryNine=[
        'gallery-starry-clinic.svg','impressionist-water-garden.svg',
        'gallery-golden-garden.svg','ejoeundental-hero-cat.webp',
-       'cubist-cat-clinic.webp','lakeside-flower-clinic.webp',
-       'starry-night-clinic.webp','quiet-window-cat.webp','street-art-tooth-heart.webp'
+       'cubist-cat-clinic-thumb.webp','lakeside-flower-clinic-thumb.webp',
+       'starry-night-clinic-thumb.webp','quiet-window-cat-thumb.webp','street-art-tooth-heart-thumb.webp'
       ].map(name=>origin+'/assets/'+name);
       const expectedGallery=galleryImageLocs(publishedImageXml);
       const liveGallery=galleryImageLocs(body);
