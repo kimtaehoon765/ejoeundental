@@ -45,10 +45,18 @@ function setup({perGroup=15,hash='',search='',mixedGumTitles=false}={}){
    return element;
   }
  };
- const window={location:{hash,search},addEventListener(name,fn){handlers[name]=fn;}};
+ const window={
+  location:{hash,search,pathname:'/clinical-archive.html'},
+  history:{changes:[],replaceState(_state,_title,target){
+    this.changes.push(target);
+    window.location.search=target.match(/\\?[^#]*/)?.[0]||'';
+    window.location.hash=target.match(/#[^#]*$/)?.[0]||'';
+  }},
+  addEventListener(name,fn){handlers[name]=fn;}
+ };
  runInNewContext(script,{document,window,URLSearchParams});
  const get=tag=>elements.find(x=>x.tag===tag);
- return {section,groups,handlers,label:get('label'),input:get('input'),button:get('button'),status:get('p')};
+ return {section,groups,handlers,window,label:get('label'),input:get('input'),button:get('button'),status:get('p')};
 }
 
 test('archive search shows the actual number of links, never an outdated 30-post total',()=>{
@@ -272,4 +280,36 @@ test('home search form uses GET and lands at the real indexed public archive',()
  assert.ok(archive.includes('id="archive-blog-posts"'));
  assert.equal((home.match(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)||[]).length,509);
  assert.match(script,/new URLSearchParams\(window\.location\.search \|\| ''\)\.get\('q'\)/);
+});
+
+
+test('clearing original post search also cleans stale q from address without dropping the anchor',()=>{
+ const site=setup({search:'?q='+encodeURIComponent('재신경치료'),hash:'#archive-blog-posts'});
+ assert.equal(site.input.value,'재신경치료');
+ site.button.handlers.click();
+ assert.equal(site.input.value,'');
+ assert.equal(site.window.location.search,'');
+ assert.equal(site.window.location.hash,'#archive-blog-posts');
+ assert.deepEqual(site.window.history.changes,
+  ['/clinical-archive.html#archive-blog-posts']);
+ assert.equal(site.groups.filter(g=>!g.hidden).length,5);
+});
+test('editing a passed homepage search removes only outdated q and retains referral metadata',()=>{
+ const site=setup({search:'?ref=naver&q='+encodeURIComponent('재신경치료'),hash:'#archive-blog-posts'});
+ site.input.value='잇몸';
+ site.input.handlers.input();
+ assert.equal(site.window.location.search,'?ref=naver');
+ assert.equal(site.window.location.hash,'#archive-blog-posts');
+ assert.equal(site.window.history.changes.length,1);
+ assert.equal(site.groups.filter(g=>!g.hidden).length,1);
+});
+test('switching from a search URL to an original topic cleans stale query metadata',()=>{
+ const site=setup({search:'?q='+encodeURIComponent('재신경치료'),hash:'#archive-blog-posts'});
+ site.window.location.hash='#archive-group-gum';
+ site.handlers.hashchange();
+ assert.equal(site.window.location.search,'');
+ assert.equal(site.window.location.hash,'#archive-group-gum');
+ assert.equal(site.input.value,'');
+ assert.equal(site.groups[0].open,true);
+ assert.equal(site.groups[0].hidden,false);
 });
