@@ -162,7 +162,9 @@ test('nineteen clinic information and patient safety guides have mobile contact 
   assert.ok(strips[0][1].includes('aria-label="'+booking.aria+'"'),'honest booking action label: '+page);
   assert.ok(strips[0][1].includes('rel="noopener noreferrer"'),'safe booking link: '+page);
   assert.match(html,/<link rel="stylesheet" href="\/assets\/clinic-info-mobile-actions\.css\?v=[a-f0-9]{12}">/);
-  assert.ok(html.includes('id="'+id+'"'),'skip-link target must exist: '+page);
+  assert.ok(html.includes('id="'+id+'"'),'skip-link target must exist: '+page+
+   ' · actual main: '+(html.match(/<main\b[^>]*>/i)?.[0]||'(none)')+
+   ' · actual skip: '+(html.match(/<a[^>]*>본문 바로가기<\/a>/i)?.[0]||'(none)'));
   const label=id==='health-hub-main'?'건강정보 본문으로 바로가기':'본문 바로가기';
   assert.ok(html.includes('href="#'+id+'">'+label+'</a>'),'keyboard skip link must point to page main: '+page);
   if(id==='main-content'){
