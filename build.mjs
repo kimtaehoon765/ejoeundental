@@ -3297,3 +3297,32 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
  }
  console.log('Clinical visit guide deep links normalized:',corrected,'late-added care links in',carePages.length,'guides');
 }
+
+
+// Align the three patient-navigation breadcrumbs to the final public canonical
+// only after preview/domain rewriting and clean treatment URL normalization.
+// Source pages stay on the official clinic domain; previews use their own URL.
+{
+ const navigationPages=['stories.html','clinical-archive.html','visit-guide.html'];
+ for(const name of navigationPages){
+  const filename=path.join(out,name);
+  let html=fs.readFileSync(filename,'utf8');
+  const canonical=html.match(/<link\b[^>]*rel=["']canonical["'][^>]*href=["']([^"']+)["']/i)?.[1];
+  if(!canonical?.startsWith(selectedPublicOrigin+'/'))
+   throw new Error('Patient navigation canonical origin mismatch: '+name);
+  let count=0;
+  html=html.replace(/<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/gi,(tag,json)=>{
+   const schema=JSON.parse(json);
+   if(schema['@type']!=='BreadcrumbList')return tag;
+   if(++count>1||!Array.isArray(schema.itemListElement)||schema.itemListElement.length!==2)
+    throw new Error('Patient navigation breadcrumb list malformed: '+name);
+   schema.itemListElement[0].item=selectedPublicOrigin+'/';
+   schema.itemListElement[1].item=canonical;
+   return '<script type="application/ld+json">'+JSON.stringify(schema).replace(/</g,'\\u003c')+'</script>';
+  });
+  if(count!==1||!html.includes('aria-label="현재 위치"'))
+   throw new Error('Patient navigation breadcrumb missing: '+name);
+  fs.writeFileSync(filename,html);
+ }
+ console.log('Final patient navigation breadcrumbs reconciled:',navigationPages.length,selectedPublicOrigin);
+}
