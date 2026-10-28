@@ -3184,6 +3184,37 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   errors.push('건강정보 예약 버튼 모바일 디자인 누락');
 }
 
+// A patient must not reach "Back to health topics" before the actual
+// educational material is finished. Earlier guide edits accidentally left
+// supplemental sections below their end-of-article navigation.
+{
+ const pages=['loose-tooth','receding-gums','periodontal-pocket','root-canal-retreatment-process'];
+ const sitemap=readFileSync(join(root,'sitemap.xml'),'utf8');
+ for(const slug of pages){
+  const filename='health/'+slug+'.html';
+  const page=readFileSync(join(root,filename),'utf8');
+  const main=page.split('</main>')[0]||'';
+  const footer=main.lastIndexOf('<div class="bottom">');
+  if(footer<0 || /<section\\b/i.test(main.slice(footer))){
+   errors.push('환자 교육글 마지막 안내보다 아래에 본문이 이어짐: '+filename);
+  }
+  const entry=new RegExp('<loc>https://ejoeundental\\.com/health/'+slug+'(?:\\.html)?<\\/loc><lastmod>2026-10-28<\\/lastmod>');
+  if(!entry.test(sitemap))errors.push('건강정보 실제 수정일 사이트맵 누락: '+filename);
+ }
+ const references=[
+  ['loose-tooth','https://www.mouthhealthy.org/all-topics-a-z/gum-disease/'],
+  ['gum-pus','https://www.aae.org/patients/dental-symptoms/abscessed-teeth/']
+ ];
+ for(const [slug,ref] of references){
+  const page=readFileSync(join(root,'health',slug+'.html'),'utf8');
+  if(!page.includes('href="'+ref+'" target="_blank" rel="noopener noreferrer"')||
+     !page.includes('영문 원문, 새 창')){
+   errors.push('검증된 환자교육 원문 링크·새 창 안내 누락: '+slug);
+  }
+ }
+ console.log('Patient health article footer and verified source references checked:',pages.length,'page layouts; 2 sources');
+}
+
 // Report every audit error, including the checks above this final line.
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);
