@@ -49,3 +49,24 @@ test('gallery is discoverable from homepage and sitemap without losing search or
  assert.match(h,/class="btn hero-booking"/);
  assert.match(h,/509편/);
 });
+
+test('four distinct original works appear across two complementary homepage exhibitions',()=>{
+ const home=read('index.html'),atelier=read('assets/atelier-home-2026.css');
+ const early=home.match(/<section class="atelier-collection-peek"[\s\S]*?<\/section>/)?.[0]||'';
+ const later=home.match(/<section class="section light gallery-home-preview" id="gallery"[\s\S]*?<\/section>/)?.[0]||'';
+ assert.ok(early&&later,'both linked art rooms remain available');
+ const earlyIds=[...early.matchAll(/href="\/gallery\.html#(art-[a-z]+)"/g)].map(m=>m[1]);
+ const laterIds=[...later.matchAll(/href="\/gallery\.html#(art-[a-z]+)"/g)].map(m=>m[1]);
+ assert.deepEqual(earlyIds,['art-starry','art-golden']);
+ assert.deepEqual(laterIds,['art-pond','art-cat']);
+ assert.equal(new Set([...earlyIds,...laterIds]).size,4,
+  'homepage should avoid duplicate painting previews');
+ assert.match(later,/gallery-home-artworks--complementary/);
+ assert.match(later,/impressionist-water-garden\.svg/);
+ assert.match(later,/ejoeundental-hero-cat\.webp/);
+ assert.match(atelier,/Atelier edition X · Four unique artworks/);
+ assert.match(atelier,/gallery-home-artworks--complementary/);
+ for(const id of [...earlyIds,...laterIds]) {
+   assert.ok(read('gallery.html').includes('id="'+id+'"'),'missing complete exhibition anchor '+id);
+ }
+});
