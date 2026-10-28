@@ -8,7 +8,7 @@ const css=readFileSync('dist/assets/home-enhancements.css','utf8');
 const galleryCss=readFileSync('dist/assets/gallery-upgrade.css','utf8');
 const artwork=readFileSync('dist/assets/impressionist-water-garden.svg','utf8');
 
-test('the mobile homepage shows original painterly artwork after credentials and before the long clinical description',()=>{
+test('the mobile homepage presents the original portrait after key actions and keeps Monet artwork in the collection',()=>{
  const hero=home.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
  const h1=hero.indexOf('id="headline"');
  const degree=hero.indexOf('고려대학교 의학박사');
@@ -18,12 +18,10 @@ test('the mobile homepage shows original painterly artwork after credentials and
  assert.ok(h1>=0&&degree>h1&&specialist>degree&&preview>specialist&&intro>preview);
  assert.match(hero,/href="tel:0325132875"/);
  assert.match(hero,/class="art hero-artwork"/);
- assert.ok(hero.includes('loading="lazy" decoding="async"'),
-  'Second portrait should not compete with the first mobile painting');
- assert.ok(!hero.includes('fetchpriority="high"'),
-  'A below-the-fold portrait must not steal mobile first-screen bandwidth');
- assert.match(home,/<link rel="preload" as="image" type="image\/webp" media="\(min-width: 601px\)"(?: fetchpriority="high")? href="\/assets\/ejoeundental-hero-cat\.webp">/,
-  'Desktop visitors should still get a fast loading portrait');
+ assert.ok(hero.includes('loading="eager" fetchpriority="high" decoding="async"'),
+  'The visible original doctor-cat portrait should load early on both phones and desktop');
+ assert.match(home,/<link rel="preload" as="image" type="image\/webp" fetchpriority="high" href="\/assets\/ejoeundental-hero-cat\.webp">/,
+  'Use one shared preload for the original portrait across screen sizes');
 
  assert.match(home,/class="monet-interlude"/);
  assert.match(home,/aria-labelledby="monet-interlude-title"/);
@@ -40,9 +38,9 @@ test('original gallery and responsive accent are local, cached, and accessible',
  const galleryReferences=[...galleryCss.matchAll(/\/assets\/impressionist-water-garden\.svg(?:\?v=[0-9a-f]{12})?/g)].map(m=>m[0]);
  assert.ok(galleryReferences.length>=3,'Gallery CSS must still show the original Monet-inspired background');
  assert.ok(galleryReferences.every(url=>url===artUrl),
-  'Mobile image preload and every gallery background must share the exact URL to avoid duplicate downloads');
- assert.ok(home.includes('<link rel="preload" as="image" type="image/svg+xml" media="(max-width: 600px)" href="'+artUrl+'">'),
-   'Phones should begin loading the original painting early');
+  'Every gallery background must share the original artwork version to avoid stale images');
+ assert.ok(!home.includes('<link rel="preload" as="image" type="image/svg+xml" media="(max-width: 600px)" href="'+artUrl+'">'),
+   'Do not preload the decorative painting now hidden from the phone hero');
  assert.ok(home.includes('<img src="'+artUrl+'"'),'The displayed art should use the same versioned URL');
  assert.ok(!artwork.includes('<feTurbulence'),'Avoid the expensive full-image noise filter on phones');
  assert.match(artwork,/<title id="t">이조은치과 인상주의 수련 연못 정원<\/title>/);
