@@ -124,8 +124,8 @@ test('AI-readable, clinician-authored treatment decisions cite seven real patien
  }
  assert.ok(home.includes('href="/doctor.html#clinical-decision-answers"'),
   'homepage must expose the answer section as a crawlable HTML link');
- assert.ok(source.includes('<loc>https://ejoeundental.com/doctor.html</loc><lastmod>2026-10-29</lastmod>'),
-  'the doctor answer page real modification date must be updated');
+ assert.match(source, /<loc>https:\/\/ejoeundental\.com\/doctor(?:\.html)?<\/loc><lastmod>2026-10-29<\/lastmod>/,
+  'the doctor answer page real modification date must be updated on the canonical production route');
  assert.ok(section.includes('이조은치과에서 모든 진정치료를 제공한다는 뜻은 아닙니다'),
   'public content must not claim an unverified sedation service');
  assert.ok(doctor.includes('고려대학교 의학박사')&&doctor.includes('통합치의학과 전문의'),
