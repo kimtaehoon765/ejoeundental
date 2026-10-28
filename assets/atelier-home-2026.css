@@ -1,0 +1,324 @@
+/*
+ * 이조은치과 | Atelier 2026 — restrained gallery-grade finishing layer.
+ * No structural / positional override of the mobile hero or appointment dock.
+ * Treatment content, canonical data and original illustrations stay untouched.
+ */
+body.home-page{
+ --atelier-forest:#183d31;
+ --atelier-ink:#244335;
+ --atelier-brass:#b49a69;
+ --atelier-paper:#fffcf6;
+ --atelier-border:#dddacc;
+ --atelier-serif:"Noto Serif KR","Apple SD Gothic Neo",serif;
+ color:var(--atelier-ink);
+}
+body.home-page header{
+ background:linear-gradient(110deg,#153a30 0%,#1f4c3c 68%,#244537 100%);
+ box-shadow:0 4px 22px rgba(12,44,31,.13);
+}
+body.home-page header .nav .logo{
+ font-family:var(--atelier-serif);
+ font-weight:800;
+ letter-spacing:-.055em;
+ color:#fffaf0;
+ text-shadow:0 1px 0 rgba(255,255,255,.08);
+}
+body.home-page header .navlinks>a:not(.call){
+ text-underline-offset:7px;
+ transition:color .2s ease,background-color .2s ease;
+}
+@media(hover:hover) and (pointer:fine){
+ body.home-page header .navlinks>a:not(.call):hover{
+  color:#fff0c9;
+ }
+}
+
+/* Opening room: aged-paper palette and stronger headline typography.
+   Crucially no grid-column, grid-row, display, width or order changes here. */
+body.home-page #main-content>.hero.wrap{
+ border-color:#d6c9ad;
+ background:
+  radial-gradient(ellipse at 7% 8%,rgba(255,246,224,.92),transparent 59%),
+  radial-gradient(ellipse at 92% 96%,rgba(182,206,179,.32),transparent 53%),
+  linear-gradient(143deg,#fffdf6 0%,#f3f3e9 100%);
+ box-shadow:0 16px 38px rgba(28,55,39,.07),0 2px 7px rgba(28,55,39,.04);
+}
+body.home-page #main-content>.hero.wrap .kicker{
+ font-size:11px;
+ letter-spacing:.155em;
+ color:#746a4b;
+ font-weight:800;
+}
+@media(min-width:901px){
+ body.home-page #main-content>.hero.wrap #headline{
+  font-size:clamp(38px,3.85vw,50px);
+  line-height:1.4;
+  letter-spacing:-.058em;
+  text-wrap:balance;
+ }
+ body.home-page #main-content>.hero.wrap .hero-doctor-credentials{
+  border-top:1px solid #d8dacb;
+  padding-top:14px;
+ }
+}
+body.home-page #main-content>.hero.wrap .hero-actions>.btn{
+ border-radius:9px;
+ transition:box-shadow .2s ease,background-color .2s ease,border-color .2s ease;
+}
+body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+ border-color:#d8c7a0;
+ box-shadow:0 10px 25px rgba(37,56,43,.09);
+}
+body.home-page #main-content>.hero.wrap>.hero-editorial-detail{
+ border-top-color:#cfc8af;
+}
+body.home-page #main-content>.hero.wrap .hero-editorial-label{
+ letter-spacing:.14em;
+ color:#786e50;
+}
+
+/* Cohesive gallery labels and titles across core informational rooms. */
+body.home-page #main-content :is(
+ #philosophy,#focus-care,#care,#health-info,#doctor,#gallery,#stories,#faq,#location
+) .eyebrow{
+ font-size:11px;
+ font-weight:850;
+ letter-spacing:.14em;
+ line-height:1.7;
+}
+body.home-page #main-content :is(
+ #philosophy,#focus-care,#care,#health-info,#gallery,#stories,#faq,#location
+) .eyebrow::before{
+ content:"";
+ display:inline-block;
+ width:22px;height:1px;
+ margin:0 10px 4px 0;
+ background:var(--atelier-brass);
+ vertical-align:middle;
+}
+body.home-page #main-content :is(
+ #philosophy,#focus-care,#care,#health-info,#gallery,#stories,#faq,#location
+) h2{
+ font-family:var(--atelier-serif);
+ letter-spacing:-.055em;
+ line-height:1.45;
+ word-break:keep-all;
+ overflow-wrap:break-word;
+ text-wrap:balance;
+}
+body.home-page #main-content :is(#philosophy,#focus-care,#care,#health-info,#faq,#location)>.wrap>p{
+ line-height:1.9;
+}
+
+/* Philosophy: quiet framed essays, rather than loud commercial cards. */
+body.home-page #main-content>#philosophy{
+ background:
+  radial-gradient(circle at 88% 8%,rgba(228,218,184,.25),transparent 45%),
+  linear-gradient(180deg,#fcfaf4,#f7f7f0);
+}
+body.home-page #main-content>#philosophy .grid{
+ gap:clamp(12px,1.8vw,22px);
+}
+body.home-page #main-content>#philosophy .grid>.card{
+ border:1px solid #dbdacc;
+ border-top:3px solid #b9a578;
+ border-radius:13px;
+ background:linear-gradient(160deg,#fffefa,#fffdf7);
+ box-shadow:0 13px 34px rgba(33,57,40,.055);
+}
+body.home-page #main-content>#philosophy .grid>.card:nth-child(2){
+ border-top-color:#88a18d;
+}
+body.home-page #main-content>#philosophy .grid>.card:nth-child(3){
+ border-top-color:#aaa388;
+}
+body.home-page #main-content>#philosophy .grid>.card .num{
+ font-family:Georgia,serif;
+ font-weight:400;
+ color:#a28a5b;
+ letter-spacing:-.06em;
+}
+body.home-page #main-content>#philosophy .grid>.card h3{
+ font-family:var(--atelier-serif);
+ font-size:clamp(18px,1.8vw,21px);
+ line-height:1.6;
+ color:#214333;
+}
+body.home-page #main-content>#philosophy .grid>.card p{
+ font-size:15px;
+ line-height:1.91;
+ color:#455e4c;
+}
+
+/* Treatment gallery: a shared visual language for five independently linked topics. */
+body.home-page #main-content>#focus-care{
+ background:linear-gradient(180deg,#f6f4e9,#fcfaf4);
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a{
+ border:1px solid #d8dacb;
+ border-bottom:3px solid #b49b71;
+ border-radius:13px;
+ background-color:#fffefa;
+ box-shadow:0 10px 27px rgba(30,55,38,.06);
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(even){
+ border-bottom-color:#829f8b;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a strong{
+ font-family:var(--atelier-serif);
+ font-size:clamp(16px,1.55vw,19px);
+ line-height:1.5;
+ letter-spacing:-.04em;
+ color:#214535;
+ word-break:keep-all;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a span{
+ line-height:1.75;
+}
+
+/* Doctor's wing: the artistic portrait stays visibly separate from credentials. */
+body.home-page #main-content>#doctor{
+ background:
+  radial-gradient(ellipse at 5% 5%,rgba(151,165,120,.11),transparent 60%),
+  linear-gradient(132deg,#12392f,#234c3d 70%,#173c33);
+}
+body.home-page #main-content>#doctor .frame{
+ border:1px solid rgba(237,218,171,.7);
+ box-shadow:0 20px 50px rgba(4,20,12,.27),inset 0 0 0 2px rgba(255,248,221,.18);
+}
+body.home-page #main-content>#doctor .doctor-visible-name{
+ letter-spacing:.01em;
+ color:#f0dec0;
+}
+body.home-page #main-content>#doctor #doctor_title{
+ font-family:var(--atelier-serif);
+ text-wrap:balance;
+}
+body.home-page #main-content>#doctor #doctor_body{
+ line-height:1.92;
+ color:#edf4ed;
+}
+body.home-page #main-content>#doctor .doctor-care-trails>a{
+ border:1px solid rgba(215,228,204,.34);
+ background:rgba(255,254,243,.065);
+ border-radius:10px;
+}
+body.home-page #main-content>#doctor .doctor-care-trails>a strong{
+ color:#fff8e8;
+}
+body.home-page #main-content>#doctor .doctor-care-trails>a span{
+ color:#e2ece0;
+}
+body.home-page #main-content>#doctor .pill{
+ border-color:rgba(236,216,168,.62);
+}
+
+/* Reading rooms: card typography and interactive FAQ have a calm paper finish. */
+body.home-page #main-content :is(#care,#health-info) .grid>.card{
+ border-color:#dcded0;
+ background-color:#fffdf8;
+ border-radius:12px;
+ box-shadow:0 9px 25px rgba(28,58,39,.045);
+}
+body.home-page #main-content :is(#care,#health-info) .grid>.card h3{
+ font-family:var(--atelier-serif);
+ color:#214735;
+ line-height:1.56;
+ word-break:keep-all;
+}
+body.home-page #main-content :is(#care,#health-info) .grid>.card p{
+ line-height:1.88;
+}
+body.home-page #main-content>#faq{
+ background:linear-gradient(170deg,#f7f6ef,#eef3ed);
+}
+body.home-page #main-content>#faq .faq-list details{
+ border:1px solid #d6dece;
+ border-radius:10px;
+ background:#fffdf8;
+ box-shadow:0 4px 16px rgba(35,58,41,.045);
+}
+body.home-page #main-content>#faq .faq-list details[open]{
+ border-color:#aabda4;
+ box-shadow:0 9px 24px rgba(33,64,42,.08);
+}
+body.home-page #main-content>#faq .faq-list details>summary{
+ background:#fffdf8;
+ color:#204634;
+ line-height:1.72;
+}
+body.home-page #main-content>#faq .faq-list details[open]>summary{
+ background:#f0f5ed;
+}
+body.home-page #main-content>#faq .faq-list details>p{
+ line-height:1.92;
+}
+body.home-page #main-content>#location .visit-quick-facts>div{
+ border-color:#d5d9c7;
+ border-radius:12px;
+ background:#fffcf5;
+ box-shadow:0 7px 20px rgba(29,53,39,.045);
+}
+body.home-page #main-content>#gallery{
+ border-block:1px solid rgba(182,169,133,.32);
+}
+body.home-page #main-content>#stories .journal-gallery-cover{
+ border:1px solid #c5b18c;
+ box-shadow:0 15px 36px rgba(22,55,39,.08);
+}
+
+/* Keep all previously corrected patient-first phone behavior exactly intact.
+   No display, grid placement, order, width or positioning changes for hero children. */
+@media(max-width:600px){
+ body.home-page #main-content>.hero.wrap #headline{
+  font-size:clamp(28px,7.4vw,37px);
+  line-height:1.42;
+  word-break:keep-all;
+  overflow-wrap:normal;
+ }
+ body.home-page #main-content>.hero.wrap .hero-doctor-credentials{
+  line-height:1.72;
+  font-size:13px;
+ }
+ body.home-page #main-content>#philosophy .grid>.card{
+  padding:20px 18px 22px;
+ }
+ body.home-page #main-content>#philosophy .grid>.card p{
+  font-size:15px;
+ }
+ body.home-page #main-content>#focus-care .focus-care-shortcuts>a strong{
+  font-size:17px;
+ }
+ body.home-page #main-content>#faq .faq-list details>summary{
+  font-size:15px;
+  min-height:54px;
+ }
+ body.home-page #main-content>#doctor #doctor_body{
+  font-size:15px;
+  line-height:1.9;
+ }
+}
+@media(hover:hover) and (pointer:fine){
+ body.home-page #main-content>#philosophy .grid>.card:hover{
+  box-shadow:0 17px 36px rgba(31,62,43,.08);
+ }
+ body.home-page #main-content>#faq .faq-list details:hover{
+  border-color:#a7ba9e;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ body.home-page header .navlinks>a:not(.call),
+ body.home-page #main-content>.hero.wrap .hero-actions>.btn{
+  transition:none;
+ }
+}
+@media(forced-colors:active){
+ body.home-page #main-content :is(#philosophy,#focus-care,#care,#health-info,#faq,#location) .card,
+ body.home-page #main-content>#focus-care .focus-care-shortcuts>a,
+ body.home-page #main-content>#faq .faq-list details{
+  background:Canvas;
+  color:CanvasText;
+  box-shadow:none;
+  border:1px solid CanvasText;
+ }
+}
