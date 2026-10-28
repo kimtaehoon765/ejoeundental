@@ -119,18 +119,18 @@ test('nineteen clinic information and patient safety guides have mobile contact 
   ['root-canal-health.html','health-hub-main'],
   ['insurance-health.html','health-hub-main'],
   ['additional-health.html','health-hub-main'],
-  ['blood-thinners-dental.html','main-content'],
-  ['osteoporosis-medication-dental.html','main-content'],
-  ['diabetes-dental-care.html','main-content'],
-  ['heart-disease-dental-care.html','main-content'],
-  ['kidney-disease-dental-care.html','main-content'],
-  ['liver-disease-dental-care.html','main-content'],
-  ['cancer-immunosuppression-dental-care.html','main-content'],
-  ['pregnancy-dental-care.html','main-content'],
-  ['medical-history.html','main-content'],
+  ['blood-thinners-dental.html','patient-main'],
+  ['osteoporosis-medication-dental.html','patient-main'],
+  ['diabetes-dental-care.html','patient-main'],
+  ['heart-disease-dental-care.html','patient-main'],
+  ['kidney-disease-dental-care.html','patient-main'],
+  ['liver-disease-dental-care.html','patient-main'],
+  ['cancer-immunosuppression-dental-care.html','patient-main'],
+  ['pregnancy-dental-care.html','patient-main'],
+  ['medical-history.html','patient-main'],
   ['medical-safety-guide.html','main-content'],
-  ['medication-dental-faq.html','main-content'],
-  ['systemic-disease-dental-faq.html','main-content']
+  ['medication-dental-faq.html','patient-main'],
+  ['systemic-disease-dental-faq.html','patient-main']
  ];
  const css=readFileSync('dist/assets/clinic-info-mobile-actions.css','utf8');
  assert.match(css,/@media\(max-width:600px\)/);
@@ -165,12 +165,20 @@ test('nineteen clinic information and patient safety guides have mobile contact 
   assert.ok(html.includes('id="'+id+'"'),'skip-link target must exist: '+page+
    ' · actual main: '+(html.match(/<main\b[^>]*>/i)?.[0]||'(none)')+
    ' · actual skip: '+(html.match(/<a[^>]*>본문 바로가기<\/a>/i)?.[0]||'(none)'));
-  const label=id==='health-hub-main'?'건강정보 본문으로 바로가기':'본문 바로가기';
+  const label=id==='health-hub-main'?'건강정보 본문으로 바로가기':
+   id==='patient-main'?'본문으로 바로가기':'본문 바로가기';
   assert.ok(html.includes('href="#'+id+'">'+label+'</a>'),'keyboard skip link must point to page main: '+page);
   if(id==='main-content'){
-   assert.match(html,/<main\b[^>]*id="main-content"/,'patient safety main landmark should be the skip target: '+page);
+   assert.match(html,/<main\b[^>]*id="main-content"/,'new safety main landmark should be the skip target: '+page);
    assert.equal((html.match(/href="#main-content">본문 바로가기<\/a>/g)||[]).length,1,
-    'do not duplicate accessible patient safety shortcuts: '+page);
+    'do not duplicate accessible safety shortcuts: '+page);
+  }
+  if(id==='patient-main'){
+   assert.match(html,/<main\b[^>]*id="patient-main"/,'reuse existing patient main landmark: '+page);
+   assert.equal((html.match(/class="patient-standalone-skip"/g)||[]).length,1,
+    'retain one existing standalone skip link: '+page);
+   assert.ok(!html.includes('class="clinic-info-skip-link"'),
+    'do not add an unnecessary second keyboard skip link: '+page);
   }
  }
  const visit=readFileSync('dist/visit-guide.html','utf8');
