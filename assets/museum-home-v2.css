@@ -1,0 +1,338 @@
+/* 이조은치과 · Museum edition / 2026-10-28
+   A visual-only layer: original indexed copy, clinical guidance,
+   meaningful links and keyboard navigation remain accessible. */
+body.home-page{
+ --museum-ink:#1b4234;
+ --museum-deep:#143a30;
+ --museum-sage:#6e8a76;
+ --museum-paper:#fffcf5;
+ --museum-linen:#f5f0e6;
+ --museum-gold:#b39460;
+ --museum-line:#d9d5c5;
+ background:#f8f5ee;
+}
+body.home-page #main-content{overflow:clip}
+body.home-page #main-content :is(.hero,.section,.symptom-navigator){scroll-margin-top:106px}
+body.home-page #main-content>.hero{
+ position:relative;
+ border:1px solid #e1d7c2;
+ border-radius:24px;
+ background:
+  radial-gradient(ellipse at 3% 1%,rgba(251,241,216,.84),transparent 45%),
+  radial-gradient(ellipse at 100% 100%,rgba(178,203,176,.25),transparent 45%),
+  #faf8f1;
+ padding:clamp(28px,4.5vw,62px);
+ margin-top:clamp(12px,2.4vw,30px);
+ margin-bottom:18px;
+ max-width:1160px;
+ column-gap:clamp(20px,4vw,58px);
+ row-gap:28px;
+ box-shadow:0 22px 65px rgba(35,52,38,.075);
+}
+body.home-page #main-content>.hero::after{
+ content:"";position:absolute;pointer-events:none;
+ inset:9px;border:1px solid rgba(167,139,88,.19);border-radius:18px;
+}
+body.home-page #main-content>.hero>div:first-child{position:relative;z-index:1;min-width:0}
+body.home-page #main-content>.hero .kicker{
+ color:#796948;font-size:11px;letter-spacing:.19em;
+}
+body.home-page #main-content>.hero #headline{
+ font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+ font-size:clamp(34px,3.9vw,51px);
+ line-height:1.36;letter-spacing:-.052em;
+ max-width:630px;margin:20px 0 21px;
+ color:#183f32;
+}
+body.home-page #main-content>.hero .hero-doctor-credentials{
+ max-width:570px;border-left:2px solid #b39460;
+ background:transparent;padding-block:5px;
+}
+body.home-page #main-content>.hero .art.hero-artwork{
+ align-self:center;position:relative;z-index:1;
+ padding:12px;overflow:visible;
+ border:1px solid #c9b894;
+ border-radius:240px 240px 10px 10px;
+ background:#fbf7ec;
+ box-shadow:0 22px 42px rgba(20,56,42,.14),12px 13px 0 #e9e3d5;
+}
+body.home-page #main-content>.hero .hero-artwork img{
+ display:block;width:100%;height:auto;
+ border-radius:230px 230px 6px 6px;object-fit:cover;
+}
+body.home-page #main-content>.hero .hero-artwork::after{
+ content:"이조은치과 · SINCE 2003";position:absolute;bottom:-16px;right:12%;
+ font-size:10px;letter-spacing:.08em;color:#5b644c;background:#faf8f1;
+ padding:5px 11px;border:1px solid #ddcba5;
+}
+body.home-page #main-content>.hero .hero-actions{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:10px;margin:21px 0 14px;
+}
+body.home-page #main-content>.hero .hero-actions a{
+ box-sizing:border-box;min-width:0;min-height:46px;
+ margin:0;display:flex;align-items:center;justify-content:center;
+ text-align:center;line-height:1.45;padding:11px 10px;
+ font-weight:700;font-size:13px;border-radius:9px;
+}
+body.home-page #main-content>.hero .hero-actions>a:nth-child(-n+2){
+ min-height:53px;border:1px solid #194837;
+ background:#194837;color:#fff;
+ box-shadow:0 5px 13px rgba(20,68,48,.1);
+}
+body.home-page #main-content>.hero .hero-actions>a:nth-child(2){
+ background:#ede4d1;color:#1c4536;border-color:#b8a078;
+}
+body.home-page #main-content>.hero .hero-actions>a:nth-child(n+3){
+ background:#fffdf8;color:#355b47;border:1px solid #e0ddcf;
+ font-weight:650;
+}
+body.home-page #main-content>.hero .hero-actions>a:hover{
+ filter:brightness(.975);border-color:#9d895e;
+}
+body.home-page #main-content>.hero .hero-local-intro{
+ margin:16px 0 0;line-height:1.6;font-size:13px;
+ color:#486253;
+}
+body.home-page #main-content>.hero .hero-gallery-window{opacity:.75}
+body.home-page #main-content>.hero .hero-editorial-detail{
+ position:relative;z-index:1;gap:14px;padding-top:19px;
+ border-top:1px solid #d8d5c7;
+}
+body.home-page #main-content>.hero .hero-editorial-detail>div,
+body.home-page #main-content>.hero .hero-editorial-detail>aside{
+ border-radius:14px;background:rgba(255,254,250,.93);
+ border:1px solid #e6dfcf;
+ box-shadow:none;
+}
+body.home-page #main-content>.hero .hero-editorial-label{
+ color:#806b45;font-size:11px;letter-spacing:.14em;
+}
+body.home-page #main-content>.hero .hero-editorial-choices .hero-care-summary>a{
+ border-radius:8px;box-shadow:none;
+ background:#f6f8f3;
+}
+body.home-page #main-content>.hero .hero-editorial-story #intro{
+ color:#38584a;line-height:1.8;
+}
+body.home-page #main-content>.symptom-navigator{
+ border:1px solid #e0dfd4;border-radius:20px;
+ background:#fdfbf7;box-shadow:none;
+ max-width:1120px;
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid{
+ gap:13px;
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a{
+ position:relative;min-width:0;overflow:hidden;
+ border-radius:13px;
+ background:linear-gradient(135deg,#fffefa,#f7f7f0);
+ border:1px solid #dedfd4;
+ box-shadow:0 6px 18px rgba(28,57,41,.035);
+ padding:19px 18px;
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a::before{
+ content:"01";display:inline-flex;align-items:center;justify-content:center;
+ width:31px;height:31px;margin:0 0 11px;
+ border-radius:50%;background:#e6ede1;border:1px solid #cddccb;
+ font:700 11px/1 'DM Sans',sans-serif;letter-spacing:.09em;color:#58775c;
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:nth-child(2)::before{content:"02"}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:nth-child(3)::before{content:"03"}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:nth-child(4)::before{content:"04"}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:nth-child(5)::before{content:"05"}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:nth-child(6)::before{content:"06"}
+body.home-page .monet-interlude{padding:clamp(38px,5vw,78px) 0}
+body.home-page .monet-interlude__painting{
+ border:9px solid #f9f6e9;outline:1px solid #b3a07c;
+ outline-offset:0;box-shadow:0 23px 52px rgba(28,53,39,.14);
+}
+body.home-page .monet-interlude__copy h2{line-height:1.48}
+body.home-page #main-content>#philosophy,
+body.home-page #main-content>#health-info{
+ background:linear-gradient(160deg,#f3f1e8,#fcfaf5 56%,#f0f3ea);
+}
+body.home-page #main-content>#philosophy{padding-block:clamp(55px,6vw,92px)}
+body.home-page #main-content>#philosophy .grid{gap:15px;align-items:stretch}
+body.home-page #main-content>#philosophy .card{
+ padding:clamp(24px,3vw,35px);
+ border:1px solid #e1dbcb;border-radius:3px 24px 3px 24px;
+ background:#fffefa;
+ box-shadow:0 14px 35px rgba(26,57,39,.05);
+}
+body.home-page #main-content>#philosophy .card::before{
+ width:52px;height:2px;top:0;background:#ad9164
+}
+body.home-page #main-content>#philosophy .card .num{
+ font-family:Georgia,serif;font-size:40px;color:#bda878;
+ font-weight:400;line-height:1;
+}
+body.home-page #main-content>#philosophy .card h3{margin-top:18px;line-height:1.5}
+body.home-page #main-content>#philosophy .card p{
+ font-size:14px;line-height:1.85;color:#516356;
+}
+body.home-page #main-content>#focus-care{
+ background:#fdfaf3;padding-block:clamp(48px,5.5vw,82px);
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts{
+ display:grid;grid-template-columns:repeat(6,minmax(0,1fr));
+ gap:15px;margin:32px 0 26px;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a{
+ grid-column:span 2;position:relative;overflow:hidden;min-width:0;
+ display:flex;flex-direction:column;align-items:stretch;
+ min-height:252px;justify-content:flex-start;gap:9px;
+ background:#fffefa;
+ border:1px solid #dcdccf;border-top:1px solid #dcdccf;
+ border-radius:12px;padding:13px 15px 20px;
+ box-shadow:0 9px 28px rgba(31,58,42,.07);
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(-n+2){
+ grid-column:span 3;min-height:267px;
+ background:#fffefa;border-color:#dcdccf;border-top:1px solid #dcdccf;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a::before{
+ content:"";display:block;flex:none;
+ width:100%;height:clamp(105px,12vw,150px);
+ background:
+  radial-gradient(ellipse at 65% 25%,#f0dbb9 0,transparent 50%),
+  radial-gradient(ellipse at 24% 65%,#93b8a2 0,transparent 60%),
+  #e5e8d9;
+ background-size:cover;background-position:center;
+ border-radius:7px;border:1px solid #e2ddcb;
+ margin:0 0 7px;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:first-child::before{
+ background-image:linear-gradient(145deg,rgba(250,248,238,.10),rgba(16,67,49,.05)),url('/assets/impressionist-water-garden.svg');
+ background-position:center 55%;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(2)::before{
+ background-image:linear-gradient(130deg,rgba(232,238,225,.15),rgba(235,230,205,.1)),url('/assets/retreatment/illustration-01.webp');
+ background-position:center 42%;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(3)::before{
+ background:radial-gradient(ellipse at 78% 24%,#ead3a8,transparent 54%),
+ radial-gradient(ellipse at 26% 74%,#cbd8c4,transparent 62%),#f5e9db;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(4)::before{
+ background:radial-gradient(ellipse at 71% 30%,#d6e4d4,transparent 53%),
+ linear-gradient(115deg,#d8deca,#f7ebd7);
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(5)::before{
+ background:radial-gradient(ellipse at 75% 18%,#e7dfc4,transparent 55%),
+ radial-gradient(ellipse at 20% 90%,#95b4a0,transparent 50%),#f3f0e7;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a strong{
+ font-size:clamp(17px,1.8vw,22px);
+ line-height:1.5;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a span{font-size:13px;line-height:1.5}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a::after{margin-top:auto;padding-top:8px}
+body.home-page #main-content>#care{background:#fcfaf5}
+body.home-page #main-content>#care .grid,
+body.home-page #main-content>#health-info .grid{gap:15px}
+body.home-page #main-content>#care .card,
+body.home-page #main-content>#health-info .card,
+body.home-page #main-content>#symptoms .card{
+ padding:clamp(21px,2.2vw,30px);
+ border:1px solid #e3dfd3;border-radius:13px;
+ background:#fffdfa;box-shadow:0 7px 23px rgba(36,65,44,.045);
+}
+body.home-page #main-content>#care .card .num{font-size:23px;color:#ab9268}
+body.home-page #main-content>#care .card h3,
+body.home-page #main-content>#health-info .card h3{
+ font-size:clamp(18px,2vw,22px);color:#214c3b;margin:11px 0;
+}
+body.home-page #main-content>#doctor{
+ background:linear-gradient(140deg,#193e35,#214e3f 72%,#12372f);
+}
+body.home-page #main-content>#doctor .frame{
+ border:12px solid #bea777;
+ outline:1px solid #817049;
+ background:
+ linear-gradient(155deg,rgba(238,230,199,.80),rgba(211,221,200,.87)),
+ url('/assets/impressionist-water-garden.svg') center/cover;
+ box-shadow:0 19px 50px rgba(0,0,0,.18);
+}
+body.home-page #main-content>#stories{
+ background:#fcf9f3;
+}
+body.home-page #main-content>#stories .story-collection-menu>a{
+ border-radius:12px;border:1px solid #d5d3c4;
+ box-shadow:0 9px 24px rgba(31,57,38,.055);
+}
+body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card{
+ border-radius:7px;background:#fffefa;
+ border-left:3px solid #d0bd92;
+ box-shadow:none;
+}
+body.home-page #main-content>#stories .owner-story-card h3{
+ font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+ font-size:14px;line-height:1.62;
+}
+@media(min-width:901px){
+ body.home-page #main-content>.hero{grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr)}
+}
+@media(max-width:900px){
+ body.home-page #main-content>.hero{border-radius:18px;grid-template-columns:minmax(0,1fr);padding:26px 22px 34px}
+ body.home-page #main-content>.hero::after{inset:7px;border-radius:12px}
+ body.home-page #main-content>.hero .art.hero-artwork{max-width:470px;margin:auto}
+ body.home-page #main-content>#focus-care .focus-care-shortcuts>a{min-height:226px}
+ body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(-n+2){min-height:236px}
+}
+@media(max-width:600px){
+ body.home-page #main-content>.hero{margin:9px 12px 15px;padding:25px 18px 28px;gap:19px}
+ body.home-page #main-content>.hero #headline{font-size:clamp(29px,7.4vw,37px);margin:12px 0 15px}
+ body.home-page #main-content>.hero .hero-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ body.home-page #main-content>.hero .hero-actions a{font-size:12px;padding:9px 7px;min-height:44px}
+ body.home-page #main-content>.hero .hero-actions>a:nth-child(-n+2){min-height:48px}
+ body.home-page #main-content>.hero .hero-actions>a:nth-child(n+3){font-size:11.5px}
+ body.home-page #main-content>.hero .art.hero-artwork{max-width:360px;padding:7px}
+ body.home-page #main-content>.hero .hero-artwork::after{font-size:9px;bottom:-12px}
+ body.home-page #main-content>.hero .hero-editorial-detail{margin-top:10px;padding-top:12px;gap:9px}
+ body.home-page #main-content>.hero .hero-editorial-detail>div,
+ body.home-page #main-content>.hero .hero-editorial-detail>aside{padding:16px 13px}
+ body.home-page #main-content>.hero .hero-local-intro{font-size:12px}
+ body.home-page #main-content>.symptom-navigator{margin:15px 12px;padding:22px 15px}
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a{padding:13px 11px;min-height:126px}
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a::before{width:25px;height:25px;margin-bottom:3px}
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a strong{font-size:14px}
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a span{font-size:12px;line-height:1.42}
+ body.home-page #main-content>#focus-care .focus-care-shortcuts{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:20px}
+ body.home-page #main-content>#focus-care .focus-care-shortcuts>a,
+ body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(-n+2){
+  grid-column:span 1;min-height:200px;padding:8px 8px 13px;border-radius:10px;gap:5px
+ }
+ body.home-page #main-content>#focus-care .focus-care-shortcuts>a::before{height:88px;margin-bottom:3px}
+ body.home-page #main-content>#focus-care .focus-care-shortcuts>a strong{font-size:15px}
+ body.home-page #main-content>#focus-care .focus-care-shortcuts>a span{font-size:12px}
+ body.home-page #main-content>#focus-care .focus-care-shortcuts>a:last-child:nth-child(odd){grid-column:1/-1}
+ body.home-page #main-content>#philosophy .card{border-radius:4px 17px 4px 17px}
+ body.home-page #main-content>#care .grid,
+ body.home-page #main-content>#health-info .grid{gap:10px}
+ body.home-page #main-content>#stories .owner-story-card h3{font-size:14px}
+}
+@media(max-width:355px){
+ body.home-page #main-content>.hero .hero-actions{grid-template-columns:minmax(0,1fr)}
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid{grid-template-columns:minmax(0,1fr)}
+ body.home-page #main-content>#focus-care .focus-care-shortcuts{grid-template-columns:minmax(0,1fr)}
+ body.home-page #main-content>#focus-care .focus-care-shortcuts>a{grid-column:1/-1}
+}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ body.home-page #main-content>#focus-care .focus-care-shortcuts>a:hover,
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:hover{
+  transform:translateY(-3px);box-shadow:0 18px 36px rgba(27,59,42,.12);
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ body.home-page #main-content>#focus-care .focus-care-shortcuts>a,
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a{transition:none;transform:none}
+}
+@media(forced-colors:active){
+ body.home-page #main-content>.hero,
+ body.home-page #main-content>#focus-care .focus-care-shortcuts>a,
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a{
+  background:Canvas;border:1px solid CanvasText;box-shadow:none
+ }
+}
