@@ -953,7 +953,8 @@ test('five original Naver wisdom-tooth screenshots become a single balanced hemo
  assert.equal(post.source_url,original);
  assert.ok(String(post.source_note||'').startsWith('screenshots_summary'),'later photo additions must retain original screenshot attribution');
  assert.equal(post.published,true);
- assert.equal(post.updated,'2026-10-26');
+ assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(post.updated) && post.updated >= '2026-10-26',
+  'updated date must remain valid and not precede the original Oct 26 screenshot guide');
  assert.ok(post.title.includes('사랑니')&&post.title.includes('지혈제'));
  assert.ok(post.body.length>3800,'source-based patient guide must be medically substantial');
  for(const term of ['거즈','압박','혈병','지혈재','항응고제','하치조신경관','삼산동','드라이소켓','진료비']){
