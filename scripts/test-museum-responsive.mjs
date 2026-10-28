@@ -191,3 +191,60 @@ test('mobile quick navigation remains readable without removing booking or story
  assert.ok(home.includes('class="btn hero-booking"'),
   'Naver booking is still visible in the hero');
 });
+
+
+test('final responsive layer places phone and Naver booking above secondary guides',()=>{
+ const finalCss=read('assets/curatorial-home.css');
+ const styles=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
+ const finalStyle=styles.find(s=>s.includes('/assets/curatorial-home.css?'));
+ assert.ok(finalStyle,'the final responsive stylesheet must be linked');
+ assert.ok(styles.indexOf(finalStyle)>styles.findIndex(s=>s.includes('/assets/museum-home-v2.css')),
+  'final mobile layout must win over the original two-column layout');
+ assert.ok(styles.indexOf(finalStyle)>styles.findIndex(s=>s.includes('/assets/atelier-home-2026.css')),
+  'the last responsive layer must load after the editorial refinements');
+ const hero=home.match(/<div class="hero-actions">([\s\S]*?)<\/div>/)?.[1]||'';
+ const booking=hero.match(/<a\b[^>]*class="btn hero-booking"[^>]*>/)?.[0]||'';
+ const phone=hero.match(/<a\b[^>]*class="btn hero-call"[^>]*>/)?.[0]||'';
+ assert.ok(phone.includes('href="tel:0325132875"'));
+ assert.ok(booking,'build must render the real booking anchor, not a placeholder');
+ assert.match(booking,/href="https:\/\/booking\.naver\.com\/booking\/13\/bizes\/1162931"/);
+ for(const cls of ['hero-hours','hero-symptoms','hero-map']){
+  assert.ok(hero.includes('class="btn '+cls+'"'),'keep secondary patient link: '+cls);
+ }
+ const start=finalCss.lastIndexOf('Mobile arrival refinement');
+ assert.ok(start>=0,'final responsive base is missing');
+ const final=finalCss.slice(start);
+ assert.match(final, /grid-template-columns:repeat\(6,minmax\(0,1fr\)\)/,
+  'mobile phone and booking row needs six grid tracks');
+ assert.match(final,/\.hero-actions>\.hero-call\{\s*display:flex;grid-column:1 \/ span 3;grid-row:1;order:0;/);
+ assert.match(final,/\.hero-actions>\.hero-booking\{\s*display:flex;grid-column:4 \/ span 3;grid-row:1;order:1;/);
+ assert.match(final,/\.hero-actions>\.hero-hours\{\s*grid-column:1 \/ span 2;grid-row:2;order:2;/);
+ assert.match(final,/\.hero-actions>\.hero-symptoms\{\s*grid-column:3 \/ span 2;grid-row:2;order:3;/);
+ assert.match(final,/\.hero-actions>\.hero-map\{\s*grid-column:5 \/ span 2;grid-row:2;order:4;/);
+ assert.match(final, /@media\(max-width:365px\)/);
+ assert.match(final, /\.hero-actions>\.hero-map\{\s*grid-column:1 \/ -1;grid-row:3;min-height:44px;/,
+  'the map guide must not be squeezed to one third of a tiny phone');
+});
+
+test('mobile art and medical SEO survive the curatorial mobile layer',()=>{
+ const css=read('assets/curatorial-home.css');
+ const mobile=css.slice(css.lastIndexOf('Mobile arrival refinement'));
+ assert.match(mobile, /\.hero\.wrap>\.art\.hero-artwork\{[\s\S]*?grid-column:1 \/ -1;[\s\S]*?grid-row:2;/,
+  'portrait must remain in the full-width second hero row');
+ assert.match(mobile, /\.hero\.wrap>\.hero-editorial-detail\{[\s\S]*?grid-column:1 \/ -1;[\s\S]*?grid-row:3;/,
+  'clinical SEO text must remain after the portrait');
+ assert.ok(home.includes('name="google-site-verification"'));
+ assert.ok(home.includes('name="naver-site-verification"'));
+ assert.ok(home.includes('rel="canonical" href="https://ejoeundental.com/"'));
+ assert.ok(home.includes('src="/assets/ejoeundental-hero-cat.webp"'));
+ assert.ok(home.includes('class="mobile-booking-actions"'),
+  'the independent mobile telephone/booking dock must survive the build');
+ const clean=css.replace(/\/\*[\s\S]*?\*\//g,'').replace(/"(?:\\.|[^"])*"|'(?:\\.|[^'])*'/g,'');
+ let depth=0;
+ for(const ch of clean){
+  if(ch==='{')depth++;
+  if(ch==='}')depth--;
+  assert.ok(depth>=0,'curatorial CSS has an unmatched closing brace');
+ }
+ assert.equal(depth,0,'curatorial CSS has an unclosed block');
+});
