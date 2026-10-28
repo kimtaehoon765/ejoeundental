@@ -388,9 +388,9 @@ body.home-page #main-content>#health-info .grid>.card{
  background:#fffdf8;
 }
 body.home-page #main-content>#health-info .grid>.card::before{
- content:"";display:block;height:88px;
+ content:"";display:block;height:126px;
  margin:-18px -20px 19px;
- border-radius:8px 8px 4px 4px;
+ border-radius:8px 8px 4px;
  background:#edf2e8 center/cover no-repeat;
 }
 body.home-page #main-content>#health-info .grid>.card:nth-child(1)::before{
@@ -410,7 +410,9 @@ body.home-page #main-content>#health-info .grid>.card:nth-child(5)::before{
 }
 body.home-page #main-content>#health-info .grid>.card:nth-child(6)::before{
  background-image:url('/assets/ejoeundental-hero-cat.webp');
- background-position:center 42%;
+ background-size:contain;
+ background-position:center;
+ background-color:#f5eee2;
 }
 body.home-page #main-content>#health-info .grid>.card p{
  font-size:14px;line-height:1.78;color:#4c6153;
@@ -469,7 +471,7 @@ body.home-page #main-content>#stories .story-featured-questions a{
   min-height:211px;
  }
  body.home-page #main-content>#health-info .grid>.card::before{
-  height:70px;margin:-12px -12px 15px;
+  height:112px;margin:-12px -12px 15px;
  }
  body.home-page #main-content>#care .card h3{
   padding-left:10px;
@@ -1072,5 +1074,47 @@ body.home-page #main-content>#when-to-call .grid>.card h3{
  }
  body.home-page #main-content>#faq .faq-list summary::before{
   background:Canvas;color:CanvasText;border:1px solid CanvasText;
+ }
+}
+
+
+/* Museum edition IX: keep the original director and white cat portrait
+   on phones, AFTER the booking and call actions rather than ahead of them.
+   Health-guide thumbnails remain legible rather than tight cropped strips. */
+@media(max-width:600px){
+ body.home-page #main-content>.hero>.art.hero-artwork{
+  box-sizing:border-box;display:block;
+  width:min(100%,278px);max-width:278px;min-width:0;
+  margin:4px auto 15px;padding:8px;
+  border:1px solid #bca67f;border-radius:145px 145px 7px 7px;
+  outline:5px solid rgba(229,221,201,.56);outline-offset:0;
+  background:#fbf7ee;
+  box-shadow:0 13px 29px rgba(25,53,37,.12);
+  transform:none;
+ }
+ body.home-page #main-content>.hero>.art.hero-artwork img{
+  display:block;width:100%;height:auto;max-width:100%;
+  object-fit:contain;border-radius:140px 140px 4px 4px;
+ }
+ body.home-page #main-content>.hero>.art.hero-artwork::after{
+  bottom:-12px;right:8%;font-size:9px;letter-spacing:.06em;
+ }
+ body.home-page #main-content>#health-info .grid>.card:nth-child(6)::before{
+  background-size:contain;background-position:center;
+ }
+}
+@media(max-width:380px){
+ body.home-page #main-content>.hero>.art.hero-artwork{
+  width:min(100%,248px);max-width:248px;
+ }
+}
+body.home-page #main-content>#health-info .grid>.card{min-width:0}
+body.home-page #main-content>#health-info .grid>.card h3{
+ word-break:keep-all;overflow-wrap:break-word;
+}
+body.home-page #stories .journal-gallery-cover>img{object-fit:contain}
+@media(forced-colors:active){
+ body.home-page #main-content>.hero>.art.hero-artwork{
+  border:1px solid CanvasText;outline:none;box-shadow:none;
  }
 }
