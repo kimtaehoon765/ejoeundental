@@ -1331,3 +1331,87 @@ body.home-page #main-content>#health-info .grid>.card p{
     box-shadow:none;
   }
 }
+
+
+/* Atelier edition X · Four unique artworks across two homepage rooms.
+ * The early two-piece exhibit uses starry night + golden garden;
+ * the later gallery shows the water garden + director-cat portrait.
+ * All original artwork still lives in /gallery.html. */
+body.home-page #main-content>#gallery .gallery-home-artworks--complementary{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(15px,2.6vw,29px);
+  max-width:1120px;
+  margin-inline:auto;
+}
+body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a{
+  display:flex;
+  flex-direction:column;
+  grid-column:auto;
+  min-width:0;
+  border-radius:5px 15px 5px 15px;
+  box-shadow:0 5px 0 rgba(181,157,108,.11),0 15px 28px rgba(29,56,38,.07);
+}
+body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a img,
+body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a:last-child img{
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:clamp(210px,22vw,288px);
+  max-height:none;
+  aspect-ratio:auto;
+  object-fit:contain;
+  object-position:center;
+  background:#f3efe4;
+  border:8px solid #faf6eb;
+}
+body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a>span{
+  flex:1;
+  gap:6px;
+  padding-block:18px 22px;
+}
+body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a:first-child{
+  border-top:3px solid #c5a772;
+}
+body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a:last-child{
+  border-top:3px solid #78967c;
+}
+body.home-page #main-content>#gallery .gallery-home-intro p{
+  max-width:66ch;
+  line-height:1.82;
+}
+@media(min-width:461px) and (max-width:760px){
+  body.home-page #main-content>#gallery .gallery-home-artworks--complementary{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a:last-child{
+    grid-column:auto;
+  }
+}
+@media(max-width:460px){
+  body.home-page #main-content>#gallery .gallery-home-artworks--complementary{
+    grid-template-columns:minmax(0,1fr);
+    gap:17px;
+  }
+  body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a img,
+  body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a:last-child img{
+    height:auto;
+    max-height:280px;
+    aspect-ratio:1400/720;
+    object-fit:contain;
+  }
+  body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a:last-child img{
+    aspect-ratio:650/543;
+  }
+  body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a>span{
+    padding:16px 16px 19px;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a{
+    background:Canvas;
+    color:CanvasText;
+    border:1px solid CanvasText;
+    box-shadow:none;
+  }
+}
