@@ -476,6 +476,14 @@ body.home-page .atelier-collection-peek__caption{
 body.home-page .atelier-collection-peek__caption>span{
   font:600 10px/1.5 "DM Sans",sans-serif;letter-spacing:.1em;color:#d6be8e;
 }
+/* Gallery catalogue numbers now match the four-piece exhibition (01 and 03). */
+body.home-page .atelier-collection-peek__caption>span{
+  display:inline-flex;align-items:center;align-self:flex-start;
+  min-height:24px;padding:2px 8px;
+  border-left:2px solid #d0b17d;
+  background:rgba(235,219,183,.08);
+}
+
 body.home-page .atelier-collection-peek__caption strong{
   font:600 clamp(13px,1.35vw,16px)/1.7 "Noto Serif KR",serif;word-break:keep-all;
 }
@@ -1233,3 +1241,5 @@ body.home-page #main-content>#health-info .grid>.card p{
     box-shadow:none;
   }
 }
+
+/* Atelier edition VIII · Exhibition numbering and linked-art cues. */
