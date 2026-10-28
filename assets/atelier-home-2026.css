@@ -322,3 +322,92 @@ body.home-page #main-content>#stories .journal-gallery-cover{
   border:1px solid CanvasText;
  }
 }
+
+
+/* Atelier edition II · real clinical illustrations and curated gallery framing.
+   CSS-only. Do not replace indexed content or rearrange appointment controls. */
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(3)::before{
+  background:#f7f3e9 url('/assets/care-illustration-abrasion.svg') center/contain no-repeat;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(4)::before{
+  background:#f0f4ed url('/assets/care-illustration-insurance.svg') center/contain no-repeat;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(5)::before{
+  background:#f5f4eb url('/assets/care-illustration-scaling.svg') center/contain no-repeat;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a{
+  border:1px solid #d8d4c5;
+  border-bottom:3px solid #bca67a;
+  box-shadow:0 12px 28px rgba(27,57,38,.075);
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a::before{
+  border:1px solid #e6dfd1;
+  outline:3px solid #fffaf0;
+  outline-offset:-7px;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a strong{
+  color:#234936;
+}
+body.home-page #main-content>#gallery{
+  background:
+    radial-gradient(ellipse at 5% 0%,rgba(226,212,180,.26),transparent 55%),
+    linear-gradient(180deg,#f9f7f0 0%,#f0f2e9 100%);
+}
+body.home-page #main-content>#gallery .gallery-home-intro .eyebrow{
+  color:#80673e;
+  letter-spacing:.21em;
+}
+body.home-page #main-content>#gallery .gallery-home-artworks>a{
+  position:relative;
+  background:#fffdf7;
+  padding:10px 10px 0;
+  border:1px solid #d5c9ae;
+  box-shadow:0 5px 0 rgba(181,157,108,.16),0 18px 40px rgba(29,56,38,.095);
+}
+body.home-page #main-content>#gallery .gallery-home-artworks>a img{
+  border:1px solid #e7dfcc;
+  background-color:#f0ede4;
+}
+body.home-page #main-content>#gallery .gallery-home-artworks>a>span{
+  padding-inline:clamp(15px,2vw,22px);
+}
+body.home-page #main-content>#gallery .gallery-home-artworks>a strong{
+  font-family:var(--atelier-serif);
+  letter-spacing:-.035em;
+}
+body.home-page #main-content>#gallery .gallery-home-more{
+  border-color:#a88f61;
+  color:#24503c;
+}
+@media(min-width:901px){
+  body.home-page #main-content>#gallery .gallery-home-artworks>a:first-child{
+    padding:12px;
+  }
+}
+@media(max-width:600px){
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a{
+    box-shadow:0 7px 18px rgba(27,57,38,.05);
+  }
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a::before{
+    outline-offset:-5px;
+  }
+  body.home-page #main-content>#gallery .gallery-home-artworks>a{
+    padding:7px 7px 0;
+    box-shadow:0 5px 0 rgba(181,157,108,.11),0 10px 23px rgba(29,56,38,.07);
+  }
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  body.home-page #main-content>#gallery .gallery-home-artworks>a{
+    transition:transform .22s ease,box-shadow .22s ease;
+  }
+  body.home-page #main-content>#gallery .gallery-home-artworks>a:hover{
+    transform:translateY(-4px);
+    box-shadow:0 5px 0 rgba(181,157,108,.18),0 22px 43px rgba(29,56,38,.13);
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#gallery .gallery-home-artworks>a,
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a{
+    background:Canvas;border:1px solid CanvasText;box-shadow:none;
+  }
+}
