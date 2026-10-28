@@ -864,7 +864,8 @@ body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card a:fo
   }
   body.home-page #main-content>.hero.wrap .hero-actions{
     display:grid;
-    grid-template-columns:repeat(2,minmax(0,1fr));
+    /* Two wide primary actions, then three compact guide links. */
+    grid-template-columns:repeat(6,minmax(0,1fr));
     margin:12px 0 10px;
     gap:7px;
     min-width:0;
@@ -885,8 +886,34 @@ body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card a:fo
     font-size:13px;
     font-weight:800;
   }
+  /* Keep the patient actions primary and the clinical guides secondary. */
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-call{
+    display:flex;grid-column:1 / span 3;grid-row:1;order:0;
+    min-height:60px;flex-wrap:wrap;align-content:center;gap:0 4px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-booking{
+    display:flex;grid-column:4 / span 3;grid-row:1;order:1;
+    min-height:60px;
+  }
   body.home-page #main-content>.hero.wrap .hero-actions .hero-phone{
-    white-space:nowrap;
+    display:block;flex:0 0 100%;white-space:nowrap;
+    font-size:12px;letter-spacing:.015em;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-hours,
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-symptoms,
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-map{
+    min-height:52px;padding:8px 4px;font-size:11.5px;
+    font-weight:700;letter-spacing:-.035em;line-height:1.35;
+    background:#fffdf8;color:#2b523d;box-shadow:none;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-hours{
+    grid-column:1 / span 2;grid-row:2;order:2;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-symptoms{
+    grid-column:3 / span 2;grid-row:2;order:3;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-map{
+    grid-column:5 / span 2;grid-row:2;order:4;
   }
   body.home-page #main-content>.hero.wrap .hero-actions>.hero-map{
     min-height:44px;
@@ -935,6 +962,16 @@ body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card a:fo
   body.home-page #main-content>.hero.wrap .hero-actions>a{
     padding-inline:5px;
     font-size:11.5px;
+  }
+  /* Three navigation links become two rows on very narrow phones. */
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-hours{
+    grid-column:1 / span 3;grid-row:2;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-symptoms{
+    grid-column:4 / span 3;grid-row:2;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-map{
+    grid-column:1 / -1;grid-row:3;min-height:44px;
   }
   html:not(.home-scrolled) body.home-page header .nav .mobile-quick>a{
     font-size:10.5px;
