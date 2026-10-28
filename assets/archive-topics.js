@@ -127,8 +127,20 @@
       group.querySelector('summary')?.focus({ preventScroll: true });
     }
   }
-  // Defer executes after the static HTML is parsed, before the initial hash
-  // scroll. Hash changes also work when entering from a different patient page.
-  openDeepLinkedTopic(false);
+  // A homepage search arrives as /clinical-archive.html?q=...#archive-blog-posts.
+  // Run the same accessible filter, preserving each article's original URL.
+  // A direct topic deep link has priority and must always remain usable.
+  const initialTopic = window.location.hash.replace(/^#/, '');
+  if (allowed.has(initialTopic)) {
+    openDeepLinkedTopic(false);
+  } else {
+    const startingQuery = new URLSearchParams(window.location.search || '').get('q');
+    if (startingQuery && startingQuery.trim()) {
+      input.value = startingQuery.trim().slice(0, 100);
+      filterPosts();
+    }
+  }
+  // Defer executes after the static HTML is parsed; hash changes continue to
+  // reveal the original groups and reset filters when appropriate.
   window.addEventListener('hashchange', () => openDeepLinkedTopic(true));
 })();
