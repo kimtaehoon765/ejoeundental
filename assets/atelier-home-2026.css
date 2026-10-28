@@ -1687,3 +1687,132 @@ body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card>
     border:1px solid LinkText;
   }
 }
+
+
+/* Atelier edition XIII · Illustrated story navigation.
+ * Four existing topic anchors become a miniature exhibition, while all
+ * 509 indexed original links remain in the document unchanged. */
+body.home-page #main-content>#stories .owner-blog-topic-jumps.owner-blog-topic-gallery{
+ display:grid;
+ grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:clamp(10px,1.5vw,17px);
+ align-items:stretch;
+ margin:19px 0 27px;
+}
+body.home-page #main-content>#stories .owner-blog-topic-jumps.owner-blog-topic-gallery>a{
+ display:flex;
+ flex-direction:column;
+ align-items:stretch;
+ gap:0;
+ min-width:0;
+ padding:0;
+ overflow:hidden;
+ border:1px solid #d5d9c9;
+ border-top:3px solid #bda571;
+ border-radius:4px 14px 4px 14px;
+ background:#fffdf8;
+ box-shadow:0 11px 23px rgba(28,55,39,.055);
+ text-decoration:none;
+ color:#254c3b;
+}
+body.home-page #main-content>#stories .owner-blog-topic-jumps.owner-blog-topic-gallery>a:nth-child(even){
+ border-top-color:#819e8a;
+}
+body.home-page #main-content>#stories .owner-blog-topic-gallery .owner-blog-topic-art{
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ width:100%;
+ height:clamp(112px,11vw,152px);
+ min-width:0;
+ padding:8px;
+ box-sizing:border-box;
+ background:linear-gradient(135deg,#eaf0e5,#f6f0e4);
+ border-bottom:1px solid #d9ddce;
+ overflow:hidden;
+}
+body.home-page #main-content>#stories .owner-blog-topic-gallery .owner-blog-topic-art img{
+ display:block;
+ width:100%;
+ height:100%;
+ max-width:100%;
+ object-fit:contain;
+ object-position:center;
+}
+body.home-page #main-content>#stories .owner-blog-topic-gallery .owner-blog-topic-label{
+ display:flex;
+ align-items:center;
+ flex:1;
+ min-height:71px;
+ padding:15px 16px 17px;
+ box-sizing:border-box;
+ font-family:var(--atelier-serif);
+ font-weight:750;
+ font-size:clamp(13px,1.25vw,15px);
+ line-height:1.62;
+ word-break:keep-all;
+ text-wrap:pretty;
+}
+body.home-page #main-content>#stories .owner-blog-topic-jumps.owner-blog-topic-gallery>a:hover{
+ border-color:#89a58e;
+ box-shadow:0 16px 28px rgba(28,55,39,.10);
+ background:#fffef9;
+}
+body.home-page #main-content>#stories .owner-blog-topic-jumps.owner-blog-topic-gallery>a:focus-visible{
+ outline:3px solid #b18b4b;
+ outline-offset:3px;
+}
+@media(max-width:900px){
+ body.home-page #main-content>#stories .owner-blog-topic-jumps.owner-blog-topic-gallery{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+ }
+ body.home-page #main-content>#stories .owner-blog-topic-gallery .owner-blog-topic-art{
+  height:clamp(120px,20vw,170px);
+ }
+ body.home-page #main-content>#stories .owner-blog-topic-gallery .owner-blog-topic-label{
+  font-size:15px;
+  min-height:61px;
+ }
+}
+@media(max-width:460px){
+ body.home-page #main-content>#stories .owner-blog-topic-jumps.owner-blog-topic-gallery{
+  grid-template-columns:minmax(0,1fr);
+  gap:11px;
+ }
+ body.home-page #main-content>#stories .owner-blog-topic-jumps.owner-blog-topic-gallery>a{
+  flex-direction:row;
+  align-items:stretch;
+  min-height:110px;
+ }
+ body.home-page #main-content>#stories .owner-blog-topic-gallery .owner-blog-topic-art{
+  flex:0 0 min(38%,136px);
+  width:min(38%,136px);
+  height:auto;
+  min-height:108px;
+  border-bottom:0;
+  border-right:1px solid #d9ddce;
+ }
+ body.home-page #main-content>#stories .owner-blog-topic-gallery .owner-blog-topic-label{
+  min-width:0;
+  padding:12px 14px;
+  min-height:108px;
+  font-size:14px;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ body.home-page #main-content>#stories .owner-blog-topic-jumps.owner-blog-topic-gallery>a{
+  transition:none;
+ }
+}
+@media(forced-colors:active){
+ body.home-page #main-content>#stories .owner-blog-topic-jumps.owner-blog-topic-gallery>a{
+  background:Canvas;
+  color:LinkText;
+  border:1px solid LinkText;
+  box-shadow:none;
+ }
+ body.home-page #main-content>#stories .owner-blog-topic-gallery .owner-blog-topic-art{
+  background:Canvas;
+  border-color:CanvasText;
+ }
+}
