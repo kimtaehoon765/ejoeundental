@@ -220,14 +220,24 @@ test('homepage topic shortcuts open real original-blog archive categories in one
  const archive=readFileSync('dist/clinical-archive.html','utf8');
  const css=readFileSync('dist/assets/home-enhancements.css','utf8');
  const nav=home.match(/<nav class="owner-blog-topic-jumps" aria-label="[^"]+">([\s\S]*?)<\/nav>/)?.[1]||'';
- const matches=[...nav.matchAll(/<a href="\/clinical-archive\.html#(archive-group-[a-z]+)">([^<]+)<\/a>/g)];
+ const matches=[...nav.matchAll(/<a href="\/clinical-archive\.html#(archive-group-[a-z]+)">([\s\S]*?)<\/a>/g)];
  assert.deepEqual(matches.map(m=>m[1]),[
   'archive-group-gum','archive-group-root','archive-group-ethics','archive-group-other'
  ]);
- for(const [,id,label] of matches){
+ const labels=[
+  '잇몸치료·스케일링 원문 →',
+  '신경치료·재신경치료 원문 →',
+  '치과 선택·진료 원칙 원문 →',
+  '충치·시린 이 등 원문 →'
+ ];
+ matches.forEach(([,id,markup],i)=>{
   assert.match(archive,new RegExp('<details[^>]*id="'+id+'"'),
-   label+' must land on a real original-blog topic');
- }
+   labels[i]+' must land on a real original-blog topic');
+  assert.ok(markup.includes('<span class="owner-blog-topic-label">'+labels[i]+'</span>'),
+   'topic label should remain readable: '+labels[i]);
+  assert.match(markup,/<img\b[^>]*loading="lazy"[^>]*alt="">/,
+   'original art should load lazily and be decorative to screen readers');
+ });
  assert.match(css,/#stories \.owner-blog-topic-jumps a\{[^}]*min-height:44px/,
   'desktop links remain keyboard and touch accessible');
  assert.match(css,/@media\(max-width:600px\)\{#stories \.owner-blog-topic-jumps/,
