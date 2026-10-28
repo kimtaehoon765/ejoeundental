@@ -70,6 +70,7 @@ body.home-page #main-content>.hero .hero-actions{
  gap:10px;margin:21px 0 14px;
 }
 body.home-page #main-content>.hero .hero-actions a{
+ order:0;
  box-sizing:border-box;min-width:0;min-height:46px;
  margin:0;display:flex;align-items:center;justify-content:center;
  text-align:center;line-height:1.45;padding:11px 10px;
