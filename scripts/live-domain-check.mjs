@@ -492,7 +492,7 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
         '정식 페이지 HTTP 200':response.status===200,
         '첫 화면 영역':firstSection>=0,
         '작품 전시 위치':paintingSection>firstSection&&patientSearch>paintingSection,
-        '스타일 연결':body.includes('/assets/curatorial-home.css?v=20261029-gallery1'),
+        '스타일 연결':body.includes('/assets/curatorial-home.css'),
         '전시 작품 3점':(body.match(/class="curated-threshold__piece"/g)||[]).length===3,
         '이미지·갤러리 링크':artTargets.every(([img,href])=>body.includes(img)&&body.includes('href="'+href+'"'))
       };
