@@ -87,7 +87,7 @@ test('original director and cat portrait remains visible on mobile after the pho
   'mobile portrait visibility must override earlier gallery display:none');
  assert.match(museum,/#main-content>#health-info \.grid>\.card:nth-child\(6\)::before\{[\s\S]*?background-size:contain;/,
   'the health information card should show the same original image without cropping');
- assert.match(museum,/#health-info \.grid>\.card::before\{\s*content:"";display:block;height:126px;/,
+ assert.match(museum,/#health-info \.grid>\.card::before\{\s*content:"";display:block;flex:0 0 auto;height:126px;/,
   'desktop thumbnails must not be narrow cropped slits');
  assert.match(museum,/#main-content>#health-info \.grid>\.card\{\s*display:flex;flex-direction:column;align-items:stretch;/,
   'health guides should retain vertical editorial structure');
