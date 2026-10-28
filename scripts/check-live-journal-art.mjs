@@ -28,7 +28,10 @@ if(!expectedCss||!expectedFeature.includes('src="'+expectedImage+'"')) {
   const feature=html.match(/<a class="journal-gallery-cover"[\s\S]*?<\/a>/)?.[0]||'';
   const liveCss=html.match(/href="(\/assets\/museum-home-v2\.css\?v=[^"]+)"/)?.[1]||'';
   const imageOk=feature.includes('src="'+expectedImage+'"');
-  const cssLinkOk=liveCss===expectedCss;
+  // build.mjs fingerprints stylesheets with the emitted CSS content hash.
+  // The source's date-based query string is not the deployed query string.
+  const cssLinkOk=liveCss===expectedCss||
+   liveCss==='/assets/museum-home-v2.css?v='+hash(currentCss);
   console.log('[LIVE ART] 정식 홈페이지 HTTP',home.status,
    '| 치과 이야기 기존 원장 캐리커처·고양이 사용:',imageOk?'확인':'미반영',
    '| 디자인 CSS 링크 최신:',cssLinkOk?'확인':'미반영',
