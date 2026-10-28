@@ -1816,3 +1816,100 @@ body.home-page #main-content>#stories .owner-blog-topic-jumps>a:focus-visible{
   border-color:CanvasText;
  }
 }
+
+
+/* Atelier edition XIV · Direct original article search.
+ * One lightweight, accessible form instead of another long directory on
+ * the homepage. All 509 linked titles continue to be server-rendered. */
+body.home-page #main-content>#stories .owner-blog-direct-search{
+ box-sizing:border-box;
+ margin:18px 0 23px;
+ padding:clamp(18px,2.8vw,28px);
+ border:1px solid #b8ccb6;
+ border-left:4px solid #a68b58;
+ border-radius:5px 15px 5px 15px;
+ background:linear-gradient(125deg,#edf3e9 0%,#fffdf5 100%);
+ box-shadow:0 8px 22px rgba(31,63,45,.045);
+}
+body.home-page #main-content>#stories .owner-blog-direct-search>label{
+ display:block;
+ font-family:var(--atelier-serif);
+ font-size:clamp(17px,2.1vw,21px);
+ line-height:1.55;
+ font-weight:750;
+ color:#244b3a;
+ margin:0 0 12px;
+ word-break:keep-all;
+}
+body.home-page #main-content>#stories .owner-blog-direct-search__fields{
+ display:grid;
+ grid-template-columns:minmax(0,1fr) auto;
+ gap:10px;
+ max-width:800px;
+}
+body.home-page #main-content>#stories .owner-blog-direct-search__fields input{
+ box-sizing:border-box;
+ width:100%;
+ min-width:0;
+ min-height:52px;
+ padding:11px 15px;
+ border:1px solid #8cab94;
+ border-radius:7px;
+ background:#fffefa;
+ color:#183c30;
+ font:500 16px/1.5 system-ui,"Noto Sans KR",sans-serif;
+}
+body.home-page #main-content>#stories .owner-blog-direct-search__fields button{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ box-sizing:border-box;
+ min-height:52px;
+ padding:10px 21px;
+ border:1px solid #276248;
+ border-radius:7px;
+ background:#276248;
+ color:#fffefa;
+ font-size:15px;
+ line-height:1.5;
+ font-weight:750;
+ white-space:nowrap;
+ cursor:pointer;
+}
+body.home-page #main-content>#stories .owner-blog-direct-search__fields button:hover{
+ background:#174c37;
+}
+body.home-page #main-content>#stories .owner-blog-direct-search :is(input,button):focus-visible{
+ outline:3px solid #a87e40;
+ outline-offset:3px;
+}
+body.home-page #main-content>#stories .owner-blog-direct-search>p{
+ margin:11px 0 0;
+ font-size:13px;
+ line-height:1.75;
+ color:#566953;
+ word-break:keep-all;
+}
+@media(max-width:520px){
+ body.home-page #main-content>#stories .owner-blog-direct-search__fields{
+  grid-template-columns:minmax(0,1fr);
+  gap:9px;
+ }
+ body.home-page #main-content>#stories .owner-blog-direct-search__fields button{
+  width:100%;
+  min-height:50px;
+ }
+}
+@media(forced-colors:active){
+ body.home-page #main-content>#stories .owner-blog-direct-search{
+  background:Canvas;
+  color:CanvasText;
+  border:1px solid CanvasText;
+  box-shadow:none;
+ }
+ body.home-page #main-content>#stories .owner-blog-direct-search__fields button{
+  background:ButtonFace;
+  color:ButtonText;
+  border:1px solid ButtonText;
+ }
+}
