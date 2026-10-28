@@ -384,11 +384,12 @@ body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(5)::b
 }
 /* Health guides: small different picture captions to break long rows of copy. */
 body.home-page #main-content>#health-info .grid>.card{
+ display:flex;flex-direction:column;align-items:stretch;
  overflow:hidden;
  background:#fffdf8;
 }
 body.home-page #main-content>#health-info .grid>.card::before{
- content:"";display:block;height:126px;
+ content:"";display:block;flex:0 0 auto;height:126px;
  margin:-18px -20px 19px;
  border-radius:8px 8px 4px;
  background:#edf2e8 center/cover no-repeat;
@@ -1117,4 +1118,17 @@ body.home-page #stories .journal-gallery-cover>img{object-fit:contain}
  body.home-page #main-content>.hero>.art.hero-artwork{
   border:1px solid CanvasText;outline:none;box-shadow:none;
  }
+}
+
+/* The article link now sits at the foot of each health card, avoiding a large
+   empty white block below short descriptions on desktop. */
+body.home-page #main-content>#health-info .grid>.card>p:last-child{
+ margin-top:auto;
+ padding-top:17px;
+ border-top:1px solid #e9e3d5;
+}
+body.home-page #main-content>#health-info .grid>.card>h3{
+ font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+ font-size:clamp(17px,1.6vw,20px);
+ line-height:1.52;
 }
