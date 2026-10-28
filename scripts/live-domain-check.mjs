@@ -309,6 +309,34 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       'remaining route clinical-archive'
     ].includes(label))topicCountPages.set(label,body);
     const info = ['HTTP ' + response.status, '최종 주소: ' + response.url];
+    if(label==='care route implant'||label==='care route denture'){
+      const id=label.endsWith('implant')?'implant':'denture';
+      const pictureUrl=origin+'/assets/clinical-share/'+id+'.png';
+      const alt=id==='implant'?
+       '이조은치과 임플란트 상담 주제를 나타내는 도식형 삽화':
+       '이조은치과 틀니 치료 주제를 나타내는 도식형 삽화';
+      const fields=[
+       ['property','og:image',pictureUrl],['property','og:image:type','image/png'],
+       ['property','og:image:width','1200'],['property','og:image:height','630'],
+       ['property','og:image:alt',alt],['name','twitter:image',pictureUrl]
+      ];
+      const tagsReady=response.status===200&&fields.every(([kind,key,value])=>
+       body.includes('<meta '+kind+'="'+key+'" content="'+value+'">'));
+      let actualPngReady=false,bytes=0;
+      try{
+       const img=await fetch(pictureUrl,{signal:AbortSignal.timeout(8000)});
+       if(img.ok&&String(img.headers.get('content-type')||'').includes('image/png')){
+        const buffer=Buffer.from(await img.arrayBuffer());
+        bytes=buffer.length;
+        actualPngReady=bytes>8000&&bytes<2000000&&
+         buffer.subarray(0,8).toString('hex')==='89504e470d0a1a0a'&&
+         buffer.readUInt32BE(16)===1200&&buffer.readUInt32BE(20)===630;
+       }
+      }catch{}
+      info.push(tagsReady&&actualPngReady?
+       '고유한 진료별 이미지 공유 태그 및 원본 PNG 실제 공개 확인 ('+bytes+'바이트)':
+       '진료별 공유 이미지 태그 또는 PNG 실제 배포 확인 필요 (태그 '+tagsReady+', 이미지 '+actualPngReady+')');
+    }
     // Inspect the actual publicly returned HTML for high-traffic sharing pages.
     // One existing branded first-party image is used as an honest, lightweight
     // fallback; no fabricated clinic photograph or new external dependency.

@@ -24,6 +24,13 @@ const pageFor=route=>{
   path.join(output,rel.endsWith('.html')?rel:rel+'.html');
 };
 
+test('live Cloudflare audit checks exact OG preview and real 1200x630 PNG response',()=>{
+ const probe=readFileSync('scripts/live-domain-check.mjs','utf8');
+ assert.ok(probe.includes("if(label==='care route implant'||label==='care route denture')"));
+ assert.ok(probe.includes("buffer.readUInt32BE(16)===1200&&buffer.readUInt32BE(20)===630"));
+ assert.ok(probe.includes('tagsReady&&actualPngReady'));
+});
+
 test('implant and denture have separate genuine PNG sharing images with Korean wordmarks',()=>{
  const metas=[
   ['implant.html','implant','이조은치과 임플란트 상담 주제를 나타내는 도식형 삽화'],
