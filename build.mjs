@@ -3360,10 +3360,10 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
   // Preserve the existing shortcut on stories.html, and the existing main id
   // on doctor.html and editorial archives instead of injecting duplicates.
   if(!html.includes('본문 바로가기')){
-   const main=html.match(/<main\\b[^>]*>/i)?.[0];
-   const body=html.match(/<body\\b[^>]*>/i)?.[0];
+   const main=html.match(/<main\b[^>]*>/i)?.[0];
+   const body=html.match(/<body\b[^>]*>/i)?.[0];
    if(!main||!body)throw new Error('Missing clinic information main/body landmark: '+name);
-   const currentId=main.match(/\\bid=["']([^"']+)["']/i)?.[1];
+   const currentId=main.match(/\bid=["']([^"']+)["']/i)?.[1];
    const targetId=currentId||'main-content';
    if(!currentId)html=html.replace(main,main.slice(0,-1)+' id="main-content">');
    const shortcut='<a class="clinic-info-skip-link" href="#'+targetId+'">본문 바로가기</a>';
