@@ -538,7 +538,7 @@ test('treatment guidance never sends visitors back to homepage for hours or park
   assert.ok(sourceVisit.includes('id="'+id+'"'),'visit guide missing '+id);
  for(const file of pages){
   const html=readFileSync('dist/'+file,'utf8');
-  const main=html.match(/<main\\b[^>]*>([\\s\\S]*?)<\\/main>/)?.[1];
+  const main=html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1];
   assert.ok(main,file+' must have a single patient-visible main element');
   assert.ok(!main.includes('href="/#location"'),
    file+' care body must not send visitor back to the homepage to find hours');
@@ -549,8 +549,8 @@ test('treatment guidance never sends visitors back to homepage for hours or park
  }
  for(const file of ["gum-treatment.html","retreatment.html","cervical-abrasion.html","insured-care.html","implant.html","denture.html","scaling.html","cavity-treatment.html","wisdom-tooth.html","pediatric-dentistry.html","pediatric-orthodontics.html","tmj-care.html"]){
   const html=readFileSync('dist/'+file,'utf8');
-  const main=html.match(/<main\\b[^>]*>([\\s\\S]*?)<\\/main>/)?.[1]||'';
-  assert.ok(/href="\\/visit-guide\\.html#visit-(?:hours|parking)"/.test(main),
+  const main=html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1]||'';
+  assert.ok(/href="\/visit-guide\.html#visit-(?:hours|parking)"/.test(main),
    file+' should directly open a relevant visit section');
  }
 });
