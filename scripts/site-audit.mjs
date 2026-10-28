@@ -3195,7 +3195,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   const page=readFileSync(join(root,filename),'utf8');
   const main=page.split('</main>')[0]||'';
   const footer=main.lastIndexOf('<div class="bottom">');
-  if(footer<0 || /<section\\b/i.test(main.slice(footer))){
+  if(footer<0 || /<section\b/i.test(main.slice(footer))){
    errors.push('환자 교육글 마지막 안내보다 아래에 본문이 이어짐: '+filename);
   }
   const entry=new RegExp('<loc>https://ejoeundental\\.com/health/'+slug+'(?:\\.html)?<\\/loc><lastmod>2026-10-28<\\/lastmod>');
