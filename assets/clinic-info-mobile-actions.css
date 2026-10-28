@@ -25,3 +25,15 @@
   .clinic-info-mobile-actions a:focus-visible{outline:3px solid #a87931;outline-offset:2px}
 }
 @media print{.clinic-info-mobile-actions{display:none!important}body{padding-bottom:0!important}}
+
+/* A keyboard-first shortcut keeps the information pages usable when the
+   masthead is long. It appears only on focus and never covers the mobile bar. */
+.clinic-info-skip-link{
+  position:fixed;z-index:1000;top:8px;left:12px;
+  transform:translateY(calc(-100% - 20px));
+  padding:12px 17px;border:3px solid #a87931;border-radius:10px;
+  background:#fff;color:#173e35;font:750 16px/1.4 system-ui,sans-serif;
+  text-decoration:none;box-shadow:0 8px 22px rgba(0,0,0,.17)
+}
+.clinic-info-skip-link:focus{transform:translateY(0)}
+@media print{.clinic-info-skip-link{display:none!important}}
