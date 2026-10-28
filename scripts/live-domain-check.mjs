@@ -1129,14 +1129,41 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        return block.includes('<image:image><image:loc>'+origin+
         '/assets/clinical-share/'+kind+'.png</image:loc></image:image>');
       };
-      const imageMapReady=googleImageNamespace&&imageLocs.length===14&&
-       new Set(imageLocs).size===14&&
+      // Google Image sitemap entries may repeat the same image on two
+      // relevant pages, such as the homepage and nine-picture gallery.
+      // Compare with the generated production sitemap rather than an old
+      // magic number that incorrectly flags 16/14 after every art release.
+      const publishedImageXml=readFileSync(new URL('../dist/sitemap.xml',import.meta.url),'utf8');
+      const expectedImageLocs=[...publishedImageXml.matchAll(
+       /<image:image><image:loc>([^<]+)<\\/image:loc><\\/image:image>/g
+      )].map(m=>m[1]);
+      const galleryImageLocs=xml=>{
+       const block=xml.split('<loc>'+origin+'/gallery</loc>')[1]?.split('</url>')[0]||
+        xml.split('<loc>'+origin+'/gallery.html</loc>')[1]?.split('</url>')[0]||'';
+       return [...block.matchAll(/<image:image><image:loc>([^<]+)<\\/image:loc><\\/image:image>/g)]
+        .map(m=>m[1]);
+      };
+      const galleryNine=[
+       'gallery-starry-clinic.svg','impressionist-water-garden.svg',
+       'gallery-golden-garden.svg','ejoeundental-hero-cat.webp',
+       'cubist-cat-clinic.webp','lakeside-flower-clinic.webp',
+       'starry-night-clinic.webp','quiet-window-cat.webp','street-art-tooth-heart.webp'
+      ].map(name=>origin+'/assets/'+name);
+      const expectedGallery=galleryImageLocs(publishedImageXml);
+      const liveGallery=galleryImageLocs(body);
+      const galleryImageMapReady=expectedGallery.length===9&&
+       liveGallery.length===9&&
+       galleryNine.every(url=>expectedGallery.includes(url)&&liveGallery.includes(url));
+      const imageMapReady=googleImageNamespace&&
+       imageLocs.length===expectedImageLocs.length&&
+       expectedImageLocs.every((url,i)=>imageLocs[i]===url)&&
+       galleryImageMapReady&&
        [...indexedHeroImages,...indexedRootImages,...indexedTopicImages].every(url=>imageLocs.includes(url))&&
        ['implant','denture'].every(kind=>dateDeployed(kind)&&correctTopicImage(kind))&&
        dateDeployed('retreatment');
       info.push(imageMapReady?
-       'Google 이미지 사이트맵: 홈페이지 2개·재신경치료 10개·임플란트 및 틀니 고유 삽화 2개 실사이트 공개 확인':
-       'Google 이미지 사이트맵 최신 배포 확인 필요 (실제 이미지 '+imageLocs.length+'/14)');
+       'Google 이미지 사이트맵: 의료 설명 삽화·신경치료 10개·창작 갤러리 9점 실제 공개 확인 ('+imageLocs.length+'개 항목)':
+       'Google 이미지 사이트맵 확인 필요 (실제 '+imageLocs.length+'/'+expectedImageLocs.length+'개 · 갤러리 '+liveGallery.length+'/9)');
       info.push(dateDeployed('health/root-canal-retreatment-process')?
        'Google 재신경치료 과정 건강정보의 실제 수정일 게시 확인':
        'Google 재신경치료 과정 건강정보 최근 수정일 최신 배포 확인 필요');
