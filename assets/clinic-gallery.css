@@ -9,3 +9,187 @@
 @media(max-width:600px){.gallery-header-inner{padding:11px 15px;min-height:68px}.gallery-logo{font-size:22px}.gallery-logo small{font-size:8px;letter-spacing:.09em}.gallery-header nav{gap:8px}.gallery-header nav a{font-size:11px}.gallery-header nav a:nth-child(2){display:none}.gallery-header .header-call{padding:8px 11px}.gallery-hero{padding:0 12px;margin:12px auto 38px}.gallery-hero-content{padding:27px 23px}.gallery-hero h1{font-size:33px}.gallery-hero-content>p:not(.gallery-kicker){font-size:14px}.gallery-hero-actions>a{padding:10px 12px;font-size:12px}.gallery-section{padding:31px 14px 60px}.gallery-section-intro{margin-bottom:24px}.gallery-art-grid{grid-template-columns:minmax(0,1fr);gap:20px}.gallery-piece .gallery-art-frame{padding:8px}.gallery-piece .gallery-art-frame img{height:auto;aspect-ratio:1200/720;object-fit:contain}.gallery-piece .gallery-art-frame-cat img{aspect-ratio:650/543;max-height:360px}.gallery-piece figcaption{padding:17px 21px 21px}.gallery-education{padding:41px 14px 55px}.gallery-education-grid{grid-template-columns:minmax(0,1fr);gap:12px}.gallery-note img{height:150px}.gallery-footer{flex-direction:column;padding:32px 22px}.gallery-endnote .gallery-hero-actions{flex-direction:column;align-items:center}.gallery-endnote .gallery-hero-actions>a{width:min(100%,325px)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.gallery-piece:hover .gallery-art-frame img{filter:none}}
 @media(forced-colors:active){.gallery-piece,.gallery-note,.gallery-header,.gallery-hero-content{background:Canvas;border:1px solid CanvasText}.gallery-piece h3,.gallery-note strong{color:CanvasText}.gallery-endnote{background:Canvas;color:CanvasText}.gallery-endnote h2,.gallery-endnote p{color:CanvasText}}
+
+
+/* Exhibition II: a quieter museum composition, not four identical product cards. */
+.gallery-exhibition-index{
+ display:grid;
+ grid-template-columns:minmax(170px,1.3fr) repeat(4,minmax(0,1fr));
+ align-items:stretch;gap:1px;
+ max-width:1170px;margin:22px auto 8px;
+ padding:1px;background:#ddd5c5;border:1px solid #ddd5c5;
+ border-radius:9px;overflow:hidden;
+ box-shadow:0 12px 28px rgba(37,56,41,.045);
+}
+.gallery-exhibition-index>*{
+ min-width:0;padding:18px 17px;background:#fbf8ef;
+ text-decoration:none;
+}
+.gallery-exhibition-index>.gallery-exhibition-label{
+ display:flex;flex-direction:column;justify-content:center;gap:5px;
+ background:#244d3e;color:#fff9e8;
+}
+.gallery-exhibition-label small,
+.gallery-exhibition-index>a>small{
+ display:block;font-size:10px;font-weight:800;
+ letter-spacing:.12em;line-height:1.5;color:#ab9060;
+}
+.gallery-exhibition-label small{color:#e0c392}
+.gallery-exhibition-label strong{
+ font:650 16px/1.55 Georgia,"Noto Serif KR","Apple SD Gothic Neo",serif;
+ letter-spacing:-.04em;
+}
+.gallery-exhibition-index>a{
+ display:flex;justify-content:center;align-items:start;flex-direction:column;
+ gap:6px;min-height:90px;color:#214c3a;
+}
+.gallery-exhibition-index>a>span{
+ font:700 13px/1.5 Georgia,"Noto Serif KR","Apple SD Gothic Neo",serif;
+ letter-spacing:-.03em;
+}
+.gallery-exhibition-index>a:hover{
+ background:#f0f1e7;
+}
+.gallery-exhibition-index>a:focus-visible{
+ outline:3px solid #aa8852;outline-offset:-4px;position:relative;z-index:1;
+}
+.gallery-section-intro .gallery-intro-ornament{
+ display:flex;align-items:center;justify-content:center;gap:16px;
+ margin-top:18px;color:#9c8d71;
+ font:700 9px/1.5 system-ui,sans-serif;letter-spacing:.15em;
+}
+.gallery-intro-ornament>span{
+ font-size:18px;color:#bcaa83;
+}
+#paintings .gallery-art-grid{
+ column-gap:25px;row-gap:30px;
+}
+#paintings .gallery-piece{
+ border-radius:2px;
+ background:linear-gradient(150deg,#fffdf7,#f8f4ea);
+ box-shadow:0 2px 3px rgba(43,59,47,.03),0 17px 45px rgba(28,50,40,.08);
+}
+#paintings .gallery-piece .gallery-art-frame{
+ padding:14px;background:
+  linear-gradient(125deg,#e9dbbb,#f5eddc 45%,#d2c6a8);
+}
+#paintings .gallery-piece .gallery-art-frame img{
+ border:6px solid #faf6e7;
+ outline:1px solid #b3a17f;
+ box-shadow:0 11px 22px rgba(40,49,42,.14);
+}
+#paintings .gallery-piece figcaption{
+ padding:25px clamp(22px,2.8vw,36px) 28px;
+}
+#paintings .gallery-piece figcaption p{
+ font-size:15px;line-height:1.83;
+}
+#paintings .gallery-piece h3{
+ font-size:clamp(23px,2.4vw,30px);
+}
+#paintings .gallery-piece .gallery-index{
+ font-size:11px;letter-spacing:.13em;
+}
+#paintings .gallery-piece .gallery-art-frame-cat img{
+ object-fit:contain;background:#eee8d8;
+}
+#paintings .gallery-piece .gallery-links button,
+#paintings .gallery-piece .gallery-links a{
+ display:inline-flex;align-items:center;min-height:40px;
+ padding:5px 0;text-decoration:none;
+ border-bottom:1px solid #a8baa3;
+}
+#paintings .gallery-links button{display:none}
+.gallery-js #paintings .gallery-links button{display:inline-flex}
+#paintings .gallery-piece .gallery-links :is(button,a):hover{
+ color:#0e6c48;border-bottom-color:#0e6c48;
+}
+@media(min-width:851px){
+ #paintings .gallery-piece-feature{
+  grid-column:1/-1;
+  display:grid;grid-template-columns:minmax(0,1.34fr) minmax(0,.66fr);
+  align-items:stretch;min-height:395px;
+ }
+ #paintings .gallery-piece-feature .gallery-art-frame{
+  display:flex;align-items:center;justify-content:center;
+  min-width:0;padding:17px;
+ }
+ #paintings .gallery-piece-feature .gallery-art-frame img{
+  display:block;width:100%;height:auto;max-height:440px;
+  aspect-ratio:1200/720;object-fit:contain;
+ }
+ #paintings .gallery-piece-feature figcaption{
+  display:flex;flex-direction:column;align-items:start;
+  justify-content:center;padding:34px clamp(25px,4vw,55px);
+  min-width:0;
+ }
+ #paintings .gallery-piece-feature figcaption>p{
+  max-width:270px;margin-bottom:22px;
+ }
+ #paintings .gallery-piece-portrait{
+  grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);
+ }
+ #paintings .gallery-piece-portrait .gallery-art-frame img{
+  aspect-ratio:650/543;max-height:420px;
+ }
+ #paintings .gallery-piece-portrait figcaption{
+  background:linear-gradient(135deg,#fbf7ee,#eff3e9);
+ }
+}
+/* Classic exhibition readability and easy art-room navigation on small screens. */
+@media(max-width:1000px){
+ .gallery-exhibition-index{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  margin-inline:18px;
+ }
+ .gallery-exhibition-index>.gallery-exhibition-label{
+  grid-column:1/-1;padding:13px 16px;
+ }
+ .gallery-exhibition-label strong{font-size:15px}
+}
+@media(max-width:850px){
+ #paintings .gallery-piece-feature{
+  display:block;min-height:0;
+ }
+ #paintings .gallery-piece .gallery-art-frame{
+  padding:10px;
+ }
+ #paintings .gallery-piece .gallery-art-frame img{
+  height:clamp(195px,29vw,285px);object-fit:contain;
+ }
+ #paintings .gallery-piece-portrait .gallery-art-frame img{
+  object-fit:contain;
+ }
+}
+@media(max-width:650px){
+ .gallery-exhibition-index{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  margin:0 13px 11px;gap:1px;
+ }
+ .gallery-exhibition-index>.gallery-exhibition-label{
+  padding:14px 16px;
+ }
+ .gallery-exhibition-index>a{
+  min-height:68px;padding:11px 13px;gap:2px;
+ }
+ .gallery-exhibition-index>a>span{
+  font-size:13px;line-height:1.45;
+ }
+ #paintings .gallery-piece .gallery-art-frame{
+  padding:9px;
+ }
+ #paintings .gallery-piece .gallery-art-frame img{
+  height:auto;max-height:none;
+  aspect-ratio:1200/720;
+ }
+ #paintings .gallery-piece-portrait .gallery-art-frame img{
+  aspect-ratio:650/543;max-height:360px;
+ }
+ #paintings .gallery-piece figcaption{
+  padding:18px 20px 22px;
+ }
+ #paintings .gallery-piece figcaption p{font-size:14px}
+ .gallery-section-intro .gallery-intro-ornament{
+  gap:8px;font-size:8px;letter-spacing:.06em;
+ }
+}
