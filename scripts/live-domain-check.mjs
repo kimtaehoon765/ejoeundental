@@ -222,7 +222,7 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       const hasLinks=nav.includes('href="tel:0325132875"')&&
        nav.includes('href="'+verifiedBookingUrl+'"')&&nav.includes('href="/visit-guide.html"');
       const styled=body.includes('clinic-info-mobile-actions.css?v='+expectedInfoActionsHash);
-      const accessible=body.includes('본문 바로가기');
+      const accessible=body.includes('본문 바로가기')||body.includes('건강정보 본문으로 바로가기');
       const ready=response.status===200&&hasLinks&&styled&&accessible;
       add('모바일 전화·예약·오시는 길 '+label,
        ready?'실사이트 반영 확인':'배포·캐시 확인 필요',
