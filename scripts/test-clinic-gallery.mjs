@@ -177,3 +177,39 @@ test('live read-only gallery probe checks all nine original artworks and 10 opti
   'public verification must compare source and live SHA, not just HTTP status');
  assert.ok(script.includes('Cache-Control'));
 });
+
+
+test('home exhibits the new nine-piece collection without heavy images or lost links',()=>{
+ const home=read('index.html');
+ const gallery=read('gallery.html');
+ const atelier=read('assets/atelier-home-2026.css');
+ const area=home.match(/<section class="section light gallery-home-preview" id="gallery"[\s\S]*?<\/section>/)?.[0]||'';
+ assert.ok(area,'home gallery remains an accessible section');
+ assert.ok(area.includes('창작 그림 9점 모두 감상하기 →'));
+ assert.ok(!area.includes('그림 네 점 모두 감상하기'));
+ assert.ok(area.includes('aria-labelledby="gallery-new-arrivals-title"'));
+ assert.ok(area.includes('id="gallery-new-arrivals-title"'));
+ const legacy=area.match(/<div class="gallery-home-artworks gallery-home-artworks--complementary">([\s\S]*?)<\/div>/)?.[1]||'';
+ assert.equal((legacy.match(/<a href="\/gallery\.html#art-/g)||[]).length,2,
+  'existing pond and director-cat previews must stay distinct');
+ const arrivals=area.match(/<div class="gallery-new-arrivals"[\s\S]*?<\/section>/)?.[0]||'';
+ const addedArt=['cubist-cat-clinic','street-art-tooth-heart'];
+ for(const filename of addedArt){
+  assert.ok(arrivals.includes('src="/assets/'+filename+'-thumb.webp"'));
+  assert.ok(arrivals.includes('href="/gallery.html#art-'+filename+'"'));
+  assert.ok(gallery.includes('id="art-'+filename+'"'));
+  assert.ok(existsSync('dist/assets/'+filename+'-thumb.webp'));
+ }
+ assert.equal((arrivals.match(/<img\b/g)||[]).length,2,'only two light thumbnails on home');
+ assert.equal((arrivals.match(/loading="lazy" decoding="async"/g)||[]).length,2);
+ assert.ok(!arrivals.includes('src="/assets/cubist-cat-clinic.webp"'),
+  'avoid loading full-size original on the homepage');
+ assert.match(atelier,/Atelier edition XV · New works salon/);
+ assert.match(atelier,/\.gallery-new-arrivals__previews\{\s*display:grid;\s*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+ assert.match(atelier,/@media\(max-width:760px\)/);
+ assert.match(atelier,/\.gallery-new-arrivals__intro>a\{[\s\S]*?min-height:44px/);
+ assert.ok(home.includes('name="naver-site-verification"'));
+ assert.ok(home.includes('name="google-site-verification"'));
+ assert.ok(home.includes('BUILD_NAVER_BOOKING_HERO') || home.includes('class="btn hero-booking"'));
+ assert.equal((home.match(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)||[]).length,509);
+});
