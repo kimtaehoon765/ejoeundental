@@ -6,7 +6,7 @@ import {runInNewContext} from 'node:vm';
 
 const script=readFileSync(new URL('../assets/archive-topics.js',import.meta.url),'utf8');
 
-function setup({perGroup=15,hash='',mixedGumTitles=false}={}){
+function setup({perGroup=15,hash='',search='',mixedGumTitles=false}={}){
  const groupDefs=[
   ['gum','잇몸치료·스케일링','잇몸 출혈'],
   ['root','신경치료·재신경치료','신경치료 경과'],
@@ -45,8 +45,8 @@ function setup({perGroup=15,hash='',mixedGumTitles=false}={}){
    return element;
   }
  };
- const window={location:{hash},addEventListener(name,fn){handlers[name]=fn;}};
- runInNewContext(script,{document,window});
+ const window={location:{hash,search},addEventListener(name,fn){handlers[name]=fn;}};
+ runInNewContext(script,{document,window,URLSearchParams});
  const get=tag=>elements.find(x=>x.tag===tag);
  return {section,groups,handlers,label:get('label'),input:get('input'),button:get('button'),status:get('p')};
 }
@@ -244,4 +244,32 @@ test('homepage topic shortcuts open real original-blog archive categories in one
   'mobile shortcuts have a compact two-column layout');
  assert.equal([...home.matchAll(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)].length,509,
   'navigation improvement must not drop any of the original 509 Naver blog links');
+});
+
+
+test('homepage query pre-filters the 509 originals without another search step',()=>{
+ const site=setup({search:'?q='+encodeURIComponent('재신경치료'),hash:'#archive-blog-posts'});
+ assert.equal(site.input.value,'재신경치료');
+ assert.match(site.status.textContent,/15편을 찾았습니다/);
+ assert.equal(site.groups.find(group=>group.id==='archive-group-root').open,true);
+ assert.equal(site.groups.filter(group=>!group.hidden).length,1);
+ site.button.handlers.click();
+ assert.equal(site.input.value,'');
+ assert.equal(site.groups.filter(group=>group.hidden).length,0);
+});
+test('a topic deep link takes priority over an old homepage query',()=>{
+ const site=setup({search:'?q='+encodeURIComponent('재신경치료'),hash:'#archive-group-gum'});
+ assert.equal(site.input.value,'');
+ assert.equal(site.groups[0].hidden,false);
+ assert.equal(site.groups[0].open,true);
+ assert.equal(site.groups.filter(group=>group.hidden).length,0);
+});
+test('home search form uses GET and lands at the real indexed public archive',()=>{
+ const home=readFileSync('dist/index.html','utf8');
+ const archive=readFileSync('dist/clinical-archive.html','utf8');
+ assert.match(home,/<form class="owner-blog-direct-search" action="\/clinical-archive\.html#archive-blog-posts" method="get"/);
+ assert.match(home,/<input id="home-owner-post-search" name="q" type="search" maxlength="100"[^>]*required/);
+ assert.ok(archive.includes('id="archive-blog-posts"'));
+ assert.equal((home.match(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)||[]).length,509);
+ assert.match(script,/new URLSearchParams\(window\.location\.search \|\| ''\)\.get\('q'\)/);
 });
