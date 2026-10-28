@@ -124,3 +124,28 @@ test('regression: portrait cannot create a second grid column that squashes titl
  assert.match(buttons,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
  assert.match(fix,/#main-content>\.hero\.wrap \.hero-actions>\.hero-booking\{\s*grid-column:2;order:1;/);
 });
+
+
+test('featured exhibition thumbnails open the matching artwork with a visible target state',()=>{
+ const gallery=read('gallery.html');
+ const galleryCss=read('assets/clinic-gallery.css');
+ const homeCss=read('assets/atelier-home-2026.css');
+ const preview=home.match(/<section class="atelier-collection-peek"[\s\S]*?<\/section>/)?.[0] || '';
+ assert.ok(preview,'the curated homepage exhibition remains present');
+ for(const [id,number,label] of [
+  ['art-starry','01','STARRY NIGHT'],
+  ['art-golden','03','GOLDEN GARDEN']
+ ]){
+  assert.ok(preview.includes('href="/gallery.html#'+id+'"'),'missing homepage artwork '+id);
+  assert.ok(preview.includes(number+' · '+label),'wrong gallery catalogue number for '+id);
+  assert.ok(gallery.includes('id="'+id+'"'),'gallery target is missing: '+id);
+ }
+ assert.match(gallery, /href="\/assets\/clinic-gallery\.css\?v=/,
+  'versioned stylesheet must ship the selected-artwork appearance');
+ assert.match(galleryCss, /#paintings \.gallery-piece:target\{/,
+  'direct artwork links should visually identify the selected painting');
+ assert.match(galleryCss, /scroll-margin-top:105px/,
+  'target paintings should not appear behind the sticky header');
+ assert.match(homeCss, /Atelier edition VIII/,
+  'homepage gallery numbering polish should ship');
+});
