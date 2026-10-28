@@ -1,0 +1,194 @@
+/* Ejoeun Dental · Curatorial threshold, 2026-10-29.
+   An original-art exhibition between the patient-first hero and symptom search.
+   Calm editorial framing; no new scripts, external imagery or clinical promises. */
+body.home-page #main-content>.curated-threshold{
+  box-sizing:border-box;
+  width:min(1160px,calc(100% - 44px));
+  max-width:1160px;
+  margin:8px auto clamp(28px,4.1vw,56px);
+  padding:clamp(20px,2.8vw,35px);
+  display:grid;
+  grid-template-columns:minmax(185px,.69fr) minmax(0,2.35fr);
+  gap:clamp(18px,2.8vw,38px);
+  align-items:center;
+  border:1px solid #ded7c6;
+  border-radius:5px;
+  background:linear-gradient(128deg,#f1ede3,#fffcf6 53%,#f5f3e9);
+  box-shadow:0 14px 45px rgba(31,58,41,.045);
+  color:#244535;
+  position:relative;
+  isolation:isolate;
+}
+body.home-page #main-content>.curated-threshold::before{
+  content:"";pointer-events:none;position:absolute;
+  inset:8px;border:1px solid rgba(169,147,103,.22);
+  border-radius:2px;z-index:-1;
+}
+body.home-page .curated-threshold__intro{min-width:0}
+body.home-page .curated-threshold__eyebrow{
+  margin:0 0 13px;
+  display:flex;align-items:center;gap:11px;
+  color:#866e48;font:700 10px/1.5 'DM Sans',sans-serif;
+  letter-spacing:.18em;text-transform:uppercase;
+}
+body.home-page .curated-threshold__eyebrow::before{
+  content:"";width:24px;height:1px;flex:none;background:#a99067;
+}
+body.home-page #main-content .curated-threshold__intro h2{
+  margin:0 0 13px;
+  font:600 clamp(21px,2.25vw,29px)/1.48 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.055em;
+  word-break:keep-all;text-wrap:balance;color:#224b38;
+}
+body.home-page .curated-threshold__intro>p:not(.curated-threshold__eyebrow){
+  font-size:13px;line-height:1.85;
+  color:#647064;margin:0 0 13px;word-break:keep-all;
+}
+body.home-page .curated-threshold__all{
+  display:inline-flex;align-items:center;
+  min-height:44px;padding:8px 0;
+  color:#22543b;font-size:13px;font-weight:800;
+  text-decoration:underline;text-decoration-color:#b6aa8a;
+  text-underline-offset:6px;
+}
+body.home-page .curated-threshold__works{
+  min-width:0;display:grid;
+  grid-template-columns:1.2fr 1fr 1fr;
+  gap:clamp(9px,1.5vw,16px);
+  align-items:stretch;
+}
+body.home-page .curated-threshold__piece{
+  display:flex;flex-direction:column;
+  min-width:0;min-height:0;
+  overflow:hidden;position:relative;
+  border:1px solid #dfd7c4;
+  border-radius:3px;
+  text-decoration:none;
+  background:#fffdfa;
+  box-shadow:0 6px 20px rgba(37,59,40,.045);
+  transition:border-color .2s ease,box-shadow .2s ease;
+}
+body.home-page .curated-threshold__frame{
+  display:block;position:relative;
+  padding:7px;background:#e8dfcf;
+  border-bottom:1px solid #ded4bf;
+  aspect-ratio:1.12/1;
+  min-width:0;overflow:hidden;
+}
+body.home-page .curated-threshold__frame::after{
+  content:"";pointer-events:none;position:absolute;
+  inset:7px;border:1px solid rgba(255,255,255,.6);
+}
+body.home-page .curated-threshold__frame img{
+  display:block;width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  background:#e1e4d9;
+}
+body.home-page .curated-threshold__piece:nth-child(2) .curated-threshold__frame img{
+  object-position:center 38%;
+}
+body.home-page .curated-threshold__caption{
+  display:flex;flex-direction:column;justify-content:center;gap:5px;
+  flex:1;min-height:79px;padding:11px 12px 13px;
+}
+body.home-page .curated-threshold__number{
+  color:#8c7855;
+  font:700 9px/1.45 'DM Sans',sans-serif;
+  letter-spacing:.15em;
+}
+body.home-page .curated-threshold__caption strong{
+  color:#28503b;
+  font:700 clamp(12px,1.15vw,15px)/1.55 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.038em;word-break:keep-all;
+}
+@media(hover:hover) and (pointer:fine){
+  body.home-page .curated-threshold__piece:hover{
+    border-color:#9d9a7b;
+    box-shadow:0 13px 29px rgba(39,60,42,.10);
+  }
+  body.home-page .curated-threshold__all:hover{color:#0c3926}
+}
+body.home-page .curated-threshold__piece:focus-visible,
+body.home-page .curated-threshold__all:focus-visible{
+  outline:3px solid #9a7741;outline-offset:4px;
+}
+@media(max-width:900px){
+  body.home-page #main-content>.curated-threshold{
+    grid-template-columns:minmax(0,1fr);
+    gap:18px;
+  }
+  body.home-page .curated-threshold__intro{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    align-items:center;column-gap:16px;
+  }
+  body.home-page .curated-threshold__eyebrow,
+  body.home-page .curated-threshold__intro h2{grid-column:1}
+  body.home-page .curated-threshold__intro>p:not(.curated-threshold__eyebrow){
+    grid-column:1;margin:0;
+  }
+  body.home-page .curated-threshold__all{grid-column:2;grid-row:2/4;align-self:center}
+  body.home-page .curated-threshold__frame{aspect-ratio:1.55/1}
+}
+@media(max-width:600px){
+  body.home-page #main-content>.curated-threshold{
+    width:calc(100% - 24px);
+    margin:14px auto 32px;
+    padding:21px 14px 18px;
+    gap:13px;
+    overflow:hidden;
+  }
+  body.home-page #main-content>.curated-threshold::before{inset:6px}
+  body.home-page .curated-threshold__intro{
+    display:block;padding:0 5px;
+  }
+  body.home-page .curated-threshold__eyebrow{
+    font-size:10px;margin-bottom:9px;letter-spacing:.13em;
+  }
+  body.home-page #main-content .curated-threshold__intro h2{
+    margin-bottom:6px;font-size:clamp(21px,5.7vw,26px);
+  }
+  body.home-page .curated-threshold__intro>p:not(.curated-threshold__eyebrow){
+    font-size:12px;line-height:1.72;margin-bottom:4px;
+  }
+  body.home-page .curated-threshold__all{min-height:44px;font-size:12px}
+  body.home-page .curated-threshold__works{
+    display:flex;
+    overflow-x:auto;overflow-y:hidden;
+    gap:11px;
+    padding:2px 5px 14px;
+    scroll-snap-type:x mandatory;
+    scroll-padding-inline:5px;
+    overscroll-behavior-inline:contain;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+    scrollbar-color:#b4b6a0 transparent;
+  }
+  body.home-page .curated-threshold__piece{
+    flex:0 0 min(72vw,255px);
+    scroll-snap-align:start;
+  }
+  body.home-page .curated-threshold__frame{aspect-ratio:1.4/1;padding:5px}
+  body.home-page .curated-threshold__frame::after{inset:5px}
+  body.home-page .curated-threshold__caption{
+    min-height:63px;padding:10px 12px;
+  }
+  body.home-page .curated-threshold__caption strong{font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){
+  body.home-page .curated-threshold__piece{transition:none}
+  body.home-page .curated-threshold__works{scroll-behavior:auto}
+}
+@media(forced-colors:active){
+  body.home-page #main-content>.curated-threshold,
+  body.home-page .curated-threshold__piece{
+    background:Canvas;color:CanvasText;
+    border:1px solid CanvasText;box-shadow:none;
+  }
+  body.home-page .curated-threshold__caption strong{color:CanvasText}
+  body.home-page .curated-threshold__all{color:LinkText}
+}
+@media print{
+  body.home-page #main-content>.curated-threshold{box-shadow:none}
+  body.home-page .curated-threshold__works{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+}
