@@ -557,3 +557,215 @@ body.home-page .museum-route__label small{
     border-color:CanvasText;box-shadow:none;
   }
 }
+
+
+/*
+ * Atelier finale: doctor, journal and gallery — 2026-10-29.
+ * A quiet, shared exhibition language using only pre-existing clinic artwork.
+ * Source text, full owner article catalog, metadata and appointment controls stay untouched.
+ */
+body.home-page #main-content>#doctor{
+  background:
+    radial-gradient(ellipse at 0% 0%,rgba(157,174,131,.16),transparent 56%),
+    linear-gradient(128deg,#153a30 0%,#224b3d 60%,#173c32 100%);
+}
+body.home-page #main-content>#doctor>.wrap.split{
+  gap:clamp(23px,4.5vw,64px);
+  align-items:center;
+}
+body.home-page #main-content>#doctor .frame{
+  box-sizing:border-box;
+  border:1px solid #d0b882;
+  background:#f7efe0;
+  padding:clamp(8px,1.2vw,14px);
+  border-radius:4px;
+  box-shadow:0 21px 48px rgba(8,27,20,.2),0 0 0 6px rgba(231,215,176,.09);
+}
+body.home-page #main-content>#doctor .doctor-gallery-art{
+  background:#f5f1e7;
+  border:1px solid #e7decf;
+}
+body.home-page #main-content>#doctor .doctor-gallery-art img{
+  display:block;
+  width:100%;height:auto;
+  object-fit:contain;
+  background:#f5f1e7;
+}
+body.home-page #main-content>#doctor .doctor-gallery-art p{
+  border-top:1px solid #e3d6bc;
+}
+body.home-page #main-content>#doctor #doctor_title{
+  color:#fff9ed;
+  line-height:1.47;letter-spacing:-.055em;
+  text-wrap:balance;
+}
+body.home-page #main-content>#doctor .doctor-visible-name{
+  color:#edcc94;letter-spacing:.01em;
+}
+body.home-page #main-content>#doctor .doctor-direct-care{
+  border-left:3px solid #d2b782;
+  padding-left:14px;
+}
+body.home-page #main-content>#doctor .doctor-care-trails>a{
+  border:1px solid rgba(239,219,171,.32);
+  border-left:2px solid #c3a36c;
+  background:rgba(255,254,241,.06);
+  border-radius:4px;
+}
+body.home-page #main-content>#doctor .doctor-care-trails>a:focus-visible{
+  outline:3px solid #ffdaa0;outline-offset:3px;
+}
+body.home-page #main-content>#gallery.gallery-home-preview{
+  background:
+    radial-gradient(ellipse at 100% 0%,rgba(198,181,140,.2),transparent 48%),
+    linear-gradient(165deg,#f6f2e7,#fdfbf5 53%,#f2f3ea);
+}
+body.home-page #main-content>#gallery .gallery-home-intro h2,
+body.home-page #main-content>#stories>.wrap>h2{
+  color:#1e4836;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.055em;
+  line-height:1.45;
+  text-wrap:balance;
+}
+body.home-page #main-content>#gallery .gallery-home-intro{
+  padding-bottom:16px;
+  border-bottom:1px solid #d5c9b1;
+}
+body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a{
+  border:1px solid #cfbea0;
+  border-radius:4px;
+  overflow:hidden;
+  background:#fffdf7;
+  box-shadow:0 16px 34px rgba(27,53,39,.065);
+}
+body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a>img{
+  box-sizing:border-box;
+  object-fit:contain;
+  object-position:center;
+  background:#efe9db;
+  border:9px solid #f9f3e7;
+}
+body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a>span{
+  background:#fffdf7;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals{
+  border-color:#d9cdb8;
+  background:#fcfaf4;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews>a{
+  border:1px solid #d5c8b1;
+  background:#fffcf5;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews img{
+  object-fit:contain;
+  background:#eee9dd;
+}
+body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a:focus-visible,
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews>a:focus-visible{
+  outline:3px solid #9d7844;outline-offset:4px;
+}
+body.home-page #main-content>#stories{
+  background:linear-gradient(180deg,#f8f6ee 0%,#fffdf8 44%,#f6f7ef 100%);
+}
+body.home-page #main-content>#stories .journal-gallery-cover{
+  border:1px solid #d6c7a8;
+  border-radius:5px;
+  background:linear-gradient(125deg,#f7f2e7,#fcfaf5);
+  box-shadow:0 17px 37px rgba(27,53,39,.075);
+}
+body.home-page #main-content>#stories .journal-gallery-cover>img{
+  object-fit:contain;
+  object-position:center;
+  background:#eee8dc;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__caption{
+  background:transparent;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__caption strong{
+  color:#1e4938;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.06em;
+  line-height:1.45;
+}
+body.home-page #main-content>#stories .owner-blog-topic-jumps>a{
+  border:1px solid #dbd5c5;
+  border-radius:5px;
+  background:#fffdf8;
+  box-shadow:0 7px 19px rgba(28,52,38,.035);
+  overflow:hidden;
+}
+body.home-page #main-content>#stories .owner-blog-topic-art{
+  background:#f1eee5;
+}
+body.home-page #main-content>#stories .owner-blog-topic-art img{
+  object-fit:contain;
+  background:#f1eee5;
+}
+body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card{
+  border:1px solid #dfdacb;
+  border-left:3px solid #c5ad7d;
+  border-radius:5px;
+  background:#fffefa;
+  box-shadow:none;
+}
+body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card h3{
+  line-height:1.6;
+}
+body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card a{
+  color:#274d3b;
+  text-underline-offset:4px;
+}
+body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card a:focus-visible{
+  outline:3px solid #9d7844;outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine){
+  body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card:hover{
+    border-color:#bea77c;
+    background:#f9f9f1;
+  }
+}
+@media(max-width:700px){
+  body.home-page #main-content>#doctor>.wrap.split{gap:22px}
+  body.home-page #main-content>#doctor .frame{
+    padding:8px;
+    max-width:min(100%,420px);
+    margin-inline:auto;
+  }
+  body.home-page #main-content>#doctor .doctor-gallery-art img{
+    height:auto;
+    max-height:280px;
+    object-fit:contain;
+  }
+  body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a>img{
+    border-width:6px;
+  }
+  body.home-page #main-content>#stories .journal-gallery-cover>img{
+    height:auto;
+    max-height:295px;
+    object-fit:contain;
+  }
+  body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card{
+    padding:13px 15px;
+  }
+  body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card a{
+    font-size:15px;line-height:1.65;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a,
+  body.home-page #main-content>#stories .journal-gallery-cover{
+    transition:none;transform:none;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a,
+  body.home-page #main-content>#stories .journal-gallery-cover,
+  body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card{
+    background:Canvas;color:CanvasText;
+    border:1px solid CanvasText;box-shadow:none;
+  }
+  body.home-page #main-content>#stories .journal-gallery-cover__caption strong{
+    color:CanvasText;
+  }
+}
