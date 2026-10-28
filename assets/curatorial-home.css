@@ -769,3 +769,189 @@ body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card a:fo
     color:CanvasText;
   }
 }
+
+
+/*
+ * Mobile arrival refinement — 2026-10-29
+ * Compact yet readable opening view. All five initial shortcuts, three scrolled
+ * shortcuts, phone, real Naver booking placeholder, medical text and original
+ * doctor-and-cat portrait remain available. The critical single-column hero
+ * grid in museum-home-v2.css is intentionally not replaced.
+ */
+@media(max-width:600px){
+  html:not(.home-scrolled) body.home-page header .nav{
+    padding:8px 12px 7px;
+    row-gap:5px;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .logo{
+    font-size:clamp(20px,5.5vw,24px);
+    line-height:1.3;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .music-header-button{
+    min-width:58px;
+    min-height:44px;
+    padding:7px 9px;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick{
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    width:100%;min-width:0;
+    gap:4px;
+    padding:4px 0 0;
+    margin:0;
+    border-top:1px solid rgba(225,209,170,.25);
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick>a{
+    display:flex;align-items:center;justify-content:center;
+    box-sizing:border-box;
+    min-width:0;min-height:44px;
+    padding:5px 2px;
+    border:1px solid #d3c5ab;
+    border-radius:5px;
+    background:#fbf9f2;
+    box-shadow:none;
+    color:#294d3d;
+    font-size:clamp(10.5px,2.8vw,12px);
+    font-weight:750;line-height:1.28;
+    word-break:keep-all;overflow-wrap:break-word;
+    text-align:center;text-decoration:none;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick>a.stories-mobile-link{
+    background:#efe5d0;
+    border:1px solid #b89d6a;
+    color:#244834;
+    font-weight:800;
+    box-shadow:none;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick>a[href="#location"]{
+    background:#e8efe5;
+    border-color:#b9cbb7;
+    color:#274e39;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick>a.mobile-call{
+    background:#27543f;
+    color:#fffdf5;
+    border-color:#b7a16f;
+  }
+  body.home-page #main-content>.hero.wrap{
+    padding:20px 17px 22px;
+    margin-top:8px;
+    margin-bottom:11px;
+    gap:12px;
+  }
+  body.home-page #main-content>.hero.wrap .kicker{
+    font-size:10.5px;
+    line-height:1.5;
+    letter-spacing:.12em;
+    gap:7px;
+  }
+  body.home-page #main-content>.hero.wrap .kicker::before{
+    width:16px;
+  }
+  body.home-page #main-content>.hero.wrap #headline{
+    margin:9px 0 12px;
+    font-size:clamp(27px,7vw,35px);
+    line-height:1.4;
+    letter-spacing:-.052em;
+    max-width:100%;
+    word-break:keep-all;
+  }
+  body.home-page #main-content>.hero.wrap .hero-doctor-credentials{
+    margin:0;
+    padding:10px 11px;
+    font-size:13px;
+    line-height:1.62;
+    gap:3px 7px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    margin:12px 0 10px;
+    gap:7px;
+    min-width:0;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>a{
+    box-sizing:border-box;
+    min-width:0;min-height:46px;
+    padding:9px 6px;
+    line-height:1.42;
+    font-size:12.5px;
+    border-radius:6px;
+    overflow-wrap:break-word;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-call,
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-booking{
+    display:flex;
+    min-height:49px;
+    font-size:13px;
+    font-weight:800;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions .hero-phone{
+    white-space:nowrap;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-map{
+    min-height:44px;
+    border:1px solid #e5dfd2;
+    background:#faf8f1;
+    box-shadow:none;
+  }
+  body.home-page #main-content>.hero.wrap .hero-local-intro{
+    margin:8px 0 0;
+    font-size:12px;
+    line-height:1.65;
+  }
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+    box-sizing:border-box;
+    grid-column:1 / -1;
+    grid-row:2;
+    display:block;
+    width:min(100%,255px);
+    max-width:255px;
+    margin:2px auto 10px;
+    justify-self:center;
+  }
+  body.home-page #main-content>.hero.wrap>.hero-editorial-detail{
+    grid-column:1 / -1;
+    grid-row:3;
+    margin-top:2px;
+    padding-top:12px;
+    gap:10px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-editorial-detail>div,
+  body.home-page #main-content>.hero.wrap .hero-editorial-detail>aside{
+    padding:15px 13px;
+  }
+}
+@media(max-width:365px){
+  body.home-page #main-content>.hero.wrap{
+    padding:18px 14px 20px;
+  }
+  body.home-page #main-content>.hero.wrap #headline{
+    font-size:clamp(25px,7.3vw,30px);
+  }
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+    width:min(100%,235px);
+    max-width:235px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>a{
+    padding-inline:5px;
+    font-size:11.5px;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick>a{
+    font-size:10.5px;
+    letter-spacing:-.045em;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.home-page #main-content>.hero.wrap .hero-actions>a{
+    transition:none;
+    transform:none;
+  }
+}
+@media(forced-colors:active){
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick>a{
+    background:ButtonFace;
+    color:ButtonText;
+    border:1px solid ButtonText;
+    box-shadow:none;
+  }
+}
