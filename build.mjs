@@ -3343,6 +3343,7 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
   'cancer-immunosuppression-dental-care.html','pregnancy-dental-care.html',
   'medical-history.html','medical-safety-guide.html',
   'medication-dental-faq.html','systemic-disease-dental-faq.html'];
+ const safetyPages=new Set(pages.slice(7)); // 12 added patient safety/FAQ pages always get their own valid skip target.
  const cssFile=path.join(out,'assets/clinic-info-mobile-actions.css');
  if(!fs.existsSync(cssFile))throw new Error('Missing shared patient mobile actions stylesheet');
  const cssVersion=createHash('sha256').update(fs.readFileSync(cssFile)).digest('hex').slice(0,12);
@@ -3367,7 +3368,7 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
   // A usable keyboard skip target is important on long patient directories.
   // Preserve the existing shortcut on stories.html, and the existing main id
   // on doctor.html and editorial archives instead of injecting duplicates.
-  if(!html.includes('본문 바로가기')&&!/class=["']health-hub-skip["']/.test(html)){
+  if((safetyPages.has(name)||!html.includes('본문 바로가기'))&&!/class=["']health-hub-skip["']/.test(html)){
    const main=html.match(/<main\b[^>]*>/i)?.[0];
    const body=html.match(/<body\b[^>]*>/i)?.[0];
    if(!main||!body)throw new Error('Missing clinic information main/body landmark: '+name);
