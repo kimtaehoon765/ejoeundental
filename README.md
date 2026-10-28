@@ -35,7 +35,7 @@ GitHub Actions의 읽기 전용 실서비스 검사에서 `https://ejoeundental.
 
 2026-10-25 최신 실사이트 재검사에서 환자 교육 게시글 **93/93편**이 정식 도메인 `/stories` 목록에 중복 없이 노출되고, 내부 글 3편의 제목·canonical·HTTP 200 응답을 확인했습니다. 이전 문단의 **79편**은 그 시각의 과거 실측 기록입니다. 이 실측은 네이버·구글 색인이나 순위가 아닌 **홈페이지 실제 공개 여부**를 뜻합니다. 새 글이 추가되면 GitHub Actions `Public website build and quality verification`에서 다시 점검합니다.
 
-기존 `docs/www-301-redirect.md` 및 `DOMAIN-MIGRATION-CHECKLIST.md`는 **과거에 301이 미설정이던 상태의 기록**입니다. 현행 운영 상태보다 우선하여 적용하거나 DNS/호스팅을 임의로 변경하지 마세요. Cloudflare 네임서버와 중계 응답만으로 **실제 원본 호스팅이 Cloudflare Pages인지 Netlify인지**는 단정하지 않습니다.
+기존 `docs/www-301-redirect.md` 및 `DOMAIN-MIGRATION-CHECKLIST.md`는 **과거에 301이 미설정이던 상태의 기록**입니다. 현행 운영 상태보다 우선하여 적용하거나 DNS/호스팅을 임의로 변경하지 마세요. 당시에는 Cloudflare 네임서버와 중계 응답만으로 실제 원본 호스팅을 단정하지 않았으나, **현재 작업 기준은 원장이 이후 확인한 Cloudflare Pages 이전 기록**을 우선합니다. 단, 현재 시점의 실서비스 배포 여부는 별도로 확인해야 합니다.
 
 ## 과거 Netlify 설정 (현행 배포 서비스 아님)
 아래는 이전 서비스 Netlify의 저장소 설정을 역사적 참고용으로 남긴 내용입니다. **현재 운영은 Cloudflare Pages 기준**이며, 파일이 존재한다는 이유로 Netlify에 재연결하거나 전환 작업을 다시 진행하지 마세요.
