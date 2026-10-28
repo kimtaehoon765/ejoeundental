@@ -123,6 +123,10 @@ const urls = [
   { label: '연락처 저장 vCard 배포', url: origin + '/clinic-contact.vcf' },
   { label: '검색엔진 robots', url: origin + '/robots.txt' },
   { label: '검색엔진 sitemap', url: origin + '/sitemap.xml' },
+  // Verify the real published reading order after the October 28 fixes,
+  // independently of a successful source build.
+  ...['loose-tooth','receding-gums','periodontal-pocket','root-canal-retreatment-process','gum-pus']
+   .map(slug=>({label:'개정 건강정보 읽기 순서: '+slug,url:origin+'/health/'+slug+'.html'})),
   { label: 'AI 의료진 출처 페이지', url: origin + '/doctor.html' },
   { label: 'AI 검색봇 접근 모의 검사', url: origin + '/gum-treatment.html', userAgent: 'OAI-SearchBot/1.0' },
   { label: '네이버 최신글 RSS', url: origin + '/rss.xml' },
@@ -247,6 +251,23 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
         body.includes("field.setAttribute('aria-describedby', 'story-filter-status')");
       add('치과 이야기 검색 후 결과로 이동 기능',match?'실사이트 반영 확인':'배포·캐시 확인 필요',
         'HTTP '+response.status+' · 검색 프로그램 최신 내용 '+(match?'일치':'확인 필요'));
+    }
+    if(label.startsWith('개정 건강정보 읽기 순서: ')){
+      const slug=label.slice('개정 건강정보 읽기 순서: '.length);
+      const main=body.split('</main>')[0]||'';
+      const footerAt=main.lastIndexOf('<div class="bottom">');
+      const ordered=footerAt>=0&&!/<section\\b/i.test(main.slice(footerAt));
+      const medicalRef=slug==='loose-tooth'
+       ?'https://www.mouthhealthy.org/all-topics-a-z/gum-disease/'
+       :slug==='gum-pus'
+        ?'https://www.aae.org/patients/dental-symptoms/abscessed-teeth/'
+        :'';
+      const refOk=!medicalRef||body.includes('href="'+medicalRef+'"');
+      const ready=response.status===200&&ordered&&refOk;
+      add('환자 건강정보 끝까지 읽기: '+slug,
+       ready?'실사이트 반영 확인':'배포·캐시 확인 필요',
+       'HTTP '+response.status+' · 글 끝 이동 링크 '+(ordered?'올바른 위치':'본문 위치 확인 필요')+
+       (medicalRef?' · 공식 의학자료 '+(refOk?'연결 확인':'미확인'):''));
     }
     if(label==='미술관형 리디자인 CSS 실제 배포'){
       const delivered=response.status===200&&
