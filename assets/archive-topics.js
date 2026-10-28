@@ -104,10 +104,26 @@
       ? '원장 글 ' + found + '편을 찾았습니다. 제목을 누르면 네이버 원문이 열립니다.'
       : '일치하는 원장 글이 없습니다. 다른 검색어로 다시 찾아보세요.';
   }
-  input.addEventListener('input', filterPosts);
+  // A direct query link is shareable when first opened. Once the patient
+  // edits or clears that query, remove its stale URL parameter without
+  // navigating away, preserving unrelated parameters and the section anchor.
+  function discardStaleQueryFromAddress() {
+    const params = new URLSearchParams(window.location.search || '');
+    if (!params.has('q')) return;
+    params.delete('q');
+    const remaining = params.toString();
+    const target = (window.location.pathname || '/clinical-archive.html') +
+      (remaining ? '?' + remaining : '') + (window.location.hash || '');
+    window.history?.replaceState?.(null, '', target);
+  }
+  input.addEventListener('input', () => {
+    filterPosts();
+    discardStaleQueryFromAddress();
+  });
   clearButton.addEventListener('click', () => {
     input.value = '';
     filterPosts();
+    discardStaleQueryFromAddress();
     input.focus();
   });
 
@@ -119,6 +135,7 @@
       input.value = '';
       filterPosts();
     }
+    if (isNavigation) discardStaleQueryFromAddress();
     const group = document.getElementById(id);
     group.hidden = false;
     group.open = true;
