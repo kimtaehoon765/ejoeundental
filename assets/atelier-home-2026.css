@@ -414,7 +414,7 @@ body.home-page #main-content>#gallery .gallery-home-more{
 
 
 /* Atelier edition III · Featured exhibition.
-   The gallery invitation is intentionally after the hero, before the symptom navigator:
+   The gallery invitation now follows the care philosophy, keeping symptoms first:
    visitors retain phone/booking as the first interactive clinic actions. */
 body.home-page #main-content>.atelier-collection-peek{
   position:relative;
@@ -1147,5 +1147,89 @@ body.home-page #main-content>.home-previsit-links>.home-previsit-checklist a{
   }
   body.home-page #main-content>.home-previsit-links a{
     color:LinkText;
+  }
+}
+
+
+/* Atelier edition VII · Editorial pacing, without removing indexed content.
+   Patient-first mobile arrival: retain the original director and white cat,
+   but remove the redundant narrow decorative strip (the full landscape is
+   still on the Monet interlude and in the permanent gallery).
+   Restore generous text measure and simplify repeated card decoration. */
+@media(min-width:701px){
+  body.home-page #main-content :is(
+    #symptoms,#care,#focus-care,#health-info,#when-to-call,#visit-guide
+  )>.wrap>p{
+    max-width:77ch;
+    line-height:1.92;
+    text-wrap:pretty;
+  }
+}
+body.home-page #main-content>.atelier-collection-peek{
+  margin-block:clamp(15px,2vw,28px);
+  padding-block:clamp(28px,3.1vw,46px);
+}
+body.home-page .atelier-collection-peek__intro h2{
+  margin-bottom:12px;
+}
+body.home-page #main-content>#philosophy .grid>.card,
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a,
+body.home-page #main-content>#health-info .grid>.card{
+  box-shadow:0 8px 23px rgba(24,52,37,.045);
+}
+body.home-page #main-content>#philosophy .grid>.card p,
+body.home-page #main-content>#care .grid>.card p,
+body.home-page #main-content>#health-info .grid>.card p{
+  word-break:keep-all;
+  line-height:1.89;
+}
+@media(max-width:700px){
+  body.home-page #main-content>#philosophy,
+  body.home-page #main-content>#symptoms,
+  body.home-page #main-content>#care,
+  body.home-page #main-content>#focus-care,
+  body.home-page #main-content>#health-info{
+    padding-block:clamp(44px,7vw,58px);
+  }
+  body.home-page #main-content>.atelier-collection-peek{
+    margin:3px 0 13px;
+    padding:23px 0 24px;
+  }
+  body.home-page .atelier-collection-peek__intro h2{
+    font-size:clamp(23px,5.8vw,27px);
+    margin:0 0 8px;
+  }
+  body.home-page .atelier-collection-peek__caption strong{
+    font-size:13px;
+    line-height:1.55;
+  }
+  body.home-page #main-content #philosophy .grid>.card,
+  body.home-page #main-content #health-info .grid>.card{
+    box-shadow:none;
+  }
+}
+@media(max-width:600px){
+  /* Decorative duplicate only; phone, Naver booking, doctor portrait,
+     healthcare links and location stay visibly in the opening room. */
+  body.home-page #main-content>.hero.wrap .hero-gallery-window{
+    display:none;
+  }
+  body.home-page #main-content>.hero.wrap .hero-local-intro{
+    margin-bottom:0;
+  }
+  body.home-page #main-content :is(#symptoms,#care,#health-info) .grid>.card p{
+    font-size:15px;
+    line-height:1.85;
+  }
+  body.home-page #main-content>#philosophy>.wrap>.lead{
+    font-size:16px;
+    line-height:1.91;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#philosophy .grid>.card,
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a,
+  body.home-page #main-content>#health-info .grid>.card{
+    box-shadow:none;
   }
 }
