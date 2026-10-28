@@ -5,7 +5,8 @@ const routes=[
  ['robots.txt','/robots.txt','EjoeunDentalAudit/1.0'],
  ['OpenAI public doctor','/doctor','OAI-SearchBot'],
  ['Naver public gum information','/gum-treatment','Yeti'],
- ['Google public retreatment information','/retreatment','Googlebot']
+ ['Google public retreatment information','/retreatment','Googlebot'],
+ ['Local clinic identity and directions','/visit-guide','OAI-SearchBot']
 ];
 async function probe([label,path,agent]){
  const response=await fetch(origin+path,{
@@ -33,6 +34,7 @@ for(let i=0;i<routes.length;i++){
   item.content.includes('김태훈 원장이 직접');
  if(label==='Naver public gum information')good=good&&item.content.includes('gum-clinical-decisions')&&item.content.includes('스케일링만으로 충분할까요?');
  if(label==='Google public retreatment information')good=good&&item.content.includes('retreatment-clinical-decisions')&&item.content.includes('발치가 필요한 경우는 언제인가요?');
+ if(label==='Local clinic identity and directions')good=good&&item.content.includes('clinic-local-questions')&&item.content.includes('김태훈 원장')&&item.content.includes('대우프라자 305호')&&item.content.includes('격주 일정');
  verified&&=good;
  console.log('[AI READINESS]',label,'HTTP',item.status,good?'공개 본문 점검 통과':'본문 미반영/접근 문제',item.url);
 }
