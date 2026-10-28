@@ -108,7 +108,7 @@ test('owner-confirmed clinic booking ID appears as an actual direct booking link
 });
 
 
-test('seven clinic information hubs have working mobile contact actions and keyboard skip links',()=>{
+test('nineteen clinic information and patient safety guides have mobile contact actions and keyboard skip links',()=>{
  const clinic=JSON.parse(readFileSync('content/site.json','utf8'));
  const booking=bookingAction(clinic.naver_booking_url);
  const pages=[
@@ -118,7 +118,19 @@ test('seven clinic information hubs have working mobile contact actions and keyb
   ['gum-health.html','health-hub-main'],
   ['root-canal-health.html','health-hub-main'],
   ['insurance-health.html','health-hub-main'],
-  ['additional-health.html','health-hub-main']
+  ['additional-health.html','health-hub-main'],
+  ['blood-thinners-dental.html','main-content'],
+  ['osteoporosis-medication-dental.html','main-content'],
+  ['diabetes-dental-care.html','main-content'],
+  ['heart-disease-dental-care.html','main-content'],
+  ['kidney-disease-dental-care.html','main-content'],
+  ['liver-disease-dental-care.html','main-content'],
+  ['cancer-immunosuppression-dental-care.html','main-content'],
+  ['pregnancy-dental-care.html','main-content'],
+  ['medical-history.html','main-content'],
+  ['medical-safety-guide.html','main-content'],
+  ['medication-dental-faq.html','main-content'],
+  ['systemic-disease-dental-faq.html','main-content']
  ];
  const css=readFileSync('dist/assets/clinic-info-mobile-actions.css','utf8');
  assert.match(css,/@media\(max-width:600px\)/);
@@ -153,6 +165,11 @@ test('seven clinic information hubs have working mobile contact actions and keyb
   assert.ok(html.includes('id="'+id+'"'),'skip-link target must exist: '+page);
   const label=id==='health-hub-main'?'건강정보 본문으로 바로가기':'본문 바로가기';
   assert.ok(html.includes('href="#'+id+'">'+label+'</a>'),'keyboard skip link must point to page main: '+page);
+  if(id==='main-content'){
+   assert.match(html,/<main\b[^>]*id="main-content"/,'patient safety main landmark should be the skip target: '+page);
+   assert.equal((html.match(/href="#main-content">본문 바로가기<\/a>/g)||[]).length,1,
+    'do not duplicate accessible patient safety shortcuts: '+page);
+  }
  }
  const visit=readFileSync('dist/visit-guide.html','utf8');
  const home=readFileSync('dist/index.html','utf8');
