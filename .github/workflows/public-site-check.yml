@@ -55,6 +55,11 @@ jobs:
         run: |
           node --check scripts/check-live-journal-art.mjs
           node scripts/check-live-journal-art.mjs
+      - name: Confirm public dental art gallery and original paintings
+        continue-on-error: true
+        run: |
+          node --check scripts/check-live-gallery.mjs
+          node scripts/check-live-gallery.mjs
       - name: Verify first-visit page is included
         run: |
           test -s dist/previsit-checklist.html
