@@ -34,6 +34,9 @@ const expectedCareGalleryHash=createHash('sha256')
  .update(readFileSync(new URL('../assets/care-gallery.css',import.meta.url)))
  .digest('hex').slice(0,12);
 const verifiedBookingUrl=bookingAction(verifiedClinic.naver_booking_url).url;
+const expectedInfoActionsHash=createHash('sha256')
+ .update(readFileSync(new URL('../assets/clinic-info-mobile-actions.css',import.meta.url)))
+ .digest('hex').slice(0,12);
 const expectedSecondaryGalleryHash=createHash('sha256')
  .update(readFileSync(new URL('../assets/care-gallery-secondary.css',import.meta.url)))
  .digest('hex').slice(0,12);
@@ -175,6 +178,8 @@ const urls = [
   { label: 'remaining route systemic-disease-dental-faq', url: origin + '/systemic-disease-dental-faq.html' },
   { label: 'remaining route clinical-archive', url: origin + '/clinical-archive.html' },
   { label: '통합 검색 모바일 배치', url: origin + '/search.html' },
+  { label: '정보 안내 모바일 버튼 CSS 원본 검증',
+    url: origin + '/assets/clinic-info-mobile-actions.css?v=' + expectedInfoActionsHash },
   { label: '원장 블로그 검색 자바스크립트 실제 배포 비교',
     url: origin + '/assets/archive-topics.js?v=' + expectedArchiveScriptHash },
   { label: '검색 결과 더 보기 동작 코드', url: origin + '/assets/search.js' },
@@ -199,6 +204,31 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
     const faviconIcoBytes=label==='네이버 소프트 404 파비콘 ICO 개선 확인'?
       new Uint8Array(await response.clone().arrayBuffer()):null;
     const body = await response.text();
+    // Patient information hubs use one shared, source-hashed mobile action bar.
+    // This reports real deployment separately from a passing GitHub source build.
+    if(label==='정보 안내 모바일 버튼 CSS 원본 검증'){
+      const ok=response.status===200&&createHash('sha256').update(body).digest('hex').slice(0,12)===expectedInfoActionsHash;
+      add('모바일 안내페이지 버튼 CSS 공개 여부',ok?'실사이트 반영 확인':'배포·캐시 확인 필요',
+       'HTTP '+response.status+' · 소스와 실사이트 CSS 내용 '+(ok?'일치':'불일치'));
+    }
+    const infoHubLabels=new Set([
+     'AI 의료진 출처 페이지','홈페이지 치과 이야기 전체 글',
+     'remaining route clinical-archive','public route gum-health',
+     'public route root-canal-health','public route insurance-health',
+     'public route additional-health'
+    ]);
+    if(infoHubLabels.has(label)){
+      const nav=body.match(/<nav class="clinic-info-mobile-actions"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+      const hasLinks=nav.includes('href="tel:0325132875"')&&
+       nav.includes('href="'+verifiedBookingUrl+'"')&&nav.includes('href="/visit-guide.html"');
+      const styled=body.includes('clinic-info-mobile-actions.css?v='+expectedInfoActionsHash);
+      const accessible=body.includes('본문 바로가기');
+      const ready=response.status===200&&hasLinks&&styled&&accessible;
+      add('모바일 전화·예약·오시는 길 '+label,
+       ready?'실사이트 반영 확인':'배포·캐시 확인 필요',
+       'HTTP '+response.status+' · 3개 버튼 '+(hasLinks?'확인':'미확인')+
+       ' · CSS '+(styled?'최신':'미확인')+' · 본문 바로가기 '+(accessible?'확인':'미확인'));
+    }
     if(label==='미술관형 리디자인 CSS 실제 배포'){
       const delivered=response.status===200&&
         createHash('sha256').update(body).digest('hex').slice(0,12)===expectedGalleryCssHash&&
