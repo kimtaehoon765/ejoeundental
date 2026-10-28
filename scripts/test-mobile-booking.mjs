@@ -126,6 +126,20 @@ test('seven clinic information hubs have working mobile contact actions and keyb
  assert.match(css,/\.clinic-info-mobile-actions a:focus-visible/);
  assert.match(css,/\.clinic-info-skip-link:focus/);
  assert.match(css,/@media print/);
+ // Narrow-screen reading improvements should persist after new deployments.
+ for(const selector of [
+  'body.stories-gallery header nav',
+  'body.stories-gallery header nav a',
+  'body.stories-gallery .story-card p',
+  'body.doctor-gallery header nav',
+  'body.doctor-gallery header nav a',
+  'html.health-library body header .navlinks a',
+  'html.health-library body main.article :is(p,li)'
+ ])assert.ok(css.includes(selector),'patient mobile reading/nav style missing: '+selector);
+ assert.ok(css.includes('overflow-x:auto'),'long mobile menus must scroll instead of overflowing');
+ assert.ok(css.includes('min-height:48px'),'mobile menu choices must be comfortable to tap');
+ assert.ok(css.includes('font-size:15px;line-height:1.8'),
+  'story summaries must remain legible on small screens');
  for(const [page,id] of pages){
   const html=readFileSync('dist/'+page,'utf8');
   const strips=[...html.matchAll(/<nav class="clinic-info-mobile-actions"[^>]*>([\s\S]*?)<\/nav>/g)];
