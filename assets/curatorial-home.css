@@ -192,3 +192,142 @@ body.home-page .curated-threshold__all:focus-visible{
   body.home-page #main-content>.curated-threshold{box-shadow:none}
   body.home-page .curated-threshold__works{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
 }
+
+
+/* Museum wayfinding, 2026-10-29: introduce an elegant chapter directory without
+   hiding clinical content, search links, original art, or any appointment action. */
+body.home-page #main-content>.curated-threshold{
+  margin-bottom:12px;
+}
+body.home-page .curated-threshold__frame{
+  aspect-ratio:1.5/1;
+  background:linear-gradient(145deg,#e7e0d3,#f2ebdd);
+}
+body.home-page .curated-threshold__frame img{
+  object-fit:contain;
+  object-position:center;
+  background:transparent;
+}
+body.home-page .curated-threshold__piece:nth-child(2) .curated-threshold__frame img{
+  object-position:center;
+}
+body.home-page #main-content>.museum-route{
+  box-sizing:border-box;
+  width:min(1160px,calc(100% - 44px));
+  max-width:1160px;
+  margin:0 auto clamp(31px,4.5vw,62px);
+  padding:15px clamp(16px,2.3vw,25px) 17px;
+  display:grid;
+  grid-template-columns:minmax(155px,.7fr) minmax(0,3fr);
+  align-items:center;
+  gap:clamp(14px,2vw,28px);
+  background:#faf8f1;
+  border:1px solid #ded8c9;
+  border-top:2px solid #a99265;
+  border-radius:3px 3px 12px 12px;
+  color:#214537;
+}
+body.home-page .museum-route__intro{
+  display:flex;flex-direction:column;gap:4px;min-width:0;
+}
+body.home-page .museum-route__overline{
+  color:#8c7450;
+  font:700 10px/1.6 'DM Sans',sans-serif;
+  letter-spacing:.11em;
+}
+body.home-page .museum-route__intro>strong{
+  color:#234937;
+  font:600 clamp(14px,1.35vw,17px)/1.55 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.045em;word-break:keep-all;
+}
+body.home-page .museum-route__links{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  min-width:0;
+}
+body.home-page .museum-route__links>a{
+  display:flex;align-items:center;gap:9px;
+  box-sizing:border-box;min-width:0;min-height:72px;
+  padding:12px 10px;
+  border:1px solid #e4dfd3;border-radius:7px;
+  background:#fffef9;
+  color:#254837;text-decoration:none;
+  transition:border-color .2s ease,background-color .2s ease;
+}
+body.home-page .museum-route__no{
+  flex:none;align-self:flex-start;
+  color:#997d53;
+  font:700 11px/1.7 'DM Sans',sans-serif;
+}
+body.home-page .museum-route__label{
+  min-width:0;display:flex;flex-direction:column;gap:5px;
+}
+body.home-page .museum-route__label strong{
+  font-size:14px;line-height:1.45;word-break:keep-all;
+}
+body.home-page .museum-route__label small{
+  color:#607266;font-size:10px;line-height:1.55;
+  word-break:keep-all;overflow-wrap:break-word;
+}
+body.home-page .museum-route__arrow{
+  align-self:flex-start;margin-left:auto;
+  flex:none;font-size:13px;line-height:1.3;color:#9b865d;
+}
+body.home-page .museum-route__links>a:focus-visible{
+  outline:3px solid #9a7741;outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine){
+  body.home-page .museum-route__links>a:hover{
+    border-color:#a8997b;background:#f3f4ea;
+  }
+}
+@media(max-width:1000px){
+  body.home-page #main-content>.museum-route{
+    grid-template-columns:minmax(0,1fr);
+    gap:12px;
+  }
+  body.home-page .museum-route__intro{
+    flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:6px 13px;
+  }
+}
+@media(max-width:700px){
+  body.home-page .museum-route__links{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.home-page .museum-route__links>a{min-height:64px}
+}
+@media(max-width:600px){
+  body.home-page #main-content>.curated-threshold{
+    margin-bottom:9px;
+  }
+  body.home-page .curated-threshold__frame{aspect-ratio:1.5/1}
+  body.home-page #main-content>.museum-route{
+    width:calc(100% - 24px);
+    margin-bottom:31px;padding:14px 12px 15px;
+    gap:12px;
+  }
+  body.home-page .museum-route__intro{
+    flex-direction:column;align-items:flex-start;gap:1px;
+    padding-left:2px;
+  }
+  body.home-page .museum-route__intro>strong{font-size:15px}
+  body.home-page .museum-route__links{gap:8px}
+  body.home-page .museum-route__links>a{
+    gap:7px;min-height:62px;padding:10px 9px;
+  }
+  body.home-page .museum-route__label strong{font-size:13px}
+  body.home-page .museum-route__label small{font-size:10px}
+  body.home-page .museum-route__arrow{display:none}
+}
+@media(max-width:350px){
+  body.home-page .museum-route__links>a{gap:5px;padding-inline:7px}
+  body.home-page .museum-route__label strong{font-size:12px}
+  body.home-page .museum-route__label small{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){
+  body.home-page .museum-route__links>a{transition:none}
+}
+@media print{
+  body.home-page #main-content>.museum-route{break-inside:avoid;box-shadow:none}
+}
