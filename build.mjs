@@ -2600,7 +2600,16 @@ if (!['https://ejoeundental.pages.dev', 'https://ejoeundental.com'].includes(sel
 // existing comprehensive sitemap. Generate it only from published articles.
 {
  const limit=20;
- const feedPosts=posts.slice(0,limit);
+ // Sort only the RSS copy by true substantive revisions, so a medically updated
+ // old article can reappear without rewriting its original publication date.
+ // The public article directory intentionally stays in publication-date order.
+ const lastChanged=post=>[post.updated,post.date]
+  .filter(value=>/^\d{4}-\d{2}-\d{2}$/.test(String(value||'')))
+  .sort().at(-1)||'';
+ const feedPosts=[...posts].sort((a,b)=>
+  lastChanged(b).localeCompare(lastChanged(a))||
+  String(b.date||'').localeCompare(String(a.date||''))||
+  String(a.slug).localeCompare(String(b.slug))).slice(0,limit);
  if(!feedPosts.length)throw new Error('RSS needs at least one published story');
  const xmlEscape=value=>String(value??'').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,'')
   .replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
@@ -2615,6 +2624,8 @@ if (!['https://ejoeundental.pages.dev', 'https://ejoeundental.com'].includes(sel
   '<link>'+xmlEscape(selectedPublicOrigin+'/')+'</link>',
   '<description>인천 부평구 청천동 이조은치과의 잇몸치료·신경치료·충치치료 등 환자 교육 글</description>',
   '<language>ko-KR</language>',
+  // lastBuildDate records a real content edit, not the time this build ran.
+  '<lastBuildDate>'+new Date(lastChanged(feedPosts[0])+'T03:00:00Z').toUTCString()+'</lastBuildDate>',
   ...feedPosts.map(post=>{
    const url=selectedPublicOrigin+'/stories/'+encodeURIComponent(post.slug)+'/';
    const fullText=String(post.body||'').trim();
