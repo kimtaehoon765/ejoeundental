@@ -163,8 +163,8 @@ test('live read-only gallery probe checks all nine original artworks and 10 opti
  const names=['cubist-cat-clinic','lakeside-flower-clinic',
   'starry-night-clinic','quiet-window-cat','street-art-tooth-heart'];
  for(const name of names){
-  assert.match(script,new RegExp("'assets/"+name+"-thumb\\\\.webp'"));
-  assert.match(script,new RegExp("'assets/"+name+"\\\\.webp'"));
+  assert.ok(script.includes("'assets/"+name+"-thumb.webp'"));
+  assert.ok(script.includes("'assets/"+name+".webp'"));
   for(const suffix of ['-thumb.webp','.webp']){
    const target='assets/'+name+suffix;
    assert.ok(existsSync('dist/'+target),'missing deployed source '+target);
