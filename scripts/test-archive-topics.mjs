@@ -38,7 +38,7 @@ function setup({perGroup=15,hash='',search='',mixedGumTitles=false}={}){
     tag,hidden:false,textContent:'',value:'',attributes:{},children:[],handlers:{},focused:false,
     setAttribute(name,value){this.attributes[name]=value;},
     append(...children){this.children.push(...children);},
-    addEventListener(name,fn){this.handlers[name]=fn;},
+    addEventListener(name,fn){const previous=this.handlers[name];this.handlers[name]=previous ? (...args)=>{previous(...args);fn(...args);} : fn;},
     focus(){this.focused=true;}
    };
    elements.push(element);
