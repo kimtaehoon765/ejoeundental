@@ -488,14 +488,19 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       const firstSection=body.indexOf('class="hero wrap"');
       const paintingSection=body.indexOf('class="curated-threshold wrap"');
       const patientSearch=body.indexOf('class="symptom-navigator wrap"');
-      const artReady=response.status===200&&firstSection>=0&&
-        paintingSection>firstSection&&patientSearch>paintingSection&&
-        body.includes('href="/assets/curatorial-home.css?v=20261029-gallery1"')&&
-        (body.match(/class="curated-threshold__piece"/g)||[]).length===3&&
-        artTargets.every(([img,href])=>body.includes(img)&&body.includes('href="'+href+'"'));
+      const inspection={
+        '정식 페이지 HTTP 200':response.status===200,
+        '첫 화면 영역':firstSection>=0,
+        '작품 전시 위치':paintingSection>firstSection&&patientSearch>paintingSection,
+        '스타일 연결':body.includes('/assets/curatorial-home.css?v=20261029-gallery1'),
+        '전시 작품 3점':(body.match(/class="curated-threshold__piece"/g)||[]).length===3,
+        '이미지·갤러리 링크':artTargets.every(([img,href])=>body.includes(img)&&body.includes('href="'+href+'"'))
+      };
+      const misses=Object.entries(inspection).filter(([,pass])=>!pass).map(([name])=>name);
+      const artReady=misses.length===0;
       add('홈페이지 창작 그림 세 점 첫 화면 아래 전시',artReady?'실사이트 반영 확인':'배포·캐시 확인 필요',
         'HTTP '+response.status+' · 원장 캐리커처 다음 그림 3점 · 모바일 가로 감상 · 갤러리 이동 '+
-        (artReady?'공개 확인':'최신 배포 확인 필요'));
+        (artReady?'공개 확인':'미확인: '+misses.join(', ')));
     }
     // Compare a few already-fetched public medical guides with genuinely
     // revised source content. This is read-only: a stale deployment is reported
