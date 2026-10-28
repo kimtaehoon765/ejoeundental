@@ -222,9 +222,9 @@ test('Google Image sitemap includes each of nine gallery originals without chang
  const names=[
   'gallery-starry-clinic.svg','impressionist-water-garden.svg',
   'gallery-golden-garden.svg','ejoeundental-hero-cat.webp',
-  'cubist-cat-clinic.webp','lakeside-flower-clinic.webp',
-  'starry-night-clinic.webp','quiet-window-cat.webp',
-  'street-art-tooth-heart.webp'
+  'cubist-cat-clinic-thumb.webp','lakeside-flower-clinic-thumb.webp',
+  'starry-night-clinic-thumb.webp','quiet-window-cat-thumb.webp',
+  'street-art-tooth-heart-thumb.webp'
  ];
  const galleryImages=xml=>{
   const block=xml.split('<loc>https://ejoeundental.com/gallery</loc>')[1]?.split('</url>')[0]||
