@@ -37,6 +37,13 @@ h1{font-family:Georgia,"Noto Serif KR",serif;font-size:clamp(29px,4.8vw,43px);li
 h2{font-family:Georgia,"Noto Serif KR",serif;line-height:1.5;font-size:clamp(21px,3vw,28px);letter-spacing:-.04em;color:var(--deep);margin:0}
 h3{font-size:17px;line-height:1.55;margin:0;color:var(--deep)}
 .intro{max-width:850px;margin:0 0 25px;font-size:16px}
+.updated-story-guides{border:1px solid #d0decf;background:#fffcf4;border-radius:13px;padding:19px 20px;margin:21px 0 25px}
+.updated-story-guides h2{font-size:clamp(18px,2.4vw,23px);margin:0 0 8px}
+.updated-story-guides p{margin:0 0 13px;color:#496657;font-size:14px;line-height:1.8}
+.updated-story-guides__links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.updated-story-guides__links a{display:flex;align-items:center;min-height:47px;padding:9px 12px;background:#fff;color:#245440;border:1px solid #d2ded1;border-radius:7px;font-size:13px;line-height:1.55;font-weight:720;text-decoration:none;word-break:keep-all}
+.updated-story-guides__links a:hover{background:#edf4eb;border-color:#91b498}
+@media(max-width:680px){.updated-story-guides{padding:15px 12px}.updated-story-guides__links{grid-template-columns:minmax(0,1fr)}.updated-story-guides__links a{min-height:47px}}
 .directory-summary{padding:20px;border:1px solid #b8d0bf;border-radius:14px;background:#eaf1e9;margin:24px 0}
 .directory-summary strong{color:var(--deep)}
 .directory-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px}
@@ -96,6 +103,18 @@ footer a{color:#fff}
 <p class="intro">이조은치과 원장이 직접 작성하거나 기존 블로그를 바탕으로 환자 교육용으로 정리한 홈페이지 글을 모았습니다. 잇몸치료, 신경치료·재신경치료, 보험 진료와 자연치아 보존에 대해 궁금한 주제부터 살펴보세요. <strong>각 글은 일반적인 설명이며 환자별 검사와 진단을 대신하지 않습니다.</strong> <a href="/tooth-preservation.html" style="font-weight:800">발치 전 자연치아 보존 진료 안내 →</a></p>
 <nav class="story-key-guides" aria-label="이조은치과 주요 진료 안내"><a href="/gum-treatment.html">인천·부평 잇몸치료 안내 →</a><a href="/root-canal-health.html">인천·부평 신경치료 건강정보 →</a><a href="/retreatment.html">재신경치료·치아 보존 안내 →</a><a href="/insured-care.html">건강보험 적용 진료 안내 →</a></nav>
 <p class="doctor-byline"><strong>자료 제공·진료 의료진:</strong> 김태훈 원장 · 고려대학교 의학박사(치과학 전공) · 통합치의학과 전문의 · 2003년부터 인천 부평구 청천동에서 진료. <a href="/doctor.html">김태훈 원장 의료진 소개 및 진료 원칙 →</a></p>
+<section class="updated-story-guides" aria-labelledby="updated-story-guides-title">
+<h2 id="updated-story-guides-title">부평·청천동 치과 진료, 최근 보강한 환자 안내 7편</h2>
+<p>원장이 제공한 네이버 블로그 글을 바탕으로 진료 과정에서 궁금해하는 내용을 보완했습니다. 환자별 치료 필요성은 진찰 결과에 따라 달라집니다.</p>
+<nav class="updated-story-guides__links" aria-label="최근 보강한 진료 주제별 안내">
+<a href="/stories/2026-10-27-cheongcheon-implant-who-performs-surgery-and-aftercare/">청천동 임플란트 · 자연치아 보존과 담당 치과의사</a>
+<a href="/stories/2026-10-25-bupyeong-broken-tooth-extraction-vs-restoration/">부평 크라운 · 치아파절과 잇몸 상태 확인</a>
+<a href="/stories/2026-10-25-cheongcheon-affordable-dental-care-insurance-priorities/">청천동 충치치료 · 건강보험과 치료 우선순위</a>
+<a href="/stories/2026-10-25-bupyeong-wisdom-tooth-extraction-hemostatic-dressing/">부평 사랑니 발치 · 지혈재 필요성과 비용</a>
+<a href="/stories/2026-10-24-dental-sedation-risks-guide/">치과 진정치료 · 필요성과 안전 확인</a>
+<a href="/stories/2026-10-28-sangok-front-tooth-resin-cavity-repair/">앞니 레진 · 치아색 수복과 잇몸 상태</a>
+<a href="/stories/2026-10-25-bupyeong-root-canal-how-many-visits-and-why/">부평 신경치료 · 통증·치료 기간과 치아 보존</a>
+</nav></section>
 <section class="directory-summary" aria-label="치과 이야기 전체 목록 안내">
 <strong>홈페이지에서 직접 읽는 글 <span id="published-total"><!-- BUILD_STORY_COUNT --></span>편</strong>
 <p>몇 편만 보여주는 것이 아니라, <strong>공개된 홈페이지 게시글 전체</strong>를 아래 주제별로 펼침 없이 표시합니다.</p>
