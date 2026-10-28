@@ -246,3 +246,76 @@
   color:CanvasText;
  }
 }
+
+
+/* Museum edition XVIII · Navigate four paintings without closing the frame.
+ * The four existing SVG/WebP originals are reused, not duplicated or fetched
+ * from any third party. Controls remain visible on narrow phones. */
+.gallery-dialog .gallery-dialog-controls{
+ display:grid;
+ grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+ align-items:center;
+ gap:clamp(8px,1.7vw,18px);
+ margin:13px auto 4px;
+ padding:12px clamp(5px,1vw,12px);
+ border-top:1px solid #ded5c2;
+ max-width:100%;
+}
+.gallery-dialog .gallery-dialog-controls button{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ box-sizing:border-box;
+ min-height:46px;
+ padding:9px clamp(8px,1.6vw,19px);
+ color:#24513c;
+ background:#f5f5eb;
+ border:1px solid #b6c4ae;
+ border-radius:7px;
+ font-size:clamp(12px,1.25vw,15px);
+ font-weight:750;
+ line-height:1.5;
+ word-break:keep-all;
+}
+.gallery-dialog .gallery-dialog-controls button:last-child{
+ color:#fffaf0;
+ background:#275e43;
+ border-color:#275e43;
+}
+.gallery-dialog .gallery-dialog-controls button:hover{
+ border-color:#a58b57;
+ box-shadow:0 4px 11px rgba(25,57,40,.10);
+}
+.gallery-dialog #gallery-dialog-position{
+ text-align:center;
+ font:750 13px/1.5 system-ui,sans-serif;
+ letter-spacing:.13em;
+ color:#617762;
+ white-space:nowrap;
+}
+.gallery-dialog #gallery-dialog-image{
+ max-height:calc(94vh - 200px);
+ max-height:calc(94dvh - 200px);
+}
+@media(max-width:520px){
+ .gallery-dialog{max-width:96vw;padding:11px}
+ .gallery-dialog .gallery-dialog-head{padding-bottom:10px}
+ .gallery-dialog .gallery-dialog-controls{gap:6px;padding:10px 2px 3px}
+ .gallery-dialog .gallery-dialog-controls button{
+  min-height:48px;
+  padding:9px 6px;
+  font-size:12px;
+ }
+ .gallery-dialog #gallery-dialog-position{font-size:12px;letter-spacing:.03em}
+ .gallery-dialog #gallery-dialog-image{
+  max-height:calc(94vh - 208px);
+  max-height:calc(94dvh - 208px);
+ }
+}
+@media(forced-colors:active){
+ .gallery-dialog .gallery-dialog-controls button{
+  color:ButtonText;background:ButtonFace;
+  border:1px solid ButtonText;box-shadow:none;
+ }
+ .gallery-dialog #gallery-dialog-position{color:CanvasText}
+}
