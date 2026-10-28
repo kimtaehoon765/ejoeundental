@@ -7,7 +7,8 @@ const originals=[
  'assets/gallery-starry-clinic.svg',
  'assets/gallery-golden-garden.svg',
  'assets/clinic-gallery.css',
- 'assets/clinic-gallery.js'
+ 'assets/clinic-gallery.js',
+ 'assets/museum-home-v2.css'
 ];
 async function get(path){
  const response=await fetch(origin+path,{signal:AbortSignal.timeout(10000),headers:{'User-Agent':'EjoeunDentalReadOnlyHealthCheck/1.0','Cache-Control':'no-cache'}});
@@ -17,10 +18,11 @@ let good=true;
 try{
  const [home,page,...files]=await Promise.all([get('/'),get('/gallery.html'),...originals.map(p=>get('/'+p))]);
  const html=home.bytes.toString('utf8'),gallery=page.bytes.toString('utf8');
- const homepageReady=home.status===200&&/href="\/gallery(?:\.html)?"/.test(html)&&html.includes('id="gallery"');
+ const homepageReady=home.status===200&&/href="\/gallery(?:\.html)?"/.test(html)&&html.includes('id="gallery"')&&html.includes('gallery-home-artworks');
  const pageReady=page.status===200&&gallery.includes('치과 안의')&&
   gallery.includes('gallery-starry-clinic.svg')&&gallery.includes('gallery-golden-garden.svg')&&
-  gallery.includes('impressionist-water-garden.svg')&&gallery.includes('ejoeundental-hero-cat.webp');
+  gallery.includes('impressionist-water-garden.svg')&&gallery.includes('ejoeundental-hero-cat.webp')&&
+  gallery.includes('class="gallery-exhibition-index"')&&gallery.includes('gallery-piece-feature');
  console.log('[LIVE GALLERY] 홈페이지 링크 및 미리보기:',homepageReady?'반영':'미반영','HTTP',home.status);
  console.log('[LIVE GALLERY] 갤러리 페이지:',pageReady?'반영':'미반영','HTTP',page.status,'최종',page.url);
  good&&=homepageReady&&pageReady;
