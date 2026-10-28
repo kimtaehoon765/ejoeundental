@@ -249,7 +249,7 @@ test('Google Image discovery lists real first-party illustrations only on their 
  const rootCanal=origin+'/retreatment';
  const implant=origin+'/implant';
  const denture=origin+'/denture';
- assert.deepEqual(imageEntries.map(x=>x.page).sort(),[home,rootCanal,implant,denture].sort(),
+ assert.deepEqual(imageEntries.map(x=>x.page).sort(),[home,rootCanal,implant,denture,origin+'/gallery.html'].sort(),
   'only pages with visible authentic clinic-owned art should claim Google image results');
  for(const {page,images,declared} of imageEntries){
   assert.equal(images.length,declared,'all image sitemap entries must use the current supported image:loc tag');
@@ -269,6 +269,11 @@ test('Google Image discovery lists real first-party illustrations only on their 
    assert.match(tag,/alt="[^"]{15,}"/,'visible artwork needs genuinely descriptive text: '+url);
   }
  }
+ const galleryEntry=imageEntries.find(x=>x.page===origin+'/gallery.html');
+ assert.deepEqual(galleryEntry?.images,[
+  origin+'/assets/gallery-starry-clinic.svg',
+  origin+'/assets/gallery-golden-garden.svg'
+ ],'the new gallery owns two original painting assets');
  assert.equal(imageEntries.find(x=>x.page===home).images.length,2);
  const rootEntry=imageEntries.find(x=>x.page===rootCanal);
  assert.equal(rootEntry.images.length,10);
