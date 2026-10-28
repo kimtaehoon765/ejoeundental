@@ -3252,3 +3252,37 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
 // Keep the checked-in _headers rules unchanged in dist.
 // In particular do not overwrite security headers or pages.dev noindex rules.
 // All HTML cache rules live in the same source _headers document.
+
+ 
+// Post-process generated clinical care bodies after ALL static and curated
+// patient-link insertions. Earlier stages add related-story callouts after the
+// checked-in pages are read, and those historic callouts used to lead back to
+// the homepage instead of the accurate alternating-day schedule and parking.
+{
+ const carePages=['gum-treatment.html','retreatment.html','cervical-abrasion.html',
+  'insured-care.html','implant.html','denture.html','scaling.html',
+  'cavity-treatment.html','wisdom-tooth.html','pediatric-dentistry.html',
+  'pediatric-orthodontics.html','tmj-care.html'];
+ const guide=fs.readFileSync(path.join(out,'visit-guide.html'),'utf8');
+ for(const fragment of ['visit-hours','visit-parking']){
+  if(!guide.includes('id="'+fragment+'"'))throw new Error('Missing verified visit anchor: '+fragment);
+ }
+ let corrected=0;
+ for(const name of carePages){
+  const dest=path.join(out,name);
+  const html=fs.readFileSync(dest,'utf8');
+  const main=html.match(/<main\b[^>]*>[\s\S]*?<\/main>/i)?.[0];
+  if(!main)throw new Error('Clinical guide missing main: '+name);
+  const revised=main.replace(/<a\b[^>]*href="\/#location"[^>]*>[\s\S]*?<\/a>/gi,link=>{
+   const text=link.replace(/<[^>]*>/g,'').replace(/\s+/g,' ');
+   const hours=/(?:진료시간|격주|금.?토|접수|운영|진료일)/.test(text);
+   const destination=hours?'visit-hours':'visit-parking';
+   corrected++;
+   return link.replace('href="/#location"','href="/visit-guide.html#'+destination+'"');
+  });
+  if(revised.includes('href="/#location"'))
+   throw new Error('Legacy homepage visit link still inside care body: '+name);
+  if(revised!==main)fs.writeFileSync(dest,html.replace(main,revised));
+ }
+ console.log('Clinical visit guide deep links normalized:',corrected,'late-added care links in',carePages.length,'guides');
+}
