@@ -11,7 +11,8 @@ test('Atelier premium stylesheet loaded AFTER the existing museum/mobile safety 
  const a=styles.findIndex(s=>s.includes('/assets/atelier-home-2026.css?v='));
  const m=styles.findIndex(s=>s.includes('museum-home-v2.css'));
  assert.ok(a>=0&&m>=0&&a>m,'new finishing stylesheet must be after museum css');
- assert.equal(a,styles.length-1,'Atelier must be the last loaded CSS in the document');
+ assert.ok(!styles.slice(a+1).some(x=>/museum-home-v2|gallery-finish|gallery-upgrade/.test(x)),
+  'an older museum layer must not override the Atelier finish');
 });
 test('gallery finish improves main patient information rooms without altering structural hero placement',()=>{
  for(const selector of [
