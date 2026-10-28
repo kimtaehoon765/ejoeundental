@@ -99,3 +99,30 @@
   .clinic-info-mobile-actions{gap:5px;padding-left:8px;padding-right:8px;}
   .clinic-info-mobile-actions a{font-size:12px;line-height:1.45;padding:8px 3px;}
 }
+
+/* A direct, accessible route to pre-visit checklists on long medical
+   information pages. Reuses the same stylesheet already loaded by those
+   pages; nothing is hidden from readers or search crawlers. */
+.patient-checklist-jump{
+ display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;
+ margin:18px 0 22px;padding:14px 16px;
+ background:#f3f9f5;border:1px solid #cee1d4;border-radius:12px;
+}
+.patient-checklist-jump a{
+ display:inline-flex;align-items:center;justify-content:center;
+ min-height:44px;padding:9px 15px;
+ border:1px solid #336e59;border-radius:9px;
+ background:#fff;color:#185843;font-weight:750;
+ font-size:15px;line-height:1.45;text-decoration:none;
+}
+.patient-checklist-jump a:focus-visible{
+ outline:3px solid #bd7319;outline-offset:3px;
+}
+.patient-checklist-jump span{font-size:14px;line-height:1.6;color:#466556;}
+#visit-checklist{scroll-margin-top:25px;}
+@media(max-width:600px){
+ .patient-checklist-jump{padding:13px 12px;align-items:stretch;}
+ .patient-checklist-jump a{flex:1 1 100%;}
+ .patient-checklist-jump span{font-size:14px;}
+}
+@media print{.patient-checklist-jump{display:none!important}}
