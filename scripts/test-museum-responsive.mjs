@@ -270,3 +270,32 @@ test('release fingerprint matches the GitHub or Cloudflare build commit',()=>{
   assert.equal(source,'local');
  }
 });
+
+
+test('museum wall has one lead painting and two companion originals without cropping',()=>{
+ const html=home.match(/<section class="curated-threshold wrap"[\s\S]*?<\/section>/)?.[0]||'';
+ const art=[...html.matchAll(/<a class="curated-threshold__piece" href="([^"]+)">[\s\S]*?<img src="([^"]+)"[^>]*alt="([^"]+)"/g)];
+ assert.equal(art.length,3,'all three original paintings must remain visible and linked');
+ for(const [,href,src,alt] of art){
+  assert.ok(href.startsWith('/gallery.html#art-'),'art must open the real gallery item');
+  assert.ok(src.startsWith('/assets/'),'art must be an existing local image');
+  assert.ok(alt.length>15,'image alt should describe the artwork');
+  assert.ok(existsSync('dist'+src),'painting must ship in production output: '+src);
+ }
+ const css=read('assets/curatorial-home.css');
+ const final=css.slice(css.indexOf('Exhibition wall edition — 2026-10-29'));
+ assert.ok(final.length>1000,'exhibition wall visual layout is missing');
+ assert.match(final, /@media\(min-width:761px\)/);
+ assert.match(final, /grid-template-columns:minmax\(0,1\.28fr\) minmax\(0,1fr\)/);
+ assert.match(final, /\.curated-threshold__piece:nth-child\(1\)\{\s*grid-column:1;\s*grid-row:1 \/ span 2;/);
+ assert.match(final, /\.curated-threshold__piece:nth-child\(2\)\{\s*grid-column:2;\s*grid-row:1;/);
+ assert.match(final, /\.curated-threshold__piece:nth-child\(3\)\{\s*grid-column:2;\s*grid-row:2;/);
+ assert.match(final, /object-fit:contain;/,'paintings must not be cropped');
+ assert.match(final, /@media\(max-width:600px\)/);
+ assert.match(final, /flex-basis:min\(79vw,285px\)/,
+  'mobile preserves a prominent first image and swipeable companion artworks');
+ assert.match(css,/scroll-snap-type:x mandatory;/,
+  'mobile gallery still needs its existing swipe behavior');
+ assert.ok(home.includes('curatorial-home.css?'),
+  'the production homepage must load the final exhibition layer');
+});
