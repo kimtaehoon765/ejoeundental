@@ -1,0 +1,68 @@
+name: Import owner-approved nine-art gallery package
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - gallery-artworks-import.zip
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: owner-gallery-import
+  cancel-in-progress: false
+
+jobs:
+  import-gallery:
+    if: github.repository == 'kimtaehoon765/ejoeundental'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the owner's website
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify archive is present
+        id: package
+        shell: bash
+        run: |
+          if [ -f gallery-artworks-import.zip ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No uploaded image package found. No changes made."
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Import exactly five original art pieces
+        if: steps.package.outputs.present == 'true'
+        run: node scripts/import-gallery-artworks.mjs gallery-artworks-import.zip
+      - name: Build and audit the nine-art site before publishing
+        if: steps.package.outputs.present == 'true'
+        run: |
+          npm run build:check
+          node --test scripts/test-clinic-gallery.mjs
+      - name: Commit the verified assets and gallery (keep only one copy of the artwork)
+        if: steps.package.outputs.present == 'true'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add gallery.html assets/clinic-gallery.css scripts/test-clinic-gallery.mjs
+          git add assets/*-clinic.webp assets/*-clinic-thumb.webp assets/*-cat.webp assets/*-cat-thumb.webp assets/*-heart.webp assets/*-heart-thumb.webp
+          git rm -- gallery-artworks-import.zip
+          git diff --cached --check
+          git commit -m "Publish five optimized original clinic artworks; gallery now nine paintings"
+          git push origin HEAD:main
+      - name: Record publishing evidence
+        if: steps.package.outputs.present == 'true'
+        run: |
+          {
+            echo "## Nine-picture gallery source published"
+            echo ""
+            echo "Five original artworks and five WebP previews added. All nine image cards passed source build and gallery tests."
+            echo "The repository commit is complete; Cloudflare Pages deployment must be verified separately."
+          } >> "$GITHUB_STEP_SUMMARY"
