@@ -168,3 +168,26 @@ test('mobile hero artwork preload prioritizes the visible doctor-cat portrait',(
  assert.ok(hero.indexOf('class="hero-actions"')<hero.indexOf('class="art hero-artwork"'),
   'telephone and booking calls to action remain before the portrait on phones');
 });
+
+
+test('mobile quick navigation remains readable without removing booking or story actions',()=>{
+ const atelier=read('assets/atelier-home-2026.css');
+ const nav=home.match(/<div class="mobile-quick">([\s\S]*?)<\/div>/)?.[1]||'';
+ assert.equal((nav.match(/<a\b/g)||[]).length,5,
+  'patient first-screen navigation keeps all five key destinations');
+ for(const target of ['#symptom-navigator-title','#home-symptom-query',
+  '/stories.html','#location','tel:0325132875']){
+  assert.ok(nav.includes('href="'+target+'"'),'missing mobile quick link: '+target);
+ }
+ assert.match(atelier,/Atelier edition IX · Mobile wayfinding/);
+ assert.match(atelier,/min-width:0;min-height:49px;/,
+  'mobile links retain nearly 50px touch targets');
+ assert.match(atelier,/font-size:clamp\(11px,2\.95vw,12\.5px\)/,
+  'initial mobile labels must not shrink to the older 10px');
+ assert.match(atelier,/html\.home-scrolled body\.home-page header \.nav \.mobile-quick a\.stories-mobile-link/,
+  'readers can still find the journal from the compact scrolled header');
+ assert.match(atelier,/a\.mobile-call\{/,
+  'the phone shortcut keeps its stronger contrast');
+ assert.ok(home.includes('class="btn hero-booking"'),
+  'Naver booking is still visible in the hero');
+});
