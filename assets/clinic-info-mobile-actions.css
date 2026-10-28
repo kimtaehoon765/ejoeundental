@@ -1,0 +1,27 @@
+/* Mobile quick actions for informational pages without their own fixed actions.
+   Added at build time; ordinary links remain useful without JavaScript. */
+.clinic-info-mobile-actions{display:none}
+@media(max-width:600px){
+  body{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))!important}
+  .clinic-info-mobile-actions{
+    position:fixed;z-index:45;left:0;right:0;bottom:0;
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr) minmax(0,1fr);
+    gap:7px;box-sizing:border-box;
+    padding:9px max(12px,env(safe-area-inset-right,0px))
+      calc(9px + env(safe-area-inset-bottom,0px))
+      max(12px,env(safe-area-inset-left,0px));
+    background:#f7faf6;border-top:1px solid #c5d9cb;
+    box-shadow:0 -4px 18px rgba(14,51,39,.12)
+  }
+  .clinic-info-mobile-actions a{
+    display:flex;align-items:center;justify-content:center;min-width:0;min-height:48px;
+    box-sizing:border-box;padding:9px 4px;border-radius:9px;
+    font:750 13px/1.45 system-ui,"Apple SD Gothic Neo",sans-serif;
+    text-align:center;text-decoration:none;word-break:keep-all
+  }
+  .clinic-info-mobile-actions .clinic-info-call{color:#fff;background:#173e35;border:1px solid #173e35}
+  .clinic-info-mobile-actions .clinic-info-book{color:#174937;background:#e0efe5;border:1px solid #80aa8c}
+  .clinic-info-mobile-actions .clinic-info-directions{color:#174937;background:#fff;border:1px solid #b4cdbc}
+  .clinic-info-mobile-actions a:focus-visible{outline:3px solid #a87931;outline-offset:2px}
+}
+@media print{.clinic-info-mobile-actions{display:none!important}body{padding-bottom:0!important}}
