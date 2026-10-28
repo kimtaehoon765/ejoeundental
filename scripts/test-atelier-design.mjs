@@ -30,11 +30,12 @@ test('gallery finish improves main patient information rooms without altering st
 });
 test('portrait must never create the formerly broken 2-column mobile grid',()=>{
  assert.match(museum,/#main-content>\.hero\.wrap\{\s*display:grid;\s*grid-template-columns:minmax\(0,1fr\);/);
+ const critical=museum.slice(museum.indexOf('CRITICAL MOBILE FIRST-SCREEN FIX'));
  for(const selector of [
   '>.art.hero-artwork','>.hero-editorial-detail','>div:first-child']){
-  const pos=museum.lastIndexOf('body.home-page #main-content>.hero.wrap'+selector+'{');
+  const pos=critical.indexOf('body.home-page #main-content>.hero.wrap'+selector+'{');
   assert.ok(pos>0);
-  const block=museum.slice(pos,museum.indexOf('}',pos));
+  const block=critical.slice(pos,critical.indexOf('}',pos));
   assert.ok(block.includes('grid-column:1 / -1;'),'mobile row must span sole column: '+selector);
  }
  const heroStyle=atelier.slice(atelier.indexOf('/* Opening room'),atelier.indexOf('/* Cohesive gallery labels'));
