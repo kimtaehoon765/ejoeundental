@@ -2070,3 +2070,286 @@ body.home-page #main-content>#gallery .gallery-new-arrivals :is(a):focus-visible
     border:1px solid LinkText;
   }
 }
+
+
+/* Atelier edition XVI · Quiet reading gallery, 2026-10-29.
+ * A shared visual language for symptom search, clinical philosophy and journal.
+ * Source copy, clinic hours, contact links, booking dock, art and SEO untouched.
+ * No scripts, animations on page load, external images or extra HTTP requests. */
+body.home-page{
+ --reading-page:#faf8f1;
+ --reading-surface:#fffdf7;
+ --reading-line:#ddd8c9;
+ --reading-brass:#a38d67;
+ --reading-ink:#244537;
+}
+body.home-page #main-content>.symptom-navigator{
+ position:relative;
+ box-sizing:border-box;
+ border:1px solid #e4ddce;
+ border-radius:6px;
+ background:linear-gradient(142deg,#fffdf7 0%,#f5f2e8 72%,#faf9f4 100%);
+ box-shadow:0 17px 43px rgba(36,64,47,.052);
+ padding:clamp(24px,3.7vw,47px);
+ margin-top:clamp(17px,2.2vw,28px);
+ margin-bottom:clamp(38px,5vw,72px);
+ overflow:visible;
+}
+body.home-page #main-content>.symptom-navigator::before{
+ content:"";pointer-events:none;
+ position:absolute;top:10px;right:10px;bottom:10px;left:10px;
+ border:1px solid rgba(153,136,100,.18);border-radius:3px;
+}
+body.home-page #main-content>.symptom-navigator>*{
+ position:relative;
+}
+body.home-page #main-content>.symptom-navigator>.eyebrow{
+ display:flex;align-items:center;gap:11px;
+ letter-spacing:.2em;color:#8d744d;
+ font-size:11px;
+}
+body.home-page #main-content>.symptom-navigator>.eyebrow::before{
+ content:"";display:block;width:26px;height:1px;flex:none;
+ background:#ab966f;
+}
+body.home-page #main-content>.symptom-navigator>#symptom-navigator-title{
+ max-width:780px;
+ margin:11px 0 12px;
+ font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+ font-size:clamp(24px,3vw,36px);
+ font-weight:600;
+ letter-spacing:-.055em;
+ line-height:1.42;
+ word-break:keep-all;text-wrap:balance;
+ color:#204636;
+}
+body.home-page #main-content>.symptom-navigator>#symptom-navigator-title+p{
+ max-width:68ch;
+ margin-bottom:clamp(22px,3vw,33px);
+ font-size:15px;
+ line-height:1.83;
+ color:#53675a;
+}
+body.home-page #main-content>.symptom-navigator .symptom-quick-search{
+ border:1px solid #dce3d7;
+ border-left:4px solid #73947b;
+ border-radius:4px 15px 4px 15px;
+ background:rgba(255,255,255,.82);
+ box-shadow:0 7px 24px rgba(25,59,42,.038);
+ padding:clamp(17px,2.4vw,27px);
+}
+body.home-page #main-content>.symptom-navigator .symptom-quick-search label{
+ letter-spacing:-.025em;
+ color:#284e3c;
+ font-weight:800;
+}
+body.home-page #main-content>.symptom-navigator .symptom-quick-search input{
+ border:1px solid #bdcdbf;
+ background:#fffefa;
+ min-width:0;
+ color:#183e30;
+}
+body.home-page #main-content>.symptom-navigator .symptom-quick-search input:focus-visible{
+ outline:3px solid #b49a69;
+ outline-offset:2px;
+ border-color:#567b60;
+}
+body.home-page #main-content>.symptom-navigator .symptom-quick-search button{
+ background:#28543c;
+ border-color:#28543c;
+ color:#fffdf7;
+ font-weight:750;
+}
+body.home-page #main-content>.symptom-navigator .symptom-quick-search button:hover{
+ background:#193f2c;
+ border-color:#193f2c;
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid{
+ margin-top:clamp(21px,2.8vw,32px);
+ gap:clamp(10px,1.5vw,17px);
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a{
+ border:1px solid #d8ded3;
+ border-radius:4px 16px 4px 16px;
+ background:var(--reading-surface);
+ box-shadow:0 8px 19px rgba(25,54,36,.035);
+ min-width:0;
+ padding:clamp(17px,2.1vw,24px);
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:nth-child(2n){
+ border-top-color:#b9cabc;
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a strong{
+ color:#1c4834;
+ font-size:clamp(16px,1.55vw,19px);
+ line-height:1.5;
+ letter-spacing:-.034em;
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a span{
+ font-size:13px;
+ line-height:1.65;
+ color:#5b6c5d;
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:hover{
+ border-color:#91aa91;
+ background:#f7faf4;
+ box-shadow:0 12px 27px rgba(26,57,40,.075);
+}
+body.home-page #main-content>#philosophy{
+ background:linear-gradient(180deg,#f7f4ed 0%,#faf9f4 100%);
+}
+body.home-page #main-content>#philosophy #philosophy_title{
+ max-width:780px;
+ margin-inline:auto;
+ font-size:clamp(26px,3.25vw,40px);
+ line-height:1.42;
+ letter-spacing:-.055em;
+ text-wrap:balance;
+}
+body.home-page #main-content>#philosophy #philosophy_body{
+ max-width:745px;
+ margin-inline:auto;
+ color:#566b5c;
+ line-height:1.95;
+}
+body.home-page #main-content>#philosophy .grid{
+ gap:clamp(13px,1.9vw,22px);
+ margin-top:clamp(28px,3.5vw,41px);
+}
+body.home-page #main-content>#philosophy .grid>.card{
+ border:1px solid #e0dbce;
+ border-top:3px solid #b5a17b;
+ border-radius:4px 19px 4px 19px;
+ background:linear-gradient(158deg,#fffefa,#f8f7f0);
+ box-shadow:0 12px 30px rgba(33,60,42,.045);
+ padding:clamp(25px,3vw,35px);
+ text-align:left;
+}
+body.home-page #main-content>#philosophy .grid>.card .num{
+ color:#998260;
+ font:400 clamp(29px,3.5vw,43px)/1.05 Georgia,serif;
+ letter-spacing:-.07em;
+}
+body.home-page #main-content>#philosophy .grid>.card h3{
+ margin-top:clamp(17px,2vw,25px);
+ margin-bottom:13px;
+ color:#244937;
+ font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+ font-weight:650;
+ font-size:clamp(18px,1.75vw,22px);
+ line-height:1.5;
+ letter-spacing:-.055em;
+}
+body.home-page #main-content>#philosophy .grid>.card p{
+ font-size:14px;
+ line-height:1.95;
+ color:#58685d;
+}
+body.home-page #main-content>#stories .owner-stories-grid{
+ gap:10px 14px;
+}
+body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card{
+ min-width:0;
+ border:1px solid #e2dfd3;
+ border-left:3px solid #ab9b7b;
+ border-radius:3px 11px 3px 11px;
+ background:#fffdf8;
+ box-shadow:none;
+ padding:14px 17px;
+}
+body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card h3{
+ margin:0;
+ font-weight:650;
+}
+body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card a{
+ display:block;
+ color:#2d5540;
+ font-size:14px;
+ line-height:1.8;
+ text-decoration:none;
+ word-break:keep-all;
+ overflow-wrap:anywhere;
+}
+body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card:hover{
+ border-color:#a5b79e;
+ background:#f7faf4;
+}
+body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card a:focus-visible{
+ outline:3px solid #a48851;
+ outline-offset:3px;
+}
+body.home-page #main-content>#stories .owner-blog-direct-search{
+ border-color:#e0d9c7;
+ background:#fffdf8;
+ box-shadow:0 10px 23px rgba(31,60,42,.035);
+}
+@media(min-width:1100px){
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid{
+  column-gap:17px;
+ }
+}
+@media(max-width:700px){
+ body.home-page #main-content>.symptom-navigator{
+  width:calc(100% - 24px);
+  padding:24px 16px 27px;
+  margin:16px auto 37px;
+  border-radius:5px;
+ }
+ body.home-page #main-content>.symptom-navigator::before{
+  inset:6px;
+ }
+ body.home-page #main-content>.symptom-navigator>#symptom-navigator-title{
+  font-size:clamp(24px,6.2vw,31px);
+  margin:9px 0 10px;
+ }
+ body.home-page #main-content>.symptom-navigator>#symptom-navigator-title+p{
+  font-size:14px;line-height:1.75;
+  margin-bottom:18px;
+ }
+ body.home-page #main-content>.symptom-navigator .symptom-quick-search{
+  padding:17px 12px;
+  border-left-width:3px;
+ }
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid{
+  gap:10px;margin-top:20px;
+ }
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a{
+  min-height:91px;
+  padding:17px 16px;
+ }
+ body.home-page #main-content>#philosophy .grid>.card{
+  padding:24px 20px;
+ }
+ body.home-page #main-content>#philosophy .grid>.card p{
+  font-size:14px;
+  line-height:1.82;
+ }
+ body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card{
+  padding:12px 14px;
+ }
+ body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card a{
+  font-size:13px;
+  line-height:1.7;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a{
+  transition:none;transform:none;
+ }
+}
+@media(forced-colors:active){
+ body.home-page #main-content>.symptom-navigator,
+ body.home-page #main-content>.symptom-navigator .symptom-quick-search,
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a,
+ body.home-page #main-content>#philosophy .grid>.card,
+ body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card{
+  background:Canvas;
+  color:CanvasText;
+  border:1px solid CanvasText;
+  box-shadow:none;
+ }
+ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a :is(strong,span),
+ body.home-page #main-content>#philosophy .grid>.card :is(h3,p){
+  color:CanvasText;
+ }
+}
