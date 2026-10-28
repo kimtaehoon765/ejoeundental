@@ -58,3 +58,27 @@ test('core on-page content and indexing markers preserved after design update',(
  assert.ok(home.includes('src="/assets/ejoeundental-hero-cat.webp"'));
  assert.ok(home.includes('href="/doctor.html"'));
 });
+
+
+test('treatment catalogue gives four equal headline topics with readable mobile links',()=>{
+ const section=home.match(/<section class="section" id="care">([\s\S]*?)<details class="care-more-details">/)?.[1]||'';
+ assert.ok(section.includes('class="card care-preservation-feature"'),
+  'natural tooth preservation must remain first and fully visible');
+ const cards=[...section.matchAll(/class="card care-primary-card"><div class="num" aria-hidden="true">(\d{2})<\/div><h3>([^<]+)<\/h3>/g)]
+  .map(x=>({n:x[1],name:x[2]}));
+ assert.deepEqual(cards,[
+  {n:'01',name:'잇몸치료'},
+  {n:'02',name:'재신경치료'},
+  {n:'03',name:'치경부마모증 · GI'},
+  {n:'04',name:'건강보험 진료'}
+ ],'all four leading treatments remain in their clinical order');
+ for(const key of ['/gum-treatment.html','/retreatment.html','/cervical-abrasion.html','/insured-care.html'])
+  assert.ok(section.includes('href="'+key+'"'),'missing original treatment link '+key);
+ assert.match(atelier,/Atelier edition XI · Patient treatment catalogue/);
+ assert.match(atelier,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/,
+  'four topics should make a balanced 2x2 layout');
+ assert.match(atelier,/max-width:440px/);
+ assert.match(atelier,/min-height:44px/);
+ assert.match(home,/name="naver-site-verification"/);
+ assert.match(home,/name="google-site-verification"/);
+});
