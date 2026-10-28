@@ -1252,3 +1252,115 @@ body.home-page #gallery .gallery-home-more:focus-visible{
   box-shadow:none;
  }
 }
+
+
+/* Museum gallery home curation III
+   One wide feature + two compact companion frames on desktop.
+   Medical text, original anchor links and story content remain unchanged. */
+@media(min-width:900px){
+ body.home-page #gallery .gallery-home-artworks{
+  display:grid;grid-template-columns:minmax(0,1.23fr) minmax(0,1fr);
+  grid-template-rows:repeat(2,minmax(0,1fr));
+  align-items:stretch;gap:17px;
+ }
+ body.home-page #gallery .gallery-home-artworks>a:first-child{
+  grid-column:1;grid-row:1/span 2;
+  display:flex;flex-direction:column;
+  border:1px solid #b7a079;
+  background:#fbf6e9;
+  box-shadow:0 23px 46px rgba(22,47,35,.11);
+ }
+ body.home-page #gallery .gallery-home-artworks>a:first-child img{
+  flex:1;min-height:350px;height:auto;max-height:415px;
+  border:13px solid #f4ead3;object-fit:contain;
+  background:#152f47;
+  box-shadow:inset 0 0 0 1px #bda884;
+ }
+ body.home-page #gallery .gallery-home-artworks>a:first-child>span{
+  padding:19px 24px 24px;
+ }
+ body.home-page #gallery .gallery-home-artworks>a:first-child strong{
+  font-size:clamp(21px,2.25vw,28px);
+ }
+ body.home-page #gallery .gallery-home-artworks>a:not(:first-child){
+  display:grid;
+  grid-template-columns:minmax(0,.94fr) minmax(0,1fr);
+  align-items:stretch;
+  min-height:0;
+ }
+ body.home-page #gallery .gallery-home-artworks>a:not(:first-child) img{
+  display:block;align-self:stretch;width:100%;
+  height:100%;min-height:160px;max-height:235px;
+  object-fit:cover;border:8px solid #f7f0e0;
+ }
+ body.home-page #gallery .gallery-home-artworks>a:last-child img{
+  object-fit:contain;background:#f2eadd;
+ }
+ body.home-page #gallery .gallery-home-artworks>a:not(:first-child)>span{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:20px 19px;
+ }
+ body.home-page #gallery .gallery-home-artworks>a:not(:first-child) strong{
+  font-size:clamp(16px,1.4vw,20px);
+ }
+}
+body.home-page #gallery .gallery-home-artworks>a{
+ transition:box-shadow .2s ease,border-color .2s ease;
+}
+body.home-page #gallery .gallery-home-artworks>a:hover{
+ border-color:#9e865d;
+}
+@media(max-width:899px){
+ body.home-page #gallery .gallery-home-artworks{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-rows:auto;
+  gap:12px;
+ }
+ body.home-page #gallery .gallery-home-artworks>a:first-child{
+  grid-column:1/-1;
+  display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);
+  min-height:190px;
+ }
+ body.home-page #gallery .gallery-home-artworks>a:first-child img{
+  display:block;min-height:190px;height:100%;
+  max-height:250px;object-fit:contain;background:#162f46;
+ }
+ body.home-page #gallery .gallery-home-artworks>a:first-child>span{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:20px;
+ }
+ body.home-page #gallery .gallery-home-artworks>a:last-child{
+  grid-column:auto;
+ }
+ body.home-page #gallery .gallery-home-artworks>a:last-child img{
+  height:clamp(155px,21vw,195px);object-fit:contain;
+ }
+}
+@media(max-width:600px){
+ body.home-page #gallery .gallery-home-artworks>a:first-child{
+  display:block;min-height:0;
+ }
+ body.home-page #gallery .gallery-home-artworks>a:first-child img{
+  height:auto;min-height:0;max-height:300px;
+  aspect-ratio:1200/720;
+ }
+ body.home-page #gallery .gallery-home-artworks>a:first-child>span{
+  display:flex;padding:15px 17px 19px;
+ }
+ body.home-page #gallery .gallery-home-artworks>a:last-child img{
+  height:auto;max-height:220px;aspect-ratio:650/543;
+ }
+}
+@media(max-width:460px){
+ body.home-page #gallery .gallery-home-artworks{
+  grid-template-columns:minmax(0,1fr);
+ }
+ body.home-page #gallery .gallery-home-artworks>a:first-child{
+  grid-column:auto;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ body.home-page #gallery .gallery-home-artworks>a{
+  transition:none;transform:none;
+ }
+}
