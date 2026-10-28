@@ -919,7 +919,7 @@ const impressionistSvgPath=path.join(out,'assets/impressionist-water-garden.svg'
 if(!fs.existsSync(impressionistSvgPath))throw new Error('Missing original clinic garden illustration');
 const impressionistSvgVersion=createHash('sha256').update(fs.readFileSync(impressionistSvgPath)).digest('hex').slice(0,12);
 const impressionistReference='/assets/impressionist-water-garden.svg';
-for(const rel of ['index.html','assets/home-enhancements.css']){
+for(const rel of ['index.html','assets/home-enhancements.css','assets/gallery-upgrade.css']){
  const target=path.join(out,rel);
  const contents=fs.readFileSync(target,'utf8');
  if(!contents.includes(impressionistReference))throw new Error('Missing image reference in '+rel);
