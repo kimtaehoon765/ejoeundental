@@ -8,7 +8,8 @@ const originals=[
  'assets/gallery-golden-garden.svg',
  'assets/clinic-gallery.css',
  'assets/clinic-gallery.js',
- 'assets/museum-home-v2.css'
+ 'assets/museum-home-v2.css',
+ 'assets/atelier-home-2026.css'
 ];
 async function get(path){
  const response=await fetch(origin+path,{
@@ -34,7 +35,7 @@ try{
  // Bare unversioned URLs can be cached by Cloudflare long after a new release.
  const livePaths=originals.map(p=>{
   const name='/'+p;
-  const document=p.endsWith('museum-home-v2.css')?html:gallery;
+  const document=(p.endsWith('museum-home-v2.css')||p.endsWith('atelier-home-2026.css'))?html:gallery;
   const attrs=[...document.matchAll(/(?:href|src)="([^"]+)"/g)].map(m=>m[1]);
   return attrs.find(a=>a.split('?')[0]===name)||name;
  });
