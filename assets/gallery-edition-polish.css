@@ -1154,3 +1154,301 @@ body.home-page #main-content>#stories .owner-blog-topic-jumps>a:focus-visible{
     color:CanvasText;
   }
 }
+
+
+/* Unique home artworks · 2026-10-29
+   One appearance per selected painting on this homepage. Artistic editorial
+   lettering fills secondary navigational spots without recycling images. */
+body.home-page #main-content>#focus-care .focus-care-art-link--letterpress{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  position:relative;
+  width:100%;
+  min-height:clamp(220px,24vw,342px);
+  aspect-ratio:3/2;
+  padding:clamp(25px,3.1vw,43px);
+  line-height:normal;
+  text-align:left;
+  color:#fff9e9;
+  background:radial-gradient(ellipse at 90% 10%,rgba(223,203,149,.18),transparent 46%),linear-gradient(143deg,#1c4935,#347051 60%,#47745b);
+  text-decoration:none;
+  isolation:isolate;
+}
+body.home-page #main-content>#focus-care .focus-care-art-link--letterpress::before,
+body.home-page #main-content>#focus-care .focus-care-art-link--letterpress::after{
+  content:"";
+  position:absolute;pointer-events:none;
+}
+body.home-page #main-content>#focus-care .focus-care-art-link--letterpress::before{
+  inset:12px;
+  border:1px solid rgba(248,231,189,.58);
+  border-radius:80px 5px 80px 5px;
+}
+body.home-page #main-content>#focus-care .focus-care-art-link--letterpress::after{
+  width:80px;height:80px;right:25px;top:21px;
+  border:1px solid rgba(234,210,162,.45);border-radius:50%;
+}
+body.home-page #main-content>#focus-care .focus-care-letterpress__kicker{
+  display:block;
+  margin-bottom:clamp(11px,2vw,22px);
+  color:#eed3a0;
+  font:750 11px/1.5 'DM Sans',system-ui,sans-serif;
+  letter-spacing:.13em;
+}
+body.home-page #main-content>#focus-care .focus-care-art-link--letterpress>strong{
+  display:block;color:#fffaf0;
+  font:700 clamp(27px,3.2vw,42px)/1.52 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.065em;word-break:keep-all;
+}
+body.home-page #main-content>#focus-care .focus-care-letterpress__detail{
+  display:block;
+  margin-top:clamp(14px,2.1vw,26px);
+  color:#e7ead9;font-size:13px;line-height:1.85;word-break:keep-all;
+}
+body.home-page #main-content>#focus-care .focus-care-art-link--letterpress:focus-visible{outline:3px solid #a68142;outline-offset:4px}
+/* Short information cards can remain clickable without duplicating the adjacent care-gallery artwork. */
+body.home-page #main-content>#health-info .health-topic-art--letterpress{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  gap:7px;
+  min-height:112px;
+  margin:12px 0 17px;
+  padding:16px 19px;
+  border:1px solid #e0d5c1;
+  border-left:4px solid #a99772;
+  border-radius:3px 12px 3px 12px;
+  background:linear-gradient(130deg,#f3f0e7,#fffdf8);
+  box-shadow:none;
+  text-decoration:none;
+}
+body.home-page #main-content>#health-info .health-topic-art--letterpress small{
+  display:block;color:#917750;
+  font:750 10px/1.5 system-ui,sans-serif;
+  letter-spacing:.14em;
+}
+body.home-page #main-content>#health-info .health-topic-art--letterpress strong{
+  display:block;color:#234b36;
+  font:700 clamp(16px,1.4vw,19px)/1.5 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.035em;word-break:keep-all;
+}
+body.home-page #main-content>#health-info .health-topic-art--letterpress span{
+  display:block;color:#31674c;font-size:13px;font-weight:700;
+}
+body.home-page #main-content>#health-info .health-topic-art--letterpress:focus-visible{outline:3px solid #a68142;outline-offset:3px}
+/* Four individually colored typographic motifs are not fake clinical diagrams. */
+body.home-page #main-content>.home-care-paths .home-care-paths__visual--gum{
+  background:linear-gradient(135deg,#3d6354,#7e9c78);
+}
+body.home-page #main-content>.home-care-paths .home-care-paths__visual--abrasion{
+  background:linear-gradient(135deg,#6b697d,#9692a3);
+}
+body.home-page #main-content>.home-care-paths .home-care-paths__visual--insurance{
+  background:linear-gradient(135deg,#68654c,#aaa17b);
+}
+body.home-page #main-content>.home-care-paths .home-care-paths__visual--editorial span:last-child{
+  color:#fffdf6;
+}
+body.home-page #main-content>#stories .owner-blog-topic-jumps .owner-blog-topic-art--letterpress{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:12px;
+  padding:clamp(14px,1.4vw,20px);
+  text-align:left;
+  color:#fff8e9;
+  background:linear-gradient(145deg,#2f6449,#638c65);
+}
+body.home-page #main-content>#stories .owner-blog-topic-jumps>a:nth-child(2) .owner-blog-topic-art--letterpress{
+  background:linear-gradient(145deg,#214c46,#52827e);
+}
+body.home-page #main-content>#stories .owner-blog-topic-jumps>a:nth-child(3) .owner-blog-topic-art--letterpress{
+  background:linear-gradient(145deg,#736349,#a58b5a);
+}
+body.home-page #main-content>#stories .owner-blog-topic-jumps>a:nth-child(4) .owner-blog-topic-art--letterpress{
+  background:linear-gradient(145deg,#545e78,#8294ae);
+}
+body.home-page #main-content>#stories .owner-blog-topic-art--letterpress small{
+  display:block;
+  color:#efe1c4;
+  font:750 10px/1.5 'DM Sans',system-ui,sans-serif;
+  letter-spacing:.08em;
+}
+body.home-page #main-content>#stories .owner-blog-topic-art--letterpress strong{
+  display:block;
+  color:#fffefa;
+  font:700 clamp(16px,1.7vw,21px)/1.5 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.04em;
+  word-break:keep-all;
+}
+/* A portrait-like colophon, with the original hero illustration visible only in the real hero. */
+body.home-page #main-content>#doctor .doctor-gallery-art--letterpress .doctor-gallery-letterpress{
+  box-sizing:border-box;
+  width:100%;
+  min-height:clamp(215px,27vw,330px);
+  padding:clamp(26px,3.2vw,43px);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:clamp(12px,2vw,21px);
+  text-align:center;
+  position:relative;
+  color:#fdf5e6;
+  background:radial-gradient(circle at 80% 20%,rgba(227,205,151,.17),transparent 49%),linear-gradient(154deg,#2b5542,#193c2f);
+}
+body.home-page #main-content>#doctor .doctor-gallery-letterpress::before{
+  content:"";position:absolute;inset:12px;
+  border:1px solid rgba(223,202,157,.55);
+  border-radius:45% 45% 3px 3px;
+  pointer-events:none;
+}
+body.home-page #main-content>#doctor .doctor-gallery-letterpress small{
+  display:block;font:750 10px/1.5 system-ui,sans-serif;
+  letter-spacing:.16em;color:#e9d0a0;
+}
+body.home-page #main-content>#doctor .doctor-gallery-letterpress strong{
+  display:block;color:#fffbee;
+  font:700 clamp(29px,3.7vw,42px)/1.5 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.065em;
+}
+body.home-page #main-content>#doctor .doctor-gallery-letterpress>span{
+  display:block;color:#e2ebdb;font-size:14px;
+}
+/* New-arrival artwork titles are a curated reading menu, rather than 2 more repeated thumbnails. */
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--letterpress>a{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:clamp(9px,1.5vw,15px);
+  padding:clamp(17px,2.1vw,25px);
+  min-height:clamp(178px,18vw,233px);
+  background:linear-gradient(142deg,#315346,#547d66);
+  color:#fffdf4;
+  text-decoration:none;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--letterpress>a:nth-child(2){
+  background:linear-gradient(145deg,#795b4e,#af8b69);
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--letterpress>a small{
+  font:750 11px/1.5 system-ui,sans-serif;letter-spacing:.1em;color:#f2dfb8;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--letterpress>a strong{
+  font:700 clamp(19px,2.1vw,27px)/1.48 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.055em;color:#fffaf2;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--letterpress>a>span{
+  display:block;
+  border:0;background:none;margin:0;padding:0;
+  color:#f7eedc;font-size:12px;font-weight:700;line-height:1.7;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--letterpress>a:focus-visible{
+  outline:3px solid #a78048;outline-offset:4px;
+}
+/* An editorial cover for the doctor journal, not a second copy of a cat painting. */
+body.home-page #main-content>#stories .journal-gallery-cover__poster{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:clamp(14px,2.5vw,30px);
+  width:100%;
+  min-height:clamp(215px,28vw,330px);
+  padding:clamp(23px,3.3vw,46px);
+  color:#fff7e7;
+  background:radial-gradient(circle at 92% 8%,rgba(234,213,152,.24),transparent 51%),linear-gradient(145deg,#44664e,#1f4e3c);
+  position:relative;
+  overflow:hidden;
+  text-align:left;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__poster::before{
+  content:"";position:absolute;inset:12px;
+  border:1px solid rgba(229,207,156,.5);
+  pointer-events:none;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__poster small{
+  color:#e6c999;
+  font:750 11px/1.55 system-ui,sans-serif;
+  letter-spacing:.13em;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__poster strong{
+  color:#fffbed;
+  font:700 clamp(23px,2.85vw,37px)/1.55 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.045em;
+  word-break:keep-all;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__poster>span{
+  color:#e0eadb;
+  font:600 11px/1.55 system-ui,sans-serif;
+  letter-spacing:.1em;
+}
+/* Links below the full 509 titles become an exhibition reading room, rather than reusing the 2 pictures. */
+body.home-page .journal-art-break__works--letterpress>a{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:clamp(10px,1.4vw,16px);
+  min-height:clamp(160px,17vw,220px);
+  padding:clamp(17px,2vw,29px);
+  background:linear-gradient(140deg,#355f51,#5d8771);
+}
+body.home-page .journal-art-break__works--letterpress>a:nth-child(2){
+  background:linear-gradient(145deg,#44556b,#777c87);
+}
+body.home-page .journal-art-break__works--letterpress>a small{
+  font:750 10px/1.5 system-ui,sans-serif;letter-spacing:.13em;
+  color:#f1dcb3;
+}
+body.home-page .journal-art-break__works--letterpress>a strong{
+  font:700 clamp(17px,1.8vw,24px)/1.5 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  color:#fffbed;word-break:keep-all;
+}
+body.home-page .journal-art-break__works--letterpress>a>span{
+  border:0;
+  padding:0;margin:0;
+  font-size:13px;line-height:1.65;
+  font-weight:700;color:#fff7e6;
+}
+@media(max-width:700px){
+  body.home-page #main-content>#focus-care .focus-care-art-link--letterpress{
+    min-height:235px;padding:30px 25px;aspect-ratio:auto;
+  }
+  body.home-page #main-content>#focus-care .focus-care-art-link--letterpress>strong{font-size:clamp(25px,6.6vw,36px)}
+  body.home-page #main-content>#health-info .health-topic-art--letterpress{
+    min-height:96px;padding:12px 14px;
+  }
+  body.home-page #main-content>#stories .journal-gallery-cover__poster{min-height:205px}
+  body.home-page #main-content>#gallery .gallery-new-arrivals__previews--letterpress>a{min-height:145px}
+}
+@media(max-width:460px){
+  body.home-page #main-content>#stories .owner-blog-topic-jumps .owner-blog-topic-art--letterpress{
+    min-height:126px;gap:9px;padding:14px 11px;
+  }
+  body.home-page #main-content>#stories .owner-blog-topic-art--letterpress small{font-size:9px;letter-spacing:.025em}
+  body.home-page #main-content>#stories .owner-blog-topic-art--letterpress strong{font-size:16px}
+  body.home-page .journal-art-break__works--letterpress>a{min-height:140px}
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#stories .owner-blog-topic-art--letterpress,
+  body.home-page #main-content>#stories .journal-gallery-cover__poster,
+  body.home-page #main-content>#doctor .doctor-gallery-letterpress,
+  body.home-page #main-content>#gallery .gallery-new-arrivals__previews--letterpress>a,
+  body.home-page #main-content>#focus-care .focus-care-art-link--letterpress,
+  body.home-page .journal-art-break__works--letterpress>a{
+    background:Canvas;color:CanvasText;border:1px solid CanvasText;
+  }
+  body.home-page :is(.focus-care-art-link--letterpress,.owner-blog-topic-art--letterpress,.journal-gallery-cover__poster,.doctor-gallery-letterpress) :is(small,strong,span){color:CanvasText!important}
+}
+
