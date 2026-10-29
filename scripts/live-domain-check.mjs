@@ -1204,8 +1204,14 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        origin+'/assets/ejoeundental-hero-cat.webp',
        origin+'/assets/impressionist-water-garden.svg'
       ];
-      const indexedRootImages=Array.from({length:10},(_,i)=>
-       origin+'/assets/retreatment/illustration-'+String(i+1).padStart(2,'0')+'.webp');
+      // Read the actual approved 10 root-treatment illustrations from the
+      // built image sitemap. Images 02 and 03 were replaced with distinct
+      // clinical artwork, so fixed illustration-02.webp paths are outdated.
+      const sourceMapForRoot=readFileSync(new URL('../dist/sitemap.xml',import.meta.url),'utf8');
+      const rootBlock=sourceMapForRoot.split('<loc>'+origin+'/retreatment</loc>')[1]?.split('</url>')[0]||
+       sourceMapForRoot.split('<loc>'+origin+'/retreatment.html</loc>')[1]?.split('</url>')[0]||'';
+      const indexedRootImages=[...rootBlock.matchAll(/<image:image><image:loc>([^<]+)<\/image:loc><\/image:image>/g)]
+       .map(m=>m[1]);
       const indexedTopicImages=['implant','denture'].map(kind=>
        origin+'/assets/clinical-share/'+kind+'.png');
       const correctTopicImage=kind=>{
@@ -1214,7 +1220,7 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
         '/assets/clinical-share/'+kind+'.png</image:loc></image:image>');
       };
       // Google Image sitemap entries may repeat the same image on two
-      // relevant pages, such as the homepage and nine-picture gallery.
+      // relevant pages, such as the homepage and the expanded gallery.
       // Compare with the generated production sitemap rather than an old
       // magic number that incorrectly flags 16/14 after every art release.
       const publishedImageXml=readFileSync(new URL('../dist/sitemap.xml',import.meta.url),'utf8');
@@ -1246,16 +1252,23 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        expectedGallery.every((url,i)=>url===exhibitionUrls[i])&&
        liveGallery.length===expectedGallery.length&&
        expectedGallery.every((url,i)=>liveGallery[i]===url);
-      const imageMapReady=googleImageNamespace&&
-       imageLocs.length===expectedImageLocs.length&&
-       expectedImageLocs.every((url,i)=>imageLocs[i]===url)&&
-       galleryImageMapReady&&
-       [...indexedHeroImages,...indexedRootImages,...indexedTopicImages].every(url=>imageLocs.includes(url))&&
-       ['implant','denture'].every(kind=>dateDeployed(kind)&&correctTopicImage(kind))&&
-       dateDeployed('retreatment');
+      const imageMapParts={
+       namespace:googleImageNamespace,
+       totalImageCount:imageLocs.length===expectedImageLocs.length,
+       actualImageOrder:expectedImageLocs.every((url,i)=>imageLocs[i]===url),
+       gallery23:galleryImageMapReady,
+       rootCanal10:indexedRootImages.length===10&&new Set(indexedRootImages).size===10,
+       essentialImages:[...indexedHeroImages,...indexedRootImages,...indexedTopicImages]
+        .every(url=>imageLocs.includes(url)),
+       clinicalPages:['implant','denture'].every(kind=>dateDeployed(kind)&&correctTopicImage(kind)),
+       rootCanalRevision:dateDeployed('retreatment')
+      };
+      const imageMapReady=Object.values(imageMapParts).every(Boolean);
+      const imageMapFailureNames=Object.entries(imageMapParts).filter(([,ok])=>!ok)
+       .map(([key])=>key).join(', ');
       info.push(imageMapReady?
        'Google 이미지 사이트맵: 의료 설명 삽화·신경치료 10개·창작 갤러리 '+liveGallery.length+'점 실제 공개 확인 ('+imageLocs.length+'개 항목)':
-       'Google 이미지 사이트맵 확인 필요 (실제 '+imageLocs.length+'/'+expectedImageLocs.length+'개 · 갤러리 '+liveGallery.length+'/'+expectedGallery.length+' · 실제 전시 '+exhibitionUrls.length+'점)');
+       'Google 이미지 사이트맵 확인 필요 (실제 '+imageLocs.length+'/'+expectedImageLocs.length+'개 · 갤러리 '+liveGallery.length+'/'+expectedGallery.length+' · 실제 전시 '+exhibitionUrls.length+'점 · 검사 기준: '+imageMapFailureNames+')');
       info.push(dateDeployed('health/root-canal-retreatment-process')?
        'Google 재신경치료 과정 건강정보의 실제 수정일 게시 확인':
        'Google 재신경치료 과정 건강정보 최근 수정일 최신 배포 확인 필요');
