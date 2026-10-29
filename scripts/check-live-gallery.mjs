@@ -93,7 +93,7 @@ try{
   'patient-art-liver','patient-art-oncology','patient-art-medication',
   'patient-art-systemic','patient-art-child','patient-art-orthodontics',
   'patient-art-insurance'];
- const originalCount=(gallery.match(/<figure class="gallery-piece\\b/g)||[]).length;
+ const originalCount=(gallery.match(/<figure class="gallery-piece\b/g)||[]).length;
  const clinicalCount=(gallery.match(/class="gallery-note gallery-note--watercolor"/g)||[]).length;
  const studyCount=(gallery.match(/class="gallery-patient-studies__piece"/g)||[]).length;
  const zoomCount=(gallery.match(/class="gallery-zoom"/g)||[]).length;
@@ -109,16 +109,16 @@ try{
    '실사이트 원본 '+originalCount+'점 · 진료 수채화 '+clinicalCount+
    '점 · 건강정보 작품 '+studyCount+'점 · 확대 버튼 '+zoomCount+'개');
  good&&=idsOk;
- const imageElements=[...gallery.matchAll(/<figure class="gallery-piece\\b[^>]*>[\\s\\S]*?<\\/figure>/g),
-  ...gallery.matchAll(/<a class="gallery-note gallery-note--watercolor"[^>]*>[\\s\\S]*?<\\/a>/g),
-  ...gallery.matchAll(/<figure class="gallery-patient-studies__piece"[^>]*>[\\s\\S]*?<\\/figure>/g)]
-  .map(m=>m[0].match(/<img\\b[^>]*\\bsrc="([^"]+)"/)?.[1]);
+ const imageElements=[...gallery.matchAll(/<figure class="gallery-piece\b[^>]*>[\s\S]*?<\/figure>/g),
+  ...gallery.matchAll(/<a class="gallery-note gallery-note--watercolor"[^>]*>[\s\S]*?<\/a>/g),
+  ...gallery.matchAll(/<figure class="gallery-patient-studies__piece"[^>]*>[\s\S]*?<\/figure>/g)]
+  .map(m=>m[0].match(/<img\b[^>]*\bsrc="([^"]+)"/)?.[1]);
  const uniqueArt=imageElements.length===23&&
    imageElements.every(img=>img?.startsWith('/assets/'))&&new Set(imageElements).size===23;
  record('23점 원본 이미지 중복·연결 검사',uniqueArt,
    '실사이트 작품 이미지 '+imageElements.length+'개 · 고유 이미지 '+new Set(imageElements).size+'개');
  good&&=uniqueArt;
- const jsonBlocks=[...gallery.matchAll(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/g)];
+ const jsonBlocks=[...gallery.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
  const structured=jsonBlocks.map(m=>{try{return JSON.parse(m[1])}catch{return null}})
    .find(row=>row?.['@type']==='CollectionPage');
  const indexedArt=structured?.mainEntity?.associatedMedia||[];
@@ -131,8 +131,8 @@ try{
  // never mistaking a successful local build for a deployed image index.
  const sourceSitemap=readFileSync(new URL('../sitemap.xml',import.meta.url),'utf8');
  const galleryImages=xml=>{
-  const block=xml.match(/<url><loc>https:\\/\\/ejoeundental\\.com\\/gallery(?:\\.html)?<\\/loc>[\\s\\S]*?<\\/url>/)?.[0]||'';
-  return [...block.matchAll(/<image:loc>([^<]+)<\\/image:loc>/g)].map(m=>m[1]);
+  const block=xml.match(/<url><loc>https:\/\/ejoeundental\.com\/gallery(?:\.html)?<\/loc>[\s\S]*?<\/url>/)?.[0]||'';
+  return [...block.matchAll(/<image:loc>([^<]+)<\/image:loc>/g)].map(m=>m[1]);
  };
  const expectedGalleryImages=galleryImages(sourceSitemap);
  const sitemapResponse=await get('/sitemap.xml');
