@@ -600,3 +600,30 @@ test('patient clinic service pages expose consistent local search and social pre
  assert.ok(readFileSync(path.join(output,'pediatric-dentistry.html'),'utf8')
   .includes('청천동 어린이 치과진료·충치 예방 | 인천 부평 이조은치과'));
 });
+
+
+test('verified Oct 29 revision dates for updated dental patient guides reach published sitemap',()=>{
+ const source=readFileSync('sitemap.xml','utf8');
+ const published=readFileSync(path.join(output,'sitemap.xml'),'utf8');
+ // These patient guides were substantively updated on 2026-10-29.
+ // Do not rewrite unrelated timestamps merely because a build was run.
+ const revised=[
+  'pediatric-dentistry','pediatric-orthodontics',
+  'dental-insurance-faq','gum-treatment','tmj-care','wisdom-tooth',
+  'medical-safety-guide','medication-dental-faq','systemic-disease-dental-faq',
+  'root-canal-retreatment-faq','insured-care','gum-treatment-faq'
+ ];
+ const entries=xml=>[...xml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(m=>m[1]);
+ for(const slug of revised){
+  const page=slug+'.html';
+  assert.ok(existsSync(page),'edited patient guide source missing: '+slug);
+  for(const [kind,xml] of [['source',source],['published',published]]){
+   const blocks=entries(xml).filter(body=>body.includes('<loc>'+origin+'/'+(kind==='source'?page:slug)+'</loc>'));
+   assert.equal(blocks.length,1,kind+' must list exactly one '+slug+' URL');
+   assert.equal(blocks[0].match(/<lastmod>([^<]+)<\/lastmod>/)?.[1],'2026-10-29',
+    kind+' lastmod must match the actual substantive October 29 page revision: '+slug);
+  }
+ }
+ assert.ok(published.includes('https://ejoeundental.com/'),
+  'published index should keep the canonical custom domain');
+});
