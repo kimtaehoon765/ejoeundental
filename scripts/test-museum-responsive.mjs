@@ -604,7 +604,7 @@ test('homepage patient navigation links eight distinct existing care topics usin
   '/medical-safety-guide.html'
  ]);
  assert.equal(new Set(links.map(m=>m[1])).size,links.length,'no duplicate patient topic links');
- for(const [url,label] of links){
+ for(const [,url,label] of links){
   assert.ok(existsSync('dist'+url),'real linked care page missing: '+url);
   assert.ok(label.length>=10&&label.length<=65,'make clinic topic anchor concise, not generic');
  }
