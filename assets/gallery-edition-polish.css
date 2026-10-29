@@ -1514,3 +1514,283 @@ body.home-page #main-content>#doctor .doctor-gallery-art--original-art>p small{
   }
 }
 
+
+
+/* Gallery rooms XVI / October 30, 2026.
+ * One more substantial visual pass, not another downloaded painting or CSS file.
+ * The existing original images, clinical content and all booking links survive.
+ * Dark exhibition-room wall contrasts with the warm, readable paper hero.
+ */
+body.home-page #main-content>.hero.wrap{
+  border-top-color:#987544;
+  background:
+    radial-gradient(circle at 94% 9%,rgba(178,151,100,.19),transparent 41%),
+    radial-gradient(circle at 4% 98%,rgba(175,206,182,.13),transparent 40%),
+    linear-gradient(155deg,#fffdf8 0%,#f8f4ea 100%);
+}
+body.home-page #main-content>.hero.wrap #headline{
+  color:#193c2d;
+  font-weight:700;
+  text-wrap:balance;
+}
+body.home-page #main-content>.hero.wrap .hero-care-summary{
+  counter-reset:gallery-care;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:stretch;
+  gap:10px;
+}
+body.home-page #main-content>.hero.wrap .hero-care-summary>a{
+  counter-increment:gallery-care;
+  display:grid;
+  grid-template-columns:27px minmax(0,1fr);
+  column-gap:13px;
+  align-items:center;
+  min-width:0;
+  min-height:76px;
+  padding:14px 17px;
+  border:1px solid #d7cfbe;
+  border-left:3px solid #9c8454;
+  border-radius:3px 12px 3px 12px;
+  background:linear-gradient(150deg,#fffefa,#f7f4ea);
+  color:#244735;
+  box-shadow:0 8px 20px rgba(31,54,40,.045);
+  font-weight:650;
+  font-size:clamp(13px,1.12vw,15px);
+  line-height:1.68;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+  text-decoration:none;
+}
+body.home-page #main-content>.hero.wrap .hero-care-summary>a::before{
+  content:counter(gallery-care,decimal-leading-zero);
+  color:#92784c;
+  font:600 13px/1 Georgia,serif;
+  letter-spacing:.02em;
+  border-right:1px solid #d8cdb5;
+  padding:6px 8px 6px 0;
+}
+body.home-page #main-content>.hero.wrap .hero-care-summary>a:hover{
+  background:#f2f2e8;
+  border-color:#a78c5b;
+  box-shadow:0 12px 26px rgba(30,55,39,.095);
+}
+body.home-page #main-content>.hero.wrap .hero-care-summary>a:focus-visible,
+body.home-page #main-content>.curated-threshold a:focus-visible{
+  outline:3px solid #d6af66;
+  outline-offset:4px;
+}
+body.home-page #main-content>.hero.wrap .hero-care-summary>.hero-more-care{
+  grid-column:1 / -1;
+  min-width:0;
+}
+body.home-page #main-content>.hero.wrap .hero-care-summary>.hero-more-care>summary{
+  min-height:48px;
+  padding:12px 17px;
+  border:1px solid #ddd5c2;
+  border-radius:3px 9px 3px 9px;
+  background:#f6f4ec;
+  color:#28513d;
+  font-size:13px;
+  font-weight:750;
+}
+body.home-page #main-content>.hero.wrap .hero-care-summary .hero-more-care-links{
+  min-width:0;
+}
+body.home-page #main-content>.hero.wrap .hero-care-summary .hero-more-care-links>a{
+  line-height:1.65;
+}
+
+/* Real gallery ambience without repeating any artwork.
+ * Existing 3-piece wall keeps its asymmetric desktop mosaic and mobile swipe.
+ */
+body.home-page #main-content>.curated-threshold{
+  color:#fff8e9;
+  border:1px solid #947d54;
+  border-top:4px solid #c7a877;
+  background:
+    radial-gradient(ellipse at 89% 6%,rgba(197,166,102,.16),transparent 52%),
+    radial-gradient(ellipse at 1% 100%,rgba(125,169,131,.19),transparent 45%),
+    linear-gradient(128deg,#17362c 0%,#234737 54%,#153329 100%);
+  box-shadow:0 26px 60px rgba(18,51,36,.16);
+}
+body.home-page #main-content>.curated-threshold::before{
+  border-color:rgba(217,184,126,.36);
+}
+body.home-page .curated-threshold__eyebrow{
+  color:#e2c99b;
+  font-size:11px;
+  letter-spacing:.17em;
+}
+body.home-page .curated-threshold__eyebrow::before{
+  background:#e0c18b;
+}
+body.home-page #main-content .curated-threshold__intro h2{
+  color:#fff5e5;
+  font-size:clamp(23px,2.55vw,35px);
+  line-height:1.45;
+  letter-spacing:-.055em;
+}
+body.home-page .curated-threshold__intro>p:not(.curated-threshold__eyebrow){
+  color:#e0e8dc;
+  line-height:1.9;
+  max-width:35ch;
+}
+body.home-page .curated-threshold__all{
+  justify-content:center;
+  margin-top:12px;
+  min-height:47px;
+  padding:10px 16px;
+  border:1px solid #d4b47c;
+  background:rgba(255,250,235,.075);
+  border-radius:2px;
+  color:#fff0c9;
+  text-decoration:none;
+  font-weight:750;
+  text-align:center;
+  transition:background-color .18s ease,color .18s ease;
+}
+body.home-page .curated-threshold__all:hover{
+  background:#e6d3aa;
+  color:#1f4333;
+}
+body.home-page .curated-threshold__piece{
+  border:1px solid #c7ad80;
+  border-radius:2px;
+  background:#f6f0e4;
+  box-shadow:0 18px 32px rgba(3,18,13,.24);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+body.home-page .curated-threshold__frame{
+  background:#e9dfc8;
+  border-color:#b89f72;
+}
+body.home-page .curated-threshold__piece:first-child .curated-threshold__frame{
+  background:#eee5d2;
+}
+body.home-page .curated-threshold__caption,
+body.home-page .curated-threshold__piece:first-child .curated-threshold__caption{
+  border-top:1px solid #cfbc99;
+  background:#fff9ec;
+  color:#284735;
+}
+body.home-page .curated-threshold__caption :is(strong,span){
+  color:#254534;
+}
+body.home-page .curated-threshold__number{
+  color:#8a7044!important;
+  letter-spacing:.14em;
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  body.home-page .curated-threshold__piece:hover{
+    transform:translateY(-4px);
+    box-shadow:0 22px 39px rgba(3,18,13,.3);
+  }
+}
+body.home-page #main-content>.museum-route{
+  border-color:#d9c6a3;
+  box-shadow:0 8px 27px rgba(35,56,39,.04);
+}
+body.home-page .museum-route__links>a{
+  min-height:72px;
+  border-left:2px solid #bba477;
+}
+body.home-page .museum-route__links>a:focus-visible{
+  outline:3px solid #9a7a46;
+  outline-offset:3px;
+}
+@media(min-width:761px){
+  body.home-page #main-content>.curated-threshold{
+    grid-template-columns:minmax(215px,.78fr) minmax(0,2fr);
+    gap:clamp(20px,3.6vw,53px);
+    padding:clamp(24px,3.35vw,43px);
+  }
+}
+@media(max-width:760px){
+  body.home-page #main-content>.hero.wrap .hero-care-summary{
+    grid-template-columns:minmax(0,1fr);
+    gap:8px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-care-summary>a{
+    min-height:61px;
+    padding:10px 13px;
+    font-size:13.5px;
+    grid-template-columns:22px minmax(0,1fr);
+    gap:10px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-care-summary>a::before{
+    font-size:12px;
+    padding-right:5px;
+  }
+  body.home-page #main-content>.curated-threshold{
+    padding:clamp(21px,4vw,33px);
+  }
+  body.home-page #main-content .curated-threshold__intro h2{
+    font-size:clamp(23px,6vw,31px);
+  }
+}
+@media(max-width:600px){
+  body.home-page #main-content>.hero.wrap{
+    padding:20px 16px 24px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-care-summary>a{
+    min-height:59px;
+    font-size:13px;
+  }
+  body.home-page #main-content>.curated-threshold{
+    width:calc(100% - 24px);
+    box-sizing:border-box;
+    padding:22px 14px 24px;
+    border-top-width:3px;
+    box-shadow:0 16px 36px rgba(18,51,36,.14);
+  }
+  body.home-page .curated-threshold__intro{
+    padding:0 7px;
+  }
+  body.home-page .curated-threshold__works{
+    scroll-padding-inline:10px;
+  }
+  body.home-page .curated-threshold__piece{
+    box-shadow:0 9px 22px rgba(3,18,13,.19);
+  }
+  body.home-page #main-content>.museum-route{
+    width:calc(100% - 24px);
+    box-sizing:border-box;
+    margin-top:17px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.home-page .curated-threshold__piece,
+  body.home-page .curated-threshold__all{
+    transition:none;
+    transform:none;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>.curated-threshold,
+  body.home-page .curated-threshold__piece,
+  body.home-page .curated-threshold__frame,
+  body.home-page .curated-threshold__caption,
+  body.home-page #main-content>.hero.wrap .hero-care-summary>a,
+  body.home-page .curated-threshold__all{
+    color:CanvasText;
+    background:Canvas;
+    border:1px solid CanvasText;
+    box-shadow:none;
+  }
+  body.home-page .curated-threshold__intro :is(h2,p,a),
+  body.home-page .curated-threshold__caption :is(span,strong){
+    color:CanvasText;
+  }
+}
+@media print{
+  body.home-page #main-content>.curated-threshold{
+    background:#fff;
+    color:#111;
+    box-shadow:none;
+    border:1px solid #777;
+  }
+  body.home-page .curated-threshold__intro :is(h2,p,a){
+    color:#111;
+  }
+}
