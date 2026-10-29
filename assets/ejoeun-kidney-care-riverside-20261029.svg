@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="art-title art-desc">
+<title id="art-title">이조은치과 · 물가의 진료 준비 서재</title>
+<desc id="art-desc">차분한 청록빛 강변과 아치형 창, 투석 일정 확인을 상징하는 달력과 진료 준비 노트, 꽃병, 복슬복슬한 하얀 고양이를 담은 창작 풍경화. 의학적 진단 그림이 아니다.</desc>
+<defs>
+<linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7f2e5"/><stop offset=".55" stop-color="#f1eedf"/><stop offset="1" stop-color="#e2e9de"/></linearGradient>
+<linearGradient id="sky" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#dbece5"/><stop offset=".58" stop-color="#f2f1d9"/><stop offset="1" stop-color="#d0e1d7"/></linearGradient>
+<linearGradient id="river" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#89b9b3"/><stop offset=".5" stop-color="#accbc2"/><stop offset="1" stop-color="#527e79"/></linearGradient>
+<linearGradient id="desk" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#b48f68"/><stop offset="1" stop-color="#705b46"/></linearGradient>
+<linearGradient id="vase" x1="0" y1="0" x2="1" y2=".9"><stop stop-color="#7cafa7"/><stop offset=".5" stop-color="#d7e7dd"/><stop offset="1" stop-color="#5b8b85"/></linearGradient>
+<radialGradient id="sun"><stop stop-color="#fff8dc" stop-opacity=".95"/><stop offset="1" stop-color="#fff8dc" stop-opacity="0"/></radialGradient>
+<filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="9"/></filter>
+<clipPath id="arch"><path d="M85 600V290C85 145 206 100 333 100S575 145 575 290V600Z"/></clipPath>
+<pattern id="grain" width="80" height="80" patternUnits="userSpaceOnUse"><circle cx="13" cy="21" r="1.1" fill="#9c9277" opacity=".2"/><circle cx="45" cy="63" r=".9" fill="#607b72" opacity=".2"/><circle cx="67" cy="32" r="1.1" fill="#99876a" opacity=".14"/></pattern>
+</defs>
+<rect width="1200" height="720" fill="#e0e8e0"/>
+<rect x="21" y="21" width="1158" height="678" rx="12" fill="url(#paper)" stroke="#b5ab8b" stroke-width="3"/>
+<rect x="37" y="37" width="1126" height="646" rx="8" fill="none" stroke="#c4b99d" stroke-width="1.8"/>
+<rect x="51" y="50" width="1098" height="620" rx="8" fill="url(#grain)"/>
+<text x="70" y="77" fill="#46685e" font-size="25" font-weight="700" letter-spacing="1" font-family="'Malgun Gothic','Apple SD Gothic Neo',sans-serif">이조은치과</text>
+<text x="1093" y="78" text-anchor="end" fill="#8d856c" font-size="16" letter-spacing="5" font-family="Georgia,serif">ATELIER · 2026</text>
+<g clip-path="url(#arch)">
+<rect x="82" y="98" width="495" height="506" fill="url(#sky)"/>
+<circle cx="380" cy="254" r="190" fill="url(#sun)"/>
+<path d="M60 415Q175 342 284 384T600 373V607H60Z" fill="#b7c9ab"/>
+<path d="M60 472Q204 375 336 427T615 414V610H60Z" fill="#8fb2a6"/>
+<path d="M58 541Q173 468 283 501T614 464V650H58Z" fill="url(#river)"/>
+<path d="M65 535Q216 493 338 537T620 507" stroke="#e1eee1" stroke-width="13" opacity=".47" fill="none"/>
+<path d="M82 565Q188 542 286 577T570 554" stroke="#d8ebd9" stroke-width="4" opacity=".65" fill="none"/>
+<path d="M84 385Q148 313 191 331T284 367" stroke="#7c9f8a" stroke-width="17" opacity=".4" fill="none"/>
+<path d="M92 474Q151 410 177 386M105 498Q146 450 159 410" fill="none" stroke="#537a68" stroke-width="9" stroke-linecap="round"/>
+<g fill="#779b82" opacity=".9"><ellipse cx="158" cy="427" rx="25" ry="9" transform="rotate(-35 158 427)"/><ellipse cx="183" cy="397" rx="23" ry="9" transform="rotate(35 183 397)"/><ellipse cx="124" cy="457" rx="27" ry="10" transform="rotate(-20 124 457)"/><ellipse cx="148" cy="473" rx="20" ry="8" transform="rotate(43 148 473)"/></g>
+<g fill="#e7ecdc" opacity=".65"><ellipse cx="247" cy="190" rx="74" ry="15"/><ellipse cx="301" cy="202" rx="51" ry="12"/></g>
+<g fill="#567d70"><ellipse cx="210" cy="570" rx="47" ry="8" transform="rotate(13 210 570)"/><ellipse cx="378" cy="567" rx="52" ry="9" transform="rotate(-12 378 567)"/></g>
+<g fill="#e7e2c7"><ellipse cx="232" cy="558" rx="17" ry="8"/><ellipse cx="398" cy="552" rx="14" ry="6"/></g>
+<g stroke="#7c9a7b" fill="none" stroke-width="4"><path d="M242 565Q252 518 263 503"/><path d="M394 558Q385 510 373 494"/></g>
+<g fill="#ede3c1"><path d="M252 520Q220 499 234 479Q260 474 270 508Z"/><path d="M265 517Q264 483 281 479Q303 500 272 526Z"/><path d="M365 516Q344 491 357 481Q378 482 385 510Z"/></g>
+</g>
+<path d="M85 600V290C85 145 206 100 333 100S575 145 575 290V600" fill="none" stroke="#c4b28c" stroke-width="19"/>
+<path d="M88 600V291C88 156 210 113 333 113S572 156 572 291V600" fill="none" stroke="#f9f4e7" stroke-width="7"/>
+<path d="M330 114V598M92 327H571" fill="none" stroke="#c4b28c" stroke-width="12" opacity=".95"/>
+<path d="M82 600H575" fill="none" stroke="#9f8d69" stroke-width="25"/>
+<path d="M61 611H607" fill="none" stroke="#eee4d1" stroke-width="16"/>
+<path d="M603 147Q646 108 703 151T821 151" stroke="#cbbd9c" stroke-width="2.5" fill="none" opacity=".7"/>
+<g transform="translate(682 155)">
+<rect x="0" y="0" width="384" height="348" rx="13" fill="#e5e5d6" stroke="#b9bca6" stroke-width="3"/>
+<rect x="15" y="18" width="354" height="310" rx="7" fill="#fbf9ec" stroke="#d8d5c5"/>
+<path d="M15 87H369" stroke="#d4dbc8" stroke-width="2"/>
+<text x="42" y="61" fill="#607c6b" font-size="25" font-family="Georgia,serif" letter-spacing="3">CARE NOTES</text>
+<g fill="none" stroke="#a8bea9" stroke-width="5" stroke-linecap="round"><path d="M47 128H284M47 166H328M47 204H268M47 242H326M47 280H250"/></g>
+<g stroke="#a98c67" stroke-width="5" stroke-linecap="round"><path d="M317 122l14 13 23-30"/><path d="M317 199l14 13 23-30"/><path d="M317 274l14 13 23-30"/></g>
+</g>
+<path d="M624 521H1117" stroke="#c1a583" stroke-width="15" stroke-linecap="round"/>
+<path d="M631 529H1109V614H631Z" fill="url(#desk)"/>
+<path d="M631 614H1109V635H631Z" fill="#765a48"/>
+<g transform="translate(755 460)">
+<rect x="-15" y="16" width="143" height="65" rx="6" fill="#fffdf5" stroke="#9aa79c" stroke-width="3"/>
+<rect x="2" y="-20" width="112" height="95" rx="9" fill="#f4ecdf" stroke="#a18f73" stroke-width="4"/>
+<path d="M10 10H105" stroke="#d5c7aa" stroke-width="3"/>
+<g fill="#a9bfae"><rect x="19" y="26" width="15" height="13" rx="2"/><rect x="42" y="26" width="15" height="13" rx="2"/><rect x="66" y="26" width="15" height="13" rx="2"/><rect x="90" y="26" width="10" height="13" rx="2"/><rect x="19" y="48" width="15" height="12" rx="2"/><rect x="42" y="48" width="15" height="12" rx="2"/><rect x="66" y="48" width="15" height="12" rx="2"/></g>
+<circle cx="73" cy="54" r="16" fill="none" stroke="#aa8366" stroke-width="4"/>
+<path d="M25 -26V-15M87 -26V-15" stroke="#8a8870" stroke-width="7" stroke-linecap="round"/>
+</g>
+<g transform="translate(1000 411)">
+<ellipse cx="19" cy="109" rx="57" ry="10" fill="#564d42" opacity=".17" filter="url(#shadow)"/>
+<path d="M-20 33Q-13 64-22 91Q-20 126 21 127Q59 124 58 92L44 33Z" fill="url(#vase)" stroke="#709a90" stroke-width="3"/>
+<path d="M-19 35Q11 48 44 35" fill="none" stroke="#f4f5e5" stroke-width="6" opacity=".5"/>
+<g stroke="#668778" fill="none" stroke-width="4"><path d="M13 37Q-2-64-40-106"/><path d="M18 36Q47-56 85-100"/><path d="M20 36Q12-73 28-125"/></g>
+<g fill="#8da995"><ellipse cx="-13" cy="-37" rx="24" ry="8" transform="rotate(42 -13 -37)"/><ellipse cx="57" cy="-39" rx="24" ry="8" transform="rotate(-47 57 -39)"/><ellipse cx="6" cy="-71" rx="27" ry="9" transform="rotate(30 6 -71)"/></g>
+<g fill="#f1d1a8" stroke="#dbbb96" stroke-width="2"><circle cx="-43" cy="-106" r="21"/><circle cx="86" cy="-103" r="18"/><circle cx="30" cy="-123" r="20"/></g>
+<g fill="#fff4d7"><circle cx="-43" cy="-106" r="8"/><circle cx="86" cy="-103" r="7"/><circle cx="30" cy="-123" r="8"/></g>
+</g>
+<g transform="translate(573 515)">
+<ellipse cx="44" cy="116" rx="109" ry="19" fill="#554a38" opacity=".18" filter="url(#shadow)"/>
+<path d="M84 93Q153 54 132-20Q117-52 95-29" fill="none" stroke="#d7d9d1" stroke-width="39" stroke-linecap="round"/>
+<path d="M84 93Q149 46 132-20" fill="none" stroke="#fafaf2" stroke-width="26" stroke-linecap="round"/>
+<ellipse cx="24" cy="54" rx="80" ry="75" fill="#fffdf6" stroke="#d8ded6" stroke-width="4"/>
+<g fill="#fffdf6" stroke="#d9ded7" stroke-width="3"><circle cx="-40" cy="33" r="29"/><circle cx="-32" cy="87" r="28"/><circle cx="79" cy="30" r="23"/><circle cx="75" cy="86" r="25"/></g>
+<path d="M-27-25L-34-91L6-65Q30-81 48-67L81-89L72-22Z" fill="#fffdf6" stroke="#d9ded7" stroke-width="4"/>
+<path d="M-23-32L-24-73L-1-56M56-52L74-72L69-30" fill="#f1d2cc"/>
+<ellipse cx="27" cy="-15" rx="62" ry="54" fill="#fffdf7" stroke="#d8ded7" stroke-width="3"/>
+<ellipse cx="6" cy="-18" rx="4.5" ry="6" fill="#556760"/><ellipse cx="48" cy="-18" rx="4.5" ry="6" fill="#556760"/>
+<path d="M23 1l8 0-4 7Z" fill="#c98f8d"/>
+<path d="M27 9q-9 10-18 2m18-2q9 10 18 2" stroke="#a7aeaa" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+<g stroke="#aab6b1" stroke-width="2" stroke-linecap="round"><path d="M8 9l-35-8M8 16l-36 11M47 9l33-10M47 16l36 10"/></g>
+<g fill="#fffef9"><ellipse cx="-18" cy="118" rx="28" ry="16"/><ellipse cx="67" cy="119" rx="26" ry="16"/></g>
+</g>
+<path d="M70 647H1126" stroke="#c0ae8d" stroke-width="2"/>
+<text x="1103" y="669" text-anchor="end" fill="#789086" font-family="Georgia,serif" font-style="italic" font-size="19" letter-spacing="1.5">A quiet moment before care</text>
+</svg>
