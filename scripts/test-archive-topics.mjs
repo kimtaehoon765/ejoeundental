@@ -241,10 +241,11 @@ test('homepage topic shortcuts open real original-blog archive categories in one
  matches.forEach(([,id,markup],i)=>{
   assert.match(archive,new RegExp('<details[^>]*id="'+id+'"'),
    labels[i]+' must land on a real original-blog topic');
-  assert.ok(markup.includes('<span class="owner-blog-topic-label">'+labels[i]+'</span>'),
-   'topic label should remain readable: '+labels[i]);
-  assert.match(markup,/<img\b[^>]*loading="lazy"[^>]*alt="">/,
-   'original art should load lazily and be decorative to screen readers');
+  const readableLabel=markup.match(/<span class="owner-blog-topic-label"><strong>([^<]+)<\/strong><small>([^<]+)<\/small><\/span>/);
+  assert.ok(readableLabel,'topic label and explanatory description should be visible: '+labels[i]);
+  assert.ok(readableLabel[1]&&readableLabel[2],'topic heading and navigation meaning must not be blank');
+  assert.ok(markup.includes('class="owner-blog-topic-art owner-blog-topic-art--letterpress"'),
+   'new letterpress art should use readable first-party text rather than extra downloaded thumbnails');
  });
  assert.match(css,/#stories \.owner-blog-topic-jumps a\{[^}]*min-height:44px/,
   'desktop links remain keyboard and touch accessible');
