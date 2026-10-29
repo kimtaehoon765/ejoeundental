@@ -108,29 +108,22 @@ test('six illustrated patient education cards retain all topics and links',()=>{
 });
 
 
-test('illustrated original-blog topic shortcuts keep 509 indexed originals and mobile readability',()=>{
+test('letterpress original-blog shortcuts keep 509 indexed originals and mobile readability',()=>{
  const stories=home.match(/<section class="section light" id="stories">([\s\S]*?)<\/section>/)?.[1]||'';
  const nav=stories.match(/<nav class="owner-blog-topic-jumps" aria-label="[^"]+">([\s\S]*?)<\/nav>/)?.[1]||'';
  const links=[...nav.matchAll(/<a href="\/clinical-archive\.html#(archive-group-[a-z]+)">([\s\S]*?)<\/a>/g)];
  assert.deepEqual(links.map(m=>m[1]),[
   'archive-group-gum','archive-group-root','archive-group-ethics','archive-group-other'
  ]);
- assert.deepEqual(links.map(m=>m[2].match(/<span class="owner-blog-topic-label">([^<]+)<\/span>/)?.[1]),[
-  '잇몸치료·스케일링 원문 →',
-  '신경치료·재신경치료 원문 →',
-  '치과 선택·진료 원칙 원문 →',
-  '충치·시린 이 등 원문 →'
+ assert.deepEqual(links.map(m=>m[2].match(/<span class="owner-blog-topic-label"><strong>([^<]+)<\/strong>/)?.[1]),[
+  '잇몸치료·스케일링','신경치료·재신경치료','치과 선택·진료 원칙','충치·시린 이 등'
  ]);
- const expectedArt=[
-  '/assets/care-illustration-scaling.svg',
-  '/assets/retreatment/illustration-02.webp',
-  '/assets/ejoeundental-hero-cat.webp',
-  '/assets/care-illustration-abrasion.svg'
- ];
- links.forEach((m,i)=>{
-  assert.ok(m[2].includes('src="'+expectedArt[i]+'"'));
-  assert.match(m[2],/<img\b[^>]*loading="lazy" decoding="async" alt="">/);
- });
+ for(const m of links){
+  assert.ok(m[2].includes('class="owner-blog-topic-art owner-blog-topic-art--letterpress"'),
+   'the currently published illustrated link should be a small text-only letterpress card');
+  assert.ok(m[2].includes('<span class="owner-blog-topic-label"><strong>'));
+  assert.ok(m[2].includes('<small>'),'each category should have a meaningful description');
+ }
  assert.equal((stories.match(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)||[]).length,509);
  assert.match(atelier,/Atelier edition XIII · Illustrated story navigation/);
  assert.match(atelier,/grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
