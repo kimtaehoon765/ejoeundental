@@ -1,0 +1,89 @@
+/* 2026-10-29 · Core treatment FAQ editorial polish.
+   Scoped to the two original clinic pages; preserve their Q&A, image assets, structured data, and booking controls. */
+body.core-faq-refined{
+  --core-ink:#244c3a;
+  --core-forest:#2a6045;
+  --core-line:#d5e1d5;
+  color:var(--core-ink);
+  background:radial-gradient(ellipse at 92% 4%,rgba(187,211,192,.3),transparent 37%),#f8f9f3;
+  -webkit-font-smoothing:antialiased;
+}
+body.core-faq-refined :is(header,main,footer){box-sizing:border-box;max-width:970px}
+body.core-faq-refined header{padding:clamp(19px,3.2vw,32px) clamp(16px,3.7vw,37px) 15px}
+body.core-faq-refined header>a{display:inline-flex;align-items:center;min-height:44px;font-size:14px;font-weight:750;text-decoration:none}
+body.core-faq-refined header>h1{
+  font:700 clamp(30px,4.3vw,44px)/1.42 'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  letter-spacing:-.045em;color:#24513a;margin:14px 0 16px;word-break:keep-all;text-wrap:balance;
+}
+body.core-faq-refined header>p{font-size:clamp(15px,1.7vw,17px);max-width:790px;color:#51695b;line-height:1.85;word-break:keep-all}
+body.core-faq-refined main{
+  width:calc(100% - 32px);margin:0 auto 32px;padding:clamp(20px,3.8vw,39px);
+  border:1px solid #d9e4d8;border-top:4px solid #86a98b;border-radius:16px;
+  background:#fffefa;box-shadow:0 17px 44px rgba(32,62,43,.065);
+}
+body.core-faq-refined .faq-care-authority{
+  background:#edf5ec!important;border-left-color:#739c7d!important;
+  color:#355b47;word-break:keep-all;
+}
+body.core-faq-refined :is(.gum-faq-greenhouse,.retx-journey){margin-top:21px}
+body.core-faq-refined .core-faq-connections{
+  margin:0 0 24px;padding:18px 19px 20px;
+  border:1px solid #d8e4d6;border-top:3px solid #b9a375;
+  border-radius:12px;background:linear-gradient(115deg,#f1f7ef,#fbf9ef);
+}
+body.core-faq-refined .core-faq-connections h2{
+  margin:0 0 8px;color:#28553d;font:700 clamp(19px,2.6vw,23px)/1.5 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.035em;word-break:keep-all;
+}
+body.core-faq-refined .core-faq-connections p{
+  margin:0 0 14px;font-size:14px;line-height:1.78;color:#466555;word-break:keep-all;
+}
+body.core-faq-refined .core-faq-connections>div{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;
+}
+body.core-faq-refined .core-faq-connections a{
+  display:flex;align-items:center;justify-content:center;box-sizing:border-box;
+  min-width:0;min-height:50px;padding:11px 10px;text-align:center;
+  border:1px solid #c9dacb;border-radius:9px;background:#fffefa;
+  font-size:14px;line-height:1.55;font-weight:750;color:#275a40;text-decoration:none;word-break:keep-all;
+}
+body.core-faq-refined .core-faq-connections a:hover{
+  background:#eaf3e8;border-color:#87a78e;
+}
+body.core-faq-refined main>.card{
+  padding:clamp(18px,2.7vw,25px);margin:15px 0;
+  border:1px solid #d8e4d7;border-top:3px solid #b0c8b1;border-radius:13px;
+  background:#fffefa;box-shadow:0 6px 20px rgba(29,63,43,.03);
+}
+body.core-faq-refined main>.card h2{
+  color:#25533b;font:700 clamp(18px,2.6vw,22px)/1.5 'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  letter-spacing:-.03em;word-break:keep-all;
+}
+body.core-faq-refined main>.card p{line-height:1.85;font-size:16px;word-break:keep-all}
+body.core-faq-refined .notice{border-radius:9px;padding:17px 19px}
+body.core-faq-refined :is(a,summary,button):focus-visible{outline:3px solid #a6834a;outline-offset:3px}
+@media(max-width:760px){
+ body.core-faq-refined main{width:calc(100% - 20px);padding:21px 17px}
+ body.core-faq-refined .core-faq-connections>div{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:530px){
+ body.core-faq-refined header{padding:17px 16px 10px}
+ body.core-faq-refined header>h1{font-size:clamp(27px,7.3vw,35px)}
+ body.core-faq-refined main{padding:18px 12px;border-radius:12px}
+ body.core-faq-refined .core-faq-connections{padding:15px 12px 16px}
+ body.core-faq-refined .core-faq-connections>div{grid-template-columns:minmax(0,1fr);gap:7px}
+ body.core-faq-refined .core-faq-connections a{min-height:49px;padding:10px 11px}
+ body.core-faq-refined main>.card{padding:18px 15px}
+ body.core-faq-refined main>.card p{font-size:15px}
+}
+@media print{
+ body.core-faq-refined{background:#fff;color:#000}
+ body.core-faq-refined main{width:100%;padding:0;border:0;box-shadow:none;background:#fff}
+ body.core-faq-refined .core-faq-connections{display:none!important}
+ body.core-faq-refined main>.card{break-inside:avoid;box-shadow:none}
+}
+@media(forced-colors:active){
+ body.core-faq-refined .core-faq-connections,
+ body.core-faq-refined .core-faq-connections a,
+ body.core-faq-refined main>.card{background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none}
+}
