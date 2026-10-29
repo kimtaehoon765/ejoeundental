@@ -1,0 +1,129 @@
+/* 이조은치과 | 진료 수채화 컬렉션 · 2026-10-29
+   The nine landscape paintings remain intact. These three clinician-linked
+   watercolor images are displayed separately, with uncropped artwork. */
+#education.gallery-education{
+  padding-top:clamp(47px,5.5vw,74px);
+  padding-bottom:clamp(49px,6vw,78px);
+  background:
+    radial-gradient(ellipse at 0% 0%,rgba(234,211,176,.28),transparent 43%),
+    linear-gradient(148deg,#f3eee3,#fbfaf5 47%,#eff3e9);
+  border-top:1px solid #d6ceb9;
+}
+#education .gallery-section-intro{
+  margin-bottom:clamp(24px,3vw,36px);
+}
+#education .gallery-section-intro h2{
+  color:#204b38;
+  font-weight:700;
+  text-wrap:balance;
+}
+#education .gallery-section-intro>p:last-child{
+  max-width:68ch;
+  margin:0 auto;
+  color:#4b6153;
+  line-height:1.9;
+  word-break:keep-all;
+}
+#education .gallery-education-grid{
+  gap:clamp(13px,1.8vw,22px);
+  align-items:stretch;
+}
+#education .gallery-note--watercolor{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  overflow:hidden;
+  border:1px solid #d2c5a9;
+  border-top:2px solid #b09a72;
+  border-radius:3px 13px 3px 13px;
+  background:#fffdf8;
+  box-shadow:0 14px 32px rgba(28,54,39,.075);
+  transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease;
+}
+#education .gallery-note--watercolor>img{
+  display:block;
+  box-sizing:border-box;
+  height:auto;
+  width:100%;
+  aspect-ratio:3 / 2;
+  padding:clamp(7px,.8vw,10px);
+  object-fit:contain;
+  object-position:center;
+  border-bottom:1px solid #d8cdb8;
+  background:#eee5d5;
+}
+#education .gallery-note--watercolor>span{
+  display:flex;
+  flex-direction:column;
+  flex:1;
+  gap:8px;
+  padding:clamp(16px,1.7vw,22px);
+  word-break:keep-all;
+}
+#education .gallery-note--watercolor small{
+  font-size:11px;
+  font-weight:750;
+  line-height:1.6;
+  letter-spacing:.02em;
+  color:#8a724b;
+}
+#education .gallery-note--watercolor strong{
+  color:#234c39;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(18px,1.7vw,23px);
+  font-weight:700;
+  line-height:1.5;
+}
+#education .gallery-note--watercolor>span>span{
+  margin-top:auto;
+  color:#315c44;
+  font-size:14px;
+  font-weight:700;
+  line-height:1.75;
+}
+#education .gallery-education__disclaimer{
+  max-width:960px;
+  margin:23px auto 0;
+  padding:12px 17px;
+  border:1px solid #ded6c7;
+  border-left:3px solid #b1996c;
+  border-radius:3px 9px 3px 9px;
+  background:rgba(255,254,249,.82);
+  color:#53675b;
+  font-size:13px;
+  line-height:1.85;
+  word-break:keep-all;
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  #education .gallery-note--watercolor:hover{
+    transform:translateY(-3px);
+    border-color:#a68b5d;
+    box-shadow:0 19px 36px rgba(28,54,39,.12);
+  }
+}
+@media(max-width:650px){
+  #education.gallery-education{padding:35px 14px 47px}
+  #education .gallery-education-grid{grid-template-columns:minmax(0,1fr);gap:14px}
+  #education .gallery-note--watercolor>img{
+    width:100%;
+    height:auto;
+    padding:7px;
+  }
+  #education .gallery-note--watercolor>span{padding:15px 16px 18px;gap:7px}
+  #education .gallery-note--watercolor strong{font-size:19px}
+  #education .gallery-education__disclaimer{padding:12px 13px;margin-top:17px}
+  .gallery-hero-actions>a{min-height:48px}
+}
+@media(prefers-reduced-motion:reduce){
+  #education .gallery-note--watercolor{transition:none}
+}
+@media(forced-colors:active){
+  #education.gallery-education,
+  #education .gallery-note--watercolor,
+  #education .gallery-education__disclaimer{
+    background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none;
+  }
+  #education .gallery-note--watercolor strong,
+  #education .gallery-note--watercolor small,
+  #education .gallery-note--watercolor>span>span{color:CanvasText}
+}
