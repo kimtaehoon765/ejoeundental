@@ -501,6 +501,26 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
         'HTTP '+response.status+' · 원본 CSS와 운영 홈페이지의 CSS '+(ready?'일치':'불일치 또는 미배포'));
     }
     if(label==='정식 도메인 첫 화면'){
+      const careMenu=body.match(/<nav class="hero-care-summary"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+      const folded=careMenu.match(/<details class="hero-more-care">([\s\S]*?)<\/details>/)?.[1]||'';
+      const expectedExtra=[
+       '/cavity-treatment.html','/scaling.html','/denture.html',
+       '/implant.html','/pediatric-dentistry.html','/wisdom-tooth.html',
+       '/tmj-care.html','/medical-safety-guide.html'
+      ];
+      const publishedMore=[...folded.matchAll(/<a href="(\/[^"]+\.html)">([^<]+)<\/a>/g)]
+       .map(m=>m[1]);
+      const expectedMain=['/gum-treatment.html','/retreatment.html',
+       '/cervical-abrasion.html','/insured-care.html'];
+      const clinicalNavReady=response.status===200&&
+       careMenu.includes('다른 진료·건강정보 8개 더 보기')&&
+       publishedMore.length===8&&
+       expectedExtra.every((url,i)=>publishedMore[i]===url)&&
+       expectedMain.every(url=>careMenu.includes('href="'+url+'"'));
+      add('환자 중심 진료 4+8개 링크 정식 배포',
+       clinicalNavReady?'실사이트 반영 확인':'배포·캐시 확인 필요',
+       'HTTP '+response.status+' · 추가 진료 '+publishedMore.length+
+       '/8 · 어린이·사랑니·턱관절 바로가기 '+(clinicalNavReady?'확인':'대기/불일치'));
       const linked=body.includes('/assets/gallery-upgrade.css?v='+expectedGalleryCssHash);
       add('2026-10-27 미술관형 첫 화면 CSS 링크 실제 배포',
         linked?'실사이트 반영 확인':'배포·캐시 확인 필요',
