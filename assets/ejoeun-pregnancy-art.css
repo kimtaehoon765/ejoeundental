@@ -1,0 +1,104 @@
+/* Pregnancy dental patient guide · original Art Nouveau illustration · 2026-10-29.
+   No changes to existing clinical advice or printable checklist. */
+.pregnancy-art{
+  box-sizing:border-box;
+  margin:clamp(20px,3vw,31px) 0;
+  padding:clamp(6px,1vw,10px);
+  border:1px solid #c8b397;
+  border-top:2px solid #b18e67;
+  border-radius:3px 13px 3px 13px;
+  background:linear-gradient(145deg,#f5e9dc,#fffdfa 52%,#e9f0e6);
+  box-shadow:0 14px 29px rgba(55,57,43,.07);
+  overflow:hidden;
+}
+.pregnancy-art img{
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  aspect-ratio:60 / 37;
+  max-height:none;
+  object-fit:contain;
+  background:#f7eadb;
+  border:1px solid #e4d3b5;
+}
+.pregnancy-art figcaption{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  padding:clamp(13px,2.2vw,22px) clamp(11px,2vw,20px);
+  font-size:14px;
+  line-height:1.75;
+  color:#546657;
+  word-break:keep-all;
+}
+.pregnancy-art figcaption small{
+  color:#9b795a;
+  font-weight:750;
+  font-size:11px;
+  letter-spacing:.09em;
+}
+.pregnancy-art figcaption strong{
+  font:700 clamp(20px,2.8vw,27px)/1.5 'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  color:#335b49;
+  letter-spacing:-.04em;
+}
+.pregnancy-guide-shortcuts{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin:0 0 30px;
+}
+.pregnancy-guide-shortcuts a{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-sizing:border-box;
+  min-width:0;
+  min-height:50px;
+  padding:10px 12px;
+  background:#fffefa;
+  border:1px solid #cdddcf;
+  border-radius:9px;
+  color:#285940;
+  font-weight:750;
+  font-size:14px;
+  line-height:1.6;
+  text-align:center;
+  text-decoration:none;
+  word-break:keep-all;
+}
+.pregnancy-guide-shortcuts a:last-child{
+  background:#2b624b;
+  border-color:#2b624b;
+  color:#fffefa;
+}
+.pregnancy-guide-shortcuts a:focus-visible{
+  outline:3px solid #ab824d;
+  outline-offset:3px;
+}
+#pregnancy-xray,
+#pregnancy-bleeding,
+#visit-checklist{
+  scroll-margin-top:24px;
+}
+@media(max-width:620px){
+  .pregnancy-art{margin:17px 0 23px;padding:5px}
+  .pregnancy-art figcaption{gap:7px;padding:12px 8px 15px}
+  .pregnancy-art figcaption strong{font-size:20px}
+  .pregnancy-art figcaption span{font-size:13px}
+  .pregnancy-guide-shortcuts{gap:8px;grid-template-columns:minmax(0,1fr)}
+  .pregnancy-guide-shortcuts a{min-height:49px}
+}
+@media print{
+  .pregnancy-art,.pregnancy-guide-shortcuts{display:none!important}
+}
+@media(forced-colors:active){
+  .pregnancy-art,.pregnancy-guide-shortcuts a{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  .pregnancy-art figcaption :is(small,strong,span){color:CanvasText}
+}
