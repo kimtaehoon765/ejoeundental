@@ -458,7 +458,7 @@ test('approved gutta-percha bacteria image replaces only the first retreatment c
  const images=[...section.matchAll(/<img[^>]*src="([^"]+)"[^>]*>/g)].map(x=>x[1]);
  assert.deepEqual(images,[
   '/assets/retreatment/illustration-02-bacteria-gutta-percha-20261029.webp',
-  '/assets/retreatment/illustration-03.webp',
+  '/assets/retreatment/illustration-03-crown-microleakage-20261029.webp',
   '/assets/retreatment/illustration-04.webp',
   '/assets/retreatment/illustration-05.webp'
  ],'only the retained-bacteria art may change');
@@ -475,4 +475,29 @@ test('approved gutta-percha bacteria image replaces only the first retreatment c
   'production canonical may use the extensionless route');
  assert.ok(page.includes('/assets/retreatment.css'),
   'production CSS may be fingerprinted but must be present');
+});
+
+
+test('owner-selected crown-margin microleakage painting replaces only the second retreatment cause',()=>{
+ const page=read('retreatment.html');
+ const causes=page.match(/<h2>신경치료 후 다시 아픈 이유<\/h2>[\s\S]*?<div class="cards">([\s\S]*?)<\/div>/)?.[1]||'';
+ const cards=[...causes.matchAll(/<article class="card"><img[^>]*src="([^"]+)"[^>]*><h3>([^<]+)<\/h3>/g)];
+ assert.equal(cards.length,4,'four cause cards must remain');
+ assert.deepEqual(cards.map(x=>x[1]),[
+  '/assets/retreatment/illustration-02-bacteria-gutta-percha-20261029.webp',
+  '/assets/retreatment/illustration-03-crown-microleakage-20261029.webp',
+  '/assets/retreatment/illustration-04.webp',
+  '/assets/retreatment/illustration-05.webp'
+ ]);
+ assert.deepEqual(cards.map(x=>x[2]),[
+  '남아 있는 세균','보철물 주변의 미세 누출','새로운 충치','뿌리 끝 염증의 지속'
+ ]);
+ assert.ok(causes.includes('크라운 경계의 틈으로 세균이 들어가고 치근단 염증'));
+ const art=readFileSync('dist/assets/retreatment/illustration-03-crown-microleakage-20261029.webp');
+ assert.ok(art.length>=4000,'actual new dental illustration must ship as WebP');
+ assert.equal(art.subarray(0,4).toString(),'RIFF');
+ assert.equal(art.subarray(8,12).toString(),'WEBP');
+ const css=read('assets/retreatment.css');
+ assert.ok(css.includes('.cards .card img.microleakage-illustration'));
+ assert.ok(css.includes('object-fit:contain;'),'labels and apical lesion must not be cropped');
 });
