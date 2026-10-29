@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="710" viewBox="0 0 1200 710" role="img" aria-labelledby="t d">
+<title id="t">이조은치과 치과 방문 전 준비 안내 창작 정물화</title>
+<desc id="d">따뜻한 종이 위 체크리스트, 복용약 목록 봉투, 연필, 아날로그 시계, 유칼립투스 식물과 하얀 복슬복슬한 고양이를 배치한 수채화풍 안내 그림. 환자의 실제 정보나 처방전이 아닙니다.</desc>
+<defs>
+<linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8f0df"/><stop offset=".55" stop-color="#fff9e9"/><stop offset="1" stop-color="#dce9df"/></linearGradient>
+<linearGradient id="desk" x1="0" y1="0" x2="1" y2=".7"><stop stop-color="#c39c71"/><stop offset=".54" stop-color="#f0d8b4"/><stop offset="1" stop-color="#aa825d"/></linearGradient>
+<linearGradient id="sheet" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="#ffffff"/><stop offset="1" stop-color="#f0eddf"/></linearGradient>
+<linearGradient id="sage" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#29513e"/><stop offset="1" stop-color="#5c806a"/></linearGradient>
+<linearGradient id="coat" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dce7de"/><stop offset=".52" stop-color="#fffefa"/><stop offset="1" stop-color="#e4e9e1"/></linearGradient>
+<filter id="drop" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="1" dy="9" stdDeviation="11" flood-color="#4b573d" flood-opacity=".18"/></filter>
+<pattern id="grain" width="37" height="39" patternUnits="userSpaceOnUse"><path d="M3 7l4 -3M29 18l4 4M14 35l3 -4" stroke="#827b63" stroke-width="1" stroke-opacity=".08"/></pattern>
+</defs>
+<rect width="1200" height="710" fill="url(#paper)"/>
+<path d="M0 0h890L350 710H0Z" fill="#fffaf0" opacity=".38"/>
+<path d="M0 265Q360 256 650 271T1200 264V710H0Z" fill="url(#desk)"/>
+<path d="M0 286Q360 279 690 289T1200 283" stroke="#ae895f" stroke-width="8" opacity=".6" fill="none"/>
+<rect width="1200" height="710" fill="url(#grain)"/>
+<text x="78" y="88" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="41" font-weight="700" fill="#32604a">이조은치과</text>
+<text x="78" y="154" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="42" font-weight="700" fill="#31543f">치과 방문 전, 차분히 준비해요.</text>
+<path d="M82 188h650" stroke="#bda77f" stroke-width="2.5"/>
+<text x="83" y="222" font-family="Georgia,serif" font-size="16" letter-spacing="3" fill="#86745c">BEFORE YOUR VISIT · A QUIET CHECKLIST</text>
+<!-- Botanical leaves -->
+<path d="M1124 0Q1090 47 1138 104Q1196 164 1132 216Q1098 264 1145 313" fill="none" stroke="#6e9a80" stroke-width="5"/>
+<g fill="#9bb79a" opacity=".9"><ellipse cx="1092" cy="55" rx="16" ry="34" transform="rotate(52 1092 55)"/><ellipse cx="1166" cy="123" rx="15" ry="32" transform="rotate(-42 1166 123)"/><ellipse cx="1092" cy="207" rx="16" ry="34" transform="rotate(52 1092 207)"/><ellipse cx="1177" cy="279" rx="15" ry="32" transform="rotate(-43 1177 279)"/></g>
+<g fill="#fbecdb" stroke="#dac29e" stroke-width="2"><circle cx="1140" cy="128" r="14"/><circle cx="1142" cy="257" r="12"/></g>
+<!-- Check paper -->
+<g transform="translate(189 280) rotate(-6)" filter="url(#drop)">
+<rect width="510" height="346" rx="17" fill="url(#sage)"/>
+<rect x="22" y="24" width="466" height="299" rx="7" fill="url(#sheet)" stroke="#d6cbb5" stroke-width="2"/>
+<path d="M210 7h90q9 0 9 9v23H201V16q0 -9 9 -9" fill="#b5a17a" stroke="#856f50" stroke-width="3"/>
+<text x="52" y="90" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="31" font-weight="700" fill="#355944">오늘의 준비 메모</text>
+<path d="M52 114h386" stroke="#cbd4c7" stroke-width="3"/>
+<g fill="none" stroke="#82a689" stroke-width="4"><rect x="63" y="139" width="31" height="31" rx="4"/><rect x="63" y="203" width="31" height="31" rx="4"/><rect x="63" y="267" width="31" height="31" rx="4"/></g>
+<g fill="none" stroke="#46805c" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M69 153l9 9 22 -25"/><path d="M69 217l9 9 22 -25"/><path d="M69 281l9 9 22 -25"/></g>
+<g font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" font-size="23" fill="#496b56"><text x="123" y="163">복용약·건강정보</text><text x="123" y="227">증상과 궁금한 점</text><text x="123" y="291">진료시간 확인</text></g>
+</g>
+<!-- Envelope and clean medicine list -->
+<g transform="translate(730 346) rotate(11)" filter="url(#drop)">
+<rect x="22" y="-81" width="224" height="156" rx="4" fill="#fffefa" stroke="#ccc0ab" stroke-width="3"/>
+<text x="44" y="-50" font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" font-size="18" font-weight="700" fill="#50735b">복용약 목록</text>
+<path d="M41 -32h174M41 -9h174M41 14h142" stroke="#a9c2b1" stroke-width="4"/>
+<rect width="292" height="200" rx="10" fill="#f7f3e7" stroke="#c5b599" stroke-width="4"/>
+<path d="M4 15l143 106L288 15M3 198l120 -93M290 198l-121 -92" fill="none" stroke="#c1b195" stroke-width="4"/>
+</g>
+<!-- Pencil -->
+<g transform="translate(760 603) rotate(-17)" filter="url(#drop)">
+<rect width="259" height="18" rx="4" fill="#d3ad6c" stroke="#ad8955" stroke-width="2"/>
+<path d="M259 0l36 9 -36 9Z" fill="#efdfbf" stroke="#ad8955" stroke-width="2"/>
+<path d="M295 9l-13 -4v8Z" fill="#404e45"/>
+<path d="M3 4h253" stroke="#fae5bc" stroke-width="3"/>
+<rect x="4" y="1" width="19" height="16" rx="3" fill="#769f85"/>
+</g>
+<!-- Clock -->
+<g filter="url(#drop)"><circle cx="112" cy="475" r="71" fill="#e5eee7" stroke="#9eae9e" stroke-width="10"/><circle cx="112" cy="475" r="54" fill="#fffefa" stroke="#d7dcca" stroke-width="3"/><path d="M112 438v37l28 19" fill="none" stroke="#5a7563" stroke-width="7" stroke-linecap="round"/><circle cx="112" cy="475" r="5" fill="#b9976f"/></g>
+<!-- Small white fluffy cat, comfortably outside the paperwork -->
+<g transform="translate(978 555)" filter="url(#drop)">
+<ellipse cx="93" cy="110" rx="123" ry="28" fill="#657362" opacity=".15"/>
+<path d="M-20 79Q-38 24 6 -11L12 -52 49 -35Q90 -58 126 -35L164 -54L171 -10Q208 49 178 92Q129 140 33 123Q-5 108 -20 79Z" fill="url(#coat)" stroke="#cbdacf" stroke-width="4"/>
+<path d="M14 -50l0 34 30 -16M161 -53l-4 35 -27 -16" fill="#f6dbd4"/>
+<ellipse cx="51" cy="40" rx="7" ry="9" fill="#78957b"/><ellipse cx="123" cy="40" rx="7" ry="9" fill="#78957b"/>
+<path d="M80 68l10 8 10 -8" fill="none" stroke="#bd9791" stroke-width="3" stroke-linecap="round"/>
+<path d="M25 64l-31 -5M25 75l-34 8M151 64l32 -5M153 76l32 8" stroke="#bdc9bd" stroke-width="2"/>
+<path d="M37 114q29 20 54 1M104 115q29 20 51 -1" stroke="#eef2e8" stroke-width="20" stroke-linecap="round"/>
+</g>
+<text x="76" y="680" font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" font-size="18" fill="#6b765e">원장 직접 검진·진단 · 필요한 치료부터 차근차근</text>
+</svg>
