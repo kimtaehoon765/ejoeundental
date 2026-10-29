@@ -1,0 +1,125 @@
+/* Unique nine-question library illustration for dental insurance FAQ · 2026-10-29.
+   Preserve full insurance answers and JSON-LD; never treat picture as a coverage guarantee. */
+.insurance-faq-library{
+  box-sizing:border-box;
+  display:block;
+  max-width:100%;
+  margin:clamp(16px,2.3vw,26px) 0 clamp(18px,2.8vw,28px);
+  padding:clamp(7px,1vw,11px);
+  overflow:hidden;
+  border:1px solid #bba77d;
+  border-top:2px solid #a78b59;
+  border-radius:3px 14px 3px 14px;
+  background:linear-gradient(135deg,#f1e8d4,#fffdf6 55%,#edf1e5);
+  box-shadow:0 13px 30px rgba(32,55,43,.07);
+}
+.insurance-faq-library img{
+  box-sizing:border-box;
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:30/19;
+  object-fit:contain;
+  object-position:center;
+  background:#244b42;
+  border:1px solid #c5b69b;
+}
+.insurance-faq-library figcaption{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:12px 22px;
+  flex-wrap:wrap;
+  padding:clamp(13px,1.9vw,21px) clamp(8px,1.8vw,18px);
+  color:#526956;
+  line-height:1.8;
+  word-break:keep-all;
+  font-size:14px;
+}
+.insurance-faq-library figcaption strong{
+  display:block;
+  font:700 clamp(19px,2.5vw,27px)/1.5 'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  color:#254f39;
+  letter-spacing:-.045em;
+}
+.insurance-faq-library figcaption span{display:block;flex:1 1 240px}
+.insurance-faq-library figcaption small{
+  display:block;
+  color:#6b715e;
+  font-size:12px;
+  line-height:1.7;
+}
+.insurance-faq-quicknav{
+  margin:0 0 clamp(18px,2.8vw,30px);
+  padding:clamp(15px,2vw,23px);
+  background:#f1f5ed;
+  border:1px solid #cbdccf;
+  border-radius:10px;
+}
+.insurance-faq-quicknav strong{
+  display:block;
+  margin-bottom:11px;
+  color:#24513b;
+  font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+  font-size:18px;
+}
+.insurance-faq-quicknav .quicknav-links{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.insurance-faq-quicknav .quicknav-links a{
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  min-height:52px;
+  margin:0;
+  padding:11px 13px;
+  gap:7px;
+  background:#fffefa;
+  color:#295e43;
+  border:1px solid #d5decf;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:750;
+  line-height:1.55;
+  text-decoration:none;
+  word-break:keep-all;
+}
+.insurance-faq-quicknav .quicknav-links a:hover{
+  border-color:#72957c;
+  background:#fffdf5;
+}
+.insurance-faq-quicknav .quicknav-links a:focus-visible{
+  outline:3px solid #a88048;
+  outline-offset:3px;
+}
+.insurance-faq-quicknav .quicknav-links a span{
+  color:#9a7d53;
+  font-size:12px;
+  white-space:nowrap;
+}
+@media(max-width:620px){
+ .insurance-faq-library{padding:5px;margin:16px 0 20px}
+ .insurance-faq-library figcaption{padding:12px 8px 14px;gap:7px}
+ .insurance-faq-library figcaption strong{font-size:20px}
+ .insurance-faq-library figcaption span{flex:1 1 100%;font-size:13px}
+ .insurance-faq-quicknav{padding:13px}
+ .insurance-faq-quicknav .quicknav-links{grid-template-columns:minmax(0,1fr);gap:8px}
+ .insurance-faq-quicknav .quicknav-links a{min-height:50px}
+}
+@media print{
+ .insurance-faq-library,.insurance-faq-quicknav{display:none!important}
+}
+@media(forced-colors:active){
+ .insurance-faq-library,.insurance-faq-quicknav,
+ .insurance-faq-quicknav .quicknav-links a{
+  background:Canvas;
+  color:CanvasText;
+  border-color:CanvasText;
+  box-shadow:none;
+ }
+ .insurance-faq-library figcaption :is(strong,span,small),
+ .insurance-faq-quicknav :is(strong,span){color:CanvasText}
+}
