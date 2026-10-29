@@ -1275,9 +1275,21 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       checkGroup('Google 입냄새·잇몸출혈 관련 건강정보 3개 페이지 실제 수정일 확인',
        'Google 입냄새·잇몸출혈 건강정보 사이트맵 수정일 배포 확인 필요',
        ['health/gum-bleeding','gum-health','gum-treatment']);
-      checkGroup('실제 수정된 건강정보 모음 3개·보험 FAQ의 10월 27일 사이트맵 수정일 확인',
+      checkGroup('건강정보 모음 3개·보험 FAQ 각각의 실제 수정일 공개 확인',
        '건강정보 모음·보험 FAQ 사이트맵의 실제 편집 날짜 확인 필요',
        ['gum-health','insurance-health','additional-health','dental-insurance-faq']);
+      const verifiedOct29Guides=[
+       'pediatric-dentistry','pediatric-orthodontics',
+       'dental-insurance-faq','gum-treatment','tmj-care','wisdom-tooth',
+       'medical-safety-guide','medication-dental-faq',
+       'systemic-disease-dental-faq','root-canal-retreatment-faq',
+       'insured-care','gum-treatment-faq'
+      ];
+      // Never call a source-only sitemap change a public deployment.
+      // Dates are derived from the original editorial sitemap above.
+      checkGroup('10월 29일 수정된 환자 안내 12개 사이트맵 실서버 일치',
+       '최근 변경한 진료·FAQ 12개 사이트맵 수정일 배포 확인 필요',
+       verifiedOct29Guides);
       const googleImageNamespace=body.includes('xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"');
       const imageLocs=[...body.matchAll(/<image:image><image:loc>([^<]+)<\/image:loc><\/image:image>/g)]
        .map(m=>m[1]);
