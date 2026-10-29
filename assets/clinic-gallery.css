@@ -410,3 +410,32 @@
 @media(forced-colors:active){
   .gallery-piece,.gallery-hero-image{background:Canvas;border:1px solid CanvasText;box-shadow:none}
 }
+
+
+/* Original watercolor no. 10 — uncropped 3:2 artwork, 2026-10-29 */
+#paintings .gallery-piece-original-cat{
+  scroll-margin-top:100px;
+  border-top:2px solid #a88d5f;
+}
+#paintings .gallery-piece-original-cat .gallery-art-frame{
+  background:linear-gradient(140deg,#e8dfcd,#f8f1e5);
+}
+#paintings .gallery-piece-original-cat .gallery-art-frame img{
+  box-sizing:border-box;
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:none;
+  aspect-ratio:3/2;
+  object-fit:contain;
+  object-position:center;
+  background:#fbf5e9;
+}
+#paintings .gallery-piece-original-cat .gallery-index{color:#95754b}
+@media(max-width:650px){
+  #paintings .gallery-piece-original-cat .gallery-art-frame img{
+    height:auto;
+    max-height:none;
+    aspect-ratio:3/2;
+  }
+}
