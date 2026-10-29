@@ -593,3 +593,27 @@ test('gallery SEO image collection agrees with the 23 real original artworks',()
  assert.ok(gallery.includes('<meta property="og:title" content="치과 그림 갤러리 23점'));
  assert.ok(gallery.includes('<meta name="twitter:description" content="인천 부평구 청천동'));
 });
+
+test('homepage patient navigation links eight distinct existing care topics using meaningful labels',()=>{
+ const hero=home.match(/<details class="hero-more-care">([\s\S]*?)<\/details>/)?.[1]||'';
+ assert.ok(hero.includes('다른 진료·건강정보 8개 더 보기'));
+ const links=[...hero.matchAll(/<a href="(\/[a-z-]+\.html)">([^<]+)<\/a>/g)];
+ assert.deepEqual(links.map(m=>m[1]),[
+  '/cavity-treatment.html','/scaling.html','/denture.html','/implant.html',
+  '/pediatric-dentistry.html','/wisdom-tooth.html','/tmj-care.html',
+  '/medical-safety-guide.html'
+ ]);
+ assert.equal(new Set(links.map(m=>m[1])).size,links.length,'no duplicate patient topic links');
+ for(const [url,label] of links){
+  assert.ok(existsSync('dist'+url),'real linked care page missing: '+url);
+  assert.ok(label.length>=10&&label.length<=65,'make clinic topic anchor concise, not generic');
+ }
+ assert.ok(links[4][2].includes('어린이'));
+ assert.ok(links[5][2].includes('신경관'));
+ assert.ok(links[6][2].includes('턱관절'));
+ const nav=home.match(/<nav class="hero-care-summary"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ assert.ok(nav.includes('href="/gum-treatment.html"')&&
+  nav.includes('href="/retreatment.html"')&&
+  nav.includes('href="/insured-care.html"'),
+  'high-priority periodontal, retreatment and insurance entry points remain prominent');
+});
