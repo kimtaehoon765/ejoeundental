@@ -299,3 +299,40 @@ test('museum wall has one lead painting and two companion originals without crop
  assert.ok(home.includes('curatorial-home.css?'),
   'the production homepage must load the final exhibition layer');
 });
+
+
+test('clinical exhibit cards keep all five genuine treatment links and illustrations',()=>{
+ const section=home.match(/<section class="section light" id="focus-care">([\s\S]*?)<\/section>/)?.[1]||'';
+ const nav=section.match(/<nav class="focus-care-shortcuts"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ const cards=[...nav.matchAll(/<a href="([^"]+)"><strong>([^<]+)<\/strong><span>([^<]+)<\/span><\/a>/g)];
+ assert.equal(cards.length,5,'five original clinical services must remain crawlable');
+ assert.deepEqual(cards.map(x=>x[1]),[
+  '/gum-treatment.html',
+  '/retreatment.html',
+  '/cervical-abrasion.html',
+  '/insured-care.html',
+  '/scaling.html'
+ ]);
+ for(const [,href,title,desc] of cards){
+  assert.ok(title.length>5&&desc.length>5,'cards retain readable clinical descriptions');
+  assert.ok(existsSync('dist'+href),'every clinical card must resolve to a real page');
+ }
+ const images=['care-illustration-abrasion.svg','care-illustration-insurance.svg','care-illustration-scaling.svg'];
+ for(const image of images)assert.ok(existsSync('dist/assets/'+image),
+  'original art must remain included: '+image);
+ const css=read('assets/curatorial-home.css');
+ const final=css.slice(css.indexOf('Clinical exhibition cards — 2026-10-29'));
+ assert.ok(final.length>1500,'gallery-style care card design is missing');
+ assert.match(final,/\.focus-care-shortcuts>a:nth-child\(-n\+2\)/,
+  'the two featured care cards retain prominence');
+ assert.match(final,/background-size:contain;/,
+  'medical diagrams must not be cropped');
+ assert.match(final,/@media\(max-width:700px\)/,
+  'narrow-screen cards need smaller reading geometry');
+ assert.match(final,/:focus-visible\{/,
+  'keyboard patients need an obvious focus indicator');
+ assert.match(final,/@media\(forced-colors:active\)/,
+  'high-contrast accessibility must remain usable');
+ assert.ok(home.includes('curatorial-home.css?'),
+  'visual layer must load on homepage');
+});
