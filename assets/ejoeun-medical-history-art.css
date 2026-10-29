@@ -1,0 +1,111 @@
+/* Medical-history page / original botanical study, 2026-10-29 */
+body.medical-history-gallery .medical-history-art{
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);
+  align-items:stretch;
+  margin:22px 0 32px;
+  padding:8px;
+  border:1px solid #cfc1a7;
+  border-top:2px solid #af9565;
+  border-radius:4px 15px 4px 15px;
+  background:linear-gradient(135deg,#f1e9db,#fffdf6 55%,#edf2ea);
+  box-shadow:0 14px 29px rgba(30,59,44,.065);
+  overflow:hidden;
+}
+body.medical-history-gallery .medical-history-art__picture{
+  min-width:0;
+  background:#ede7db;
+  border:1px solid #d8c9aa;
+  display:flex;
+  align-items:center;
+}
+body.medical-history-gallery .medical-history-art__picture img{
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  aspect-ratio:5/3;
+  object-fit:contain;
+  background:#f8f0df;
+}
+body.medical-history-gallery .medical-history-art figcaption{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  min-width:0;
+  padding:clamp(16px,2.4vw,29px);
+  gap:9px;
+  line-height:1.8;
+  color:#4a6254;
+  word-break:keep-all;
+}
+body.medical-history-gallery .medical-history-art__eyebrow{
+  font-size:10px;
+  font-weight:800;
+  color:#927650;
+  letter-spacing:.12em;
+}
+body.medical-history-gallery .medical-history-art figcaption strong{
+  color:#244d36;
+  font:700 clamp(20px,2.3vw,26px)/1.5 "Noto Serif KR","Apple SD Gothic Neo","Malgun Gothic",serif;
+  letter-spacing:-.035em;
+}
+body.medical-history-gallery .medical-history-art figcaption>span{
+  font-size:14px;
+}
+body.medical-history-gallery .medical-history-art figcaption>a{
+  display:inline-flex;
+  align-items:center;
+  box-sizing:border-box;
+  min-height:44px;
+  padding:8px 0;
+  color:#235d42;
+  font-size:14px;
+  font-weight:800;
+  text-underline-offset:4px;
+}
+body.medical-history-gallery .medical-history-art figcaption>a:focus-visible{
+  outline:3px solid #aa8249;outline-offset:4px;
+}
+body.medical-history-gallery .medical-history-quicklinks{
+  display:flex;flex-wrap:wrap;gap:9px;margin:0 0 25px;
+}
+body.medical-history-gallery .medical-history-quicklinks>a{
+  box-sizing:border-box;min-height:48px;
+  display:inline-flex;align-items:center;justify-content:center;
+  flex:1 1 170px;padding:10px 14px;
+  border:1px solid #c3d6c9;border-radius:9px;
+  text-align:center;font-size:14px;font-weight:750;
+  color:#276047;background:#fffefa;text-decoration:none;
+}
+body.medical-history-gallery .medical-history-quicklinks>a:first-child{
+  background:#285b45;border-color:#285b45;color:#fff;
+}
+body.medical-history-gallery .medical-history-quicklinks>a:focus-visible{
+  outline:3px solid #aa8249;outline-offset:3px;
+}
+@media(max-width:750px){
+ body.medical-history-gallery .medical-history-art{
+  grid-template-columns:minmax(0,1fr);margin:17px 0 23px;padding:6px;
+ }
+ body.medical-history-gallery .medical-history-art figcaption{
+  padding:17px 13px 18px;
+ }
+ body.medical-history-gallery .medical-history-art figcaption strong{font-size:21px}
+ body.medical-history-gallery .medical-history-art figcaption>span{font-size:13px}
+}
+@media(max-width:460px){
+ body.medical-history-gallery .medical-history-quicklinks>a{flex:1 1 100%}
+}
+@media print{
+ body.medical-history-gallery .medical-history-art,
+ body.medical-history-gallery .medical-history-quicklinks{display:none!important}
+}
+@media(forced-colors:active){
+ body.medical-history-gallery .medical-history-art,
+ body.medical-history-gallery .medical-history-quicklinks>a{
+   background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none;
+ }
+}
