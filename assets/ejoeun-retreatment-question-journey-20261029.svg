@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 740" width="1200" height="740" role="img" aria-labelledby="t d">
+<title id="t">이조은치과 재신경치료 상담의 세 단계 - 창작 안내 그림</title>
+<desc id="d">고풍스러운 아트 데코풍 세 장의 갤러리 패널. 첫 패널은 통증이나 붓기 증상 기록을 나타내는 메모, 두 번째 패널은 돋보기와 검사 자료, 세 번째 패널은 치료 선택을 설명하는 분기되는 길을 묘사합니다. 잇몸·치근 구조를 표현한 의학 도해가 아니며 재신경치료 결과를 보장하지 않습니다.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e8dec8"/><stop offset=".48" stop-color="#f8f3e5"/><stop offset="1" stop-color="#d8e7de"/></linearGradient>
+<linearGradient id="forest" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#245747"/><stop offset="1" stop-color="#37695b"/></linearGradient>
+<linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#3b586b"/><stop offset="1" stop-color="#668a8f"/></linearGradient>
+<linearGradient id="ochre" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#896b56"/><stop offset="1" stop-color="#b69a79"/></linearGradient>
+<linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffdf5"/><stop offset="1" stop-color="#eee8d6"/></linearGradient>
+<linearGradient id="metal" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#a5804c"/><stop offset=".4" stop-color="#edd5a1"/><stop offset=".78" stop-color="#a38151"/><stop offset="1" stop-color="#f4e1b7"/></linearGradient>
+<linearGradient id="cat" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d2dfd7"/><stop offset=".4" stop-color="#fffef8"/><stop offset="1" stop-color="#dfebe1"/></linearGradient>
+<filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="1" dy="9" stdDeviation="10" flood-color="#355445" flood-opacity=".13"/></filter>
+<pattern id="grain" width="37" height="41" patternUnits="userSpaceOnUse"><path d="M5 9l4 -2M28 26l2 4M13 33l-3 3" stroke="#b3a88f" stroke-opacity=".13" stroke-width="1"/></pattern>
+<path id="leaf" d="M0 0Q16 -20 36 -4Q15 20 0 0Z"/>
+</defs>
+<rect width="1200" height="740" fill="url(#bg)"/>
+<rect width="1200" height="740" fill="url(#grain)"/>
+<rect x="20" y="20" width="1160" height="700" rx="13" fill="none" stroke="#b49d78" stroke-width="3"/>
+<rect x="30" y="30" width="1140" height="680" rx="9" fill="none" stroke="#d4c4a2" stroke-width="2"/>
+<!-- reserved masthead -->
+<text x="72" y="95" font-size="39" font-weight="700" fill="#2c5540" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif">이조은치과</text>
+<text x="1120" y="86" text-anchor="end" font-size="14" letter-spacing="3" fill="#8b795e" font-family="Georgia,serif">PATIENT EDUCATION  ·  NO. 03</text>
+<text x="600" y="151" font-size="36" font-weight="700" text-anchor="middle" fill="#234b3a" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif">신경치료 후 다시 아프다면?</text>
+<text x="600" y="190" font-size="19" text-anchor="middle" fill="#506658" font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif">자연치아를 살릴 수 있는지, 원인과 상태부터 확인합니다.</text>
+<path d="M405 216h390" stroke="#c1a77b" stroke-width="2"/><circle cx="600" cy="216" r="6" fill="#c1a77b"/>
+<!-- three adjacent exhibition frames -->
+<g filter="url(#shadow)">
+<rect x="57" y="250" width="347" height="370" rx="17" fill="url(#card)" stroke="#c7b498" stroke-width="2"/>
+<rect x="426" y="250" width="347" height="370" rx="17" fill="url(#card)" stroke="#c7b498" stroke-width="2"/>
+<rect x="796" y="250" width="347" height="370" rx="17" fill="url(#card)" stroke="#c7b498" stroke-width="2"/>
+</g>
+<path d="M58 289h345M427 289h345M797 289h345" stroke="#d4c3a3" stroke-width="1.6"/>
+<g font-family="Georgia,serif" text-anchor="end" font-weight="700" font-size="22" fill="#a28a64">
+<text x="381" y="281">01</text><text x="750" y="281">02</text><text x="1120" y="281">03</text>
+</g>
+<!-- card 1 notebook, abstract symptom signs -->
+<circle cx="231" cy="414" r="103" fill="#e4eadf"/>
+<g filter="url(#shadow)">
+<rect x="177" y="345" width="119" height="152" rx="9" fill="#d3d2b3" stroke="#889b8b" stroke-width="5" transform="rotate(-6 231 421)"/>
+<rect x="190" y="354" width="100" height="135" rx="5" fill="#fffdf5" stroke="#c1c5b0" stroke-width="2" transform="rotate(-6 231 421)"/>
+<g stroke="#94a99d" stroke-width="4" stroke-linecap="round" transform="rotate(-6 231 421)">
+<path d="M210 380h55M210 401h56M210 423h38M210 445h54"/>
+</g>
+<circle cx="273" cy="455" r="23" fill="#f3e4c4" stroke="#c4a06e" stroke-width="4"/>
+<path d="M259 455h28M273 441v28" stroke="#a57e5a" stroke-width="4" stroke-linecap="round"/>
+</g>
+<g fill="#a6b59c" opacity=".75"><use href="#leaf" transform="translate(120 374) rotate(35)"/><use href="#leaf" transform="translate(316 451) rotate(151)"/></g>
+<!-- card 2 magnifying glass, unobtrusive generic record -->
+<circle cx="599" cy="414" r="103" fill="#e3eae6"/>
+<g filter="url(#shadow)">
+<path d="M539 382q60 -32 120 0v92q-59 -30 -120 0z" fill="#fffefa" stroke="#a8b5a3" stroke-width="4"/>
+<path d="M599 373v99" stroke="#c4ad89" stroke-width="3"/>
+<path d="M555 405h29M555 421h26M612 404h33M614 424h28" stroke="#b7cbb8" stroke-width="4" stroke-linecap="round"/>
+<circle cx="618" cy="404" r="48" fill="#eaf3e9" fill-opacity=".48" stroke="url(#metal)" stroke-width="10"/>
+<path d="M653 439l49 48" stroke="#a48357" stroke-width="13" stroke-linecap="round"/>
+<path d="M655 440l45 45" stroke="#f5dfad" stroke-width="3.5" stroke-linecap="round"/>
+</g>
+<g fill="#b8c8bd" opacity=".6"><use href="#leaf" transform="translate(486 427) rotate(48)"/><use href="#leaf" transform="translate(692 348) rotate(-130)"/></g>
+<!-- card 3 non-deterministic branching choice illustration -->
+<circle cx="968" cy="414" r="103" fill="#eee8dc"/>
+<g stroke="#8b9c82" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<path d="M966 483V406"/>
+<path d="M966 406Q952 390 915 368"/>
+<path d="M966 406Q980 390 1020 369"/>
+<path d="M966 406V355"/>
+</g>
+<circle cx="966" cy="483" r="13" fill="#e0ba7f" stroke="#a78d5e" stroke-width="4"/>
+<circle cx="912" cy="366" r="19" fill="#e3eee1" stroke="#668a72" stroke-width="4"/>
+<circle cx="1022" cy="365" r="19" fill="#f5e1c8" stroke="#a58c64" stroke-width="4"/>
+<circle cx="966" cy="349" r="19" fill="#dce9ea" stroke="#688a92" stroke-width="4"/>
+<path d="M904 366h16M1015 365h14M959 349h14" stroke="#678c78" stroke-width="3" stroke-linecap="round"/>
+<g fill="#b0bf9e" opacity=".64"><use href="#leaf" transform="translate(887 457) rotate(42)"/><use href="#leaf" transform="translate(1055 452) rotate(-125)"/></g>
+<!-- labels -->
+<g text-anchor="middle" fill="#2a5541" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-weight="700" font-size="24">
+<text x="231" y="536">증상과 경과 확인</text>
+<text x="599" y="536">검사로 원인 확인</text>
+<text x="968" y="536">치료 방법 상담</text>
+</g>
+<g text-anchor="middle" fill="#5c7161" font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" font-size="16">
+<text x="231" y="567">통증 · 붓기 · 씹을 때 불편함</text>
+<text x="599" y="567">치아 · 잇몸 · 영상 소견</text>
+<text x="968" y="567">관찰 · 재치료 · 다른 처치</text>
+</g>
+<!-- tiny fluffy cat in original ornamented lower left, not a patient -->
+<g transform="translate(71 637)" filter="url(#shadow)">
+<path d="M7 44Q-9 16 7 0L21 -23L40 -8Q58 -22 78 -8L99 -25L106 7Q115 43 86 55Q35 75 7 44Z" fill="url(#cat)" stroke="#c4d1c7" stroke-width="2.6"/>
+<path d="M19 -13l5 -10 11 16M89 -15l7 -9 3 17" fill="#efdad1"/>
+<path d="M35 31q5 -6 11 0M68 31q5 -6 11 0" fill="none" stroke="#6b9380" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M48 44l7 5 6 -5" stroke="#bd9692" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+<path d="M21 42l-20 -2M22 48l-18 4M87 42l18 -2M87 48l19 4" stroke="#b0c0b4" stroke-width="1.5"/>
+</g>
+<g fill="#b2bd9f" opacity=".76"><use href="#leaf" transform="translate(218 660) rotate(30)"/><use href="#leaf" transform="translate(999 663) rotate(-145)"/></g>
+<text x="617" y="665" text-anchor="middle" font-size="20" fill="#42644e" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif">필요한 치료부터, 충분한 설명과 함께.</text>
+<text x="620" y="697" text-anchor="middle" font-size="13" fill="#6f7a65" font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif">상담 과정을 나타낸 창작 그림 · 치아 해부학이나 치료 결과를 표현한 의료 도해가 아닙니다.</text>
+</svg>
