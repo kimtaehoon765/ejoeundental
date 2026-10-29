@@ -1,0 +1,74 @@
+/* Blood-thinner dental guide, 2026-10-29.
+   Unique symbolic painting, not patient data or anticoagulant instructions. */
+body.antithrombotic-gallery .antithrombotic-art{
+  box-sizing:border-box;
+  margin:21px 0 25px;
+  padding:8px;
+  overflow:hidden;
+  border:1px solid #c4aa92;
+  border-top:2px solid #9d7c61;
+  border-radius:3px 13px 3px 13px;
+  background:linear-gradient(135deg,#efe7dc,#fffdf7 55%,#e6eee9);
+  box-shadow:0 15px 32px rgba(32,43,53,.085);
+}
+body.antithrombotic-gallery .antithrombotic-art img{
+  display:block;box-sizing:border-box;width:100%;height:auto;
+  aspect-ratio:5/3;object-fit:contain;object-position:center;
+  border:1px solid #dbc7a9;background:#e2ded4;
+}
+body.antithrombotic-gallery .antithrombotic-art figcaption{
+  display:flex;flex-direction:column;gap:8px;
+  padding:15px 13px 18px;
+  color:#51615c;font-size:14px;line-height:1.8;word-break:keep-all;
+}
+body.antithrombotic-gallery .antithrombotic-art figcaption small{
+  color:#957351;font-size:11px;font-weight:800;letter-spacing:.1em;
+}
+body.antithrombotic-gallery .antithrombotic-art figcaption strong{
+  color:#244b43;
+  font:700 clamp(19px,2.5vw,27px)/1.55 'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  letter-spacing:-.04em;
+}
+body.antithrombotic-gallery .antithrombotic-shortcuts{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;padding:14px;margin:0 0 28px;
+  border:1px solid #d9d7d0;border-radius:12px;
+  background:#eff3f0;
+}
+body.antithrombotic-gallery .antithrombotic-shortcuts>a{
+  box-sizing:border-box;min-width:0;min-height:51px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid #d6ded9;border-radius:8px;padding:10px 12px;
+  font-size:14px;font-weight:750;text-align:center;line-height:1.55;
+  word-break:keep-all;text-decoration:none;color:#245949;background:#fffefa;
+}
+body.antithrombotic-gallery .antithrombotic-shortcuts>a:last-child{
+  background:#285949;color:#fffefa;border-color:#285949;
+}
+body.antithrombotic-gallery .antithrombotic-shortcuts>a:focus-visible{
+  outline:3px solid #a87a4d;outline-offset:3px;
+}
+body.antithrombotic-gallery :is(#antithrombotic-inform,#antithrombotic-extraction,#antithrombotic-bleeding,#visit-checklist){
+  scroll-margin-top:25px;
+}
+@media(max-width:620px){
+  body.antithrombotic-gallery .antithrombotic-art{margin:16px 0 20px;padding:5px}
+  body.antithrombotic-gallery .antithrombotic-art figcaption{gap:7px;padding:11px 8px 15px;font-size:13px}
+  body.antithrombotic-gallery .antithrombotic-art figcaption strong{font-size:20px}
+  body.antithrombotic-gallery .antithrombotic-shortcuts{
+    grid-template-columns:minmax(0,1fr);gap:8px;padding:12px;
+  }
+  body.antithrombotic-gallery .antithrombotic-shortcuts>a{min-height:49px}
+}
+@media print{
+  body.antithrombotic-gallery .antithrombotic-art,
+  body.antithrombotic-gallery .antithrombotic-shortcuts{display:none!important}
+}
+@media(forced-colors:active){
+  body.antithrombotic-gallery .antithrombotic-art,
+  body.antithrombotic-gallery .antithrombotic-shortcuts,
+  body.antithrombotic-gallery .antithrombotic-shortcuts>a{
+    background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none;
+  }
+  body.antithrombotic-gallery .antithrombotic-art figcaption :is(small,strong,span){color:CanvasText}
+}
