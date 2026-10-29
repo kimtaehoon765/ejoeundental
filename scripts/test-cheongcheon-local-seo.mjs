@@ -128,7 +128,12 @@ test('pediatric care pages give practical age-appropriate guidance, safe referra
   assert.ok(pediatric.includes(phrase),id+' question should be readable without JavaScript');
  }
  assert.ok(pediatric.includes('href="'+story+'"'),'pediatric guidance needs directly related owner article');
- assert.ok(pediatric.includes('href="/dental-insurance-faq.html"'),'pediatric treatment costs need real insurance FAQ');
+ assert.ok(pediatric.includes('href="/dental-insurance-faq.html#faq-question-7"') ||
+   pediatric.includes('href="/dental-insurance-faq.html"'),
+   'pediatric treatment costs need a real insurance FAQ or its exact question');
+ const insurance=readFileSync('dist/dental-insurance-faq.html','utf8');
+ if(pediatric.includes('/dental-insurance-faq.html#faq-question-7'))
+   assert.ok(insurance.includes('id="faq-question-7"'),'the targeted pediatric insurance answer must exist');
  assert.ok(pediatric.includes('보험 적용 여부는 연령, 치아 종류, 진단·처치 및 당시 급여 기준에 따라 달라집니다'));
  assert.ok(pediatric.includes('소아치과 전문 평가나 협진'),'complex pediatric cases need an appropriate referral path');
  assert.ok(pediatric.includes('.pediatric-care-decisions a{display:inline-flex;align-items:center;min-height:44px'));
