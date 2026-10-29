@@ -1452,3 +1452,65 @@ body.home-page .journal-art-break__works--letterpress>a>span{
   body.home-page :is(.focus-care-art-link--letterpress,.owner-blog-topic-art--letterpress,.journal-gallery-cover__poster,.doctor-gallery-letterpress) :is(small,strong,span){color:CanvasText!important}
 }
 
+
+
+/* Unique symbolic artwork · natural tooth preservation, 2026-10-29.
+   The doctor profile retains real credentials and does not present the
+   artist's tooth sculpture as an actual medical specimen. */
+body.home-page #main-content>#doctor .doctor-gallery-art--original-art{
+  overflow:hidden;
+  border:1px solid #d9c7a6;
+  border-radius:3px 12px 3px 12px;
+  background:#fff9ec;
+  box-shadow:0 14px 32px rgba(21,47,31,.13);
+}
+body.home-page #main-content>#doctor .doctor-gallery-art--original-art>img{
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  max-height:none;
+  aspect-ratio:3/2;
+  object-fit:contain;
+  object-position:center;
+  padding:9px;
+  background:linear-gradient(145deg,#f2e9d7,#fffdf5);
+}
+body.home-page #main-content>#doctor .doctor-gallery-art--original-art>p{
+  margin:0;
+  padding:17px 18px 19px;
+  line-height:1.73;
+  color:#294c37;
+  background:#fff9ef;
+  border-top:1px solid #e4d6b7;
+  text-align:center;
+  font-size:15px;
+  word-break:keep-all;
+}
+body.home-page #main-content>#doctor .doctor-gallery-art--original-art>p small{
+  display:block;
+  margin:0 0 4px;
+  color:#94744a;
+  font-size:11px;
+  font-weight:750;
+  letter-spacing:.08em;
+}
+@media(max-width:700px){
+  body.home-page #main-content>#doctor .doctor-gallery-art--original-art>img{
+    width:100%;height:auto;min-height:0;max-height:none;padding:7px;
+  }
+  body.home-page #main-content>#doctor .doctor-gallery-art--original-art>p{
+    padding:13px 11px 15px;
+    font-size:14px;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#doctor .doctor-gallery-art--original-art,
+  body.home-page #main-content>#doctor .doctor-gallery-art--original-art>p{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
+
