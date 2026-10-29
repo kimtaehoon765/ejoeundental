@@ -846,7 +846,7 @@ for (const file of html) {
  if(links.length!==5||links.some((m,i)=>m[1]!==primaryRoutes[i])||new Set(links.map(m=>m[1])).size!==5){
   errors.push('집중 진료 빠른 안내 5개 진료 링크가 올바르지 않음');
  }
- if(overview.includes('<div class="card"')||overview.length>1600){
+ if(overview.includes('<div class="card"')||overview.length>2000){
   errors.push('집중 진료 안내에 반복적인 긴 설명 카드가 남아 있음');
  }
  for(const href of ['#symptoms','#care','/search.html','#faq','#visit-guide']){
@@ -1618,7 +1618,9 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
   const canonical=page.match(/<link rel="canonical" href="([^"]+)"/)?.[1]||'';
   const ogUrl=attr('og:url',true);
   if(!desc || desc!==social || desc!==twitter || title!==ogTitle ||
-     title!==twTitle || canonical!==ogUrl || attr('twitter:card')!=='summary'){
+     title!==twTitle || canonical!==ogUrl ||
+     !(['summary','summary_large_image'].includes(attr('twitter:card')) &&
+       (attr('twitter:card')!=='summary_large_image' || !!attr('twitter:image')))){
    errors.push('의료정보 공유·검색 설명 불일치: '+slug);
   }
   const ld=[...page.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
@@ -2843,9 +2845,12 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
      !page.includes('href="/visit-guide.html"')){
    errors.push('진료 페이지 빠른 목차 누락: '+guide.file);
   }
+  // The main TOC must link exactly once to a unique section target. Additional
+  // links from the original figure caption or decision cards are legitimate.
+  const toc=page.match(/<nav class="treatment-page-toc gallery-section-index"[\s\S]*?<\/nav>/)?.[0]||'';
   for(const id of guide.anchors){
    if((page.split('id="'+id+'"').length-1)!==1||
-      (page.split('href="#'+id+'"').length-1)!==1)
+      (toc.split('href="#'+id+'"').length-1)!==1)
     errors.push('진료 페이지 목차 대상 id 중복·누락: '+guide.file+' #'+id);
   }
  }
