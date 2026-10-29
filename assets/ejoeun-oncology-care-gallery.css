@@ -1,0 +1,114 @@
+/* 이조은치과 · Evening Garden care gallery, 2026-10-29.
+   Visual enhancement only; clinical, safety, print and SEO content remains. */
+body.oncology-gallery {
+  --ink:#244c43;--edge:#d4ded3;--sage:#eff5ee;--paper:#fffdf8;
+  color:#284338;background:radial-gradient(ellipse at 92% 3%,rgba(128,158,148,.25),transparent 40%),#f8f8f1;
+  line-height:1.8;-webkit-font-smoothing:antialiased;
+}
+body.oncology-gallery :is(header,main,footer){box-sizing:border-box;max-width:960px}
+body.oncology-gallery header{padding:21px clamp(16px,4vw,34px);color:#537060;font-size:14px}
+body.oncology-gallery header a{color:#2b634b;text-underline-offset:4px}
+body.oncology-gallery main{
+  width:calc(100% - 32px);margin:0 auto 32px;padding:clamp(23px,4vw,48px);
+  border:1px solid var(--edge);border-top:5px solid #557d74;border-radius:16px;
+  background:var(--paper);box-shadow:0 16px 43px rgba(32,64,51,.055);
+}
+body.oncology-gallery main>h1,body.oncology-gallery main>h2{
+  font-family:'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  color:var(--ink);letter-spacing:-.045em;word-break:keep-all;
+}
+body.oncology-gallery main>h1{
+  font-size:clamp(29px,4.5vw,43px);line-height:1.37;margin:0 0 20px;text-wrap:balance;
+}
+body.oncology-gallery main>h2{
+  margin:35px 0 12px;padding-top:24px;border-top:1px solid #dce5db;
+  font-size:clamp(22px,2.8vw,28px);line-height:1.5;
+}
+body.oncology-gallery main>h3{font-size:18px;line-height:1.5;color:#37654d;word-break:keep-all}
+body.oncology-gallery main :is(p,li){overflow-wrap:break-word;word-break:keep-all}
+body.oncology-gallery main>ul{padding-left:1.4em}
+body.oncology-gallery main>ul li::marker{color:#799b82}
+body.oncology-gallery .notice{
+  padding:17px 19px;border-left-color:#779b83;border-radius:10px;
+  background:linear-gradient(105deg,#edf4ed,#f8faf4);
+}
+body.oncology-gallery .notice strong{color:#254e3e}
+body.oncology-gallery .oncology-collage{
+  margin:23px 0 19px;padding:8px;
+  background:#edf0e7;border:1px solid #b8b8a3;border-radius:6px 16px 6px 16px;
+  box-shadow:0 14px 29px rgba(32,58,51,.075);overflow:hidden;
+}
+body.oncology-gallery .oncology-collage img{
+  display:block;box-sizing:border-box;width:100%;height:auto;aspect-ratio:5/3;
+  object-fit:contain;background:#26434c;border:1px solid #a5a487;
+}
+body.oncology-gallery .oncology-collage figcaption{
+  display:flex;flex-direction:column;gap:7px;padding:15px 14px 17px;
+  color:#49685d;font-size:14px;line-height:1.8;word-break:keep-all;
+}
+body.oncology-gallery .oncology-collage figcaption small{
+  color:#8e7d59;font-weight:800;letter-spacing:.13em;font-size:11px;
+}
+body.oncology-gallery .oncology-collage figcaption strong{
+  color:var(--ink);font:700 clamp(20px,2.4vw,27px)/1.45 'Noto Serif KR','Apple SD Gothic Neo',serif;
+}
+body.oncology-gallery .oncology-quicklinks{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;padding:13px;margin:0 0 27px;border:1px solid #d5e1d5;
+  background:var(--sage);border-radius:12px;
+}
+body.oncology-gallery .oncology-quicklinks a{
+  display:flex;box-sizing:border-box;align-items:center;justify-content:center;
+  min-width:0;min-height:51px;padding:11px 13px;
+  background:#fffefa;border:1px solid #d2dfd3;border-radius:9px;
+  color:#285c45;text-align:center;font-weight:750;font-size:14px;
+  line-height:1.55;text-decoration:none;word-break:keep-all;
+}
+body.oncology-gallery .oncology-quicklinks a:hover{background:#e7f0e8;border-color:#91b197}
+body.oncology-gallery .oncology-quicklinks a[href^="https://booking.naver.com"]{
+  color:#fff;background:#265c46;border-color:#265c46;
+}
+body.oncology-gallery .oncology-quicklinks a[href^="tel:"]{
+  background:#dfece0;border-color:#afc6b1;color:#24553e;
+}
+body.oncology-gallery .visit-checklist{
+  background:#f5f9f4;border-color:#d0ded1;
+}
+body.oncology-gallery .visit-checklist label{border-color:#d9e3da}
+body.oncology-gallery .visit-checklist input{accent-color:#265c46}
+body.oncology-gallery .print-checklist{background:#265c46}
+body.oncology-gallery .reset-checklist{color:#265c46;border-color:#265c46}
+body.oncology-gallery :is(a,input,button):focus-visible{
+  outline:3px solid #b08e55;outline-offset:3px;
+}
+body.oncology-gallery :is(#oncology-history,#oncology-oral-care,#oncology-treatment,#oncology-faq,#visit-checklist){
+  scroll-margin-top:26px;
+}
+@media(max-width:650px){
+ body.oncology-gallery header{padding:16px 16px 11px}
+ body.oncology-gallery main{width:calc(100% - 20px);padding:22px 16px 30px;border-radius:12px}
+ body.oncology-gallery main>h1{font-size:clamp(27px,7.4vw,34px)}
+ body.oncology-gallery main>h2{margin-top:30px;padding-top:19px;font-size:22px}
+ body.oncology-gallery .notice{padding:14px}
+ body.oncology-gallery .oncology-collage{padding:5px;margin:18px 0}
+ body.oncology-gallery .oncology-collage img{aspect-ratio:auto}
+ body.oncology-gallery .oncology-collage figcaption{padding:12px 9px 15px;font-size:13px}
+ body.oncology-gallery .oncology-collage figcaption strong{font-size:19px}
+ body.oncology-gallery .oncology-quicklinks{grid-template-columns:1fr;gap:7px;padding:10px}
+ body.oncology-gallery .oncology-quicklinks a{min-height:49px;padding:10px 12px}
+}
+@media(max-width:350px){
+ body.oncology-gallery main{width:calc(100% - 12px);padding:18px 12px}
+}
+@media print{
+ body.oncology-gallery{background:#fff;color:#000}
+ body.oncology-gallery main{width:100%;margin:0;padding:0;border:0;box-shadow:none;background:#fff}
+ body.oncology-gallery .oncology-collage,body.oncology-gallery .oncology-quicklinks{display:none!important}
+}
+@media(forced-colors:active){
+ body.oncology-gallery .oncology-collage,body.oncology-gallery .oncology-quicklinks,
+ body.oncology-gallery .oncology-quicklinks a{
+  background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none;
+ }
+ body.oncology-gallery .oncology-collage figcaption :is(small,strong,span){color:CanvasText}
+}
