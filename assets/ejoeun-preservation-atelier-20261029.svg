@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="art-title art-desc">
+<title id="art-title">이조은치과 창작 그림 · 오래 함께할 자연치아</title>
+<desc id="art-desc">햇살이 들어오는 조용한 화가의 서재. 오래된 책과 돋보기, 꽃병, 하얀 고양이 곁에 자연치아를 상징하는 상아색 도자기 조형물이 놓여 있습니다. 실제 치아의 해부학 구조나 환자 치료 사례를 나타내지 않습니다.</desc>
+<defs>
+  <linearGradient id="wall" x1="0" y1="0" x2="1" y2=".9"><stop stop-color="#f7f0df"/><stop offset=".54" stop-color="#e6e4d6"/><stop offset="1" stop-color="#c2d9c9"/></linearGradient>
+  <linearGradient id="view" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#f4eac7"/><stop offset=".5" stop-color="#c7d7ca"/><stop offset="1" stop-color="#8daf9d"/></linearGradient>
+  <linearGradient id="landscape" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#889f8e"/><stop offset="1" stop-color="#d3d9aa"/></linearGradient>
+  <linearGradient id="desk" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b48c66"/><stop offset=".42" stop-color="#d2ab7b"/><stop offset="1" stop-color="#856547"/></linearGradient>
+  <linearGradient id="tooth" x1="0" y1="0" x2="1" y2=".6"><stop stop-color="#d5c5a8"/><stop offset=".22" stop-color="#fff9e9"/><stop offset=".6" stop-color="#f1e7d2"/><stop offset="1" stop-color="#ccbaa0"/></linearGradient>
+  <linearGradient id="podium" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a5b3a1"/><stop offset=".55" stop-color="#627967"/><stop offset="1" stop-color="#354f40"/></linearGradient>
+  <linearGradient id="book" x1="0" y1="0" x2="1" y2=".3"><stop stop-color="#254b44"/><stop offset="1" stop-color="#426f58"/></linearGradient>
+  <radialGradient id="sun"><stop stop-color="#fffce8" stop-opacity=".9"/><stop offset="1" stop-color="#f3e2b5" stop-opacity="0"/></radialGradient>
+  <filter id="shade" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#34493d" flood-opacity=".18"/></filter>
+  <filter id="soft"><feGaussianBlur stdDeviation="16"/></filter>
+  <pattern id="grain" width="41" height="37" patternUnits="userSpaceOnUse"><path d="M3 8l5 -3M29 16l3 -6M12 30l4 3M34 34l3 -1" stroke="#7c7156" stroke-width="1" opacity=".07" fill="none"/><circle cx="20" cy="8" r="1.4" fill="#637358" opacity=".1"/></pattern>
+  <path id="leaf" d="M0 0Q17 -17 31 -2Q12 16 0 0Z"/>
+</defs>
+<!-- Studio walls, rich sunlight and hand-painted paper texture -->
+<rect width="1200" height="760" fill="url(#wall)"/>
+<rect width="1200" height="760" fill="url(#grain)"/>
+<path d="M0 0h830L460 540H0Z" fill="#fffae7" opacity=".36"/>
+<ellipse cx="340" cy="210" rx="380" ry="290" fill="url(#sun)"/>
+<path d="M765 0v562M785 0v562" stroke="#d2cbb5" stroke-width="7" opacity=".33"/>
+<path d="M0 562H1200" stroke="#d0b899" stroke-width="10"/>
+<!-- Framed landscape window, not a clinical x-ray -->
+<g filter="url(#shade)">
+<rect x="68" y="90" width="452" height="393" rx="4" fill="#a18161"/>
+<rect x="81" y="100" width="428" height="371" fill="#f6e8d0"/>
+<rect x="101" y="118" width="390" height="337" fill="url(#view)"/>
+<circle cx="243" cy="178" r="54" fill="#fff6d4" opacity=".77"/>
+<path d="M101 331Q185 217 287 298Q380 199 491 294V455H101Z" fill="#9fb3a2" opacity=".62"/>
+<path d="M101 376Q206 306 295 357Q393 293 491 343V455H101Z" fill="url(#landscape)"/>
+<path d="M113 451Q155 408 208 428Q244 388 293 420Q367 385 491 424V456H113Z" fill="#6e9275"/>
+<g fill="#c7a980"><rect x="154" y="355" width="45" height="59"/><rect x="332" y="334" width="54" height="70"/><rect x="411" y="368" width="32" height="57"/></g>
+<path d="M149 355l29 -25 27 25M324 334l34 -29 34 29M404 368l23 -20 23 20" fill="#bd866e" stroke="#a97d66" stroke-width="3"/>
+<path d="M298 118v337M101 299h390" stroke="#ead8bc" stroke-width="17"/>
+<path d="M298 118v337M101 299h390" stroke="#b1906e" stroke-width="3" opacity=".65"/>
+<path d="M75 93h442M73 480h443" stroke="#e9d4ae" stroke-width="5"/>
+</g>
+<!-- Curtains / botanical vine -->
+<g fill="none" stroke="#70896b" stroke-width="5" stroke-linecap="round">
+<path d="M519 13Q485 60 532 112Q560 149 523 202Q488 239 532 290"/>
+<path d="M505 73q-36 -24 -54 0M529 111q40 -20 54 6M526 178q-40 -19 -51 9M520 242q37 -23 59 -5"/>
+</g>
+<g fill="#8ea77d"><use href="#leaf" transform="translate(457 74) rotate(32)"/><use href="#leaf" transform="translate(583 118) rotate(164)"/><use href="#leaf" transform="translate(476 181) rotate(27)"/><use href="#leaf" transform="translate(577 236) rotate(155)"/></g>
+<!-- Opaque lower desk and antique panels -->
+<rect x="0" y="560" width="1200" height="200" fill="url(#desk)"/>
+<path d="M0 582Q200 574 425 582T910 580T1200 581" stroke="#7b5942" stroke-width="9" fill="none" opacity=".58"/>
+<path d="M0 624Q280 618 555 627T1200 621M0 705Q250 691 430 706T900 701T1200 700" stroke="#f4d4a4" stroke-width="3" opacity=".28" fill="none"/>
+<rect x="0" y="560" width="1200" height="200" fill="url(#grain)"/>
+<!-- Flower vase on right -->
+<g filter="url(#shade)">
+<path d="M1005 454Q996 502 1006 535L1015 604Q1052 626 1096 606L1106 536Q1122 482 1102 455Z" fill="#e2e8e2" stroke="#94a695" stroke-width="5"/>
+<path d="M1018 474Q1052 488 1093 473" stroke="#acbdac" stroke-width="5" fill="none"/>
+<path d="M1022 532q40 -18 78 2M1022 562q48 -11 78 3" stroke="#8ea7a2" stroke-width="4" fill="none" opacity=".68"/>
+</g>
+<g fill="none" stroke="#527961" stroke-width="4" stroke-linecap="round">
+<path d="M1055 458Q1055 379 1038 286M1054 458Q1098 369 1111 294M1059 451Q1013 363 983 328M1055 455Q1083 366 1067 310"/>
+<path d="M1037 367q-28 -22 -48 -10M1062 385q30 -25 47 -17M1080 354q-31 -8 -39 -29"/>
+</g>
+<g fill="#7a9a77" opacity=".9">
+<use href="#leaf" transform="translate(994 358) rotate(-28)"/><use href="#leaf" transform="translate(1101 369) rotate(170)"/>
+<use href="#leaf" transform="translate(1038 325) rotate(-105)"/><use href="#leaf" transform="translate(1052 395) rotate(115)"/>
+</g>
+<g stroke="#e3d8b7" stroke-width="3">
+<g transform="translate(1036 285)"><circle r="26" fill="#f7eddc"/><circle cx="-13" cy="-10" r="10" fill="#f0cebd"/><circle cx="14" cy="4" r="11" fill="#f2d3c6"/><circle cy="0" r="9" fill="#d1ad70"/></g>
+<g transform="translate(1112 293)"><circle r="23" fill="#f5f1d8"/><circle cx="-10" cy="10" r="10" fill="#d8d7a1"/><circle cx="13" cy="-8" r="10" fill="#f3e5bc"/><circle r="7" fill="#bdad7d"/></g>
+<g transform="translate(982 326)"><circle r="22" fill="#faf4dc"/><circle cx="-10" cy="-8" r="9" fill="#fff8e8"/><circle cx="12" cy="3" r="10" fill="#e5d1b7"/><circle r="7" fill="#e1b77c"/></g>
+<g transform="translate(1067 310)"><circle r="19" fill="#e1d5e4"/><circle cx="-8" cy="7" r="9" fill="#c9b9df"/><circle cx="9" cy="-5" r="9" fill="#f5e5e7"/><circle r="6" fill="#c4b274"/></g>
+</g>
+<!-- Stacked books for conservation and careful assessment -->
+<g filter="url(#shade)">
+<path d="M76 615h286q12 0 10 10v28H70v-32q0 -6 6 -6" fill="#324f49" stroke="#294641" stroke-width="3"/>
+<path d="M84 617h273v30H82Z" fill="url(#book)"/>
+<path d="M95 625h247M95 643h247" stroke="#d2b88a" stroke-width="2" opacity=".65"/>
+<path d="M98 580h254l10 34H85Z" fill="#c19469" stroke="#966f4b" stroke-width="3"/>
+<path d="M105 589h243M104 604h247" stroke="#f9dfb7" stroke-width="4" opacity=".8"/>
+<path d="M111 552h242l-10 29H99Z" fill="#6c8276" stroke="#4d6256" stroke-width="3"/>
+<path d="M112 560h223M106 571h226" stroke="#e4d8b1" stroke-width="3" opacity=".68"/>
+</g>
+<g font-family="Georgia,serif" fill="#f4e8c9" text-anchor="middle" font-size="18" letter-spacing="1">
+<text x="218" y="639">PRESERVE · EXAMINE · EXPLAIN</text>
+</g>
+<!-- White fluffy cat asleep near the books, with a small warm green scarf -->
+<g filter="url(#shade)">
+<ellipse cx="325" cy="680" rx="162" ry="38" fill="#7c6250" opacity=".22"/>
+<path d="M205 667Q150 634 179 609Q204 582 268 584Q334 588 371 634Q415 647 441 619Q471 583 470 626Q481 680 392 692Q247 713 205 667Z" fill="#e8ede6" stroke="#c1cfc4" stroke-width="4"/>
+<path d="M235 607L249 563L284 585Q318 566 343 588L367 562L382 607Q409 656 364 683Q300 713 244 677Q205 656 235 607Z" fill="#f9fbf5" stroke="#c1cfc4" stroke-width="4"/>
+<path d="M245 585l10 -18 18 20M356 584l13 -18 4 25" fill="#f4d8d0"/>
+<path d="M268 640q14 16 28 0M326 638q15 17 28 -2" stroke="#718374" stroke-width="4" fill="none" stroke-linecap="round"/>
+<path d="M304 649l7 6 8 -6" fill="none" stroke="#ad8980" stroke-width="3" stroke-linecap="round"/>
+<path d="M252 654l-37 -3M251 661l-30 7M365 652l31 -3M367 660l31 9" stroke="#b2bdb3" stroke-width="2" stroke-linecap="round"/>
+<path d="M238 683Q306 711 376 686" fill="none" stroke="#739581" stroke-width="9" stroke-linecap="round"/>
+</g>
+<!-- Central gallery objet d'art: an intact ivory ceramic tooth sculpture; ornamental, not an anatomical model -->
+<ellipse cx="662" cy="613" rx="189" ry="39" fill="#4f5746" opacity=".16" filter="url(#soft)"/>
+<g filter="url(#shade)">
+<path d="M526 566L800 566L790 602Q660 628 539 603Z" fill="url(#podium)" stroke="#3b5848" stroke-width="4"/>
+<path d="M525 564Q664 538 798 564Q664 594 525 564Z" fill="#92a896" stroke="#3e6250" stroke-width="3"/>
+<path d="M542 598Q657 625 787 601" stroke="#d2bd89" stroke-width="4" fill="none" opacity=".77"/>
+<path d="M572 323Q546 287 575 257Q603 224 638 251Q664 259 692 248Q740 221 758 262Q775 301 750 360Q725 407 711 478Q702 517 683 516Q663 515 658 476Q650 435 638 434Q625 433 611 478Q600 516 581 505Q558 495 554 449Q545 404 530 366Q519 344 537 317Q553 298 572 323Z" fill="url(#tooth)" stroke="#bda785" stroke-width="5" stroke-linejoin="round"/>
+<path d="M571 329Q578 274 622 280Q663 294 700 270Q738 251 747 290" fill="none" stroke="#fffdf4" stroke-width="14" stroke-linecap="round" opacity=".65"/>
+<path d="M550 371Q585 406 608 406Q637 398 661 402Q693 407 733 362" fill="none" stroke="#e0d1b6" stroke-width="6" opacity=".68"/>
+<path d="M586 446Q594 472 590 489M684 452Q688 474 693 493" stroke="#fbf9e9" stroke-width="8" opacity=".68" fill="none" stroke-linecap="round"/>
+<path d="M553 328q-8 -18 4 -34" stroke="#fefefa" stroke-width="7" fill="none" opacity=".8"/>
+</g>
+<!-- Brass magnifying glass is a symbol of careful diagnosis -->
+<g filter="url(#shade)" transform="translate(834 610) rotate(-22)">
+<circle cx="0" cy="0" r="53" fill="#e5f2e8" fill-opacity=".28" stroke="#bb9b61" stroke-width="12"/>
+<circle cx="0" cy="0" r="42" fill="none" stroke="#f7e7b9" stroke-width="3"/>
+<path d="M36 38l74 71" stroke="#83684c" stroke-width="15" stroke-linecap="round"/>
+<path d="M40 36l73 70" stroke="#d9bb85" stroke-width="5" stroke-linecap="round"/>
+</g>
+<!-- Tiny gold decorative flecks -->
+<g fill="#d3b07e" opacity=".7"><circle cx="485" cy="502" r="5"/><circle cx="493" cy="483" r="2"/><circle cx="803" cy="440" r="4"/><circle cx="868" cy="488" r="3"/><circle cx="903" cy="393" r="3"/></g>
+<g fill="#ad9265" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-weight="700"><text x="820" y="101" font-size="28" letter-spacing="1">이조은치과</text></g>
+<g fill="#325747" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif"><text x="815" y="154" font-size="35" font-weight="700">자연치아를</text><text x="815" y="203" font-size="35" font-weight="700">소중히</text></g>
+<path d="M817 230h226" stroke="#b79e72" stroke-width="2"/>
+<text x="818" y="251" font-family="Georgia,serif" font-size="12" letter-spacing="3" fill="#66806b">EJOEUN · AN ORIGINAL STUDY</text>
+<text x="580" y="736" font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" text-anchor="middle" font-size="12" fill="#f6e8d0">자연치아 보존을 주제로 한 창작 그림 · 실제 치아 구조나 치료 결과를 표현한 도해가 아닙니다.</text>
+</svg>
