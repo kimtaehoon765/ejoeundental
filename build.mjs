@@ -1780,6 +1780,35 @@ for(const filename of ['index.html','content/posts-index.json','sitemap.xml']){
 // These PNGs appear as accessible <img> elements, not just social-preview tags.
 const generatedCareImages=generateClinicShareImages(out);
 console.log('Distinct clinic treatment social artwork:',generatedCareImages);
+
+// Two first-party clinical-share PNGs are created in dist, not in the source tree.
+// Their sitemap entries need actual visible <img> landing-page content, not OG tags alone.
+// Keep the existing watercolor galleries and evidence-based care instructions intact.
+for(const kind of ['implant','denture']){
+ const file=path.join(out,kind+'.html');
+ let html=fs.readFileSync(file,'utf8');
+ const image='/assets/clinical-share/'+kind+'.png';
+ if(html.includes('src="'+image+'"'))throw new Error('Duplicate clinic share illustration: '+kind);
+ const imgAlt=kind==='implant'
+  ?'뼈와 잇몸 위에 보철치아와 임플란트 구성 요소를 개념적으로 표현한 이조은치과 창작 그림'
+  :'상악과 하악의 의치 모양을 개념적으로 표현한 이조은치과의 창작 틀니 그림';
+ const intro=kind==='implant'
+  ?'임플란트 식립 가능성과 잔존 치조골·자연치아 보존 여부는 검사 결과를 바탕으로 판단합니다.'
+  :'완전틀니와 부분틀니의 선택은 남아 있는 치아와 잇몸 상태, 구강 기능에 따라 달라집니다.';
+ const figure='<figure class="care-original-share-figure" style="margin:24px auto;padding:10px;border:1px solid #d0dcd3;border-radius:14px;background:#f7faf6">'
+  +'<img src="'+image+'" width="1200" height="630" loading="lazy" decoding="async" alt="'+imgAlt+'" style="display:block;width:100%;height:auto;object-fit:contain">'
+  +'<figcaption style="padding:13px 8px;color:#425b4e;font-size:14px;line-height:1.8">'+intro
+  +' 이 그림은 실제 환자 사진이나 치료 결과가 아닌 개념 삽화입니다.</figcaption></figure>';
+ if(!html.includes('</figure>'))throw new Error('Existing clinical artwork missing: '+kind);
+ html=html.replace('</figure>','</figure>'+figure);
+ const match=html.match(/<script type="application\/ld\+json">(\{[^\n]*"@type":"MedicalWebPage"[^\n]*\})<\/script>/);
+ if(!match)throw new Error('Missing MedicalWebPage: '+kind);
+ const obj=JSON.parse(match[1]);if(obj.primaryImageOfPage)throw new Error('Medical page image is already set: '+kind);
+ obj.primaryImageOfPage={'@type':'ImageObject',url:'https://ejoeundental.com'+image,width:1200,height:630};
+ html=html.replace(match[0],'<script type="application/ld+json">'+JSON.stringify(obj)+'</script>');
+ fs.writeFileSync(file,html);
+}
+console.log('Clinical-share image sitemap landing artwork: two visible, descriptive PNGs');
 // Check local navigation targets in generated HTML without blocking deployment for old optional links.
 const brokenLinks=new Set();
 function checkLocalLinks(folder){
