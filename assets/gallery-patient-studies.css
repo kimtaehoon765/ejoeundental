@@ -110,3 +110,50 @@
  .gallery-patient-studies__index,.gallery-patient-studies__piece h3,
  .gallery-patient-studies__piece p{color:CanvasText;}
 }
+
+
+/* Progressive enhancement: direct original links work even without JavaScript.
+   Only show modal controls when the interactive gallery has initialized. */
+.gallery-patient-studies__actions .gallery-zoom{display:none}
+.gallery-js .gallery-patient-studies__actions .gallery-zoom{display:inline-flex}
+.gallery-patient-studies__jump{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;margin:0 0 24px;
+}
+.gallery-patient-studies__jump>a{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  min-width:0;min-height:74px;padding:10px 8px;
+  border:1px solid #d4dfd0;border-radius:10px;background:#f3f7ef;
+  color:#285540;text-decoration:none;line-height:1.5;text-align:center;
+  word-break:keep-all;
+}
+.gallery-patient-studies__jump>a small{
+  color:#927e58;font-size:10px;font-weight:800;letter-spacing:.04em;
+}
+.gallery-patient-studies__jump>a strong{
+  font-size:14px;font-weight:750;
+}
+.gallery-patient-studies__jump>a:hover{background:#e9f1e7;border-color:#92ad94}
+.gallery-patient-studies__jump>a:focus-visible{
+  outline:3px solid #ae844b;outline-offset:3px;
+}
+.gallery-patient-studies__piece{scroll-margin-top:110px}
+.gallery-patient-studies__piece:target{
+  border-color:#a78c5e;
+  box-shadow:0 1px 0 #c8b481,0 17px 40px rgba(35,63,44,.13);
+}
+.gallery-patient-studies__actions .gallery-patient-studies__original{
+  background:#fffefa;border-color:#d4dccf;color:#315d46;
+}
+@media(max-width:650px){
+ .gallery-patient-studies__jump{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:18px}
+ .gallery-patient-studies__jump>a{min-height:63px;padding:8px 5px}
+ .gallery-patient-studies__jump>a strong{font-size:13px}
+}
+@media print{.gallery-patient-studies__jump{display:none!important}}
+@media(forced-colors:active){
+ .gallery-patient-studies__jump>a,.gallery-patient-studies__piece:target{
+  background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none;
+ }
+ .gallery-patient-studies__jump>a small{color:CanvasText}
+}
