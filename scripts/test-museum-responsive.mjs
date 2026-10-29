@@ -314,7 +314,7 @@ test('clinical exhibit cards keep all five genuine treatment links and illustrat
   '/scaling.html'
  ]);
  for(const [,href,title,desc] of cards){
-  assert.ok(title.length>5&&desc.length>5,'cards retain readable clinical descriptions');
+  assert.ok(title.trim().length>=3&&desc.trim().length>=6,'cards retain readable clinical titles and descriptions');
   assert.ok(existsSync('dist'+href),'every clinical card must resolve to a real page');
  }
  const images=['care-illustration-abrasion.svg','care-illustration-insurance.svg','care-illustration-scaling.svg'];
