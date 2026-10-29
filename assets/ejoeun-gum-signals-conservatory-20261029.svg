@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="art-title art-desc">
+<title id="art-title">이조은치과 창작 그림 · 잇몸의 신호를 살피는 작은 온실</title>
+<desc id="art-desc">어스름한 오후 빗방울이 맺힌 온실 안, 청록빛과 금빛 선반 위에 출혈·붓기·흔들림의 세 가지 질문을 상징하는 서로 다른 화분이 놓여 있고, 하얗고 복슬복슬한 고양이가 작은 책 옆에 앉아 있습니다. 잇몸·치아 해부학이나 특정 환자의 치료 결과를 나타내지 않는 창작 회화형 장면입니다.</desc>
+<defs>
+<linearGradient id="dusk" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#375568"/><stop offset=".52" stop-color="#719a95"/><stop offset="1" stop-color="#c7cfaa"/></linearGradient>
+<linearGradient id="wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f6efdf"/><stop offset=".52" stop-color="#dfe9db"/><stop offset="1" stop-color="#bdccbe"/></linearGradient>
+<linearGradient id="tabletop" x1="0" y1="0" x2="1" y2=".8"><stop stop-color="#8b755c"/><stop offset=".48" stop-color="#c4a481"/><stop offset="1" stop-color="#5b584c"/></linearGradient>
+<linearGradient id="clay" x1="0" y1="0" x2="1" y2=".6"><stop stop-color="#ba7e70"/><stop offset=".45" stop-color="#e0b19b"/><stop offset="1" stop-color="#a56e62"/></linearGradient>
+<linearGradient id="jade" x1="0" y1="0" x2="1" y2=".8"><stop stop-color="#4b766f"/><stop offset=".48" stop-color="#a4c1ad"/><stop offset="1" stop-color="#376f68"/></linearGradient>
+<linearGradient id="ivory" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8efe1"/><stop offset="1" stop-color="#cdbb9a"/></linearGradient>
+<linearGradient id="fur" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d8e4df"/><stop offset=".43" stop-color="#fffefa"/><stop offset="1" stop-color="#d7e4db"/></linearGradient>
+<radialGradient id="light"><stop stop-color="#fff8dc" stop-opacity=".85"/><stop offset="1" stop-color="#ffe8b7" stop-opacity="0"/></radialGradient>
+<filter id="sh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="9" stdDeviation="12" flood-color="#273f39" flood-opacity=".18"/></filter>
+<pattern id="flecks" width="37" height="43" patternUnits="userSpaceOnUse"><path d="M5 8l4 -3M19 33l3 5M31 18l4 2" fill="none" stroke="#a99b7b" stroke-opacity=".12" stroke-width="1.2"/></pattern>
+<g id="rose" fill="#f2ded4" stroke="#c79190" stroke-width="2"><ellipse cx="0" cy="-14" rx="9" ry="16"/><ellipse cx="14" cy="-2" rx="9" ry="16" transform="rotate(60 14 -2)"/><ellipse cx="-12" cy="-2" rx="9" ry="16" transform="rotate(-60 -12 -2)"/><circle r="9" fill="#e6b7a0"/></g>
+<g id="whiteflower" fill="#fff7e5" stroke="#dacbaa" stroke-width="1.5"><ellipse cx="0" cy="-14" rx="8" ry="13"/><ellipse cx="13" cy="-2" rx="8" ry="13" transform="rotate(66 13 -2)"/><ellipse cx="-13" cy="-2" rx="8" ry="13" transform="rotate(-66 -13 -2)"/><circle r="7" fill="#d5b275"/></g>
+<path id="leaf" d="M0 0Q21 -20 38 -3Q19 20 0 0Z"/>
+</defs>
+<rect width="1200" height="760" fill="url(#wall)"/>
+<rect width="1200" height="760" fill="url(#flecks)"/>
+<ellipse cx="922" cy="140" rx="370" ry="280" fill="url(#light)"/>
+<!-- Arched rainy greenhouse window -->
+<g filter="url(#sh)">
+<path d="M68 497V196Q68 72 193 72H852Q976 74 976 196V497Z" fill="#997d65" stroke="#d9b98b" stroke-width="10"/>
+<path d="M91 479V196Q91 96 198 96H847Q950 96 950 195V479Z" fill="url(#dusk)" stroke="#f5dfb9" stroke-width="8"/>
+<path d="M95 412Q275 296 433 379Q633 275 948 362V477H95Z" fill="#8cae9e" opacity=".85"/>
+<path d="M95 442Q276 370 441 414Q702 353 947 416V476H95Z" fill="#6a9789"/>
+<path d="M95 466Q348 421 587 449Q791 424 947 457V479H95Z" fill="#4c8276"/>
+<path d="M518 98v380M93 298h855" fill="none" stroke="#e8d3ac" stroke-width="16"/>
+<path d="M518 98v380M93 298h855" fill="none" stroke="#7a7d6a" stroke-width="2.5" opacity=".58"/>
+</g>
+<!-- rain glints on the glass -->
+<g stroke="#eef7e7" stroke-width="3" opacity=".6" stroke-linecap="round">
+<path d="M154 172l-4 15M258 224l-4 13M321 151l-5 19M419 255l-5 16M587 191l-4 14M685 140l-4 15M782 255l-4 13M862 184l-3 15M225 346l-4 12M735 338l-3 10"/>
+</g>
+<g fill="#f6faf1" opacity=".69"><circle cx="148" cy="168" r="4"/><circle cx="318" cy="148" r="4"/><circle cx="581" cy="187" r="4"/><circle cx="861" cy="183" r="4"/></g>
+<!-- botanical framing -->
+<g stroke="#587d66" stroke-width="5" fill="none" stroke-linecap="round">
+<path d="M40 67Q128 144 78 235Q44 308 89 386"/>
+<path d="M1056 26Q989 115 1049 198Q1101 287 1048 399"/>
+</g>
+<g fill="#86a887" opacity=".9">
+<use href="#leaf" transform="translate(92 143) rotate(-158)"/><use href="#leaf" transform="translate(50 246) rotate(35)"/><use href="#leaf" transform="translate(1021 135) rotate(28)"/><use href="#leaf" transform="translate(1071 256) rotate(154)"/>
+</g>
+<!-- Wooden shelf with three distinct potted plants -->
+<path d="M0 488Q250 477 523 485Q856 479 1200 489V760H0Z" fill="url(#tabletop)"/>
+<path d="M0 513Q290 504 604 515T1200 514" stroke="#eed6ad" stroke-width="8" opacity=".57" fill="none"/>
+<path d="M0 644Q330 628 663 643T1200 647" stroke="#f2dfbf" stroke-width="4" opacity=".38" fill="none"/>
+<rect y="488" width="1200" height="272" fill="url(#flecks)"/>
+<g filter="url(#sh)">
+<path d="M156 465h183l-16 149q-80 24 -150 0Z" fill="url(#clay)" stroke="#a16a5d" stroke-width="4"/>
+<ellipse cx="247" cy="466" rx="96" ry="19" fill="#e5b2a0" stroke="#a16a5d" stroke-width="4"/>
+<path d="M174 578q67 14 145 0" stroke="#f2d6bf" stroke-width="5" opacity=".56" fill="none"/>
+<path d="M438 465h183l-16 149q-80 24 -151 0Z" fill="url(#jade)" stroke="#426e64" stroke-width="4"/>
+<ellipse cx="530" cy="466" rx="96" ry="19" fill="#b2c8ba" stroke="#426e64" stroke-width="4"/>
+<path d="M456 580q69 14 145 0" stroke="#e8ecda" stroke-width="5" opacity=".6" fill="none"/>
+<path d="M722 465h183l-16 149q-78 24 -151 0Z" fill="url(#ivory)" stroke="#a89578" stroke-width="4"/>
+<ellipse cx="813" cy="466" rx="96" ry="19" fill="#fff4da" stroke="#a89578" stroke-width="4"/>
+<path d="M740 578q70 14 144 0" stroke="#fff8e5" stroke-width="5" opacity=".6" fill="none"/>
+</g>
+<!-- Pot 1 delicate red-pink flowers - a symbolic cue, never literal gingival depiction -->
+<g fill="none" stroke="#5d8466" stroke-width="6" stroke-linecap="round">
+<path d="M246 461Q233 399 233 308M248 453Q207 402 191 356M248 450Q290 402 299 349"/>
+</g>
+<g fill="#8fb08b"><use href="#leaf" transform="translate(209 404) rotate(36)"/><use href="#leaf" transform="translate(272 397) rotate(152)"/><use href="#leaf" transform="translate(236 357) rotate(-40)"/></g>
+<use href="#rose" transform="translate(231 310) scale(1.22)"/>
+<use href="#rose" transform="translate(190 353) scale(.85)"/>
+<use href="#whiteflower" transform="translate(300 344) scale(.75)"/>
+<!-- Pot 2 plum blossoms and broad leaves -->
+<g fill="none" stroke="#527d65" stroke-width="7" stroke-linecap="round">
+<path d="M531 462Q520 395 541 311M529 450Q570 390 595 345M528 436Q480 391 461 346"/>
+</g>
+<g fill="#7d9e80"><use href="#leaf" transform="translate(505 403) rotate(46)"/><use href="#leaf" transform="translate(574 378) rotate(154)"/><use href="#leaf" transform="translate(471 363) rotate(-25)"/></g>
+<g fill="#e6dce9" stroke="#bb9cb4" stroke-width="2">
+<circle cx="538" cy="312" r="19"/><circle cx="516" cy="320" r="13"/><circle cx="554" cy="331" r="14"/><circle cx="596" cy="344" r="18"/><circle cx="460" cy="347" r="18"/>
+</g>
+<g fill="#d6bd79"><circle cx="537" cy="313" r="6"/><circle cx="595" cy="346" r="5"/><circle cx="460" cy="347" r="5"/></g>
+<!-- Pot 3 flexible sapling, a question of stability -->
+<g fill="none" stroke="#547a60" stroke-width="6" stroke-linecap="round">
+<path d="M813 463Q812 413 831 363Q849 324 828 288"/>
+<path d="M824 387q-42 -38 -44 -79M830 367q43 -32 55 -72"/>
+</g>
+<g fill="#a1b68e">
+<use href="#leaf" transform="translate(829 285) rotate(-145)"/><use href="#leaf" transform="translate(779 306) rotate(36)"/><use href="#leaf" transform="translate(886 294) rotate(160)"/><use href="#leaf" transform="translate(838 354) rotate(25)"/><use href="#leaf" transform="translate(801 383) rotate(-165)"/>
+</g>
+<!-- independent small title plaques under each pot -->
+<g font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" text-anchor="middle" font-weight="700" font-size="23" fill="#fff9e5">
+<text x="245" y="555">잇몸 출혈</text><text x="530" y="555">잇몸 붓기</text>
+</g>
+<text x="813" y="555" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" text-anchor="middle" font-size="23" font-weight="700" fill="#486451">치아 흔들림</text>
+<!-- calm white cat in right foreground with no dental tools -->
+<g filter="url(#sh)" transform="translate(1005 515)">
+<ellipse cx="75" cy="149" rx="113" ry="29" fill="#415849" opacity=".22"/>
+<path d="M-22 106Q-49 52 -13 26Q23 -8 79 27Q118 9 144 40Q170 71 157 106Q183 108 200 77Q217 55 234 74Q241 94 219 114Q166 156 106 156L12 154Q-27 144 -22 106Z" fill="url(#fur)" stroke="#ccd9d0" stroke-width="3"/>
+<path d="M-9 72L-4 15L29 34Q75 6 107 37L147 10L153 80Q166 119 124 135Q74 158 11 136Q-20 119 -9 72Z" fill="#fffef9" stroke="#cbd9cf" stroke-width="3"/>
+<path d="M-2 33l2 -15 19 19M132 30l13 -16 2 21" fill="#efdad2"/>
+<ellipse cx="38" cy="92" rx="6" ry="8" fill="#71968b"/><ellipse cx="111" cy="91" rx="6" ry="8" fill="#71968b"/>
+<path d="M64 113l9 7 8 -7" fill="none" stroke="#c29390" stroke-width="3"/>
+<path d="M16 111l-27 -5M17 119l-30 8M132 110l29 -5M132 119l29 9" stroke="#bdcbbf" stroke-width="2"/>
+<path d="M15 144q25 16 51 0M92 145q25 15 53 0" stroke="#f0f5ef" stroke-width="19" fill="none" stroke-linecap="round"/>
+</g>
+<!-- Editorial corner plaque -->
+<g filter="url(#sh)">
+<rect x="51" y="43" width="471" height="150" rx="6" fill="#fff9eb" stroke="#b6a07d" stroke-width="3" opacity=".97"/>
+<rect x="62" y="55" width="449" height="126" rx="3" fill="none" stroke="#ddc7a5" stroke-width="1.5"/>
+</g>
+<text x="83" y="95" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-weight="700" font-size="36" fill="#315742">이조은치과</text>
+<text x="83" y="132" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-weight="700" font-size="21" fill="#345a47">잇몸의 신호를 살피는 작은 온실</text>
+<path d="M84 142h391" stroke="#b79a71" stroke-width="2"/>
+<text x="85" y="169" font-family="Georgia,serif" font-size="13" fill="#867450" letter-spacing="2.5">PERIODONTAL HEALTH · ORIGINAL ART</text>
+<text x="72" y="700" font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" font-size="16" fill="#f4eedc">출혈·붓기·흔들림은 원인이 다를 수 있습니다. 증상만으로 치료를 결정하지 않습니다.</text>
+<text x="72" y="728" font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" font-size="12" fill="#eee6d4">창작 온실 풍경화 · 실제 잇몸·치아 구조, 치료 과정 또는 진료 결과를 표현한 의료 도해가 아닙니다.</text>
+</svg>
