@@ -1801,7 +1801,11 @@ for(const kind of ['implant','denture']){
   +' 이 그림은 실제 환자 사진이나 치료 결과가 아닌 개념 삽화입니다.</figcaption></figure>';
  if(!html.includes('</figure>'))throw new Error('Existing clinical artwork missing: '+kind);
  html=html.replace('</figure>','</figure>'+figure);
- const match=html.match(/<script type="application\/ld\+json">(\{[^\n]*"@type":"MedicalWebPage"[^\n]*\})<\/script>/);
+ const ldBlocks=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+ const match=ldBlocks.find(block=>{
+  try{return JSON.parse(block[1])['@type']==='MedicalWebPage'}
+  catch{return false}
+ });
  if(!match)throw new Error('Missing MedicalWebPage: '+kind);
  const obj=JSON.parse(match[1]);if(obj.primaryImageOfPage)throw new Error('Medical page image is already set: '+kind);
  obj.primaryImageOfPage={'@type':'ImageObject',url:'https://ejoeundental.com'+image,width:1200,height:630};
