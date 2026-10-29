@@ -450,3 +450,27 @@ test('museum identity unifies the first screen while retaining functional patien
  assert.match(area, /min-height:58px;/,'primary booking and phone need large mobile targets');
  assert.match(area, /:focus-visible/,'keyboard focus must be visible');
 });
+
+
+test('approved gutta-percha bacteria image replaces only the first retreatment cause',()=>{
+ const page=read('retreatment.html');
+ const section=page.match(/<h2>신경치료 후 다시 아픈 이유<\/h2>[\s\S]*?<div class="cards">([\s\S]*?)<\/div>/)?.[1]||'';
+ const images=[...section.matchAll(/<img[^>]*src="([^"]+)"[^>]*>/g)].map(x=>x[1]);
+ assert.deepEqual(images,[
+  '/assets/retreatment/illustration-02-bacteria-gutta-percha-20261029.webp',
+  '/assets/retreatment/illustration-03.webp',
+  '/assets/retreatment/illustration-04.webp',
+  '/assets/retreatment/illustration-05.webp'
+ ],'only the retained-bacteria art may change');
+ assert.ok(section.includes('거타퍼차 사이에 남아 있는 세균과 뿌리 끝 염증'));
+ assert.ok(section.includes('<h3>남아 있는 세균</h3>'));
+ const art=readFileSync('dist/assets/retreatment/illustration-02-bacteria-gutta-percha-20261029.webp');
+ assert.ok(art.length>9000,'approved clinic art should be present as a real image');
+ assert.equal(art.subarray(0,4).toString(),'RIFF');
+ assert.equal(art.subarray(8,12).toString(),'WEBP');
+ const css=read('assets/retreatment.css');
+ assert.match(css,/\.cards \.card img\.bacteria-illustration\{/);
+ assert.match(css,/object-fit:contain;/,'full illustration text must not be cropped');
+ assert.ok(page.includes('rel="canonical" href="https://ejoeundental.com/retreatment.html"'));
+ assert.ok(page.includes('retreatment.css?v=20261029-bacteria-art-01'));
+});

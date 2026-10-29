@@ -53,3 +53,10 @@ nav[aria-label="이조은치과 주요 진료 안내"] a:focus-visible{outline:3
 #patient-questions details[open]{background:#f1f8f2}
 #patient-questions details p{padding:0 8px 12px;word-break:keep-all}
 @media(max-width:600px){#patient-questions summary{min-height:52px;font-size:16px}}
+
+/* Source-approved illustration of retained bacteria beside gutta-percha. */
+.cards .card img.bacteria-illustration{
+  aspect-ratio:3/2;
+  object-fit:contain;
+  background:#f9f6eb;
+}
