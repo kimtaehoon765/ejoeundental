@@ -93,7 +93,17 @@ const newestPublishedArticles=[...publishedArticles].sort((a,b)=>
  a.name.localeCompare(b.name));
 const publishedUrl=entry=>'/stories/'+encodeURIComponent(entry.name.slice(0,-5))+'/';
 const expectedNewestHomeUrls=newestPublishedArticles.slice(0,6).map(publishedUrl);
-const expectedNewestRssUrls=newestPublishedArticles.slice(0,20).map(
+// The RSS publishes substantive revisions first, while the homepage
+// remains in original publication-date order. Use the same deterministic
+// revision priority as build.mjs so a carefully updated article is not
+// incorrectly reported as an out-of-date feed.
+const rssLastChanged=post=>[post.updated,post.date]
+ .filter(value=>/^\d{4}-\d{2}-\d{2}$/.test(String(value||'')))
+ .sort().at(-1)||'';
+const expectedNewestRssUrls=[...publishedArticles].sort((a,b)=>
+ rssLastChanged(b.post).localeCompare(rssLastChanged(a.post))||
+ String(b.post.date||'').localeCompare(String(a.post.date||''))||
+ String(a.name).localeCompare(String(b.name))).slice(0,20).map(
  entry=>'https://ejoeundental.com/stories/'+encodeURIComponent(entry.name.slice(0,-5))+'/');
 if(expectedOriginalCount<1||expectedPublishedCount<1)
   throw new Error('Source control has no verified original links or published stories');
@@ -573,13 +583,20 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
     // One existing branded first-party image is used as an honest, lightweight
     // fallback; no fabricated clinic photograph or new external dependency.
     if(['잇몸치료 상세 페이지','홈페이지 치과 이야기 전체 글','public route visit-guide'].includes(label)){
-      const expectedImage=origin+'/assets/ejoeundental-hero-cat.webp';
+      // The periodontal guide now shares its own clinically relevant
+      // watercolor; the journal and directions retain the doctor-cat art.
+      const isGum=label==='잇몸치료 상세 페이지';
+      const expectedImage=origin+(isGum?
+       '/assets/watercolor-care-gum-20261029.webp':
+       '/assets/ejoeundental-hero-cat.webp');
       const imageFields=[
        ['property','og:image',expectedImage],
        ['property','og:image:type','image/webp'],
-       ['property','og:image:width','650'],
-       ['property','og:image:height','543'],
-       ['property','og:image:alt','이조은치과의 하얀 고양이와 치과의사 일러스트'],
+       ['property','og:image:width',isGum?'960':'650'],
+       ['property','og:image:height',isGum?'640':'543'],
+       ['property','og:image:alt',isGum?
+        '노란 손잡이 큐렛을 그린 이조은치과 잇몸치료 수채화':
+        '이조은치과의 하얀 고양이와 치과의사 일러스트'],
        ['name','twitter:image',expectedImage]
       ];
       const socialImageReady=response.status===200&&imageFields.every(([kind,key,value])=>
@@ -1151,8 +1168,8 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        '네이버 RSS 실제 배포 또는 본문·링크 재검증 필요');
       const feedOrderCurrent=itemLinks.length===expectedNewestRssUrls.length&&
         itemLinks.every((url,index)=>url===expectedNewestRssUrls[index]);
-      info.push(feedOrderCurrent?'최신 발행 글 20편이 실제 RSS 맨 앞부터 최신순':
-        '실제 RSS가 최신 20편을 표시하지 않음 — 게시 코드/배포 업데이트 확인 필요');
+      info.push(feedOrderCurrent?'최근 발행·수정 글 20편이 실제 RSS에서 최신 변경일순':
+        'RSS가 최근 발행·수정 글 20편과 일치하지 않음 — 게시 코드/배포 확인 필요');
     } else if (label === '검색엔진 sitemap') {
       const firstLoc = body.split('<loc>')[1]?.split('</loc>')[0] || '(없음)';
       info.push('정식 도메인 홈페이지: ' + (body.includes('<loc>' + origin + '/</loc>')?'포함':'확인 필요'));
