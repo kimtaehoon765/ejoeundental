@@ -1,0 +1,115 @@
+/* Original periodontal FAQ conservatory — distinct original painting, 2026-10-29.
+   Art is symbolic; all actual advice remains in original FAQ answer cards. */
+.gum-faq-greenhouse{
+  box-sizing:border-box;
+  display:block;
+  margin:20px 0 24px;
+  padding:8px;
+  overflow:hidden;
+  border:1px solid #c1b391;
+  border-top:2px solid #aa8d60;
+  border-radius:4px 15px 4px 15px;
+  background:linear-gradient(135deg,#e8eadb,#fffaf0 55%,#e9f3ec);
+  box-shadow:0 15px 32px rgba(26,56,44,.08);
+}
+.gum-faq-greenhouse img{
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  aspect-ratio:30 / 19;
+  object-fit:contain;
+  object-position:center;
+  background:#e9e9db;
+  border:1px solid #cfbda1;
+}
+.gum-faq-greenhouse figcaption{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:7px;
+  padding:16px 13px 19px;
+  color:#52675b;
+  line-height:1.8;
+  word-break:keep-all;
+  font-size:14px;
+}
+.gum-faq-greenhouse figcaption small{
+  color:#947650;
+  font-size:11px;
+  font-weight:750;
+  letter-spacing:.1em;
+}
+.gum-faq-greenhouse figcaption strong{
+  color:#254e3b;
+  font:700 clamp(20px,2.5vw,27px)/1.55 'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  letter-spacing:-.04em;
+}
+.gum-faq-quicklinks{
+  box-sizing:border-box;
+  padding:17px;
+  margin:0 0 28px;
+  border:1px solid #cbdccf;
+  border-radius:13px;
+  background:#f0f6ef;
+}
+.gum-faq-quicklinks>strong{
+  display:block;
+  margin-bottom:11px;
+  color:#28533d;
+  font:700 18px/1.5 'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+}
+.gum-faq-quicklinks>div{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+}
+.gum-faq-quicklinks a{
+  box-sizing:border-box;
+  min-height:51px;
+  min-width:0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:9px;
+  padding:10px 12px;
+  background:#fffefa;
+  border:1px solid #d2dfd1;
+  border-radius:9px;
+  color:#245c42;
+  font-size:14px;
+  font-weight:750;
+  line-height:1.55;
+  text-decoration:none;
+  word-break:keep-all;
+}
+.gum-faq-quicklinks a:hover{
+  border-color:#789c82;
+  background:#fffdf7;
+}
+.gum-faq-quicklinks a:focus-visible{
+  outline:3px solid #ad844c;
+  outline-offset:3px;
+}
+.gum-faq-quicklinks a>span{
+  color:#a3875f;
+  flex-shrink:0;
+  white-space:nowrap;
+  font-size:12px;
+}
+@media(max-width:620px){
+ .gum-faq-greenhouse{padding:5px;margin:14px 0 19px}
+ .gum-faq-greenhouse figcaption{padding:12px 8px 15px;gap:7px;font-size:13px}
+ .gum-faq-greenhouse figcaption strong{font-size:20px}
+ .gum-faq-quicklinks{padding:12px;margin-bottom:23px}
+ .gum-faq-quicklinks>div{grid-template-columns:minmax(0,1fr);gap:8px}
+ .gum-faq-quicklinks a{min-height:49px}
+}
+@media print{.gum-faq-greenhouse,.gum-faq-quicklinks{display:none!important}}
+@media(forced-colors:active){
+ .gum-faq-greenhouse,.gum-faq-quicklinks,.gum-faq-quicklinks a{
+  background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none;
+ }
+ .gum-faq-greenhouse figcaption :is(small,strong,span),
+ .gum-faq-quicklinks>strong{color:CanvasText}
+}
