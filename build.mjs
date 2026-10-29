@@ -19,7 +19,9 @@ const retreatmentImageConfig=JSON.parse(fs.readFileSync(path.join(root,'assets/r
 if(!retreatmentImageConfig||typeof retreatmentImageConfig!=='object'||Array.isArray(retreatmentImageConfig))throw new Error('Invalid CMS retreatment image mapping');
 const retreatmentImageKeys=['hero','reason1','reason2','reason3','reason4','step1','step2','step3','step4','closing'];
 let retreatmentMarkup=fs.readFileSync(retreatmentPath,'utf8');
-const existingIllustrations=[...retreatmentMarkup.matchAll(/<img\b[^>]*\bsrc="(\/assets\/retreatment\/illustration-\d{2}\.webp)"[^>]*>/g)];
+// Accept the owner-approved updated bacteria illustration without changing the
+// other nine image slots or their build-time CMS override mapping.
+const existingIllustrations=[...retreatmentMarkup.matchAll(/<img\b[^>]*\bsrc="(\/assets\/retreatment\/illustration-\d{2}(?:-bacteria-gutta-percha-20261029)?\.webp)"[^>]*>/g)];
 if(existingIllustrations.length!==retreatmentImageKeys.length)throw new Error('Retreatment illustration count changed: '+existingIllustrations.length);
 let appliedIllustrations=0;
 for(let i=0;i<retreatmentImageKeys.length;i++){
