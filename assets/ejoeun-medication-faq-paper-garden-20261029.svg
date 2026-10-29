@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" role="img" aria-labelledby="title desc">
+<title id="title">이조은치과 · 복용약 상담을 위한 작은 정원</title>
+<desc id="desc">따뜻한 크림색 수채화 배경 위에 금빛 프레임, 약 이름을 적는 빈 노트, 봉투, 꽃잎, 하얀 복슬복슬한 고양이가 있는 독창적인 정물 삽화. 특정 약을 권하지 않는 장식 회화입니다.</desc>
+<defs>
+<linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8f0db"/><stop offset=".48" stop-color="#f7f7ea"/><stop offset="1" stop-color="#dfebdd"/></linearGradient>
+<linearGradient id="book" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fdfcf5"/><stop offset="1" stop-color="#eee2cb"/></linearGradient>
+<linearGradient id="bottle" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#aac5b4"/><stop offset="1" stop-color="#5e907d"/></linearGradient>
+<filter id="shadow"><feGaussianBlur stdDeviation="15"/></filter>
+<pattern id="grain" patternUnits="userSpaceOnUse" width="62" height="62"><circle cx="11" cy="27" r="1.2" fill="#857c66" opacity=".13"/><circle cx="44" cy="42" r=".9" fill="#497966" opacity=".12"/></pattern>
+</defs>
+<rect width="1200" height="480" fill="#ecede0"/><rect x="15" y="15" width="1170" height="450" rx="18" fill="url(#paper)" stroke="#c8b590" stroke-width="3"/>
+<rect x="32" y="32" width="1136" height="416" rx="11" fill="url(#grain)" stroke="#dccbab" stroke-width="2"/>
+<g opacity=".5" fill="none" stroke-width="5" stroke-linecap="round"><path d="M80 375Q185 320 246 205" stroke="#79a48b"/><path d="M1080 420Q1005 316 964 189" stroke="#86a992"/></g>
+<g fill="#9ab99a" opacity=".8"><ellipse cx="177" cy="275" rx="48" ry="16" transform="rotate(-49 177 275)"/><ellipse cx="214" cy="228" rx="46" ry="16" transform="rotate(23 214 228)"/><ellipse cx="1034" cy="306" rx="50" ry="18" transform="rotate(-35 1034 306)"/><ellipse cx="993" cy="247" rx="44" ry="16" transform="rotate(31 993 247)"/></g>
+<g fill="#edc9a4" stroke="#d5a77e" stroke-width="2"><circle cx="248" cy="194" r="22"/><circle cx="972" cy="177" r="21"/><circle cx="1087" cy="352" r="15"/></g><g fill="#fff5d7"><circle cx="248" cy="194" r="8"/><circle cx="972" cy="177" r="8"/><circle cx="1087" cy="352" r="6"/></g>
+<path d="M196 399H1049" stroke="#b8a58b" stroke-width="20" opacity=".7" stroke-linecap="round"/>
+<ellipse cx="605" cy="402" rx="365" ry="27" fill="#726756" opacity=".15" filter="url(#shadow)"/>
+<g transform="translate(280 126) rotate(-5 160 140)">
+<rect x="6" y="8" width="316" height="250" rx="12" fill="#c8bda4" opacity=".4"/>
+<rect width="316" height="250" rx="11" fill="url(#book)" stroke="#bcb199" stroke-width="4"/>
+<rect x="24" y="26" width="268" height="200" rx="5" fill="none" stroke="#ddd1b7" stroke-width="2"/>
+<text x="35" y="65" font-family="Georgia,serif" font-size="26" fill="#5f826b" letter-spacing="1">CARE NOTES</text>
+<path d="M39 93H268M39 125H245M39 155H262M39 187H226" stroke="#a6b9a9" stroke-width="5" stroke-linecap="round"/>
+<g fill="none" stroke="#b99b68" stroke-width="5"><path d="M245 156l10 12 18-25"/></g>
+</g>
+<g transform="translate(556 191) rotate(7 103 84)">
+<path d="M0 31H206V170H0Z" fill="#fffaf0" stroke="#c5aa87" stroke-width="4"/>
+<path d="M0 31L103 107L206 31" fill="none" stroke="#c5aa87" stroke-width="4"/>
+<path d="M0 170L73 111M206 170l-73-59" stroke="#e0cbb0" stroke-width="4"/>
+<rect x="65" y="3" width="80" height="33" rx="7" fill="#7eaa95" stroke="#5d856e" stroke-width="3"/>
+</g>
+<g transform="translate(902 292)">
+<path d="M-30-68H36L25 32Q8 54-16 33Z" fill="url(#bottle)" stroke="#668f7d" stroke-width="3"/>
+<ellipse cx="3" cy="-67" rx="32" ry="9" fill="#d4e5d8" stroke="#668f7d" stroke-width="3"/>
+<path d="M2-65Q-1-124-39-164M2-65Q27-131 49-171M2-65Q13-146 8-189" stroke="#668d71" stroke-width="4" fill="none"/>
+<g fill="#a5be99"><ellipse cx="-18" cy="-132" rx="24" ry="8" transform="rotate(34 -18 -132)"/><ellipse cx="36" cy="-136" rx="25" ry="9" transform="rotate(-37 36 -136)"/></g>
+<g fill="#efc9b0" stroke="#dba887" stroke-width="2"><circle cx="-40" cy="-164" r="17"/><circle cx="50" cy="-171" r="16"/><circle cx="8" cy="-189" r="20"/></g>
+</g>
+<g transform="translate(784 255)">
+<ellipse cx="36" cy="153" rx="137" ry="24" fill="#403d35" opacity=".15" filter="url(#shadow)"/>
+<path d="M89 100Q156 76 140 8" fill="none" stroke="#fdfdf7" stroke-width="28" stroke-linecap="round"/>
+<ellipse cx="37" cy="99" rx="73" ry="61" fill="#fffdf8" stroke="#d6dcd2" stroke-width="3"/>
+<path d="M-11 6L-21-53L13-39Q36-52 61-39L92-54L88 7Z" fill="#fffdf8" stroke="#d6dcd2" stroke-width="3"/>
+<path d="M-10-13L-12-40L4-31M67-32L84-43L80-12" fill="#efdad7"/>
+<ellipse cx="37" cy="24" rx="56" ry="47" fill="#fffdf8" stroke="#d6dcd2" stroke-width="3"/>
+<ellipse cx="17" cy="20" rx="4.5" ry="6" fill="#5c7268"/><ellipse cx="56" cy="20" rx="4.5" ry="6" fill="#5c7268"/>
+<path d="M30 33h13l-7 7Z" fill="#c99692"/><path d="M36 41q-9 10-18 2m18-2q9 10 18 2" fill="none" stroke="#a0ada3" stroke-width="2"/>
+<g stroke="#b3beb6" stroke-width="2"><path d="M16 37l-30-7M16 44l-31 8M57 37l29-8M57 44l32 9"/></g>
+<ellipse cx="-12" cy="146" rx="23" ry="13" fill="#fffdf8"/><ellipse cx="85" cy="146" rx="24" ry="13" fill="#fffdf8"/>
+</g>
+<text x="56" y="65" font-size="24" font-weight="700" font-family="'Malgun Gothic','Apple SD Gothic Neo',sans-serif" fill="#476c56">이조은치과</text>
+<text x="1134" y="67" font-family="Georgia,serif" font-size="15" letter-spacing="3" text-anchor="end" fill="#9b805f">ATELIER · MEDICATION STORIES</text>
+<text x="1134" y="438" font-family="Georgia,serif" font-size="18" font-style="italic" text-anchor="end" fill="#839f8d">A thoughtful conversation</text>
+</svg>
