@@ -471,6 +471,7 @@ test('approved gutta-percha bacteria image replaces only the first retreatment c
  const css=read('assets/retreatment.css');
  assert.match(css,/\.cards \.card img\.bacteria-illustration\{/);
  assert.match(css,/object-fit:contain;/,'full illustration text must not be cropped');
- assert.ok(page.includes('rel="canonical" href="https://ejoeundental.com/retreatment.html"'));
+ assert.match(page,/rel="canonical" href="https:\/\/ejoeundental\.com\/retreatment(?:\.html)?"/,
+  'production canonical may use the extensionless route');
  assert.ok(page.includes('retreatment.css?v=20261029-bacteria-art-01'));
 });
