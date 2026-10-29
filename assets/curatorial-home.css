@@ -1590,3 +1590,283 @@ body.home-page #main-content>#health-info .health-topic-grid>.card::before{
     border-color:CanvasText;
   }
 }
+
+
+/*
+ * Journal and visitor gallery edition — 2026-10-29.
+ * The existing author's journal reads as a curated exhibition room;
+ * visiting information becomes a practical, calm arrival guide.
+ * Keep all 509 blog links, medical advice, parking, hours and booking untouched.
+ */
+body.home-page #main-content>#stories{
+  background:
+    radial-gradient(ellipse at 98% 3%,rgba(185,164,120,.13),transparent 48%),
+    linear-gradient(180deg,#f7f6ef 0%,#fdfbf5 100%);
+}
+body.home-page #main-content>#stories>.wrap>.eyebrow,
+body.home-page #main-content>#location .eyebrow{
+  color:#8c7147;
+  letter-spacing:.19em;
+}
+body.home-page #main-content>#stories>.wrap>h2,
+body.home-page #main-content>#location>.wrap.split>div:first-child>h2{
+  color:#244a37;
+  font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.054em;
+  text-wrap:balance;
+}
+body.home-page #main-content>#stories .journal-gallery-cover{
+  border:1px solid #cbbd9d;
+  border-radius:3px 17px 3px 17px;
+  background:linear-gradient(128deg,#fbf5e8,#f8f9f2);
+  box-shadow:0 18px 37px rgba(28,54,39,.09);
+  overflow:hidden;
+}
+body.home-page #main-content>#stories .journal-gallery-cover img{
+  object-fit:contain;
+  background:#f4f0e5;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__caption{
+  padding:clamp(17px,2.8vw,30px);
+}
+body.home-page #main-content>#stories .story-collection-menu{
+  gap:clamp(9px,1.4vw,17px);
+}
+body.home-page #main-content>#stories .story-collection-menu>a{
+  box-sizing:border-box;
+  min-width:0;
+  min-height:72px;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  padding:17px 19px;
+  background:#fffef9;
+  border:1px solid #d9cbb0;
+  border-left:4px solid #9a865d;
+  border-radius:3px 13px 3px 13px;
+  box-shadow:0 7px 20px rgba(28,54,39,.055);
+  line-height:1.65;
+  color:#24503c;
+  word-break:keep-all;
+}
+body.home-page #main-content>#stories .story-collection-menu>a:nth-child(even){
+  border-left-color:#749583;
+}
+body.home-page #main-content>#stories .story-featured-questions{
+  border:1px solid #d4ccb6;
+  border-top:3px solid #99815a;
+  border-radius:4px 14px 4px 14px;
+  background:#fffdf6;
+  padding:clamp(15px,2.3vw,24px);
+}
+body.home-page #main-content>#stories .story-featured-questions>strong{
+  color:#214b38;
+  font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.04em;
+}
+body.home-page #main-content>#stories .story-featured-questions>a{
+  min-height:44px;
+  box-sizing:border-box;
+  line-height:1.6;
+  word-break:keep-all;
+}
+body.home-page #main-content>#stories .owner-blog-direct-search{
+  background:#fffdf8;
+  border:1px solid #d3c6a8;
+  border-left:4px solid #819a83;
+  border-radius:3px 13px 3px 13px;
+  box-shadow:0 9px 27px rgba(29,55,39,.055);
+}
+body.home-page #main-content>#stories .owner-blog-direct-search :is(input,button){
+  min-height:46px;
+  box-sizing:border-box;
+}
+body.home-page #main-content>#stories .owner-stories-grid>.owner-story-card{
+  border-left:3px solid #b6a079;
+  background:#fffdf8;
+  border-radius:3px 10px 3px 10px;
+}
+body.home-page #main-content>#stories a:focus-visible,
+body.home-page #main-content>#location a:focus-visible{
+  outline:3px solid #997440;
+  outline-offset:3px;
+}
+body.home-page #main-content>#location{
+  background:
+    radial-gradient(ellipse at 0 0,rgba(200,188,154,.16),transparent 56%),
+    linear-gradient(165deg,#fbfaf4,#f2f5ed);
+}
+body.home-page #main-content>#location .visit-facts-eyebrow{
+  color:#897148;
+  letter-spacing:.12em;
+}
+body.home-page #main-content>#location .visit-quick-facts{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(9px,1.2vw,15px);
+  align-items:stretch;
+}
+body.home-page #main-content>#location .visit-quick-facts>div{
+  min-width:0;
+  box-sizing:border-box;
+  padding:clamp(15px,1.8vw,21px);
+  border:1px solid #d9d2c2;
+  border-top:3px solid #aa966e;
+  border-radius:3px 12px 3px 12px;
+  background:#fffefa;
+  box-shadow:0 7px 21px rgba(31,57,42,.048);
+}
+body.home-page #main-content>#location .visit-quick-facts>div:nth-child(even){
+  border-top-color:#7b9e86;
+}
+body.home-page #main-content>#location .visit-quick-facts>div>strong{
+  display:block;
+  margin-bottom:11px;
+  color:#244e3d;
+  font:700 16px/1.52 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.035em;
+}
+body.home-page #main-content>#location .visit-quick-facts>div>span{
+  display:block;
+  color:#4b6153;
+  line-height:1.85;
+  font-size:14px;
+  word-break:keep-all;
+}
+body.home-page #main-content>#location .visit-quick-facts a{
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+  margin-top:8px;
+  color:#21563d;
+  font-weight:700;
+  line-height:1.55;
+  word-break:keep-all;
+}
+body.home-page #main-content>#location .place-visit-actions{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+}
+body.home-page #main-content>#location .place-visit-actions>a{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-sizing:border-box;
+  min-width:0;
+  min-height:54px;
+  padding:12px;
+  line-height:1.55;
+  text-align:center;
+  word-break:keep-all;
+  border-radius:5px;
+}
+body.home-page #main-content>#location .parking-info,
+body.home-page #main-content>#location .hours-box{
+  border:1px solid #d9cfbd;
+  border-radius:4px 14px 4px 14px;
+  background:#fffdf8;
+  box-shadow:0 10px 23px rgba(28,57,41,.048);
+}
+body.home-page #main-content>#location .parking-info{
+  border-left:4px solid #9c875e;
+}
+body.home-page #main-content>#location .hours-box{
+  border-left:4px solid #779982;
+}
+body.home-page #main-content>#location :is(.parking-info,.hours-box)>h3{
+  color:#244e3c;
+  font:700 clamp(18px,1.7vw,22px)/1.55 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.035em;
+  word-break:keep-all;
+}
+body.home-page #main-content>#location .alternating-hours-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:11px;
+}
+body.home-page #main-content>#location .alternating-hours-card{
+  min-width:0;
+  padding:16px;
+  border:1px solid #ded4c1;
+  border-top:3px solid #b39c72;
+  border-radius:4px 11px 4px 11px;
+  background:#faf7ec;
+  word-break:keep-all;
+}
+body.home-page #main-content>#location .alternating-hours-card:nth-child(even){
+  border-top-color:#7b9e86;
+  background:#f0f5ee;
+}
+body.home-page #main-content>#location .alternating-hours-call{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-sizing:border-box;
+  min-height:48px;
+  line-height:1.65;
+  word-break:keep-all;
+}
+@media(max-width:1000px){
+  body.home-page #main-content>#location .visit-quick-facts{
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.home-page #main-content>#location .place-visit-actions{
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+@media(max-width:700px){
+  body.home-page #main-content>#stories .journal-gallery-cover{
+    border-radius:4px 11px 4px 11px;
+  }
+  body.home-page #main-content>#stories .story-collection-menu>a{
+    min-height:60px;
+    padding:13px 14px;
+  }
+  body.home-page #main-content>#stories .story-featured-questions{
+    padding:15px 13px;
+  }
+  body.home-page #main-content>#stories .owner-blog-direct-search{
+    padding:15px 13px;
+  }
+  body.home-page #main-content>#stories .owner-blog-direct-search :is(input,button){
+    min-height:48px;
+  }
+  body.home-page #main-content>#location .visit-quick-facts>div{
+    padding:15px 16px;
+  }
+  body.home-page #main-content>#location .visit-quick-facts>div>span{
+    font-size:14px;
+  }
+  body.home-page #main-content>#location .alternating-hours-grid{
+    grid-template-columns:minmax(0,1fr);
+    gap:10px;
+  }
+  body.home-page #main-content>#location .alternating-hours-card{
+    padding:15px;
+  }
+  body.home-page #main-content>#location .parking-info,
+  body.home-page #main-content>#location .hours-box{
+    box-sizing:border-box;
+    padding:clamp(16px,4.2vw,22px);
+  }
+  body.home-page #main-content>#location .place-visit-actions>a{
+    min-height:48px;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#stories .journal-gallery-cover,
+  body.home-page #main-content>#stories .story-collection-menu>a,
+  body.home-page #main-content>#stories .story-featured-questions,
+  body.home-page #main-content>#stories .owner-blog-direct-search,
+  body.home-page #main-content>#location .visit-quick-facts>div,
+  body.home-page #main-content>#location .parking-info,
+  body.home-page #main-content>#location .hours-box,
+  body.home-page #main-content>#location .alternating-hours-card{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
