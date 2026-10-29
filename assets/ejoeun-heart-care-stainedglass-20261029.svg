@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+<title id="title">이조은치과 · 심장질환 환자의 치과진료, 이야기를 듣는 색유리 정원</title>
+<desc id="desc">진한 청록색과 연한 살구색으로 물든 아르누보풍 색유리 창문. 양쪽 아치에는 심장 진단 및 수술 이력을 상징하는 책, 현재 증상과 복용약을 상징하는 기록지가 놓이고, 중앙에는 심장을 상징하는 추상적인 꽃잎 모양 장식이 있다. 맨 아래에는 하얗고 복슬복슬한 고양이가 앉아 있다. 심장 해부학, 감염성 심내막염 또는 예방적 항생제 적용을 판단하는 의료 도해는 아니다.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f5eee1"/><stop offset=".52" stop-color="#fff9e8"/><stop offset="1" stop-color="#dcebe4"/></linearGradient>
+<linearGradient id="frame" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a48960"/><stop offset=".43" stop-color="#efdbab"/><stop offset="1" stop-color="#967d58"/></linearGradient>
+<linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#24485a"/><stop offset=".5" stop-color="#5d8f9a"/><stop offset="1" stop-color="#b2d4cf"/></linearGradient>
+<linearGradient id="green" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#316b5a"/><stop offset=".55" stop-color="#82ada0"/><stop offset="1" stop-color="#d2d4aa"/></linearGradient>
+<linearGradient id="rose" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8c5061"/><stop offset=".55" stop-color="#e5a59e"/><stop offset="1" stop-color="#f2d7bc"/></linearGradient>
+<linearGradient id="floor" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ddd0b6"/><stop offset=".52" stop-color="#f3e7d0"/><stop offset="1" stop-color="#c0bea9"/></linearGradient>
+<linearGradient id="ivory" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffefa"/><stop offset="1" stop-color="#e3d9c1"/></linearGradient>
+<linearGradient id="cat" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d2e0d9"/><stop offset=".52" stop-color="#fffefa"/><stop offset="1" stop-color="#dce8dd"/></linearGradient>
+<filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="9" stdDeviation="10" flood-color="#33554c" flood-opacity=".2"/></filter>
+<pattern id="paper" width="40" height="35" patternUnits="userSpaceOnUse"><path d="M4 6l5 3M29 20l-3 3M17 31l3 -4" fill="none" stroke="#8b7a63" stroke-opacity=".08"/></pattern>
+<path id="leaf" d="M0 0Q17 -18 35 -3Q18 17 0 0Z"/>
+<g id="flower" stroke="#d9b599" stroke-width="2"><ellipse cx="0" cy="-14" rx="9" ry="15" fill="#f9ebdc"/><ellipse cx="13" cy="0" rx="15" ry="9" fill="#f5d9cd"/><ellipse cx="0" cy="14" rx="9" ry="15" fill="#f9eee4"/><ellipse cx="-13" cy="0" rx="15" ry="9" fill="#f2d6cf"/><circle r="7" fill="#d7b47e" stroke="none"/></g>
+</defs>
+<rect width="1200" height="720" fill="url(#bg)"/>
+<rect width="1200" height="720" fill="url(#paper)"/>
+<rect x="20" y="18" width="1160" height="684" rx="12" stroke="#b89d72" stroke-width="3" fill="none"/>
+<rect x="31" y="29" width="1138" height="663" rx="7" stroke="#dbc8aa" stroke-width="2" fill="none"/>
+<!-- original art-nouveau upper signature and title, text kept outside medicine diagrams -->
+<text x="72" y="83" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="40" font-weight="700" fill="#2d5c46">이조은치과</text>
+<path d="M71 100h285" stroke="#b99c6d" stroke-width="3"/>
+<text x="70" y="142" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="28" font-weight="700" fill="#335c4d">심장질환 환자의 치과진료</text>
+<text x="74" y="168" font-family="Georgia,serif" font-size="13" letter-spacing="2.2" fill="#8c7854">A CONVERSATION BEFORE TREATMENT</text>
+<!-- Three adjacent, uniquely shaped hand-crafted glass panels -->
+<g filter="url(#shadow)">
+ <path d="M72 530V307Q72 227 153 227H332Q412 227 412 307V530Z" fill="url(#frame)" stroke="#a6875c" stroke-width="6"/>
+ <path d="M89 514V309Q89 249 156 249H329Q394 249 394 310V514Z" fill="url(#blue)" stroke="#f6e4c1" stroke-width="7"/>
+ <path d="M430 530V245Q430 148 529 148H684Q782 148 782 246V530Z" fill="url(#frame)" stroke="#a6875c" stroke-width="6"/>
+ <path d="M448 514V248Q448 168 531 168H683Q763 168 763 248V514Z" fill="url(#rose)" stroke="#f6e4c1" stroke-width="7"/>
+ <path d="M802 530V307Q802 227 882 227H1060Q1141 227 1141 307V530Z" fill="url(#frame)" stroke="#a6875c" stroke-width="6"/>
+ <path d="M819 514V310Q819 249 885 249H1057Q1124 249 1124 310V514Z" fill="url(#green)" stroke="#f6e4c1" stroke-width="7"/>
+</g>
+<!-- Stylized stained-glass outlines and flowing ornamental leaf motifs -->
+<g stroke="#e7d2a6" stroke-width="5" fill="none" opacity=".83">
+ <path d="M89 383h305M250 251v261M820 385h304M973 252v259"/>
+ <path d="M449 324h314M606 168v346"/>
+</g>
+<g stroke="#f7e5c6" stroke-width="3" fill="none" opacity=".68">
+<path d="M96 498Q174 427 247 453Q330 411 384 478"/>
+<path d="M822 489Q908 425 980 454Q1059 407 1119 483"/>
+<path d="M452 468Q515 384 603 436Q690 392 758 465"/>
+</g>
+<!-- left panel: framed medical-history book, not patient's actual records -->
+<g filter="url(#shadow)" transform="translate(165 318)">
+ <rect width="164" height="161" rx="10" fill="#36596b" stroke="#e9d3aa" stroke-width="4"/>
+ <rect x="16" y="15" width="133" height="133" rx="4" fill="url(#ivory)" stroke="#ccb68d" stroke-width="2"/>
+ <path d="M82 18v128" stroke="#c3b29a" stroke-width="3"/>
+ <path d="M29 48h42M29 70h40M29 91h40M29 113h42M94 48h40M94 70h40M94 91h40M94 113h36" stroke="#a4bbb1" stroke-width="4" stroke-linecap="round"/>
+</g>
+<!-- central symmetric heart-shaped botanical flower - pure symbolism, not cardiac anatomy -->
+<g filter="url(#shadow)">
+ <path d="M607 436Q515 378 497 319Q483 271 531 251Q572 234 607 280Q641 234 684 250Q736 278 714 330Q693 390 607 436Z" fill="#f3c6ad" stroke="#f7edcb" stroke-width="10"/>
+ <path d="M607 415Q538 361 522 320Q516 288 546 277Q578 268 606 312Q634 268 667 275Q703 292 692 325Q676 367 607 415Z" fill="url(#rose)" stroke="#b98387" stroke-width="3"/>
+ <path d="M609 427q-1 -47 0 -112M608 355q-44 -4 -66 -22M608 365q45 -8 67 -31" stroke="#f8e5c8" stroke-width="6" stroke-linecap="round" fill="none"/>
+ <g fill="#f3e2bd"><circle cx="607" cy="307" r="7"/><circle cx="542" cy="336" r="6"/><circle cx="674" cy="336" r="6"/></g>
+</g>
+<!-- right panel: abstract appointment note and simple tick, no antibiotics -->
+<g filter="url(#shadow)" transform="translate(879 318)">
+ <rect width="192" height="160" rx="10" fill="#e6e6d5" stroke="#f0d7af" stroke-width="4"/>
+ <rect x="15" y="14" width="162" height="133" rx="5" fill="url(#ivory)" stroke="#bdc3ab" stroke-width="2"/>
+ <path d="M30 45h128M30 70h125M30 95h82M31 121h71" stroke="#a8c3b0" stroke-width="4" stroke-linecap="round"/>
+ <circle cx="139" cy="112" r="21" fill="#e2ede1" stroke="#779d83" stroke-width="3"/>
+ <path d="M128 111l8 7 17 -19" stroke="#5c8a6f" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<!-- below glass: three understated labels, ensuring no universal prophylaxis claims -->
+<rect x="71" y="531" width="1073" height="56" fill="url(#floor)" stroke="#c7b08b" stroke-width="3"/>
+<g fill="#345744" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="22" font-weight="700" text-anchor="middle">
+ <text x="249" y="569">심장 진단·시술 이력</text>
+ <text x="604" y="569">개인별 위험 확인</text>
+ <text x="973" y="569">현재 증상·복용약</text>
+</g>
+<!-- distinctive mascot: resting white cat on small window ledge -->
+<g transform="translate(66 588)" filter="url(#shadow)">
+ <ellipse cx="92" cy="91" rx="122" ry="24" fill="#426b5f" opacity=".18"/>
+ <path d="M-9 83Q-32 35 5 8Q40 -22 89 9Q125 -13 159 24Q185 58 168 88Q198 92 221 66Q232 49 245 66Q254 92 218 107Q161 132 99 126L19 128Q-7 119 -9 83Z" fill="url(#cat)" stroke="#c6d6cd" stroke-width="3"/>
+ <path d="M5 58L11 7 37 26Q88 -3 121 24L156 4L165 66Q173 99 139 111Q85 129 27 108Q-3 98 5 58Z" fill="#fffefa" stroke="#cad7cd" stroke-width="3"/>
+ <path d="M10 25l0 -14 19 18M144 24l13 -15 3 19" fill="#f0d9d1"/>
+ <ellipse cx="47" cy="70" rx="6" ry="8" fill="#7d978b"/><ellipse cx="120" cy="70" rx="6" ry="8" fill="#7d978b"/>
+ <path d="M74 89l9 7 9 -7" stroke="#bd9692" stroke-width="3" fill="none" stroke-linecap="round"/>
+ <path d="M25 88l-28 -4M27 95l-31 7M138 88l26 -5M138 95l29 8" stroke="#b8c7bc" stroke-width="2"/>
+</g>
+<!-- cherry blossoms surround glass but do not obstruct its abstract medical message -->
+<g stroke="#759982" stroke-width="4" fill="none" stroke-linecap="round">
+ <path d="M55 245Q103 189 74 129M1144 174Q1100 113 1139 53"/>
+</g>
+<g fill="#9db89c"><use href="#leaf" transform="translate(88 175) rotate(44)"/><use href="#leaf" transform="translate(1111 123) rotate(157)"/><use href="#leaf" transform="translate(75 212) rotate(-37)"/></g>
+<use href="#flower" transform="translate(66 136) scale(1.25)"/>
+<use href="#flower" transform="translate(1141 73) scale(1.05)"/>
+<text x="421" y="647" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="19" fill="#395b4c">진료 전, 심장 상태와 예정된 치료를 함께 살펴봅니다.</text>
+<text x="602" y="681" text-anchor="middle" font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" font-size="13" fill="#607664">창작 회화 · 예방적 항생제 적용이나 심장질환의 진단을 판단하는 의료 도해가 아닙니다.</text>
+</svg>
