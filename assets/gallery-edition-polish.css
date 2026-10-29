@@ -766,3 +766,280 @@ body.home-page #main-content>#stories .journal-gallery-cover__caption small{
     color:CanvasText;
   }
 }
+
+
+/* Homepage guide collection · 2026-10-29
+   Four clear treatment destinations; existing clinic SEO text is retained.
+   Three existing approved watercolors; no unreviewed root-canal anatomical art. */
+body.home-page #main-content>.home-care-paths{
+  box-sizing:border-box;
+  max-width:1160px;
+  margin:clamp(42px,5.5vw,76px) auto;
+  padding:clamp(28px,3.5vw,46px) clamp(16px,3vw,34px);
+  border:1px solid #d8cbb2;
+  border-top:2px solid #ad9365;
+  border-radius:3px 15px 3px 15px;
+  background:linear-gradient(135deg,#f6f0e5,#fcfaf5 55%,#eff2e8);
+  box-shadow:0 14px 33px rgba(31,52,36,.045);
+  color:#254a38;
+}
+body.home-page #main-content>.home-care-paths>.home-care-paths__eyebrow{
+  margin:0 0 8px;
+  font:750 11px/1.65 'DM Sans',system-ui,sans-serif;
+  letter-spacing:.18em;
+  color:#917248;
+}
+body.home-page #main-content>.home-care-paths>h2{
+  max-width:24ch;
+  margin:0 0 14px;
+  color:#1e4834;
+  font:700 clamp(26px,2.8vw,38px)/1.45 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.06em;
+  word-break:keep-all;
+  text-wrap:balance;
+}
+body.home-page #main-content>.home-care-paths>.home-care-paths__intro{
+  max-width:68ch;
+  margin:0;
+  color:#536658;
+  line-height:1.85;
+}
+body.home-page #main-content>.home-care-paths>.home-care-paths__grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(10px,1.3vw,17px);
+  margin:clamp(20px,2.7vw,32px) 0 0;
+}
+body.home-page #main-content>.home-care-paths .home-care-paths__grid>a{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  min-width:0;
+  min-height:0;
+  padding:0 0 17px;
+  background:#fffefa;
+  border:1px solid #ded3c0;
+  border-top:2px solid #b29b71;
+  border-radius:3px 10px 3px 10px;
+  overflow:hidden;
+  color:#214b35;
+  box-shadow:0 7px 19px rgba(32,53,38,.045);
+  text-decoration:none;
+  transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease;
+}
+body.home-page #main-content>.home-care-paths .home-care-paths__visual{
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:0;
+  width:100%;
+  aspect-ratio:3/2;
+  padding:6px;
+  margin:0 0 16px;
+  background:#eee5d6;
+  border-bottom:1px solid #ddd0bc;
+}
+body.home-page #main-content>.home-care-paths .home-care-paths__visual>img{
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  background:#fbf9f3;
+}
+body.home-page #main-content>.home-care-paths .home-care-paths__meta{
+  display:block;
+  margin:0 16px 8px;
+  color:#917550;
+  font:700 10px/1.55 'DM Sans',system-ui,sans-serif;
+  letter-spacing:.08em;
+}
+body.home-page #main-content>.home-care-paths .home-care-paths__grid>a>strong{
+  display:block;
+  margin:0 16px 9px;
+  font:700 clamp(18px,1.65vw,22px)/1.45 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.04em;
+  color:#204a35;
+}
+body.home-page #main-content>.home-care-paths .home-care-paths__desc{
+  display:block;
+  margin:0 16px 14px;
+  color:#536558;
+  font-size:14px;
+  line-height:1.8;
+  word-break:keep-all;
+}
+body.home-page #main-content>.home-care-paths .home-care-paths__grid>a>em{
+  display:inline-flex;
+  align-items:center;
+  min-height:40px;
+  margin:auto 16px 0;
+  color:#235e40;
+  font-size:13px;
+  font-style:normal;
+  font-weight:750;
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
+body.home-page #main-content>.home-care-paths .home-care-paths__visual--editorial{
+  position:relative;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-end;
+  gap:8px;
+  overflow:hidden;
+  padding:clamp(12px,1.8vw,22px);
+  color:#fffaea;
+  background:linear-gradient(140deg,#1b4433 0%,#2d6849 60%,#567e5c 100%);
+  border-bottom:1px solid #31634b;
+}
+body.home-page #main-content>.home-care-paths .home-care-paths__visual--editorial::before{
+  content:"";
+  position:absolute;
+  inset:9px;
+  border:1px solid rgba(245,229,185,.42);
+  pointer-events:none;
+}
+body.home-page #main-content>.home-care-paths .home-care-paths__visual--editorial::after{
+  content:"✦";
+  position:absolute;
+  top:11px;right:17px;
+  font:400 28px/1 Georgia,serif;
+  color:#e6d3a1;
+}
+body.home-page #main-content>.home-care-paths .home-care-paths__visual--editorial span:first-child{
+  position:relative;
+  z-index:1;
+  font-size:10px;
+  font-weight:750;
+  line-height:1.5;
+  letter-spacing:.1em;
+  color:#e5d3a9;
+}
+body.home-page #main-content>.home-care-paths .home-care-paths__visual--editorial span:last-child{
+  position:relative;
+  z-index:1;
+  font:700 clamp(15px,1.7vw,21px)/1.48 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  word-break:keep-all;
+  color:#fff8e8;
+}
+body.home-page #main-content>.home-care-paths .home-care-paths__note{
+  margin:19px 0 0;
+  color:#627164;
+  font-size:12px;
+  line-height:1.8;
+  word-break:keep-all;
+}
+body.home-page #main-content>.home-care-paths .home-care-paths__grid>a:focus-visible{
+  outline:3px solid #ac8045;
+  outline-offset:4px;
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  body.home-page #main-content>.home-care-paths .home-care-paths__grid>a:hover{
+    border-color:#aa966e;
+    transform:translateY(-3px);
+    box-shadow:0 15px 29px rgba(32,53,38,.095);
+  }
+}
+@media(max-width:990px){
+  body.home-page #main-content>.home-care-paths .home-care-paths__grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:600px){
+  body.home-page #main-content>.home-care-paths{
+    width:calc(100% - 24px);
+    margin:30px auto;
+    padding:24px 13px 26px;
+  }
+  body.home-page #main-content>.home-care-paths>h2{font-size:26px}
+  body.home-page #main-content>.home-care-paths>.home-care-paths__intro{
+    font-size:14px;
+  }
+  body.home-page #main-content>.home-care-paths .home-care-paths__grid{
+    grid-template-columns:minmax(0,1fr);
+    gap:12px;
+    margin-top:20px;
+  }
+  body.home-page #main-content>.home-care-paths .home-care-paths__grid>a{
+    display:grid;
+    grid-template-columns:minmax(104px,37%) minmax(0,1fr);
+    grid-template-rows:auto auto minmax(0,1fr) auto;
+    gap:0;
+    min-height:148px;
+    padding:0;
+    border-radius:3px 9px 3px 9px;
+  }
+  body.home-page #main-content>.home-care-paths .home-care-paths__visual{
+    grid-column:1;
+    grid-row:1/5;
+    align-self:stretch;
+    width:100%;
+    height:100%;
+    min-height:148px;
+    aspect-ratio:auto;
+    margin:0;
+    padding:4px;
+    border-right:1px solid #ded0bc;
+    border-bottom:0;
+  }
+  body.home-page #main-content>.home-care-paths .home-care-paths__meta{
+    grid-column:2;
+    margin:12px 11px 5px;
+    font-size:9px;
+    letter-spacing:.04em;
+  }
+  body.home-page #main-content>.home-care-paths .home-care-paths__grid>a>strong{
+    grid-column:2;
+    margin:0 11px 5px;
+    font-size:clamp(17px,4.5vw,20px);
+  }
+  body.home-page #main-content>.home-care-paths .home-care-paths__desc{
+    grid-column:2;
+    margin:0 11px 5px;
+    font-size:12px;
+    line-height:1.65;
+  }
+  body.home-page #main-content>.home-care-paths .home-care-paths__grid>a>em{
+    grid-column:2;
+    min-height:34px;
+    margin:0 11px 9px;
+    font-size:12px;
+  }
+  body.home-page #main-content>.home-care-paths .home-care-paths__visual--editorial{
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:9px;
+  }
+  body.home-page #main-content>.home-care-paths .home-care-paths__visual--editorial span:last-child{
+    font-size:clamp(14px,3.75vw,18px);
+  }
+  body.home-page #main-content>.home-care-paths .home-care-paths__visual--editorial span:first-child{
+    font-size:9px;
+  }
+}
+@media(max-width:350px){
+  body.home-page #main-content>.home-care-paths .home-care-paths__grid>a{
+    grid-template-columns:minmax(95px,34%) minmax(0,1fr);
+  }
+  body.home-page #main-content>.home-care-paths .home-care-paths__meta{font-size:8px}
+}
+@media(prefers-reduced-motion:reduce){
+  body.home-page #main-content>.home-care-paths .home-care-paths__grid>a{
+    transition:none;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>.home-care-paths,
+  body.home-page #main-content>.home-care-paths .home-care-paths__grid>a,
+  body.home-page #main-content>.home-care-paths .home-care-paths__visual{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>.home-care-paths .home-care-paths__visual--editorial span{color:CanvasText}
+}
