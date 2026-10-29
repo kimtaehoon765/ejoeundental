@@ -1,0 +1,120 @@
+/* Original doctor-profile gallery landscape, 2026-10-29.
+   One new illustration; existing credentials and SEO wording unchanged. */
+body.doctor-gallery .doctor-tenure-art{
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:minmax(0,1.48fr) minmax(0,.52fr);
+  overflow:hidden;
+  max-width:100%;
+  margin:0 0 clamp(24px,3.5vw,38px);
+  padding:9px;
+  border:1px solid #d2c2a0;
+  border-top:2px solid #a98e60;
+  border-radius:4px 16px 4px 16px;
+  background:linear-gradient(145deg,#f3eddf,#fffef8 55%,#eaf0e7);
+  box-shadow:0 15px 33px rgba(30,53,35,.08);
+  color:#244b37;
+}
+body.doctor-gallery .doctor-tenure-art__frame{
+  min-width:0;
+  border:1px solid #ddc9a8;
+  overflow:hidden;
+  background:#edf0e5;
+  display:flex;
+  align-items:center;
+}
+body.doctor-gallery .doctor-tenure-art__frame img{
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  max-height:none;
+  aspect-ratio:12/7;
+  object-fit:contain;
+  object-position:center;
+  background:#f6f0df;
+}
+body.doctor-gallery .doctor-tenure-art figcaption{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  min-width:0;
+  gap:12px;
+  padding:clamp(16px,2.8vw,30px);
+  color:#4e6554;
+  font-size:14px;
+  line-height:1.8;
+  word-break:keep-all;
+}
+body.doctor-gallery .doctor-tenure-art__eyebrow{
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.12em;
+  color:#977751;
+}
+body.doctor-gallery .doctor-tenure-art figcaption strong{
+  color:#23523b;
+  font:700 clamp(20px,2.3vw,27px)/1.5 'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  letter-spacing:-.04em;
+  word-break:keep-all;
+}
+body.doctor-gallery .doctor-tenure-art figcaption p{
+  font-size:14px;
+  line-height:1.78;
+  margin:0;
+  color:#4b6452;
+}
+body.doctor-gallery .doctor-tenure-art figcaption>a{
+  display:inline-flex;
+  align-items:center;
+  box-sizing:border-box;
+  min-height:44px;
+  padding:8px 0;
+  color:#215c41;
+  font-size:13px;
+  font-weight:800;
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
+body.doctor-gallery .doctor-tenure-art figcaption>a:focus-visible{
+  outline:3px solid #a58045;
+  outline-offset:4px;
+}
+body.doctor-gallery .actions a.doctor-booking{
+  background:#f3e9cf;
+  border:1px solid #c5af84;
+  color:#284b36;
+}
+body.doctor-gallery .actions a.doctor-booking:hover{
+  background:#ede0bd;
+}
+@media(max-width:750px){
+  body.doctor-gallery .doctor-tenure-art{
+    grid-template-columns:minmax(0,1fr);
+    padding:6px;
+    margin-bottom:23px;
+    border-radius:4px 11px 4px 11px;
+  }
+  body.doctor-gallery .doctor-tenure-art figcaption{
+    gap:8px;
+    padding:16px 12px 19px;
+  }
+  body.doctor-gallery .doctor-tenure-art figcaption strong{font-size:21px}
+  body.doctor-gallery .doctor-tenure-art figcaption p{font-size:13px}
+}
+@media(prefers-reduced-motion:reduce){
+  body.doctor-gallery .doctor-tenure-art,
+  body.doctor-gallery .actions a.doctor-booking{transition:none}
+}
+@media(forced-colors:active){
+  body.doctor-gallery .doctor-tenure-art,
+  body.doctor-gallery .doctor-tenure-art__frame,
+  body.doctor-gallery .actions a.doctor-booking{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.doctor-gallery .doctor-tenure-art figcaption :is(strong,p,a,span){color:CanvasText}
+}
