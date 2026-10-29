@@ -1,0 +1,68 @@
+/* 이조은치과 · Patient safety reading room 2026-10-29.
+   Existing clinical advice, descriptions, booking, insurance and SEO preserved. */
+body.safety-reading-room{
+ --ink:#244b3c;--sage:#eaf2e7;--line:#cfddd0;--paper:#fffefa;--gold:#ad966d;
+ background:radial-gradient(ellipse at 94% 3%,rgba(182,209,188,.3),transparent 36%),#f8f8f2;
+ color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased;
+}
+body.safety-reading-room :is(header,main,footer){box-sizing:border-box;max-width:1060px}
+body.safety-reading-room header{padding:clamp(22px,4vw,40px) clamp(17px,4vw,40px) 18px}
+body.safety-reading-room header>a{display:inline-flex;align-items:center;min-height:44px;color:#2c6146;text-decoration:none;font-weight:750}
+body.safety-reading-room h1,body.safety-reading-room :is(.reading-title,.card h2){
+ font-family:'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;letter-spacing:-.05em;word-break:keep-all;
+}
+body.safety-reading-room h1{font-size:clamp(29px,4.5vw,46px);line-height:1.38;margin:17px 0 15px}
+body.safety-reading-room header>p{max-width:780px;font-size:clamp(16px,1.6vw,18px);line-height:1.85;word-break:keep-all}
+body.safety-reading-room main{padding:0 clamp(16px,3.5vw,34px) 70px}
+body.safety-reading-room .reading-art{margin:0 0 23px;padding:7px;background:#f7f1e4;border:1px solid #c9b998;border-radius:6px 17px 6px 17px;box-shadow:0 16px 34px rgba(32,65,47,.075);overflow:hidden}
+body.safety-reading-room .reading-art img{box-sizing:border-box;display:block;width:100%;height:auto;aspect-ratio:30/17;object-fit:contain;background:#e1e6d9;border:1px solid #d4c7aa}
+body.safety-reading-room .reading-art figcaption{padding:17px 15px 16px;display:flex;flex-direction:column;gap:6px;color:#52685a;font-size:14px;line-height:1.75;word-break:keep-all}
+body.safety-reading-room .reading-art figcaption strong{font:700 clamp(19px,2.7vw,27px)/1.5 'Noto Serif KR','Apple SD Gothic Neo',serif;color:#285640}
+body.safety-reading-room .reading-art figcaption small{font-size:11px;letter-spacing:.11em;color:#96794f;font-weight:750}
+body.safety-reading-room .reading-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:0 0 28px}
+body.safety-reading-room .reading-actions a{
+ display:flex;box-sizing:border-box;align-items:center;justify-content:center;min-width:0;min-height:52px;
+ text-align:center;font-weight:750;font-size:14px;line-height:1.55;padding:12px 10px;color:#2b6148;
+ text-decoration:none;border:1px solid #bfd4c1;border-radius:10px;background:#f5f9f2;
+}
+body.safety-reading-room .reading-actions a[href^="https://booking.naver.com"]{color:#fff;background:#245c43;border-color:#245c43}
+body.safety-reading-room .reading-actions a[href^="tel:"]{background:#dfeade}
+body.safety-reading-room .reading-actions a:hover{filter:brightness(.95)}
+body.safety-reading-room .notice{border-left-color:#ad8b53;color:#54472e;border-radius:10px;background:#fff5e8;padding:18px 20px}
+body.safety-reading-room .reading-title{font-size:clamp(24px,3vw,31px);line-height:1.45;color:#244d3b;margin:32px 0 10px}
+body.safety-reading-room .reading-description{font-size:15px;color:#476959;line-height:1.8;margin:0 0 20px}
+body.safety-reading-room .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+body.safety-reading-room .grid .card{
+ box-sizing:border-box;min-width:0;min-height:174px;display:flex;flex-direction:column;gap:11px;
+ padding:22px 20px 19px;background:#fffdf8;border:1px solid #d7e1d5;border-top:4px solid #9ab4a0;
+ border-radius:13px;box-shadow:0 8px 20px rgba(32,64,47,.035);transition:border-color .18s,transform .18s,box-shadow .18s;
+}
+body.safety-reading-room .grid .card h2{font-size:19px;line-height:1.48;margin:0;color:#25553e}
+body.safety-reading-room .grid .card p{font-size:14px;line-height:1.72;color:#466557;word-break:keep-all}
+body.safety-reading-room .grid .card:hover{border-color:#8daa94;box-shadow:0 10px 25px rgba(25,57,39,.10);transform:translateY(-2px)}
+body.safety-reading-room .grid .card[data-kind="highlights"]{background:#f0f6ed;border-top-color:#b69c68}
+body.safety-reading-room :is(a,button,input):focus-visible{outline:3px solid #af8550;outline-offset:3px}
+body.safety-reading-room .reading-caution{margin:26px 0 15px;padding:22px 24px;border:1px solid #d3e0d0;border-left:4px solid #87a58b;background:#f5faf4;border-radius:11px}
+body.safety-reading-room .reading-caution h2{font-size:22px;color:#2b593f;margin:0 0 10px}
+body.safety-reading-room .reading-caution p{margin:9px 0;word-break:keep-all}
+body.safety-reading-room .reading-caution a{display:inline-flex;min-height:44px;align-items:center;font-weight:700;text-underline-offset:4px}
+@media(max-width:900px){body.safety-reading-room .grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){
+ body.safety-reading-room header{padding:17px 17px 12px}
+ body.safety-reading-room h1{font-size:clamp(27px,7.4vw,35px)}
+ body.safety-reading-room main{padding:0 12px 65px}
+ body.safety-reading-room .reading-art{padding:5px;margin-bottom:17px}
+ body.safety-reading-room .reading-art img{aspect-ratio:auto}
+ body.safety-reading-room .reading-art figcaption{padding:12px 10px 13px;font-size:13px}
+ body.safety-reading-room .reading-art figcaption strong{font-size:20px}
+ body.safety-reading-room .reading-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-bottom:20px}
+ body.safety-reading-room .reading-actions a{min-height:50px;padding:10px 8px;font-size:13px}
+ body.safety-reading-room .notice{padding:15px}
+ body.safety-reading-room .grid{grid-template-columns:minmax(0,1fr);gap:10px}
+ body.safety-reading-room .grid .card{min-height:0;padding:18px 17px}
+ body.safety-reading-room .reading-title{font-size:24px;margin-top:27px}
+ body.safety-reading-room .reading-caution{padding:17px 15px}
+}
+@media(prefers-reduced-motion:reduce){body.safety-reading-room .grid .card{transition:none}}
+@media print{body.safety-reading-room .reading-art,body.safety-reading-room .reading-actions{display:none!important}body.safety-reading-room{background:#fff}}
+@media(forced-colors:active){body.safety-reading-room .reading-art,body.safety-reading-room .reading-actions a,body.safety-reading-room .grid .card{background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none}body.safety-reading-room .reading-art figcaption :is(small,strong,span){color:CanvasText}}
