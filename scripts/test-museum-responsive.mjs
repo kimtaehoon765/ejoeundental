@@ -530,3 +530,37 @@ test('atelier entrance keeps the entire clinic journey visible and improves mobi
  assert.match(refined,/@media\(forced-colors:active\)/);
  assert.ok(home.includes('/assets/curatorial-home.css?'), 'versioned premium gallery stylesheet must load after the build');
 });
+
+test('patient-art gallery keeps 10 unique originals and graceful no-JS viewing',()=>{
+ const gallery=read('gallery.html');
+ const styles=read('assets/gallery-patient-studies.css');
+ const script=read('assets/clinic-gallery.js');
+ const block=gallery.match(/<section class="gallery-patient-studies"[\\s\\S]*?<\\/section>/)?.[0]||'';
+ const figures=[...block.matchAll(/<figure class="gallery-patient-studies__piece"[\\s\\S]*?<\\/figure>/g)].map(m=>m[0]);
+ assert.equal(figures.length,10,'exactly 10 original patient artworks must appear');
+ const paths=new Set();
+ for(const figure of figures){
+  const image=figure.match(/<img\\b[^>]*\\bsrc="([^"]+)"[^>]*>/)?.[1];
+  assert.ok(image?.startsWith('/assets/')&&image.endsWith('.svg'));
+  assert.ok(!paths.has(image),'duplicate patient art: '+image);
+  paths.add(image);
+  assert.ok(existsSync('dist'+image),'gallery illustration must be in built assets: '+image);
+  assert.ok(figure.includes('loading="lazy"'),'below-the-fold art should load lazily');
+  assert.ok(figure.includes('class="gallery-patient-studies__original" href="'+image+'"'),
+    'without JavaScript there must be a direct original-image link');
+  assert.ok(figure.includes('target="_blank" rel="noopener noreferrer"'));
+  assert.ok(figure.includes('class="gallery-zoom"')&&figure.includes('data-image="'+image+'"'));
+  assert.match(figure, /href="\\/[a-z0-9-]+\\.html">관련 건강정보 보기 →<\\/a>/);
+ }
+ assert.match(styles,/\\.gallery-patient-studies__actions \\.gallery-zoom\\{display:none\\}/);
+ assert.match(styles,/\\.gallery-js \\.gallery-patient-studies__actions \\.gallery-zoom\\{display:inline-flex\\}/);
+ assert.match(script,/artworks=\\[\\.\\.\\.document\\.querySelectorAll\\('\\.gallery-zoom'\\)\\]/);
+ assert.equal((gallery.match(/class="gallery-zoom"/g)||[]).length,20,
+   '10 prior painting dialogs and 10 patient painting dialogs should stay navigable');
+ assert.ok(gallery.includes('id="patient-studies"'));
+ for(const id of ['patient-art-safety','patient-art-medication','patient-art-child','patient-art-insurance']){
+  assert.ok(block.includes('href="#'+id+'"')&&block.includes('id="'+id+'"'));
+ }
+ assert.ok(home.includes('href="/gallery.html#patient-studies"'),
+  'home art section must expose the new patient gallery');
+});
