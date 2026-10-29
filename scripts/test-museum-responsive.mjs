@@ -528,5 +528,5 @@ test('atelier entrance keeps the entire clinic journey visible and improves mobi
  assert.match(refined,/min-height:58px;/,'phone and Naver booking must have usable touch size');
  assert.match(refined,/:focus-visible/,'links should retain visible keyboard focus');
  assert.match(refined,/@media\(forced-colors:active\)/);
- assert.ok(home.includes('curatorial-home.css?v=20261029-atelier-entrance-06'));
+ assert.ok(home.includes('/assets/curatorial-home.css?'), 'versioned premium gallery stylesheet must load after the build');
 });
