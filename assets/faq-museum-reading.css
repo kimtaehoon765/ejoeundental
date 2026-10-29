@@ -1,0 +1,100 @@
+/* 이조은치과 · Two FAQ editorial galleries, 2026-10-29.
+   Scope strictly to new FAQ pages, preserve every original answer and JSON-LD. */
+body.faq-museum{
+ --fm-ink:#274d3d;--fm-line:#d4dfd2;--fm-paper:#fffefa;--fm-muted:#51695b;
+ background:radial-gradient(ellipse at 90% 0%,rgba(184,210,193,.34),transparent 40%),#f8f8f2;
+ color:var(--fm-ink);-webkit-font-smoothing:antialiased;
+}
+body.faq-museum header,body.faq-museum main,body.faq-museum footer{box-sizing:border-box;max-width:960px}
+body.faq-museum header{padding:29px clamp(16px,4vw,39px) 14px}
+body.faq-museum header>a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;font-size:14px;font-weight:750}
+body.faq-museum h1,body.faq-museum main .card h2,
+body.faq-museum .faq-museum-art figcaption strong,
+body.faq-museum .faq-related-guides h2{
+ font-family:'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+ letter-spacing:-.04em;word-break:keep-all;
+}
+body.faq-museum h1{font-size:clamp(29px,4.4vw,43px);line-height:1.4;margin:10px 0 15px;color:#254c3a}
+body.faq-museum header>p{font-size:clamp(15px,1.7vw,17px);line-height:1.8;max-width:800px;word-break:keep-all;color:#476956}
+body.faq-museum main{
+ width:calc(100% - 32px);margin:0 auto 29px;
+ padding:clamp(19px,3.5vw,36px);border:1px solid #dce5d8;border-top:4px solid #8aab90;
+ border-radius:16px;background:var(--fm-paper);
+ box-shadow:0 16px 39px rgba(25,64,40,.052);
+}
+body.faq-museum .faq-care-authority{margin-bottom:20px!important;background:#f0f5ee!important}
+body.faq-museum .faq-patient-actions{margin-bottom:18px}
+body.faq-museum .faq-museum-art{
+ margin:20px 0 17px;padding:7px;border:1px solid #d4c4a2;
+ border-radius:5px 15px 5px 15px;background:linear-gradient(120deg,#f5f0e5,#ecf3e9);
+ box-shadow:0 11px 26px rgba(28,62,45,.055);overflow:hidden;
+}
+body.faq-museum .faq-museum-art img{
+ box-sizing:border-box;display:block;width:100%;height:auto;max-height:320px;
+ object-fit:contain;border:1px solid #ded1b8;background:#ebeae0;
+}
+body.faq-museum .faq-museum-art figcaption{
+ display:flex;flex-direction:column;align-items:flex-start;gap:6px;
+ padding:13px 13px 15px;font-size:14px;color:#4e6a57;line-height:1.72;word-break:keep-all;
+}
+body.faq-museum .faq-museum-art figcaption small{color:#977e55;font-size:11px;letter-spacing:.11em;font-weight:750}
+body.faq-museum .faq-museum-art figcaption strong{color:#2a5942;font-size:clamp(19px,2.7vw,25px);line-height:1.45}
+body.faq-museum .faq-museum-art figcaption a{
+ display:inline-flex;align-items:center;min-height:44px;font-weight:750;color:#245d43;text-underline-offset:4px;
+}
+body.faq-museum .faq-related-guides{
+ margin:17px 0 24px;padding:18px 19px;border:1px solid #d6e4d5;
+ border-radius:11px;background:#f3f8f1;
+}
+body.faq-museum .faq-related-guides h2{margin:0 0 8px;font-size:21px;color:#2a573d}
+body.faq-museum .faq-related-guides p{color:#4b6857;line-height:1.7;word-break:keep-all}
+body.faq-museum .faq-related-guides>div{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:13px;
+}
+body.faq-museum .faq-related-guides a{
+ box-sizing:border-box;display:flex;align-items:center;justify-content:center;
+ padding:10px 9px;min-height:48px;background:#fffefa;
+ border:1px solid #d1ded1;border-radius:8px;color:#275b40;
+ text-align:center;text-decoration:none;font-size:14px;font-weight:700;
+ line-height:1.55;word-break:keep-all;
+}
+body.faq-museum .faq-related-guides a:hover{border-color:#9cb69d;background:#eaf3e8}
+body.faq-museum .faq-question-index{margin:20px 0 25px}
+body.faq-museum main>.card{
+ border-color:#d8e5d7;border-radius:13px;border-top:3px solid #b3c8b1;
+ background:#fffefa;padding:clamp(18px,3vw,25px);
+ box-shadow:0 6px 21px rgba(27,63,41,.034);margin:13px 0;
+}
+body.faq-museum main>.card h2{font-size:clamp(18px,2.5vw,22px);line-height:1.5;color:#28563e}
+body.faq-museum main>.card p{font-size:16px;line-height:1.83;word-break:keep-all}
+body.faq-museum .notice{background:#fff7e9;border-left-color:#b99a65;padding:18px;border-radius:9px}
+body.faq-museum a:focus-visible,body.faq-museum summary:focus-visible{
+ outline:3px solid #af844e;outline-offset:3px;
+}
+@media(max-width:720px){
+ body.faq-museum main{width:calc(100% - 20px);padding:19px 16px}
+ body.faq-museum .faq-related-guides>div{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:530px){
+ body.faq-museum header{padding:18px 16px 9px}
+ body.faq-museum h1{font-size:clamp(27px,7.2vw,34px)}
+ body.faq-museum main{padding:17px 12px}
+ body.faq-museum .faq-museum-art{padding:5px}
+ body.faq-museum .faq-museum-art img{max-height:none}
+ body.faq-museum .faq-museum-art figcaption{padding:12px 10px 14px;font-size:13px}
+ body.faq-museum .faq-museum-art figcaption strong{font-size:20px}
+ body.faq-museum .faq-related-guides{padding:15px 13px}
+ body.faq-museum .faq-related-guides h2{font-size:20px}
+ body.faq-museum .faq-related-guides>div{grid-template-columns:minmax(0,1fr)}
+ body.faq-museum .faq-related-guides a{min-height:47px}
+ body.faq-museum main>.card{padding:18px 15px}
+ body.faq-museum main>.card p{font-size:15px}
+}
+@media print{
+ body.faq-museum{background:#fff;color:#000}
+ body.faq-museum main{width:100%;border:0;box-shadow:none}
+ body.faq-museum .faq-museum-art,body.faq-museum .faq-related-guides{display:none!important}
+ body.faq-museum main>.card{break-inside:avoid;box-shadow:none;border:1px solid #aaa}
+}
+@media(prefers-reduced-motion:reduce){body.faq-museum .faq-related-guides a{transition:none}}
+@media(forced-colors:active){body.faq-museum .faq-museum-art,body.faq-museum .faq-related-guides,body.faq-museum .faq-related-guides a{background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none}}
