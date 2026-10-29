@@ -617,3 +617,37 @@ test('homepage patient navigation links eight distinct existing care topics usin
   nav.includes('href="/insured-care.html"'),
   'high-priority periodontal, retreatment and insurance entry points remain prominent');
 });
+
+
+test('October 30 gallery room keeps original art, booking and small-screen navigation readable',()=>{
+ const source=readFileSync('index.html','utf8');
+ const polish=read('assets/gallery-edition-polish.css');
+ assert.ok(source.includes('/assets/gallery-edition-polish.css?v=20261030-gallery-wall-16'),
+  'homepage must invalidate prior CSS cache to reveal the October exhibition wall');
+ const wall=home.match(/<section class="curated-threshold wrap"[\s\S]*?<\/section>/)?.[0]||'';
+ const works=[...wall.matchAll(/<a class="curated-threshold__piece" href="(\/gallery\.html#[^"]+)"[\s\S]*?<img src="([^"]+)"[^>]*>/g)];
+ assert.equal(works.length,3,'retain the three distinct existing first-gallery paintings');
+ assert.equal(new Set(works.map(m=>m[2])).size,3,'never display an identical image twice in the exhibition');
+ for(const [,href,src] of works){
+  assert.ok(home.includes(href)&&existsSync('dist'+src),'gallery wall must open a real artwork '+href);
+ }
+ assert.ok(wall.includes('창작 그림 23점을 소개합니다.'));
+ const care=home.match(/<nav class="hero-care-summary"[\s\S]*?<\/nav>/)?.[0]||'';
+ assert.equal((care.match(/<a href="\/(?:gum-treatment|retreatment|cervical-abrasion|insured-care)\.html"/g)||[]).length,4);
+ assert.ok(care.includes('class="hero-more-care"'),'other eight treatment links must remain available');
+ assert.match(polish,/Gallery rooms XVI \/ October 30, 2026/);
+ assert.match(polish,/counter-reset:gallery-care/,'care menu uses editorial numbering');
+ assert.match(polish,/counter-increment:gallery-care/);
+ assert.match(polish,/body\.home-page #main-content>\.curated-threshold\{/);
+ assert.ok(polish.includes('linear-gradient(128deg,#17362c 0%,#234737 54%,#153329 100%)'),
+  'gallery room must remain deep green, contrasting with the warm paper hero');
+ assert.match(polish,/@media\(max-width:760px\)\{/);
+ assert.match(polish,/@media\(max-width:600px\)\{/);
+ assert.match(polish,/@media\(prefers-reduced-motion:reduce\)\{/);
+ assert.match(polish,/@media\(forced-colors:active\)\{/);
+ assert.ok(home.includes('name="google-site-verification"')&&
+  home.includes('name="naver-site-verification"'));
+ assert.ok(home.includes('class="btn hero-call"')&&home.includes('class="btn hero-booking"'));
+ assert.ok(home.includes('class="mobile-booking-actions"'));
+ assert.ok(home.includes('href="/gallery.html"')&&home.includes('src="/assets/ejoeundental-hero-cat.webp"'));
+});
