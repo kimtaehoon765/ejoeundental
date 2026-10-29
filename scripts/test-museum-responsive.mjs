@@ -501,3 +501,32 @@ test('owner-selected crown-margin microleakage painting replaces only the second
  assert.ok(css.includes('.cards .card img.microleakage-illustration'));
  assert.ok(css.includes('object-fit:contain;'),'labels and apical lesion must not be cropped');
 });
+
+
+test('atelier entrance keeps the entire clinic journey visible and improves mobile art hierarchy',()=>{
+ const hero=home.match(/<section class="hero wrap">[\s\S]*?<\/section>/)?.[0]||'';
+ assert.ok(hero.includes('id="headline"'));
+ assert.ok(hero.includes('src="/assets/ejoeundental-hero-cat.webp"'));
+ assert.ok(hero.includes('고려대학교 의학박사(치과학 전공)'));
+ assert.ok(hero.includes('통합치의학과 전문의'));
+ const actions=hero.match(/<div class="hero-actions">([\s\S]*?)<\/div>/)?.[1]||'';
+ for(const cls of ['hero-call','hero-booking','hero-hours','hero-symptoms','hero-map']){
+  assert.ok(actions.includes('class="btn '+cls+'"'),cls+' patient action missing');
+ }
+ assert.ok(hero.includes('class="hero-editorial-detail"'),'original medical guidance remains visible');
+ assert.ok(home.includes('class="mobile-booking-actions"'),'mobile fixed call and booking must remain');
+ assert.ok(home.includes('name="google-site-verification"'));
+ assert.ok(home.includes('name="naver-site-verification"'));
+ assert.ok(home.includes('rel="canonical" href="https://ejoeundental.com/"'));
+ const styles=read('assets/curatorial-home.css');
+ const refined=styles.slice(styles.indexOf('Atelier entrance refinements — 2026-10-29'));
+ assert.ok(refined.length>3000,'final gallery entrance styling must be shipped');
+ assert.ok(refined.includes('이조은치과  ·  SINCE 2003'),'gallery plaque should identify the clinic');
+ assert.match(refined,/object-fit:contain;/,'original doctor and white cat painting must not crop');
+ assert.match(refined,/@media\(max-width:600px\)/);
+ assert.match(refined,/@media\(max-width:365px\)/);
+ assert.match(refined,/min-height:58px;/,'phone and Naver booking must have usable touch size');
+ assert.match(refined,/:focus-visible/,'links should retain visible keyboard focus');
+ assert.match(refined,/@media\(forced-colors:active\)/);
+ assert.ok(home.includes('curatorial-home.css?v=20261029-atelier-entrance-06'));
+});
