@@ -564,3 +564,32 @@ test('patient-art gallery keeps 10 unique originals and graceful no-JS viewing',
  assert.ok(home.includes('href="/gallery.html#patient-studies"'),
   'home art section must expose the new patient gallery');
 });
+
+test('gallery SEO image collection agrees with the 23 real original artworks',()=>{
+ const gallery=read('gallery.html');
+ const collection=gallery.match(/<script type="application\/ld\+json">(\{[^\n]*"@type":"CollectionPage"[^\n]*\})<\/script>/)?.[1];
+ assert.ok(collection,'gallery CollectionPage JSON-LD must be present');
+ const data=JSON.parse(collection);
+ assert.equal(data['@type'],'CollectionPage');
+ assert.equal(data.mainEntity?.['@type'],'ImageGallery');
+ const media=data.mainEntity.associatedMedia||[];
+ assert.equal(media.length,23,'all 23 distinct original artworks must be indexed in ImageGallery metadata');
+ const originals=[...gallery.matchAll(/<figure class="gallery-piece\b[^>]*>[\s\S]*?<\/figure>/g)].map(m=>m[0]);
+ const clinical=[...gallery.matchAll(/<a class="gallery-note gallery-note--watercolor"[^>]*>[\s\S]*?<\/a>/g)].map(m=>m[0]);
+ const studies=[...gallery.matchAll(/<figure class="gallery-patient-studies__piece"[^>]*>[\s\S]*?<\/figure>/g)].map(m=>m[0]);
+ assert.deepEqual([originals.length,clinical.length,studies.length],[10,3,10]);
+ const sources=[...originals,...clinical,...studies].map(markup=>
+  markup.match(/<img\b[^>]*\bsrc="([^"]+)"/)?.[1]
+ );
+ assert.equal(new Set(sources).size,23,'gallery must not reuse the same image as a new artwork');
+ for(let i=0;i<sources.length;i++){
+  assert.equal(media[i]['@type'],'ImageObject');
+  assert.equal(media[i].contentUrl,'https://ejoeundental.com'+sources[i],
+   'structured image and actual artwork must be identical');
+  assert.ok(existsSync('dist'+sources[i]),'referenced gallery image must ship in build: '+sources[i]);
+ }
+ assert.ok(gallery.includes('rel="canonical" href="https://ejoeundental.com/gallery.html"'));
+ assert.ok(gallery.includes('<meta name="description" content="인천 부평구 청천동 이조은치과의 창작 갤러리 23점.'));
+ assert.ok(gallery.includes('<meta property="og:title" content="치과 그림 갤러리 23점'));
+ assert.ok(gallery.includes('<meta name="twitter:description" content="인천 부평구 청천동'));
+});
