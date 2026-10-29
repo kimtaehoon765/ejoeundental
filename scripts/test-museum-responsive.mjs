@@ -414,3 +414,39 @@ test('museum journal and visit guide preserve original blogs, clinic hours, maps
  assert.ok(home.includes('name="naver-site-verification"'));
  assert.ok(home.includes('rel="canonical" href="https://ejoeundental.com/"'));
 });
+
+
+test('museum identity unifies the first screen while retaining functional patient actions',()=>{
+ const hero=home.match(/<section class="hero wrap">[\s\S]*?<\/section>/)?.[0]||'';
+ assert.ok(hero.includes('id="headline"'),'original hero heading must remain');
+ assert.ok(hero.includes('고려대학교 의학박사(치과학 전공)'));
+ assert.ok(hero.includes('통합치의학과 전문의'));
+ assert.ok(hero.includes('src="/assets/ejoeundental-hero-cat.webp"'),'white cat and doctor original remain');
+ assert.ok(hero.includes('<!-- BUILD_NAVER_BOOKING_HERO -->')===false,
+   'the booking placeholder should be replaced in the production build');
+ const buttons=hero.match(/<div class="hero-actions">([\s\S]*?)<\/div>/)?.[1]||'';
+ assert.ok(buttons.includes('class="btn hero-call"'),'primary phone action must remain');
+ assert.ok(buttons.includes('class="btn hero-booking"'),'primary booking link must remain');
+ assert.ok(buttons.includes('class="btn hero-hours"'));
+ assert.ok(buttons.includes('class="btn hero-symptoms"'));
+ assert.ok(buttons.includes('class="btn hero-map"'));
+ const mobile=home.match(/<div class="mobile-quick">([\s\S]*?)<\/div>/)?.[1]||'';
+ assert.equal((mobile.match(/<a\b/g)||[]).length,5,
+  'all five initial navigation shortcuts stay accessible');
+ assert.ok(home.includes('class="mobile-booking-actions"'),
+  'sticky phone and booking controls must remain accessible');
+ assert.ok(home.includes('rel="canonical" href="https://ejoeundental.com/"'));
+ assert.ok(home.includes('name="naver-site-verification"'));
+ assert.ok(home.includes('name="google-site-verification"'));
+ const css=read('assets/curatorial-home.css');
+ const area=css.slice(css.indexOf('Museum identity and mobile first impression — 2026-10-29'));
+ assert.ok(area.length>3200,'unified typography and color styles must load');
+ for(const token of ['--museum-pine:','--museum-gold:','--museum-border:']){
+  assert.ok(area.includes(token),'common palette token missing: '+token);
+ }
+ assert.ok(area.includes('object-fit:contain;'),'original illustrated artwork must not crop');
+ assert.match(area, /@media\(max-width:600px\)/);
+ assert.match(area, /@media\(max-width:365px\)/);
+ assert.match(area, /min-height:58px;/,'primary booking and phone need large mobile targets');
+ assert.match(area, /:focus-visible/,'keyboard focus must be visible');
+});
