@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 740" width="1200" height="740" role="img" aria-labelledby="tt dd">
+<title id="tt">이조은치과 - 골다공증 치료제 복용 이력과 치과진료 상담</title>
+<desc id="dd">별이 빛나는 청남색 밤의 고전적인 천문 관측실에 작은 황동 탁상시계, 빈 복용 이력 기록책, 의학 상담용 돋보기, 야생화와 복슬복슬한 하얀 고양이가 있는 독창적 삽화. 실제 약물, 처방 내용, 투여 날짜, 턱뼈 구조나 진료 결과를 보여주지 않는다.</desc>
+<defs>
+<linearGradient id="night" x1="0" y1="0" x2=".65" y2="1"><stop stop-color="#162b49"/><stop offset=".45" stop-color="#315273"/><stop offset="1" stop-color="#6b817c"/></linearGradient>
+<linearGradient id="slate" x1="0" y1="0" x2="1" y2=".8"><stop stop-color="#c4cdd0"/><stop offset=".5" stop-color="#e3dfd3"/><stop offset="1" stop-color="#8599a2"/></linearGradient>
+<linearGradient id="bronze" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6c5947"/><stop offset=".29" stop-color="#e9d3a6"/><stop offset=".65" stop-color="#ac8a55"/><stop offset="1" stop-color="#7f664d"/></linearGradient>
+<linearGradient id="oak" x1="0" y1="0" x2="1" y2=".55"><stop stop-color="#6b4e48"/><stop offset=".55" stop-color="#b5876b"/><stop offset="1" stop-color="#705047"/></linearGradient>
+<linearGradient id="parch" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffbee"/><stop offset="1" stop-color="#e5d7bd"/></linearGradient>
+<linearGradient id="catcoat" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d4e1e0"/><stop offset=".52" stop-color="#fffefa"/><stop offset="1" stop-color="#dae6dc"/></linearGradient>
+<radialGradient id="moonglow"><stop stop-color="#fff6ce" stop-opacity=".8"/><stop offset="1" stop-color="#faebba" stop-opacity="0"/></radialGradient>
+<filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="1" dy="10" stdDeviation="12" flood-color="#122233" flood-opacity=".23"/></filter>
+<pattern id="grain" width="35" height="41" patternUnits="userSpaceOnUse"><path d="M3 9l3 -3M23 16l4 4M10 33l4 -1" fill="none" stroke="#faf4df" stroke-opacity=".07"/></pattern>
+<path id="leaf" d="M0 0Q20 -20 38 -4Q17 17 0 0Z"/>
+</defs>
+<rect width="1200" height="740" fill="url(#night)"/>
+<ellipse cx="872" cy="155" rx="355" ry="305" fill="url(#moonglow)"/>
+<rect width="1200" height="740" fill="url(#grain)"/>
+<!-- tall celestial arch with no medical symbols -->
+<g filter="url(#shadow)">
+<path d="M624 458V149Q624 54 728 54H1022Q1128 54 1128 151V458Z" fill="url(#bronze)" stroke="#f2dfb5" stroke-width="6"/>
+<path d="M642 440V152Q642 73 729 73H1019Q1109 73 1109 151V440Z" fill="url(#night)" stroke="#e7d7bb" stroke-width="5"/>
+</g>
+<circle cx="964" cy="145" r="55" fill="#fcf4d9" opacity=".83"/>
+<path d="M645 365Q781 269 876 333Q1019 258 1107 331V439H645Z" fill="#7d9c91" opacity=".8"/>
+<path d="M644 400Q771 332 900 379Q1017 328 1108 373V439H644Z" fill="#507d80" opacity=".85"/>
+<path d="M643 429Q794 391 921 416T1108 416V441H643Z" fill="#355b68"/>
+<path d="M876 75v365M643 298h462" stroke="#dfcba8" stroke-width="13" fill="none"/>
+<g fill="#fcf0ca"><circle cx="695" cy="117" r="3"/><circle cx="778" cy="173" r="3"/><circle cx="843" cy="129" r="2"/><circle cx="1035" cy="220" r="2"/><circle cx="751" cy="234" r="3"/><circle cx="1074" cy="270" r="3"/></g>
+<!-- distinct ornamental art signature -->
+<g filter="url(#shadow)"><rect x="42" y="42" width="503" height="193" rx="4" fill="url(#parch)" stroke="#c9a879" stroke-width="5"/><rect x="55" y="55" width="477" height="167" fill="none" stroke="#d5bd94" stroke-width="2"/></g>
+<text x="82" y="102" fill="#285348" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="42" font-weight="700">이조은치과</text>
+<text x="83" y="147" fill="#2d584d" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="25" font-weight="700">골다공증 치료제와 치과진료</text>
+<path d="M84 163h414" stroke="#af966f" stroke-width="2"/>
+<text x="84" y="197" fill="#8f7a5a" font-family="Georgia,serif" font-size="15" letter-spacing="2">HEALTH HISTORY · A CAREFUL REVIEW</text>
+<!-- leafy stem on upper wall -->
+<path d="M555 14Q526 65 568 115Q603 171 562 217Q536 249 562 279" stroke="#a9b89f" stroke-width="4" fill="none" stroke-linecap="round"/>
+<g fill="#a3b49a"><use href="#leaf" transform="translate(532 69) rotate(34)"/><use href="#leaf" transform="translate(582 143) rotate(153)"/><use href="#leaf" transform="translate(531 225) rotate(25)"/></g>
+<g fill="#f4e5d2" stroke="#d6b991" stroke-width="2"><circle cx="566" cy="114" r="10"/><circle cx="559" cy="220" r="13"/></g>
+<!-- marble table and dusty velvet runner -->
+<path d="M0 447Q352 434 692 452T1200 443V740H0Z" fill="url(#oak)"/>
+<path d="M0 468Q370 459 730 474T1200 464" stroke="#edcfa6" stroke-width="7" opacity=".52" fill="none"/>
+<path d="M0 631Q220 614 461 636T940 624T1200 633" stroke="#efdcc5" stroke-width="3" opacity=".25" fill="none"/>
+<path d="M272 480Q560 459 844 491L1030 693Q675 706 330 686Z" fill="#a6a1ae" opacity=".5"/>
+<path d="M310 496Q624 474 857 506L969 669Q642 693 346 671Z" fill="url(#slate)" opacity=".87"/>
+<!-- a closed unspecified vial, neither a real drug nor a prescription -->
+<g filter="url(#shadow)">
+<rect x="944" y="452" width="97" height="145" rx="20" fill="#7396a0" stroke="#d4d5c7" stroke-width="4"/>
+<rect x="957" y="434" width="71" height="25" rx="7" fill="#bbab8c" stroke="#706e67" stroke-width="3"/>
+<rect x="956" y="495" width="77" height="59" rx="5" fill="#f8edda" stroke="#dbc4a5" stroke-width="3"/>
+<path d="M968 518h52M968 535h38" stroke="#adc1b2" stroke-width="4"/>
+</g>
+<!-- antique timepiece: recording past therapy not recommending a schedule -->
+<g filter="url(#shadow)">
+<path d="M650 499h186l26 121H630Z" fill="url(#bronze)" stroke="#735b44" stroke-width="5"/>
+<ellipse cx="744" cy="491" rx="91" ry="21" fill="#e9d3a4" stroke="#92774d" stroke-width="4"/>
+<circle cx="741" cy="435" r="92" fill="url(#bronze)" stroke="#e7cd9b" stroke-width="8"/>
+<circle cx="741" cy="435" r="76" fill="#fff5e5" stroke="#9a865f" stroke-width="4"/>
+<g stroke="#a09274" stroke-width="3"><path d="M741 367v12M809 435h-12M741 504v-12M674 435h12"/></g>
+<path d="M740 387v51l-32 26" stroke="#465b59" stroke-width="8" fill="none" stroke-linecap="round"/>
+<circle cx="740" cy="437" r="7" fill="#b99565"/>
+</g>
+<!-- blank medical history notebook: no invented records -->
+<g filter="url(#shadow)" transform="translate(360 477) rotate(-10)">
+<rect width="242" height="182" rx="11" fill="#41656a" stroke="#8c9f97" stroke-width="4"/>
+<rect x="17" y="13" width="210" height="158" rx="5" fill="url(#parch)" stroke="#c3b49b" stroke-width="2"/>
+<path d="M36 57h172M36 81h172M36 105h172M36 129h140" stroke="#b4c3b1" stroke-width="4" stroke-linecap="round"/>
+<circle cx="199" cy="137" r="12" fill="#d2e0ca" stroke="#799789" stroke-width="3"/>
+</g>
+<!-- flowers, no teeth or jaw diagrams -->
+<g stroke="#7d9e7e" stroke-width="5" fill="none" stroke-linecap="round"><path d="M1098 479Q1088 403 1063 347M1099 466Q1143 393 1170 335M1104 470Q1051 412 1026 381"/></g>
+<g fill="#a3b8a0"><use href="#leaf" transform="translate(1051 402) rotate(28)"/><use href="#leaf" transform="translate(1146 387) rotate(162)"/><use href="#leaf" transform="translate(1033 390) rotate(43)"/></g>
+<g fill="#fcf1e1" stroke="#dfc5b2" stroke-width="2"><circle cx="1063" cy="347" r="22"/><circle cx="1170" cy="335" r="18"/><circle cx="1026" cy="379" r="15"/></g>
+<g fill="#d8b77b"><circle cx="1063" cy="348" r="6"/><circle cx="1171" cy="336" r="5"/></g>
+<!-- small white fluffy mascot on its own navy cushion -->
+<g filter="url(#shadow)" transform="translate(64 496)">
+<ellipse cx="124" cy="148" rx="136" ry="29" fill="#344758" opacity=".5"/>
+<ellipse cx="114" cy="144" rx="141" ry="32" fill="#516477" stroke="#9ca7ab" stroke-width="4"/>
+<path d="M-10 123Q-32 60 13 37Q58 7 98 30Q139 6 164 40Q197 80 183 116Q214 117 236 92Q249 75 264 90Q271 114 243 133Q192 169 110 167L27 169Q-3 156 -10 123Z" fill="url(#catcoat)" stroke="#cedbd5" stroke-width="4"/>
+<path d="M7 82L8 22 42 44Q91 17 128 44L170 19L174 86Q181 123 142 143Q94 161 33 141Q4 127 7 82Z" fill="#fffefa" stroke="#d3dfd5" stroke-width="3"/>
+<path d="M13 43L10 25 34 43M152 40l17 -19 0 24" fill="#f1d6cf"/>
+<ellipse cx="48" cy="93" rx="6" ry="8" fill="#7b9785"/><ellipse cx="130" cy="92" rx="6" ry="8" fill="#7b9785"/>
+<path d="M80 115l9 8 10 -8" stroke="#c09591" stroke-width="3" fill="none" stroke-linecap="round"/>
+<path d="M29 109l-31 -5M30 118l-33 7M149 110l32 -7M149 118l37 8" stroke="#bec9bc" stroke-width="2"/>
+</g>
+<text x="668" y="672" font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" font-size="18" fill="#2a4f4a" font-weight="700">약 이름 · 치료 목적 · 마지막 투여일을 함께 확인합니다.</text>
+<text x="600" y="715" text-anchor="middle" font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" font-size="13" fill="#f8edda">창작 정물화 · 실제 처방, 복용 기록, 턱뼈 해부학이나 치료 결과를 나타내지 않습니다.</text>
+</svg>
