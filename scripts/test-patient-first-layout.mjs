@@ -585,9 +585,13 @@ test('eight other treatment guides have current consistent social metadata',()=>
  assert.ok(ortho.includes('일부 경우 가철성 교정 장치'));
  assert.ok(wisdom.includes('전문 진료 의뢰 여부'));
  assert.ok(implant.includes('원장이 직접 식립 수술'));
- for(const slug of ['implant','pediatric-orthodontics','wisdom-tooth'])
-  assert.ok(sitemap.includes('<loc>https://ejoeundental.com/'+slug+'</loc><lastmod>2026-10-28</lastmod>'),
-   slug+' edited medical page must have real revised sitemap date');
+ for(const [slug,date] of [
+  ['implant','2026-10-28'],
+  ['pediatric-orthodontics','2026-10-29'],
+  ['wisdom-tooth','2026-10-29']
+ ])
+  assert.ok(sitemap.includes('<loc>https://ejoeundental.com/'+slug+'</loc><lastmod>'+date+'</lastmod>'),
+   slug+' medical page must keep its source-verified editorial revision date');
 });
 
 test('full dental story directory derives its Naver original count from the verified homepage list',()=>{
