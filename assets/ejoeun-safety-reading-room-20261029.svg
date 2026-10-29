@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+<title id="title">이조은치과 · 환자 안전 서재</title>
+<desc id="desc">예술적인 정원의 작은 도서관, 햇살이 드는 아치 창, 의료진과 상담할 내용을 정리한 책과 하얀 복슬복슬한 고양이. 의학적 처방이나 검사를 재현한 그림이 아닙니다.</desc>
+<defs>
+<linearGradient id="sky" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#a7d0cf"/><stop offset=".55" stop-color="#f0edc9"/><stop offset="1" stop-color="#d0d8b9"/></linearGradient>
+<linearGradient id="wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e8e1ce"/><stop offset=".6" stop-color="#f7f4e9"/><stop offset="1" stop-color="#d6dccc"/></linearGradient>
+<linearGradient id="books" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#38695f"/><stop offset="1" stop-color="#1e5149"/></linearGradient>
+<linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b89672"/><stop offset="1" stop-color="#6e5143"/></linearGradient>
+<radialGradient id="light"><stop stop-color="#fff5d4" stop-opacity=".95"/><stop offset="1" stop-color="#fff3d7" stop-opacity="0"/></radialGradient>
+<filter id="shade" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="11"/></filter>
+<clipPath id="arch"><path d="M72 535V230Q72 77 314 77T556 230V535Z"/></clipPath>
+<pattern id="speckle" width="71" height="73" patternUnits="userSpaceOnUse"><circle cx="12" cy="24" r="1.2" fill="#806d53" opacity=".12"/><circle cx="42" cy="55" r="1.7" fill="#487665" opacity=".1"/></pattern>
+</defs>
+<rect width="1200" height="680" fill="#d8e4d9"/>
+<rect x="16" y="16" width="1168" height="648" rx="12" fill="url(#wall)" stroke="#a7a88f" stroke-width="3"/>
+<rect x="31" y="31" width="1138" height="618" rx="6" fill="url(#speckle)" stroke="#c9bb9d" stroke-width="1.5"/>
+<g clip-path="url(#arch)">
+<rect x="66" y="73" width="499" height="468" fill="url(#sky)"/>
+<circle cx="365" cy="225" r="193" fill="url(#light)"/>
+<path d="M66 371Q163 321 264 348T569 334V544H66Z" fill="#bbceb6"/>
+<path d="M56 422Q141 372 243 402T577 395V548H56Z" fill="#829c85"/>
+<path d="M52 476Q159 424 301 470T578 443V550H52Z" fill="#668e82"/>
+<path d="M65 509Q179 472 295 512T571 494" stroke="#d4e6ca" stroke-width="8" fill="none" opacity=".7"/>
+<g stroke="#5f896e" stroke-width="9" fill="none" stroke-linecap="round"><path d="M92 535Q112 393 105 260"/><path d="M522 535Q491 375 507 240"/><path d="M109 423Q163 367 178 332"/><path d="M505 380Q441 311 430 278"/></g>
+<g fill="#739c7b"><ellipse cx="107" cy="337" rx="32" ry="11" transform="rotate(-28 107 337)"/><ellipse cx="144" cy="388" rx="35" ry="12" transform="rotate(38 144 388)"/><ellipse cx="486" cy="303" rx="36" ry="12" transform="rotate(25 486 303)"/><ellipse cx="461" cy="369" rx="39" ry="13" transform="rotate(-35 461 369)"/><ellipse cx="170" cy="447" rx="37" ry="12" transform="rotate(28 170 447)"/></g>
+<g fill="#f1d5b1" stroke="#d9b18c" stroke-width="2"><circle cx="178" cy="333" r="16"/><circle cx="428" cy="279" r="17"/><circle cx="156" cy="447" r="13"/></g>
+</g>
+<path d="M72 537V231Q72 77 314 77T556 231V537" fill="none" stroke="#b6a17e" stroke-width="19"/>
+<path d="M76 537V232Q76 86 314 86T552 232V537" fill="none" stroke="#fbf7e9" stroke-width="7"/>
+<path d="M313 88V537M74 300H557" stroke="#cbbb93" stroke-width="11"/>
+<path d="M54 544H578" stroke="#937b61" stroke-width="17"/>
+<path d="M47 561H589" stroke="#ebe3d1" stroke-width="11"/>
+<g transform="translate(638 112)">
+<rect x="3" y="6" width="479" height="352" rx="11" fill="#d6ded3" stroke="#a7b3a2" stroke-width="4"/>
+<rect x="23" y="26" width="439" height="310" rx="5" fill="#fbf7e9"/>
+<path d="M22 109H464M22 221H464" stroke="#ad9c7e" stroke-width="12"/>
+<g fill="#648a80" stroke="#456b63" stroke-width="2">
+<rect x="45" y="47" width="34" height="61" rx="4"/><rect x="82" y="37" width="40" height="71" rx="5"/><rect x="126" y="45" width="29" height="62" rx="4"/>
+<rect x="178" y="52" width="45" height="56" rx="3"/><rect x="227" y="39" width="29" height="70" rx="3"/><rect x="271" y="44" width="46" height="63" rx="3"/>
+<rect x="52" y="136" width="27" height="85" rx="3"/><rect x="83" y="144" width="43" height="76" rx="4"/><rect x="131" y="154" width="31" height="66" rx="3"/>
+<rect x="180" y="139" width="47" height="82" rx="3"/><rect x="246" y="152" width="30" height="67" rx="3"/><rect x="293" y="133" width="39" height="87" rx="3"/>
+</g>
+<g fill="#be9871" stroke="#9f785d" stroke-width="2"><rect x="160" y="40" width="14" height="68" rx="2"/><rect x="261" y="45" width="7" height="61" rx="2"/><rect x="167" y="144" width="9" height="77" rx="3"/><rect x="282" y="148" width="8" height="71" rx="2"/></g>
+<g stroke="#f5edcc" stroke-width="3"><path d="M57 69V90M95 56V92M191 62V90M237 60V92M64 162V205M101 163V202M194 164V209M311 152V203"/></g>
+<path d="M342 98Q366 61 400 82T444 127V223H342Z" fill="#e3cfaa" stroke="#af9870" stroke-width="4"/>
+<path d="M354 118Q368 94 395 105T428 127V210H354Z" fill="#c5d8bd"/>
+<g fill="#93b28e"><ellipse cx="370" cy="173" rx="18" ry="7" transform="rotate(38 370 173)"/><ellipse cx="398" cy="155" rx="21" ry="8" transform="rotate(-27 398 155)"/><ellipse cx="409" cy="187" rx="22" ry="8" transform="rotate(25 409 187)"/></g>
+<g fill="#ead7ac" stroke="#a8a58c" stroke-width="3"><rect x="44" y="255" width="138" height="59" rx="7"/><rect x="197" y="255" width="126" height="59" rx="7"/><rect x="334" y="255" width="113" height="59" rx="7"/></g>
+<g stroke="#9ba899" stroke-width="3"><path d="M58 271H160M58 286H145M211 273H300M211 289H283M348 272H429M348 288H414"/></g>
+</g>
+<ellipse cx="812" cy="592" rx="330" ry="35" fill="#50473e" opacity=".15" filter="url(#shade)"/>
+<path d="M473 488H1139V603H473Z" fill="url(#wood)"/>
+<path d="M459 480H1150V497H459Z" fill="#b99976"/>
+<path d="M465 604H1151V617H465Z" fill="#715546"/>
+<g transform="translate(574 473) rotate(-8)">
+<path d="M-36 6Q58-11 155 22Q234-4 318 13V112Q223 97 156 126Q57 95-36 111Z" fill="#fff8e8" stroke="#c2b092" stroke-width="4"/>
+<path d="M154 22V125" stroke="#bbab8a" stroke-width="4"/>
+<g stroke="#9fac9c" stroke-width="4" stroke-linecap="round"><path d="M-11 33H123M-11 52H115M-11 75H120M180 31H288M180 52H289M180 73H270"/></g>
+<g fill="none" stroke="#b4896a" stroke-width="4"><path d="M186 92l10 10 15-20"/></g>
+</g>
+<g transform="translate(938 465)">
+<path d="M70 86Q148 38 132-22Q126-42 109-32" stroke="#edf2ea" stroke-width="35" fill="none" stroke-linecap="round"/>
+<path d="M70 86Q148 38 132-22" stroke="#cddacf" stroke-width="3" fill="none"/>
+<ellipse cx="39" cy="82" rx="82" ry="72" fill="#fffdf5" stroke="#d5ddd5" stroke-width="4"/>
+<g fill="#fffdf5" stroke="#d5ddd5" stroke-width="3"><circle cx="-25" cy="69" r="26"/><circle cx="102" cy="65" r="27"/></g>
+<path d="M-9 9L-18-69L20-49Q48-66 75-48L113-73L105 11Z" fill="#fffdf6" stroke="#d5ddd5" stroke-width="3"/>
+<path d="M-7-12L-9-54L13-40M84-42L103-56L98-10" fill="#f2d4cf"/>
+<ellipse cx="46" cy="24" rx="66" ry="59" fill="#fffdf6" stroke="#d5ddd5" stroke-width="3"/>
+<ellipse cx="22" cy="20" rx="4.5" ry="6" fill="#596e66"/><ellipse cx="71" cy="20" rx="4.5" ry="6" fill="#596e66"/>
+<path d="M39 40l13 0-6.5 7Z" fill="#c8908e"/>
+<path d="M45 47q-10 10-20 3m20-3q10 10 20 3" stroke="#aebdb4" stroke-width="2" fill="none"/>
+<g stroke="#a9b7b0" stroke-width="2"><path d="M20 45l-33-7M20 53l-32 9M70 46l34-7M70 53l34 10"/></g>
+<ellipse cx="-1" cy="143" rx="28" ry="15" fill="#fffdf6"/><ellipse cx="83" cy="143" rx="27" ry="14" fill="#fffdf6"/>
+</g>
+<path d="M53 642H1148" stroke="#b9ac88" stroke-width="2"/>
+<text x="66" y="67" font-size="25" font-weight="700" fill="#345a49" font-family="'Malgun Gothic','Apple SD Gothic Neo',sans-serif">이조은치과</text>
+<text x="1115" y="68" text-anchor="end" font-family="Georgia,serif" letter-spacing="3" font-size="17" fill="#698377">THE CLINICAL READING ROOM</text>
+<text x="1100" y="652" text-anchor="end" font-family="Georgia,serif" font-size="17" font-style="italic" fill="#819586">Before the visit</text>
+</svg>
