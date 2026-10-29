@@ -571,7 +571,13 @@ test('patient clinic service pages expose consistent local search and social pre
   const title=html.match(/<title>([^<]+)<\/title>/)?.[1];
   const desc=html.match(/<meta name="description" content="([^"]+)"/)?.[1];
   assert.ok(title?.includes('이조은치과')&&desc?.includes('청천동'),file+' brand or location missing');
-  assert.ok(html.includes('<link rel="canonical" href="'+origin+'/'+file+'">'),file+' canonical missing');
+  const canonical=html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+  const published=origin+'/'+file.replace(/\.html$/,'');
+  // Cloudflare serves the extensionless canonical even though the editable
+  // source filename ends with .html. Do not treat that redirect as broken SEO.
+  assert.equal(canonical,published,file+' should use the published, extensionless canonical');
+  assert.ok(source.includes('<link rel="canonical" href="'+origin+'/'+file+'">'),
+   file+' source must keep its original canonical for the build transform');
   const tag=(kind,key)=>html.match(new RegExp('<meta '+kind+'="'+key+'" content="([^"]+)"'))?.[1];
   assert.equal(tag('property','og:title'),title,file+' social title must equal page title');
   assert.equal(tag('property','og:description'),desc,file+' social description must equal real summary');
