@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+<title id="title">이조은치과 · 햇살 드는 온실의 진료 준비</title>
+<desc id="desc">황금빛 온실 속 식물과 의료진에게 전할 복용약 목록을 상징하는 노트, 작은 찻잔, 복슬복슬한 하얀 고양이가 있는 아르누보풍 창작 정물화. 간질환의 의학적 도해가 아니다.</desc>
+<defs>
+ <linearGradient id="back" x2="1" y2="1"><stop stop-color="#f4e6c8"/><stop offset=".5" stop-color="#f6f2df"/><stop offset="1" stop-color="#dce8d9"/></linearGradient>
+ <linearGradient id="glass" x1="0" x2="1" y2=".7"><stop stop-color="#dcebe1"/><stop offset=".55" stop-color="#fbf2d8"/><stop offset="1" stop-color="#bed7c9"/></linearGradient>
+ <linearGradient id="wood" x2="0" y2="1"><stop stop-color="#b29068"/><stop offset="1" stop-color="#7d5a42"/></linearGradient>
+ <radialGradient id="light"><stop stop-color="#fff8d6" stop-opacity=".9"/><stop offset="1" stop-color="#fff6cf" stop-opacity="0"/></radialGradient>
+ <linearGradient id="book" x2="1" y2="1"><stop stop-color="#fef9ec"/><stop offset="1" stop-color="#e7dcc3"/></linearGradient>
+ <filter id="shade"><feGaussianBlur stdDeviation="12"/></filter>
+ <clipPath id="window"><path d="M102 560V242Q102 95 304 95T506 242V560Z"/></clipPath>
+ <pattern id="grain" patternUnits="userSpaceOnUse" width="60" height="60"><circle cx="12" cy="18" r="1" fill="#8b7a5f" opacity=".16"/><circle cx="43" cy="49" r="1.3" fill="#718778" opacity=".13"/></pattern>
+</defs>
+<rect width="1200" height="720" fill="#e2e7da"/>
+<rect x="16" y="16" width="1168" height="688" rx="18" fill="url(#back)" stroke="#ac9b78" stroke-width="3"/>
+<rect x="36" y="36" width="1128" height="648" rx="10" fill="none" stroke="#d1bd90" stroke-width="2"/>
+<rect x="47" y="47" width="1106" height="626" fill="url(#grain)"/>
+<path d="M62 94Q170 53 305 77M1142 94Q1030 53 900 77" stroke="#baa780" stroke-width="3" fill="none"/>
+<text x="70" y="76" font-size="27" font-family="'Malgun Gothic','Apple SD Gothic Neo',sans-serif" font-weight="700" fill="#466b56">이조은치과</text>
+<text x="1110" y="77" font-size="16" font-family="Georgia,serif" letter-spacing="4" text-anchor="end" fill="#9a8058">THE QUIET GARDEN</text>
+<g clip-path="url(#window)">
+ <rect x="98" y="90" width="412" height="480" fill="url(#glass)"/>
+ <circle cx="348" cy="275" r="185" fill="url(#light)"/>
+ <path d="M96 405Q181 345 245 379T408 365T531 391V560H96Z" fill="#b8c9a4"/>
+ <path d="M86 461Q185 417 280 448T531 425V568H86Z" fill="#8ca992"/>
+ <path d="M87 511Q212 472 334 520T525 491V572H87Z" fill="#709984"/>
+ <g stroke="#597e66" stroke-linecap="round" fill="none">
+  <path d="M122 567Q156 416 146 256" stroke-width="11"/>
+  <path d="M466 568Q446 408 460 258" stroke-width="11"/>
+  <path d="M133 493Q218 430 232 348" stroke-width="6"/>
+  <path d="M454 460Q372 398 364 315" stroke-width="7"/>
+ </g>
+ <g fill="#779d7b" stroke="#587e68" stroke-width="1.5">
+  <ellipse cx="146" cy="308" rx="35" ry="13" transform="rotate(-40 146 308)"/>
+  <ellipse cx="162" cy="354" rx="40" ry="13" transform="rotate(32 162 354)"/>
+  <ellipse cx="132" cy="401" rx="39" ry="14" transform="rotate(-38 132 401)"/>
+  <ellipse cx="196" cy="434" rx="38" ry="13" transform="rotate(-25 196 434)"/>
+  <ellipse cx="459" cy="294" rx="42" ry="14" transform="rotate(34 459 294)"/>
+  <ellipse cx="443" cy="344" rx="36" ry="13" transform="rotate(-32 443 344)"/>
+  <ellipse cx="450" cy="410" rx="40" ry="13" transform="rotate(28 450 410)"/>
+  <ellipse cx="401" cy="393" rx="41" ry="13" transform="rotate(-26 401 393)"/>
+ </g>
+ <g fill="#f3d8b3" stroke="#d6ba91" stroke-width="2">
+  <circle cx="194" cy="429" r="17"/><circle cx="367" cy="351" r="17"/><circle cx="415" cy="392" r="14"/>
+ </g>
+ <g fill="#fcf1d4"><circle cx="194" cy="429" r="7"/><circle cx="367" cy="351" r="7"/><circle cx="415" cy="392" r="6"/></g>
+</g>
+<path d="M102 562V241Q102 95 304 95T506 241V562" fill="none" stroke="#c3ad82" stroke-width="17"/>
+<path d="M106 560V242Q106 108 304 108T502 242V560" fill="none" stroke="#fff9e9" stroke-width="5"/>
+<path d="M304 104V562M103 324H505" stroke="#cfbd91" stroke-width="11" fill="none"/>
+<path d="M85 566H524" stroke="#ad8e6d" stroke-width="23"/>
+<path d="M73 584H533" stroke="#f5efdd" stroke-width="13"/>
+<path d="M566 155Q650 129 731 152T920 142" stroke="#c3ad88" stroke-width="3" fill="none"/>
+<g transform="translate(608 160)">
+ <rect width="478" height="340" rx="11" fill="#fff9e8" stroke="#bdac90" stroke-width="4"/>
+ <rect x="17" y="19" width="444" height="305" rx="7" fill="#fdfcf2" stroke="#e5d8c2" stroke-width="2"/>
+ <g stroke="#d0c4ab" stroke-width="2"><path d="M60 115H426M60 166H426M60 217H426M60 268H426"/></g>
+ <text x="48" y="66" font-family="Georgia,serif" fill="#56775f" font-size="25" letter-spacing="2">CARE JOURNAL</text>
+ <g fill="#95ad98"><circle cx="67" cy="111" r="7"/><circle cx="67" cy="164" r="7"/><circle cx="67" cy="215" r="7"/><circle cx="67" cy="266" r="7"/></g>
+ <g fill="none" stroke="#9aa99a" stroke-width="5" stroke-linecap="round"><path d="M99 114H318M99 165H362M99 216H286M99 267H335"/></g>
+ <path d="M396 272l14 16 21-31" stroke="#b09469" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<ellipse cx="822" cy="613" rx="326" ry="25" fill="#655c47" opacity=".2" filter="url(#shade)"/>
+<path d="M525 526H1125V629H525Z" fill="url(#wood)"/>
+<path d="M515 524H1134V541H515Z" fill="#c09c74"/>
+<path d="M515 629H1134V639H515Z" fill="#654c3d"/>
+<g transform="translate(987 422)">
+ <path d="M-40 56Q-29 110-22 144Q9 172 47 141Q57 100 52 56Z" fill="#8bb1a6" stroke="#5d8c7a" stroke-width="3"/>
+ <ellipse cx="6" cy="56" rx="46" ry="12" fill="#d7e7d9" stroke="#5e8b78" stroke-width="3"/>
+ <g stroke="#628b70" stroke-width="4" fill="none">
+  <path d="M5 55Q0-36-38-93"/><path d="M7 56Q35-30 66-85"/><path d="M7 55Q-11-43-2-118"/>
+ </g>
+ <g fill="#a0b88f"><ellipse cx="-23" cy="-37" rx="25" ry="9" transform="rotate(38 -23 -37)"/><ellipse cx="38" cy="-33" rx="27" ry="9" transform="rotate(-35 38 -33)"/><ellipse cx="-5" cy="-72" rx="26" ry="10" transform="rotate(24 -5 -72)"/></g>
+ <g fill="#f3d1af" stroke="#d2b185" stroke-width="2"><circle cx="-40" cy="-97" r="20"/><circle cx="67" cy="-89" r="19"/><circle cx="-2" cy="-119" r="21"/></g>
+ <g fill="#fff3d8"><circle cx="-40" cy="-97" r="8"/><circle cx="67" cy="-89" r="7"/><circle cx="-2" cy="-119" r="8"/></g>
+</g>
+<g transform="translate(603 463)">
+ <path d="M5 85Q-15 68-12 30H95Q98 67 79 85Z" fill="#f9f4e7" stroke="#bba88d" stroke-width="3"/>
+ <ellipse cx="42" cy="30" rx="53" ry="14" fill="#fffdf4" stroke="#bba88d" stroke-width="3"/>
+ <ellipse cx="42" cy="30" rx="38" ry="8" fill="#b1a07b"/>
+ <path d="M94 39Q127 30 120 54Q116 73 93 64" fill="none" stroke="#bba88d" stroke-width="8"/>
+ <ellipse cx="43" cy="99" rx="74" ry="10" fill="#f0e8d4" stroke="#bba88d" stroke-width="3"/>
+</g>
+<g transform="translate(810 465)">
+ <ellipse cx="17" cy="134" rx="103" ry="16" fill="#443d32" opacity=".16" filter="url(#shade)"/>
+ <path d="M69 81Q142 53 124-15Q113-39 96-22" stroke="#fdfbf2" stroke-width="33" fill="none" stroke-linecap="round"/>
+ <path d="M69 81Q142 53 124-15" stroke="#dce2dc" stroke-width="3" fill="none" stroke-linecap="round"/>
+ <ellipse cx="10" cy="61" rx="75" ry="71" fill="#fffef7" stroke="#dce0d6" stroke-width="4"/>
+ <g fill="#fffef7" stroke="#dce0d6" stroke-width="2"><circle cx="-41" cy="32" r="25"/><circle cx="70" cy="39" r="25"/><circle cx="-39" cy="92" r="23"/><circle cx="70" cy="91" r="24"/></g>
+ <path d="M-34-13L-42-83L-5-60Q16-77 46-61L75-84L73-6Z" fill="#fffef8" stroke="#d9dfd6" stroke-width="3"/>
+ <path d="M-30-30L-33-67L-14-54M54-52L69-66L68-29" fill="#edd5cf"/>
+ <ellipse cx="16" cy="-13" rx="59" ry="52" fill="#fffef8" stroke="#d9dfd6" stroke-width="2"/>
+ <ellipse cx="-6" cy="-17" rx="4" ry="5.5" fill="#65736a"/><ellipse cx="36" cy="-17" rx="4" ry="5.5" fill="#65736a"/>
+ <path d="M12 0l8 0-4 7Z" fill="#ce9996"/>
+ <path d="M16 8Q9 17 0 10M16 8Q23 17 32 10" stroke="#a2ada3" fill="none" stroke-width="2.2"/>
+ <g stroke="#aeb9af" stroke-width="1.8" stroke-linecap="round"><path d="M-5 10l-28-5M-5 17l-29 8M37 10l28-6M37 17l29 9"/></g>
+ <ellipse cx="-17" cy="117" rx="27" ry="15" fill="#fffef8"/><ellipse cx="49" cy="119" rx="27" ry="14" fill="#fffef8"/>
+</g>
+<path d="M70 652H1130" stroke="#b79a6d" stroke-width="2"/>
+<text x="1112" y="674" text-anchor="end" font-family="Georgia,serif" font-size="19" font-style="italic" letter-spacing="1.1" fill="#7e8c76">Time to prepare, time to care</text>
+</svg>
