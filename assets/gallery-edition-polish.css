@@ -649,3 +649,120 @@ body.home-page #main-content>#gallery .gallery-home-clinical-note>a:focus-visibl
     font-size:14px;
   }
 }
+
+
+/* Homepage watercolor focus and quiet journal · 2026-10-29
+   Replace repeated clinical art/portrait without adding images to the payload.
+   Keep the text, SEO and all reservation routes unchanged. */
+body.home-page #main-content>#focus-care .focus-care-lead-art{
+  overflow:visible;
+  padding:clamp(7px,1vw,12px);
+  border:1px solid #cbb995;
+  border-radius:3px 13px 3px 13px;
+  background:linear-gradient(155deg,#efe4d0,#fffdf7);
+  box-shadow:0 14px 28px rgba(33,56,37,.075);
+}
+body.home-page #main-content>#focus-care .focus-care-art-link{
+  display:block;
+  overflow:hidden;
+  line-height:0;
+  border:1px solid rgba(131,114,82,.23);
+  border-radius:2px;
+  background:#faf8ee;
+}
+body.home-page #main-content>#focus-care .focus-care-art-link>img{
+  width:100%;
+  height:auto;
+  min-height:0;
+  display:block;
+  object-fit:contain;
+  aspect-ratio:3/2;
+  background:#fff9ed;
+}
+body.home-page #main-content>#focus-care .focus-care-art-link:focus-visible{
+  outline:3px solid #a78246;
+  outline-offset:4px;
+}
+body.home-page #main-content>#focus-care .focus-care-lead-art figcaption{
+  display:block;
+  margin:0;
+  padding:13px 8px 8px;
+  color:#2b503d;
+  font-size:14px;
+  font-weight:650;
+  line-height:1.7;
+  word-break:keep-all;
+}
+body.home-page #main-content>#focus-care .focus-care-lead-art figcaption>span{
+  display:block;margin:0 0 5px;
+  color:#917348;
+  font:700 10px/1.6 'DM Sans',system-ui,sans-serif;
+  letter-spacing:.13em;
+}
+body.home-page #main-content>#focus-care .focus-care-lead-art figcaption a{
+  display:inline-flex;align-items:center;
+  min-height:44px;
+  color:#275a40;
+  font-size:13px;
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
+body.home-page #main-content>#focus-care .focus-care-lead-art figcaption a:focus-visible{
+  outline:3px solid #a78246;outline-offset:3px;
+}
+body.home-page #main-content>#stories .journal-gallery-cover{
+  border:1px solid #c7b99d;
+  border-radius:3px 13px 3px 13px;
+  background:#f6f1e7;
+  box-shadow:0 13px 34px rgba(34,57,39,.07);
+}
+body.home-page #main-content>#stories .journal-gallery-cover>img{
+  display:block;
+  width:100%;
+  height:100%;
+  min-height:220px;
+  max-height:340px;
+  object-fit:contain;
+  object-position:center;
+  background:#ebe5d9;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__caption{
+  background:linear-gradient(143deg,#234d3a,#1b3e2f);
+}
+body.home-page #main-content>#stories .journal-gallery-cover__caption :is(strong,span){
+  color:#fdf8ed;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__caption small{
+  color:#e9cc97;
+}
+@media(max-width:700px){
+  body.home-page #main-content>#focus-care .focus-care-lead-art{
+    padding:7px 7px 3px;
+  }
+  body.home-page #main-content>#focus-care .focus-care-lead-art figcaption{
+    padding:10px 8px 7px;
+    font-size:13px;
+  }
+  body.home-page #main-content>#stories .journal-gallery-cover>img{
+    width:100%;
+    height:auto;
+    min-height:0;
+    max-height:280px;
+    object-fit:contain;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#focus-care .focus-care-lead-art,
+  body.home-page #main-content>#stories .journal-gallery-cover{
+    color:CanvasText;
+    background:Canvas;
+    border:1px solid CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#stories .journal-gallery-cover__caption{
+    background:Canvas;color:CanvasText;
+  }
+  body.home-page #main-content>#stories .journal-gallery-cover__caption :is(strong,small,span){
+    color:CanvasText;
+  }
+}
