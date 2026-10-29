@@ -1,0 +1,99 @@
+/* Retreatment FAQ: original three-step patient-education artwork, 2026-10-29.
+   The art supplements (never replaces) clinical text and structured FAQ answers. */
+.retx-journey{
+  box-sizing:border-box;
+  margin:19px 0 24px;
+  padding:8px;
+  border:1px solid #cbbc9e;
+  border-top:2px solid #a88b60;
+  border-radius:4px 15px 4px 15px;
+  overflow:hidden;
+  background:linear-gradient(130deg,#f1ebdd,#fffefa 53%,#e9f2eb);
+  box-shadow:0 13px 31px rgba(32,56,42,.08);
+}
+.retx-journey img{
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:60 / 37;
+  object-fit:contain;
+  box-sizing:border-box;
+  background:#f9f3e7;
+  border:1px solid #dac7a7;
+}
+.retx-journey figcaption{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  padding:14px 12px 15px;
+  color:#486351;
+  font-size:14px;
+  line-height:1.75;
+  word-break:keep-all;
+}
+.retx-journey figcaption small{
+  font:700 11px/1.5 system-ui,sans-serif;
+  letter-spacing:.12em;
+  color:#93754c;
+}
+.retx-journey figcaption strong{
+  font:700 clamp(19px,2.6vw,26px)/1.5 'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  color:#244e39;
+  letter-spacing:-.04em;
+}
+.retx-journey figcaption span{
+  display:block;
+}
+.retx-questions{
+  box-sizing:border-box;
+  padding:16px;
+  margin:0 0 28px;
+  background:#f0f5ef;
+  border:1px solid #cfdfd2;
+  border-radius:11px;
+}
+.retx-questions strong{
+  display:block;
+  margin:0 0 10px;
+  color:#245239;
+  font:700 18px/1.6 'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+}
+.retx-questions>div{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+}
+.retx-questions a{
+  box-sizing:border-box;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  min-width:0;
+  min-height:51px;
+  padding:10px 12px;
+  border:1px solid #d5dfd3;
+  border-radius:8px;
+  background:#fffdf9;
+  color:#295e43;
+  font-size:14px;
+  font-weight:750;
+  line-height:1.6;
+  text-decoration:none;
+  word-break:keep-all;
+}
+.retx-questions a:hover{border-color:#769882;background:#fffefc}
+.retx-questions a:focus-visible{outline:3px solid #aa8350;outline-offset:3px}
+.retx-questions a span{color:#a78e69;flex-shrink:0;margin-left:8px}
+@media(max-width:620px){
+ .retx-journey{margin:14px 0 18px;padding:5px}
+ .retx-journey figcaption{padding:11px 8px 14px;gap:6px;font-size:13px}
+ .retx-journey figcaption strong{font-size:20px}
+ .retx-questions{padding:12px;margin-bottom:23px}
+ .retx-questions>div{grid-template-columns:minmax(0,1fr);gap:7px}
+ .retx-questions a{min-height:49px}
+}
+@media print{.retx-journey,.retx-questions{display:none!important}}
+@media(forced-colors:active){
+ .retx-journey,.retx-questions,.retx-questions a{background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none}
+ .retx-journey figcaption :is(small,strong,span),.retx-questions strong{color:CanvasText}
+}
