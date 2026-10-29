@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="artTitle artDescription">
+<title id="artTitle">이조은치과, 저녁 정원의 진료 준비</title>
+<desc id="artDescription">청록과 황토색 종이 조각을 겹친 독창적인 콜라주 정원. 책과 달력, 불빛 아래 앉은 복슬복슬한 흰 고양이가 있다. 질환이나 치료 효과를 묘사하는 의학 그림이 아니다.</desc>
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#192f3d"/><stop offset=".52" stop-color="#31555b"/><stop offset="1" stop-color="#48716a"/></linearGradient>
+<linearGradient id="orange" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4d4a1"/><stop offset=".55" stop-color="#dc9678"/><stop offset="1" stop-color="#aa6e62"/></linearGradient>
+<linearGradient id="table" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#9b7465"/><stop offset="1" stop-color="#634f52"/></linearGradient>
+<radialGradient id="lamp"><stop stop-color="#fae6b5" stop-opacity=".67"/><stop offset="1" stop-color="#fae6b5" stop-opacity="0"/></radialGradient>
+<pattern id="paper" width="71" height="81" patternUnits="userSpaceOnUse"><path d="M9 24l3 3m35 13l-2 4m-27 26l3 2" stroke="#f4eee0" opacity=".10" stroke-width="2"/><circle cx="52" cy="12" r="1.7" fill="#fae7bb" opacity=".15"/></pattern>
+<filter id="blur"><feGaussianBlur stdDeviation="15"/></filter>
+<clipPath id="frame"><rect x="35" y="35" width="1130" height="650" rx="11"/></clipPath>
+</defs>
+<rect width="1200" height="720" fill="#d9dbcf"/>
+<rect x="16" y="16" width="1168" height="688" rx="18" fill="#ebe6d6" stroke="#ad9775" stroke-width="3"/>
+<rect x="35" y="35" width="1130" height="650" rx="11" fill="url(#sky)" stroke="#c7aa78" stroke-width="2.4"/>
+<g clip-path="url(#frame)">
+<circle cx="846" cy="270" r="196" fill="url(#lamp)"/>
+<circle cx="846" cy="240" r="104" fill="url(#orange)" opacity=".97"/>
+<circle cx="846" cy="240" r="83" fill="#f9dca9" opacity=".22"/>
+<path d="M-50 423Q142 300 319 404T686 369T1199 381V720H-50Z" fill="#41615f"/>
+<path d="M-60 494Q187 361 387 473T768 434T1264 471V720H-60Z" fill="#6f8a74"/>
+<path d="M-60 554Q240 426 494 551T1210 512V720H-60Z" fill="#9da486" opacity=".82"/>
+<path d="M57 423Q101 291 80 145M101 428Q189 289 217 173M1159 430Q1064 295 1079 164" fill="none" stroke="#e4bc80" stroke-width="12" opacity=".55" stroke-linecap="round"/>
+<g fill="#7f9987" stroke="#b4ad85" stroke-width="3">
+<path d="M97 286Q14 239 43 179Q110 181 97 286Z"/>
+<path d="M130 333Q224 292 237 215Q145 236 130 333Z"/>
+<path d="M1101 287Q999 259 1017 186Q1110 196 1101 287Z"/>
+<path d="M1067 363Q1169 313 1155 241Q1072 262 1067 363Z"/>
+<path d="M210 453Q174 340 248 312Q293 382 210 453Z"/>
+<path d="M992 423Q1024 316 936 291Q912 367 992 423Z"/>
+</g>
+<g fill="#c5c09a">
+<path d="M285 453Q257 356 324 303Q368 379 285 453Z"/>
+<path d="M910 419Q861 346 914 295Q975 357 910 419Z"/>
+</g>
+<g fill="#d9ad84" opacity=".85">
+<circle cx="273" cy="297" r="14"/><circle cx="321" cy="265" r="12"/><circle cx="978" cy="286" r="14"/><circle cx="1081" cy="329" r="12"/>
+</g>
+<path d="M55 545H1145V685H55Z" fill="url(#table)" opacity=".94"/>
+<path d="M48 543H1154" stroke="#e6c799" stroke-width="13"/>
+<path d="M45 585H1155" stroke="#ad8c74" stroke-width="4"/>
+<path d="M45 672H1155" stroke="#5d4a4c" stroke-width="8"/>
+<g transform="translate(132 410) rotate(-8 173 92)">
+<rect x="9" y="18" width="352" height="180" rx="10" fill="#283b43" opacity=".3" filter="url(#blur)"/>
+<path d="M20 23Q109 5 188 42Q253 6 346 31V192Q266 173 188 207Q108 169 20 186Z" fill="#f7edda" stroke="#cfbd9a" stroke-width="5"/>
+<path d="M188 42V207" stroke="#bca784" stroke-width="6" fill="none"/>
+<path d="M46 62Q103 44 158 67M46 92Q99 76 161 97M47 122Q113 107 158 126M217 65Q278 48 320 62M218 96Q266 82 321 95M218 125Q287 113 318 124" fill="none" stroke="#a7ae9e" stroke-width="5" stroke-linecap="round"/>
+<path d="M215 153H316" stroke="#ccbd9f" stroke-width="4"/>
+<circle cx="72" cy="150" r="14" fill="#b78f77"/><path d="M63 151l7 7 13-18" stroke="#fbf1dd" stroke-width="4" fill="none"/>
+</g>
+<g transform="translate(520 359)">
+<path d="M0 15H215V188H0Z" fill="#e3e1cf" stroke="#c2a878" stroke-width="6"/>
+<path d="M0 15H215V54H0Z" fill="#7c9888"/>
+<path d="M38 10V31M177 10V31" stroke="#e4c18b" stroke-width="11" stroke-linecap="round"/>
+<g fill="#bdc9b9">
+<rect x="21" y="76" width="38" height="25" rx="3"/><rect x="69" y="76" width="38" height="25" rx="3"/><rect x="118" y="76" width="38" height="25" rx="3"/><rect x="166" y="76" width="27" height="25" rx="3"/>
+<rect x="21" y="112" width="38" height="25" rx="3"/><rect x="69" y="112" width="38" height="25" rx="3"/><rect x="118" y="112" width="38" height="25" rx="3"/><rect x="166" y="112" width="27" height="25" rx="3"/>
+<rect x="21" y="146" width="38" height="24" rx="3"/><rect x="69" y="146" width="38" height="24" rx="3"/><rect x="118" y="146" width="38" height="24" rx="3"/>
+</g>
+<circle cx="139" cy="123" r="24" fill="none" stroke="#b48173" stroke-width="6"/>
+</g>
+<g transform="translate(823 429)">
+<ellipse cx="90" cy="210" rx="134" ry="20" fill="#312f32" opacity=".32" filter="url(#blur)"/>
+<path d="M122 148Q222 84 192 4Q184-15 168-2" fill="none" stroke="#d6ddd8" stroke-width="54" stroke-linecap="round"/>
+<path d="M122 148Q223 88 192 4" fill="none" stroke="#fffaf0" stroke-width="41" stroke-linecap="round"/>
+<ellipse cx="72" cy="131" rx="98" ry="83" fill="#fffdf5" stroke="#d9dcd6" stroke-width="5"/>
+<circle cx="-8" cy="117" r="33" fill="#fffdf5" stroke="#d9dcd6" stroke-width="3"/>
+<circle cx="146" cy="112" r="30" fill="#fffdf5" stroke="#d9dcd6" stroke-width="3"/>
+<path d="M14 24L0-61L51-38Q76-61 112-39L160-64L145 23Z" fill="#fffdf6" stroke="#d9dcd6" stroke-width="4"/>
+<path d="M17 0L12-41L41-30M123-29L151-44L140 0" fill="#f0d9d5"/>
+<ellipse cx="79" cy="38" rx="79" ry="70" fill="#fffdf7" stroke="#d9dcd5" stroke-width="3"/>
+<ellipse cx="45" cy="26" rx="6" ry="8" fill="#62756f"/>
+<ellipse cx="105" cy="26" rx="6" ry="8" fill="#62756f"/>
+<path d="M72 45h16l-8 8Z" fill="#d29a96"/>
+<path d="M80 54q-13 16-27 2m27-2q13 16 26 2" stroke="#a9b6b0" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+<g stroke="#adbab2" stroke-width="2" stroke-linecap="round"><path d="M44 51L3 43M44 58L4 68M111 50l40-9M111 58l42 12"/></g>
+<ellipse cx="17" cy="204" rx="33" ry="18" fill="#fffdf7"/>
+<ellipse cx="138" cy="204" rx="33" ry="18" fill="#fffdf7"/>
+</g>
+<rect x="35" y="35" width="1130" height="650" fill="url(#paper)" pointer-events="none"/>
+<path d="M56 105H1141M56 659H1141" stroke="#d5b583" stroke-width="2" opacity=".65"/>
+<text x="67" y="83" font-size="27" font-weight="700" fill="#fff3dc" font-family="'Malgun Gothic','Apple SD Gothic Neo',sans-serif">이조은치과</text>
+<text x="1132" y="82" text-anchor="end" font-family="Georgia,serif" font-size="17" letter-spacing="4" fill="#f1d4a7">THE EVENING GARDEN</text>
+<text x="1075" y="661" text-anchor="end" font-family="Georgia,serif" font-size="19" font-style="italic" fill="#fff0d5">Thoughtful preparation</text>
+</g>
+</svg>
