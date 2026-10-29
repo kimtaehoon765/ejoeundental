@@ -1,0 +1,91 @@
+/* 이조은치과 · pediatric prevention and care choices · 2026-10-29.
+   Scope to one article, retain original medical advice, SEO and mobile bookings. */
+body.pediatric-pathways-gallery .pediatric-visual-interlude{
+  box-sizing:border-box;margin:36px 0;padding:22px 20px 23px;
+  border:1px solid #cdded0;border-top:4px solid #98b59d;
+  border-radius:15px;background:linear-gradient(135deg,#f4f8f0,#fffdf7 62%,#f2f5ec);
+  box-shadow:0 14px 29px rgba(25,65,46,.055);
+}
+body.pediatric-pathways-gallery .pediatric-visual-interlude>h2{
+  margin:3px 0 8px;color:#24523e;
+  font:700 clamp(22px,2.7vw,28px)/1.48 'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  letter-spacing:-.04em;word-break:keep-all;
+}
+body.pediatric-pathways-gallery .pediatric-visual-interlude>p{
+  margin:0 0 17px;color:#526b5e;font-size:15px;line-height:1.82;word-break:keep-all;
+}
+body.pediatric-pathways-gallery .pediatric-three-steps-art{
+  margin:0 0 17px;border:1px solid #c6b899;border-radius:4px 12px 4px 12px;
+  padding:6px;box-shadow:0 11px 25px rgba(37,73,50,.045);
+  background:#f3efdf;overflow:hidden;
+}
+body.pediatric-pathways-gallery .pediatric-three-steps-art img{
+  box-sizing:border-box;display:block;width:100%;height:auto;aspect-ratio:216/77;
+  object-fit:contain;background:#eff2e8;
+}
+body.pediatric-pathways-gallery .pediatric-three-steps-art figcaption{
+  padding:8px 10px 4px;color:#657b69;font-size:12px;line-height:1.65;
+  word-break:keep-all;
+}
+body.pediatric-pathways-gallery .pediatric-steps-links{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;
+}
+body.pediatric-pathways-gallery .pediatric-steps-links a{
+  box-sizing:border-box;min-width:0;min-height:100px;padding:13px 12px;
+  display:flex;flex-direction:column;justify-content:center;gap:5px;
+  background:#fffefa;border:1px solid #d4e0d5;border-radius:10px;
+  text-decoration:none;line-height:1.48;color:#28583e;word-break:keep-all;
+}
+body.pediatric-pathways-gallery .pediatric-steps-links a:hover{
+  background:#eaf3e9;border-color:#94b097;
+}
+body.pediatric-pathways-gallery .pediatric-steps-links a:focus-visible{
+  outline:3px solid #af8b57;outline-offset:3px;
+}
+body.pediatric-pathways-gallery .pediatric-steps-links a .step-no{
+  color:#9b855f;font:700 11px/1.3 Georgia,serif;letter-spacing:.12em;
+}
+body.pediatric-pathways-gallery .pediatric-steps-links a strong{
+  color:#234f38;font:700 18px/1.45 'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+}
+body.pediatric-pathways-gallery .pediatric-steps-links a>span:last-child{
+  font-size:13px;color:#547264;
+}
+body.pediatric-pathways-gallery #pediatric-first-exam,
+body.pediatric-pathways-gallery #pediatric-trauma,
+body.pediatric-pathways-gallery #pediatric-restorative-heading{
+  scroll-margin-top:98px;
+}
+body.pediatric-pathways-gallery .pediatric-care-decisions{
+  border-color:#d3e2d4;background:#f8faf5;border-left:4px solid #a6b99c;
+}
+body.pediatric-pathways-gallery .pediatric-care-decisions h2{
+  color:#29563f;font-family:'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+}
+@media(max-width:760px){
+ body.pediatric-pathways-gallery .pediatric-visual-interlude{padding:17px 14px}
+ body.pediatric-pathways-gallery .pediatric-steps-links{grid-template-columns:minmax(0,1fr)}
+ body.pediatric-pathways-gallery .pediatric-steps-links a{min-height:76px}
+}
+@media(max-width:450px){
+ body.pediatric-pathways-gallery .pediatric-visual-interlude{margin:26px 0;padding:15px 10px}
+ body.pediatric-pathways-gallery .pediatric-visual-interlude>h2{font-size:21px}
+ body.pediatric-pathways-gallery .pediatric-visual-interlude>p{font-size:14px}
+ body.pediatric-pathways-gallery .pediatric-three-steps-art{padding:4px}
+ body.pediatric-pathways-gallery .pediatric-three-steps-art img{aspect-ratio:auto}
+ body.pediatric-pathways-gallery .pediatric-three-steps-art figcaption{font-size:11px}
+ body.pediatric-pathways-gallery .pediatric-steps-links a{padding:12px 13px}
+}
+@media print{
+ body.pediatric-pathways-gallery .pediatric-three-steps-art,
+ body.pediatric-pathways-gallery .pediatric-steps-links{display:none!important}
+ body.pediatric-pathways-gallery .pediatric-visual-interlude{
+  background:#fff;border:1px solid #aaa;box-shadow:none;
+ }
+}
+@media(forced-colors:active){
+ body.pediatric-pathways-gallery .pediatric-visual-interlude,
+ body.pediatric-pathways-gallery .pediatric-steps-links a{
+  color:CanvasText;background:Canvas;border-color:CanvasText;box-shadow:none;
+ }
+}
