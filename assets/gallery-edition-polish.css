@@ -1,0 +1,367 @@
+/* 이조은치과 | Gallery Edition · final visual refinement · 2026-10-29
+ * Purpose: calmer typography, real breathing room, consistent art framing.
+ * CSS-only, scoped to homepage; original care text, art, links and bookings intact.
+ */
+body.home-page{
+  --gallery-cream:#fbf9f3;
+  --gallery-paper:#fffefa;
+  --gallery-ink:#203e31;
+  --gallery-gold:#a58b5e;
+  --gallery-hairline:#dcd4c3;
+  --gallery-muted:#53685b;
+  background:var(--gallery-cream);
+}
+body.home-page :where(#main-content,header,footer) a{
+  text-underline-offset:4px;
+}
+body.home-page header .nav .logo{
+  font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+  font-weight:700;letter-spacing:-.07em;
+}
+body.home-page #main-content>.hero.wrap{
+  position:relative;
+  padding:clamp(25px,3.6vw,50px) clamp(20px,4vw,58px) clamp(22px,3vw,36px);
+  border:1px solid #d6ccba;
+  border-top:3px solid #a58b5e;
+  border-radius:2px 16px 2px 16px;
+  background:
+    radial-gradient(ellipse at 96% 2%,rgba(196,175,132,.21),transparent 43%),
+    radial-gradient(ellipse at 3% 98%,rgba(180,202,177,.14),transparent 40%),
+    #fffdf8;
+  box-shadow:0 14px 48px rgba(25,54,38,.075);
+}
+body.home-page #main-content>.hero.wrap::before{
+  content:'';pointer-events:none;position:absolute;
+  inset:10px;border:1px solid rgba(173,148,104,.17);
+  border-radius:1px 11px 1px 11px;
+}
+body.home-page #main-content>.hero.wrap>div,
+body.home-page #main-content>.hero.wrap>aside{
+  position:relative;
+}
+body.home-page #main-content>.hero.wrap .kicker{
+  margin-bottom:15px;color:#876d46;
+  letter-spacing:.18em;
+}
+body.home-page #main-content>.hero.wrap #headline{
+  max-width:16em;
+  font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+  font-weight:700;
+  font-size:clamp(31px,3.1vw,49px);
+  line-height:1.42;
+  letter-spacing:-.065em;
+  color:#1e4433;
+  text-wrap:balance;
+  word-break:keep-all;
+}
+body.home-page #main-content>.hero.wrap .hero-doctor-credentials{
+  max-width:100%;
+  box-sizing:border-box;
+  border-radius:2px 10px 2px 10px;
+  background:rgba(244,242,231,.85);
+  border-color:#d8ceb8;border-left:3px solid #ae915c;
+  color:#324c3c;
+  box-shadow:none;
+}
+body.home-page #main-content>.hero.wrap .hero-doctor-credentials strong{
+  color:#204a35;
+}
+body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+  position:relative;
+  overflow:visible;
+  border:1px solid #c8b58f;
+  border-radius:2px;
+  padding:clamp(9px,1.1vw,16px);
+  background:#eee7da;
+  box-shadow:0 17px 32px rgba(30,46,32,.14);
+}
+body.home-page #main-content>.hero.wrap>.art.hero-artwork::before{
+  content:'';position:absolute;inset:5px;
+  border:1px solid rgba(255,255,255,.8);
+  pointer-events:none;
+}
+body.home-page #main-content>.hero.wrap>.art.hero-artwork img{
+  display:block;width:100%;height:auto;
+  background:#faf8f0;
+  border:1px solid rgba(130,110,71,.21);
+  object-fit:contain;
+}
+body.home-page #main-content>.hero.wrap .hero-actions{
+  gap:9px;
+}
+body.home-page #main-content>.hero.wrap .hero-actions>a{
+  border-radius:5px;
+  box-shadow:none;
+  font-weight:750;
+  transition:background-color .18s ease,border-color .18s ease,transform .18s ease;
+}
+body.home-page #main-content>.hero.wrap .hero-actions>.hero-call{
+  border:1px solid #1e4d37;
+  background:#1e4d37;color:#fffef8;
+  box-shadow:0 5px 12px rgba(25,70,45,.12);
+}
+body.home-page #main-content>.hero.wrap .hero-actions>.hero-booking{
+  border:1px solid #a58b5e;
+  background:#eee2c9;color:#264532;
+  box-shadow:none;
+}
+body.home-page #main-content>.hero.wrap .hero-actions>:is(.hero-hours,.hero-symptoms,.hero-map){
+  border:1px solid #d9d0be;
+  background:#fffdf8;color:#2a513e;
+}
+body.home-page #main-content>.hero.wrap .hero-local-intro{
+  color:#526657;font-size:13px;line-height:1.85;
+}
+body.home-page #main-content>.hero.wrap>.hero-editorial-detail{
+  padding-top:clamp(14px,2.5vw,29px);
+  border-top:1px solid #dfd8c8;
+  gap:clamp(13px,2vw,24px);
+}
+body.home-page #main-content>.hero.wrap .hero-editorial-detail>div,
+body.home-page #main-content>.hero.wrap .hero-editorial-detail>aside{
+  background:rgba(255,254,249,.76);
+  border:1px solid #e4ddcf;
+  border-radius:3px 12px 3px 12px;
+  box-shadow:none;
+}
+body.home-page #main-content>.hero.wrap .hero-editorial-label{
+  color:#94774b;
+  font-size:11px;letter-spacing:.15em;
+}
+body.home-page #main-content>.hero.wrap .hero-care-summary>a,
+body.home-page #main-content>.hero.wrap .hero-care-summary .hero-more-care>summary{
+  background:#fbfaf5;border-color:#ded8cb;
+  border-radius:4px;color:#244a38;
+  box-shadow:none;
+}
+body.home-page #main-content>.hero.wrap .hero-principles>span{
+  border-color:#dbd2bd;background:#f5f3e9;
+  color:#335743;
+}
+body.home-page #main-content>.curated-threshold{
+  border:1px solid #d7c8af;
+  border-top:2px solid #ab9062;
+  border-radius:3px 13px 3px 13px;
+  background:linear-gradient(132deg,#f1ece0,#fffdf7 48%,#f4f4ec);
+  box-shadow:0 13px 31px rgba(26,55,37,.055);
+}
+body.home-page #main-content .curated-threshold__intro h2{
+  font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+  line-height:1.47;color:#204835;
+}
+body.home-page .curated-threshold__piece{
+  border-color:#d8cdb9;
+  border-radius:2px;
+  box-shadow:0 8px 22px rgba(39,49,31,.08);
+}
+body.home-page .curated-threshold__frame{
+  padding:clamp(6px,.8vw,11px);
+  background:#e9e0ce;
+}
+body.home-page .curated-threshold__caption{
+  background:#fffdf8;
+  border-top:1px solid #e4ddcd;
+}
+body.home-page #main-content>.museum-route{
+  border-top:2px solid #a98d5c;
+  border-radius:2px 2px 12px 12px;
+  background:#f7f5ed;
+  box-shadow:none;
+}
+body.home-page .museum-route__links>a{
+  border:1px solid #e3d8c5;
+  border-radius:4px 9px 4px 9px;
+  background:#fffefa;
+}
+body.home-page #main-content .section{
+  scroll-margin-top:105px;
+}
+body.home-page #main-content :is(#philosophy,#focus-care,#symptoms,#care,#health-info,#stories,#location)>.wrap>h2,
+body.home-page #main-content #doctor h2{
+  font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.055em;
+  line-height:1.5;
+  color:#234735;
+  text-wrap:balance;
+  word-break:keep-all;
+}
+body.home-page #main-content :is(#philosophy,#focus-care,#symptoms,#care,#health-info,#stories,#location)>.wrap>.eyebrow{
+  color:#94754b;
+  letter-spacing:.15em;
+}
+body.home-page #main-content :is(#philosophy,#symptoms,#care,#health-info,#stories,#location)>.wrap>p{
+  max-width:75ch;
+  line-height:1.92;
+  color:#506656;
+}
+body.home-page #main-content :is(#philosophy,#focus-care,#care,#health-info,#symptoms) .grid>.card{
+  border:1px solid #dfd9cc;
+  border-top:2px solid #c6b18b;
+  border-radius:3px 13px 3px 13px;
+  background:#fffefa;
+  box-shadow:0 8px 24px rgba(25,54,37,.045);
+}
+body.home-page #main-content :is(#philosophy,#focus-care,#care,#health-info,#symptoms) .grid>.card h3{
+  color:#254936;
+  letter-spacing:-.035em;
+  line-height:1.52;
+}
+body.home-page #main-content :is(#philosophy,#focus-care,#care,#health-info,#symptoms) .grid>.card p{
+  color:#536657;
+  line-height:1.86;
+}
+body.home-page #main-content #focus-care .focus-care-lead-art{
+  padding:10px;
+  background:#f2eadb;
+  border:1px solid #d5c5a5;
+  box-shadow:0 13px 30px rgba(33,55,37,.08);
+}
+body.home-page #main-content #focus-care .focus-care-lead-art img{
+  object-fit:contain;
+  background:#fffdfa;
+}
+body.home-page #main-content #gallery{
+  background:linear-gradient(145deg,#f6f2e8,#fbfaf6 62%,#f4f5ef);
+}
+body.home-page #main-content #gallery .gallery-home-intro h2{
+  font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+  color:#204735;letter-spacing:-.058em;
+}
+body.home-page #main-content #gallery .gallery-home-artworks--complementary>a,
+body.home-page #main-content #gallery .gallery-new-arrivals__previews>a{
+  border:1px solid #d0c09f;
+  border-radius:3px;
+  padding:8px;
+  background:#eae2d4;
+  box-shadow:0 13px 27px rgba(28,51,35,.085);
+}
+body.home-page #main-content #gallery .gallery-home-artworks--complementary>a>img,
+body.home-page #main-content #gallery .gallery-new-arrivals__previews>a>img{
+  display:block;
+  background:#fffdfa;
+  object-fit:contain;
+}
+body.home-page #main-content #gallery .gallery-home-artworks--complementary>a>span,
+body.home-page #main-content #gallery .gallery-new-arrivals__previews>a>span{
+  background:#fffdf8;
+  color:#264636;
+}
+body.home-page #main-content #stories .owner-story-card{
+  border:1px solid #e0d8c9;
+  border-radius:5px;
+  box-shadow:none;
+  background:#fffefa;
+}
+body.home-page #main-content #stories .owner-story-card a{
+  color:#2b523d;
+}
+body.home-page #main-content #doctor{
+  background:linear-gradient(140deg,#173c2d,#224c37 80%,#193f30);
+}
+body.home-page #main-content #doctor .frame{
+  border:5px solid #b69a6a;
+  background:#f0e9db;
+  box-shadow:inset 0 0 0 4px #fff8e9,0 18px 44px rgba(1,24,11,.18);
+}
+body.home-page #main-content #location :is(.hours-box,.parking-info){
+  border:1px solid #dcd4c5;
+  border-left:3px solid #b29b71;
+  background:#fffdfa;
+  box-shadow:0 9px 23px rgba(31,58,41,.045);
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  body.home-page #main-content>.hero.wrap .hero-actions>a:hover{
+    transform:translateY(-2px);
+  }
+  body.home-page #main-content .curated-threshold__piece:hover,
+  body.home-page #main-content #gallery .gallery-home-artworks--complementary>a:hover,
+  body.home-page #main-content #gallery .gallery-new-arrivals__previews>a:hover{
+    box-shadow:0 18px 31px rgba(25,46,32,.15);
+  }
+}
+@media(max-width:900px){
+  body.home-page #main-content>.hero.wrap{
+    padding:26px 24px 24px;
+  }
+}
+@media(max-width:600px){
+  body.home-page #main-content>.hero.wrap{
+    padding:19px 15px 20px;
+    margin-top:8px;
+    border-radius:2px 11px 2px 11px;
+    box-shadow:0 9px 24px rgba(23,55,37,.065);
+  }
+  body.home-page #main-content>.hero.wrap::before{
+    inset:6px;border-radius:1px 7px 1px 7px;
+  }
+  body.home-page #main-content>.hero.wrap #headline{
+    max-width:none;
+    font-size:clamp(27px,7.15vw,34px);
+    line-height:1.44;
+    margin:9px 0 11px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-doctor-credentials{
+    padding:10px 11px;
+    line-height:1.62;
+  }
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+    box-sizing:border-box;
+    width:min(100%,265px);
+    max-width:265px;
+    padding:7px;
+    margin:5px auto 10px;
+    justify-self:center;
+    grid-column:1/-1;grid-row:2;
+  }
+  body.home-page #main-content>.hero.wrap>.hero-editorial-detail{
+    box-sizing:border-box;grid-column:1/-1;grid-row:3;
+    gap:10px;padding-top:14px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-editorial-detail>div,
+  body.home-page #main-content>.hero.wrap .hero-editorial-detail>aside{
+    padding:15px 13px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>a{
+    transition:none;
+  }
+  body.home-page #main-content>.curated-threshold{
+    width:calc(100% - 24px);
+    padding:18px 13px;
+  }
+  body.home-page .curated-threshold__piece{
+    box-shadow:0 5px 13px rgba(39,49,31,.055);
+  }
+  body.home-page #main-content>.museum-route{
+    width:calc(100% - 24px);
+  }
+  body.home-page #main-content :is(#philosophy,#focus-care,#care,#health-info,#symptoms) .grid>.card{
+    box-shadow:none;
+  }
+  body.home-page #main-content #gallery .gallery-home-artworks--complementary>a,
+  body.home-page #main-content #gallery .gallery-new-arrivals__previews>a{
+    padding:6px;
+    box-shadow:0 8px 17px rgba(28,51,35,.07);
+  }
+}
+@media(max-width:365px){
+  body.home-page #main-content>.hero.wrap #headline{
+    font-size:clamp(25px,7vw,30px);
+  }
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+    width:min(100%,235px);
+    max-width:235px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.home-page #main-content>.hero.wrap .hero-actions>a{
+    transition:none;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>.hero.wrap,
+  body.home-page #main-content>.hero.wrap :is(.hero-doctor-credentials,.hero-artwork),
+  body.home-page #main-content .curated-threshold__piece,
+  body.home-page #main-content #gallery .gallery-home-artworks--complementary>a{
+    background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none;
+  }
+}
