@@ -340,7 +340,7 @@ test('Google Image discovery lists real first-party illustrations only on their 
  assert.equal(medical?.url,rootCanal);
  assert.equal(medical?.primaryImageOfPage?.width,519);
  assert.equal(medical?.primaryImageOfPage?.height,327);
- assert.ok(siteMap.includes('<loc>'+rootCanal+'</loc><lastmod>2026-10-27</lastmod>'),
+ assert.ok(siteMap.includes('<loc>'+rootCanal+'</loc><lastmod>2026-10-29</lastmod>'),
   'Google must see the genuine treatment-page update date');
 });
 
