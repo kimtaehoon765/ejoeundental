@@ -551,6 +551,70 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       'remaining route clinical-archive'
     ].includes(label))topicCountPages.set(label,body);
     const info = ['HTTP ' + response.status, '최종 주소: ' + response.url];
+    // Live social preview verification for newly revised local search pages.
+    // Build checks alone do not demonstrate that Cloudflare serves the
+    // updated page and that the preview picture itself is reachable.
+    const sharePageSlugs={
+      'care route child':'pediatric-dentistry',
+      'care route wisdom':'wisdom-tooth',
+      'care route tmj':'tmj-care'
+    };
+    if(sharePageSlugs[label]){
+      const slug=sharePageSlugs[label];
+      const source=readFileSync(new URL('../'+slug+'.html',import.meta.url),'utf8');
+      const readMeta=(html,type,key)=>html.match(
+        new RegExp('<meta '+type+'="'+key+'" content="([^"]+)"'))?.[1]||'';
+      const sourceTitle=source.match(/<title>([^<]+)<\/title>/)?.[1]||'';
+      const sourceDescription=readMeta(source,'name','description');
+      const liveTitle=body.match(/<title>([^<]+)<\/title>/)?.[1]||'';
+      const liveDesc=readMeta(body,'name','description');
+      const socialPairs=[
+        ['property','og:title',sourceTitle],
+        ['property','og:description',sourceDescription],
+        ['property','og:locale','ko_KR'],
+        ['name','twitter:title',sourceTitle],
+        ['name','twitter:description',sourceDescription]
+      ];
+      const sourceImage=readMeta(source,'property','og:image');
+      const sourceMetaPairs=[
+        ['property','og:image',sourceImage],
+        ['property','og:image:type',readMeta(source,'property','og:image:type')],
+        ['property','og:image:width',readMeta(source,'property','og:image:width')],
+        ['property','og:image:height',readMeta(source,'property','og:image:height')],
+        ['property','og:image:alt',readMeta(source,'property','og:image:alt')],
+        ['name','twitter:image',sourceImage]
+      ];
+      const dataConsistent=response.status===200&&sourceTitle===liveTitle&&
+        sourceDescription===liveDesc&&socialPairs.concat(sourceMetaPairs)
+          .every(([type,key,value])=>!!value&&readMeta(body,type,key)===value)&&
+        body.includes('<link rel="canonical" href="'+origin+'/'+slug+'">')&&
+        readMeta(body,'property','og:url')===origin+'/'+slug;
+      const sourceFilePath=sourceImage.startsWith(origin+'/assets/')?
+       sourceImage.slice(origin.length):'';
+      let imageHashOk=false,imageStatus=0,imageError='';
+      if(sourceFilePath&&existsSync(new URL('..'+sourceFilePath,import.meta.url))){
+        const localImage=readFileSync(new URL('..'+sourceFilePath,import.meta.url));
+        const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
+        try{
+          const livePicture=await fetch(sourceImage,{
+            signal:AbortSignal.timeout(10000),
+            headers:{'User-Agent':'EjoeunDentalReadOnlyHealthCheck/1.0','Cache-Control':'no-cache'}
+          });
+          imageStatus=livePicture.status;
+          const actual=Buffer.from(await livePicture.arrayBuffer());
+          imageHashOk=livePicture.status===200&&actual.length>1000&&
+            sha(actual)===sha(localImage);
+          if(!imageHashOk)imageError='public image differs from GitHub bytes';
+        }catch(err){imageError=err?.cause?.code||err?.message||String(err)}
+      }else imageError='missing original source image';
+      const complete=dataConsistent&&imageHashOk;
+      add('진료 공유 정보·그림 실사이트 · '+slug,
+        complete?'최신 배포 확인':'배포·캐시 확인 필요',
+        'HTTP '+response.status+' · 메타 '+(dataConsistent?'일치':'차이')+
+        ' · 이미지 HTTP '+imageStatus+' · 원본 SHA-256 '+(imageHashOk?'일치':'미확인')+
+        (imageError?' · '+imageError:''));
+      info.push('검색·공유 제목/소개·대표 그림: '+(complete?'실사이트 확인':'배포 확인 필요'));
+    }
     if(label==='care route implant'||label==='care route denture'){
       const id=label.endsWith('implant')?'implant':'denture';
       const pictureUrl=origin+'/assets/clinical-share/'+id+'.png';
