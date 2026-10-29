@@ -1,4 +1,4 @@
-// Read-only comparison of the live homepage journal artwork and CSS.
+// Read-only verification of the current letterpress journal cover and original doctor-cat hero image.
 // A successful source build does NOT imply that this version was deployed.
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -11,8 +11,12 @@ const hash=buffer=>createHash('sha256').update(buffer).digest('hex').slice(0,12)
 const expectedImage='/assets/ejoeundental-hero-cat.webp';
 const expectedCss=currentHtml.match(/href="(\/assets\/museum-home-v2\.css\?v=[^"]+)"/)?.[1];
 const expectedFeature=currentHtml.match(/<a class="journal-gallery-cover"[\s\S]*?<\/a>/)?.[0]||'';
-if(!expectedCss||!expectedFeature.includes('src="'+expectedImage+'"')) {
- console.error('[LIVE ART] The source does not yet use the required existing caricature.');
+const sourcePosterOk=expectedFeature.includes('class="journal-gallery-cover__poster"')&&
+ expectedFeature.includes('<strong>치아 하나하나의<br>이야기</strong>')&&
+ expectedFeature.includes('href="/stories.html"');
+const sourceHeroCat=currentHtml.includes('src="'+expectedImage+'"');
+if(!expectedCss||!sourcePosterOk||!sourceHeroCat) {
+ console.error('[LIVE ART] Missing current letterpress journal cover or doctor-cat hero picture in source.');
  process.exitCode=1;
 }else{
  const get=async path=>{
@@ -27,13 +31,17 @@ if(!expectedCss||!expectedFeature.includes('src="'+expectedImage+'"')) {
   const html=home.bytes.toString('utf8');
   const feature=html.match(/<a class="journal-gallery-cover"[\s\S]*?<\/a>/)?.[0]||'';
   const liveCss=html.match(/href="(\/assets\/museum-home-v2\.css\?v=[^"]+)"/)?.[1]||'';
-  const imageOk=feature.includes('src="'+expectedImage+'"');
+  const posterOk=feature.includes('class="journal-gallery-cover__poster"')&&
+   feature.includes('<strong>치아 하나하나의<br>이야기</strong>')&&
+   feature.includes('href="/stories.html"');
+  const heroCatOk=html.includes('src="'+expectedImage+'"');
   // build.mjs fingerprints stylesheets with the emitted CSS content hash.
   // The source's date-based query string is not the deployed query string.
   const cssLinkOk=liveCss===expectedCss||
    liveCss==='/assets/museum-home-v2.css?v='+hash(currentCss);
   console.log('[LIVE ART] 정식 홈페이지 HTTP',home.status,
-   '| 치과 이야기 기존 원장 캐리커처·고양이 사용:',imageOk?'확인':'미반영',
+   '| 치과 이야기 글자 포스터 표지:',posterOk?'확인':'미반영',
+   '| 첫 화면 원장 캐리커처·하얀 고양이:',heroCatOk?'확인':'미반영',
    '| 디자인 CSS 링크 최신:',cssLinkOk?'확인':'미반영',
    '| 실제 링크:',liveCss||'없음');
   const [css,image]=await Promise.all([get(expectedCss),get(expectedImage)]);
@@ -45,11 +53,11 @@ if(!expectedCss||!expectedFeature.includes('src="'+expectedImage+'"')) {
   console.log('[LIVE ART] 기존 원장·고양이 그림 공개:',image.status,
    '| 원본 바이트 일치:',imageHashOk?'확인':'불일치',
    '| 실제:',hash(image.bytes),'기대:',hash(currentImage));
-  if(home.status!==200||!imageOk||!cssLinkOk||!cssOk||!imageHashOk){
+  if(home.status!==200||!posterOk||!heroCatOk||!cssLinkOk||!cssOk||!imageHashOk){
    console.error('[LIVE ART] 아직 최신 배포를 확인할 수 없습니다. Cloudflare Pages 배포 기록을 확인하세요.');
    process.exitCode=1;
   }else{
-   console.log('[LIVE ART] 치과 이야기 새 그림과 CSS, 원본 파일이 정식 도메인에 실제 반영되었습니다.');
+   console.log('[LIVE ART] 치과 이야기 글자 포스터와 기존 원장·고양이 이미지, CSS가 정식 도메인에 반영됐습니다.');
   }
  }catch(error){
   console.error('[LIVE ART] 실사이트 접속 검증 불가:',error?.cause?.code||error?.message||String(error));
