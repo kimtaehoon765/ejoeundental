@@ -1,0 +1,133 @@
+/* Ejoeun Dental · original watercolor article introduction · 2026-10-29.
+   Shared by gum treatment, cervical abrasion, insured-care pages.
+   Existing page text, visit navigation, booking and medical guidance stay unchanged. */
+body.care-gallery .care-feature-art{
+  padding:clamp(25px,3vw,42px) 18px;
+  background:linear-gradient(145deg,#f3eee4,#fbfaf5 55%,#eef2e9);
+  border-block:1px solid #dfd7c8;
+  color:#264734;
+}
+body.care-gallery .care-feature-art__layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+  align-items:center;
+  gap:clamp(18px,3.2vw,46px);
+  box-sizing:border-box;
+  max-width:1080px;
+  margin:0 auto;
+}
+body.care-gallery .care-feature-art__image{
+  margin:0;padding:9px;
+  background:#eae0d0;
+  border:1px solid #cab795;
+  border-radius:3px;
+  box-shadow:0 14px 32px rgba(33,56,37,.09);
+  min-width:0;
+}
+body.care-gallery .care-feature-art__image img{
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:3 / 2;
+  object-fit:contain;
+  background:#fcfaf5;
+  border:1px solid rgba(117,97,65,.2);
+}
+body.care-gallery .care-feature-art__image figcaption{
+  margin:0;
+  padding:9px 4px 2px;
+  color:#5a6759;
+  font-size:12px;line-height:1.65;
+  text-align:center;word-break:keep-all;
+}
+body.care-gallery .care-feature-art__copy{
+  box-sizing:border-box;min-width:0;
+  padding:clamp(5px,1.3vw,15px) 2px;
+}
+body.care-gallery .care-feature-art__eyebrow{
+  margin:0 0 14px;
+  font:700 11px/1.5 system-ui,sans-serif;
+  color:#94764b;letter-spacing:.14em;
+}
+body.care-gallery .care-feature-art__copy h2{
+  margin:0 0 16px;
+  font-family:'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  font-weight:700;
+  font-size:clamp(23px,2.55vw,33px);
+  line-height:1.55;
+  letter-spacing:-.045em;
+  color:#214a37;
+  word-break:keep-all;
+}
+body.care-gallery .care-feature-art__copy>p:not(.care-feature-art__eyebrow){
+  max-width:48ch;
+  margin:0 0 12px;
+  font-size:clamp(15px,1.45vw,17px);
+  line-height:1.85;
+  color:#466050;
+  word-break:keep-all;
+}
+body.care-gallery .care-feature-art__more{
+  display:inline-flex;
+  box-sizing:border-box;
+  align-items:center;
+  min-height:46px;
+  padding:10px 0;
+  font-size:15px;line-height:1.6;
+  font-weight:750;
+  color:#1e573b;
+  text-decoration:underline;
+  text-underline-offset:5px;
+  overflow-wrap:anywhere;
+}
+body.care-gallery .care-feature-art__more:focus-visible{
+  outline:3px solid #a18454;
+  outline-offset:4px;
+  border-radius:3px;
+}
+@media(max-width:700px){
+  body.care-gallery .care-feature-art{
+    padding:29px 16px 31px;
+  }
+  body.care-gallery .care-feature-art__layout{
+    grid-template-columns:minmax(0,1fr);
+    gap:18px;
+  }
+  body.care-gallery .care-feature-art__image{
+    padding:7px;
+  }
+  body.care-gallery .care-feature-art__image figcaption{
+    font-size:12px;
+    padding-top:8px;
+  }
+  body.care-gallery .care-feature-art__copy{
+    padding:0;
+  }
+  body.care-gallery .care-feature-art__eyebrow{
+    margin-bottom:8px;
+    font-size:10px;
+  }
+  body.care-gallery .care-feature-art__copy h2{
+    font-size:clamp(22px,6vw,29px);
+    line-height:1.5;
+    margin-bottom:10px;
+  }
+  body.care-gallery .care-feature-art__copy>p:not(.care-feature-art__eyebrow){
+    font-size:15px;
+    line-height:1.85;
+  }
+  body.care-gallery .care-feature-art__more{
+    font-size:15px;
+    min-height:48px;
+  }
+}
+@media(forced-colors:active){
+  body.care-gallery .care-feature-art,
+  body.care-gallery .care-feature-art__image,
+  body.care-gallery .care-feature-art__copy{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
