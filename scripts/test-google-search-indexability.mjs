@@ -561,3 +561,36 @@ test('seven revised dental articles have truthful Google dates and two crawlable
  assert.ok(!directory.includes('<!-- BUILD_STORY_DIRECTORY -->'),
   'Google must receive server-rendered article links, not a template placeholder');
 });
+
+
+test('patient clinic service pages expose consistent local search and social previews',()=>{
+ const files=['pediatric-dentistry.html','wisdom-tooth.html','tmj-care.html'];
+ for(const file of files){
+  const html=readFileSync(path.join(output,file),'utf8');
+  const source=readFileSync(file,'utf8');
+  const title=html.match(/<title>([^<]+)<\/title>/)?.[1];
+  const desc=html.match(/<meta name="description" content="([^"]+)"/)?.[1];
+  assert.ok(title?.includes('이조은치과')&&desc?.includes('청천동'),file+' brand or location missing');
+  assert.ok(html.includes('<link rel="canonical" href="'+origin+'/'+file+'">'),file+' canonical missing');
+  const tag=(kind,key)=>html.match(new RegExp('<meta '+kind+'="'+key+'" content="([^"]+)"'))?.[1];
+  assert.equal(tag('property','og:title'),title,file+' social title must equal page title');
+  assert.equal(tag('property','og:description'),desc,file+' social description must equal real summary');
+  assert.equal(tag('name','twitter:title'),title);
+  assert.equal(tag('name','twitter:description'),desc);
+  assert.equal(tag('property','og:locale'),'ko_KR');
+  const snippets=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(m=>JSON.parse(m[1]));
+  const medical=snippets.find(x=>x['@type']==='MedicalWebPage');
+  assert.equal(medical?.name,title,file+' structured medical title should match visible title');
+  assert.equal(medical?.description,desc);
+  assert.ok(source.includes('booking.naver.com')&&source.includes('tel:0325132875'),
+   file+' must retain real appointment and telephone links');
+  const image=tag('property','og:image');
+  assert.ok(image?.startsWith(origin+'/assets/'),file+' first-party image not present');
+  assert.equal(image,tag('name','twitter:image'));
+  assert.ok(existsSync(path.join(output,image.slice(origin.length))),file+' share image not built');
+  assert.ok(tag('property','og:image:alt'),file+' meaningful artwork description missing');
+ }
+ assert.ok(readFileSync(path.join(output,'pediatric-dentistry.html'),'utf8')
+  .includes('청천동 어린이 치과진료·충치 예방 | 인천 부평 이조은치과'));
+});
