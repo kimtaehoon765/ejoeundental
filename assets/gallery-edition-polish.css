@@ -618,3 +618,34 @@ body.home-page .journal-art-break__intro>a:focus-visible{
   background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none;
  }
 }
+
+
+/* 2026-10-29: newly approved medical watercolor paintings in the gallery index. */
+body.home-page #main-content>#gallery .gallery-home-clinical-note{
+  margin:12px 0 0;
+  max-width:100%;
+}
+body.home-page #main-content>#gallery .gallery-home-clinical-note>a{
+  display:inline-flex;
+  align-items:center;
+  box-sizing:border-box;
+  min-height:44px;
+  padding:9px 0;
+  font-size:14px;
+  line-height:1.6;
+  font-weight:800;
+  color:#23583e;
+  text-decoration:underline;
+  text-decoration-color:#af9671;
+  text-underline-offset:5px;
+  word-break:keep-all;
+}
+body.home-page #main-content>#gallery .gallery-home-clinical-note>a:focus-visible{
+  outline:3px solid #9b763d;outline-offset:3px;
+}
+@media(max-width:600px){
+  body.home-page #main-content>#gallery .gallery-home-clinical-note>a{
+    width:100%;
+    font-size:14px;
+  }
+}
