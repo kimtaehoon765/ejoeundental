@@ -1,0 +1,59 @@
+/* Unique moonlit medication history artwork for osteoporosis dental care */
+body.osteoporosis-art-page .osteoporosis-illustration{
+  box-sizing:border-box;margin:22px 0 25px;padding:8px;overflow:hidden;
+  border:1px solid #c8b7a0;border-top:2px solid #a28760;border-radius:4px 14px 4px 14px;
+  background:linear-gradient(145deg,#eeebdf,#fffefa 55%,#e9f0ed);
+  box-shadow:0 13px 31px rgba(29,50,55,.08)
+}
+body.osteoporosis-art-page .osteoporosis-illustration img{
+  display:block;box-sizing:border-box;width:100%;height:auto;max-height:none;
+  aspect-ratio:60/37;object-fit:contain;background:#243b52;border:1px solid #d8c6a8
+}
+body.osteoporosis-art-page .osteoporosis-illustration figcaption{
+  padding:15px 13px 18px;display:flex;flex-direction:column;gap:8px;
+  font-size:14px;line-height:1.75;color:#4f645b;word-break:keep-all
+}
+body.osteoporosis-art-page .osteoporosis-illustration figcaption small{
+  font-size:11px;font-weight:800;letter-spacing:.1em;color:#967750
+}
+body.osteoporosis-art-page .osteoporosis-illustration figcaption strong{
+  font:700 clamp(20px,2.4vw,27px)/1.5 'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  color:#2b5147;letter-spacing:-.04em
+}
+body.osteoporosis-art-page .osteoporosis-shortcuts{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;padding:13px;margin:0 0 26px;
+  border:1px solid #cad9d1;border-radius:12px;background:#f1f5f2
+}
+body.osteoporosis-art-page .osteoporosis-shortcuts a{
+  box-sizing:border-box;display:flex;justify-content:center;align-items:center;
+  min-width:0;min-height:51px;padding:11px;
+  font-size:14px;line-height:1.6;font-weight:750;text-align:center;word-break:keep-all;text-decoration:none;
+  border:1px solid #d7e1d9;border-radius:8px;background:#fffef9;color:#2b5a48
+}
+body.osteoporosis-art-page .osteoporosis-shortcuts a:last-child{
+  background:#295b49;border-color:#295b49;color:#fffefa
+}
+body.osteoporosis-art-page .osteoporosis-shortcuts a:focus-visible{
+  outline:3px solid #b18a50;outline-offset:3px
+}
+body.osteoporosis-art-page :is(#osteoporosis-meds,#osteoporosis-procedures,#osteoporosis-safety,#visit-checklist){scroll-margin-top:25px}
+@media(max-width:620px){
+ body.osteoporosis-art-page .osteoporosis-illustration{margin:16px 0 19px;padding:5px}
+ body.osteoporosis-art-page .osteoporosis-illustration figcaption{font-size:13px;gap:7px;padding:12px 8px 15px}
+ body.osteoporosis-art-page .osteoporosis-illustration figcaption strong{font-size:20px}
+ body.osteoporosis-art-page .osteoporosis-shortcuts{grid-template-columns:minmax(0,1fr);padding:11px;gap:8px}
+ body.osteoporosis-art-page .osteoporosis-shortcuts a{min-height:49px}
+}
+@media print{
+ body.osteoporosis-art-page .osteoporosis-illustration,
+ body.osteoporosis-art-page .osteoporosis-shortcuts{display:none!important}
+}
+@media(forced-colors:active){
+ body.osteoporosis-art-page .osteoporosis-illustration,
+ body.osteoporosis-art-page .osteoporosis-shortcuts,
+ body.osteoporosis-art-page .osteoporosis-shortcuts a{
+   background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none
+ }
+ body.osteoporosis-art-page .osteoporosis-illustration figcaption :is(small,strong,span){color:CanvasText}
+}
