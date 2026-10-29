@@ -336,3 +336,38 @@ test('clinical exhibit cards keep all five genuine treatment links and illustrat
  assert.ok(home.includes('curatorial-home.css?'),
   'visual layer must load on homepage');
 });
+
+
+test('reading room keeps full patient clinical text and improves mobile links without hiding content',()=>{
+ const symptom=home.match(/<section class="section" id="symptoms"[\s\S]*?<\/section>/)?.[0]||'';
+ const care=home.match(/<section class="section" id="care"[\s\S]*?<\/section>/)?.[0]||'';
+ const education=home.match(/<section class="section light" id="health-info"[\s\S]*?<\/section>/)?.[0]||'';
+ assert.equal((symptom.match(/<div class="card">/g)||[]).length,7,
+  'all seven patient symptom explanations must remain present');
+ assert.equal((care.match(/<div class="card care-(?:preservation-feature|primary-card)">/g)||[]).length,5,
+  'all five immediately visible care descriptions must remain present');
+ for(const text of ['잇몸에서 피가 나요','신경치료한 치아가 다시 아파요',
+   '치료비와 보험 적용이 궁금해요']){
+  assert.ok(symptom.includes(text),'do not remove a symptom explanation: '+text);
+ }
+ for(const text of ['자연치아를 살리는 치료부터','재신경치료','치경부마모증']){
+  assert.ok(care.includes(text),'do not remove a medical guide: '+text);
+ }
+ assert.ok(education.includes('health-topic-grid'),'health illustrations must remain');
+ assert.ok(symptom.includes('href="/health/gum-bleeding.html"'));
+ assert.ok(care.includes('href="/retreatment.html"'));
+ assert.ok(home.includes('class="mobile-booking-actions"'));
+ const css=read('assets/curatorial-home.css');
+ const area=css.slice(css.indexOf('Reading room edition — 2026-10-29'));
+ assert.ok(area.length>3000,'final readability layer missing');
+ assert.match(area, /@media\(min-width:960px\)/,
+  'desktop paragraphs need comfortable wider columns');
+ assert.match(area, /grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+ assert.match(area, /@media\(max-width:959px\)/,
+  'mobile and tablet should use full-width symptom explanations');
+ assert.match(area, /min-height:48px;/,'phone links should be touch-friendly');
+ assert.match(area, /background-size:contain;/,'clinic illustrations should not crop');
+ assert.match(area, /:focus-visible/,'keyboard patients need visible focus');
+ assert.ok(!/display:none/.test(area.replace(/\.card>br\{\s*display:none;\s*\}/g,'')),
+  'only legacy line breaks, never medical text or links, may be hidden');
+});
