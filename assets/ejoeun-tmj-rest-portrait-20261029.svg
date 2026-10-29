@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="artTitle artDescription">
+<title id="artTitle">이조은치과 창작 그림 - 턱관절의 작은 쉼표</title>
+<desc id="artDescription">햇살이 비추는 청록색과 크림색 공간에서 성인 인물이 손가락으로 턱 주변의 불편한 위치를 가볍게 짚고 있습니다. 탁자 위에는 따뜻한 차와 진료 메모가 놓여 있고 하얀 고양이는 곁에서 쉬고 있습니다. 턱관절 내부 구조나 특정 치료의 효과를 보여 주는 의학 도해가 아닙니다.</desc>
+<defs>
+ <linearGradient id="wall" x1="0" y1="0" x2="1" y2=".9"><stop stop-color="#f9efdd"/><stop offset=".56" stop-color="#e8f0e4"/><stop offset="1" stop-color="#c7dbd3"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#f8dfbd"/><stop offset=".45" stop-color="#c2dce4"/><stop offset="1" stop-color="#8db29e"/></linearGradient>
+ <linearGradient id="suit" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#315b52"/><stop offset="1" stop-color="#6c8774"/></linearGradient>
+ <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eab79e"/><stop offset=".5" stop-color="#f3d0ad"/><stop offset="1" stop-color="#c98e7a"/></linearGradient>
+ <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#423e40"/><stop offset="1" stop-color="#70625a"/></linearGradient>
+ <linearGradient id="wood" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b28864"/><stop offset=".55" stop-color="#d8b78c"/><stop offset="1" stop-color="#956e50"/></linearGradient>
+ <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e1e9e0"/><stop offset=".53" stop-color="#fffef6"/><stop offset="1" stop-color="#d9e5dd"/></linearGradient>
+ <radialGradient id="sunlight"><stop stop-color="#fffdf2" stop-opacity=".8"/><stop offset="1" stop-color="#ffe7ad" stop-opacity="0"/></radialGradient>
+ <filter id="soft"><feGaussianBlur stdDeviation="13"/></filter>
+ <filter id="depth" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="2" dy="10" stdDeviation="10" flood-color="#264638" flood-opacity=".16"/></filter>
+ <pattern id="flecks" width="31" height="39" patternUnits="userSpaceOnUse"><path d="M4 8l3 -4M26 19l4 4M12 30l-2 4" stroke="#947f65" stroke-opacity=".1" stroke-width="1.2"/></pattern>
+ <path id="leaf" d="M0 0Q19 -21 42 -2Q17 20 0 0Z"/>
+</defs>
+<rect width="1200" height="760" fill="url(#wall)"/>
+<rect width="1200" height="760" fill="url(#flecks)"/>
+<ellipse cx="190" cy="140" rx="320" ry="270" fill="url(#sunlight)"/>
+<!-- large arched window and landscape -->
+<g filter="url(#depth)">
+<path d="M56 525V146Q56 54 156 54H492Q581 57 581 147V526Z" fill="#c4b08f" stroke="#ab9876" stroke-width="7"/>
+<path d="M79 506V151Q79 79 162 79H482Q553 80 553 153V505Z" fill="url(#glass)" stroke="#fff9e9" stroke-width="9"/>
+<circle cx="185" cy="150" r="52" fill="#fff4d3" opacity=".65"/>
+<path d="M83 382Q193 260 319 332Q419 263 552 348V505H83Z" fill="#b5cfb7" opacity=".8"/>
+<path d="M83 431Q195 349 307 412Q437 354 553 403V505H83Z" fill="#749f8d" opacity=".87"/>
+<path d="M83 460Q189 397 286 446Q410 407 551 448V505H83Z" fill="#578878"/>
+<path d="M319 82v421M85 297h466" fill="none" stroke="#eadbc4" stroke-width="17"/>
+<path d="M319 82v421M85 297h466" fill="none" stroke="#9f8f7a" stroke-width="3" opacity=".5"/>
+</g>
+<!-- gallery text -->
+<text x="657" y="91" font-size="39" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-weight="700" fill="#285743">이조은치과</text>
+<text x="654" y="139" font-size="33" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-weight="700" fill="#315c49">턱관절의 작은 쉼표</text>
+<path d="M659 169h424" stroke="#b69d71" stroke-width="2"/>
+<text x="659" y="192" font-family="Georgia,serif" font-size="14" letter-spacing="2.7" fill="#7a765b">A PAUSE FOR JAW COMFORT</text>
+<!-- botanical stems -->
+<g fill="none" stroke="#638d6f" stroke-width="5" stroke-linecap="round" opacity=".8">
+<path d="M1135 0Q1097 54 1136 109Q1186 166 1139 224Q1110 257 1152 308"/>
+<path d="M1138 52q-33 -25 -57 -2M1132 124q32 -21 55 1M1140 209q-36 -18 -50 8M1149 267q31 -24 47 -9"/>
+</g>
+<g fill="#86ad8e" opacity=".82"><use href="#leaf" transform="translate(1081 51) rotate(29)"/><use href="#leaf" transform="translate(1183 124) rotate(158)"/><use href="#leaf" transform="translate(1090 216) rotate(26)"/><use href="#leaf" transform="translate(1195 260) rotate(157)"/></g>
+<g stroke="#ecd8b6" stroke-width="1.6" fill="#faf2e5"><circle cx="1132" cy="80" r="10"/><circle cx="1128" cy="204" r="13"/><circle cx="1185" cy="266" r="8"/></g>
+<!-- table surface -->
+<path d="M0 549Q306 537 597 546Q974 537 1200 548V760H0Z" fill="url(#wood)"/>
+<path d="M0 567Q364 566 668 570T1200 568" fill="none" stroke="#866c4c" stroke-width="7" opacity=".5"/>
+<path d="M0 674Q270 658 558 676T1200 675" stroke="#f0d6ad" stroke-width="3" opacity=".42" fill="none"/>
+<path d="M0 549h1200v211H0Z" fill="url(#flecks)"/>
+<!-- stylized adult profile, no clinical procedure/anatomical claims -->
+<g filter="url(#depth)">
+<path d="M412 660Q442 520 548 475Q611 455 668 490Q749 528 781 660Z" fill="url(#suit)" stroke="#375d51" stroke-width="4"/>
+<path d="M559 486Q558 447 541 414L648 404Q649 454 668 489Q630 536 559 486Z" fill="url(#skin)" stroke="#be8f7d" stroke-width="3"/>
+<!-- neck and face turned slightly left -->
+<path d="M562 213Q489 225 476 307Q469 360 499 400Q496 434 526 450Q562 475 602 455Q650 433 671 376Q691 332 668 271Q650 219 600 210Z" fill="url(#skin)" stroke="#bd8f7c" stroke-width="4"/>
+<!-- hair canopy and side swept locks -->
+<path d="M478 321Q446 277 469 238Q464 205 499 174Q513 133 576 143Q612 125 653 148Q697 160 707 209Q734 248 701 287Q682 301 666 285Q648 246 617 222Q590 242 548 234Q516 253 497 278Z" fill="url(#hair)" stroke="#4a4341" stroke-width="4"/>
+<path d="M484 239Q515 206 556 211Q598 193 641 212M511 195Q561 160 618 183M549 153Q601 145 648 177" fill="none" stroke="#9a8171" stroke-width="7" opacity=".55" stroke-linecap="round"/>
+<path d="M487 345Q465 332 464 354Q463 380 490 385" fill="#e6b5a0" stroke="#c28d82" stroke-width="4"/>
+<path d="M509 338q17 -11 33 0M576 330q17 -9 32 0" fill="none" stroke="#6e564f" stroke-width="4" stroke-linecap="round"/>
+<path d="M552 345Q547 370 558 373" fill="none" stroke="#c38f7c" stroke-width="3"/>
+<path d="M542 401Q570 413 593 395" fill="none" stroke="#a96f68" stroke-width="3.5" stroke-linecap="round"/>
+<!-- no visible joint bones; soft glow marks region only -->
+<ellipse cx="494" cy="370" rx="39" ry="41" fill="#e7ab91" opacity=".14"/>
+<circle cx="497" cy="372" r="23" fill="none" stroke="#cc9479" stroke-width="3" stroke-dasharray="3 7" opacity=".56"/>
+<!-- hand rests gently by jaw, not manipulating joint -->
+<path d="M696 629Q669 580 630 555Q602 539 577 514Q554 491 534 477Q518 466 504 475Q495 482 501 497L531 535Q512 529 494 530Q467 530 472 550Q487 573 523 584Q541 598 562 621L574 672Z" fill="url(#skin)" stroke="#b88677" stroke-width="4" stroke-linejoin="round"/>
+<path d="M504 494l53 55M486 550l53 36" stroke="#d6a08b" stroke-width="3" fill="none" stroke-linecap="round"/>
+<path d="M548 526Q534 476 514 424" fill="none" stroke="#ce9680" stroke-width="17" stroke-linecap="round" opacity=".7"/>
+</g>
+<!-- Warm cup and journal on the table -->
+<g filter="url(#depth)">
+<path d="M846 574h178l-13 95Q917 690 862 664Z" fill="#f1eee1" stroke="#b7b9a5" stroke-width="4"/>
+<path d="M1022 592Q1084 573 1081 618Q1068 654 1020 644" fill="none" stroke="#e7e5d6" stroke-width="15"/>
+<ellipse cx="934" cy="573" rx="89" ry="15" fill="#efece0" stroke="#b6bea9" stroke-width="3"/>
+<ellipse cx="937" cy="577" rx="75" ry="8" fill="#c79e73"/>
+<path d="M902 539Q885 511 903 490M942 536Q957 504 940 477" fill="none" stroke="#edf4eb" stroke-width="6" stroke-linecap="round" opacity=".7"/>
+</g>
+<g transform="translate(72 596) rotate(-8)" filter="url(#depth)">
+<rect width="269" height="117" rx="9" fill="#406f62"/>
+<rect x="13" y="11" width="246" height="94" rx="3" fill="#faf9ed" stroke="#adbda9" stroke-width="2"/>
+<path d="M27 32h215M27 53h215M27 75h146" stroke="#cbd7c5" stroke-width="3"/>
+<path d="M187 72l11 10 19 -23" fill="none" stroke="#5c9b72" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<!-- resting white fluffy cat, not a patient -->
+<g transform="translate(86 384)" filter="url(#depth)">
+<ellipse cx="76" cy="190" rx="107" ry="30" fill="#4f6a56" opacity=".12"/>
+<path d="M-18 158Q-39 100 -9 78Q22 38 90 66Q133 72 160 119Q180 156 201 151Q229 144 224 164Q204 201 116 208L30 205Q-13 194 -18 158Z" fill="url(#fur)" stroke="#d0d8cf" stroke-width="3"/>
+<path d="M20 117L19 69L51 88Q87 58 120 89L154 67L156 121Q172 157 138 175Q86 205 34 174Q8 154 20 117Z" fill="#fffdf5" stroke="#d3dcd4" stroke-width="3"/>
+<path d="M24 90l1 -17 16 14M139 83l13 -13 3 18" fill="#f3d8d1"/>
+<path d="M50 127q9 -11 18 0M104 128q9 -11 18 0" fill="none" stroke="#839881" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M80 148l8 6 7 -6" fill="none" stroke="#c28e8c" stroke-width="3" stroke-linecap="round"/>
+<path d="M41 149l-28 -4M42 155l-30 7M120 149l29 -4M120 156l30 7" fill="none" stroke="#c4cabc" stroke-width="2"/>
+<path d="M47 192Q75 205 99 192" stroke="#e5e9df" stroke-width="16" stroke-linecap="round"/>
+</g>
+<!-- calming floral accents -->
+<g stroke="#739879" stroke-width="5" fill="none" stroke-linecap="round"><path d="M1150 557Q1131 471 1102 389M1144 549Q1182 461 1197 414M1139 540Q1112 492 1086 466"/></g>
+<g fill="#92b09a"><use href="#leaf" transform="translate(1104 433) rotate(27)"/><use href="#leaf" transform="translate(1180 467) rotate(159)"/><use href="#leaf" transform="translate(1085 466) rotate(-20)"/></g>
+<g fill="#f6eddd" stroke="#dabf9f" stroke-width="2"><circle cx="1104" cy="389" r="20"/><circle cx="1190" cy="414" r="14"/><circle cx="1086" cy="466" r="12"/></g>
+<!-- Small educational subtitle; non-diagnostic -->
+<rect x="665" y="220" width="440" height="178" rx="13" fill="#fffefa" fill-opacity=".82" stroke="#d6c6a9" stroke-width="2"/>
+<text x="700" y="263" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="25" font-weight="700" fill="#315d47">턱 통증 · 소리 · 입 벌림</text>
+<path d="M700 285h349" stroke="#bba47b" stroke-width="2"/>
+<g font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" font-size="19" fill="#4a6553"><text x="700" y="316">증상을 살펴 원인을 구분하고</text><text x="700" y="346">필요한 관리부터 설명합니다.</text><text x="700" y="376" font-size="14" fill="#708073">원장 직접 진찰 · 상태별 안내</text></g>
+<text x="601" y="744" text-anchor="middle" font-size="13" font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" fill="#fff4dd">턱관절 불편함을 주제로 한 창작 그림입니다 · 턱관절 해부학이나 치료 효과를 나타내는 의료 도해가 아닙니다.</text>
+</svg>
