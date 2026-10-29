@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title description">
+<title id="title">이조은치과 · 출혈과 혈전 위험을 함께 살피는 진료 상담</title>
+<desc id="description">짙은 남색 벽과 석류색 벨벳, 크림색 대리석이 어우러진 고전적인 정물화. 중앙에는 양쪽 접시가 수평을 이룬 청동 저울이 있고, 옆에는 약 이름을 적는 빈 수첩과 열리지 않은 유리병, 장미꽃, 복슬복슬한 하얀 고양이가 있다. 혈액희석제를 계속 복용하거나 중단하라는 의료 지시를 나타내지 않는다.</desc>
+<defs>
+<linearGradient id="wall" x1="0" y1="0" x2="1" y2=".8"><stop stop-color="#2f4051"/><stop offset=".47" stop-color="#506474"/><stop offset="1" stop-color="#a38e80"/></linearGradient>
+<linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#69513d"/><stop offset=".25" stop-color="#f1d9a6"/><stop offset=".49" stop-color="#a78551"/><stop offset=".78" stop-color="#d7ba85"/><stop offset="1" stop-color="#6c553e"/></linearGradient>
+<linearGradient id="wood" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#71514e"/><stop offset=".51" stop-color="#b7826c"/><stop offset="1" stop-color="#553f43"/></linearGradient>
+<linearGradient id="cloth" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#663846"/><stop offset=".5" stop-color="#a65f69"/><stop offset="1" stop-color="#462e3e"/></linearGradient>
+<linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffaf0"/><stop offset="1" stop-color="#d7c4a7"/></linearGradient>
+<linearGradient id="bottle" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#244d54"/><stop offset=".45" stop-color="#759a9b"/><stop offset=".7" stop-color="#325b65"/><stop offset="1" stop-color="#192f3e"/></linearGradient>
+<linearGradient id="cat" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d7dede"/><stop offset=".44" stop-color="#fffefa"/><stop offset="1" stop-color="#d4e3df"/></linearGradient>
+<radialGradient id="light"><stop stop-color="#fff6d5" stop-opacity=".8"/><stop offset="1" stop-color="#ffedcc" stop-opacity="0"/></radialGradient>
+<filter id="shadow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#1d262d" flood-opacity=".27"/></filter>
+<filter id="soft"><feGaussianBlur stdDeviation="22"/></filter>
+<pattern id="grain" width="33" height="35" patternUnits="userSpaceOnUse"><path d="M3 7l4 -3M25 19l2 4M15 29l5 -1" fill="none" stroke="#fff7e7" stroke-opacity=".065" stroke-width="1.3"/></pattern>
+<path id="leaf" d="M0 0Q16 -18 34 -3Q16 20 0 0Z"/>
+</defs>
+<rect width="1200" height="720" fill="url(#wall)"/>
+<ellipse cx="886" cy="165" rx="370" ry="305" fill="url(#light)"/>
+<rect width="1200" height="720" fill="url(#grain)"/>
+<!-- dramatic antique frame on the left, creative clinic name and no real medical records -->
+<g filter="url(#shadow)">
+<path d="M47 34H410V230H47Z" fill="#b49465" stroke="#dcc39a" stroke-width="10"/>
+<rect x="60" y="47" width="337" height="170" fill="#f6edd9" stroke="#806947" stroke-width="3"/>
+<rect x="69" y="56" width="320" height="154" fill="none" stroke="#cfb98d" stroke-width="2"/>
+</g>
+<text x="87" y="106" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="39" font-weight="700" fill="#355247">이조은치과</text>
+<path d="M87 120h273" stroke="#b39b6b" stroke-width="2"/>
+<text x="88" y="153" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="23" font-weight="700" fill="#365348">발치 전 복용약 확인</text>
+<text x="88" y="183" font-family="Georgia,serif" font-size="13" letter-spacing="2" fill="#8b7959">A STUDY IN CAREFUL DECISIONS</text>
+<!-- architecture and muted glass window on far right -->
+<g opacity=".77" filter="url(#shadow)">
+<path d="M943 315V106Q943 41 1012 41H1125Q1194 41 1194 106V315Z" fill="#bea684" stroke="#e2cea7" stroke-width="7"/>
+<path d="M961 302V108Q961 60 1013 60H1125Q1176 60 1176 109V302Z" fill="#a9b9b5" stroke="#fff6dc" stroke-width="6"/>
+<path d="M962 262Q1021 185 1073 240Q1135 178 1174 237V301H962Z" fill="#759c90"/>
+<path d="M962 283Q1003 247 1063 270Q1135 249 1174 269V302H962Z" fill="#5c827b"/>
+<path d="M1068 61v242M960 187h216" stroke="#e3d7bf" stroke-width="12"/>
+</g>
+<!-- floral paintings hang above table, soft art-nouveau vine -->
+<g fill="none" stroke="#a8b99b" stroke-width="5" stroke-linecap="round">
+<path d="M865 15Q825 69 858 130Q897 193 862 253"/>
+<path d="M865 65q-33 -15 -48 11M861 143q34 -19 50 2M868 210q-26 -21 -45 -7"/>
+</g>
+<g fill="#b7c1a1">
+<use href="#leaf" transform="translate(815 78) rotate(32)"/>
+<use href="#leaf" transform="translate(908 149) rotate(156)"/>
+<use href="#leaf" transform="translate(823 204) rotate(28)"/>
+</g>
+<!-- velvet mantle -->
+<path d="M0 389Q380 377 610 397Q873 375 1200 388V720H0Z" fill="url(#cloth)"/>
+<path d="M0 419Q430 411 734 419T1200 416" stroke="#e0a7a6" stroke-width="6" opacity=".45" fill="none"/>
+<path d="M0 557Q332 538 624 558T1200 550M0 670Q270 648 622 665T1200 660" stroke="#deb1a1" stroke-width="3" opacity=".25" fill="none"/>
+<rect y="391" width="1200" height="329" fill="url(#grain)"/>
+<!-- pale marble slab setting the central still life, not a clinical desk -->
+<path d="M244 555Q489 531 802 557L932 665Q601 697 248 674Z" fill="#ece2d1" opacity=".8"/>
+<path d="M252 565Q558 546 812 562L900 659Q562 679 264 660Z" fill="url(#paper)" opacity=".75"/>
+<path d="M257 614Q455 588 695 629" stroke="#c6b9ab" stroke-width="3" opacity=".5" fill="none"/>
+<!-- delicately balanced bronze antique scale, equal level pans / no medication recommendation -->
+<g filter="url(#shadow)" stroke-linecap="round" stroke-linejoin="round">
+<path d="M575 572Q649 555 724 574L740 596Q656 616 557 596Z" fill="url(#gold)" stroke="#735c3f" stroke-width="5"/>
+<ellipse cx="649" cy="572" rx="83" ry="17" fill="#d0ae79" stroke="#725d45" stroke-width="4"/>
+<path d="M634 568l9 -260h13l9 260" fill="url(#gold)" stroke="#816440" stroke-width="4"/>
+<path d="M647 316v-56" stroke="#bc9560" stroke-width="20"/>
+<path d="M460 276h375" stroke="#6b533d" stroke-width="17"/>
+<path d="M467 274h366" stroke="#e9cc95" stroke-width="8"/>
+<circle cx="647" cy="276" r="20" fill="#d8b57a" stroke="#796040" stroke-width="5"/>
+<path d="M647 260v-32" stroke="#d8bb8c" stroke-width="10"/>
+<circle cx="646" cy="216" r="17" fill="#dec28e" stroke="#8f724d" stroke-width="4"/>
+<!-- suspension chains -->
+<g stroke="#d7b681" stroke-width="4" fill="none">
+<path d="M469 279l-60 138M469 279l60 138M827 279l-60 138M827 279l60 138"/>
+</g>
+<path d="M397 420Q471 455 542 420Q529 479 469 484Q414 481 397 420Z" fill="url(#gold)" stroke="#8d6f4d" stroke-width="4"/>
+<path d="M754 420Q824 456 898 420Q889 479 826 484Q770 480 754 420Z" fill="url(#gold)" stroke="#8d6f4d" stroke-width="4"/>
+<path d="M398 420Q466 441 542 420M755 420Q826 441 897 420" stroke="#fff1c6" stroke-width="4" fill="none"/>
+</g>
+<!-- tiny ornamental botanicals in pans, not symbolic blood or medicines -->
+<g stroke="#76947e" stroke-width="4" stroke-linecap="round" fill="none">
+<path d="M470 428v-40M824 428v-40"/>
+</g>
+<g fill="#b8c09c">
+<use href="#leaf" transform="translate(469 404) rotate(30)"/>
+<use href="#leaf" transform="translate(826 401) rotate(151)"/>
+</g>
+<g fill="#f1e6d9" stroke="#d1b79d" stroke-width="2"><circle cx="469" cy="384" r="13"/><circle cx="827" cy="384" r="13"/></g>
+<!-- closed unbranded bottle and blank medication list, right-bottom -->
+<g filter="url(#shadow)">
+<path d="M944 512V405q0 -17 17 -17h75q18 0 18 17v107q0 21 -19 21h-71q-20 0 -20 -21Z" fill="url(#bottle)" stroke="#274953" stroke-width="5"/>
+<rect x="960" y="365" width="79" height="28" rx="7" fill="#b8a37e" stroke="#7d745d" stroke-width="3"/>
+<rect x="955" y="433" width="89" height="61" rx="5" fill="#f2e6cb" stroke="#d3bd9e" stroke-width="3"/>
+<path d="M968 452h64M969 472h48" stroke="#9eb6a8" stroke-width="4"/>
+<rect x="1007" y="541" width="143" height="105" rx="5" fill="#f7f0df" stroke="#b9aa8c" stroke-width="3" transform="rotate(7 1079 594)"/>
+<path d="M1030 568h86M1030 588h78M1032 608h62" stroke="#acbda9" stroke-width="4"/>
+</g>
+<!-- white fluffy cat at left edge on its own cushion, no drug ingestion or treatment -->
+<g filter="url(#shadow)" transform="translate(70 469)">
+<ellipse cx="112" cy="173" rx="159" ry="39" fill="#613f4c" opacity=".29"/>
+<ellipse cx="109" cy="169" rx="142" ry="35" fill="#b69c95" stroke="#dbc8bb" stroke-width="5"/>
+<path d="M-15 137Q-50 88 -17 49Q19 3 75 38Q126 1 166 41Q201 77 182 130Q211 132 234 88Q251 62 273 87Q283 115 244 145Q208 178 136 174L36 176Q-11 170 -15 137Z" fill="url(#cat)" stroke="#c8d7cf" stroke-width="4"/>
+<path d="M-1 98L-1 23L37 52Q81 16 126 52L160 25L167 95Q181 144 136 158Q88 177 24 156Q-13 142 -1 98Z" fill="#fffefa" stroke="#c4d4cb" stroke-width="4"/>
+<path d="M-1 44l2 -16 25 20M144 42l16 -16 2 25" fill="#f1d6cc"/>
+<path d="M29 113q12 -12 24 0M111 112q12 -12 25 0" stroke="#779184" stroke-width="4" fill="none" stroke-linecap="round"/>
+<path d="M72 132l10 8 11 -8" stroke="#bc958e" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+<path d="M9 130l-32 -4M11 140l-34 9M148 131l33 -6M149 140l36 8" stroke="#bccbbf" stroke-width="2.3" fill="none" stroke-linecap="round"/>
+</g>
+<!-- mild flowers between objects -->
+<g fill="none" stroke="#a4bba0" stroke-width="4"><path d="M335 632q-25 -36 -25 -64M331 623q28 -33 31 -69"/></g>
+<g fill="#e4d0c3" stroke="#c2a39e" stroke-width="2"><circle cx="306" cy="566" r="15"/><circle cx="360" cy="555" r="14"/></g>
+<!-- gallery footer explicitly avoids medical instructions -->
+<text x="680" y="698" font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" font-size="12" text-anchor="middle" fill="#fff2dd">창작 정물화 · 출혈 위험과 혈전 위험을 함께 살펴야 함을 상징하며, 약물 중단·유지 여부를 지시하지 않습니다.</text>
+</svg>
