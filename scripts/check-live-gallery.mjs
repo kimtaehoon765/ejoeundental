@@ -19,7 +19,18 @@ const originals=[
  'assets/quiet-window-cat-thumb.webp',
  'assets/quiet-window-cat.webp',
  'assets/street-art-tooth-heart-thumb.webp',
- 'assets/street-art-tooth-heart.webp'
+ 'assets/street-art-tooth-heart.webp',
+ 'assets/gallery-patient-studies.css',
+ 'assets/ejoeun-safety-reading-room-20261029.svg',
+ 'assets/ejoeun-heart-care-stainedglass-20261029.svg',
+ 'assets/ejoeun-kidney-care-riverside-20261029.svg',
+ 'assets/ejoeun-liver-care-stilllife-20261029.svg',
+ 'assets/ejoeun-oncology-garden-collage-20261029.svg',
+ 'assets/ejoeun-medication-faq-paper-garden-20261029.svg',
+ 'assets/ejoeun-systemic-faq-stained-windows-20261029.svg',
+ 'assets/ejoeun-pediatric-three-paths-20261029.svg',
+ 'assets/ejoeun-child-orthodontic-growth-art-20261029.svg',
+ 'assets/ejoeun-insurance-questions-library-20261029.svg'
 ];
 async function get(path){
  const response=await fetch(origin+path,{
@@ -72,18 +83,66 @@ try{
  record('모바일 상단 환자 메뉴',menuOk,
    '실사이트 메뉴 '+actualLinks+'개 · 증상·검색·치과 이야기·오시는 길·전화 링크');
  good&&=menuOk;
- const nineIds=['art-starry','art-pond','art-golden','art-cat',
+ // The 2026-10-29 gallery now exhibits 10 paintings, 3 clinical
+ // watercolors, and 10 independent patient-guide artworks.
+ const originalIds=['art-starry','art-pond','art-golden','art-cat',
   'art-cubist-cat-clinic','art-lakeside-flower-clinic',
-  'art-starry-night-clinic','art-quiet-window-cat','art-street-art-tooth-heart'];
- const idsOk=nineIds.every(id=>gallery.includes('id="'+id+'"'))&&
-   nineIds.every(id=>gallery.includes('href="#'+id+'"'))&&
-   (gallery.match(/<figure class="gallery-piece/g)||[]).length===9&&
-   (gallery.match(/class="gallery-zoom"/g)||[]).length===9&&
-   gallery.includes('id="gallery-dialog-position" aria-live="polite" aria-atomic="true">01 / 09</span>');
- record('9점 갤러리 작품·인덱스·확대창',idsOk,
-   idsOk?'그림 9점·작품 이동 링크 9개·확대 버튼 9개·01/09 표시 확인':
-    '실사이트 갤러리 일부가 4점 구성 또는 이전 디자인입니다.');
+  'art-starry-night-clinic','art-quiet-window-cat','art-street-art-tooth-heart',
+  'art-portrait-cat-watercolor'];
+ const studyIds=['patient-art-safety','patient-art-heart','patient-art-kidney',
+  'patient-art-liver','patient-art-oncology','patient-art-medication',
+  'patient-art-systemic','patient-art-child','patient-art-orthodontics',
+  'patient-art-insurance'];
+ const originalCount=(gallery.match(/<figure class="gallery-piece\\b/g)||[]).length;
+ const clinicalCount=(gallery.match(/class="gallery-note gallery-note--watercolor"/g)||[]).length;
+ const studyCount=(gallery.match(/class="gallery-patient-studies__piece"/g)||[]).length;
+ const zoomCount=(gallery.match(/class="gallery-zoom"/g)||[]).length;
+ const idsOk=originalIds.every(id=>gallery.includes('id="'+id+'"'))&&
+   originalIds.every(id=>gallery.includes('href="#'+id+'"'))&&
+   studyIds.every(id=>gallery.includes('id="'+id+'"'))&&
+   originalCount===10&&clinicalCount===3&&studyCount===10&&zoomCount===20&&
+   (gallery.match(/class="gallery-patient-studies__original"/g)||[]).length===10&&
+   gallery.includes('id="gallery-dialog-position" aria-live="polite" aria-atomic="true">01 / 20</span>')&&
+   gallery.includes('id="patient-studies"')&&
+   html.includes('href="/gallery.html#patient-studies"');
+ record('23점 전시·20개 확대 버튼·10개 원본 링크',idsOk,
+   '실사이트 원본 '+originalCount+'점 · 진료 수채화 '+clinicalCount+
+   '점 · 건강정보 작품 '+studyCount+'점 · 확대 버튼 '+zoomCount+'개');
  good&&=idsOk;
+ const imageElements=[...gallery.matchAll(/<figure class="gallery-piece\\b[^>]*>[\\s\\S]*?<\\/figure>/g),
+  ...gallery.matchAll(/<a class="gallery-note gallery-note--watercolor"[^>]*>[\\s\\S]*?<\\/a>/g),
+  ...gallery.matchAll(/<figure class="gallery-patient-studies__piece"[^>]*>[\\s\\S]*?<\\/figure>/g)]
+  .map(m=>m[0].match(/<img\\b[^>]*\\bsrc="([^"]+)"/)?.[1]);
+ const uniqueArt=imageElements.length===23&&
+   imageElements.every(img=>img?.startsWith('/assets/'))&&new Set(imageElements).size===23;
+ record('23점 원본 이미지 중복·연결 검사',uniqueArt,
+   '실사이트 작품 이미지 '+imageElements.length+'개 · 고유 이미지 '+new Set(imageElements).size+'개');
+ good&&=uniqueArt;
+ const jsonBlocks=[...gallery.matchAll(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/g)];
+ const structured=jsonBlocks.map(m=>{try{return JSON.parse(m[1])}catch{return null}})
+   .find(row=>row?.['@type']==='CollectionPage');
+ const indexedArt=structured?.mainEntity?.associatedMedia||[];
+ const seoCurrent=indexedArt.length===23&&gallery.includes('치과 그림 갤러리 23점')&&
+  imageElements.every((src,i)=>indexedArt[i]?.contentUrl===origin+src);
+ record('갤러리 23점 검색 구조화 데이터',seoCurrent,
+  '실사이트 ImageObject '+indexedArt.length+'개 · 실제 그림 '+imageElements.length+'개');
+ good&&=seoCurrent;
+ // Compare the sitemap delivered by Cloudflare against the current source,
+ // never mistaking a successful local build for a deployed image index.
+ const sourceSitemap=readFileSync(new URL('../sitemap.xml',import.meta.url),'utf8');
+ const galleryImages=xml=>{
+  const block=xml.match(/<url><loc>https:\\/\\/ejoeundental\\.com\\/gallery(?:\\.html)?<\\/loc>[\\s\\S]*?<\\/url>/)?.[0]||'';
+  return [...block.matchAll(/<image:loc>([^<]+)<\\/image:loc>/g)].map(m=>m[1]);
+ };
+ const expectedGalleryImages=galleryImages(sourceSitemap);
+ const sitemapResponse=await get('/sitemap.xml');
+ const actualGalleryImages=galleryImages(sitemapResponse.bytes.toString('utf8'));
+ const indexedCurrent=sitemapResponse.status===200&&expectedGalleryImages.length===23&&
+  JSON.stringify(actualGalleryImages)===JSON.stringify(expectedGalleryImages);
+ record('구글 이미지 사이트맵의 갤러리 작품 23점',indexedCurrent,
+  '실사이트 HTTP '+sitemapResponse.status+' · 갤러리 '+actualGalleryImages.length+
+  '개 / 소스 '+expectedGalleryImages.length+'개');
+ good&&=indexedCurrent;
  const thumbnailNames=['cubist-cat-clinic','lakeside-flower-clinic',
   'starry-night-clinic','quiet-window-cat','street-art-tooth-heart'];
  const linkedImagesOk=thumbnailNames.every(name=>
@@ -102,9 +161,9 @@ try{
   const attrs=[...document.matchAll(/(?:href|src)="([^"]+)"/g)].map(m=>m[1]);
   return attrs.find(a=>a.split('?')[0]===name)||name;
  });
- // All ten new WebP artwork files are byte-for-byte checked against
- // the GitHub build. A passing build alone is not evidence of Cloudflare
- // deployment, and the cards must never point to missing picture files.
+ // All original gallery files, including the ten new patient artwork SVGs,
+ // are compared byte-for-byte with Cloudflare. Passing a source build alone
+ // is not evidence of public deployment.
  const files=await Promise.all(livePaths.map(get));
  for(let i=0;i<originals.length;i++){
   const path=originals[i];
@@ -123,7 +182,8 @@ try{
  record('모바일 메뉴 고급 디자인 CSS',mobileCssReady,
    mobileCssReady?'상단 모바일 메뉴 IX 디자인 확인':'상단 모바일 메뉴 개선 버전 미확인');
  good&&=mobileCssReady;
- console.log('[LIVE GALLERY]',good?'그림 갤러리 공개 반영 확인':'갤러리의 일부가 아직 실사이트에 반영되지 않았습니다.');
+ console.log('[LIVE GALLERY]',good?'23점 갤러리·23점 사이트맵 공개 반영 확인':
+  '갤러리 또는 이미지 사이트맵의 일부가 최신 GitHub 소스와 일치하지 않습니다.');
  if(!good)process.exitCode=1;
 }catch(error){
  const detail=error?.cause?.code||error?.message||String(error);
