@@ -1,0 +1,104 @@
+/* 이조은치과 어린이 앞니 반대교합 · 선택지 안내 (2026-10-29)
+ * Original clinical explanations, artwork, SEO, booking and call actions retained. */
+body.pediatric-ortho-decisions .ortho-choices{
+  margin:30px 0 34px;
+  padding:clamp(18px,3vw,28px);
+  border:1px solid #d2dfd2;
+  border-top:4px solid #9ab69a;
+  border-radius:16px;
+  background:linear-gradient(135deg,#f0f6ef,#fffefa 66%,#f4f4e8);
+  box-shadow:0 12px 30px rgba(33,65,46,.055);
+}
+body.pediatric-ortho-decisions .ortho-choices>h2{
+  margin:0 0 8px;color:#27533d;
+  font:700 clamp(22px,3vw,29px)/1.45 'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  letter-spacing:-.04em;word-break:keep-all;
+}
+body.pediatric-ortho-decisions .ortho-choices>.ortho-choice-intro{
+  margin:0 0 20px;line-height:1.84;font-size:15px;
+  color:#536b5c;word-break:keep-all;
+}
+body.pediatric-ortho-decisions .ortho-choice-grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;
+}
+body.pediatric-ortho-decisions .ortho-choice-card{
+  display:flex;flex-direction:column;min-width:0;gap:11px;
+  padding:19px 16px 17px;
+  border:1px solid #d3ded1;
+  border-top:3px solid #b0c4ab;
+  border-radius:11px;background:#fffefa;
+}
+body.pediatric-ortho-decisions .ortho-choice-card:nth-child(2){
+  border-top-color:#baaa7d;
+}
+body.pediatric-ortho-decisions .ortho-choice-card:nth-child(3){
+  border-top-color:#8baaa5;
+}
+body.pediatric-ortho-decisions .ortho-choice-index{
+  color:#a08a62;font:700 11px/1.4 Georgia,serif;letter-spacing:.11em;
+}
+body.pediatric-ortho-decisions .ortho-choice-card h3{
+  font:700 clamp(17px,2.1vw,21px)/1.45 'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  color:#2a5740;margin:0;word-break:keep-all;
+}
+body.pediatric-ortho-decisions .ortho-choice-card p{
+  margin:0;color:#536a59;font-size:14px;line-height:1.75;word-break:keep-all;
+  flex:1;
+}
+body.pediatric-ortho-decisions .ortho-choice-card>a{
+  box-sizing:border-box;display:inline-flex;align-items:center;min-height:44px;
+  font-size:14px;line-height:1.5;font-weight:750;
+  color:#286049;text-underline-offset:4px;
+}
+body.pediatric-ortho-decisions .ortho-choices .ortho-choice-footer{
+  margin:19px 0 0;padding-top:16px;
+  border-top:1px solid #d9e3d5;
+  color:#496452;font-size:14px;line-height:1.82;word-break:keep-all;
+}
+body.pediatric-ortho-decisions .ortho-choices .ortho-choice-footer a{
+  display:inline-flex;align-items:center;min-height:44px;
+  color:#245f44;font-weight:750;text-underline-offset:4px;
+}
+body.pediatric-ortho-decisions #ortho-care-options,
+body.pediatric-ortho-decisions #gallery-ortho-exam,
+body.pediatric-ortho-decisions #gallery-ortho-timing,
+body.pediatric-ortho-decisions #child-removable-orthodontics-heading{
+  scroll-margin-top:105px;
+}
+body.pediatric-ortho-decisions .child-ortho-scope{
+  border-left:4px solid #8aa68b;
+  background:#f4f9f3;
+}
+@media(max-width:760px){
+ body.pediatric-ortho-decisions .ortho-choice-grid{grid-template-columns:1fr;gap:9px}
+ body.pediatric-ortho-decisions .ortho-choice-card{padding:16px 15px}
+ body.pediatric-ortho-decisions .ortho-choice-card p{font-size:14px}
+ body.pediatric-ortho-decisions .ortho-choices{margin:24px 0}
+}
+@media(max-width:420px){
+ body.pediatric-ortho-decisions .ortho-choices{padding:17px 12px}
+ body.pediatric-ortho-decisions .ortho-choices>h2{font-size:22px}
+ body.pediatric-ortho-decisions .ortho-choice-card{gap:8px}
+}
+@media print{
+ body.pediatric-ortho-decisions .ortho-choices{
+  border:1px solid #777;box-shadow:none;background:#fff;
+ }
+ body.pediatric-ortho-decisions .ortho-choice-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+ }
+ body.pediatric-ortho-decisions .ortho-choice-card{
+  break-inside:avoid;border:1px solid #999;
+ }
+}
+@media(forced-colors:active){
+ body.pediatric-ortho-decisions .ortho-choices,
+ body.pediatric-ortho-decisions .ortho-choice-card,
+ body.pediatric-ortho-decisions .child-ortho-scope{
+  background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none;
+ }
+ body.pediatric-ortho-decisions .ortho-choice-card :is(h3,p,span),
+ body.pediatric-ortho-decisions .ortho-choices>h2{
+  color:CanvasText;
+ }
+}
