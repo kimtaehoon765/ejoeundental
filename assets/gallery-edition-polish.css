@@ -483,3 +483,138 @@ body.home-page .care-picture-notes__after a:focus-visible{
  }
  body.home-page .care-picture-notes__caption :is(strong,small,span){color:CanvasText}
 }
+
+
+/* Visual chapter notes – 2026-10-29.
+   Keep indexing text intact; link selected illustration sets to relevant health reading.
+   All art loads lazily and respects narrow screens. */
+body.home-page #main-content .care-picture-notes__frame img{
+  aspect-ratio:3 / 2;
+  height:auto;
+  object-fit:contain;
+  max-height:none;
+}
+body.home-page #main-content #health-info .health-topic-card{
+  overflow:hidden;
+}
+body.home-page #main-content #health-info .health-topic-art{
+  display:block;box-sizing:border-box;
+  margin:12px 0 18px;padding:7px;
+  border:1px solid #e0d6c4;
+  border-radius:3px 10px 3px 10px;
+  background:#f1ebe1;
+  text-decoration:none;
+  box-shadow:0 6px 15px rgba(25,45,31,.055);
+}
+body.home-page #main-content #health-info .health-topic-art img{
+  display:block;width:100%;height:auto;
+  aspect-ratio:3 / 2;
+  object-fit:contain;
+  background:#fcfaf5;
+  border:1px solid rgba(112,98,70,.17);
+}
+body.home-page #main-content #health-info .health-topic-art:focus-visible{
+  outline:3px solid #a27e49;
+  outline-offset:3px;
+}
+body.home-page #main-content #health-info .health-topic-art:hover{
+  border-color:#a8977c;
+}
+body.home-page #main-content #health-info .health-topic-art + p{
+  margin-top:0;
+}
+/* A compact pair of original paintings follows the long journal archive. */
+body.home-page #main-content>.journal-art-break{
+  box-sizing:border-box;
+  width:min(1160px,calc(100% - 44px));
+  max-width:1160px;
+  padding:clamp(21px,3vw,37px);
+  margin:clamp(28px,4vw,50px) auto clamp(34px,5vw,58px);
+  display:grid;
+  grid-template-columns:minmax(170px,.75fr) minmax(0,2fr);
+  align-items:center;
+  gap:clamp(16px,2.3vw,32px);
+  border:1px solid #daceba;
+  border-top:2px solid #ab9369;
+  border-radius:3px 13px 3px 13px;
+  background:linear-gradient(130deg,#f6f0e3,#fffdfa 58%,#eff3e9);
+  box-shadow:0 12px 34px rgba(23,54,37,.055);
+}
+body.home-page .journal-art-break__eyebrow{
+  margin:0 0 13px;
+  color:#8d754c;
+  font:700 10px/1.5 'DM Sans',sans-serif;
+  letter-spacing:.16em;
+}
+body.home-page #main-content .journal-art-break__intro h2{
+  margin:0 0 13px;
+  font:700 clamp(22px,2.5vw,31px)/1.48 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.055em;color:#224735;
+  word-break:keep-all;
+}
+body.home-page .journal-art-break__intro>p:not(.journal-art-break__eyebrow){
+  color:#52665a;font-size:14px;
+  line-height:1.82;word-break:keep-all;
+}
+body.home-page .journal-art-break__intro>a{
+  display:inline-block;min-height:44px;padding:10px 0;
+  color:#20523b;font-weight:800;text-underline-offset:4px;
+}
+body.home-page .journal-art-break__works{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(10px,1.5vw,19px);
+}
+body.home-page .journal-art-break__works>a{
+  display:flex;flex-direction:column;min-width:0;overflow:hidden;
+  background:#fffefa;color:#234935;text-decoration:none;
+  border:1px solid #d4c5a7;border-radius:3px;
+  box-shadow:0 8px 21px rgba(27,46,35,.065);
+}
+body.home-page .journal-art-break__works img{
+  box-sizing:border-box;display:block;
+  width:100%;height:auto;aspect-ratio:1.62 / 1;
+  padding:7px;object-fit:contain;background:#e6ded0;
+}
+body.home-page .journal-art-break__works span{
+  display:block;border-top:1px solid #e7ddc9;
+  padding:12px 13px;
+  font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+  font-weight:700;font-size:15px;line-height:1.6;
+  word-break:keep-all;color:#254836;
+}
+body.home-page .journal-art-break__works>a:focus-visible,
+body.home-page .journal-art-break__intro>a:focus-visible{
+  outline:3px solid #a27e49;outline-offset:4px;
+}
+@media(max-width:900px){
+  body.home-page #main-content>.journal-art-break{
+    grid-template-columns:minmax(0,1fr);
+    gap:17px;
+  }
+}
+@media(max-width:600px){
+  body.home-page #main-content #health-info .health-topic-art{
+    margin:10px 0 14px;
+  }
+  body.home-page #main-content>.journal-art-break{
+    width:calc(100% - 24px);
+    padding:19px 13px;
+    margin:23px auto 35px;
+  }
+  body.home-page .journal-art-break__intro>p:not(.journal-art-break__eyebrow){font-size:13px}
+  body.home-page .journal-art-break__works{gap:10px}
+  body.home-page .journal-art-break__works img{padding:5px}
+  body.home-page .journal-art-break__works span{
+    padding:10px 9px;font-size:13px;
+  }
+}
+@media(max-width:380px){
+  body.home-page .journal-art-break__works{grid-template-columns:1fr}
+}
+@media(forced-colors:active){
+ body.home-page .journal-art-break,
+ body.home-page .journal-art-break__works>a,
+ body.home-page #main-content #health-info .health-topic-art{
+  background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none;
+ }
+}
