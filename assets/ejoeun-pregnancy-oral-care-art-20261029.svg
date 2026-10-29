@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 740" width="1200" height="740" role="img" aria-labelledby="ttl desc">
+<title id="ttl">이조은치과 · 임신 중 구강건강 상담을 위한 창작 아르누보풍 그림</title>
+<desc id="desc">살구색과 세이지색, 샴페인 금색이 어우러진 아르누보풍 정원 회화. 아치 창가에서 임신한 여성이 의자에 편안히 앉아 책을 읽고, 벽에는 꽃무늬 테두리와 이조은치과 서명이 있으며, 복슬복슬한 하얀 고양이가 곁에 웅크려 쉬고 있습니다. 진료 현장, 임신 중 치료 효과, 실제 환자 사진을 나타내지 않습니다.</desc>
+<defs>
+ <linearGradient id="ground" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7e9da"/><stop offset=".46" stop-color="#f6ebd9"/><stop offset="1" stop-color="#d9e6d7"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d3e6e0"/><stop offset=".43" stop-color="#fce7cb"/><stop offset="1" stop-color="#a9c9ad"/></linearGradient>
+ <linearGradient id="arch" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#bb9f71"/><stop offset=".35" stop-color="#f4dcaa"/><stop offset=".7" stop-color="#dbc091"/><stop offset="1" stop-color="#a28d69"/></linearGradient>
+ <linearGradient id="dress" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7ca396"/><stop offset=".46" stop-color="#b9c9b7"/><stop offset="1" stop-color="#598b83"/></linearGradient>
+ <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#deb19b"/><stop offset=".5" stop-color="#f1ceb1"/><stop offset="1" stop-color="#d9a189"/></linearGradient>
+ <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#3b3636"/><stop offset=".6" stop-color="#6c4d44"/><stop offset="1" stop-color="#342f31"/></linearGradient>
+ <linearGradient id="book" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffefa"/><stop offset="1" stop-color="#e9dfcb"/></linearGradient>
+ <linearGradient id="cat" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d8e3de"/><stop offset=".45" stop-color="#fffefa"/><stop offset="1" stop-color="#d7e4d8"/></linearGradient>
+ <radialGradient id="sun"><stop stop-color="#fff9e1" stop-opacity=".85"/><stop offset="1" stop-color="#fff1db" stop-opacity="0"/></radialGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="11" stdDeviation="11" flood-color="#554c41" flood-opacity=".16"/></filter>
+ <pattern id="grain" width="37" height="41" patternUnits="userSpaceOnUse"><path d="M4 8l3 -4M21 16l4 3M30 31l3 -2" stroke="#806d5e" stroke-width="1" opacity=".09" fill="none"/></pattern>
+ <g id="blossom" stroke="#c8a997" stroke-width="1.7"><ellipse cx="0" cy="-12" rx="8" ry="13" fill="#f8ece2"/><ellipse cx="12" cy="0" rx="13" ry="8" fill="#f3d9d2"/><ellipse cx="0" cy="12" rx="8" ry="13" fill="#fff1e8"/><ellipse cx="-12" cy="0" rx="13" ry="8" fill="#f5e0da"/><circle cx="0" cy="0" r="6" fill="#dbb376" stroke="none"/></g>
+ <path id="leaf" d="M0 0Q20 -18 37 -2Q20 16 0 0Z"/>
+</defs>
+<rect width="1200" height="740" fill="url(#ground)"/>
+<rect width="1200" height="740" fill="url(#grain)"/>
+<ellipse cx="793" cy="188" rx="370" ry="340" fill="url(#sun)"/>
+<!-- Inlaid border with floral brass corner details -->
+<rect x="22" y="22" width="1156" height="695" rx="18" fill="none" stroke="#b89c70" stroke-width="5"/>
+<rect x="34" y="34" width="1132" height="671" rx="11" fill="none" stroke="#dcc49c" stroke-width="2"/>
+<path d="M75 146Q64 74 148 64M1120 154Q1138 70 1050 64M72 607Q56 669 145 674M1123 603Q1150 683 1054 676" stroke="#c2a16c" stroke-width="5" fill="none" stroke-linecap="round"/>
+<!-- Elaborate arched garden window on right -->
+<g filter="url(#shadow)">
+<path d="M700 539V166Q700 76 787 76H982Q1068 76 1068 166V539Z" fill="url(#arch)" stroke="#aa8b6d" stroke-width="5"/>
+<path d="M717 523V164Q717 96 790 96H979Q1049 96 1049 166V523Z" fill="url(#glass)" stroke="#fbe8c3" stroke-width="7"/>
+<circle cx="916" cy="177" r="48" fill="#fff7da" opacity=".62"/>
+<path d="M721 396Q797 298 865 366Q947 302 1046 386V522H721Z" fill="#b9cfbb"/>
+<path d="M721 438Q798 380 869 419Q955 357 1046 430V523H721Z" fill="#7da18d"/>
+<path d="M721 481Q790 428 854 466Q955 420 1046 468V522H721Z" fill="#588c76"/>
+<path d="M880 98v426M720 312h326" stroke="#e6c99c" stroke-width="13" fill="none"/>
+<path d="M880 98v426M720 312h326" stroke="#ad926f" stroke-width="2" opacity=".5" fill="none"/>
+</g>
+<!-- Botanical trellis across the composition -->
+<g stroke="#698b75" stroke-width="5" stroke-linecap="round" fill="none">
+<path d="M1086 34Q1126 121 1092 190Q1063 253 1112 309Q1151 372 1095 449"/>
+<path d="M95 370Q71 294 122 228Q148 182 126 135"/>
+<path d="M1112 123q38 -18 50 7M1095 193q-35 -21 -50 -1M1111 307q41 -17 51 8M1093 417q-32 -22 -49 -4"/>
+<path d="M114 243q-29 -15 -40 6M104 302q28 -15 40 6"/>
+</g>
+<g fill="#99b39a" opacity=".95">
+<use href="#leaf" transform="translate(1144 126) rotate(152)"/><use href="#leaf" transform="translate(1046 190) rotate(28)"/><use href="#leaf" transform="translate(1143 315) rotate(152)"/><use href="#leaf" transform="translate(1045 414) rotate(26)"/>
+<use href="#leaf" transform="translate(73 245) rotate(36)"/><use href="#leaf" transform="translate(143 307) rotate(155)"/>
+</g>
+<g><use href="#blossom" transform="translate(1092 192) scale(1.15)"/><use href="#blossom" transform="translate(1104 379) scale(.9)"/><use href="#blossom" transform="translate(119 229) scale(1.2)"/><use href="#blossom" transform="translate(80 315) scale(.75)"/></g>
+<!-- Thick woven carpet, sofa, comfortable book nook -->
+<path d="M37 549Q379 520 685 541Q938 520 1165 548V704H37Z" fill="#d4c5a6" opacity=".44"/>
+<path d="M53 573Q489 560 833 572T1152 567" stroke="#bd9f76" stroke-width="5" fill="none" opacity=".5"/>
+<path d="M65 659Q320 649 584 658T1128 663" stroke="#e8d8b9" stroke-width="4" fill="none" opacity=".75"/>
+<!-- Pale rose reading chair -->
+<g filter="url(#shadow)">
+<path d="M293 511Q244 403 289 338Q316 310 385 315L545 313Q614 321 629 376Q647 445 604 516Z" fill="#c58d8b" stroke="#956d70" stroke-width="5"/>
+<path d="M321 495Q285 399 323 367Q355 343 410 346L539 344Q580 354 585 390Q595 451 567 494Z" fill="#d6aaa5" stroke="#f1d4c7" stroke-width="5"/>
+<path d="M288 480Q264 480 261 518Q266 569 333 567L578 568Q638 565 646 517Q643 482 616 477" fill="#b87f7e" stroke="#926b6a" stroke-width="4"/>
+<path d="M313 554l-18 75M601 554l24 77" stroke="#826b58" stroke-width="10" stroke-linecap="round"/>
+</g>
+<!-- Distinct illustration of an adult pregnant person, no clinician/clinical procedure -->
+<g filter="url(#shadow)">
+<!-- seated legs, footrest -->
+<path d="M406 518Q509 507 554 527Q589 542 600 588L617 633Q582 656 552 630L509 577Q462 606 401 585Z" fill="#8ba9a2" stroke="#678e87" stroke-width="5"/>
+<path d="M598 625Q637 624 654 641Q658 654 634 658H585Z" fill="#d9c4b1" stroke="#9f8e83" stroke-width="3"/>
+<!-- comfortable rounded torso visibly pregnant -->
+<path d="M362 343Q414 307 467 333Q510 356 526 400Q556 444 549 488Q548 532 502 540Q439 549 377 510Q350 464 356 415Z" fill="url(#dress)" stroke="#628b80" stroke-width="5"/>
+<path d="M406 398Q497 389 529 449Q545 483 515 510Q466 540 413 491" fill="#a4c0b1" stroke="#c1d0c0" stroke-width="5" opacity=".75"/>
+<!-- head and hair with unrecognizable profile (not the doctor) -->
+<path d="M398 295Q390 270 401 249Q432 220 467 249L472 306Q457 345 432 344Z" fill="url(#skin)" stroke="#be927f" stroke-width="4"/>
+<path d="M393 266Q372 222 394 194Q415 176 454 192Q487 209 487 243Q479 256 475 290Q467 307 453 315L453 260Q428 250 414 260Z" fill="url(#hair)" stroke="#514341" stroke-width="4"/>
+<path d="M453 222Q481 228 484 266Q485 299 469 310Q465 313 459 309Q453 307 452 294Q444 292 444 282Q448 277 458 278Q464 251 453 222Z" fill="url(#skin)" stroke="#ba8c7a" stroke-width="3"/>
+<path d="M465 265l10 2M469 290l11 0" stroke="#916e65" stroke-width="2" stroke-linecap="round" fill="none"/>
+<!-- reading book supported away from belly, symbolic patient education -->
+<path d="M369 368Q379 348 394 355L440 414Q454 423 449 438Q438 445 422 435L375 395Z" fill="url(#skin)" stroke="#c18f7e" stroke-width="3"/>
+<path d="M505 361Q517 345 527 361L545 406Q547 426 536 434Q520 438 512 418L492 380Z" fill="url(#skin)" stroke="#c18f7e" stroke-width="3"/>
+<path d="M401 415Q451 396 494 414L507 464Q447 446 401 470Z" fill="url(#book)" stroke="#a6937d" stroke-width="4"/>
+<path d="M452 410v52M414 432q18 -9 32 -7M414 449q20 -7 32 -8M461 426q20 -8 34 -3M462 445q17 -7 35 -3" fill="none" stroke="#b5c2b1" stroke-width="3" stroke-linecap="round"/>
+</g>
+<!-- White fluffy cat distinct and small in foreground, resting not receiving treatment -->
+<g transform="translate(720 548)" filter="url(#shadow)">
+<ellipse cx="83" cy="94" rx="132" ry="24" fill="#7e816e" opacity=".19"/>
+<path d="M-24 82Q-50 34 -11 6Q37 -23 91 13Q147 0 178 48Q191 87 173 113Q202 116 224 84Q239 70 251 82Q262 105 224 124Q180 148 99 147L17 144Q-28 135 -24 82Z" fill="url(#cat)" stroke="#cbdacf" stroke-width="3"/>
+<path d="M-8 49L0 1L34 22Q83 -7 123 23L158 -5L163 59Q169 96 131 116Q76 136 18 115Q-20 100 -8 49Z" fill="#fffefa" stroke="#d5e2d9" stroke-width="3"/>
+<path d="M0 22l2 -16 22 17M145 20l13 -19 0 25" fill="#f2d6d0"/>
+<path d="M30 64q12 10 24 0M106 64q12 10 24 0" fill="none" stroke="#78937e" stroke-width="3" stroke-linecap="round"/>
+<path d="M69 83l9 8 9 -8" fill="none" stroke="#ba8e8a" stroke-width="3" stroke-linecap="round"/>
+<path d="M20 82l-28 -5M21 91l-31 8M138 81l28 -6M138 91l33 8" fill="none" stroke="#b6c8b9" stroke-width="2"/>
+<path d="M24 132q27 15 54 1M98 133q25 16 55 -1" fill="none" stroke="#f3f5ec" stroke-width="18" stroke-linecap="round"/>
+</g>
+<!-- Elegant typography, editorial art signature -->
+<text x="76" y="95" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="42" font-weight="700" fill="#335b49">이조은치과</text>
+<path d="M76 109h296" stroke="#c4a775" stroke-width="3"/>
+<text x="75" y="158" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="31" font-weight="700" fill="#335947">편안한 진료 상담</text>
+<text x="79" y="191" font-family="Georgia,serif" font-size="14" letter-spacing="2.2" fill="#9f845f">MATERNAL ORAL HEALTH</text>
+<g fill="#9a7656" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="19"><text x="75" y="262">임신 주수 · 복용약 · 증상</text><text x="75" y="297">진료 전 함께 확인해요</text></g>
+<text x="94" y="685" font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" font-size="13" fill="#6c6d5c">임신 중 구강건강 상담을 주제로 한 창작 그림 · 실제 환자, 진료 장면 또는 치료 효과를 나타내지 않습니다.</text>
+</svg>
