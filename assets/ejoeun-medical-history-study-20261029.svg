@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="artTitle artDesc">
+<title id="artTitle">이조은치과 복용약과 전신질환 상담 - 창작 서재 정물화</title>
+<desc id="artDesc">햇살이 드는 서재의 짙은 녹색 장식장 위에 펼친 의학 참고서와 청록색 유리 약병, 돋보기, 하얀 꽃이 있는 도자기 꽃병과 복슬복슬한 하얀 고양이가 어우러진 회화풍 창작 정물화. 특정 약물이나 실제 진료 기록을 묘사하지 않는다.</desc>
+<defs>
+ <linearGradient id="wall" x1="0" y1="0" x2="1" y2=".9"><stop stop-color="#f9f0de"/><stop offset=".46" stop-color="#f0e6d5"/><stop offset="1" stop-color="#c3d6cb"/></linearGradient>
+ <linearGradient id="sky" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#e3f0e9"/><stop offset=".5" stop-color="#b9d6ce"/><stop offset="1" stop-color="#92b5a9"/></linearGradient>
+ <linearGradient id="desk" x1="0" y1="0" x2="1" y2=".6"><stop stop-color="#315b4a"/><stop offset=".5" stop-color="#5e816a"/><stop offset="1" stop-color="#274c3f"/></linearGradient>
+ <linearGradient id="glass" x1="0" y1="0" x2=".95" y2=".7"><stop stop-color="#3d857c" stop-opacity=".8"/><stop offset=".25" stop-color="#b0d6c0" stop-opacity=".6"/><stop offset=".65" stop-color="#327c76" stop-opacity=".86"/><stop offset="1" stop-color="#2d615c" stop-opacity=".8"/></linearGradient>
+ <linearGradient id="book" x1="0" y1="0" x2="1" y2=".7"><stop stop-color="#fffefa"/><stop offset=".75" stop-color="#f0e8d7"/><stop offset="1" stop-color="#cfb99b"/></linearGradient>
+ <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d9e2db"/><stop offset=".45" stop-color="#fffef8"/><stop offset="1" stop-color="#dbe7dc"/></linearGradient>
+ <radialGradient id="sun"><stop stop-color="#fffbe8" stop-opacity=".75"/><stop offset="1" stop-color="#fff6da" stop-opacity="0"/></radialGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="1" dy="12" stdDeviation="12" flood-color="#304b3b" flood-opacity=".20"/></filter>
+ <filter id="blur"><feGaussianBlur stdDeviation="18"/></filter>
+ <pattern id="grain" width="43" height="41" patternUnits="userSpaceOnUse"><path d="M6 8l5 -3M32 17l4 5M16 30l-3 4" fill="none" stroke="#887a62" stroke-opacity=".075" stroke-width="1"/></pattern>
+ <path id="leaf" d="M0 0Q18 -22 44 -4Q22 19 0 0Z"/>
+</defs>
+<rect width="1200" height="720" fill="url(#wall)"/>
+<rect width="1200" height="720" fill="url(#grain)"/>
+<ellipse cx="210" cy="133" rx="320" ry="290" fill="url(#sun)"/>
+<!-- Arched French window, quiet garden, original composition -->
+<g filter="url(#shadow)">
+<path d="M48 478V130Q48 47 136 47H456Q531 47 531 130V478Z" fill="#b69b7a" stroke="#a78c6c" stroke-width="6"/>
+<path d="M66 461V128Q66 67 143 67H447Q511 67 511 130V461Z" fill="url(#sky)" stroke="#fff9e8" stroke-width="8"/>
+<circle cx="190" cy="154" r="50" fill="#fff9e1" opacity=".7"/>
+<path d="M66 360Q178 248 286 327Q401 244 511 340V460H66Z" fill="#a2c2aa"/>
+<path d="M66 411Q162 339 272 395Q389 339 510 396V460H66Z" fill="#6e9a83"/>
+<path d="M66 444Q150 397 262 428Q395 398 511 433V460H66Z" fill="#567e68"/>
+<path d="M290 68v394M68 288h441" fill="none" stroke="#e9dac0" stroke-width="15"/>
+<path d="M290 68v394M68 288h441" fill="none" stroke="#a48e72" stroke-width="2" opacity=".65"/>
+</g>
+<!-- Warm gallery signature and quiet educational title -->
+<text x="625" y="91" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="41" font-weight="700" fill="#2b573e">이조은치과</text>
+<text x="628" y="140" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="31" font-weight="700" fill="#325a46">진료 전, 건강정보를 함께 살핍니다.</text>
+<path d="M628 167h489" stroke="#b69d76" stroke-width="2"/>
+<text x="632" y="192" font-family="Georgia,serif" font-size="14" letter-spacing="3" fill="#82745d">AN OPEN CONVERSATION ABOUT HEALTH</text>
+<!-- Background gallery details: ornamental vase and vine -->
+<path d="M1095 9Q1061 49 1100 108Q1162 173 1082 245" stroke="#648d72" stroke-width="5" fill="none" stroke-linecap="round"/>
+<g fill="#a0b79a" opacity=".86"><use href="#leaf" transform="translate(1070 55) rotate(26)"/><use href="#leaf" transform="translate(1134 133) rotate(156)"/><use href="#leaf" transform="translate(1060 229) rotate(25)"/></g>
+<g fill="#f9eddf" stroke="#d8bb98" stroke-width="2"><circle cx="1092" cy="99" r="12"/><circle cx="1084" cy="245" r="15"/></g>
+<!-- Main richly coloured old-green tabletop -->
+<path d="M0 485Q270 472 582 490Q886 475 1200 482V720H0Z" fill="url(#desk)"/>
+<path d="M0 506Q370 499 638 505T1200 504" stroke="#d2bd8d" stroke-width="9" fill="none" opacity=".49"/>
+<path d="M0 636Q220 625 470 635T950 633T1200 631" stroke="#adc6ad" stroke-width="3" fill="none" opacity=".36"/>
+<rect x="0" y="489" width="1200" height="231" fill="url(#grain)"/>
+<!-- An open reference book, not a patient record -->
+<g filter="url(#shadow)">
+<path d="M170 524Q314 482 466 535L489 661Q313 618 167 661Z" fill="url(#book)" stroke="#a89979" stroke-width="4"/>
+<path d="M489 661l23 -126Q675 483 818 523L825 662Q662 623 489 661Z" fill="url(#book)" stroke="#a89979" stroke-width="4"/>
+<path d="M489 661Q481 590 488 536" fill="none" stroke="#b89c77" stroke-width="5"/>
+<path d="M194 559Q329 529 453 568M199 585Q325 561 452 593M206 610Q323 588 455 619" fill="none" stroke="#c0cbb9" stroke-width="5" stroke-linecap="round"/>
+<path d="M531 567Q665 529 790 551M529 594Q663 563 790 580M524 619Q656 591 791 606" fill="none" stroke="#c0cbb9" stroke-width="5" stroke-linecap="round"/>
+<path d="M159 667Q312 625 489 671Q658 626 837 669" stroke="#b49b76" stroke-width="9" fill="none"/>
+</g>
+<!-- Distinct symbolic unlabeled bottles, absolutely no medication claims -->
+<g filter="url(#shadow)">
+<rect x="859" y="350" width="151" height="220" rx="27" fill="url(#glass)" stroke="#498479" stroke-width="5"/>
+<path d="M882 349v-35q0 -11 11 -11h80q12 0 12 11v35" fill="url(#glass)" stroke="#588c82" stroke-width="5"/>
+<rect x="875" y="296" width="113" height="23" rx="8" fill="#b49d72" stroke="#857356" stroke-width="3"/>
+<rect x="875" y="419" width="116" height="75" rx="5" fill="#f9f5e7" stroke="#c5ba9b" stroke-width="3"/>
+<path d="M895 445h78M895 466h65" stroke="#a5b7a5" stroke-width="4" stroke-linecap="round"/>
+<path d="M886 355q-17 130 0 174" stroke="#e6f5e9" stroke-width="9" fill="none" opacity=".5"/>
+<rect x="1027" y="413" width="99" height="156" rx="20" fill="#d4e4dd" fill-opacity=".84" stroke="#7da59a" stroke-width="4"/>
+<rect x="1041" y="386" width="73" height="31" rx="8" fill="#a58e6d"/>
+<rect x="1045" y="459" width="64" height="58" rx="3" fill="#fffbef" opacity=".89"/>
+<path d="M1056 476h43M1056 492h36" stroke="#a8baa9" stroke-width="3"/>
+</g>
+<!-- White peonies on the window sill; unlike checklist's paper scene -->
+<g>
+<path d="M93 490Q81 414 128 340M104 489Q141 404 179 357M107 490Q59 407 43 372" stroke="#668d6c" stroke-width="5" fill="none" stroke-linecap="round"/>
+<g fill="#89a988"><use href="#leaf" transform="translate(84 418) rotate(40)"/><use href="#leaf" transform="translate(157 401) rotate(-137)"/><use href="#leaf" transform="translate(49 396) rotate(28)"/></g>
+<g fill="#f7eee5" stroke="#dccbbb" stroke-width="2"><circle cx="128" cy="340" r="25"/><circle cx="105" cy="333" r="15"/><circle cx="146" cy="325" r="15"/><circle cx="179" cy="357" r="21"/><circle cx="43" cy="371" r="18"/></g>
+<g fill="#cdb88b"><circle cx="125" cy="340" r="7"/><circle cx="177" cy="356" r="6"/><circle cx="44" cy="372" r="5"/></g>
+</g>
+<!-- Quiet white fluffy mascot asleep behind book, no examining human or drug consumption -->
+<g transform="translate(654 366)" filter="url(#shadow)">
+<ellipse cx="87" cy="107" rx="132" ry="24" fill="#315444" opacity=".18"/>
+<path d="M-37 105Q-69 50 -30 20Q8 -11 69 20Q103 -4 136 26Q168 54 163 106Q190 98 202 75Q212 61 228 70Q248 85 217 119Q182 150 121 144L14 145Q-30 135 -37 105Z" fill="url(#fur)" stroke="#ccd9d1" stroke-width="3"/>
+<path d="M-23 59L-15 9 19 28Q54 3 90 24L125 7 133 60Q148 95 112 114Q58 136 3 110Q-27 94 -23 59Z" fill="#fffcf6" stroke="#d8e4d9" stroke-width="3"/>
+<path d="M-14 31L-13 14 5 31M109 29l13 -16 2 20" fill="#f2d8d0"/>
+<path d="M12 72q11 12 22 0M76 72q12 12 23 0" fill="none" stroke="#829c86" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M48 86l8 6 9 -6" fill="none" stroke="#c29191" stroke-width="3" stroke-linecap="round"/>
+<path d="M3 85l-29 -4M4 91l-28 7M103 85l30 -4M104 91l31 8" stroke="#b4c4b8" stroke-width="2" stroke-linecap="round"/>
+</g>
+<!-- Separate mag glass on book for clinical inquiry rather than literal diagnosis -->
+<g transform="translate(590 591) rotate(24)" filter="url(#shadow)">
+<circle cx="0" cy="0" r="47" fill="#e6efe4" fill-opacity=".25" stroke="#b69a6c" stroke-width="10"/>
+<circle cx="0" cy="0" r="36" fill="none" stroke="#f5deb1" stroke-width="2"/>
+<path d="M30 35l86 91" stroke="#8f6d51" stroke-width="14" stroke-linecap="round"/>
+<path d="M34 39l81 88" stroke="#dec79f" stroke-width="5" stroke-linecap="round"/>
+</g>
+<text x="1038" y="679" font-size="12" font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" text-anchor="end" fill="#eff3e6">창작 정물화 · 실제 약물·처방이나 치료 효과를 나타내지 않습니다.</text>
+</svg>
