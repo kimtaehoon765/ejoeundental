@@ -375,3 +375,42 @@ test('reading room keeps full patient clinical text and improves mobile links wi
   'body.home-page #main-content>#care>.wrap>.grid>.card>p:last-child br'
  ].sort(),'only redundant visual line breaks, never medical text or links, may be hidden');
 });
+
+
+test('museum journal and visit guide preserve original blogs, clinic hours, maps and booking',()=>{
+ const journal=home.match(/<section class="section light" id="stories">[\s\S]*?<\/section>/)?.[0]||'';
+ const visit=home.match(/<section class="section" id="location">[\s\S]*?<\/section>/)?.[0]||'';
+ assert.ok(journal&&visit,'both journal and visiting sections must exist');
+ for(const fact of ['네이버 블로그 글 509편','원장 블로그에서 다시 읽는 치과 이야기 7편',
+   'BUILD_HOME_STORY_COUNT','BUILD_PUBLIC_STORIES','원장이 전하는 치과 이야기']){
+  if(fact.startsWith('BUILD_'))continue;
+  assert.ok(journal.includes(fact),'do not remove journal content: '+fact);
+ }
+ assert.ok(journal.includes('href="/stories.html"'));
+ assert.ok(journal.includes('href="/clinical-archive.html#archive-blog-posts"'));
+ assert.ok(journal.includes('https://blog.naver.com/kook765/'));
+ assert.ok(journal.includes('id="home-owner-post-search"'),'journal source search must survive');
+ assert.ok(journal.includes('class="owner-stories-more"'),'original blog archive remains accessible');
+ assert.ok(journal.includes('class="journal-gallery-cover"'),'existing cat illustration stays in journal');
+ for(const fact of ['세월천로 34','대우프라자 305호','3시간 무료','격주 운영',
+   '09:30~13:00','09:30~18:30','tel:0325132875']){
+  assert.ok(visit.includes(fact),'do not remove practical visit facts: '+fact);
+ }
+ assert.ok(visit.includes('href="https://map.naver.com/p/entry/place/13239400"'));
+ assert.ok(visit.includes('href="/clinic-contact.vcf"'));
+ assert.equal((visit.match(/class="alternating-hours-card"/g)||[]).length,2,
+  'two distinct alternating Friday/Saturday schedules must remain');
+ const css=read('assets/curatorial-home.css');
+ const section=css.slice(css.indexOf('Journal and visitor gallery edition — 2026-10-29'));
+ assert.ok(section.length>4500,'editorial visual styling must be included in final layer');
+ assert.ok(section.includes('.visit-quick-facts')&&section.includes('.alternating-hours-grid'));
+ assert.match(section, /grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
+ assert.match(section, /@media\(max-width:1000px\)/);
+ assert.match(section, /@media\(max-width:700px\)/);
+ assert.match(section, /min-height:48px;/,'tap targets must stay usable on phones');
+ assert.match(section, /:focus-visible/,'keyboard access to clinic links must remain');
+ assert.ok(home.includes('class="mobile-booking-actions"'),'fixed booking dock must remain');
+ assert.ok(home.includes('name="google-site-verification"'));
+ assert.ok(home.includes('name="naver-site-verification"'));
+ assert.ok(home.includes('rel="canonical" href="https://ejoeundental.com/"'));
+});
