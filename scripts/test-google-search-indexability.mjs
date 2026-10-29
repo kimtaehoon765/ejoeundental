@@ -76,11 +76,15 @@ test('three priority public clinic pages publish authentic share-preview images'
  assert.ok(existsSync(imagePath),'branded photo must be in production build');
  for(const file of ['gum-treatment.html','stories.html','visit-guide.html']){
   const html=readFileSync('dist/'+file,'utf8');
+  // The gum-treatment guide now has its own genuine periodontal watercolor.
+  // The story/visit pages continue to use the verified doctor-and-cat portrait.
+  const gum=file==='gum-treatment.html';
+  const artwork=gum?'https://ejoeundental.com/assets/watercolor-care-gum-20261029.webp':image;
   const fields=[
-   ['property','og:image',image],['property','og:image:type','image/webp'],
-   ['property','og:image:width','650'],['property','og:image:height','543'],
-   ['property','og:image:alt','이조은치과의 하얀 고양이와 치과의사 일러스트'],
-   ['name','twitter:image',image]
+   ['property','og:image',artwork],['property','og:image:type','image/webp'],
+   ['property','og:image:width',gum?'960':'650'],['property','og:image:height',gum?'640':'543'],
+   ['property','og:image:alt',gum?'노란 손잡이 큐렛을 그린 이조은치과 잇몸치료 수채화':'이조은치과의 하얀 고양이와 치과의사 일러스트'],
+   ['name','twitter:image',artwork]
   ];
   for(const [kind,key,value] of fields){
    const markup='<meta '+kind+'="'+key+'" content="'+value+'">';
@@ -272,17 +276,9 @@ test('Google Image discovery lists real first-party illustrations only on their 
   }
  }
  const galleryEntry=imageEntries.find(x=>x.page===origin+'/gallery.html');
- assert.deepEqual(galleryEntry?.images,[
-  origin+'/assets/gallery-starry-clinic.svg',
-  origin+'/assets/impressionist-water-garden.svg',
-  origin+'/assets/gallery-golden-garden.svg',
-  origin+'/assets/ejoeundental-hero-cat.webp',
-  origin+'/assets/cubist-cat-clinic-thumb.webp',
-  origin+'/assets/lakeside-flower-clinic-thumb.webp',
-  origin+'/assets/starry-night-clinic-thumb.webp',
-  origin+'/assets/quiet-window-cat-thumb.webp',
-  origin+'/assets/street-art-tooth-heart-thumb.webp'
- ],'nine visible original and optimized artworks should be discoverable from the gallery sitemap entry');
+ const allGalleryImages=["gallery-starry-clinic.svg","impressionist-water-garden.svg","gallery-golden-garden.svg","ejoeundental-hero-cat.webp","cubist-cat-clinic-thumb.webp","lakeside-flower-clinic-thumb.webp","starry-night-clinic-thumb.webp","quiet-window-cat-thumb.webp","street-art-tooth-heart-thumb.webp","ejoeun-gallery-cat-dentist-20261029.webp","watercolor-care-gum-20261029.webp","watercolor-care-abrasion-20261029.webp","watercolor-care-insurance-20261029.webp","ejoeun-safety-reading-room-20261029.svg","ejoeun-heart-care-stainedglass-20261029.svg","ejoeun-kidney-care-riverside-20261029.svg","ejoeun-liver-care-stilllife-20261029.svg","ejoeun-oncology-garden-collage-20261029.svg","ejoeun-medication-faq-paper-garden-20261029.svg","ejoeun-systemic-faq-stained-windows-20261029.svg","ejoeun-pediatric-three-paths-20261029.svg","ejoeun-child-orthodontic-growth-art-20261029.svg","ejoeun-insurance-questions-library-20261029.svg"];
+ assert.deepEqual(galleryEntry?.images,allGalleryImages.map(name=>origin+'/assets/'+name),
+  'all 23 displayed original artworks must be discoverable from the gallery sitemap entry');
  assert.equal(imageEntries.find(x=>x.page===home).images.length,2);
  const rootEntry=imageEntries.find(x=>x.page===rootCanal);
  assert.equal(rootEntry.images.length,10);
