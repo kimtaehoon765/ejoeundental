@@ -1,0 +1,199 @@
+/* 이조은치과 · 2026-10-30
+   Artwork-first editorial refinement. Scoped to home so clinic SEO,
+   booking links, patient text and other pages remain unchanged. */
+
+body.home-page {
+  --art-forest: #214736;
+  --art-brass: #a58b5b;
+  --art-ivory: #fffcf5;
+  --art-line: #dcd2bd;
+}
+
+/* Treat the opening as a composed editorial page, not an advertisement. */
+body.home-page #main-content>.hero.wrap .kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+body.home-page #main-content>.hero.wrap .kicker::before {
+  content: "";
+  width: 25px;
+  height: 1px;
+  flex: none;
+  background: var(--art-brass);
+}
+body.home-page #main-content>.hero.wrap .hero-local-intro {
+  border-left: 2px solid #c1aa7d;
+  padding-left: 14px;
+  color: #4e6356;
+}
+body.home-page #main-content>.hero.wrap .hero-doctor-credentials strong {
+  color: #244937;
+  letter-spacing: -.025em;
+}
+body.home-page #main-content>.hero.wrap .hero-actions>a:focus-visible,
+body.home-page #main-content>.museum-route a:focus-visible {
+  outline: 3px solid #ad8748;
+  outline-offset: 4px;
+}
+
+/* Replace the type-only gum-care poster with its own existing, original
+   watercolor. This asset is not duplicated anywhere else on the homepage. */
+body.home-page #main-content>#focus-care .focus-care-lead-art {
+  background: #f9f4e8;
+  border-color: #c9b691;
+}
+body.home-page #main-content>#focus-care .focus-care-art-link--painting {
+  display: block;
+  overflow: hidden;
+  border: 1px solid #d4c8b0;
+  border-radius: 3px;
+  background: #f8f6ed;
+  line-height: 1.5;
+  text-decoration: none;
+}
+body.home-page #main-content>#focus-care .focus-care-art-link--painting>img {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  background: #edf0e9;
+  border: 0;
+  transition: transform .35s ease;
+}
+body.home-page #main-content>#focus-care .focus-care-painting-ribbon {
+  display: grid;
+  gap: 4px;
+  padding: 13px 17px 15px;
+  border-top: 1px solid #dcd2bf;
+  background: linear-gradient(120deg, #fffdf8, #f1eee2);
+  text-align: left;
+}
+body.home-page #main-content>#focus-care .focus-care-painting-ribbon small {
+  color: #866d48;
+  font: 700 10px/1.6 "DM Sans", sans-serif;
+  letter-spacing: .15em;
+}
+body.home-page #main-content>#focus-care .focus-care-painting-ribbon strong {
+  color: #234936;
+  font: 650 clamp(15px, 1.4vw, 18px)/1.55 "Noto Serif KR", serif;
+  letter-spacing: -.04em;
+  word-break: keep-all;
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  body.home-page #main-content>#focus-care .focus-care-art-link--painting:hover>img {
+    transform: scale(1.035);
+  }
+}
+body.home-page #main-content>#focus-care .focus-care-art-link--painting:focus-visible {
+  outline: 3px solid #a58040;
+  outline-offset: 4px;
+}
+
+/* Calm rhythm between long-form medical paragraphs and art. Nothing is hidden. */
+body.home-page #main-content>#philosophy .grid>.card {
+  position: relative;
+  border-color: #ded7c7;
+  background: linear-gradient(165deg, #fffefb, #f9f7f0);
+  box-shadow: 0 8px 22px rgba(31, 63, 42, .045);
+}
+body.home-page #main-content>#philosophy .grid>.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20px;
+  width: 54px;
+  height: 3px;
+  background: #ad9974;
+}
+body.home-page #main-content>#philosophy .grid>.card h3 {
+  color: #224632;
+  font-family: "Noto Serif KR", serif;
+  letter-spacing: -.04em;
+  line-height: 1.5;
+}
+body.home-page #main-content>#philosophy .grid>.card p {
+  max-width: 68ch;
+  color: #43584c;
+  line-height: 1.88;
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a {
+  border-bottom: 2px solid #baa278;
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a strong {
+  letter-spacing: -.035em;
+  word-break: keep-all;
+}
+body.home-page #main-content>#health-info .health-topic-grid>.card {
+  border-color: #e0dacd;
+  background: #fffef9;
+}
+body.home-page #main-content>#health-info .health-topic-grid>.card h3 {
+  color: #244938;
+  font-family: "Noto Serif KR", serif;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+body.home-page #main-content .care-picture-notes__frame img,
+body.home-page #main-content #gallery .gallery-home-artworks img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+body.home-page #main-content #gallery .gallery-home-intro h2 {
+  text-wrap: balance;
+}
+
+/* Mobile-first legibility: art fits the column, labels stay tappable,
+   and the fixed booking / call dock is deliberately left alone. */
+@media (max-width: 760px) {
+  body.home-page #main-content>#focus-care .focus-care-lead-art {
+    max-width: min(100%, 450px);
+    margin-inline: auto;
+  }
+  body.home-page #main-content>#philosophy .grid>.card p {
+    line-height: 1.78;
+  }
+}
+@media (max-width: 600px) {
+  body.home-page #main-content>.hero.wrap .hero-local-intro {
+    padding-left: 11px;
+  }
+  body.home-page #main-content>#focus-care .focus-care-painting-ribbon {
+    padding: 12px 13px 14px;
+  }
+  body.home-page #main-content>#focus-care .focus-care-painting-ribbon strong {
+    font-size: 15px;
+  }
+  body.home-page #main-content>#focus-care .focus-care-art-link--painting>img {
+    aspect-ratio: 3 / 2;
+  }
+  body.home-page #main-content>#philosophy .grid>.card::before {
+    left: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.home-page #main-content>#focus-care .focus-care-art-link--painting>img {
+    transition: none;
+    transform: none;
+  }
+}
+@media (forced-colors: active) {
+  body.home-page #main-content>#focus-care .focus-care-art-link--painting,
+  body.home-page #main-content>#focus-care .focus-care-painting-ribbon,
+  body.home-page #main-content>#philosophy .grid>.card,
+  body.home-page #main-content>#health-info .health-topic-grid>.card {
+    background: Canvas;
+    color: CanvasText;
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+  body.home-page #main-content>#focus-care .focus-care-painting-ribbon :is(small,strong),
+  body.home-page #main-content>#philosophy .grid>.card :is(h3,p),
+  body.home-page #main-content>#health-info .health-topic-grid>.card h3 {
+    color: CanvasText;
+  }
+}
