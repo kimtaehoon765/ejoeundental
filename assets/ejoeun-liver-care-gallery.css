@@ -1,0 +1,119 @@
+/* 이조은치과 liver-care museum page, 2026-10-29 · distinct botanical illustration. */
+body.liver-care-gallery{
+  background:radial-gradient(ellipse at 94% 5%,rgba(226,209,174,.24),transparent 37%),#f8f7f1;
+  color:#304538;line-height:1.8;-webkit-font-smoothing:antialiased;
+}
+body.liver-care-gallery :is(header,main,footer){box-sizing:border-box;max-width:960px}
+body.liver-care-gallery header{
+  padding:23px clamp(17px,3.5vw,34px) 15px;color:#647567;font-size:14px;
+}
+body.liver-care-gallery header a{color:#2c6449;text-underline-offset:4px}
+body.liver-care-gallery main{
+  width:calc(100% - 32px);margin:0 auto 28px;
+  padding:clamp(23px,4.4vw,46px);
+  border:1px solid #dfdfd1;border-top:4px solid #b5a17b;
+  border-radius:17px;background:#fffefa;box-shadow:0 18px 45px rgba(65,59,42,.055);
+}
+body.liver-care-gallery main>h1,
+body.liver-care-gallery main>h2{
+  font-family:'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  color:#345743;letter-spacing:-.045em;word-break:keep-all;
+}
+body.liver-care-gallery main>h1{
+  font-size:clamp(30px,4.5vw,43px);line-height:1.4;margin:0 0 19px;text-wrap:balance;
+}
+body.liver-care-gallery main>h2{
+  margin:36px 0 13px;padding-top:22px;border-top:1px solid #e2e8dc;
+  font-size:clamp(22px,2.8vw,28px);line-height:1.48;
+}
+body.liver-care-gallery main>h3{
+  margin:23px 0 10px;font-size:18px;line-height:1.55;color:#38674d;
+}
+body.liver-care-gallery main :is(p,li){overflow-wrap:break-word;word-break:keep-all}
+body.liver-care-gallery main>ul{padding-left:1.4em}
+body.liver-care-gallery main>ul li::marker{color:#94a78d}
+body.liver-care-gallery .notice{
+  background:#f3f7ed;border-left-color:#9caf87;border-radius:10px;padding:17px 19px;
+}
+body.liver-care-gallery .liver-stilllife{
+  margin:24px 0 22px;padding:8px;
+  border:1px solid #cdbb94;border-radius:5px 15px 5px 15px;
+  background:linear-gradient(140deg,#f8efd8,#eaf1e8);
+  box-shadow:0 13px 29px rgba(65,70,50,.065);overflow:hidden;
+}
+body.liver-care-gallery .liver-stilllife img{
+  display:block;box-sizing:border-box;width:100%;height:auto;aspect-ratio:5/3;
+  object-fit:contain;border:1px solid #d6c8a9;background:#f5f0dd;
+}
+body.liver-care-gallery .liver-stilllife figcaption{
+  display:flex;flex-direction:column;gap:7px;padding:16px 14px 17px;
+  font-size:14px;line-height:1.76;color:#5e6755;word-break:keep-all;
+}
+body.liver-care-gallery .liver-stilllife small{
+  font-size:11px;font-weight:800;letter-spacing:.11em;color:#9d8158;
+}
+body.liver-care-gallery .liver-stilllife strong{
+  color:#345b42;font:700 clamp(19px,2.5vw,26px)/1.5 'Noto Serif KR','Apple SD Gothic Neo',serif;
+}
+body.liver-care-gallery .liver-quicklinks{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;margin:0 0 28px;padding:13px;
+  background:#f5f7ef;border:1px solid #dce5d3;border-radius:12px;
+}
+body.liver-care-gallery .liver-quicklinks>a{
+  box-sizing:border-box;display:flex;align-items:center;justify-content:center;
+  min-width:0;min-height:51px;padding:11px 13px;
+  border:1px solid #d6e1d3;border-radius:9px;background:#fffefa;
+  color:#356147;text-align:center;text-decoration:none;
+  font-size:14px;font-weight:750;line-height:1.56;word-break:keep-all;
+}
+body.liver-care-gallery .liver-quicklinks>a:hover{background:#eaf2e7;border-color:#9db59b}
+body.liver-care-gallery .liver-quicklinks>a[href^="https://booking.naver.com"]{
+  background:#2d6348;border-color:#2d6348;color:#fff;
+}
+body.liver-care-gallery .liver-quicklinks>a[href^="tel:"]{
+  background:#e1ebdf;border-color:#a5bda6;color:#24583b;
+}
+body.liver-care-gallery .visit-checklist{border-color:#d5e1cf;background:#f8faf4}
+body.liver-care-gallery .visit-checklist label{border-color:#d9e4d7}
+body.liver-care-gallery .visit-checklist input{accent-color:#376b4c}
+body.liver-care-gallery .print-checklist{background:#356849}
+body.liver-care-gallery .reset-checklist{color:#356849;border-color:#356849}
+body.liver-care-gallery :is(a,input,button):focus-visible{
+  outline:3px solid #ad8750;outline-offset:3px;
+}
+body.liver-care-gallery :is(#liver-history,#liver-labs,#liver-medications,#liver-faq,#visit-checklist){
+  scroll-margin-top:28px;
+}
+@media(max-width:650px){
+  body.liver-care-gallery header{padding:16px 16px 10px}
+  body.liver-care-gallery main{
+    width:calc(100% - 20px);padding:22px 16px 29px;border-radius:12px;
+  }
+  body.liver-care-gallery main>h1{font-size:clamp(27px,7.4vw,34px)}
+  body.liver-care-gallery main>h2{margin-top:30px;padding-top:19px;font-size:22px}
+  body.liver-care-gallery .notice{padding:14px}
+  body.liver-care-gallery .liver-stilllife{padding:5px;margin:18px 0}
+  body.liver-care-gallery .liver-stilllife img{aspect-ratio:auto}
+  body.liver-care-gallery .liver-stilllife figcaption{padding:12px 9px 15px;font-size:13px}
+  body.liver-care-gallery .liver-stilllife strong{font-size:19px}
+  body.liver-care-gallery .liver-quicklinks{grid-template-columns:1fr;gap:7px;padding:10px}
+  body.liver-care-gallery .liver-quicklinks>a{min-height:49px;padding:10px 12px}
+}
+@media(max-width:350px){
+  body.liver-care-gallery main{width:calc(100% - 12px);padding:18px 12px}
+}
+@media print{
+  body.liver-care-gallery{background:#fff;color:#000}
+  body.liver-care-gallery main{width:100%;margin:0;padding:0;border:0;box-shadow:none;background:#fff}
+  body.liver-care-gallery .liver-stilllife,
+  body.liver-care-gallery .liver-quicklinks{display:none!important}
+}
+@media(forced-colors:active){
+  body.liver-care-gallery .liver-stilllife,
+  body.liver-care-gallery .liver-quicklinks,
+  body.liver-care-gallery .liver-quicklinks>a{
+    background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none;
+  }
+  body.liver-care-gallery .liver-stilllife figcaption :is(small,strong,span){color:CanvasText}
+}
