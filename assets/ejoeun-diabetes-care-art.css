@@ -1,0 +1,65 @@
+/* Diabetes and oral health: new symbolic twin-arch original, 2026-10-29.
+   Dedicated illustration; existing medical guidance and printable checklist remain unchanged. */
+body.diabetes-care-illustrated .diabetes-art{
+ box-sizing:border-box;display:block;margin:22px 0 24px;padding:8px;
+ border:1px solid #cbb99c;border-top:2px solid #aa9162;
+ border-radius:4px 15px 4px 15px;overflow:hidden;
+ background:linear-gradient(145deg,#f1ecdf,#fffdf7 55%,#e8f0e7);
+ box-shadow:0 12px 30px rgba(40,67,53,.075);
+}
+body.diabetes-care-illustrated .diabetes-art img{
+ display:block;width:100%;height:auto;box-sizing:border-box;
+ aspect-ratio:60/37;object-fit:contain;
+ border:1px solid #d7c7a8;background:#f7f1e6;
+}
+body.diabetes-care-illustrated .diabetes-art figcaption{
+ display:flex;flex-direction:column;gap:9px;
+ padding:15px 13px 16px;color:#53695a;font-size:14px;
+ line-height:1.8;word-break:keep-all;
+}
+body.diabetes-care-illustrated .diabetes-art figcaption small{
+ color:#95774e;letter-spacing:.1em;font-weight:800;font-size:11px;
+}
+body.diabetes-care-illustrated .diabetes-art figcaption strong{
+ color:#285441;font:700 clamp(20px,2.6vw,26px)/1.55 'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+ letter-spacing:-.04em;
+}
+body.diabetes-care-illustrated .diabetes-care-links{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:0 0 28px;
+ padding:14px;border:1px solid #c9dacd;border-radius:12px;background:#eff5ef;
+}
+body.diabetes-care-illustrated .diabetes-care-links a{
+ box-sizing:border-box;display:flex;align-items:center;justify-content:center;
+ min-width:0;min-height:52px;padding:11px 12px;
+ background:#fffdfa;border:1px solid #d2dfd3;border-radius:9px;
+ color:#24593f;font-weight:750;font-size:14px;text-align:center;
+ line-height:1.6;word-break:keep-all;text-decoration:none;
+}
+body.diabetes-care-illustrated .diabetes-care-links a:last-child{
+ background:#28634c;border-color:#28634c;color:#fffefa;
+}
+body.diabetes-care-illustrated .diabetes-care-links a:focus-visible{
+ outline:3px solid #b18547;outline-offset:3px;
+}
+body.diabetes-care-illustrated #diabetes-lowglucose,
+body.diabetes-care-illustrated #diabetes-check-before,
+body.diabetes-care-illustrated #visit-checklist{scroll-margin-top:25px;}
+@media(max-width:620px){
+ body.diabetes-care-illustrated .diabetes-art{margin:16px 0 20px;padding:5px}
+ body.diabetes-care-illustrated .diabetes-art figcaption{gap:7px;padding:12px 8px 14px;font-size:13px}
+ body.diabetes-care-illustrated .diabetes-art figcaption strong{font-size:20px}
+ body.diabetes-care-illustrated .diabetes-care-links{grid-template-columns:minmax(0,1fr);gap:8px;padding:12px}
+ body.diabetes-care-illustrated .diabetes-care-links a{min-height:48px}
+}
+@media print{
+ body.diabetes-care-illustrated .diabetes-art,
+ body.diabetes-care-illustrated .diabetes-care-links{display:none!important}
+}
+@media(forced-colors:active){
+ body.diabetes-care-illustrated .diabetes-art,
+ body.diabetes-care-illustrated .diabetes-care-links,
+ body.diabetes-care-illustrated .diabetes-care-links a{
+   background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none;
+ }
+ body.diabetes-care-illustrated .diabetes-art figcaption :is(strong,small,span){color:CanvasText}
+}
