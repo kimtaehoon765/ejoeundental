@@ -1227,17 +1227,25 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        return [...block.matchAll(/<image:image><image:loc>([^<]+)<\/image:loc><\/image:image>/g)]
         .map(m=>m[1]);
       };
-      const galleryNine=[
-       'gallery-starry-clinic.svg','impressionist-water-garden.svg',
-       'gallery-golden-garden.svg','ejoeundental-hero-cat.webp',
-       'cubist-cat-clinic-thumb.webp','lakeside-flower-clinic-thumb.webp',
-       'starry-night-clinic-thumb.webp','quiet-window-cat-thumb.webp','street-art-tooth-heart-thumb.webp'
-      ].map(name=>origin+'/assets/'+name);
+      // Compare Cloudflare's published image map to the real exhibited
+      // collection in the built gallery, rather than an obsolete nine-item list.
+      const builtGallery=readFileSync(new URL('../dist/gallery.html',import.meta.url),'utf8');
+      const exhibitionGroups=[
+       ...builtGallery.matchAll(/<figure class="gallery-piece\b[^>]*>[\s\S]*?<\/figure>/g),
+       ...builtGallery.matchAll(/<a class="gallery-note gallery-note--watercolor"[^>]*>[\s\S]*?<\/a>/g),
+       ...builtGallery.matchAll(/<figure class="gallery-patient-studies__piece"[^>]*>[\s\S]*?<\/figure>/g)
+      ];
+      const exhibitionUrls=exhibitionGroups
+       .map(m=>m[0].match(/<img\b[^>]*\bsrc="([^"]+)"/)?.[1])
+       .filter(Boolean).map(src=>origin+src);
       const expectedGallery=galleryImageLocs(publishedImageXml);
       const liveGallery=galleryImageLocs(body);
-      const galleryImageMapReady=expectedGallery.length===9&&
-       liveGallery.length===9&&
-       galleryNine.every(url=>expectedGallery.includes(url)&&liveGallery.includes(url));
+      const galleryImageMapReady=exhibitionUrls.length===23&&
+       new Set(exhibitionUrls).size===exhibitionUrls.length&&
+       expectedGallery.length===exhibitionUrls.length&&
+       expectedGallery.every((url,i)=>url===exhibitionUrls[i])&&
+       liveGallery.length===expectedGallery.length&&
+       expectedGallery.every((url,i)=>liveGallery[i]===url);
       const imageMapReady=googleImageNamespace&&
        imageLocs.length===expectedImageLocs.length&&
        expectedImageLocs.every((url,i)=>imageLocs[i]===url)&&
@@ -1246,8 +1254,8 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
        ['implant','denture'].every(kind=>dateDeployed(kind)&&correctTopicImage(kind))&&
        dateDeployed('retreatment');
       info.push(imageMapReady?
-       'Google 이미지 사이트맵: 의료 설명 삽화·신경치료 10개·창작 갤러리 9점 실제 공개 확인 ('+imageLocs.length+'개 항목)':
-       'Google 이미지 사이트맵 확인 필요 (실제 '+imageLocs.length+'/'+expectedImageLocs.length+'개 · 갤러리 '+liveGallery.length+'/9)');
+       'Google 이미지 사이트맵: 의료 설명 삽화·신경치료 10개·창작 갤러리 '+liveGallery.length+'점 실제 공개 확인 ('+imageLocs.length+'개 항목)':
+       'Google 이미지 사이트맵 확인 필요 (실제 '+imageLocs.length+'/'+expectedImageLocs.length+'개 · 갤러리 '+liveGallery.length+'/'+expectedGallery.length+' · 실제 전시 '+exhibitionUrls.length+'점)');
       info.push(dateDeployed('health/root-canal-retreatment-process')?
        'Google 재신경치료 과정 건강정보의 실제 수정일 게시 확인':
        'Google 재신경치료 과정 건강정보 최근 수정일 최신 배포 확인 필요');
