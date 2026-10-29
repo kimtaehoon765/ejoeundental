@@ -1870,3 +1870,178 @@ body.home-page #main-content>#location .alternating-hours-call{
     box-shadow:none;
   }
 }
+
+
+/*
+ * Museum identity and mobile first impression — 2026-10-29.
+ * One restrained art direction across the opening and major sections, using
+ * existing fonts and the original white-cat portrait. CSS only.
+ * Preserve click hierarchy, copy, search metadata, all story links and dock.
+ */
+body.home-page{
+  --museum-pine:#204735;
+  --museum-ink:#284c3b;
+  --museum-muted:#536e5e;
+  --museum-paper:#fbfaf5;
+  --museum-gold:#a78d61;
+  --museum-border:#ddd1bd;
+}
+body.home-page #main-content>.hero.wrap{
+  border:1px solid var(--museum-border);
+  border-top:3px solid var(--museum-gold);
+  background:
+    radial-gradient(ellipse at 95% 4%,rgba(185,169,133,.19),transparent 48%),
+    linear-gradient(145deg,#fffdf8 0%,#f5f6ef 100%);
+  box-shadow:0 19px 44px rgba(23,55,37,.07);
+  isolation:isolate;
+}
+body.home-page #main-content>.hero.wrap .kicker{
+  color:#80683e;
+  font-family:'DM Sans',sans-serif;
+  font-weight:700;
+  letter-spacing:.155em;
+}
+body.home-page #main-content>.hero.wrap #headline{
+  color:#204735;
+  font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+  font-weight:700;
+  letter-spacing:-.06em;
+  text-wrap:balance;
+}
+body.home-page #main-content>.hero.wrap .hero-doctor-credentials{
+  background:#f4f3eb;
+  border:1px solid #d9d3c1;
+  border-left:3px solid #b1986c;
+  border-radius:3px 11px 3px 11px;
+  color:var(--museum-ink);
+}
+body.home-page #main-content>.hero.wrap .hero-artwork{
+  border:1px solid #d1c3a6;
+  border-radius:3px;
+  background:linear-gradient(132deg,#eae4d6,#fcf8ed);
+  box-shadow:0 17px 36px rgba(27,48,34,.11);
+}
+body.home-page #main-content>.hero.wrap .hero-artwork img{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+}
+body.home-page #main-content>.hero.wrap .hero-actions>.hero-call{
+  background:#21533e;
+  border-color:#21533e;
+  color:#fffdf6;
+  box-shadow:0 5px 13px rgba(21,72,47,.14);
+}
+body.home-page #main-content>.hero.wrap .hero-actions>.hero-booking{
+  background:#ece0c6;
+  border:1px solid #b69d6f;
+  color:#254535;
+  box-shadow:0 5px 13px rgba(124,105,64,.12);
+}
+body.home-page #main-content>.hero.wrap .hero-actions>:is(.hero-hours,.hero-symptoms,.hero-map){
+  border-color:#d8cebb;
+  background:#fffdf9;
+  color:#28513d;
+  box-shadow:none;
+}
+body.home-page #main-content :is(#philosophy,#focus-care,#symptoms,#care,#health-info,#stories,#doctor,#location)>.wrap>.eyebrow{
+  color:#866d48;
+  font-family:'DM Sans',sans-serif;
+  font-weight:700;
+  letter-spacing:.16em;
+}
+body.home-page #main-content :is(#philosophy,#focus-care,#symptoms,#care,#health-info,#stories,#location)>.wrap>h2{
+  color:var(--museum-pine);
+  font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.049em;
+  line-height:1.47;
+  text-wrap:balance;
+}
+body.home-page #main-content :is(#philosophy,#symptoms,#care,#health-info,#stories,#location)>.wrap>p{
+  line-height:1.85;
+  color:#486152;
+  word-break:keep-all;
+}
+body.home-page #main-content>.hero.wrap a:focus-visible,
+body.home-page header .nav a:focus-visible{
+  outline:3px solid #9b7137;
+  outline-offset:3px;
+}
+@media(max-width:600px){
+  body.home-page #main-content>.hero.wrap{
+    border-top-width:3px;
+    padding:20px 16px 22px;
+    gap:11px;
+    box-shadow:0 12px 25px rgba(23,55,37,.07);
+  }
+  body.home-page #main-content>.hero.wrap #headline{
+    font-size:clamp(27px,7.1vw,35px);
+    line-height:1.43;
+    margin:9px 0 11px;
+    letter-spacing:-.058em;
+  }
+  body.home-page #main-content>.hero.wrap .hero-doctor-credentials{
+    padding:10px 11px;
+    line-height:1.63;
+  }
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+    width:min(100%,272px);
+    max-width:272px;
+    margin:4px auto 10px;
+    padding:8px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions{
+    gap:8px;
+    margin:11px 0 9px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-call,
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-booking{
+    min-height:58px;
+    padding:10px 7px;
+    border-radius:5px;
+    line-height:1.42;
+    font-size:13px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>:is(.hero-hours,.hero-symptoms,.hero-map){
+    min-height:48px;
+    border-radius:5px;
+    line-height:1.45;
+  }
+  body.home-page #main-content :is(#philosophy,#symptoms,#care,#health-info,#stories,#location)>.wrap>h2{
+    font-size:clamp(23px,5.85vw,30px);
+    line-height:1.5;
+    margin-bottom:13px;
+  }
+}
+@media(max-width:365px){
+  body.home-page #main-content>.hero.wrap{
+    padding:18px 13px 20px;
+  }
+  body.home-page #main-content>.hero.wrap #headline{
+    font-size:clamp(25px,7.1vw,30px);
+  }
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+    width:min(100%,235px);
+    max-width:235px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.home-page #main-content>.hero.wrap .hero-actions>a{
+    transition:none;
+    transform:none;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>.hero.wrap,
+  body.home-page #main-content>.hero.wrap :is(.hero-doctor-credentials,.hero-artwork),
+  body.home-page #main-content>.hero.wrap .hero-actions>a{
+    background:Canvas;
+    color:CanvasText;
+    border:1px solid CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>.hero.wrap #headline{
+    color:CanvasText;
+  }
+}
