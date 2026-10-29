@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="1200" height="760" role="img" aria-labelledby="art-title art-desc">
+<title id="art-title">어린이 교정 상담 · 성장 확인, 교합 검사, 치료 시기 판단</title>
+<desc id="art-desc">이조은치과의 독립 창작 포스터입니다. 어린이 앞니 반대교합 상담에서 확인하는 성장·맹출, 교합 검사, 치료 시기 상담의 세 단계가 따뜻한 식물 장식과 하얀 고양이와 함께 표현되어 있습니다. 교정 장치나 실제 치아 구조를 묘사한 의료 도해는 아닙니다.</desc>
+<defs>
+ <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fffdf4"/><stop offset=".52" stop-color="#f3f0e3"/><stop offset="1" stop-color="#e8efdf"/></linearGradient>
+ <linearGradient id="sage" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#476b58"/><stop offset="1" stop-color="#28503d"/></linearGradient>
+ <linearGradient id="card" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#fffefa"/><stop offset="1" stop-color="#f5f0e4"/></linearGradient>
+ <linearGradient id="catcoat" x1="0" x2="1"><stop stop-color="#eff2ed"/><stop offset=".47" stop-color="#ffffff"/><stop offset="1" stop-color="#dce9de"/></linearGradient>
+ <filter id="shadow" x="-20%" y="-25%" width="140%" height="160%"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#274733" flood-opacity=".10"/></filter>
+ <filter id="fuzzy" x="-15%" y="-15%" width="130%" height="130%"><feGaussianBlur stdDeviation="8"/></filter>
+ <pattern id="fiber" width="13" height="17" patternUnits="userSpaceOnUse"><path d="M0 7l3 -3M9 13l2 -2" stroke="#64785d" stroke-opacity=".07" stroke-width="1"/></pattern>
+</defs>
+<rect width="1200" height="760" fill="url(#paper)"/>
+<rect width="1200" height="760" fill="url(#fiber)"/>
+<path d="M0 0h245Q135 92 0 153Z" fill="#d5e5cf" opacity=".4"/>
+<path d="M1200 760h-255q150 -50 255 -165z" fill="#d1e2c9" opacity=".6"/>
+<rect x="22" y="20" width="1156" height="720" rx="12" fill="none" stroke="#bda77e" stroke-width="2" opacity=".72"/>
+<rect x="31" y="29" width="1138" height="702" rx="8" fill="none" stroke="#bda77e" stroke-opacity=".3"/>
+<!-- Botanical line decorations -->
+<g fill="none" stroke="#708b6e" stroke-width="4" stroke-linecap="round" opacity=".64">
+<path d="M65 256Q112 177 190 141"/><path d="M80 224q-28 -36 -50 -22M104 192q-6 -36 -34 -42M139 164q24 -31 44 -21M157 153q-4 -26 -18 -37"/>
+<path d="M1135 272q-48 -72 -119 -110M1120 240q26 -29 44 -25M1096 206q3 -31 29 -34M1060 176q-26 -23 -50 -17"/>
+</g>
+<g fill="#a4b795" opacity=".75"><ellipse cx="60" cy="200" rx="12" ry="25" transform="rotate(-55 60 200)"/><ellipse cx="78" cy="154" rx="10" ry="21" transform="rotate(-32 78 154)"/><ellipse cx="159" cy="149" rx="12" ry="24" transform="rotate(39 159 149)"/><ellipse cx="1132" cy="219" rx="12" ry="23" transform="rotate(43 1132 219)"/><ellipse cx="1089" cy="168" rx="10" ry="24" transform="rotate(-43 1089 168)"/></g>
+<g fill="#f4e6d4" stroke="#d0aa8d" stroke-width="2"><circle cx="178" cy="130" r="13"/><circle cx="1009" cy="156" r="10"/><circle cx="1100" cy="247" r="9"/></g>
+<text x="85" y="94" font-family="Noto Serif KR, Apple SD Gothic Neo, Malgun Gothic,serif" font-size="42" font-weight="700" fill="#36583d">이조은치과</text>
+<text x="1113" y="84" font-family="Georgia,serif" font-size="17" text-anchor="end" letter-spacing="3" fill="#99764c">GROWING SMILES · 2026</text>
+<text x="600" y="138" text-anchor="middle" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="40" font-weight="700" letter-spacing="-2" fill="#214d3b">어린이 앞니, 언제 살펴볼까요?</text>
+<text x="600" y="178" text-anchor="middle" font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" font-size="19" fill="#5b6d5d">성장과 교합을 살펴본 뒤 필요한 치료부터 결정합니다</text>
+<path d="M450 205h300" stroke="#bfa780" stroke-width="2"/><circle cx="600" cy="205" r="5" fill="#bfa780"/>
+<!-- Three original poster cards -->
+<g filter="url(#shadow)">
+<rect x="68" y="246" width="332" height="376" rx="17" fill="url(#card)" stroke="#c8b998" stroke-width="2"/>
+<rect x="434" y="246" width="332" height="376" rx="17" fill="url(#card)" stroke="#c8b998" stroke-width="2"/>
+<rect x="800" y="246" width="332" height="376" rx="17" fill="url(#card)" stroke="#c8b998" stroke-width="2"/>
+</g>
+<!-- card 1: abstract calendar and growing leaves -->
+<circle cx="234" cy="369" r="88" fill="#e8eee3"/>
+<g transform="translate(171 310)">
+<rect width="126" height="125" rx="13" fill="#fffdfa" stroke="#738e7b" stroke-width="4"/>
+<path d="M0 34h126" stroke="#738e7b" stroke-width="4"/>
+<path d="M26 -9v20M100 -9v20" stroke="#a28253" stroke-width="8" stroke-linecap="round"/>
+<g fill="#b3c7a5"><rect x="17" y="51" width="21" height="18" rx="4"/><rect x="52" y="51" width="21" height="18" rx="4"/><rect x="87" y="51" width="21" height="18" rx="4"/><rect x="17" y="82" width="21" height="18" rx="4"/><rect x="87" y="82" width="21" height="18" rx="4"/></g>
+<path d="M54 90l11 10 22 -24" stroke="#3d6951" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<!-- card 2: conceptual smile and magnifier, not dentition anatomy -->
+<circle cx="600" cy="369" r="88" fill="#e8eee3"/>
+<g transform="translate(600 370)" fill="none" stroke-linecap="round">
+<path d="M-55 -17Q0 -45 55 -17" stroke="#8aa389" stroke-width="10"/>
+<path d="M-54 2Q0 60 54 2" stroke="#426e58" stroke-width="12"/>
+<circle cx="15" cy="-4" r="54" stroke="#b19669" stroke-width="7"/>
+<path d="M55 36l42 42" stroke="#b19669" stroke-width="12"/>
+<circle cx="15" cy="-4" r="43" stroke="#e9d9bd" stroke-width="2"/>
+</g>
+<!-- card 3: open guide book and choice paths -->
+<circle cx="966" cy="369" r="88" fill="#e8eee3"/>
+<g transform="translate(896 325)">
+<path d="M0 14Q31 -6 68 18Q105 -6 140 14v91Q106 90 68 112Q30 90 0 105Z" fill="#fff9ed" stroke="#748b76" stroke-width="4"/>
+<path d="M68 18v94" stroke="#b39464" stroke-width="4"/>
+<path d="M14 38h37M14 58h33M14 79h41" stroke="#a8baa3" stroke-width="4" stroke-linecap="round"/>
+<path d="M86 41h35M86 60h31M86 82h38" stroke="#a8baa3" stroke-width="4" stroke-linecap="round"/>
+<path d="M67 0l8 -22 8 22 22 7 -22 8 -8 22 -8 -22 -22 -8Z" fill="#e2bd76" stroke="none" opacity=".96"/>
+</g>
+<!-- Labels -->
+<g font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" text-anchor="middle" font-weight="700" fill="#2b553e">
+<text x="234" y="498" font-size="27">01 성장·맹출 확인</text>
+<text x="600" y="498" font-size="27">02 교합 상태 검사</text>
+<text x="966" y="498" font-size="27">03 치료 시기 상담</text>
+</g>
+<g font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" text-anchor="middle" font-size="17" fill="#5d6e61">
+<text x="234" y="541">유치와 영구치의 교환 시기</text>
+<text x="234" y="571">성장·맹출 상태 살피기</text>
+<text x="600" y="541">앞니 맞물림과 기능 확인</text>
+<text x="600" y="571">필요한 검사부터 진행</text>
+<text x="966" y="541">관찰·가철성 장치·전문 의뢰</text>
+<text x="966" y="571">상태에 따라 방법 선택</text>
+</g>
+<!-- Cat silhouette and tiny botanical trim in footer, not a clinical subject -->
+<g transform="translate(77 661)">
+<ellipse cx="66" cy="33" rx="66" ry="26" fill="#bfccb5" opacity=".23" filter="url(#fuzzy)"/>
+<path d="M28 58Q0 54 8 29Q13 13 29 8L32 -10 53 3Q77 -4 91 4L114 -11 116 22Q130 57 95 68L51 69Z" fill="url(#catcoat)" stroke="#c5d2c7" stroke-width="2"/>
+<path d="M32 -10l18 13 -21 5ZM114 -11L95 3l18 7Z" fill="#efd3c8"/>
+<ellipse cx="57" cy="28" rx="4.5" ry="6" fill="#60775b"/><ellipse cx="97" cy="28" rx="4.5" ry="6" fill="#60775b"/>
+<path d="M73 43l5 5 5 -5" fill="none" stroke="#a9817a" stroke-width="3" stroke-linecap="round"/>
+<path d="M24 44l26 -3M22 52l27 -5M106 41l25 -3M106 48l27 5" stroke="#b5b5a9" stroke-width="1.8" stroke-linecap="round"/>
+</g>
+<text x="600" y="688" text-anchor="middle" font-family="Noto Serif KR,Apple SD Gothic Neo,Malgun Gothic,serif" font-size="19" fill="#3e604a">서두르지 않고, 아이에게 맞는 시기를 함께 찾습니다.</text>
+<text x="600" y="719" text-anchor="middle" font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" font-size="14" fill="#6e796e">창작 안내 그림 · 실제 치아 구조나 교정장치의 형태를 나타내는 의료 도해가 아닙니다.</text>
+</svg>
