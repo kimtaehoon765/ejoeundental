@@ -2045,3 +2045,209 @@ body.home-page header .nav a:focus-visible{
     color:CanvasText;
   }
 }
+
+
+/* Atelier entrance refinements — 2026-10-29.
+ * Curated visual hierarchy rather than more images or text.
+ * The illustration and existing five real patient actions remain unchanged.
+ */
+body.home-page #main-content>.hero.wrap{
+  border-radius:4px 17px 4px 17px;
+  overflow:visible;
+  background:
+    radial-gradient(ellipse at 100% 5%,rgba(190,168,121,.17),transparent 52%),
+    linear-gradient(143deg,#fffefa 0%,#f7f7f0 62%,#f2f1e7 100%);
+}
+body.home-page #main-content>.hero.wrap .kicker{
+  display:inline-block;
+  margin:0 0 4px;
+  padding-bottom:8px;
+  border-bottom:1px solid #b59e77;
+  letter-spacing:.17em;
+}
+body.home-page #main-content>.hero.wrap #headline{
+  max-width:24ch;
+  margin-top:14px;
+  line-height:1.45;
+  text-wrap:balance;
+}
+body.home-page #main-content>.hero.wrap .hero-doctor-credentials{
+  width:fit-content;
+  max-width:100%;
+  box-sizing:border-box;
+  padding:12px 16px;
+  box-shadow:inset 3px 0 0 rgba(166,138,84,.22);
+}
+body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+  position:relative;
+  overflow:visible;
+  outline:1px solid rgba(169,145,102,.36);
+  outline-offset:5px;
+  border-radius:5px;
+  box-shadow:0 19px 38px rgba(28,52,37,.12);
+  transform:none;
+}
+body.home-page #main-content>.hero.wrap>.art.hero-artwork img{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  border-radius:2px;
+}
+body.home-page #main-content>.hero.wrap>.art.hero-artwork::after{
+  content:"이조은치과  ·  SINCE 2003";
+  position:absolute;
+  z-index:2;
+  left:50%;
+  bottom:-14px;
+  transform:translateX(-50%);
+  width:max-content;
+  max-width:92%;
+  box-sizing:border-box;
+  padding:6px 15px 7px;
+  color:#36533f;
+  border:1px solid #caba99;
+  background:#fffdf6;
+  box-shadow:0 4px 12px rgba(31,53,39,.06);
+  font:600 11px/1.4 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:.055em;
+  text-align:center;
+  white-space:nowrap;
+  pointer-events:none;
+}
+body.home-page #main-content>.hero.wrap .hero-actions>a{
+  box-sizing:border-box;
+  border-radius:6px;
+  font-weight:700;
+  text-decoration:none;
+  transition:background-color .16s ease,border-color .16s ease,box-shadow .16s ease;
+}
+body.home-page #main-content>.hero.wrap .hero-actions>.hero-call{
+  background:#20533e;
+  color:#fffefa;
+  border-color:#20533e;
+}
+body.home-page #main-content>.hero.wrap .hero-actions>.hero-booking{
+  background:#e9dbc0;
+  color:#234637;
+  border-color:#a78d61;
+}
+body.home-page #main-content>.hero.wrap .hero-actions>:is(.hero-hours,.hero-symptoms,.hero-map){
+  background:rgba(255,253,247,.92);
+  border-color:#d9d0c0;
+  color:#355845;
+}
+body.home-page #main-content>.hero.wrap .hero-actions>a:focus-visible,
+body.home-page #main-content>.hero.wrap .hero-editorial-detail a:focus-visible{
+  outline:3px solid #ad8043;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine){
+  body.home-page #main-content>.hero.wrap .hero-actions>a:hover{
+    box-shadow:0 6px 15px rgba(23,53,37,.14);
+  }
+}
+body.home-page #main-content>.hero.wrap>.hero-editorial-detail{
+  border-top-color:#d1c6b0;
+  gap:clamp(11px,1.5vw,19px);
+}
+body.home-page #main-content>.hero.wrap>.hero-editorial-detail>div,
+body.home-page #main-content>.hero.wrap>.hero-editorial-detail>aside{
+  border:1px solid #ddd3c1;
+  border-radius:5px 14px 5px 14px;
+  background:rgba(255,254,249,.92);
+  box-shadow:0 8px 24px rgba(29,55,40,.035);
+}
+body.home-page #main-content>.hero.wrap .hero-editorial-label{
+  color:#856c47;
+  letter-spacing:.16em;
+}
+body.home-page #main-content :is(#focus-care,#symptoms,#care,#stories,#location){
+  scroll-margin-top:105px;
+}
+@media(max-width:600px){
+  body.home-page #main-content>.hero.wrap{
+    padding:19px 16px 23px;
+    border-radius:3px 12px 3px 12px;
+  }
+  body.home-page #main-content>.hero.wrap #headline{
+    max-width:none;
+    margin-top:10px;
+    margin-bottom:12px;
+    font-size:clamp(26px,7vw,34px);
+    line-height:1.45;
+  }
+  body.home-page #main-content>.hero.wrap .hero-doctor-credentials{
+    width:100%;
+    padding:10px 12px;
+  }
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+    width:min(100%,270px);
+    max-width:270px;
+    margin:12px auto 24px;
+    padding:8px;
+  }
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork::after{
+    bottom:-12px;
+    padding:5px 11px;
+    font-size:10px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions{
+    gap:8px;
+    margin:12px 0 10px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>:is(.hero-call,.hero-booking){
+    min-height:58px;
+    padding:11px 8px;
+    font-size:13px;
+    line-height:1.4;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>:is(.hero-hours,.hero-symptoms,.hero-map){
+    min-height:46px;
+    font-size:12px;
+    line-height:1.45;
+  }
+  body.home-page #main-content>.hero.wrap>.hero-editorial-detail{
+    gap:11px;
+    padding-top:14px;
+  }
+  body.home-page #main-content>.hero.wrap>.hero-editorial-detail>div,
+  body.home-page #main-content>.hero.wrap>.hero-editorial-detail>aside{
+    padding:16px 14px;
+  }
+  body.home-page #main-content :is(#focus-care,#symptoms,#care,#stories,#location){
+    scroll-margin-top:95px;
+  }
+}
+@media(max-width:365px){
+  body.home-page #main-content>.hero.wrap{
+    padding:17px 12px 21px;
+  }
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+    width:min(100%,230px);
+    max-width:230px;
+  }
+  body.home-page #main-content>.hero.wrap #headline{
+    font-size:clamp(25px,7.1vw,29px);
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.home-page #main-content>.hero.wrap .hero-actions>a{
+    transition:none;
+    transform:none;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>.hero.wrap,
+  body.home-page #main-content>.hero.wrap .hero-doctor-credentials,
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork,
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork::after,
+  body.home-page #main-content>.hero.wrap .hero-actions>a,
+  body.home-page #main-content>.hero.wrap>.hero-editorial-detail>div,
+  body.home-page #main-content>.hero.wrap>.hero-editorial-detail>aside{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
