@@ -1499,7 +1499,12 @@ for (const name of ['gum-treatment.html','retreatment.html','cervical-abrasion.h
  }
  keys.forEach((key,i)=>{
   const override=config[key];
-  const expected=override||('/assets/retreatment/illustration-'+String(i+1).padStart(2,'0')+'.webp');
+  // The owner-approved source changes reason1 only. All other illustrations
+  // still use their original slots, and CMS overrides remain supported.
+  const source=key==='reason1'
+   ? '/assets/retreatment/illustration-02-bacteria-gutta-percha-20261029.webp'
+   : '/assets/retreatment/illustration-'+String(i+1).padStart(2,'0')+'.webp';
+  const expected=override||source;
   if(images[i]?.[1]!==expected)errors.push('재신경치료 이미지 빌드·CMS 설정 불일치: '+key);
  });
 }
