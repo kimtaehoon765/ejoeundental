@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" role="img" aria-labelledby="title desc">
+<title id="title">이조은치과 · 건강정보로 이어지는 여섯 개의 창</title>
+<desc id="desc">차분한 청록색과 금빛의 추상 색유리 아치가 이어지고, 앞에는 복슬복슬한 하얀 고양이가 앉아 있는 회화. 질환의 치료 과정을 나타내는 도식이 아닙니다.</desc>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d9e4dc"/><stop offset=".6" stop-color="#f7f4e7"/><stop offset="1" stop-color="#d8e0d5"/></linearGradient>
+<linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f5d9a1"/><stop offset=".4" stop-color="#b8d8cd"/><stop offset="1" stop-color="#56877d"/></linearGradient>
+<linearGradient id="floor" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e1cba3"/><stop offset="1" stop-color="#baa580"/></linearGradient>
+<filter id="shade"><feGaussianBlur stdDeviation="13"/></filter>
+<clipPath id="arch"><path d="M0 237V103Q0 0 75 0T150 103V237Z"/></clipPath>
+</defs>
+<rect width="1200" height="480" fill="#e7eee4"/>
+<rect x="16" y="16" width="1168" height="448" rx="16" fill="url(#bg)" stroke="#b5b596" stroke-width="3"/>
+<rect x="32" y="32" width="1136" height="416" rx="9" fill="none" stroke="#d1c6a8" stroke-width="2"/>
+<g transform="translate(100 105)">
+<g transform="translate(0 0)"><path d="M0 237V103Q0 0 75 0T150 103V237Z" fill="url(#glass)" stroke="#b19a74" stroke-width="11"/><g clip-path="url(#arch)"><path d="M-10 171Q50 127 165 178V244H-10Z" fill="#76a68f"/><circle cx="68" cy="70" r="31" fill="#f7e8c2" opacity=".9"/><path d="M75 0V238M0 125H150" stroke="#e8ddc2" stroke-width="7"/></g></g>
+<g transform="translate(179 0)"><path d="M0 237V103Q0 0 75 0T150 103V237Z" fill="#a4c5bf" stroke="#b19a74" stroke-width="11"/><g clip-path="url(#arch)"><circle cx="77" cy="103" r="75" fill="#cee1d3"/><path d="M-10 202L44 115L83 169L127 102L165 188V240H-10Z" fill="#608879"/><path d="M75 0V238M0 125H150" stroke="#e8ddc2" stroke-width="7"/></g></g>
+<g transform="translate(358 0)"><path d="M0 237V103Q0 0 75 0T150 103V237Z" fill="#b7ccc0" stroke="#b19a74" stroke-width="11"/><g clip-path="url(#arch)"><path d="M-10 195Q40 100 74 168T165 143V243H-10Z" fill="#73998d"/><circle cx="102" cy="78" r="28" fill="#f7d99e"/><path d="M75 0V238M0 125H150" stroke="#e8ddc2" stroke-width="7"/></g></g>
+<g transform="translate(537 0)"><path d="M0 237V103Q0 0 75 0T150 103V237Z" fill="url(#glass)" stroke="#b19a74" stroke-width="11"/><g clip-path="url(#arch)"><path d="M-10 175Q55 217 165 158V237H-10Z" fill="#83ac9d"/><circle cx="82" cy="93" r="38" fill="#f3e5be"/><path d="M75 0V238M0 125H150" stroke="#e8ddc2" stroke-width="7"/></g></g>
+<g transform="translate(716 0)"><path d="M0 237V103Q0 0 75 0T150 103V237Z" fill="#a4c5bf" stroke="#b19a74" stroke-width="11"/><g clip-path="url(#arch)"><path d="M-10 216Q46 144 99 196T165 184V237H-10Z" fill="#6d9383"/><circle cx="45" cy="68" r="27" fill="#f2cf9c"/><path d="M75 0V238M0 125H150" stroke="#e8ddc2" stroke-width="7"/></g></g>
+<g transform="translate(895 0)"><path d="M0 237V103Q0 0 75 0T150 103V237Z" fill="#b7ccc0" stroke="#b19a74" stroke-width="11"/><g clip-path="url(#arch)"><path d="M-10 171Q60 127 165 173V237H-10Z" fill="#729d8b"/><circle cx="91" cy="91" r="45" fill="#ebdab0"/><path d="M75 0V238M0 125H150" stroke="#e8ddc2" stroke-width="7"/></g></g>
+</g>
+<path d="M67 343H1133V426H67Z" fill="url(#floor)" opacity=".93"/>
+<path d="M68 344H1133" stroke="#b3a07e" stroke-width="11"/>
+<path d="M70 423H1130" stroke="#b3a07e" stroke-width="6"/>
+<ellipse cx="611" cy="402" rx="157" ry="20" fill="#556455" opacity=".17" filter="url(#shade)"/>
+<g transform="translate(534 253)">
+<path d="M155 111Q222 58 209-4" fill="none" stroke="#fffdf6" stroke-width="31" stroke-linecap="round"/>
+<ellipse cx="82" cy="125" rx="102" ry="76" fill="#fffdf6" stroke="#d8ded5" stroke-width="4"/>
+<path d="M17 13L10-48L54-29Q87-47 112-29L155-51L149 14Z" fill="#fffdf6" stroke="#d8ded5" stroke-width="4"/>
+<path d="M20-9L17-34L44-23M121-23L148-35L143-8" fill="#f1d4d0"/>
+<ellipse cx="83" cy="49" rx="74" ry="59" fill="#fffdf6" stroke="#d8ded5" stroke-width="3"/>
+<ellipse cx="58" cy="44" rx="5" ry="6" fill="#5b756b"/><ellipse cx="105" cy="44" rx="5" ry="6" fill="#5b756b"/>
+<path d="M77 63h14l-7 7Z" fill="#c69491"/><path d="M84 70q-11 12-22 3m22-3q11 12 22 3" stroke="#a9b8ac" fill="none" stroke-width="2.4"/>
+<g stroke="#b5c2b8" stroke-width="2"><path d="M58 70l-37-6M58 77l-37 10M107 70l39-7M107 78l39 11"/></g>
+<ellipse cx="12" cy="187" rx="35" ry="17" fill="#fffdf6"/><ellipse cx="153" cy="187" rx="34" ry="17" fill="#fffdf6"/>
+</g>
+<text x="56" y="68" font-family="'Malgun Gothic','Apple SD Gothic Neo',sans-serif" font-size="24" font-weight="700" fill="#36624e">이조은치과</text>
+<text x="1140" y="68" text-anchor="end" font-family="Georgia,serif" font-size="16" letter-spacing="3" fill="#807c5f">SIX WINDOWS · ONE CONVERSATION</text>
+<text x="1140" y="447" text-anchor="end" font-family="Georgia,serif" font-size="18" font-style="italic" fill="#798f7e">Care begins with understanding</text>
+</svg>
