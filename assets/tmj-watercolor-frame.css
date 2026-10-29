@@ -1,0 +1,58 @@
+/* TMJ original art, an editorial painting rather than a medical diagram */
+body.care-gallery-secondary.secondary-hero .ejoeun-tmj-art{
+ width:min(940px,calc(100% - 40px));
+ max-width:940px;
+ margin:clamp(24px,3.4vw,42px) auto;
+ padding:clamp(8px,1vw,12px);
+ display:grid;
+ grid-template-columns:minmax(0,1.32fr) minmax(230px,.68fr);
+ align-items:stretch;
+ border:1px solid #cdbd9f;
+ border-top:2px solid #a98e61;
+ border-radius:4px 15px 4px 15px;
+ background:linear-gradient(140deg,#f3ebe0,#fffefa 58%,#eaf0e9);
+ color:#244b39;
+ box-shadow:0 14px 34px rgba(32,62,45,.08);
+}
+body.care-gallery-secondary.secondary-hero .ejoeun-tmj-art .ejoeun-topic-art__visual{
+ display:flex;
+ align-items:center;
+ background:#ede9de;
+ border:1px solid #d9c6a7;
+}
+body.care-gallery-secondary.secondary-hero .ejoeun-tmj-art .ejoeun-topic-art__visual img{
+ display:block;
+ width:100%;
+ height:auto;
+ aspect-ratio:30/19;
+ object-fit:contain;
+ background:#f5efe5;
+}
+body.care-gallery-secondary.secondary-hero .ejoeun-tmj-art .ejoeun-topic-art__caption{
+ padding:clamp(16px,2.3vw,32px);
+}
+body.care-gallery-secondary.secondary-hero .ejoeun-tmj-art .ejoeun-topic-art__caption>a{
+ color:#1f6246;
+}
+@media(max-width:700px){
+ body.care-gallery-secondary.secondary-hero .ejoeun-tmj-art{
+  width:calc(100% - 24px);
+  grid-template-columns:minmax(0,1fr);
+  margin:21px auto 33px;
+  padding:6px;
+ }
+ body.care-gallery-secondary.secondary-hero .ejoeun-tmj-art .ejoeun-topic-art__visual img{
+  max-height:none;
+  width:100%;
+  height:auto;
+ }
+ body.care-gallery-secondary.secondary-hero .ejoeun-tmj-art .ejoeun-topic-art__caption{
+  padding:17px 12px 20px;
+ }
+}
+@media(forced-colors:active){
+ body.care-gallery-secondary.secondary-hero .ejoeun-tmj-art,
+ body.care-gallery-secondary.secondary-hero .ejoeun-tmj-art .ejoeun-topic-art__visual{
+  background:Canvas; color:CanvasText; border-color:CanvasText; box-shadow:none;
+ }
+}
