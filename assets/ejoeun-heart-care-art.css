@@ -1,0 +1,120 @@
+/* Original cardiology dental-safety guide artwork, October 2026. */
+body.heart-dental-gallery .heart-stainedglass{
+  box-sizing:border-box;
+  display:block;
+  margin:22px 0 24px;
+  padding:8px;
+  border:1px solid #cdb99a;
+  border-top:2px solid #ab9067;
+  border-radius:4px 14px 4px 14px;
+  background:linear-gradient(140deg,#f2ecdf,#fffdfa 56%,#eaf1ea);
+  box-shadow:0 14px 30px rgba(28,62,48,.075);
+  overflow:hidden;
+}
+body.heart-dental-gallery .heart-stainedglass img{
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  max-height:none;
+  aspect-ratio:5/3;
+  object-fit:contain;
+  border:1px solid #dec9a9;
+  background:#f1eadb;
+}
+body.heart-dental-gallery .heart-stainedglass figcaption{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:8px;
+  padding:15px 13px 18px;
+  font-size:14px;
+  line-height:1.8;
+  color:#4d6357;
+  word-break:keep-all;
+}
+body.heart-dental-gallery .heart-stainedglass figcaption small{
+  color:#967650;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.1em;
+}
+body.heart-dental-gallery .heart-stainedglass figcaption strong{
+  color:#244e3e;
+  font:700 clamp(20px,2.5vw,27px)/1.55 'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  letter-spacing:-.04em;
+}
+body.heart-dental-gallery .heart-care-shortcuts{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+  margin:0 0 27px;
+  padding:13px;
+  border:1px solid #ccdfd3;
+  border-radius:11px;
+  background:#eff6f1;
+}
+body.heart-dental-gallery .heart-care-shortcuts>a{
+  display:flex;
+  box-sizing:border-box;
+  min-width:0;
+  min-height:51px;
+  align-items:center;
+  justify-content:center;
+  padding:10px 12px;
+  border:1px solid #d7e1d9;
+  border-radius:8px;
+  background:#fffdf9;
+  color:#2b5f49;
+  text-align:center;
+  text-decoration:none;
+  word-break:keep-all;
+  font-size:14px;
+  font-weight:750;
+  line-height:1.6;
+}
+body.heart-dental-gallery .heart-care-shortcuts>a:last-child{
+  color:#fffefa;
+  background:#285b48;
+  border-color:#285b48;
+}
+body.heart-dental-gallery .heart-care-shortcuts>a:focus-visible{
+  outline:3px solid #ad854a;
+  outline-offset:3px;
+}
+body.heart-dental-gallery :is(#heart-medical-history,#heart-symptoms,#heart-antibiotics,#visit-checklist){
+  scroll-margin-top:25px;
+}
+@media(max-width:620px){
+  body.heart-dental-gallery .heart-stainedglass{
+    margin:16px 0 20px;
+    padding:5px;
+  }
+  body.heart-dental-gallery .heart-stainedglass figcaption{
+    padding:12px 8px 15px;
+    gap:7px;
+    font-size:13px;
+  }
+  body.heart-dental-gallery .heart-stainedglass figcaption strong{font-size:20px}
+  body.heart-dental-gallery .heart-care-shortcuts{
+    grid-template-columns:minmax(0,1fr);
+    padding:11px;
+    gap:8px;
+  }
+  body.heart-dental-gallery .heart-care-shortcuts>a{min-height:49px}
+}
+@media print{
+  body.heart-dental-gallery .heart-stainedglass,
+  body.heart-dental-gallery .heart-care-shortcuts{display:none!important}
+}
+@media(forced-colors:active){
+  body.heart-dental-gallery .heart-stainedglass,
+  body.heart-dental-gallery .heart-care-shortcuts,
+  body.heart-dental-gallery .heart-care-shortcuts>a{
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.heart-dental-gallery .heart-stainedglass figcaption :is(small,strong,span){color:CanvasText}
+}
