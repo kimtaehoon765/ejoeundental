@@ -368,6 +368,10 @@ test('reading room keeps full patient clinical text and improves mobile links wi
  assert.match(area, /min-height:48px;/,'phone links should be touch-friendly');
  assert.match(area, /background-size:contain;/,'clinic illustrations should not crop');
  assert.match(area, /:focus-visible/,'keyboard patients need visible focus');
- assert.ok(!/display:none/.test(area.replace(/\.card>br\{\s*display:none;\s*\}/g,'')),
-  'only legacy line breaks, never medical text or links, may be hidden');
+ const hiddenSelectors=[...area.matchAll(/([^{}]+)\{[^{}]*display:\s*none;[^{}]*\}/g)]
+  .map(m=>m[1].trim()).sort();
+ assert.deepEqual(hiddenSelectors,[
+  'body.home-page #main-content>#symptoms .symptom-grid>.card>br',
+  'body.home-page #main-content>#care>.wrap>.grid>.card>p:last-child br'
+ ].sort(),'only redundant visual line breaks, never medical text or links, may be hidden');
 });
