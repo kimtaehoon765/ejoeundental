@@ -904,3 +904,28 @@ test('mobile search keyboard can hide dock without removing call, booking or dir
  assert.ok(home.includes('role="search" aria-label="치과 증상과 진료정보 검색"'));
  assert.ok(home.includes('role="search" aria-label="원장 네이버 블로그 글 509편 원문 제목 검색"'));
 });
+
+
+test('clinic structured hours include reliable Friday mornings but never promise alternate sessions',()=>{
+ const scripts=[...home.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+ const clinic=scripts.map(m=>{try{return JSON.parse(m[1])}catch{return null}})
+  .find(data=>data?.['@id']==='https://ejoeundental.com/#clinic');
+ assert.ok(clinic,'the source clinic JSON-LD must remain parseable and identifiable');
+ const hours=clinic.openingHoursSpecification;
+ assert.equal(hours.length,2,'one morning range and one Mon-Thu afternoon range');
+ const days=range=>range.dayOfWeek.map(day=>day.replace('https://schema.org/',''));
+ assert.deepEqual(days(hours[0]),['Monday','Tuesday','Wednesday','Thursday','Friday']);
+ assert.deepEqual([hours[0].opens,hours[0].closes],['09:30','13:00']);
+ assert.deepEqual(days(hours[1]),['Monday','Tuesday','Wednesday','Thursday']);
+ assert.deepEqual([hours[1].opens,hours[1].closes],['14:00','18:30']);
+ assert.ok(hours.every(row=>!days(row).includes('Saturday')&&!days(row).includes('Sunday')),
+  'alternating Saturdays must not be asserted as permanently open');
+ assert.ok(clinic.additionalProperty.some(p=>p.name==='금·토요일 격주 진료'&&
+  p.value.includes('해당 주 일정은 전화 확인')),
+  'alternate Friday afternoon and Saturday rules must remain in the visible explanation');
+ const visit=read('visit-guide.html');
+ assert.ok(visit.includes('금요일: 격주 09:30~13:00 또는 09:30~18:30'));
+ assert.ok(visit.includes('토요일: 격주 09:30~13:00 / 격주 휴진'));
+ assert.ok(visit.includes('이 페이지에는 이번 주의 확정 일정이 표시되지 않습니다.'));
+ assert.ok(home.includes('href="tel:0325132875"'));
+});
