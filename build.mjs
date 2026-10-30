@@ -2064,8 +2064,18 @@ function auditContactLinks(folder){
   if(!item.isFile()||!item.name.endsWith('.html'))continue;
   const html=fs.readFileSync(file,'utf8');
   const relative=path.relative(out,file);
+  // Only the homepage's existing emergency triage section may dial 119.
+  // All other telephone links must be the clinic's verified contact number.
+  const emergencyStart=relative==='index.html'?html.indexOf('<section class="section light" id="when-to-call">'):-1;
+  const emergencyEnd=emergencyStart>=0?html.indexOf('</section>',emergencyStart):-1;
+  const emergencyLinks=relative==='index.html'?[...html.matchAll(/href=["']tel:119["']/gi)]:[];
   for(const match of html.matchAll(/href=["']tel:([^"']+)["']/gi)){
-   if(match[1].replace(/[^\d]/g,'')!=='0325132875')contactIssues.add(relative+': unexpected phone '+match[1]);
+   const digits=match[1].replace(/[^\d]/g,'');
+   if(digits==='0325132875')continue;
+   const validEmergency=digits==='119'&&relative==='index.html'&&
+    emergencyLinks.length===1&&emergencyStart>=0&&emergencyEnd>emergencyStart&&
+    match.index>=emergencyStart&&match.index<emergencyEnd;
+   if(!validEmergency)contactIssues.add(relative+': unexpected phone '+match[1]);
   }
   for(const match of html.matchAll(/href=["']\/#([^"']+)["']/g)){
    if(!homeIds.has(match[1]))contactIssues.add(relative+': missing homepage anchor #'+match[1]);
