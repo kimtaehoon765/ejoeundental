@@ -42,6 +42,44 @@ test('visit preparation presents four original clinical steps and three journal 
   assert.ok(css.includes(token),'missing responsive first-visit/journal improvement '+token);
  }
 });
+test('premium gallery foyer shows 23 unique works through three real exhibition rooms',()=>{
+ const html=read('index.html');
+ const intro=html.match(/<div class="gallery-home-intro gallery-home-intro--exhibition">([\s\S]*?)<\/div>\s*<nav class="gallery-exhibition-index"/)?.[1]||'';
+ assert.ok(intro,'the gallery entrance needs an editorial exhibition introduction');
+ assert.ok(intro.includes('id="home-gallery-title"')&&intro.includes('치과 안의 작은 그림 갤러리'));
+ assert.ok(intro.includes('aria-label="전체 전시 작품 23점"'));
+ assert.ok(intro.includes('href="/gallery.html"'),'all 23 works should have a direct collection link');
+ const room=html.match(/<nav class="gallery-exhibition-index"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ const cards=[...room.matchAll(/<a class="gallery-exhibition-index__room" href="([^"]+)">([\s\S]*?)<\/a>/g)];
+ assert.deepEqual(cards.map(c=>c[1]),[
+  '/gallery.html#paintings','/gallery.html#education','/gallery.html#patient-studies'
+ ]);
+ for(const [i,card] of cards.entries()){
+  assert.ok(card[2].includes('ROOM 0'+(i+1)));
+  assert.ok(card[2].includes('WORKS'));
+  assert.ok(card[2].includes('gallery-exhibition-index__action'));
+ }
+ assert.deepEqual(cards.map(c=>c[2].match(/(\d{2}) WORKS/)?.[1]),['10','03','10']);
+ assert.ok(cards[0][2].includes('풍경·캐릭터 그림 10점 감상하기'));
+ assert.ok(cards[1][2].includes('진료 수채화 3점 감상하기'));
+ assert.ok(cards[2][2].includes('건강정보 창작 그림 10점 감상하기'));
+ const gallery=read('gallery.html');
+ for(const anchor of ['id="paintings"','id="education"','id="patient-studies"']){
+  assert.ok(gallery.includes(anchor),'gallery room must be real: '+anchor);
+ }
+ const allImages=[...html.matchAll(/<img\b[^>]*src="([^"]+)"/g)].map(x=>x[1]);
+ assert.equal(allImages.length,34,'existing homepage artwork references must remain unchanged');
+ assert.equal(new Set(allImages).size,34,'all homepage artwork references stay distinct');
+ assert.ok(html.includes('class="mobile-booking-actions"'),'mobile booking stays available');
+ const css=read('assets/atelier-refinement-20261030.css');
+ for(const token of ['Three-room museum foyer · original collection 23',
+  '.gallery-exhibition-colophon__count','.gallery-exhibition-index__room',
+  'grid-template-columns:repeat(3,minmax(0,1fr))',
+  '@media(max-width:700px)','@media(forced-colors:active)',
+  '.gallery-exhibition-index__room:focus-visible']){
+   assert.ok(css.includes(token),'gallery exhibition refinement missing '+token);
+ }
+});
 test('premium home stylesheet ships after earlier layers and keeps booking visible',()=>{
  const styles=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
  const museumLink=styles.find(s=>s.includes('/assets/museum-home-v2.css?'));
