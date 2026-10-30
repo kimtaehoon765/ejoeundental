@@ -548,7 +548,7 @@ body.home-page #main-content>#symptoms .symptom-jump-links>a:focus-visible {
 body.home-page #main-content>#symptoms .symptom-grid {
   counter-reset:symptom-card;
 }
-body.home-page #main-content>#symptoms .symptom-grid>.card {
+body.home-page #main-content>#symptoms .symptom-grid>.card>h3[id] {
   scroll-margin-top:clamp(92px,12vw,130px);
 }
 body.home-page #main-content>#symptoms .symptom-grid>.card::before {
@@ -564,12 +564,12 @@ body.home-page #main-content>#symptoms .symptom-grid>.card::before {
   font:800 10px/1.6 "DM Sans",system-ui,sans-serif;
   letter-spacing:.18em;
 }
-body.home-page #main-content>#symptoms .symptom-grid>.card:target {
+body.home-page #main-content>#symptoms .symptom-grid>.card:has(>h3:target) {
   border-color:#5e8969;
   background:#f7fbf5;
   box-shadow:0 0 0 3px rgba(74,116,79,.18);
 }
-body.home-page #main-content>#symptoms .symptom-grid>.card:focus {
+body.home-page #main-content>#symptoms .symptom-grid>.card>h3:focus {
   outline:3px solid #a98852;
   outline-offset:3px;
 }
