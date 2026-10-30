@@ -20,7 +20,7 @@ test('the mobile homepage presents the original portrait after key actions and k
  assert.match(hero,/class="art hero-artwork"/);
  assert.ok(hero.includes('loading="eager" fetchpriority="high" decoding="async"'),
   'The visible original doctor-cat portrait should load early on both phones and desktop');
- assert.match(home,/<link rel="preload" as="image" type="image\/webp" fetchpriority="high" href="\/assets\/ejoeundental-hero-cat\.webp">/,
+ assert.match(home,/<link rel="preload" as="image" type="image\/webp" fetchpriority="high" href="\/assets\/ejoeun-gallery-cat-dentist-20261029\.webp">/,
   'Use one shared preload for the original portrait across screen sizes');
 
  assert.match(home,/class="monet-interlude"/);
