@@ -197,3 +197,92 @@ body.home-page #main-content #gallery .gallery-home-intro h2 {
     color: CanvasText;
   }
 }
+
+/* 2026-10-30, editorial card update: three distinct existing artworks
+   complement the three letterpress patient-topic panels. No repeated art. */
+body.home-page #main-content>#health-info .health-topic-card--illustrated {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+body.home-page #main-content>#health-info .health-topic-painting {
+  display: block;
+  overflow: hidden;
+  flex: none;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 12px 0 16px;
+  border: 1px solid #d7cbb5;
+  border-radius: 3px 12px 3px 12px;
+  background: #f6f2e8;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(33, 61, 42, .055);
+}
+body.home-page #main-content>#health-info .health-topic-painting>img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 8 / 5;
+  object-fit: contain;
+  background: #f5f1e6;
+  transition: transform .32s ease;
+}
+body.home-page #main-content>#health-info .health-topic-painting__caption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px 10px;
+  min-height: 41px;
+  padding: 8px 12px;
+  background: #faf8f2;
+  border-top: 1px solid #e2d9c9;
+  color: #315840;
+  font-weight: 750;
+  font-size: 12px;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+body.home-page #main-content>#health-info .health-topic-painting__caption small {
+  font: 700 10px/1.5 "DM Sans", sans-serif;
+  color: #866c44;
+  letter-spacing: .10em;
+}
+body.home-page #main-content>#health-info .health-topic-card--illustrated>.health-topic-actions {
+  margin-top: auto;
+}
+body.home-page #main-content>#health-info .health-topic-painting:focus-visible {
+  outline: 3px solid #a57e42;
+  outline-offset: 4px;
+}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  body.home-page #main-content>#health-info .health-topic-painting:hover>img {
+    transform: scale(1.025);
+  }
+}
+@media (max-width: 600px) {
+  body.home-page #main-content>#health-info .health-topic-painting {
+    margin: 10px 0 13px;
+  }
+  body.home-page #main-content>#health-info .health-topic-painting__caption {
+    padding: 8px 11px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  body.home-page #main-content>#health-info .health-topic-painting>img {
+    transform: none;
+    transition: none;
+  }
+}
+@media (forced-colors:active) {
+  body.home-page #main-content>#health-info .health-topic-painting,
+  body.home-page #main-content>#health-info .health-topic-painting__caption {
+    background: Canvas;
+    color: CanvasText;
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+  body.home-page #main-content>#health-info .health-topic-painting__caption small {
+    color: CanvasText;
+  }
+}
