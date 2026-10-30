@@ -88,6 +88,28 @@ try{
  record('모바일 상단 환자 메뉴',menuOk,
    '실사이트 메뉴 '+actualLinks+'개 · 증상·검색·치과 이야기·오시는 길·전화 링크');
  good&&=menuOk;
+ // SEO business hours must describe only sessions consistently open each
+ // week. Friday mornings are regular; Friday afternoons and Saturdays vary.
+ // Compare the deployed structured data with the current built homepage.
+ const clinicSchema=page=>[...page.matchAll(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/g)]
+   .map(match=>{try{return JSON.parse(match[1]);}catch{return null;}})
+   .find(data=>data?.['@id']===origin+'/#clinic');
+ const liveClinic=clinicSchema(html),sourceClinic=clinicSchema(expectedBuiltHome);
+ const openHours=liveClinic?.openingHoursSpecification;
+ const mornings=openHours?.find(range=>range.opens==='09:30'&&range.closes==='13:00');
+ const afternoons=openHours?.find(range=>range.opens==='14:00'&&range.closes==='18:30');
+ const dayNames=range=>Array.isArray(range?.dayOfWeek)?range.dayOfWeek.map(day=>day.split('/').pop()):[];
+ const clinicHoursOk=Array.isArray(openHours)&&openHours.length===2&&
+   JSON.stringify(openHours)===JSON.stringify(sourceClinic?.openingHoursSpecification)&&
+   JSON.stringify(dayNames(mornings))===JSON.stringify(['Monday','Tuesday','Wednesday','Thursday','Friday'])&&
+   JSON.stringify(dayNames(afternoons))===JSON.stringify(['Monday','Tuesday','Wednesday','Thursday'])&&
+   liveClinic.additionalProperty?.some(prop=>prop.name==='금·토요일 격주 진료'&&prop.value.includes('전화 확인'));
+ record('정식 홈페이지 금요일 오전·격주 진료 구조화 데이터',!!clinicHoursOk,
+   clinicHoursOk?'금요일 오전 09:30~13:00 표시, 격주 금요일 오후·토요일은 고정 영업시간 미표시':
+    '정식 홈페이지 Clinic 구조화 데이터 또는 금·토요일 고지와 빌드 불일치');
+ console.log('[LIVE CLINIC]',clinicHoursOk?'구조화 데이터 확인':'구조화 데이터 미반영',
+   '금요일 오전 '+dayNames(mornings).includes('Friday'),'토요일 고정 '+openHours?.some(row=>dayNames(row).includes('Saturday')));
+ good&&=!!clinicHoursOk;
  // The 2026-10-29 gallery now exhibits 10 paintings, 3 clinical
  // watercolors, and 10 independent patient-guide artworks.
  const originalIds=['art-starry','art-pond','art-golden','art-cat',
