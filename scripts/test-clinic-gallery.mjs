@@ -107,7 +107,12 @@ test('gallery lightbox navigates all 23 paintings and returns keyboard focus',as
  img.handlers.touchstart({touches:[{clientX:180,clientY:30},{clientX:200,clientY:40}]});
  img.handlers.touchend({changedTouches:[{clientX:70,clientY:30}]});
  assert.equal(img.src,buttons[22].dataset.image,'multitouch should not trigger artwork navigation');
+ img.handlers.touchstart({touches:[{clientX:180,clientY:30}]});
+ img.handlers.touchmove({touches:[{clientX:140,clientY:30},{clientX:190,clientY:50}]});
+ img.handlers.touchend({changedTouches:[{clientX:70,clientY:30}]});
+ assert.equal(img.src,buttons[22].dataset.image,'a second finger joining must cancel swipe navigation');
  // The clinical watercolor is a distinct second exhibit with its own count.
+ close.click();
  buttons[11].click();
  assert.match(roomTitle.textContent,/제2전시실.*2 \/ 3/);
  close.click();
