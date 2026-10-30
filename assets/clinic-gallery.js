@@ -11,6 +11,7 @@
   const position=document.getElementById('gallery-dialog-position');
   const related=document.getElementById('gallery-dialog-care');
   const artworks=[...document.querySelectorAll('.gallery-zoom')];
+  const roomButtons=[...document.querySelectorAll('.gallery-dialog-room')];
   if(!dialog || !picture || !caption || !close || !prev || !next ||
      !position || !artworks.length || typeof dialog.showModal!=='function') return;
   document.documentElement.classList.add('gallery-js');
@@ -33,6 +34,11 @@
       'patient-studies':['제3전시실','진료 준비 그림']
     };
     const roomData=rooms[room];
+    // The three exhibition shortcuts always reflect the painting currently
+    // on display, including when the user swipes or uses arrow keys.
+    roomButtons.forEach(roomButton=>{
+      roomButton.setAttribute('aria-current',String(roomButton.dataset.room===room));
+    });
     if(sectionLabel){
       if(roomData){
         const inRoom=artworks.filter(item=>item.closest('section[id]')?.id===room);
@@ -76,6 +82,14 @@
       showArtwork(index);
       dialog.showModal();
       close.focus();
+    });
+  });
+  roomButtons.forEach(roomButton=>{
+    roomButton.addEventListener('click',()=>{
+      if(!dialog.open)return;
+      const first=artworks.findIndex(item=>
+        item.closest('section[id]')?.id===roomButton.dataset.room);
+      if(first>=0)showArtwork(first);
     });
   });
   prev.addEventListener('click',()=>moveArtwork(-1));
