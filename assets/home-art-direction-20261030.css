@@ -2077,14 +2077,14 @@ body.home-page #main-content>#stories .owner-latest-exhibition-head>a {
   line-height:1.6;
   word-break:keep-all;
 }
-body.home-page #main-content>#stories .owner-stories-grid#owner-latest-eight {
+body.home-page #main-content>#stories .owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"] {
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:12px;
   margin:0 0 clamp(19px,2.8vw,32px);
   counter-reset:owner-essay;
 }
-body.home-page #main-content>#stories .owner-stories-grid#owner-latest-eight>.owner-story-card {
+body.home-page #main-content>#stories .owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"]>.owner-story-card {
   counter-increment:owner-essay;
   display:grid;
   grid-template-columns:34px minmax(0,1fr);
@@ -2099,10 +2099,10 @@ body.home-page #main-content>#stories .owner-stories-grid#owner-latest-eight>.ow
   background:linear-gradient(145deg,#fffefa,#faf7ee);
   box-shadow:0 6px 17px rgba(31,56,42,.045);
 }
-body.home-page #main-content>#stories .owner-stories-grid#owner-latest-eight>.owner-story-card:nth-child(even) {
+body.home-page #main-content>#stories .owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"]>.owner-story-card:nth-child(even) {
   border-left-color:#829b83;
 }
-body.home-page #main-content>#stories .owner-stories-grid#owner-latest-eight>.owner-story-card::before {
+body.home-page #main-content>#stories .owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"]>.owner-story-card::before {
   content:counter(owner-essay,decimal-leading-zero);
   display:flex;
   align-items:center;
@@ -2116,12 +2116,12 @@ body.home-page #main-content>#stories .owner-stories-grid#owner-latest-eight>.ow
   color:#8a7048;
   font:700 12px/1 "DM Sans",system-ui,sans-serif;
 }
-body.home-page #main-content>#stories .owner-stories-grid#owner-latest-eight>.owner-story-card>h3 {
+body.home-page #main-content>#stories .owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"]>.owner-story-card>h3 {
   margin:0;
   min-width:0;
   line-height:1.65;
 }
-body.home-page #main-content>#stories .owner-stories-grid#owner-latest-eight>.owner-story-card>h3>a {
+body.home-page #main-content>#stories .owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"]>.owner-story-card>h3>a {
   display:block;
   box-sizing:border-box;
   width:100%;
@@ -2135,7 +2135,7 @@ body.home-page #main-content>#stories .owner-stories-grid#owner-latest-eight>.ow
   overflow-wrap:anywhere;
   text-decoration:none;
 }
-body.home-page #main-content>#stories .owner-stories-grid#owner-latest-eight>.owner-story-card>h3>a:focus-visible,
+body.home-page #main-content>#stories .owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"]>.owner-story-card>h3>a:focus-visible,
 body.home-page #main-content>#stories .owner-latest-exhibition-head>a:focus-visible {
   outline:3px solid #a48343;
   outline-offset:3px;
@@ -2191,7 +2191,7 @@ body.home-page #main-content>#stories .owner-blog-direct-search__fields :is(inpu
   outline-offset:2px;
 }
 @media (max-width:720px) {
-  body.home-page #main-content>#stories .owner-stories-grid#owner-latest-eight {
+  body.home-page #main-content>#stories .owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"] {
     grid-template-columns:minmax(0,1fr);
     gap:9px;
   }
@@ -2200,11 +2200,11 @@ body.home-page #main-content>#stories .owner-blog-direct-search__fields :is(inpu
     gap:11px;
     margin-top:22px;
   }
-  body.home-page #main-content>#stories .owner-stories-grid#owner-latest-eight>.owner-story-card {
+  body.home-page #main-content>#stories .owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"]>.owner-story-card {
     min-height:75px;
     padding:14px;
   }
-  body.home-page #main-content>#stories .owner-stories-grid#owner-latest-eight>.owner-story-card>h3>a {
+  body.home-page #main-content>#stories .owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"]>.owner-story-card>h3>a {
     font-size:14px;
   }
 }
@@ -2222,12 +2222,12 @@ body.home-page #main-content>#stories .owner-blog-direct-search__fields :is(inpu
   }
 }
 @media (forced-colors:active) {
-  body.home-page #main-content>#stories :is(.owner-latest-exhibition-head>a,.owner-stories-grid#owner-latest-eight>.owner-story-card,.owner-stories-grid#owner-latest-eight>.owner-story-card::before,.owner-blog-direct-search,.owner-blog-direct-search__fields>input,.owner-blog-direct-search__fields>button) {
+  body.home-page #main-content>#stories :is(.owner-latest-exhibition-head>a,.owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"]>.owner-story-card,.owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"]>.owner-story-card::before,.owner-blog-direct-search,.owner-blog-direct-search__fields>input,.owner-blog-direct-search__fields>button) {
     border-color:CanvasText;
     background:Canvas;
     color:CanvasText;
     box-shadow:none;
   }
   body.home-page #main-content>#stories .owner-latest-exhibition-head__copy :is(small,h4,p) { color:CanvasText }
-  body.home-page #main-content>#stories .owner-stories-grid#owner-latest-eight>.owner-story-card>h3>a { color:LinkText }
+  body.home-page #main-content>#stories .owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"]>.owner-story-card>h3>a { color:LinkText }
 }
