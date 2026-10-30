@@ -154,7 +154,7 @@ test('featured exhibition thumbnails open the matching artwork with a visible ta
 
 test('mobile hero artwork preload prioritizes the visible doctor-cat portrait',()=>{
  const hero=home.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
- const portrait=hero.match(/<img\b[^>]*src="\/assets\/ejoeundental-hero-cat\.webp"[^>]*>/)?.[0]||'';
+ const portrait=hero.match(/<img\b[^>]*src="\/assets\/ejoeun-gallery-cat-dentist-20261029\.webp"[^>]*>/)?.[0]||'';
  assert.ok(portrait,'the original doctor and white cat hero portrait must stay');
  assert.match(portrait,/loading="eager"/,'above-the-fold mobile portrait must not lazy-load');
  assert.match(portrait,/fetchpriority="high"/,'load the visible portrait early');
