@@ -552,3 +552,62 @@
     border-color:LinkText;
   }
 }
+
+
+/* Exhibition-room context in the 23-piece lightbox. The small label makes
+   the transitions between fine art, watercolors and clinical guides clear. */
+.gallery-dialog .gallery-dialog-heading{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  min-width:0;
+  gap:3px;
+}
+.gallery-dialog .gallery-dialog-section{
+  display:block;
+  color:#836a45;
+  font:800 11px/1.45 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.045em;
+  word-break:keep-all;
+}
+.gallery-dialog .gallery-dialog-heading strong{
+  display:block;
+  margin:0;
+  line-height:1.5;
+  word-break:keep-all;
+}
+.gallery-dialog .gallery-dialog-head>button{
+  flex-shrink:0;
+  min-height:46px;
+}
+.gallery-dialog #gallery-dialog-image{
+  max-height:calc(94vh - 225px);
+  max-height:calc(94dvh - 225px);
+}
+.gallery-dialog.gallery-dialog--care #gallery-dialog-image{
+  max-height:calc(94vh - 280px);
+  max-height:calc(94dvh - 280px);
+}
+@media(max-width:520px){
+  .gallery-dialog .gallery-dialog-section{
+    font-size:10px;
+    letter-spacing:0;
+  }
+  .gallery-dialog .gallery-dialog-heading strong{
+    font-size:15px;
+  }
+  .gallery-dialog .gallery-dialog-head>button{
+    min-height:48px;
+  }
+  .gallery-dialog #gallery-dialog-image{
+    max-height:calc(94vh - 240px);
+    max-height:calc(94dvh - 240px);
+  }
+  .gallery-dialog.gallery-dialog--care #gallery-dialog-image{
+    max-height:calc(94vh - 294px);
+    max-height:calc(94dvh - 294px);
+  }
+}
+@media(forced-colors:active){
+  .gallery-dialog .gallery-dialog-section{color:CanvasText}
+}
