@@ -43,7 +43,7 @@
     // Only permit artworks in the public /assets directory. The original
     // link and displayed painting always belong to the selected button.
     const safeImage=/^\/assets\/[a-z0-9-]+\.(?:svg|webp|png|jpe?g)$/.test(sourceImage);
-    picture.src=safeImage?sourceImage:'';
+    picture.src=button.dataset.image || '';
     picture.alt=button.dataset.alt || '이조은치과 창작 그림';
     announceLoad(picture.complete && picture.naturalWidth>0?'':'그림을 불러오는 중입니다.');
     caption.textContent=button.dataset.title || '그림 감상';
