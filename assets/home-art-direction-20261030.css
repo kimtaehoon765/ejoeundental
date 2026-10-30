@@ -1539,3 +1539,82 @@ body.home-page #main-content>#faq .faq-list>details:target {
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-30 | Distinct periodontal conservatory painting.
+   One new work and two intentional letterpress cards balance patient
+   education without repeating artwork or suppressing indexable text. */
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card:first-child {
+  border-color:#c9d4c4;
+  border-top:3px solid #789782;
+  background:linear-gradient(165deg,#fffdf8 0%,#f6faf3 100%);
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card[data-artwork="true"] {
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card[data-artwork="true"]>.health-topic-painting {
+  flex:none;
+  margin:11px 0 16px;
+  border:1px solid #cfc2a5;
+  background:#eee7d8;
+  border-radius:3px 12px 3px 12px;
+  overflow:hidden;
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card[data-artwork="true"]>.health-topic-painting>img {
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  aspect-ratio:1200/760;
+  object-fit:contain;
+  object-position:center;
+  background:#f8f4e8;
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card[data-artwork="true"]>.health-topic-painting .health-topic-painting__caption {
+  box-sizing:border-box;
+  min-height:50px;
+  padding:10px 13px;
+  background:#fffdf7;
+  border-top:1px solid #dcd0b9;
+  color:#28513b;
+  font-size:13px;
+  line-height:1.6;
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card[data-artwork="true"]>.health-topic-painting:focus-visible,
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card .health-topic-actions a:focus-visible {
+  outline:3px solid #ad874b;
+  outline-offset:3px;
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card .health-topic-actions {
+  margin-top:auto;
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card .health-topic-actions>a {
+  min-height:44px;
+}
+@media (max-width:760px) {
+  body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card[data-artwork="true"]>.health-topic-painting {
+    margin:10px 0 14px;
+  }
+  body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card[data-artwork="true"]>.health-topic-painting .health-topic-painting__caption {
+    padding:9px 11px;
+    min-height:46px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card[data-artwork="true"]>.health-topic-painting>img {
+    transition:none;
+    transform:none;
+  }
+}
+@media (forced-colors:active) {
+  body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card:first-child,
+  body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card[data-artwork="true"]>.health-topic-painting,
+  body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card[data-artwork="true"]>.health-topic-painting .health-topic-painting__caption {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
