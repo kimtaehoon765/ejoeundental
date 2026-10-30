@@ -118,3 +118,167 @@ body.doctor-gallery .actions a.doctor-booking:hover{
   }
   body.doctor-gallery .doctor-tenure-art figcaption :is(strong,p,a,span){color:CanvasText}
 }
+
+
+/* 2026-10-30 | The doctor's reading room: a quieter clinical portrait page.
+   Existing qualifications, all clinical explanations, garden painting,
+   verified booking link and on-page question answers remain untouched. */
+body.doctor-gallery #doctor-profile-main {
+  max-width:1110px;
+}
+body.doctor-gallery #doctor-profile-main > .hero {
+  border:1px solid #d6cbb5;
+  border-radius:5px 22px 5px 22px;
+  background:
+    radial-gradient(ellipse at 95% 9%,rgba(197,214,180,.30),transparent 45%),
+    linear-gradient(128deg,#fffdf7,#f2f4e9 72%,#eaf0e6);
+  box-shadow:0 18px 43px rgba(31,54,38,.067);
+}
+body.doctor-gallery #doctor-profile-main > .hero::before {
+  border-top-color:#b5a078;
+  border-right-color:#b5a078;
+}
+body.doctor-gallery #doctor-profile-main > .hero > .eyebrow {
+  display:block;
+  width:fit-content;
+  max-width:100%;
+  padding-left:13px;
+  border-left:3px solid #b39a6f;
+  color:#806842;
+  font-weight:800;
+  line-height:1.55;
+  letter-spacing:.14em;
+}
+body.doctor-gallery #doctor-profile-main > .hero > h1 {
+  max-width:18ch;
+  margin-block:17px 21px;
+  color:#244532;
+  font-size:clamp(30px,4.2vw,49px);
+  font-weight:650;
+  line-height:1.48;
+  letter-spacing:-.063em;
+}
+body.doctor-gallery #doctor-profile-main > .hero > :is(p,.lead) {
+  max-width:76ch;
+  color:#395746;
+  line-height:1.93;
+}
+body.doctor-gallery #doctor-profile-main > .hero > .credentials {
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-block:22px;
+}
+body.doctor-gallery #doctor-profile-main > .hero > .credentials > span {
+  border-radius:4px 10px 4px 10px;
+  border-color:#c6c7b4;
+  background:rgba(255,254,249,.96);
+  box-shadow:0 4px 14px rgba(34,58,41,.045);
+  color:#31563e;
+  font-weight:740;
+  text-wrap:balance;
+}
+body.doctor-gallery #doctor-profile-main > .hero > .credentials > span:nth-child(2) {
+  border-color:#baa47f;
+  background:#f5eee0;
+}
+body.doctor-gallery #doctor-profile-main > .hero .actions {
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+}
+body.doctor-gallery #doctor-profile-main > .hero .actions > a {
+  box-sizing:border-box;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:50px;
+  border-radius:4px 11px 4px 11px;
+  text-align:center;
+}
+body.doctor-gallery #doctor-profile-main > .hero .actions > a.doctor-booking {
+  background:#eee2c7;
+  color:#274637;
+  border-color:#b89f72;
+  box-shadow:none;
+}
+body.doctor-gallery #doctor-profile-main > .doctor-tenure-art {
+  margin-top:clamp(21px,3.6vw,38px);
+  border-color:#cfbf9f;
+  box-shadow:0 15px 33px rgba(30,53,35,.065);
+}
+body.doctor-gallery #doctor-profile-main > .card,
+body.doctor-gallery #doctor-profile-main > .cols > .card {
+  box-sizing:border-box;
+  border:1px solid #ded8c9;
+  border-radius:5px 15px 5px 15px;
+  background:#fffefa;
+  box-shadow:0 9px 26px rgba(33,62,43,.046);
+}
+body.doctor-gallery #doctor-profile-main > .card > h2,
+body.doctor-gallery #doctor-profile-main > .cols > .card > h2 {
+  max-width:30ch;
+  padding-left:14px;
+  border-left:3px solid #b3a079;
+  color:#254936;
+  line-height:1.5;
+}
+body.doctor-gallery #doctor-profile-main > .cols > .card:nth-child(2) > h2 {
+  border-left-color:#83a087;
+}
+body.doctor-gallery #doctor-profile-main > .card > p,
+body.doctor-gallery #doctor-profile-main > .cols > .card > p {
+  max-width:85ch;
+  color:#425b4b;
+  line-height:1.9;
+}
+body.doctor-gallery #doctor-profile-main .doctor-quick-answers > dt {
+  color:#29543c;
+  line-height:1.7;
+  word-break:keep-all;
+}
+body.doctor-gallery #doctor-profile-main .doctor-quick-answers > dd {
+  color:#405948;
+  line-height:1.89;
+  word-break:keep-all;
+}
+body.doctor-gallery #doctor-profile-main a:focus-visible {
+  outline:3px solid #a78347;
+  outline-offset:4px;
+}
+@media(max-width:700px){
+  body.doctor-gallery #doctor-profile-main > .hero {
+    padding:clamp(23px,5vw,33px);
+    border-radius:4px 14px 4px 14px;
+  }
+  body.doctor-gallery #doctor-profile-main > .hero > h1 {
+    max-width:none;
+    font-size:clamp(28px,7.1vw,36px);
+    line-height:1.49;
+  }
+  body.doctor-gallery #doctor-profile-main > .hero > .credentials > span {
+    width:100%;
+    justify-content:flex-start;
+    min-height:45px;
+    font-size:14px;
+  }
+  body.doctor-gallery #doctor-profile-main > .hero .actions > a {
+    min-height:49px;
+    word-break:keep-all;
+  }
+  body.doctor-gallery #doctor-profile-main > .card > h2,
+  body.doctor-gallery #doctor-profile-main > .cols > .card > h2 {
+    padding-left:11px;
+  }
+}
+@media(forced-colors:active){
+  body.doctor-gallery #doctor-profile-main > .hero,
+  body.doctor-gallery #doctor-profile-main > .hero > .credentials > span,
+  body.doctor-gallery #doctor-profile-main > .card,
+  body.doctor-gallery #doctor-profile-main > .cols > .card{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
