@@ -336,7 +336,7 @@ test('Google Image discovery lists real first-party illustrations only on their 
  assert.equal(medical?.url,rootCanal);
  assert.equal(medical?.primaryImageOfPage?.width,519);
  assert.equal(medical?.primaryImageOfPage?.height,327);
- assert.ok(siteMap.includes('<loc>'+rootCanal+'</loc><lastmod>2026-10-29</lastmod>'),
+ assert.ok(siteMap.includes('<loc>'+rootCanal+'</loc><lastmod>2026-10-30</lastmod>'),
   'Google must see the genuine treatment-page update date');
 });
 
@@ -602,6 +602,46 @@ test('patient clinic service pages expose consistent local search and social pre
 });
 
 
+test('core dental service guides declare real clinic publisher and accountable treating dentist',()=>{
+ const doctor=readFileSync(path.join(output,'doctor.html'),'utf8');
+ const homepage=readFileSync(path.join(output,'index.html'),'utf8');
+ const sitemap=readFileSync(path.join(output,'sitemap.xml'),'utf8');
+ assert.ok(doctor.includes('"@id":"'+origin+'/#doctor-person"'),
+  'doctor profile must identify the same real clinician as each guide');
+ assert.ok(homepage.includes('"@id":"'+origin+'/#clinic"'),
+  'clinic identity should be consistent across published source pages');
+ const stylesheet=readFileSync(path.join(output,'assets/care-design-system.css'),'utf8');
+ for(const token of ['Verified patient guide provenance','.clinical-editorial-source__inner',
+  '.clinical-editorial-source p a:focus-visible','@media (max-width:600px)']){
+  assert.ok(stylesheet.includes(token),'visible verified medical responsibility needs styled disclosure: '+token);
+ }
+ for(const [file,label] of [['gum-treatment.html','잇몸치료 안내'],
+  ['retreatment.html','재신경치료 안내']]){
+  const source=readFileSync(file,'utf8');
+  const html=readFileSync(path.join(output,file),'utf8');
+  const medical=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(m=>JSON.parse(m[1])).find(obj=>obj['@type']==='MedicalWebPage');
+  assert.ok(medical,'main clinical service needs its own MedicalWebPage JSON-LD: '+file);
+  assert.equal(medical.author?.name,'이조은치과','do not invent an individual author');
+  assert.equal(medical.author?.['@id'],origin+'/#clinic');
+  assert.equal(medical.accountablePerson?.['@id'],origin+'/#doctor-person');
+  assert.equal(medical.accountablePerson?.name,'김태훈');
+  assert.equal(medical.accountablePerson?.url,origin+'/doctor.html');
+  assert.equal(medical.publisher?.['@id'],origin+'/#clinic');
+  assert.equal(medical.dateModified,'2026-10-30');
+  assert.ok(html.includes('class="clinical-editorial-source"'),
+   'publisher identity must be visible to the reader as well as machines');
+  assert.ok(html.includes('<strong>'+label+' 정보 제공: 이조은치과</strong>'));
+  assert.ok(html.includes('<a href="/doctor.html">김태훈 원장</a>'));
+  assert.ok(html.includes('<time datetime="2026-10-30">2026년 10월 30일</time>'));
+  assert.ok(html.includes('실제 진단과 치료 선택은 진찰·검사 결과에 따라 달라집니다'));
+  assert.ok(source.includes('class="clinical-editorial-source"'),
+   'never rely on an unreviewable build-only attribution');
+  const slug=file.slice(0,-5);
+  const expected='<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-30</lastmod>';
+  assert.ok(sitemap.includes(expected),'published Google sitemap should reflect actual page revision: '+file);
+ }
+});
 test('verified Oct 29 revision dates for updated dental patient guides reach published sitemap',()=>{
  const source=readFileSync('sitemap.xml','utf8');
  const published=readFileSync(path.join(output,'sitemap.xml'),'utf8');
@@ -609,7 +649,7 @@ test('verified Oct 29 revision dates for updated dental patient guides reach pub
  // Do not rewrite unrelated timestamps merely because a build was run.
  const revised=[
   'pediatric-dentistry','pediatric-orthodontics',
-  'dental-insurance-faq','gum-treatment','tmj-care','wisdom-tooth',
+  'dental-insurance-faq','tmj-care','wisdom-tooth',
   'medical-safety-guide','medication-dental-faq','systemic-disease-dental-faq',
   'root-canal-retreatment-faq','insured-care','gum-treatment-faq'
  ];
