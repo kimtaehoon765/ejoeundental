@@ -4197,3 +4197,28 @@ body.home-page #main-content>#stories .owner-stories-more>.owner-stories-grid>.o
     color:ButtonText;
   }
 }
+
+
+/* 2026-10-30 · Keep the actual page search fields unobstructed by the
+   fixed booking/call dock when a mobile keyboard is open.
+   CSS only: no script, search parameters, clinic links or patient data change.
+   :has() gracefully degrades to the existing always-visible dock on older
+   browsers; the fixed bar reappears naturally when input focus leaves. */
+@media(max-width:600px){
+  html{
+    scroll-padding-bottom:calc(90px + env(safe-area-inset-bottom,0px));
+  }
+  body.home-page:has(#home-symptom-query:focus) .mobile-booking-actions,
+  body.home-page:has(#home-owner-post-search:focus) .mobile-booking-actions{
+    display:none;
+  }
+  body.home-page:has(#home-symptom-query:focus) .music-reopen,
+  body.home-page:has(#home-owner-post-search:focus) .music-reopen{
+    display:none;
+  }
+  body.home-page :is(#home-symptom-query,#home-owner-post-search):focus{
+    scroll-margin-bottom:calc(95px + env(safe-area-inset-bottom,0px));
+    outline:3px solid #9a793f;
+    outline-offset:3px;
+  }
+}
