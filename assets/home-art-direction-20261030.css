@@ -4222,3 +4222,37 @@ body.home-page #main-content>#stories .owner-stories-more>.owner-stories-grid>.o
     outline-offset:3px;
   }
 }
+
+
+/* 2026-10-31 | Unique illustration prints for sensitivity and insured care.
+   Each pre-existing original SVG is used just once on the homepage.
+   Panoramic art retains the on-image '이조은치과' signature, is never cropped,
+   and replaces typography-only cards without changing their clinical text. */
+body.home-page #main-content > #health-info
+.health-topic-grid > .health-topic-card[data-artwork="true"]
+> .health-topic-painting--panorama > img {
+  width:100%;
+  height:auto;
+  aspect-ratio:8 / 3;
+  object-fit:contain;
+  object-position:center;
+  background:#edf2e7;
+}
+body.home-page #main-content > #health-info
+.health-topic-grid > .health-topic-card:nth-child(3) > .health-topic-painting--panorama {
+  border-color:#beb5ca;
+  background:#f6f1f7;
+}
+body.home-page #main-content > #health-info
+.health-topic-grid > .health-topic-card:nth-child(4) > .health-topic-painting--panorama {
+  border-color:#b4c8b7;
+  background:#eef4e9;
+}
+@media (max-width:600px) {
+  body.home-page #main-content > #health-info
+  .health-topic-grid > .health-topic-card[data-artwork="true"]
+  > .health-topic-painting--panorama > img {
+    aspect-ratio:8 / 3;
+    max-height:none;
+  }
+}
