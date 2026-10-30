@@ -102,3 +102,131 @@ body.pediatric-ortho-decisions .child-ortho-scope{
   color:CanvasText;
  }
 }
+
+/* 2026-10-30 | Growth and alignment study gallery.
+   Display the original growth illustration in full. The individual exam,
+   observation, removable-appliance and referral explanations stay intact. */
+body.care-gallery-secondary.pediatric-ortho-decisions {
+  --ortho-paint:#9b9fa9;
+  background:radial-gradient(ellipse at 90% 4%,rgba(211,216,224,.33),transparent 38%),#fbfaf5;
+}
+body.care-gallery-secondary.pediatric-ortho-decisions .care-gallery-article-shell>h1{
+  max-width:24ch;
+  color:#334b4d;
+  font-size:clamp(29px,4vw,44px);
+  line-height:1.51;
+  letter-spacing:-.058em;
+}
+body.care-gallery-secondary.pediatric-ortho-decisions .care-gallery-article-shell>h1+p{
+  border:1px solid #d8d8da;
+  border-left:4px solid #9a9eaa;
+  border-radius:4px 14px 4px 14px;
+  background:linear-gradient(115deg,#f0f1f5,#fffefa 74%);
+  padding:clamp(17px,2.4vw,23px);
+  line-height:1.87;
+}
+body.care-gallery-secondary.pediatric-ortho-decisions .ejoeun-topic-art--child-growth{
+  border:1px solid #adb3bc;
+  border-top:3px solid #99a0ae;
+  border-radius:5px 15px 5px 15px;
+  background:linear-gradient(140deg,#e6e9ee,#fffefa 75%);
+  box-shadow:0 15px 34px rgba(38,54,66,.065);
+}
+body.care-gallery-secondary.pediatric-ortho-decisions .ejoeun-topic-art--child-growth .ejoeun-topic-art__visual{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:6px solid #fffaf3;
+  outline:1px solid #cacbd0;
+  overflow:visible;
+  background:#f8f6f1;
+}
+body.care-gallery-secondary.pediatric-ortho-decisions .ejoeun-topic-art--child-growth img{
+  width:100%;
+  height:auto;
+  max-height:none;
+  aspect-ratio:auto;
+  object-fit:contain;
+}
+body.care-gallery-secondary.pediatric-ortho-decisions .ejoeun-topic-art--child-growth .ejoeun-topic-art__caption{
+  background:#fffdf9;
+}
+body.care-gallery-secondary.pediatric-ortho-decisions .ejoeun-topic-art--child-growth .ejoeun-topic-art__caption strong{
+  color:#2d4d4f;
+}
+body.care-gallery-secondary.pediatric-ortho-decisions .ortho-choices{
+  border:1px solid #d8d3c7;
+  border-top:3px solid #9dabb2;
+  border-radius:5px 16px 5px 16px;
+  background:linear-gradient(130deg,#f0f3f4,#fffdf7 74%);
+  box-shadow:0 13px 31px rgba(35,55,64,.048);
+}
+body.care-gallery-secondary.pediatric-ortho-decisions .ortho-choice-grid{
+  gap:clamp(10px,1.4vw,18px);
+}
+body.care-gallery-secondary.pediatric-ortho-decisions .ortho-choice-card{
+  box-sizing:border-box;
+  padding:clamp(18px,2vw,24px);
+  border:1px solid #d8d6d0;
+  border-top:3px solid #9faab1;
+  border-radius:4px 12px 4px 12px;
+  background:#fffefa;
+  box-shadow:0 5px 17px rgba(33,52,58,.04);
+}
+body.care-gallery-secondary.pediatric-ortho-decisions .ortho-choice-card:nth-child(2){
+  border-top-color:#baa67d;
+}
+body.care-gallery-secondary.pediatric-ortho-decisions .ortho-choice-card:nth-child(3){
+  border-top-color:#84a18f;
+}
+body.care-gallery-secondary.pediatric-ortho-decisions .ortho-choice-card h3{
+  color:#2d5150;
+  font-size:clamp(18px,1.85vw,22px);
+  line-height:1.53;
+}
+body.care-gallery-secondary.pediatric-ortho-decisions .ortho-choice-card p{
+  font-size:14px;
+  line-height:1.83;
+}
+body.care-gallery-secondary.pediatric-ortho-decisions .child-ortho-scope{
+  border:1px solid #d7d9cf;
+  border-left:4px solid #95a6aa;
+  border-radius:5px 14px 5px 14px;
+  background:#f6f8f6;
+}
+@media(max-width:760px){
+  body.care-gallery-secondary.pediatric-ortho-decisions .ejoeun-topic-art--child-growth{
+    grid-template-columns:minmax(0,1fr);
+    padding:7px;
+  }
+  body.care-gallery-secondary.pediatric-ortho-decisions .ejoeun-topic-art--child-growth .ejoeun-topic-art__visual{
+    border-width:4px;
+  }
+  body.care-gallery-secondary.pediatric-ortho-decisions .ortho-choice-grid {
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+@media(max-width:500px){
+  body.care-gallery-secondary.pediatric-ortho-decisions .care-gallery-article-shell>h1{
+    max-width:none;
+    font-size:clamp(26px,7vw,33px);
+  }
+  body.care-gallery-secondary.pediatric-ortho-decisions .ortho-choice-card{
+    padding:17px 14px;
+  }
+  body.care-gallery-secondary.pediatric-ortho-decisions .ejoeun-topic-art--child-growth .ejoeun-topic-art__caption>span{
+    font-size:14px;
+    line-height:1.82;
+  }
+}
+@media(forced-colors:active){
+  body.care-gallery-secondary.pediatric-ortho-decisions :is(
+    .ejoeun-topic-art--child-growth,.ejoeun-topic-art__visual,
+    .ejoeun-topic-art__caption,.ortho-choices,.ortho-choice-card,.child-ortho-scope
+  ){
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
