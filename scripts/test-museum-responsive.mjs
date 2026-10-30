@@ -1265,3 +1265,57 @@ test('museum symptom gallery keeps seven truthful guides and mobile choices',()=
  assert.ok(final>previous&&previous>=0,'final symptom styles must load after earlier art direction');
  assert.ok(home.includes('class="mobile-booking-actions"'),'Naver reservation and phone dock remain built');
 });
+
+
+test('gallery exit presents four genuine care guides and prominent Naver booking',()=>{
+ const guides=home.match(/<section class="home-care-paths"[\s\S]*?<\/section>/)?.[0]||'';
+ assert.ok(guides.includes('id="home-care-paths-title"'),'four-guide reading collection must remain');
+ const grid=guides.match(/<div class="home-care-paths__grid"[\s\S]*?<\/div>/)?.[0]||'';
+ const paths=[...grid.matchAll(/<a href="([^"]+)" aria-label=/g)].map(m=>m[1]);
+ assert.deepEqual(paths,[
+  '/gum-treatment.html','/retreatment.html','/cervical-abrasion.html','/insured-care.html'
+ ],'retain all four original clinical destinations in order');
+ for(const name of ['잇몸치료','재신경치료','치경부마모증','건강보험 진료']){
+  assert.ok(guides.includes('<strong>'+name+'</strong>'),'medical guide heading missing: '+name);
+ }
+ assert.ok(guides.includes('치료 결과를 뜻하지 않습니다.'),
+  'clinical imagery disclaimer remains visible');
+ const archive=home.match(/<section class="home-archive-gallery"[\s\S]*?<\/section>/)?.[0]||'';
+ assert.ok(archive.includes('href="/clinical-archive.html"'),
+  'original clinician article archive remains available');
+ const preparation=home.match(/<section aria-label="방문 전 유용한 안내"[\s\S]*?<\/section>/)?.[0]||'';
+ for(const url of ['/visit-guide.html','/gum-treatment-faq.html',
+  '/root-canal-retreatment-faq.html','/dental-insurance-faq.html',
+  '/medication-dental-faq.html','/systemic-disease-dental-faq.html',
+  '/medical-safety-guide.html','/previsit-checklist.html']){
+  assert.ok(preparation.includes('href="'+url+'"'),'visitor guide lost: '+url);
+ }
+ const final=home.match(/<nav class="home-finish-nav"[\s\S]*?<\/nav>/)?.[0]||'';
+ assert.ok(final.includes('id="home-finish-title"'),'patient-first conclusion must remain');
+ assert.ok(final.includes('2003년부터 청천동 한자리에서'),'original practice-history text remains');
+ const booking=final.match(/<a class="home-finish-booking" href="([^"]+)"/)?.[1];
+ assert.equal(booking,'https://booking.naver.com/booking/13/bizes/1162931',
+  'closing primary CTA must open the confirmed Naver booking page');
+ for(const href of ['/visit-guide.html','#focus-care','#main-content'])
+  assert.ok(final.includes('href="'+href+'"'),'closing wayfinding link removed: '+href);
+ const css=read('assets/atelier-refinement-20261030.css');
+ for(const token of [
+  'Museum exit: care guides, archive and next step',
+  '.home-care-paths>.home-care-paths__grid',
+  '.home-archive-gallery>a.home-archive-gallery__link',
+  '.home-previsit-links>.home-previsit-card',
+  '.home-finish-nav .home-finish-actions>a.home-finish-booking',
+  'grid-template-columns:repeat(2,minmax(0,1fr))',
+  '@media(max-width:900px)','@media(max-width:700px)',
+  '@media(max-width:390px)','@media(prefers-reduced-motion:reduce)',
+  '@media(forced-colors:active)'
+ ]){
+  assert.ok(css.includes(token),'missing final responsive museum exit style: '+token);
+ }
+ const styles=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
+ const after=styles.findIndex(x=>x.startsWith('/assets/atelier-refinement-20261030.css?v='));
+ const before=styles.findIndex(x=>x.startsWith('/assets/gallery-edition-polish.css?v='));
+ assert.ok(after>before && before>=0,'closing gallery finishes after old design layers');
+ assert.ok(home.includes('class="mobile-booking-actions"') &&
+  home.includes('href="tel:0325132875"'),'independent mobile phone and booking stay available');
+});
