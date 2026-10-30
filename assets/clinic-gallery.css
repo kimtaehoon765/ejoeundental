@@ -1668,3 +1668,129 @@
 @media print{
   .gallery-dialog .gallery-dialog-art-actions{display:none!important}
 }
+
+
+/* 2026-10-31 | Gallery entrance room-ticket navigation.
+   Three exhibit destinations plus the original owner's journal, all
+   plain anchors with no JS and no extra downloaded artwork. */
+.gallery-hero .gallery-hero-content>.gallery-hero-actions {
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  align-items:stretch;
+  width:100%;
+  margin-top:clamp(23px,2.7vw,32px);
+}
+.gallery-hero .gallery-hero-content>.gallery-hero-actions>a {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:6px;
+  min-width:0;
+  min-height:90px;
+  margin:0;
+  padding:14px clamp(13px,1.3vw,18px);
+  border:1px solid #c8b894;
+  border-left:4px solid #b79a64;
+  border-radius:4px 12px 4px 12px;
+  background:#fffcf5;
+  color:#274935;
+  text-align:left;
+  font-size:clamp(12px,1.05vw,14px);
+  font-weight:750;
+  line-height:1.65;
+  word-break:keep-all;
+  text-decoration:none;
+  box-shadow:0 5px 15px rgba(44,63,44,.045);
+}
+.gallery-hero .gallery-hero-content>.gallery-hero-actions>a::before {
+  content:"ROOM 01 / 10 WORKS";
+  display:block;
+  color:#866939;
+  font:800 10px/1.45 system-ui,sans-serif;
+  letter-spacing:.12em;
+}
+.gallery-hero .gallery-hero-content>.gallery-hero-actions>a:nth-child(2) {
+  border-left-color:#82a18b;
+  background:#f8fbf4;
+}
+.gallery-hero .gallery-hero-content>.gallery-hero-actions>a:nth-child(2)::before {
+  content:"ROOM 02 / 03 WORKS";
+  color:#52765c;
+}
+.gallery-hero .gallery-hero-content>.gallery-hero-actions>a:nth-child(3) {
+  border-left-color:#9d8aaa;
+  background:#faf8fb;
+}
+.gallery-hero .gallery-hero-content>.gallery-hero-actions>a:nth-child(3)::before {
+  content:"ROOM 03 / 10 WORKS";
+  color:#73627c;
+}
+.gallery-hero .gallery-hero-content>.gallery-hero-actions>a:nth-child(4) {
+  border-left-color:#b9ad90;
+  background:#f2f0e8;
+}
+.gallery-hero .gallery-hero-content>.gallery-hero-actions>a:nth-child(4)::before {
+  content:"DOCTOR'S JOURNAL";
+}
+.gallery-hero .gallery-hero-content>.gallery-hero-actions>a:focus-visible {
+  outline:3px solid #9c783a;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine) {
+  .gallery-hero .gallery-hero-content>.gallery-hero-actions>a:hover {
+    border-color:#9e8a66;
+    background:#eef3e9;
+    box-shadow:0 9px 21px rgba(40,60,43,.09);
+  }
+}
+@media(max-width:600px) {
+  .gallery-hero .gallery-hero-content>.gallery-hero-actions {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:9px;
+    margin-top:22px;
+  }
+  .gallery-hero .gallery-hero-content>.gallery-hero-actions>a {
+    min-height:98px;
+    padding:12px 11px;
+    font-size:13px;
+    line-height:1.58;
+  }
+  .gallery-hero .gallery-hero-content>.gallery-hero-actions>a::before {
+    font-size:9px;
+    letter-spacing:.07em;
+  }
+}
+@media(max-width:390px) {
+  .gallery-hero .gallery-hero-content>.gallery-hero-actions {
+    grid-template-columns:minmax(0,1fr);
+    gap:8px;
+  }
+  .gallery-hero .gallery-hero-content>.gallery-hero-actions>a {
+    min-height:66px;
+    gap:3px;
+    padding:9px 15px;
+    font-size:13px;
+  }
+}
+@media(forced-colors:active) {
+  .gallery-hero .gallery-hero-content>.gallery-hero-actions>a {
+    background:Canvas;
+    color:LinkText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  .gallery-hero .gallery-hero-content>.gallery-hero-actions>a::before {
+    color:CanvasText;
+  }
+}
+@media print {
+  .gallery-hero .gallery-hero-content>.gallery-hero-actions>a {
+    break-inside:avoid;
+    background:#fff;
+    box-shadow:none;
+  }
+}
