@@ -10,11 +10,14 @@
   const next=document.getElementById('gallery-next');
   const position=document.getElementById('gallery-dialog-position');
   const related=document.getElementById('gallery-dialog-care');
+  const original=document.getElementById('gallery-dialog-original');
+  const description=document.getElementById('gallery-dialog-description');
   const loadStatus=document.getElementById('gallery-dialog-loading');
   const artworks=[...document.querySelectorAll('.gallery-zoom')];
   const roomButtons=[...document.querySelectorAll('.gallery-dialog-room')];
   if(!dialog || !picture || !caption || !close || !prev || !next ||
-     !position || !artworks.length || typeof dialog.showModal!=='function') return;
+     !position || !original || !description || !artworks.length ||
+     typeof dialog.showModal!=='function') return;
   document.documentElement.classList.add('gallery-js');
   let opener=null;
   let currentIndex=0;
@@ -36,10 +39,26 @@
   function showArtwork(index) {
     currentIndex=(index+artworks.length)%artworks.length;
     const button=artworks[currentIndex];
-    picture.src=button.dataset.image || '';
+    const sourceImage=button.dataset.image || '';
+    // Only permit artworks in the public /assets directory. The original
+    // link and displayed painting always belong to the selected button.
+    const safeImage=/^\/assets\/[a-z0-9-]+\.(?:svg|webp|png|jpe?g)$/.test(sourceImage);
+    picture.src=safeImage?sourceImage:'';
     picture.alt=button.dataset.alt || '이조은치과 창작 그림';
     announceLoad(picture.complete && picture.naturalWidth>0?'':'그림을 불러오는 중입니다.');
     caption.textContent=button.dataset.title || '그림 감상';
+    const artCaption=button.closest('.gallery-piece')?.querySelector('figcaption>p') ||
+      button.closest('.gallery-patient-studies__piece')?.querySelector('figcaption>p') ||
+      button.closest('.gallery-watercolor-card')?.querySelector('.gallery-note--watercolor>span>span:last-child');
+    description.textContent=artCaption?.textContent?.trim() || button.dataset.alt || '';
+    original.hidden=!safeImage;
+    if(safeImage){
+      original.setAttribute('href',sourceImage);
+      original.setAttribute('aria-label',caption.textContent+' 원본 그림을 새 창에서 보기');
+    }else{
+      original.removeAttribute('href');
+      original.removeAttribute('aria-label');
+    }
     // The gallery is three curated rooms, not one anonymous 23-image reel.
     // Derive labels from the actual section containing each artwork instead
     // of hard-coding index boundaries that may drift as the gallery grows.
