@@ -355,3 +355,35 @@ test('Google image sitemap lists exactly the 23 images actually exhibited in the
  const schema=JSON.parse(objects[0][1]);
  assert.deepEqual(schema.mainEntity.associatedMedia.map(x=>x.contentUrl),expected);
 });
+
+
+test('museum salon keeps ten full-frame patient artworks in generous columns',()=>{
+ const html=read('gallery.html');
+ const artworks=artworkGroups(html);
+ assert.deepEqual([artworks.originals.length,artworks.watercolor.length,artworks.studies.length],[10,3,10]);
+ const originalSources=artworks.studies.map(piece=>piece.match(/<img\b[^>]*src="([^"]+)"/)?.[1]);
+ assert.equal(new Set(originalSources).size,10,'the ten studies must each use a different original artwork');
+ for(const source of originalSources)assert.ok(source && existsSync('dist'+source),'original study artwork not copied: '+source);
+ for(const piece of artworks.studies){
+  assert.ok(piece.includes('gallery-patient-studies__actions'),'linked clinical guide and original still available');
+  assert.ok(piece.includes('gallery-zoom'),'dialog enlargement preserved');
+ }
+ const css=read('assets/gallery-patient-studies.css');
+ for(const token of [
+  'Patient paintings salon wall: two spacious columns',
+  '@media(min-width:981px)',
+  'grid-template-columns:repeat(2,minmax(0,1fr));',
+  '.gallery-patient-studies__frame>img',
+  'object-fit:contain;',
+  '.gallery-patient-studies__actions>a:first-child',
+  '@media(max-width:630px)',
+  'grid-template-columns:minmax(0,1fr);',
+  '@media(forced-colors:active)'
+ ]){
+  assert.ok(css.includes(token),'gallery salon layout or accessibility missing: '+token);
+ }
+ assert.ok(html.includes(hashedCssUrl('gallery-patient-studies')),
+  'the built gallery must update visitors to the latest salon layout');
+ assert.ok(html.includes('id="gallery-dialog"')&&html.includes('id="gallery-dialog-original"'),
+  'lightbox and original-art control preserved');
+});
