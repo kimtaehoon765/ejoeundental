@@ -286,3 +286,193 @@ body.home-page #main-content>#health-info .health-topic-painting:focus-visible {
     color: CanvasText;
   }
 }
+
+
+/* 2026-10-30 · patient questions as an editorial art-and-reading spread.
+   The four useful patient links stay intact, with one distinct existing
+   original painting used once. No cropping of the artist's signature. */
+body.home-page #main-content>#home-representative-guides .home-representative-guides {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 13px 0;
+  padding: clamp(20px, 3vw, 34px);
+  border: 1px solid #d9cfba;
+  border-top: 3px solid #bba373;
+  border-radius: 3px 15px 3px 15px;
+  background: linear-gradient(130deg, #fffdf7 0%, #f5f5eb 72%, #f1f5ed 100%);
+  box-shadow: 0 12px 30px rgba(28, 55, 39, .045);
+}
+body.home-page #main-content>#home-representative-guides .home-representative-guides>h2 {
+  margin: 0;
+  max-width: 23em;
+  font: 650 clamp(22px, 2.1vw, 28px)/1.48 "Noto Serif KR", "Apple SD Gothic Neo", serif;
+  letter-spacing: -.055em;
+  color: #244633;
+  word-break: keep-all;
+}
+body.home-page #main-content>#home-representative-guides .home-representative-guides>p {
+  margin: 0;
+  max-width: 65ch;
+  color: #4b6053;
+  line-height: 1.88;
+}
+body.home-page #main-content>#home-representative-guides .home-representative-guide-grid {
+  gap: 10px;
+  align-items: stretch;
+}
+body.home-page #main-content>#home-representative-guides .home-representative-guide-grid>a {
+  position: relative;
+  min-width: 0;
+  min-height: 110px;
+  padding: 17px 18px;
+  border: 1px solid #ded4bf;
+  border-left: 3px solid #b6a079;
+  border-radius: 3px 10px 3px 10px;
+  background: #fffefa;
+  box-shadow: 0 5px 16px rgba(29, 57, 38, .035);
+  transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+body.home-page #main-content>#home-representative-guides .home-representative-guide-grid>a strong {
+  color: #204a35;
+  font: 650 16px/1.55 "Noto Serif KR", "Apple SD Gothic Neo", serif;
+  letter-spacing: -.035em;
+  word-break: keep-all;
+}
+body.home-page #main-content>#home-representative-guides .home-representative-guide-grid>a span {
+  margin-top: 7px;
+  color: #45604f;
+  font-size: 13px;
+  line-height: 1.65;
+  word-break: keep-all;
+}
+@media (hover: hover) and (pointer: fine) {
+  body.home-page #main-content>#home-representative-guides .home-representative-guide-grid>a:hover {
+    background: #f4f7ef;
+    border-color: #9aab8c;
+    box-shadow: 0 10px 22px rgba(29, 57, 38, .07);
+  }
+}
+body.home-page #main-content>#home-representative-guides .home-representative-art {
+  min-width: 0;
+  width: 100%;
+  max-width: 620px;
+  margin: 4px auto 0;
+  padding: 8px;
+  border: 1px solid #d7c8a8;
+  border-radius: 3px 13px 3px 13px;
+  background: #efe9db;
+  box-shadow: 0 8px 22px rgba(34, 55, 38, .065);
+}
+body.home-page #main-content>#home-representative-guides .home-representative-art>a {
+  display: block;
+  overflow: hidden;
+  border-radius: 2px 9px 2px 9px;
+  background: #fffdf7;
+  color: #244835;
+}
+body.home-page #main-content>#home-representative-guides .home-representative-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1200 / 760;
+  object-fit: contain;
+  background: #f2f0e7;
+}
+body.home-page #main-content>#home-representative-guides .home-representative-art figcaption {
+  display: grid;
+  gap: 3px;
+  padding: 12px 15px 14px;
+  border-top: 1px solid #dfd5c2;
+  background: #fffdfa;
+}
+body.home-page #main-content>#home-representative-guides .home-representative-art figcaption small {
+  font: 700 10px/1.5 "DM Sans", sans-serif;
+  letter-spacing: .15em;
+  color: #886d46;
+}
+body.home-page #main-content>#home-representative-guides .home-representative-art figcaption strong {
+  font: 650 clamp(15px, 1.3vw, 18px)/1.55 "Noto Serif KR", serif;
+  color: #264733;
+  letter-spacing: -.035em;
+}
+body.home-page #main-content>#home-representative-guides .home-representative-art figcaption span {
+  font-size: 13px;
+  font-weight: 700;
+  color: #42684d;
+}
+body.home-page #main-content>#home-representative-guides .home-representative-art a:focus-visible {
+  outline: 3px solid #ad8748;
+  outline-offset: 4px;
+}
+@media (min-width: 1080px) {
+  body.home-page #main-content>#home-representative-guides .home-representative-guides {
+    grid-template-columns: minmax(0, 1.3fr) minmax(340px, .9fr);
+    grid-template-rows: auto auto 1fr;
+    column-gap: clamp(24px, 3vw, 42px);
+    row-gap: 14px;
+  }
+  body.home-page #main-content>#home-representative-guides .home-representative-guides>h2 {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  body.home-page #main-content>#home-representative-guides .home-representative-guides>p {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  body.home-page #main-content>#home-representative-guides .home-representative-guide-grid {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  body.home-page #main-content>#home-representative-guides .home-representative-art {
+    grid-column: 2;
+    grid-row: 1 / 4;
+    align-self: center;
+    margin: 0;
+  }
+}
+@media (max-width: 600px) {
+  body.home-page #main-content>#home-representative-guides .home-representative-guides {
+    padding: 20px 14px;
+    gap: 12px;
+  }
+  body.home-page #main-content>#home-representative-guides .home-representative-guides>h2 {
+    font-size: clamp(21px, 5.6vw, 26px);
+  }
+  body.home-page #main-content>#home-representative-guides .home-representative-guides>p {
+    font-size: 14px;
+    line-height: 1.75;
+  }
+  body.home-page #main-content>#home-representative-guides .home-representative-guide-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+  body.home-page #main-content>#home-representative-guides .home-representative-guide-grid>a {
+    min-height: 76px;
+    padding: 13px 14px;
+  }
+  body.home-page #main-content>#home-representative-guides .home-representative-guide-grid>a strong {
+    font-size: 15px;
+  }
+  body.home-page #main-content>#home-representative-guides .home-representative-art {
+    padding: 6px;
+  }
+  body.home-page #main-content>#home-representative-guides .home-representative-art figcaption {
+    padding: 11px 12px 13px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.home-page #main-content>#home-representative-guides .home-representative-guide-grid>a {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  body.home-page #main-content>#home-representative-guides :is(.home-representative-guides,.home-representative-guide-grid>a,.home-representative-art,.home-representative-art>a,.home-representative-art figcaption) {
+    background: Canvas;
+    color: CanvasText;
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+  body.home-page #main-content>#home-representative-guides :is(.home-representative-guides>h2,.home-representative-guides>p,.home-representative-guide-grid>a strong,.home-representative-guide-grid>a span,.home-representative-art figcaption small,.home-representative-art figcaption strong,.home-representative-art figcaption span) {
+    color: CanvasText;
+  }
+}
