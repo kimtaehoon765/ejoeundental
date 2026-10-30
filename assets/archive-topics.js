@@ -56,6 +56,7 @@
 
   const groupsWithLinks = groups.map(group => ({
     group,
+    countLabel: group.querySelector('.archive-blog-count'),
     topic: normalize(group.querySelector('summary strong')?.textContent),
     items: [...group.querySelectorAll('li')].map(li => ({
       li,
@@ -68,6 +69,35 @@
   box.setAttribute('aria-label', '원장 네이버 글 ' + totalPosts + '편 찾기');
   label.textContent = '원장 글 ' + totalPosts + '편에서 제목·주제 찾기';
   status.textContent = '전체 ' + totalPosts + '편 · 주제별 제목을 펼치거나 검색어를 입력해 보세요.';
+
+  // Offer real, available topics rather than leaving a patient with an empty
+  // search result. Counts come from the current 509 original article titles.
+  const quickTopics = document.createElement('div');
+  quickTopics.className = 'archive-search-topics';
+  const quickLabel = document.createElement('span');
+  quickLabel.className = 'archive-search-topics__label';
+  quickLabel.textContent = '주제 바로 검색';
+  quickTopics.append(quickLabel);
+  const quickButtons = [];
+  for (const keyword of ['잇몸치료', '재신경치료', '충치치료', '사랑니', '건강보험']) {
+    const key = normalize(keyword);
+    const count = groupsWithLinks.reduce((sum, { items }) =>
+      sum + items.filter(({ title }) => title.includes(key)).length, 0);
+    if (!count) continue;
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'archive-search-topic';
+    button.textContent = keyword + ' · ' + count + '편';
+    button.setAttribute('aria-pressed', 'false');
+    button.addEventListener('click', () => {
+      input.value = keyword;
+      filterPosts();
+      discardStaleQueryFromAddress();
+    });
+    quickTopics.append(button);
+    quickButtons.push({ button, key });
+  }
+  if (quickButtons.length) box.insertBefore(quickTopics, jumpButton);
   let openBeforeSearch = null;
   let firstMatch = null;
 
@@ -75,10 +105,14 @@
     const query = normalize(input.value);
     const terms = searchTerms(input.value);
     clearButton.hidden = !query;
+    for (const { button, key } of quickButtons) {
+      button.setAttribute('aria-pressed', query && query === key ? 'true' : 'false');
+    }
     if (!query) {
       firstMatch = null;
       jumpButton.hidden = true;
-      for (const { group, items } of groupsWithLinks) {
+      for (const { group, items, countLabel } of groupsWithLinks) {
+        if (countLabel) countLabel.textContent = items.length + '편';
         group.hidden = false;
         for (const { li } of items) li.hidden = false;
         if (openBeforeSearch) group.open = openBeforeSearch.get(group) === true;
@@ -92,7 +126,7 @@
     }
     let found = 0;
     firstMatch = null;
-    for (const { group, topic, items } of groupsWithLinks) {
+    for (const { group, topic, items, countLabel } of groupsWithLinks) {
       // An archive heading such as "잇몸치료" describes many different posts.
       // Prefer articles whose own titles match, rather than labeling every
       // article in that category as an exact search result. If no title
@@ -112,6 +146,7 @@
           if (!firstMatch) firstMatch = li.querySelector('a');
         }
       }
+      if (countLabel) countLabel.textContent = inGroup + '편';
       group.hidden = inGroup === 0;
       group.open = inGroup > 0;
       found += inGroup;
@@ -119,7 +154,7 @@
     jumpButton.hidden = !firstMatch;
     status.textContent = found
       ? '원장 글 ' + found + '편을 찾았습니다. 첫 결과로 이동하거나 제목을 누르면 네이버 원문이 열립니다.'
-      : '일치하는 원장 글이 없습니다. 다른 검색어로 다시 찾아보세요.';
+      : '일치하는 원장 글이 없습니다. 검색어를 바꾸거나 아래의 주제 바로 검색을 이용해 보세요.';
   }
   // A direct query link is shareable when first opened. Once the patient
   // edits or clears that query, remove its stale URL parameter without
