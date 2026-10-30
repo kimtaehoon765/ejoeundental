@@ -91,7 +91,7 @@ try{
  // SEO business hours must describe only sessions consistently open each
  // week. Friday mornings are regular; Friday afternoons and Saturdays vary.
  // Compare the deployed structured data with the current built homepage.
- const clinicSchema=page=>[...page.matchAll(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/g)]
+ const clinicSchema=page=>[...page.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
    .map(match=>{try{return JSON.parse(match[1]);}catch{return null;}})
    .find(data=>data?.['@id']===origin+'/#clinic');
  const liveClinic=clinicSchema(html),sourceClinic=clinicSchema(expectedBuiltHome);
