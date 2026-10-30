@@ -555,7 +555,7 @@ test('seven revised dental articles have truthful Google dates and two crawlable
    slug+' structured-data modification date mismatch');
  }
  for(const route of ['/','/stories.html']){
-  assert.ok(sitemap.includes('<loc>'+origin+route+'</loc><lastmod>2026-10-29</lastmod>'),
+  assert.ok(sitemap.includes('<loc>'+origin+route+'</loc><lastmod>'+(route==='/'?'2026-10-30':'2026-10-29')+'</lastmod>'),
    route+' lastmod should record the current substantive navigation change');
  }
  assert.ok(!directory.includes('<!-- BUILD_STORY_DIRECTORY -->'),
