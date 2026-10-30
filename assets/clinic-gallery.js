@@ -95,6 +95,10 @@
     if(!dialog.open || event.touches.length!==1){touchStart=null;return;}
     touchStart={x:event.touches[0].clientX,y:event.touches[0].clientY};
   },{passive:true});
+  picture.addEventListener('touchmove',event=>{
+    // If a second finger joins the gesture, never interpret it as navigation.
+    if(event.touches.length!==1)touchStart=null;
+  },{passive:true});
   picture.addEventListener('touchend',event=>{
     if(!dialog.open || !touchStart){touchStart=null;return;}
     const start=touchStart;
