@@ -2638,3 +2638,142 @@ body.home-page #main-content>#care .care-more-details .care-more-grid>.card>p:la
     border-color:CanvasText;
   }
 }
+
+
+/* 2026-10-30 · Mobile museum entry / navigation legibility.
+   Retains the five existing opening shortcuts and the three existing
+   scrolled shortcuts, with no extra buttons or altered navigation targets. */
+@media(max-width:600px){
+  body.home-page>header{
+    border-bottom:1px solid #dacaa9;
+    background:#faf8f2;
+  }
+  html:not(.home-scrolled) body.home-page header .nav{
+    box-sizing:border-box;
+    column-gap:9px;
+    row-gap:7px;
+    padding:11px clamp(10px,3.3vw,16px) 12px;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .logo{
+    display:inline-flex;
+    align-items:center;
+    min-width:0;
+    min-height:44px;
+    padding-left:11px;
+    border-left:3px solid #bfa274;
+    color:#214b37;
+    font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+    font-size:clamp(21px,5.6vw,25px);
+    font-weight:800;
+    line-height:1.35;
+    text-decoration:none;
+    letter-spacing:-.05em;
+    white-space:nowrap;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick{
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:clamp(3px,1vw,6px);
+    padding-top:7px;
+    border-top:1px solid #e2d6be;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick>a{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-sizing:border-box;
+    min-width:0;
+    min-height:54px;
+    padding:8px 2px;
+    border:1px solid #d7c9b0;
+    border-radius:4px 10px 4px 10px;
+    background:#fffdf7;
+    color:#2b5240;
+    box-shadow:0 3px 9px rgba(37,63,43,.055);
+    font-size:clamp(11.5px,3.1vw,13px);
+    font-weight:750;
+    line-height:1.42;
+    letter-spacing:-.035em;
+    text-align:center;
+    text-wrap:balance;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+    text-decoration:none;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick>a.stories-mobile-link{
+    background:#f3ead7;
+    border-color:#bba276;
+    color:#2c4f39;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick>a[href="#location"]{
+    background:#eaf2e8;
+    border-color:#aac3ad;
+    color:#28523b;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick>a.mobile-call{
+    background:#28583f;
+    border-color:#28583f;
+    color:#fffdf5;
+  }
+  html.home-scrolled body.home-page header .nav{
+    border-bottom:0;
+    background:#faf8f2;
+  }
+  html.home-scrolled body.home-page header .nav .logo{
+    display:inline-flex;
+    align-items:center;
+    min-height:44px;
+    min-width:0;
+    font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+    letter-spacing:-.045em;
+  }
+  html.home-scrolled body.home-page header .nav .mobile-quick{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:5px;
+    min-width:0;
+  }
+  html.home-scrolled body.home-page header .nav .mobile-quick :is(
+    a[href="#home-symptom-query"],a.stories-mobile-link,a.mobile-call
+  ){
+    box-sizing:border-box;
+    min-height:46px;
+    min-width:0;
+    padding:5px 2px;
+    border-radius:4px 8px 4px 8px;
+    font-size:clamp(11px,2.95vw,12px);
+    line-height:1.3;
+    text-align:center;
+    text-wrap:balance;
+    word-break:keep-all;
+  }
+  body.home-page header .nav .mobile-quick>a:focus-visible,
+  body.home-page header .nav .logo:focus-visible{
+    outline:3px solid #ae8343;
+    outline-offset:3px;
+  }
+}
+@media(max-width:345px){
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick>a{
+    min-height:56px;
+    font-size:11.5px;
+    padding-inline:1px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.home-page header .nav .mobile-quick>a{
+    transition:none;
+    transform:none;
+  }
+}
+@media(forced-colors:active){
+  body.home-page>header,
+  body.home-page header .nav .logo,
+  body.home-page header .nav .mobile-quick>a{
+    background:Canvas!important;
+    color:CanvasText!important;
+    border-color:CanvasText!important;
+    box-shadow:none!important;
+  }
+  body.home-page header .nav .mobile-quick>a:focus-visible{
+    outline-color:Highlight;
+  }
+}
