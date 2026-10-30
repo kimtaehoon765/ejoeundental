@@ -1,0 +1,262 @@
+/* 이조은치과 · 2026-10-31 · calm visit-preparation reading path.
+   Presentation only: retains all original medication advice, print controls,
+   clinical articles, source art and privacy behavior. */
+.previsit-journey{
+  box-sizing:border-box;
+  margin:clamp(21px,3vw,31px) auto clamp(25px,3vw,38px);
+  padding:clamp(16px,2.3vw,24px);
+  border:1px solid #d6c8ae;
+  border-top:3px solid #b29a70;
+  border-radius:4px 15px 4px 15px;
+  background:linear-gradient(128deg,#f7f3ea,#fffdf7 64%,#edf3eb);
+  box-shadow:0 11px 27px rgba(30,58,39,.049);
+  color:#274b38;
+}
+.previsit-journey>small{
+  display:block;
+  margin-bottom:3px;
+  color:#8a704b;
+  font:750 11px/1.5 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.11em;
+}
+.previsit-journey>strong{
+  display:block;
+  margin-bottom:6px;
+  color:#2c503b;
+  font:700 clamp(19px,2.3vw,25px)/1.55
+    "Noto Serif KR","Apple SD Gothic Neo","Malgun Gothic",serif;
+  letter-spacing:-.045em;
+  word-break:keep-all;
+}
+.previsit-journey>p{
+  margin:0 0 16px;
+  color:#576b59;
+  font-size:14px;
+  line-height:1.78;
+  word-break:keep-all;
+}
+.previsit-journey__items{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+}
+.previsit-journey__items>a{
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  min-width:0;
+  min-height:54px;
+  padding:11px 13px;
+  border:1px solid #d9d4c6;
+  border-radius:4px 10px 4px 10px;
+  background:#fffefa;
+  color:#30563f;
+  font-size:14px;
+  font-weight:750;
+  line-height:1.67;
+  text-decoration:none;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+.previsit-journey__items>a>span{
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  box-sizing:border-box;
+  width:29px;
+  height:29px;
+  border:1px solid #d9c9aa;
+  border-radius:3px;
+  background:#f3ebdd;
+  color:#866d49;
+  font:750 12px/1 Georgia,serif;
+}
+.previsit-journey__items>a[aria-current="page"]{
+  border-color:#9cb6a0;
+  border-left:4px solid #6b987d;
+  background:#ebf3e9;
+  color:#214e36;
+}
+.previsit-journey__items>a:hover{
+  border-color:#8dad92;
+  background:#f0f6ed;
+}
+.previsit-journey__items>a:focus-visible,
+.health-history-outline a:focus-visible{
+  outline:3px solid #a98045;
+  outline-offset:3px;
+}
+body.medical-history-gallery .health-history-outline{
+  box-sizing:border-box;
+  margin:15px 0 26px;
+  padding:clamp(17px,2.3vw,23px);
+  border:1px solid #d8d0be;
+  border-left:4px solid #91a991;
+  border-radius:5px 13px 5px 13px;
+  background:linear-gradient(118deg,#f1f5eb,#fffefa);
+}
+body.medical-history-gallery .health-history-outline>strong{
+  display:block;
+  margin-bottom:12px;
+  color:#28543c;
+  font:700 clamp(17px,2vw,22px)/1.57
+    "Noto Serif KR","Apple SD Gothic Neo",serif;
+}
+body.medical-history-gallery .health-history-outline__items{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+}
+body.medical-history-gallery .health-history-outline__items>a{
+  box-sizing:border-box;
+  display:inline-flex;
+  align-items:center;
+  min-height:49px;
+  padding:10px 13px;
+  border:1px solid #d0d9ce;
+  border-radius:4px 10px 4px 10px;
+  background:#fffefa;
+  color:#305841;
+  font-size:14px;
+  font-weight:740;
+  line-height:1.6;
+  text-decoration:none;
+  word-break:keep-all;
+}
+body.medical-history-gallery :is(#history-conditions,#history-medications,#history-questions,#visit-checklist){
+  scroll-margin-top:90px;
+}
+body.medical-history-gallery .medical-history-art__picture img{
+  box-sizing:border-box;
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:none;
+  aspect-ratio:auto;
+  object-fit:contain;
+}
+body.medical-history-gallery .medical-history-art{
+  border-radius:4px 14px 4px 14px;
+}
+body.safety-reading-room .reading-art img{
+  height:auto;
+  aspect-ratio:auto;
+  object-fit:contain;
+}
+body.safety-reading-room .grid>.card{
+  border-radius:4px 12px 4px 12px;
+  min-height:154px;
+  word-break:keep-all;
+}
+body.safety-reading-room .reading-caution{
+  scroll-margin-top:88px;
+}
+body.previsit-prepared main>section#previsit-info{
+  border:1px solid #d5dccc;
+  border-top:3px solid #91a793;
+  border-radius:5px 14px 5px 14px;
+  background:#fffefa;
+  padding:clamp(17px,2.7vw,26px);
+  box-shadow:0 10px 28px rgba(32,62,42,.05);
+}
+body.previsit-prepared main>section#previsit-info>h2{
+  margin:0 0 15px;
+  color:#2a533c;
+  font:700 clamp(20px,2.5vw,26px)/1.56
+    "Noto Serif KR","Apple SD Gothic Neo",serif;
+}
+body.previsit-prepared main>section#previsit-info label{
+  box-sizing:border-box;
+  display:flex;
+  align-items:flex-start;
+  min-height:52px;
+  padding:12px 10px;
+  border-bottom:1px solid #e3e8df;
+  border-radius:5px;
+  line-height:1.78;
+  word-break:keep-all;
+}
+body.previsit-prepared main>section#previsit-info label:has(input:checked){
+  background:#eef5eb;
+  border-color:#d3e2d0;
+}
+body.previsit-prepared main>section#previsit-info input[type="checkbox"]{
+  flex:0 0 auto;
+  width:23px;
+  height:23px;
+  margin-top:3px;
+}
+body.previsit-prepared .print-action button{
+  box-sizing:border-box;
+  min-height:51px;
+  padding:11px 21px!important;
+  border-radius:5px 12px 5px 12px!important;
+  background:#275e44!important;
+  color:#fff!important;
+  font-size:15px!important;
+  font-weight:760!important;
+}
+@media(max-width:620px){
+  .previsit-journey{
+    margin:19px auto 24px;
+    padding:17px 13px;
+  }
+  .previsit-journey__items,
+  body.medical-history-gallery .health-history-outline__items{
+    grid-template-columns:minmax(0,1fr);
+    gap:7px;
+  }
+  .previsit-journey__items>a{
+    min-height:49px;
+    padding:9px 10px;
+    font-size:13px;
+  }
+  body.medical-history-gallery .health-history-outline{
+    padding:17px 12px;
+  }
+  body.medical-history-gallery .health-history-outline__items>a{
+    min-height:47px;
+  }
+  body.previsit-prepared main>section#previsit-info{
+    padding:18px 12px;
+  }
+  body.previsit-prepared main>section#previsit-info label{
+    padding:12px 5px;
+    min-height:49px;
+  }
+}
+@media print{
+  .previsit-journey,
+  body.medical-history-gallery .health-history-outline{
+    display:none!important;
+  }
+  body.previsit-prepared main>section#previsit-info{
+    border:0!important;
+    padding:0!important;
+    box-shadow:none!important;
+    background:#fff!important;
+  }
+  body.previsit-prepared main>section#previsit-info label:has(input:checked){
+    background:#fff!important;
+  }
+  body.previsit-prepared main>section#previsit-info label{
+    border-radius:0;
+    break-inside:avoid;
+  }
+}
+@media(forced-colors:active){
+  .previsit-journey,
+  .previsit-journey__items>a,
+  .previsit-journey__items>a>span,
+  body.medical-history-gallery .health-history-outline,
+  body.medical-history-gallery .health-history-outline__items>a,
+  body.previsit-prepared main>section#previsit-info,
+  body.previsit-prepared main>section#previsit-info label:has(input:checked){
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
