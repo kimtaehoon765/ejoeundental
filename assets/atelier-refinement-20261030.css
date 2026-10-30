@@ -885,3 +885,190 @@ body.home-page #main-content > .symptom-navigator .symptom-quick-topics a {
     box-shadow:none;
   }
 }
+
+
+/* Visit journey & doctor's journal reading plates · 2026-10-30.
+   Existing clinical copy and article links remain in HTML; the four preparation
+   steps and three original patient questions are easier to scan on a phone. */
+body.home-page #main-content > #visit-guide .visit-care-steps {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:stretch;
+  gap:clamp(13px,1.8vw,20px);
+  margin:clamp(17px,2.6vw,28px) 0;
+}
+body.home-page #main-content > #visit-guide .visit-care-steps > .visit-care-step {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:10px;
+  min-width:0;
+  min-height:212px;
+  margin:0;
+  padding:clamp(17px,2vw,25px);
+  border:1px solid #dcd2bd;
+  border-left:4px solid #aa9268;
+  border-radius:4px 13px 4px 13px;
+  background:linear-gradient(148deg,#fffefa 0%,#f5f5ed 100%);
+  box-shadow:0 8px 19px rgba(33,58,41,.047);
+}
+body.home-page #main-content > #visit-guide .visit-care-step:nth-child(even) {
+  border-left-color:#7e9d83;
+  background:linear-gradient(148deg,#fffefa 0%,#eef4eb 100%);
+}
+body.home-page #main-content > #visit-guide .visit-care-step__number {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-height:24px;
+  color:#917044;
+  font:800 11px/1.45 "DM Sans",system-ui,sans-serif;
+  letter-spacing:.13em;
+}
+body.home-page #main-content > #visit-guide .visit-care-step__number::after {
+  content:"";
+  display:inline-block;
+  width:clamp(22px,4vw,48px);
+  height:1px;
+  background:#c0a77d;
+}
+body.home-page #main-content > #visit-guide .visit-care-step h3 {
+  margin:0;
+  color:#224c37;
+  font:750 clamp(17px,1.65vw,21px)/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.04em;
+  word-break:keep-all;
+  text-wrap:balance;
+}
+body.home-page #main-content > #visit-guide .visit-care-step p {
+  margin:0;
+  color:#415a4a;
+  font-size:14px;
+  line-height:1.82;
+  word-break:keep-all;
+}
+body.home-page #main-content > #visit-guide .visit-care-step p a {
+  display:inline;
+  color:#18513b;
+  font-weight:800;
+  text-underline-offset:4px;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content > #visit-guide .visit-care-step a:focus-visible {
+  outline:3px solid #b18b4a;
+  outline-offset:3px;
+}
+body.home-page #main-content > #stories .story-featured-questions {
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin:clamp(15px,2vw,23px) 0 clamp(21px,2.7vw,32px);
+  padding:clamp(15px,2vw,22px);
+  border-top:3px solid #a68c5c;
+  border-radius:4px 12px 4px 12px;
+  background:linear-gradient(145deg,#fcf8ee,#f2f6ec);
+}
+body.home-page #main-content > #stories .story-featured-questions > strong {
+  grid-column:1 / -1;
+  margin:0 0 6px;
+  color:#244c37;
+  font:750 clamp(16px,1.6vw,20px)/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.035em;
+}
+body.home-page #main-content > #stories .story-featured-questions > a {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-start;
+  gap:11px;
+  min-width:0;
+  min-height:135px;
+  padding:clamp(15px,1.7vw,20px);
+  border:1px solid #d9d4c3;
+  border-left:3px solid #a98e5d;
+  border-radius:4px 11px 4px 11px;
+  background:#fffefa;
+  color:#234b39;
+  font:750 14px/1.68 system-ui,"Apple SD Gothic Neo",sans-serif;
+  text-align:left;
+  word-break:keep-all;
+  text-decoration:none;
+  box-shadow:0 5px 13px rgba(33,58,42,.04);
+  counter-increment:journal-question;
+}
+body.home-page #main-content > #stories .story-featured-questions {
+  counter-reset:journal-question;
+}
+body.home-page #main-content > #stories .story-featured-questions > a::before {
+  content:"QUESTION " counter(journal-question,decimal-leading-zero);
+  color:#8b6e47;
+  font:800 10px/1.5 "DM Sans",system-ui,sans-serif;
+  letter-spacing:.08em;
+}
+body.home-page #main-content > #stories .story-featured-questions > a:hover {
+  border-color:#879d87;
+  border-left-color:#547a5b;
+  background:#f5f8f1;
+}
+body.home-page #main-content > #stories .story-featured-questions > a:focus-visible {
+  outline:3px solid #ae8240;
+  outline-offset:3px;
+}
+@media(max-width:760px) {
+  body.home-page #main-content > #visit-guide .visit-care-steps {
+    grid-template-columns:minmax(0,1fr);
+    gap:10px;
+    margin:17px 0 20px;
+  }
+  body.home-page #main-content > #visit-guide .visit-care-steps > .visit-care-step {
+    min-height:0;
+    gap:7px;
+    padding:17px 15px 18px;
+  }
+  body.home-page #main-content > #stories .story-featured-questions {
+    grid-template-columns:minmax(0,1fr);
+    gap:8px;
+    padding:14px 12px;
+  }
+  body.home-page #main-content > #stories .story-featured-questions > a {
+    min-height:84px;
+    gap:5px;
+    padding:13px 14px;
+    font-size:14px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.home-page #main-content > #stories .story-featured-questions > a {
+    transition:none;
+    transform:none;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > #visit-guide .visit-care-steps > .visit-care-step,
+  body.home-page #main-content > #stories .story-featured-questions,
+  body.home-page #main-content > #stories .story-featured-questions > a {
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content > #visit-guide .visit-care-step :is(span,h3,p,a),
+  body.home-page #main-content > #stories .story-featured-questions :is(strong,a),
+  body.home-page #main-content > #stories .story-featured-questions > a::before {
+    color:CanvasText;
+  }
+}
+@media print {
+  body.home-page #main-content > #visit-guide .visit-care-steps,
+  body.home-page #main-content > #stories .story-featured-questions {
+    gap:9px;
+  }
+  body.home-page #main-content > #visit-guide .visit-care-steps > .visit-care-step,
+  body.home-page #main-content > #stories .story-featured-questions > a {
+    box-shadow:none;
+    break-inside:avoid;
+  }
+}
