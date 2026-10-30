@@ -77,7 +77,8 @@ test('search reveals only matching entries and one-tap reset restores original o
  site.input.value='재신경치료';
  site.input.handlers.input();
  assert.equal(site.button.hidden,false);
- assert.match(site.status.textContent,/15편을 찾았습니다/);
+ assert.match(site.status.textContent,/관련 주제의 원장 글 15편을 표시합니다/,
+  'when a topic is opened as fallback, do not claim the exact titles matched');
  assert.equal(site.groups.filter(x=>x.hidden).length,4);
  assert.equal(site.groups.find(x=>x.id==='archive-group-root').open,true);
  site.button.handlers.click();
@@ -266,7 +267,8 @@ test('homepage topic shortcuts open real original-blog archive categories in one
 test('homepage query pre-filters the 509 originals without another search step',()=>{
  const site=setup({search:'?q='+encodeURIComponent('재신경치료'),hash:'#archive-blog-posts'});
  assert.equal(site.input.value,'재신경치료');
- assert.match(site.status.textContent,/15편을 찾았습니다/);
+ assert.match(site.status.textContent,/관련 주제의 원장 글 15편을 표시합니다/,
+  'the arriving homepage query should reveal a clearly labeled topic fallback');
  assert.equal(site.groups.find(group=>group.id==='archive-group-root').open,true);
  assert.equal(site.groups.filter(group=>!group.hidden).length,1);
  site.button.handlers.click();
