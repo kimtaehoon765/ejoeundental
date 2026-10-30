@@ -3421,3 +3421,119 @@ body.home-page #home-representative-guides .home-representative-guide-grid>a:nth
     border-color:CanvasText;
   }
 }
+
+
+/* 2026-10-30 · Doctor and philosophy reading room: uncropped art, legible credits. */
+/* On medium and small displays keep the approved original picture at its
+   natural 3:2 proportion. Older size caps in early stylesheets could make
+   it look like a postage stamp inside a large exhibition mat. */
+body.home-page #main-content>#doctor .doctor-gallery-art--original-art>img{
+  box-sizing:border-box;
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:none;
+  min-height:0;
+  aspect-ratio:3 / 2;
+  object-fit:contain;
+  object-position:center;
+  padding:clamp(6px,.9vw,11px);
+  background:#f4efe4;
+}
+body.home-page #main-content>#doctor .doctor-gallery-art--original-art>p{
+  padding:clamp(14px,1.6vw,20px);
+  font-size:clamp(14px,1.26vw,17px);
+  line-height:1.75;
+  letter-spacing:-.03em;
+  text-wrap:pretty;
+  word-break:keep-all;
+}
+body.home-page #main-content>#doctor #doctor_title{
+  max-width:24ch;
+  font-size:clamp(25px,2.85vw,39px);
+  line-height:1.52;
+  text-wrap:balance;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content>#doctor #doctor_body{
+  max-width:70ch;
+  line-height:1.92;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+@media(max-width:900px){
+  body.home-page #main-content>#doctor .frame{
+    box-sizing:border-box;
+    width:min(100%,440px);
+    max-width:440px;
+    min-height:0;
+    margin-inline:auto;
+    padding:clamp(7px,1.5vw,11px);
+  }
+  body.home-page #main-content>#doctor #doctor_title{
+    max-width:100%;
+  }
+}
+@media(max-width:540px){
+  body.home-page #main-content>#doctor .frame{
+    width:100%;
+    max-width:430px;
+    margin:0 auto 13px;
+  }
+  body.home-page #main-content>#doctor .doctor-gallery-art--original-art>img{
+    width:100%;
+    height:auto;
+    max-height:none;
+    aspect-ratio:3 / 2;
+    padding:6px;
+  }
+  body.home-page #main-content>#doctor .doctor-gallery-art--original-art>p{
+    padding:12px 13px 15px;
+    font-size:14px;
+    line-height:1.72;
+  }
+  body.home-page #main-content>#doctor #doctor_title{
+    font-size:clamp(24px,6.2vw,30px);
+    line-height:1.55;
+  }
+  body.home-page #main-content>#doctor #doctor_body{
+    font-size:15px;
+    line-height:1.9;
+  }
+  body.home-page #main-content>#philosophy .philosophy-editorial__painting>img{
+    display:block;
+    width:100%;
+    height:auto;
+    aspect-ratio:1200 / 680;
+    object-fit:contain;
+  }
+  body.home-page #main-content>#philosophy .philosophy-editorial__copy>.lead{
+    font-size:15px;
+    line-height:1.9;
+  }
+}
+@media(max-width:390px){
+  /* Credentials are read more easily as stacked labels on narrow phones,
+     rather than forcing the long university degree into a narrow column. */
+  body.home-page #main-content>#doctor .doctor-credential-ledger__item{
+    grid-template-columns:minmax(0,1fr);
+    align-items:start;
+    gap:4px;
+    padding:12px 13px;
+  }
+  body.home-page #main-content>#doctor .doctor-credential-ledger__item>.pill,
+  body.home-page #main-content>#doctor .doctor-credential-ledger__item #doctor_degree,
+  body.home-page #main-content>#doctor .doctor-credential-ledger__item .doctor-specialist-pill{
+    font-size:14px;
+    line-height:1.67;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#doctor .doctor-gallery-art--original-art>img,
+  body.home-page #main-content>#doctor .doctor-gallery-art--original-art>p{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+  }
+}
