@@ -208,11 +208,12 @@ test('gallery lightbox navigates all 23 paintings and returns keyboard focus',as
  assert.ok(buttons.every(b=>b.dataset.image&&b.dataset.title));
  const roomControls=roomMarkup.map(tag=>mock({room:attr(tag,'data-room')}));
  assert.deepEqual(roomControls.map(button=>button.dataset.room),['paintings','education','patient-studies']);
- const img=mock(),heading={textContent:''},roomTitle={textContent:''},pos={textContent:''},
+ const img=mock(),loadStatus={hidden:true,textContent:''},
+  heading={textContent:''},roomTitle={textContent:''},pos={textContent:''},
   close=mock(),prev=mock(),next=mock(),dialog=mock();
  dialog.open=false;dialog.showModal=()=>{dialog.open=true};dialog.close=()=>{dialog.open=false;dialog.handlers.close?.()};
  const ids={'gallery-dialog':dialog,'gallery-dialog-image':img,'gallery-dialog-title':heading,
-  'gallery-dialog-section':roomTitle,'gallery-dialog-position':pos,
+  'gallery-dialog-section':roomTitle,'gallery-dialog-position':pos,'gallery-dialog-loading':loadStatus,
   'gallery-close':close,'gallery-prev':prev,'gallery-next':next};
  const classes=[];
  const document={documentElement:{classList:{add(name){classes.push(name)}}},
@@ -222,6 +223,10 @@ test('gallery lightbox navigates all 23 paintings and returns keyboard focus',as
  assert.ok(classes.includes('gallery-js'));
  buttons[22].click();
  assert.equal(img.src,buttons[22].dataset.image);
+ assert.equal(loadStatus.hidden,false,'loading feedback should appear until the image is ready');
+ assert.match(loadStatus.textContent,/불러오는 중/);
+ img.handlers.load();
+ assert.equal(loadStatus.hidden,true,'successful decoding hides the loading message');
  assert.equal(pos.textContent,'23 / 23');
  assert.match(roomTitle.textContent,/제3전시실.*10 \/ 10/);
  assert.equal(dialog.open,true);
@@ -229,6 +234,12 @@ test('gallery lightbox navigates all 23 paintings and returns keyboard focus',as
  assert.equal(roomControls[0].getAttribute('aria-current'),'false');
  next.click();
  assert.equal(img.src,buttons[0].dataset.image);
+ assert.equal(loadStatus.hidden,false,'the next painting needs its own loading state');
+ img.handlers.error();
+ assert.equal(loadStatus.hidden,false);
+ assert.match(loadStatus.textContent,/원본 보기/,'image errors should explain the direct-original fallback');
+ img.handlers.load();
+ assert.equal(loadStatus.hidden,true);
  assert.equal(pos.textContent,'01 / 23');
  assert.match(roomTitle.textContent,/제1전시실.*1 \/ 10/);
  assert.equal(roomControls[0].getAttribute('aria-current'),'true');
@@ -281,7 +292,26 @@ test('gallery lightbox navigates all 23 paintings and returns keyboard focus',as
  assert.equal(prevented,1);
  close.click();
  assert.equal(dialog.open,false);
+ assert.equal(loadStatus.hidden,true,'closing the modal must clear any pending loading status');
  assert.equal(buttons[22].focused,true);
+});
+test('gallery modal defers its image request and leaves gallery SEO artwork discoverable',()=>{
+ const html=read('gallery.html'),css=read('assets/clinic-gallery.css'),js=read('assets/clinic-gallery.js');
+ const modal=html.match(/<dialog class="gallery-dialog"[^>]*>[\s\S]*?<\/dialog>/)?.[0]||'';
+ assert.ok(modal,'expected original modal');
+ const image=modal.match(/<img id="gallery-dialog-image"[^>]*>/)?.[0]||'';
+ assert.ok(image.includes('decoding="async"'));
+ assert.ok(!image.includes('src='),'closed modal must not initiate a hidden eager image request');
+ assert.ok(modal.includes('id="gallery-dialog-loading"')&&modal.includes('role="status"'));
+ assert.ok(modal.includes('aria-live="polite"')&&modal.includes(' hidden'));
+ assert.ok(js.includes("picture.addEventListener('load'"));
+ assert.ok(js.includes("picture.addEventListener('error'"));
+ assert.ok(js.includes("picture.src=button.dataset.image || ''"));
+ assert.ok(css.includes('Lightbox performance and mobile accessibility'));
+ assert.ok(css.includes('.gallery-dialog .gallery-dialog-head {'));
+ assert.ok(css.includes('position:sticky;')&&css.includes('overflow-y:auto;'));
+ assert.ok(css.includes('.gallery-dialog .gallery-dialog-loading[hidden]'));
+ assert.equal(artworkGroups(html).originals.length,10,'the full exhibition remains in semantic HTML');
 });
 test('gallery dialog room selector keeps art uncropped and buttons readable on mobile',()=>{
  const html=read('gallery.html'),css=read('assets/clinic-gallery.css');
