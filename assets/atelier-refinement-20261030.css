@@ -1072,3 +1072,112 @@ body.home-page #main-content > #stories .story-featured-questions > a:focus-visi
     break-inside:avoid;
   }
 }
+
+
+/* Visit at a glance · four verifiable facts in a calm 2x2 arrival guide.
+   Monday–Thursday times are fixed; alternating Friday/Saturday hours are
+   explicitly marked as requiring a telephone check, never inferred by date. */
+body.home-page #main-content > #location .visit-quick-facts {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(10px,1.5vw,15px);
+  align-items:stretch;
+  margin:17px 0 23px;
+}
+body.home-page #main-content > #location .visit-quick-facts > div,
+body.home-page #main-content > #location .visit-quick-facts > div:first-child {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  min-height:160px;
+  grid-column:auto;
+  gap:7px;
+  padding:clamp(15px,1.8vw,20px);
+  border:1px solid #d7cfbc;
+  border-top:3px solid #b39a6d;
+  border-radius:4px 13px 4px 13px;
+  background:#fffcf6;
+  box-shadow:0 8px 19px rgba(32,56,41,.045);
+}
+body.home-page #main-content > #location .visit-quick-facts > div:nth-child(even) {
+  border-top-color:#779681;
+  background:#f4f8f1;
+}
+body.home-page #main-content > #location .visit-quick-facts > div > strong {
+  margin:0 0 3px;
+  color:#254d3a;
+  font:750 clamp(14px,1.4vw,17px)/1.5 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  word-break:keep-all;
+}
+body.home-page #main-content > #location .visit-quick-facts > div > span {
+  display:block;
+  flex:1;
+  color:#486250;
+  font-size:13px;
+  line-height:1.7;
+  text-align:left;
+  word-break:keep-all;
+}
+body.home-page #main-content > #location .visit-quick-facts__weekday b {
+  color:#1f553c;
+  font-size:15px;
+  font-variant-numeric:tabular-nums;
+}
+body.home-page #main-content > #location .visit-quick-facts a {
+  display:inline-flex;
+  align-items:center;
+  box-sizing:border-box;
+  min-height:44px;
+  margin-top:5px;
+  padding:7px 0;
+  color:#215b42;
+  font-size:13px;
+  font-weight:800;
+  line-height:1.5;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content > #location .visit-quick-facts a:focus-visible {
+  outline:3px solid #ae8546;
+  outline-offset:3px;
+}
+body.home-page #main-content > #location #hours-details {
+  scroll-margin-top:110px;
+}
+@media(max-width:640px) {
+  body.home-page #main-content > #location .visit-quick-facts {
+    grid-template-columns:minmax(0,1fr);
+    gap:9px;
+    margin:14px 0 20px;
+  }
+  body.home-page #main-content > #location .visit-quick-facts > div,
+  body.home-page #main-content > #location .visit-quick-facts > div:first-child {
+    min-height:0;
+    padding:16px 15px;
+    gap:5px;
+  }
+  body.home-page #main-content > #location .visit-quick-facts > div > span {
+    font-size:14px;
+  }
+  body.home-page #main-content > #location #hours-details {
+    scroll-margin-top:88px;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > #location .visit-quick-facts > div,
+  body.home-page #main-content > #location .visit-quick-facts > div:nth-child(even) {
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content > #location .visit-quick-facts__weekday b {
+    color:CanvasText;
+  }
+}
+@media print {
+  body.home-page #main-content > #location .visit-quick-facts > div {
+    break-inside:avoid;
+    box-shadow:none;
+  }
+}
