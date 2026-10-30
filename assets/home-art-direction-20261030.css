@@ -2231,3 +2231,144 @@ body.home-page #main-content>#stories .owner-blog-direct-search__fields :is(inpu
   body.home-page #main-content>#stories .owner-latest-exhibition-head__copy :is(small,h4,p) { color:CanvasText }
   body.home-page #main-content>#stories .owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"]>.owner-story-card>h3>a { color:LinkText }
 }
+
+
+/* 2026-10-30 | Doctor's verified career and credentials in a calm
+   accessible museum ledger. No new credential or stock portrait invented. */
+body.home-page #main-content>#doctor .doctor-credential-ledger{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px;
+  box-sizing:border-box;
+  padding:12px;
+  margin:clamp(19px,2.3vw,28px) 0 15px;
+  border:1px solid rgba(225,210,171,.52);
+  border-top:3px solid #d8b87b;
+  border-radius:3px 14px 3px 14px;
+  background:rgba(254,249,226,.065);
+}
+body.home-page #main-content>#doctor .doctor-credential-ledger__item{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  box-sizing:border-box;
+  min-width:0;
+  min-height:93px;
+  gap:7px;
+  padding:clamp(13px,1.5vw,19px);
+  border:1px solid rgba(227,216,183,.32);
+  border-radius:3px 10px 3px 10px;
+  background:rgba(255,255,244,.065);
+  text-align:left;
+}
+body.home-page #main-content>#doctor .doctor-credential-ledger__item>small{
+  color:#e1c99c;
+  font:750 10px/1.5 "DM Sans",system-ui,sans-serif;
+  letter-spacing:.1em;
+}
+body.home-page #main-content>#doctor .doctor-credential-ledger__item>.pill{
+  display:block;
+  box-sizing:border-box;
+  max-width:100%;
+  margin:0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:none;
+  color:#fffaf0;
+  box-shadow:none;
+  font:700 clamp(13px,1.24vw,16px)/1.65 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content>#doctor .doctor-credential-ledger__item #doctor_degree,
+body.home-page #main-content>#doctor .doctor-credential-ledger__item .doctor-specialist-pill{
+  color:#fff9ea;
+  background:none;
+  border:0;
+  font-size:clamp(13px,1.24vw,16px);
+  line-height:1.65;
+}
+body.home-page #main-content>#doctor .doctor-profile-link>a{
+  box-sizing:border-box;
+  display:inline-flex!important;
+  align-items:center;
+  min-height:48px;
+  padding:10px 13px!important;
+  border:1px solid rgba(235,212,160,.5);
+  border-radius:5px;
+  background:rgba(255,247,223,.075);
+  color:#fff0c8!important;
+  text-decoration:none;
+  line-height:1.65;
+  word-break:keep-all;
+}
+body.home-page #main-content>#doctor .doctor-profile-link>a:focus-visible,
+body.home-page #main-content>#doctor .doctor-care-trails>a:focus-visible{
+  outline:3px solid #f2d49a;
+  outline-offset:3px;
+}
+body.home-page #main-content>#doctor .doctor-care-trails>a{
+  min-width:0;
+  min-height:76px;
+  box-sizing:border-box;
+  line-height:1.65;
+}
+body.home-page #main-content>#doctor .doctor-care-trails>a span{
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+@media(hover:hover) and (pointer:fine){
+  body.home-page #main-content>#doctor .doctor-profile-link>a:hover{
+    background:rgba(255,247,223,.17);
+    border-color:#e2c797;
+  }
+}
+@media(max-width:960px){
+  body.home-page #main-content>#doctor .doctor-credential-ledger{
+    grid-template-columns:minmax(0,1fr);
+    gap:7px;
+    padding:9px;
+    margin:16px 0 13px;
+  }
+  body.home-page #main-content>#doctor .doctor-credential-ledger__item{
+    display:grid;
+    grid-template-columns:clamp(88px,22vw,125px) minmax(0,1fr);
+    align-items:center;
+    gap:10px;
+    min-height:55px;
+    padding:11px 13px;
+  }
+  body.home-page #main-content>#doctor .doctor-credential-ledger__item>small{
+    letter-spacing:.04em;
+  }
+}
+@media(max-width:540px){
+  body.home-page #main-content>#doctor .doctor-profile-link>a{
+    display:flex!important;
+    width:100%;
+    font-size:14px;
+  }
+  body.home-page #main-content>#doctor .doctor-credential-ledger__item{
+    grid-template-columns:84px minmax(0,1fr);
+  }
+  body.home-page #main-content>#doctor .doctor-credential-ledger__item>.pill,
+  body.home-page #main-content>#doctor .doctor-credential-ledger__item #doctor_degree,
+  body.home-page #main-content>#doctor .doctor-credential-ledger__item .doctor-specialist-pill{
+    font-size:13px;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#doctor .doctor-credential-ledger,
+  body.home-page #main-content>#doctor .doctor-credential-ledger__item,
+  body.home-page #main-content>#doctor .doctor-profile-link>a{
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#doctor .doctor-credential-ledger__item :is(small,.pill,#doctor_degree,.doctor-specialist-pill){
+    color:CanvasText;
+  }
+}
