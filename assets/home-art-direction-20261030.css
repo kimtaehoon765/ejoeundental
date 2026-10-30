@@ -3537,3 +3537,140 @@ body.home-page #main-content>#doctor #doctor_body{
     border-color:CanvasText;
   }
 }
+
+
+/* 2026-10-30 · Philosophy triptych: numbered museum reading cards. */
+/* Recompose only the three existing philosophy cards. The adjoining
+   original reading-room painting and full searchable clinical copy remain. */
+body.home-page #main-content>#philosophy .grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  align-items:stretch;
+  gap:clamp(13px,1.8vw,22px);
+  text-align:left;
+}
+body.home-page #main-content>#philosophy .grid>.card {
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:46px minmax(0,1fr);
+  grid-template-rows:auto 1fr;
+  align-content:start;
+  align-items:center;
+  column-gap:12px;
+  row-gap:clamp(14px,1.8vw,20px);
+  min-width:0;
+  margin:0;
+  padding:clamp(20px,2.1vw,29px);
+  border:1px solid #dad1bf;
+  border-top:3px solid #b49c72;
+  border-radius:4px 15px 4px 15px;
+  background:linear-gradient(152deg,#fffefa,#f8f6ed);
+  box-shadow:0 9px 24px rgba(36,60,42,.055);
+  text-align:left;
+}
+body.home-page #main-content>#philosophy .grid>.card:nth-child(2) {
+  border-top-color:#809d8a;
+}
+body.home-page #main-content>#philosophy .grid>.card:nth-child(3) {
+  border-top-color:#a89a79;
+}
+body.home-page #main-content>#philosophy .grid>.card::before {
+  content:none;
+}
+body.home-page #main-content>#philosophy .grid>.card>.num {
+  grid-column:1;
+  grid-row:1;
+  box-sizing:border-box;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:46px;
+  height:46px;
+  margin:0;
+  border:1px solid #d5c8ab;
+  border-radius:3px;
+  background:#f1eadc;
+  color:#856a43;
+  font:600 23px/1 Georgia,serif;
+  letter-spacing:-.05em;
+}
+body.home-page #main-content>#philosophy .grid>.card:nth-child(2)>.num {
+  background:#e9f0e8;
+  border-color:#c9dac9;
+  color:#4f765a;
+}
+body.home-page #main-content>#philosophy .grid>.card>h3 {
+  grid-column:2;
+  grid-row:1;
+  min-width:0;
+  margin:0;
+  color:#264937;
+  font:700 clamp(17px,1.65vw,21px)/1.5 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.04em;
+  word-break:keep-all;
+  text-wrap:pretty;
+}
+body.home-page #main-content>#philosophy .grid>.card>p {
+  grid-column:1 / -1;
+  grid-row:2;
+  margin:0;
+  color:#415c4a;
+  font-size:clamp(14px,1.14vw,15px);
+  line-height:1.87;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content>#philosophy .grid>.card>p>a {
+  color:#255a43;
+  font-weight:750;
+  text-underline-offset:3px;
+}
+body.home-page #main-content>#philosophy .grid>.card>p>a:focus-visible {
+  outline:3px solid #ac884a;
+  outline-offset:3px;
+}
+@media(max-width:980px) and (min-width:651px) {
+  body.home-page #main-content>#philosophy .grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.home-page #main-content>#philosophy .grid>.card:last-child {
+    grid-column:1 / -1;
+  }
+}
+@media(max-width:650px) {
+  body.home-page #main-content>#philosophy .grid {
+    grid-template-columns:minmax(0,1fr);
+    gap:11px;
+  }
+  body.home-page #main-content>#philosophy .grid>.card {
+    grid-template-columns:42px minmax(0,1fr);
+    gap:11px 12px;
+    min-height:0;
+    padding:19px 17px 20px;
+  }
+  body.home-page #main-content>#philosophy .grid>.card>.num {
+    width:42px;
+    height:42px;
+    font-size:21px;
+  }
+  body.home-page #main-content>#philosophy .grid>.card>h3 {
+    font-size:18px;
+  }
+  body.home-page #main-content>#philosophy .grid>.card>p {
+    font-size:14px;
+    line-height:1.83;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content>#philosophy .grid>.card,
+  body.home-page #main-content>#philosophy .grid>.card>.num {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#philosophy .grid>.card :is(h3,p),
+  body.home-page #main-content>#philosophy .grid>.card>p>a {
+    color:LinkText;
+  }
+}
