@@ -3474,6 +3474,25 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
 }
 
 
+// Fingerprint the gallery lightbox script on every build. A fixed ?v= URL
+// kept old JavaScript cached after the new patient-education lightbox links
+// were deployed, even though the HTML and CSS already updated on Cloudflare.
+{
+ const page=path.join(out,'gallery.html');
+ const script=path.join(out,'assets/clinic-gallery.js');
+ if(!fs.existsSync(page)||!fs.existsSync(script))
+  throw new Error('Gallery lightbox page or JavaScript missing');
+ let html=fs.readFileSync(page,'utf8');
+ const loader=/<script src="\/assets\/clinic-gallery\.js(?:\?[^"]*)?" defer><\/script>/g;
+ if([...html.matchAll(loader)].length!==1)
+  throw new Error('Gallery lightbox script loader missing or duplicated');
+ const digest=createHash('sha256').update(fs.readFileSync(script)).digest('hex').slice(0,12);
+ html=html.replace(loader,'<script src="/assets/clinic-gallery.js?v='+digest+'" defer></script>');
+ fs.writeFileSync(page,html);
+ console.log('Gallery lightbox JavaScript fingerprinted:',digest);
+}
+
+
 // Ejoeundental deployment fingerprint: source-only version evidence for checking
 // whether a given Cloudflare Pages deployment includes the latest GitHub commit.
 // Use the SHA injected by Cloudflare Pages, or GitHub Actions when running CI.
