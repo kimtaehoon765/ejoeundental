@@ -476,3 +476,177 @@ body.home-page #main-content>#home-representative-guides .home-representative-ar
     color: CanvasText;
   }
 }
+
+
+/* Patient-first symptom wayfinding: seven plain fragment links work without JS.
+   Accent is intentionally reserved for navigation, not for a fake diagnosis. */
+body.home-page #main-content>#symptoms .symptom-jump-nav {
+  box-sizing:border-box;
+  display:grid;
+  gap:15px;
+  margin:clamp(19px,3vw,28px) 0 clamp(24px,3.6vw,38px);
+  padding:clamp(17px,2.4vw,25px);
+  border:1px solid #d8cdb8;
+  border-top:3px solid #b59b69;
+  border-radius:4px 13px 4px 13px;
+  background:linear-gradient(118deg,#faf8ef 0%,#f4f5ec 100%);
+}
+body.home-page #main-content>#symptoms .symptom-jump-intro {
+  display:flex;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:5px 14px;
+  line-height:1.65;
+}
+body.home-page #main-content>#symptoms .symptom-jump-intro strong {
+  font:700 clamp(16px,1.5vw,19px)/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  color:#214632;
+  letter-spacing:-.04em;
+}
+body.home-page #main-content>#symptoms .symptom-jump-intro span {
+  font-size:13px;
+  color:#536859;
+  word-break:keep-all;
+}
+body.home-page #main-content>#symptoms .symptom-jump-links {
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+}
+body.home-page #main-content>#symptoms .symptom-jump-links>a {
+  box-sizing:border-box;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:45px;
+  max-width:100%;
+  padding:10px 16px;
+  border:1px solid #c8d5c7;
+  border-radius:30px;
+  color:#214e38;
+  background:#fffefa;
+  font-size:14px;
+  font-weight:750;
+  line-height:1.55;
+  letter-spacing:-.025em;
+  text-decoration:none;
+  text-align:center;
+  word-break:keep-all;
+  transition:background-color .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+body.home-page #main-content>#symptoms .symptom-jump-links>a:focus-visible {
+  outline:3px solid #af8b49;
+  outline-offset:3px;
+}
+@media (hover:hover) and (pointer:fine) {
+  body.home-page #main-content>#symptoms .symptom-jump-links>a:hover {
+    background:#e9f2e9;
+    border-color:#6d987a;
+    box-shadow:0 4px 11px rgba(30,67,45,.09);
+  }
+}
+body.home-page #main-content>#symptoms .symptom-grid {
+  counter-reset:symptom-card;
+}
+body.home-page #main-content>#symptoms .symptom-grid>.card {
+  scroll-margin-top:clamp(92px,12vw,130px);
+}
+body.home-page #main-content>#symptoms .symptom-grid>.card::before {
+  counter-increment:symptom-card;
+  content:"SYMPTOM  " counter(symptom-card,decimal-leading-zero);
+  display:block;
+  margin-bottom:12px;
+  padding-bottom:9px;
+  width:max-content;
+  max-width:100%;
+  border-bottom:1px solid #cab68d;
+  color:#85724f;
+  font:800 10px/1.6 "DM Sans",system-ui,sans-serif;
+  letter-spacing:.18em;
+}
+body.home-page #main-content>#symptoms .symptom-grid>.card:target {
+  border-color:#5e8969;
+  background:#f7fbf5;
+  box-shadow:0 0 0 3px rgba(74,116,79,.18);
+}
+body.home-page #main-content>#symptoms .symptom-grid>.card:focus {
+  outline:3px solid #a98852;
+  outline-offset:3px;
+}
+body.home-page #main-content>#symptoms .symptom-grid>.card>h3 {
+  margin-top:0;
+}
+body.home-page #main-content>#symptoms .symptom-grid>.card>a:first-of-type {
+  margin-top:auto;
+}
+body.home-page #main-content>#symptoms .symptom-grid>.card>a:not(:last-of-type) {
+  border-bottom:1px solid #e6e2d8;
+}
+body.home-page #main-content>#symptoms .symptom-grid>.card>a:last-of-type {
+  border:1px solid #c4d6c3;
+  border-radius:8px;
+  margin-top:12px;
+  padding:12px 14px;
+  color:#214b36;
+  background:#eef5ea;
+  text-decoration:none;
+}
+body.home-page #main-content>#symptoms .symptom-grid>.card>a:last-of-type:hover {
+  background:#dfeee0;
+}
+body.home-page #main-content>#symptoms .symptom-grid>.card>a:focus-visible {
+  outline:3px solid #a98852;
+  outline-offset:3px;
+}
+body.home-page #main-content>#symptoms .symptom-contact {
+  border:1px solid #c6d5c1;
+  border-left:4px solid #73967f;
+  border-radius:4px 13px 4px 13px;
+  background:#f4f8f0;
+}
+body.home-page #main-content>#symptoms .symptom-contact>strong {
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  color:#214e38;
+  font-size:clamp(17px,1.55vw,20px);
+}
+@media (max-width:600px) {
+  body.home-page #main-content>#symptoms .symptom-jump-nav {
+    gap:13px;
+    padding:17px 13px;
+    margin-bottom:23px;
+  }
+  body.home-page #main-content>#symptoms .symptom-jump-links {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+  }
+  body.home-page #main-content>#symptoms .symptom-jump-links>a {
+    min-width:0;
+    min-height:48px;
+    padding:9px 7px;
+    border-radius:8px;
+    font-size:13px;
+  }
+  body.home-page #main-content>#symptoms .symptom-jump-links>a:last-child:nth-child(odd) {
+    grid-column:1 / -1;
+  }
+  body.home-page #main-content>#symptoms .symptom-grid>.card::before {
+    margin-bottom:9px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  body.home-page #main-content>#symptoms .symptom-jump-links>a {
+    transition:none;
+  }
+}
+@media (forced-colors:active) {
+  body.home-page #main-content>#symptoms :is(.symptom-jump-nav,.symptom-jump-links>a,.symptom-grid>.card:target,.symptom-grid>.card>a:last-of-type,.symptom-contact) {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#symptoms :is(.symptom-jump-intro strong,.symptom-jump-intro span,.symptom-grid>.card::before,.symptom-contact>strong) {
+    color:CanvasText;
+  }
+}
