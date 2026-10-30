@@ -68,8 +68,17 @@ test('premium gallery foyer shows 23 unique works through three real exhibition 
   assert.ok(gallery.includes(anchor),'gallery room must be real: '+anchor);
  }
  const allImages=[...html.matchAll(/<img\b[^>]*src="([^"]+)"/g)].map(x=>x[1]);
- assert.equal(allImages.length,34,'existing homepage artwork references must remain unchanged');
- assert.equal(new Set(allImages).size,34,'all homepage artwork references stay distinct');
+ const newPrints=['/assets/care-illustration-abrasion.svg','/assets/care-illustration-insurance.svg'];
+ const originalImages=allImages.filter(src=>!newPrints.includes(src));
+ assert.equal(originalImages.length,34,'retain all 34 existing homepage artworks');
+ assert.equal(new Set(originalImages).size,34,'original artwork references remain distinct');
+ assert.equal(allImages.length,36,'two original educational prints join the homepage');
+ assert.equal(new Set(allImages).size,36,'no artwork should be repeated on the homepage');
+ for(const src of newPrints){
+  assert.equal(allImages.filter(image=>image===src).length,1,'each new print appears exactly once: '+src);
+ }
+ assert.ok(html.includes('health-topic-painting--panorama'),
+  'new sensitivity and insurance paintings keep accessible patient-facing captions');
  assert.ok(html.includes('class="mobile-booking-actions"'),'mobile booking stays available');
  const css=read('assets/atelier-refinement-20261030.css');
  for(const token of ['Three-room museum foyer · original collection 23',
