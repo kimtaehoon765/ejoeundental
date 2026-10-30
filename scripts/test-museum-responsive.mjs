@@ -1226,3 +1226,42 @@ test('museum FAQ and visit desk keep accessible clinical answers and verified sc
  assert.ok(home.includes('class="mobile-booking-actions"'),
   'mobile booking/phone dock must stay available');
 });
+
+
+test('museum symptom gallery keeps seven truthful guides and mobile choices',()=>{
+ const section=home.match(/<section class="section" id="symptoms"[\s\S]*?<\/section>/)?.[0]||'';
+ assert.ok(section,'seven symptom guide section remains present');
+ const jump=section.match(/<nav class="symptom-jump-nav"[\s\S]*?<\/nav>/)?.[0]||'';
+ const links=[...jump.matchAll(/<a href="#(symptom-[a-z-]+)">/g)].map(x=>x[1]);
+ assert.deepEqual(links,[
+  'symptom-bleeding','symptom-swelling','symptom-retreatment','symptom-sensitive',
+  'symptom-biting','symptom-scaling','symptom-insurance'
+ ],'all original patient symptoms remain in the intended order');
+ for(const id of links)assert.ok(section.includes('id="'+id+'" tabindex="-1"'),
+   'symptom anchor remains keyboard-focusable: '+id);
+ assert.equal((section.match(/class="grid symptom-grid"/g)||[]).length,1);
+ const cards=[...section.matchAll(/<div class="card"><h3 id="symptom-[a-z-]+"/g)];
+ assert.equal(cards.length,7,'every patient problem retains its explanation card');
+ assert.ok(section.includes('숨쉬기 어렵거나 삼키기 힘들다면 즉시 응급진료'),
+  'urgent warning remains readable, not hidden behind artwork');
+ for(const page of ['/health/gum-bleeding.html','/health/gum-pus.html',
+  '/health/root-canal-after-pain.html','/health/abrasion-sensitive.html',
+  '/health/tooth-crack.html','/health/scaling-vs-periodontal.html','/insured-care.html']){
+   assert.ok(section.includes('href="'+page+'"'),'important original guide retained: '+page);
+ }
+ const css=read('assets/atelier-refinement-20261030.css');
+ for(const marker of [
+  'Seven patient-question exhibition cards',
+  '#symptoms .symptom-jump-links',
+  '#symptoms .symptom-grid>.card>br',
+  '#symptoms .symptom-grid>.card>a:last-of-type',
+  '#symptoms .symptom-grid>.card:has(>h3:target)',
+  '@media(max-width:900px)','@media(max-width:600px)',
+  '@media(max-width:360px)','@media(forced-colors:active)'
+ ])assert.ok(css.includes(marker),'missing accessible symptom-gallery refinement: '+marker);
+ const styles=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
+ const final=styles.findIndex(x=>x.startsWith('/assets/atelier-refinement-20261030.css?v='));
+ const previous=styles.findIndex(x=>x.startsWith('/assets/home-art-direction-20261030.css?v='));
+ assert.ok(final>previous&&previous>=0,'final symptom styles must load after earlier art direction');
+ assert.ok(home.includes('class="mobile-booking-actions"'),'Naver reservation and phone dock remain built');
+});
