@@ -2372,3 +2372,107 @@ body.home-page #main-content>#doctor .doctor-care-trails>a span{
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-30 · A small illustration collection inside the eight optional
+   care chapters. Four distinct original works, lazy-loaded and never reused
+   elsewhere on the homepage, complement the existing searchable medical copy. */
+body.home-page #main-content>#care .care-more-details .care-mini-gallery {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  margin:10px 0 17px;
+  min-width:0;
+  width:100%;
+  padding:6px;
+  overflow:hidden;
+  background:#eee7da;
+  border:1px solid #d2c3a9;
+  border-radius:3px 12px 3px 12px;
+  box-shadow:0 8px 18px rgba(31,62,41,.055);
+}
+body.home-page #main-content>#care .care-more-details .care-mini-gallery>img {
+  box-sizing:border-box;
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:3/2;
+  object-fit:contain;
+  object-position:center;
+  background:#f8f5eb;
+  border:0;
+}
+body.home-page #main-content>#care .care-more-details .care-mini-gallery--wide>img {
+  aspect-ratio:1080/385;
+}
+body.home-page #main-content>#care .care-more-details .care-mini-gallery>figcaption {
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  min-height:42px;
+  padding:9px 12px;
+  border-top:1px solid #d9cdb7;
+  background:#fffdf7;
+  color:#345941;
+  font-size:12px;
+  font-weight:650;
+  line-height:1.65;
+  text-align:left;
+  word-break:keep-all;
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid {
+  align-items:stretch;
+  gap:clamp(12px,1.85vw,20px);
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid>.card {
+  min-width:0;
+  padding:clamp(18px,2vw,27px);
+  background:linear-gradient(160deg,#fffdf9,#faf8f0);
+  border:1px solid #ded7c7;
+  border-top:3px solid #b69e73;
+  border-radius:4px 13px 4px 13px;
+  box-shadow:0 8px 23px rgba(32,62,43,.04);
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid>.card:nth-child(even) {
+  border-top-color:#83a089;
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid>.card h3 {
+  color:#264b39;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.045em;
+  line-height:1.5;
+  word-break:keep-all;
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid>.card>p {
+  font-size:14px;
+  line-height:1.87;
+  word-break:keep-all;
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid>.card a:focus-visible{
+  outline:3px solid #b18a4b;
+  outline-offset:3px;
+}
+@media(max-width:760px){
+  body.home-page #main-content>#care .care-more-details .care-more-grid>.card {
+    padding:19px 16px;
+  }
+  body.home-page #main-content>#care .care-more-details .care-mini-gallery {
+    margin:9px 0 14px;
+    padding:5px;
+  }
+  body.home-page #main-content>#care .care-more-details .care-mini-gallery>figcaption {
+    padding:9px 10px;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#care .care-more-details :is(.care-mini-gallery,.care-mini-gallery>figcaption,.care-more-grid>.card) {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#care .care-more-details .care-mini-gallery>figcaption {
+    color:CanvasText;
+  }
+}
