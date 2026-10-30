@@ -1073,3 +1073,120 @@
     grid-template-columns:repeat(2,minmax(0,1fr));
   }
 }
+
+
+/* Exhibition-to-exhibition wayfinding · 2026-10-30.
+   A visitor arriving from a direct painting link can follow the exhibition
+   without scrolling back to the first-screen table of contents. */
+#paintings,
+#education,
+#patient-studies {
+  scroll-margin-top:102px;
+}
+.gallery-room-transition {
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:clamp(15px,3vw,34px);
+  margin:clamp(22px,3.5vw,42px) 0 0;
+  padding:clamp(18px,2.3vw,27px);
+  border:1px solid #d9cbb1;
+  border-left:4px solid #a88d5f;
+  border-radius:3px 12px 3px 12px;
+  background:linear-gradient(115deg,#f7f2e6,#eff3e8);
+  box-shadow:0 7px 24px rgba(32,53,38,.045);
+}
+.gallery-room-transition > span {
+  display:flex;
+  min-width:0;
+  flex-direction:column;
+  gap:7px;
+}
+.gallery-room-transition small {
+  display:block;
+  color:#80653e;
+  font:800 11px/1.5 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.09em;
+}
+.gallery-room-transition strong {
+  display:block;
+  color:#244c37;
+  font:700 clamp(17px,1.8vw,22px)/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.035em;
+  word-break:keep-all;
+}
+.gallery-room-transition > a {
+  box-sizing:border-box;
+  display:inline-flex;
+  flex:none;
+  align-items:center;
+  justify-content:space-between;
+  min-height:48px;
+  gap:12px;
+  padding:11px 17px;
+  border:1px solid #25513d;
+  border-radius:6px;
+  background:#25513d;
+  color:#fff9eb;
+  font:800 13px/1.55 system-ui,"Apple SD Gothic Neo",sans-serif;
+  text-decoration:none;
+  word-break:keep-all;
+  transition:background-color .18s ease,box-shadow .18s ease;
+}
+.gallery-room-transition > a:hover {
+  background:#173d2c;
+  box-shadow:0 7px 19px rgba(35,59,41,.16);
+}
+.gallery-room-transition > a:focus-visible {
+  outline:3px solid #b18c4f;
+  outline-offset:4px;
+}
+#paintings:focus-visible,
+#education:focus-visible,
+#patient-studies:focus-visible,
+#paintings .gallery-piece:focus-visible,
+#patient-studies .gallery-patient-studies__piece:focus-visible {
+  outline:3px solid #a47d42;
+  outline-offset:4px;
+}
+@media (max-width:650px) {
+  #paintings,#education,#patient-studies {
+    scroll-margin-top:83px;
+  }
+  .gallery-room-transition {
+    flex-direction:column;
+    align-items:stretch;
+    gap:14px;
+    margin-top:26px;
+    padding:18px 16px;
+  }
+  .gallery-room-transition > a {
+    flex:initial;
+    justify-content:space-between;
+    min-height:52px;
+    width:100%;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .gallery-room-transition > a {
+    transition:none;
+  }
+}
+@media (forced-colors:active) {
+  .gallery-room-transition,
+  .gallery-room-transition > a {
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  .gallery-room-transition :is(small,strong) {
+    color:CanvasText;
+  }
+}
+@media print {
+  .gallery-room-transition {
+    display:none;
+  }
+}
