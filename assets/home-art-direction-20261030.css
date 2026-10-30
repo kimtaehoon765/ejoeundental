@@ -200,7 +200,7 @@ body.home-page #main-content #gallery .gallery-home-intro h2 {
 
 /* 2026-10-30, editorial card update: three distinct existing artworks
    complement the three letterpress patient-topic panels. No repeated art. */
-body.home-page #main-content>#health-info .health-topic-card--illustrated {
+body.home-page #main-content>#health-info .health-topic-card[data-artwork="true"] {
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -248,7 +248,7 @@ body.home-page #main-content>#health-info .health-topic-painting__caption small 
   color: #866c44;
   letter-spacing: .10em;
 }
-body.home-page #main-content>#health-info .health-topic-card--illustrated>.health-topic-actions {
+body.home-page #main-content>#health-info .health-topic-card[data-artwork="true"]>.health-topic-actions {
   margin-top: auto;
 }
 body.home-page #main-content>#health-info .health-topic-painting:focus-visible {
