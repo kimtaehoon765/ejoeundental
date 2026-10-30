@@ -770,14 +770,20 @@ test('all three original watercolor cards retain medical links and accessible zo
    'the original full-card clinical navigation must remain');
   assert.ok(card.includes('class="gallery-zoom" data-image="/assets/'+image+'"'),
    'watercolor zoom must open its own actual image');
+  assert.ok(card.includes('class="gallery-watercolor-original" href="/assets/'+image+'"'),
+   'a no-script original image link must remain available for every watercolor');
+  assert.ok(card.includes('target="_blank" rel="noopener noreferrer"'),
+   'original image links must open in a safe separate tab');
   assert.ok(existsSync('dist/assets/'+image),'every zoom source must be published');
  }
  assert.ok(js.includes("button.closest('.gallery-watercolor-card')"),
   'lightbox must resolve watercolor guide from current original card');
- assert.ok(watercolorCss.includes('#education .gallery-watercolor-card>.gallery-zoom{\n  display:none'),
+ assert.ok(watercolorCss.includes('#education .gallery-watercolor-actions>.gallery-zoom{\n  display:none'),
   'no broken zoom buttons without browser modal support');
- assert.ok(watercolorCss.includes('.gallery-js #education .gallery-watercolor-card>.gallery-zoom'),
+ assert.ok(watercolorCss.includes('.gallery-js #education .gallery-watercolor-actions>.gallery-zoom'),
   'show zoom controls only when modal support is active');
+ assert.ok(watercolorCss.includes('min-height:46px'),
+  'both original and zoom controls keep a large touch target');
  const css=readFileSync('dist/assets/gallery-clinical-watercolors.css');
  const expectedHash=createHash('sha256').update(css).digest('hex').slice(0,12);
  assert.ok(html.includes('/assets/gallery-clinical-watercolors.css?v='+expectedHash),
