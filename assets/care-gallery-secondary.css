@@ -421,3 +421,388 @@ body.care-gallery-secondary .care-secondary-reading a:focus-visible{
  body.care-gallery-secondary .care-secondary-breadcrumb,
  body.care-gallery-secondary .care-secondary-reading{box-shadow:none}
 }
+
+
+/* 2026-10-30 | Five individual treatment galleries.
+   One coherent gallery grammar with five gentle exhibit palettes; preserve
+   all existing illustration sources, searchable paragraphs and page links. */
+body.care-gallery-secondary.secondary-cavity {
+  --sg-accent:#a9855e;
+  --sg-accent-dark:#705839;
+  --sg-tint:#f4ece0;
+  --sg-mat:#ece1ce;
+}
+body.care-gallery-secondary.secondary-scaling {
+  --sg-accent:#729880;
+  --sg-accent-dark:#345e4a;
+  --sg-tint:#eaf2e9;
+  --sg-mat:#dae9dc;
+}
+body.care-gallery-secondary.secondary-denture {
+  --sg-accent:#9a8da2;
+  --sg-accent-dark:#665871;
+  --sg-tint:#f1edf2;
+  --sg-mat:#e4dce9;
+}
+body.care-gallery-secondary.secondary-implant {
+  --sg-accent:#819da5;
+  --sg-accent-dark:#3a5d66;
+  --sg-tint:#ebf2f3;
+  --sg-mat:#dbe8e9;
+}
+body.care-gallery-secondary.secondary-wisdom {
+  --sg-accent:#b19a6b;
+  --sg-accent-dark:#765f3f;
+  --sg-tint:#f7f2e5;
+  --sg-mat:#e8dfca;
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant,.secondary-wisdom
+) {
+  --sg-gallery-ink:#274536;
+  background:
+    radial-gradient(ellipse at 91% 2%,var(--sg-tint),transparent 35%),
+    #fcfaf5;
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant,.secondary-wisdom
+) .care-secondary-breadcrumb {
+  border-color:#d9d1bf;
+  border-radius:4px 10px 4px 10px;
+  background:#fffdf8;
+  color:#4a614e;
+  box-shadow:0 3px 14px rgba(30,54,39,.03);
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant
+) .care-gallery-article-shell>h1 {
+  max-width:23ch;
+  color:var(--sg-gallery-ink);
+  font-size:clamp(30px,3.9vw,45px);
+  line-height:1.51;
+  letter-spacing:-.06em;
+  text-wrap:balance;
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant
+) .care-gallery-article-shell>.intro {
+  border:1px solid #ddd5c6;
+  border-left:4px solid var(--sg-accent);
+  border-radius:4px 14px 4px 14px;
+  background:linear-gradient(130deg,var(--sg-tint),#fffefa 75%);
+  padding:clamp(17px,2.6vw,25px);
+  box-shadow:0 8px 24px rgba(31,54,38,.045);
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant,.secondary-wisdom
+) :is(.clinician-byline,.gallery-secondary-clinician) {
+  border-color:#ddd8c9;
+  border-left:3px solid var(--sg-accent);
+  border-radius:4px 12px 4px 12px;
+  background:#fffefa;
+  box-shadow:0 6px 18px rgba(32,57,40,.04);
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant,.secondary-wisdom
+) .treatment-hero-actions>a {
+  border-radius:4px 11px 4px 11px;
+  min-height:51px;
+  line-height:1.58;
+  overflow-wrap:anywhere;
+  word-break:keep-all;
+  text-wrap:balance;
+  box-shadow:none;
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant,.secondary-wisdom
+) .treatment-hero-actions>a.care-gallery-booking {
+  background:#efe4cc;
+  border:1px solid #b6a074;
+  color:#254a36;
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant,.secondary-wisdom
+) .gallery-section-index {
+  box-sizing:border-box;
+  border:1px solid #d9cebb;
+  border-left:4px solid var(--sg-accent);
+  border-radius:4px 13px 4px 13px;
+  padding:clamp(13px,1.7vw,20px);
+  background:linear-gradient(115deg,var(--sg-tint),#fffefa 70%);
+  box-shadow:0 6px 19px rgba(32,58,38,.04);
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant,.secondary-wisdom
+) .gallery-section-index>strong{
+  color:var(--sg-accent-dark);
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:15px;
+  line-height:1.55;
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant,.secondary-wisdom
+) .gallery-section-index>a{
+  min-width:0;
+  min-height:47px;
+  padding:9px 12px;
+  border:1px solid #d9d1c2;
+  border-radius:3px 9px 3px 9px;
+  background:#fffefa;
+  color:#305843;
+  font-size:13px;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant,.secondary-wisdom
+) .ejoeun-topic-art{
+  box-sizing:border-box;
+  width:min(100%,940px);
+  max-width:940px;
+  grid-template-columns:minmax(0,1.18fr) minmax(235px,.82fr);
+  gap:0;
+  align-items:stretch;
+  padding:clamp(8px,1.2vw,14px);
+  border:1px solid var(--sg-accent);
+  border-top:3px solid var(--sg-accent);
+  border-radius:4px 15px 4px 15px;
+  background:linear-gradient(140deg,var(--sg-mat),#fffdfa 68%);
+  box-shadow:0 17px 32px rgba(26,55,40,.064);
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant,.secondary-wisdom
+) .ejoeun-topic-art__visual{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-sizing:border-box;
+  min-width:0;
+  overflow:visible;
+  border:7px solid #fffaf1;
+  outline:1px solid #cbbd9f;
+  background:#fffaf2;
+  box-shadow:0 8px 18px rgba(36,59,42,.07);
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant,.secondary-wisdom
+) .ejoeun-topic-art__visual>img {
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  max-height:none;
+  aspect-ratio:auto;
+  object-fit:contain;
+  object-position:center;
+  background:#fffaf2;
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant,.secondary-wisdom
+) .ejoeun-topic-art__caption {
+  box-sizing:border-box;
+  min-width:0;
+  gap:clamp(9px,1.4vw,15px);
+  padding:clamp(18px,2.8vw,33px);
+  background:#fffdf9;
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant,.secondary-wisdom
+) .ejoeun-topic-art__caption small {
+  color:var(--sg-accent-dark);
+  font-weight:800;
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant,.secondary-wisdom
+) .ejoeun-topic-art__caption strong {
+  color:#254b36;
+  font-size:clamp(19px,2.1vw,27px);
+  line-height:1.55;
+  text-wrap:balance;
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant,.secondary-wisdom
+) .ejoeun-topic-art__caption>span {
+  color:#4e6353;
+  font-size:clamp(14px,1.35vw,15px);
+  line-height:1.87;
+  overflow-wrap:anywhere;
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant
+) .care-gallery-article-shell>section {
+  border:1px solid #ded8cc;
+  border-top:3px solid var(--sg-accent);
+  border-radius:5px 14px 5px 14px;
+  background:#fffefa;
+  box-shadow:0 8px 25px rgba(27,52,36,.042);
+}
+body.care-gallery-secondary:is(
+  .secondary-cavity,.secondary-scaling,.secondary-denture,
+  .secondary-implant
+) .care-gallery-article-shell>section h2 {
+  padding-left:12px;
+  border-left:3px solid var(--sg-accent);
+  color:#264c37;
+  line-height:1.55;
+}
+body.care-gallery-secondary.secondary-wisdom main>.hero {
+  background:
+    radial-gradient(ellipse at 91% 4%,rgba(226,207,160,.24),transparent 51%),
+    linear-gradient(130deg,#fffdf6,#f0f4e9);
+  border-bottom-color:#d7ccb8;
+}
+body.care-gallery-secondary.secondary-wisdom main>.hero h1 {
+  max-width:23ch;
+  font-size:clamp(30px,4.1vw,48px);
+  line-height:1.51;
+}
+body.care-gallery-secondary.secondary-wisdom main>.section .wrap>h2 {
+  max-width:35ch;
+  padding-left:13px;
+  border-left:3px solid var(--sg-accent);
+  line-height:1.58;
+  letter-spacing:-.05em;
+}
+body.care-gallery-secondary.secondary-wisdom main>.section {
+  border-bottom:1px solid #e6e0d3;
+}
+@media(max-width:760px){
+  body.care-gallery-secondary:is(
+    .secondary-cavity,.secondary-scaling,.secondary-denture,
+    .secondary-implant,.secondary-wisdom
+  ) .ejoeun-topic-art {
+    grid-template-columns:minmax(0,1fr);
+    width:100%;
+    max-width:560px;
+    margin:clamp(17px,4vw,29px) auto 30px;
+    padding:8px;
+  }
+  body.care-gallery-secondary:is(
+    .secondary-cavity,.secondary-scaling,.secondary-denture,
+    .secondary-implant,.secondary-wisdom
+  ) .ejoeun-topic-art__visual {
+    border-width:5px;
+  }
+  body.care-gallery-secondary:is(
+    .secondary-cavity,.secondary-scaling,.secondary-denture,
+    .secondary-implant,.secondary-wisdom
+  ) .ejoeun-topic-art__visual>img {
+    width:100%;
+    height:auto;
+    max-height:none;
+    aspect-ratio:auto;
+    object-fit:contain;
+  }
+  body.care-gallery-secondary:is(
+    .secondary-cavity,.secondary-scaling,.secondary-denture,
+    .secondary-implant,.secondary-wisdom
+  ) .ejoeun-topic-art__caption {
+    padding:17px 14px 20px;
+    gap:10px;
+  }
+  body.care-gallery-secondary:is(
+    .secondary-cavity,.secondary-scaling,.secondary-denture,
+    .secondary-implant,.secondary-wisdom
+  ) .ejoeun-topic-art__caption strong {
+    font-size:clamp(20px,5.2vw,25px);
+  }
+  body.care-gallery-secondary:is(
+    .secondary-cavity,.secondary-scaling,.secondary-denture,
+    .secondary-implant,.secondary-wisdom
+  ) .ejoeun-topic-art__caption>span {
+    font-size:14px;
+    line-height:1.82;
+  }
+  body.care-gallery-secondary:is(
+    .secondary-cavity,.secondary-scaling,.secondary-denture,
+    .secondary-implant,.secondary-wisdom
+  ) .treatment-hero-actions {
+    gap:8px;
+  }
+  body.care-gallery-secondary:is(
+    .secondary-cavity,.secondary-scaling,.secondary-denture,
+    .secondary-implant,.secondary-wisdom
+  ) .treatment-hero-actions > a {
+    min-width:0;
+    min-height:49px;
+    padding:10px 7px;
+    font-size:13px;
+  }
+  body.care-gallery-secondary:is(
+    .secondary-cavity,.secondary-scaling,.secondary-denture,
+    .secondary-implant,.secondary-wisdom
+  ) .gallery-section-index {
+    margin-top:17px;
+    padding:12px;
+  }
+}
+@media(max-width:600px){
+  body.care-gallery-secondary:is(
+    .secondary-cavity,.secondary-scaling,.secondary-denture,
+    .secondary-implant,.secondary-wisdom
+  ) .care-gallery-bottom-actions{
+    box-sizing:border-box;
+    grid-template-columns:minmax(0,1fr) minmax(0,1.15fr) minmax(0,1fr);
+    gap:7px;
+  }
+  body.care-gallery-secondary:is(
+    .secondary-cavity,.secondary-scaling,.secondary-denture,
+    .secondary-implant,.secondary-wisdom
+  ) .care-gallery-bottom-actions a {
+    min-width:0;
+    min-height:48px;
+    padding:8px 4px;
+    font-size:clamp(11px,3.2vw,13px);
+    line-height:1.48;
+    border-radius:4px 10px 4px 10px;
+    overflow-wrap:anywhere;
+  }
+  body.care-gallery-secondary:is(
+    .secondary-cavity,.secondary-scaling,.secondary-denture,
+    .secondary-implant
+  ) .care-gallery-article-shell>h1 {
+    max-width:none;
+    font-size:clamp(27px,7vw,35px);
+    line-height:1.51;
+  }
+  body.care-gallery-secondary:is(
+    .secondary-cavity,.secondary-scaling,.secondary-denture,
+    .secondary-implant,.secondary-wisdom
+  ) .gallery-section-index>a {
+    min-height:48px;
+    padding:10px 7px;
+    font-size:12px;
+  }
+}
+@media(forced-colors:active){
+  body.care-gallery-secondary:is(
+    .secondary-cavity,.secondary-scaling,.secondary-denture,
+    .secondary-implant,.secondary-wisdom
+  ) :is(.ejoeun-topic-art,.ejoeun-topic-art__visual,.ejoeun-topic-art__caption,
+    .care-secondary-breadcrumb,.gallery-section-index,
+    .care-gallery-article-shell>section) {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    outline-color:CanvasText;
+    box-shadow:none;
+  }
+}
