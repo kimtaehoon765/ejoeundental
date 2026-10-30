@@ -1,0 +1,252 @@
+/* Ejoeun Dental | Quiet-gallery refinement | 2026-10-30
+   An isolated last-layer visual polish. Existing content, artwork, links,
+   structured data, mobile booking dock and accessibility remain untouched. */
+
+body.home-page {
+  --atelier-ink: #213d32;
+  --atelier-forest: #194737;
+  --atelier-cream: #faf8f0;
+  --atelier-line: #d9d3c1;
+  --atelier-gold: #9b7948;
+}
+
+/* A calm gallery masthead instead of a busy commercial menu. */
+body.home-page > header {
+  border-bottom: 1px solid rgba(98, 116, 88, .18);
+  box-shadow: 0 8px 26px rgba(30, 58, 40, .045);
+}
+body.home-page > header .logo {
+  letter-spacing: -.065em;
+  text-decoration-thickness: 1px;
+}
+body.home-page > header .navlinks a {
+  text-underline-offset: 7px;
+  transition: color .18s ease;
+}
+@media (hover:hover) and (pointer:fine) {
+  body.home-page > header .navlinks a:not(.call):hover {
+    color: #8a6535;
+    text-decoration: underline;
+    text-decoration-color: #b5a07e;
+  }
+}
+
+/* Main exhibit: make the promise readable, the original portrait prominent,
+   and the actions distinct without changing their order or destination. */
+body.home-page #main-content > .hero.wrap {
+  isolation: isolate;
+}
+body.home-page #main-content > .hero.wrap > div:first-child {
+  min-width: 0;
+}
+body.home-page #main-content > .hero.wrap .kicker {
+  color: #86673c;
+  font-weight: 750;
+  letter-spacing: .18em;
+}
+body.home-page #main-content > .hero.wrap h1 {
+  max-width: 15.5em;
+  color: #203b30;
+  font-weight: 650;
+  letter-spacing: -.06em;
+  text-wrap: balance;
+}
+body.home-page #main-content > .hero.wrap .hero-doctor-credentials {
+  border-left: 3px solid #b59a6a;
+  padding-left: clamp(12px, 1.7vw, 20px);
+}
+body.home-page #main-content > .hero.wrap .hero-actions a {
+  border-radius: 9px;
+  outline-offset: 4px;
+  font-weight: 750;
+  transition: box-shadow .2s ease, filter .2s ease;
+}
+@media (hover:hover) and (pointer:fine) {
+  body.home-page #main-content > .hero.wrap .hero-actions a:hover {
+    filter: brightness(1.035);
+    box-shadow: 0 10px 20px rgba(28, 66, 43, .13);
+  }
+}
+body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+  outline: 1px solid rgba(119, 105, 77, .32);
+  outline-offset: 5px;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque {
+  border-top-color: #d5c9aa;
+}
+body.home-page #main-content > .hero.wrap .hero-principles span {
+  border-color: rgba(106, 132, 99, .32);
+}
+body.home-page #main-content > .hero.wrap .hero-visit-note {
+  border-left: 2px solid #c2ab7b;
+  padding-left: 14px;
+}
+
+/* A continuous illustrated exhibition rail: paintings retain unique sources. */
+body.home-page #main-content .curated-threshold {
+  border-block: 1px solid rgba(144, 135, 109, .17);
+}
+body.home-page #main-content .curated-threshold__piece {
+  min-width: 0;
+  transition: transform .2s ease;
+}
+body.home-page #main-content .curated-threshold__frame {
+  box-shadow: 0 7px 24px rgba(33, 54, 42, .09);
+}
+body.home-page #main-content .curated-threshold__frame img {
+  display: block;
+  max-width: 100%;
+}
+body.home-page #main-content .curated-threshold__caption strong {
+  font-family: 'Noto Serif KR', serif;
+  letter-spacing: -.035em;
+  word-break: keep-all;
+}
+@media (hover:hover) and (pointer:fine) {
+  body.home-page #main-content .curated-threshold__piece:hover {
+    transform: translateY(-4px);
+  }
+}
+
+/* Helpful navigation should read like museum wayfinding, not another
+   promotional row of buttons. */
+body.home-page #main-content .museum-route__links > a {
+  border-bottom: 1px solid rgba(125, 137, 112, .22);
+}
+body.home-page #main-content .museum-route__links > a:focus-visible,
+body.home-page #main-content .curated-threshold__piece:focus-visible {
+  outline: 3px solid #a5814b;
+  outline-offset: 4px;
+}
+
+/* Editorial rhythm: quiet chapter titles, stronger contrasts and more air. */
+body.home-page #main-content .section .eyebrow {
+  color: #8c6b39;
+  font-weight: 750;
+}
+body.home-page #main-content .section:not(.dark) h2 {
+  color: #213e30;
+  letter-spacing: -.055em;
+  text-wrap: balance;
+}
+body.home-page #main-content :is(#philosophy, #focus-care, #care) .card {
+  border-color: #ded8c8;
+  border-radius: 12px;
+  box-shadow: 0 9px 26px rgba(32, 58, 40, .045);
+}
+body.home-page #main-content #philosophy .card .num {
+  color: #aa8851;
+}
+body.home-page #main-content #philosophy .card h3 {
+  color: #214c36;
+}
+body.home-page #main-content #focus-care .focus-care-lead-art {
+  filter: drop-shadow(0 8px 18px rgba(53, 70, 48, .07));
+}
+body.home-page #main-content #focus-care .focus-care-shortcuts a {
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+@media (hover:hover) and (pointer:fine) {
+  body.home-page #main-content #focus-care .focus-care-shortcuts a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(34, 64, 45, .12);
+  }
+}
+
+/* Clinical index: keep all indexable treatment explanations, visually
+   separate choices with a subtle library-shelf rhythm. */
+body.home-page #main-content #care .care-directory__primary > a {
+  box-shadow: inset 0 -3px 0 rgba(169, 134, 78, .38);
+}
+body.home-page #main-content #care .card h3 {
+  line-height: 1.45;
+  text-wrap: balance;
+}
+body.home-page #main-content #care .card p {
+  color: #475e50;
+  line-height: 1.85;
+}
+body.home-page #main-content #care .card a {
+  text-underline-offset: 4px;
+}
+body.home-page #main-content #home-representative-guides .home-representative-guide-grid > a {
+  border-radius: 12px;
+}
+body.home-page #main-content #home-representative-guides .home-representative-guide-grid strong {
+  font-family: 'Noto Serif KR', serif;
+}
+
+/* Pictures get the attention; the archive stays a readable reference shelf. */
+body.home-page #main-content #gallery .gallery-home-artworks img {
+  display:block;
+  width: 100%;
+  object-fit: cover;
+}
+body.home-page #main-content #gallery .gallery-home-artworks a {
+  outline-offset: 5px;
+}
+body.home-page #main-content #stories .journal-gallery-cover {
+  box-shadow: 0 12px 32px rgba(32, 58, 40, .06);
+}
+body.home-page #main-content #stories .owner-stories-more > summary {
+  text-wrap: pretty;
+}
+
+/* Small screens: preserve the working 2-column booking/call actions and
+   fixed mobile dock, while giving the portrait and body text breathing room. */
+@media (max-width: 760px) {
+  body.home-page #main-content > .hero.wrap h1 {
+    max-width: 100%;
+    letter-spacing: -.052em;
+    line-height: 1.43;
+  }
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    outline-offset: 3px;
+  }
+  body.home-page #main-content .curated-threshold__piece {
+    transform: none;
+  }
+  body.home-page #main-content #care .card {
+    box-shadow: 0 6px 18px rgba(32,58,40,.035);
+  }
+}
+@media (max-width: 600px) {
+  body.home-page #main-content > .hero.wrap .kicker {
+    letter-spacing: .11em;
+    line-height: 1.65;
+  }
+  body.home-page #main-content > .hero.wrap .hero-doctor-credentials {
+    padding-left: 12px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-visit-note {
+    padding-left: 10px;
+  }
+  body.home-page #main-content .section:not(.dark) h2 {
+    text-wrap: pretty;
+  }
+  body.home-page #main-content #focus-care .focus-care-shortcuts a,
+  body.home-page #main-content #care .care-directory__primary > a {
+    min-width: 0;
+  }
+}
+/* Avoid forced-motion animations and respect system high-contrast modes. */
+@media (prefers-reduced-motion: reduce) {
+  body.home-page > header .navlinks a,
+  body.home-page #main-content .curated-threshold__piece,
+  body.home-page #main-content #focus-care .focus-care-shortcuts a,
+  body.home-page #main-content > .hero.wrap .hero-actions a {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  body.home-page #main-content > .hero.wrap .hero-doctor-credentials,
+  body.home-page #main-content > .hero.wrap .hero-visit-note,
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    border-color: CanvasText;
+    outline-color: CanvasText;
+  }
+  body.home-page #main-content :is(#philosophy,#focus-care,#care) .card {
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+}
