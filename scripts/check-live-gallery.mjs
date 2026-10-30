@@ -8,6 +8,10 @@ const originals=[
  'assets/gallery-golden-garden.svg',
  'assets/clinic-gallery.css',
  'assets/clinic-gallery.js',
+ 'assets/gallery-clinical-watercolors.css',
+ 'assets/watercolor-care-gum-20261029.webp',
+ 'assets/watercolor-care-abrasion-20261029.webp',
+ 'assets/watercolor-care-insurance-20261029.webp',
  'assets/museum-home-v2.css',
  'assets/atelier-home-2026.css',
  'assets/cubist-cat-clinic-thumb.webp',
@@ -100,15 +104,35 @@ try{
  const idsOk=originalIds.every(id=>gallery.includes('id="'+id+'"'))&&
    originalIds.every(id=>gallery.includes('href="#'+id+'"'))&&
    studyIds.every(id=>gallery.includes('id="'+id+'"'))&&
-   originalCount===10&&clinicalCount===3&&studyCount===10&&zoomCount===20&&
+   originalCount===10&&clinicalCount===3&&studyCount===10&&zoomCount===23&&
    (gallery.match(/class="gallery-patient-studies__original"/g)||[]).length===10&&
-   gallery.includes('id="gallery-dialog-position" aria-live="polite" aria-atomic="true">01 / 20</span>')&&
+   gallery.includes('id="gallery-dialog-position" aria-live="polite" aria-atomic="true">01 / 23</span>')&&
    gallery.includes('id="patient-studies"')&&
    html.includes('href="/gallery.html#patient-studies"');
- record('23점 전시·20개 확대 버튼·10개 원본 링크',idsOk,
+ record('23점 전시·23개 확대 버튼·10개 건강정보 원본 링크',idsOk,
    '실사이트 원본 '+originalCount+'점 · 진료 수채화 '+clinicalCount+
    '점 · 건강정보 작품 '+studyCount+'점 · 확대 버튼 '+zoomCount+'개');
  good&&=idsOk;
+ // All three clinical watercolor cards must provide actual full-size image
+ // links without JavaScript while retaining their original treatment links.
+ const watercolorPairs=[
+  ['/gum-treatment.html','watercolor-care-gum-20261029.webp'],
+  ['/cervical-abrasion.html','watercolor-care-abrasion-20261029.webp'],
+  ['/insured-care.html','watercolor-care-insurance-20261029.webp']
+ ];
+ const watercolorCards=[...gallery.matchAll(/<div class="gallery-watercolor-card">([\s\S]*?)<\/div>/g)]
+  .map(match=>match[1]);
+ const fallbackReady=watercolorCards.length===3&&
+  watercolorPairs.every(([guide,img],i)=>
+   watercolorCards[i].includes('href="'+guide+'"')&&
+   watercolorCards[i].includes('class="gallery-watercolor-original" href="/assets/'+img+'"')&&
+   watercolorCards[i].includes('target="_blank" rel="noopener noreferrer"')&&
+   watercolorCards[i].includes('class="gallery-zoom" data-image="/assets/'+img+'"'))&&
+  /href="\/assets\/gallery-clinical-watercolors\.css\?v=[a-f0-9]{12}"/.test(gallery);
+ record('진료 수채화 3점 원본·확대·관련 진료 안내 연결',fallbackReady,
+  fallbackReady?'수채화 3점 각각 원본 보기·확대 버튼·기존 진료 글 연결 확인':
+   '진료 수채화 원본 링크 또는 최신 스타일 확인 필요');
+ good&&=fallbackReady;
  const imageElements=[...gallery.matchAll(/<figure class="gallery-piece\b[^>]*>[\s\S]*?<\/figure>/g),
   ...gallery.matchAll(/<a class="gallery-note gallery-note--watercolor"[^>]*>[\s\S]*?<\/a>/g),
   ...gallery.matchAll(/<figure class="gallery-patient-studies__piece"[^>]*>[\s\S]*?<\/figure>/g)]
