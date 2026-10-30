@@ -789,3 +789,30 @@ test('all three original watercolor cards retain medical links and accessible zo
  assert.ok(html.includes('/assets/gallery-clinical-watercolors.css?v='+expectedHash),
   'published watercolor stylesheet URL must invalidate stale cached CSS');
 });
+
+
+test('visit-guide shows two clear Friday/Saturday patterns without claiming this week's hours',()=>{
+ const visit=read('visit-guide.html');
+ const main=visit.match(/<section class="card"><h2 id="visit-hours">[\s\S]*?<\/section>/)?.[0]||'';
+ assert.ok(main,'standalone visit guide must retain its full opening-hours section');
+ assert.ok(main.includes('월~목: 09:30~18:30'));
+ assert.ok(main.includes('점심시간: 13:00~14:00'));
+ assert.ok(main.includes('오전 접수 마감: 12:30 / 오후 접수 마감: 18:00'));
+ const cards=[...main.matchAll(/<div class="visit-cycle__card[^"]*">([\s\S]*?)<\/div>/g)].map(m=>m[1]);
+ assert.equal(cards.length,2,'two Friday/Saturday schedules must be independently readable');
+ assert.ok(cards[0].includes('토요일 진료 주'));
+ assert.ok(cards[0].includes('금요일 <b>09:30~13:00</b>'));
+ assert.ok(cards[0].includes('토요일 <b>09:30~13:00</b>'));
+ assert.ok(cards[1].includes('토요일 휴진 주'));
+ assert.ok(cards[1].includes('금요일 <b>09:30~18:30</b>'));
+ assert.ok(cards[1].includes('토요일 <b>휴진</b>'));
+ assert.ok(main.includes('이번 주 확정 일정은 아닙니다.'),
+  'static alternating-week pattern must not be misrepresented as current availability');
+ assert.ok(main.includes('class="visit-cycle__contact" href="tel:0325132875"'),
+  'the clinic must offer phone confirmation from the paired schedule cards');
+ assert.match(visit, /@media\(max-width:600px\)\{\.visit-cycle\{[^}]+\}\.visit-cycle__grid\{grid-template-columns:minmax\(0,1fr\)/);
+ assert.ok(visit.includes('class="visit-mobile-actions"'),
+  'existing mobile booking, call and directions should remain available');
+ assert.ok(home.includes('id="weekly-hours"')&&home.includes('토요일 휴진 주'),
+  'home schedule and standalone visit guide must agree on alternating operation');
+});
