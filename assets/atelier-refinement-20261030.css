@@ -318,3 +318,75 @@ body.home-page .care-picture-notes__swipe-hint {
     color:CanvasText;
   }
 }
+
+
+/* Approved portrait exhibition · 2026-10-30.
+   Present the mature doctor-and-white-cat painting at its true 3:2 ratio.
+   Do not crop the doctor's face, fluffy cat, or in-painting clinic signature. */
+body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+  box-sizing:border-box;
+  width:min(100%,560px);
+  max-width:560px;
+  height:auto;
+  aspect-ratio:auto;
+  align-self:center;
+  padding:clamp(8px,1vw,13px);
+  background:#e9e1d0;
+  border-color:#c4ad82;
+  box-shadow:0 18px 35px rgba(34,56,38,.13);
+}
+body.home-page #main-content > .hero.wrap > .art.hero-artwork > img {
+  box-sizing:border-box;
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:3 / 2;
+  object-fit:contain;
+  object-position:center;
+  background:#f8f4e9;
+  border:1px solid #d5c5a6;
+  border-radius:2px;
+}
+body.home-page #main-content > .hero.wrap > .art.hero-artwork > .hero-artwork__plaque {
+  box-sizing:border-box;
+  min-width:0;
+  padding:12px 15px 7px;
+  background:#fffdf7;
+  border-top:1px solid #d6c4a5;
+}
+body.home-page #main-content > .hero.wrap > .art.hero-artwork .hero-artwork__plaque > strong {
+  color:#244f39;
+  text-wrap:balance;
+}
+@media (max-width:760px) {
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    grid-column:1 / -1;
+    grid-row:2;
+    width:min(100%,420px);
+    max-width:420px;
+    margin:12px auto 19px;
+    padding:8px;
+  }
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork > img {
+    width:100%;
+    height:auto;
+    aspect-ratio:3 / 2;
+  }
+}
+@media (max-width:365px) {
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    width:min(100%,315px);
+    max-width:315px;
+    margin:11px auto 16px;
+  }
+}
+@media (forced-colors:active) {
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork,
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork > img,
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork > .hero-artwork__plaque {
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+}
