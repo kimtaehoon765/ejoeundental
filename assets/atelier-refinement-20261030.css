@@ -2000,3 +2000,113 @@ body.home-page #main-content > #care .care-directory {
     border-color:CanvasText;
   }
 }
+
+
+/* 2026-10-30 | Open exhibition index for all twelve clinic specialties.
+   The full menu is visible without clicking or relying on JavaScript,
+   while the HTML details control still permits readers to collapse it. */
+body.home-page #main-content>#care .care-directory__more[open]{
+  border-top:1px solid #d8c9af;
+  padding-top:13px;
+}
+body.home-page #main-content>#care .care-directory__more[open]>summary{
+  box-sizing:border-box;
+  display:flex;
+  width:100%;
+  padding:9px 13px;
+  margin-bottom:5px;
+  min-height:46px;
+  border:1px solid #d9d2bf;
+  border-radius:4px 11px 4px 11px;
+  background:linear-gradient(115deg,#f3f0e6,#fffdf8);
+  color:#385840;
+  font-size:13px;
+  line-height:1.7;
+  list-style:none;
+  cursor:pointer;
+}
+body.home-page #main-content>#care .care-directory__more[open]>summary::-webkit-details-marker{
+  display:none;
+}
+body.home-page #main-content>#care .care-directory__secondary{
+  counter-reset:care-secondary-gallery 4;
+  gap:10px;
+}
+body.home-page #main-content>#care .care-directory__secondary>a{
+  counter-increment:care-secondary-gallery;
+  box-sizing:border-box;
+  display:flex;
+  justify-content:flex-start;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+  min-height:58px;
+  padding:12px 13px;
+  border:1px solid #d8d3c5;
+  border-radius:4px 11px 4px 11px;
+  background:#fffefa;
+  font-size:14px;
+  line-height:1.62;
+  color:#2d543f;
+  text-decoration:none;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content>#care .care-directory__secondary>a::before{
+  content:counter(care-secondary-gallery,decimal-leading-zero);
+  flex:0 0 auto;
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  width:28px;
+  height:28px;
+  border:1px solid #d9c9ab;
+  border-radius:3px;
+  background:#f5ede0;
+  color:#8c734d;
+  font:700 11px/1 Georgia,serif;
+}
+body.home-page #main-content>#care .care-directory__secondary>a:nth-child(4n+2){
+  border-left:3px solid #91aa93;
+}
+body.home-page #main-content>#care .care-directory__secondary>a:nth-child(4n+3){
+  border-left:3px solid #b7a07c;
+}
+body.home-page #main-content>#care .care-directory__secondary>a:nth-child(4n+4){
+  border-left:3px solid #a1a5ae;
+}
+@media(max-width:600px){
+  body.home-page #main-content>#care .care-directory__secondary{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+  }
+  body.home-page #main-content>#care .care-directory__secondary>a{
+    min-height:55px;
+    padding:9px 8px;
+    gap:7px;
+    font-size:12px;
+  }
+  body.home-page #main-content>#care .care-directory__secondary>a::before{
+    width:24px;
+    height:24px;
+    font-size:10px;
+  }
+}
+@media(max-width:380px){
+  body.home-page #main-content>#care .care-directory__secondary{
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.home-page #main-content>#care .care-directory__secondary>a{
+    min-height:47px;
+    padding:9px 12px;
+    font-size:13px;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#care .care-directory__more[open]>summary,
+  body.home-page #main-content>#care .care-directory__secondary>a,
+  body.home-page #main-content>#care .care-directory__secondary>a::before{
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+  }
+}
