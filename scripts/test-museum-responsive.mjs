@@ -791,7 +791,7 @@ test('all three original watercolor cards retain medical links and accessible zo
 });
 
 
-test('visit-guide shows two clear Friday/Saturday patterns without claiming this week's hours',()=>{
+test("visit-guide shows two clear Friday/Saturday patterns without claiming this week's hours",()=>{
  const visit=read('visit-guide.html');
  const main=visit.match(/<section class="card"><h2 id="visit-hours">[\s\S]*?<\/section>/)?.[0]||'';
  assert.ok(main,'standalone visit guide must retain its full opening-hours section');
