@@ -650,3 +650,99 @@ body.home-page #main-content>#symptoms .symptom-contact>strong {
     color:CanvasText;
   }
 }
+
+/* 2026-10-30 · doctor's journal: a new, original landscape on the homepage.
+   The existing 509 blog links and editorial letterpress text stay untouched. */
+body.home-page #main-content>#stories .journal-gallery-cover {
+  border-color:#cdbb96;
+  background:#f7f2e6;
+  box-shadow:0 15px 34px rgba(29,55,39,.085);
+}
+body.home-page #main-content>#stories .journal-gallery-cover__poster {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-items:stretch;
+  gap:0;
+  min-width:0;
+  min-height:0;
+  padding:8px;
+  text-align:left;
+  color:#fdf9eb;
+  background:#eee8da;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__poster::before {
+  content:none;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__poster>img {
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  aspect-ratio:12 / 7;
+  object-fit:contain;
+  object-position:center;
+  border-radius:2px;
+  background:#f4eddf;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__poster>small {
+  display:block;
+  margin:0;
+  padding:11px 17px 0;
+  background:#28513d;
+  color:#e8d5aa;
+  font:750 10px/1.6 system-ui,sans-serif;
+  letter-spacing:.13em;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__poster>strong {
+  display:block;
+  padding:4px 17px 0;
+  background:#28513d;
+  color:#fffaf0;
+  font:650 clamp(18px,1.85vw,24px)/1.42 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.05em;
+  word-break:keep-all;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__poster>span {
+  display:block;
+  padding:3px 17px 13px;
+  background:#28513d;
+  color:#e9ebdc;
+  font:650 10px/1.6 system-ui,sans-serif;
+  letter-spacing:.11em;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__caption {
+  border-left:1px solid rgba(225,208,168,.32);
+}
+body.home-page #main-content>#stories .journal-gallery-cover:focus-visible {
+  outline:3px solid #a78242;
+  outline-offset:4px;
+}
+@media (max-width:700px) {
+  body.home-page #main-content>#stories .journal-gallery-cover__poster {
+    padding:6px;
+  }
+  body.home-page #main-content>#stories .journal-gallery-cover__poster>small {
+    padding:10px 13px 0;
+  }
+  body.home-page #main-content>#stories .journal-gallery-cover__poster>strong {
+    padding:3px 13px 0;
+    font-size:19px;
+  }
+  body.home-page #main-content>#stories .journal-gallery-cover__poster>span {
+    padding:3px 13px 12px;
+  }
+  body.home-page #main-content>#stories .journal-gallery-cover__caption {
+    border-left:0;
+    border-top:1px solid #c6af85;
+  }
+}
+@media (forced-colors:active) {
+  body.home-page #main-content>#stories :is(.journal-gallery-cover,.journal-gallery-cover__poster,.journal-gallery-cover__poster>small,.journal-gallery-cover__poster>strong,.journal-gallery-cover__poster>span,.journal-gallery-cover__caption) {
+    color:CanvasText!important;
+    background:Canvas!important;
+    border-color:CanvasText!important;
+    box-shadow:none;
+  }
+}
