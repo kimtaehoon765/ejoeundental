@@ -891,3 +891,185 @@
 @media print {
   .gallery-mobile-dock {display:none!important}
 }
+
+
+/* Exhibition exit · artwork leads to clinically useful reading, 2026-10-30.
+   Four real patient-information destinations, no repeated painting or JS. */
+.gallery-care-bridge {
+  box-sizing:border-box;
+  max-width:1160px;
+  margin:clamp(20px,3vw,42px) auto clamp(32px,4vw,56px);
+  padding:clamp(22px,3.2vw,37px);
+  border:1px solid #d5c7ad;
+  border-top:3px solid #b69a68;
+  border-radius:3px 15px 3px 15px;
+  background:linear-gradient(137deg,#fcf8ee 0%,#f3f4ea 65%,#faf5e8 100%);
+  box-shadow:0 14px 36px rgba(33,53,39,.055);
+}
+.gallery-care-bridge__heading {
+  max-width:790px;
+  margin-bottom:22px;
+}
+.gallery-care-bridge__eyebrow {
+  margin:0 0 9px;
+  color:#856b46;
+  font:750 11px/1.6 system-ui,sans-serif;
+  letter-spacing:.12em;
+}
+.gallery-care-bridge__heading h2 {
+  margin:0 0 12px;
+  color:#224734;
+  font:700 clamp(23px,2.5vw,34px)/1.47 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.045em;
+  word-break:keep-all;
+  text-wrap:balance;
+}
+.gallery-care-bridge__heading p:last-child {
+  margin:0;
+  color:#4e6654;
+  font-size:14px;
+  line-height:1.85;
+  word-break:keep-all;
+}
+.gallery-care-bridge__links {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:11px;
+}
+.gallery-care-bridge__links > a {
+  box-sizing:border-box;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  min-width:0;
+  min-height:130px;
+  padding:18px 13px;
+  border:1px solid #dfd6c5;
+  border-left:3px solid #bda47a;
+  border-radius:4px 12px 4px 12px;
+  background:#fffefa;
+  color:#254d37;
+  text-decoration:none;
+  box-shadow:0 5px 14px rgba(34,54,40,.04);
+  transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease;
+}
+.gallery-care-bridge__links > a > span:nth-child(2) {
+  display:flex;
+  flex:1;
+  min-width:0;
+  flex-direction:column;
+  gap:7px;
+}
+.gallery-care-bridge__links strong {
+  display:block;
+  color:#204a35;
+  font:700 clamp(15px,1.38vw,17px)/1.45 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.03em;
+  word-break:keep-all;
+}
+.gallery-care-bridge__links small {
+  display:block;
+  color:#597160;
+  font:550 12px/1.7 system-ui,"Apple SD Gothic Neo",sans-serif;
+  word-break:keep-all;
+}
+.gallery-care-bridge__number {
+  flex:none;
+  padding-top:2px;
+  color:#927347;
+  font:750 11px/1.5 system-ui,sans-serif;
+}
+.gallery-care-bridge__arrow {
+  align-self:flex-start;
+  flex:none;
+  color:#987a4b;
+  font-size:14px;
+}
+.gallery-care-bridge__all {
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+  margin-top:16px;
+  padding:6px 0;
+  color:#20503b;
+  font-size:14px;
+  font-weight:800;
+  line-height:1.6;
+  text-decoration:underline;
+  text-underline-offset:5px;
+}
+.gallery-care-bridge__links > a:focus-visible,
+.gallery-care-bridge__all:focus-visible {
+  outline:3px solid #a98249;
+  outline-offset:3px;
+}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  .gallery-care-bridge__links > a:hover {
+    border-color:#9c9b7d;
+    border-left-color:#51785b;
+    box-shadow:0 12px 25px rgba(32,54,39,.11);
+    transform:translateY(-2px);
+  }
+}
+@media (max-width:960px) {
+  .gallery-care-bridge__links {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .gallery-care-bridge__links > a {
+    min-height:104px;
+  }
+}
+@media (max-width:650px) {
+  .gallery-care-bridge {
+    width:calc(100% - 26px);
+    margin:17px auto 30px;
+    padding:22px 13px 24px;
+  }
+  .gallery-care-bridge__heading {
+    margin-bottom:17px;
+  }
+  .gallery-care-bridge__heading h2 {
+    font-size:clamp(21px,5.5vw,26px);
+  }
+  .gallery-care-bridge__links {
+    grid-template-columns:minmax(0,1fr);
+    gap:8px;
+  }
+  .gallery-care-bridge__links > a {
+    align-items:center;
+    min-height:76px;
+    padding:12px 14px;
+  }
+  .gallery-care-bridge__links strong {
+    font-size:16px;
+  }
+  .gallery-care-bridge__links small {
+    font-size:12px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .gallery-care-bridge__links > a {
+    transition:none;
+  }
+}
+@media (forced-colors:active) {
+  .gallery-care-bridge,
+  .gallery-care-bridge__links > a {
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+  .gallery-care-bridge :is(h2,p,strong,small,span,a) {
+    color:CanvasText;
+  }
+}
+@media print {
+  .gallery-care-bridge {
+    box-shadow:none;
+    break-inside:avoid;
+  }
+  .gallery-care-bridge__links {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
