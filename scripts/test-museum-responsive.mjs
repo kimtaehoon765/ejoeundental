@@ -692,4 +692,14 @@ test('searchable owner journal offers an accessible first-result jump',()=>{
    'result destination receives focus without navigating to Naver');
  assert.match(script,/input\.maxLength = 100;/,
    'archive search respects the homepage query length limit');
+ assert.ok(script.includes("countLabel.textContent = inGroup + '편'"),
+   'archive group counts must show matching articles, not original group totals');
+ assert.ok(script.includes("countLabel.textContent = items.length + '편'"),
+   'clearing archive filters must restore the original topic totals');
+ assert.ok(script.includes("if (!count) continue;"),
+   'search shortcuts must appear only for topics present in the actual articles');
+ assert.ok(script.includes("quickTopics.className = 'archive-search-topics'"),
+   'search shortcuts must be progressively rendered without altering original links');
+ assert.ok(archive.includes('.archive-search-topic[aria-pressed="true"]'),
+   'selected search shortcuts must have a clear active state');
 });
