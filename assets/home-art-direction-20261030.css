@@ -2476,3 +2476,37 @@ body.home-page #main-content>#care .care-more-details .care-more-grid>.card a:fo
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-30 · Complete the optional care gallery with four more
+   distinct existing artworks; keep all image captions and clinical text. */
+body.home-page #main-content>#care .care-more-details .care-mini-gallery--wide>img {
+  aspect-ratio:960 / 360;
+  object-fit:contain;
+  background:#f8f5ec;
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid>.card:has(.care-mini-gallery)>p:last-child {
+  margin-top:auto;
+  padding-top:14px;
+  border-top:1px solid #e4dece;
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid>.card:has(.care-mini-gallery)>p:last-child>a {
+  display:inline-flex;
+  align-items:center;
+  box-sizing:border-box;
+  min-height:44px;
+  padding:8px 6px;
+  line-height:1.6;
+  text-underline-offset:4px;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid>.card:has(.care-mini-gallery)>p:last-child>a:focus-visible {
+  outline:3px solid #af874b;
+  outline-offset:2px;
+}
+@media(max-width:760px) {
+  body.home-page #main-content>#care .care-more-details .care-mini-gallery--wide>img {
+    max-width:100%;
+    height:auto;
+  }
+}
