@@ -12,7 +12,7 @@ test('the gallery entrance painting is distinct from all 23 numbered works and s
  const hero=html.match(/<div class="gallery-hero-image"><img src="([^"]+)"/)?.[1]||'';
  const works=artworkGroups(html);
  const srcs=[...works.originals,...works.watercolor,...works.studies]
-  .map(card=>card.match(/<img\\b[^>]*src="([^"]+)"/)?.[1]);
+  .map(card=>card.match(/<img\b[^>]*src="([^"]+)"/)?.[1]);
  assert.equal(hero,'/assets/ejoeun-original-wisdom-consult-20261029.webp');
  assert.ok(!srcs.includes(hero),'gallery entrance must not repeat a numbered painting');
  assert.equal(srcs.length,23,'the numbered collection retains its 23 artworks');
