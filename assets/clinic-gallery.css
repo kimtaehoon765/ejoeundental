@@ -611,3 +611,64 @@
 @media(forced-colors:active){
   .gallery-dialog .gallery-dialog-section{color:CanvasText}
 }
+
+
+/* 2026-10-30 · A distinct entrance painting, not a duplicate of exhibit 01.
+   The original cat-and-dental-books watercolor is shown uncropped in a warm
+   gallery mat; the 23 numbered collection works remain untouched. */
+.gallery-hero-image{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-width:0;
+  border:1px solid #c5ae83;
+  background:linear-gradient(148deg,#e9ddc7,#f9f3e7);
+}
+.gallery-hero-image img{
+  box-sizing:border-box;
+  display:block;
+  width:100%;
+  height:auto;
+  min-height:0;
+  max-height:560px;
+  aspect-ratio:3 / 2;
+  object-fit:contain;
+  object-position:center;
+  background:#f6eddf;
+  border:8px solid rgba(255,251,242,.72);
+}
+.gallery-hero-image > span{
+  right:14px;
+  bottom:13px;
+  max-width:calc(100% - 28px);
+  overflow-wrap:anywhere;
+  background:rgba(29,57,43,.88);
+  border-color:rgba(255,246,221,.55);
+  color:#fff7e7;
+}
+@media(max-width:850px){
+  .gallery-hero-image img{
+    max-height:460px;
+    aspect-ratio:3 / 2;
+  }
+}
+@media(max-width:600px){
+  .gallery-hero-image img{
+    max-height:none;
+    aspect-ratio:3 / 2;
+    border-width:6px;
+  }
+  .gallery-hero-image > span{
+    font-size:9px;
+    letter-spacing:.08em;
+  }
+}
+@media(forced-colors:active){
+  .gallery-hero-image,
+  .gallery-hero-image img,
+  .gallery-hero-image > span{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+  }
+}
