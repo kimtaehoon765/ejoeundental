@@ -1,7 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 const read=p=>readFileSync('dist/'+p,'utf8');
+const hashedCssUrl=name=>{
+ const file=readFileSync('dist/assets/'+name+'.css');
+ const sha=createHash('sha256').update(file).digest('hex').slice(0,12);
+ return '/assets/'+name+'.css?v='+sha;
+};
 const artworkGroups=html=>({
  originals:[...html.matchAll(/<figure class="gallery-piece\b[^>]*>[\s\S]*?<\/figure>/g)].map(m=>m[0]),
  watercolor:[...html.matchAll(/<a class="gallery-note gallery-note--watercolor"[^>]*>[\s\S]*?<\/a>/g)].map(m=>m[0]),
@@ -102,9 +108,9 @@ test('gallery connects its painting exhibition to four existing patient guides',
  assert.ok(css.includes('Exhibition exit · artwork leads'));
  assert.ok(css.includes('.gallery-care-bridge__links > a:focus-visible'));
  assert.ok(css.includes('grid-template-columns:minmax(0,1fr)'),'mobile care index must be single-column');
- assert.ok(html.includes('/assets/clinic-gallery.css?v=20261030-clinical-bridge01'),
+ assert.ok(html.includes(hashedCssUrl('clinic-gallery')),
   'latest gallery design must be cache-busted');
- assert.ok(html.includes('/assets/gallery-patient-studies.css?v=20261030-patient-actions01'),
+ assert.ok(html.includes(hashedCssUrl('gallery-patient-studies')),
   'patient action refinements must refresh on visitors browsers');
 });
 test('homepage watercolor shelf swipe instruction is accurate and cache-busted',()=>{
@@ -112,7 +118,7 @@ test('homepage watercolor shelf swipe instruction is accurate and cache-busted',
  assert.ok(home.includes('id="care-picture-swipe-hint"'));
  assert.ok(home.includes('aria-describedby="care-picture-swipe-hint"'));
  assert.ok(home.includes('그림을 옆으로 밀어 세 가지 진료 안내를 차례로 확인하세요.'));
- assert.ok(home.includes('/assets/atelier-refinement-20261030.css?v=20261030-visual-care02'));
+ assert.ok(home.includes(hashedCssUrl('atelier-refinement-20261030')));
 });
 test('gallery retains 10 paintings, 3 patient watercolors, and 10 distinct consultation artworks',()=>{
  const html=read('gallery.html'),g=artworkGroups(html);
