@@ -319,3 +319,195 @@ html.health-library body .article :is(a,button,summary):focus-visible{
 @media(prefers-reduced-motion:reduce){
  html.health-library body{scroll-behavior:auto;}
 }
+
+
+/* 2026-10-31 | Patient reading rooms and ten-essay navigator.
+   Dedicated navigation is linked to visible source sections. Preserve every
+   clinical sentence, original blog link, and canonical search metadata. */
+html.health-library body .article>.health-reading-rooms{
+  box-sizing:border-box;
+  margin:19px 0 31px;
+  padding:clamp(17px,2.6vw,25px);
+  border:1px solid #d9ccba;
+  border-top:3px solid #b19a75;
+  border-radius:5px 16px 5px 16px;
+  background:linear-gradient(128deg,#f7f2e8,#fffefa 65%,#edf3eb);
+  box-shadow:0 11px 28px rgba(32,60,42,.046);
+}
+html.health-library body .health-reading-rooms>strong{
+  display:block;
+  margin-bottom:13px;
+  color:#31533d;
+  font:700 clamp(18px,2.1vw,22px)/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.04em;
+}
+html.health-library body .health-reading-rooms__grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:9px;
+}
+html.health-library body .health-reading-rooms__grid>a{
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:55px;
+  min-width:0;
+  padding:10px 9px;
+  border:1px solid #d6d5c7;
+  border-radius:4px 10px 4px 10px;
+  background:#fffefa;
+  color:#355941;
+  font-size:14px;
+  font-weight:760;
+  line-height:1.57;
+  text-align:center;
+  text-decoration:none;
+  overflow-wrap:anywhere;
+  word-break:keep-all;
+}
+html.health-library body .health-reading-rooms__grid>a[aria-current="page"]{
+  border-color:#316148;
+  background:#285a41;
+  color:#fff;
+}
+html.health-library body .health-reading-rooms__grid>a:hover:not([aria-current="page"]){
+  border-color:#88a18a;
+  background:#f1f7ee;
+}
+html.health-library body .article>.health-essay-index{
+  box-sizing:border-box;
+  margin:clamp(25px,4vw,38px) 0 24px;
+  padding:clamp(17px,2.5vw,26px);
+  border:1px solid #d9cbb5;
+  border-left:4px solid #af9973;
+  border-radius:5px 15px 5px 15px;
+  background:linear-gradient(132deg,#f6f2e9,#fffdf8 72%);
+}
+html.health-library body .health-essay-index__heading{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:5px 17px;
+  margin-bottom:15px;
+}
+html.health-library body .health-essay-index__heading>strong{
+  color:#285039;
+  font:700 clamp(19px,2.3vw,25px)/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.045em;
+}
+html.health-library body .health-essay-index__heading>span{
+  color:#5b6d5c;
+  font-size:13px;
+  line-height:1.62;
+}
+html.health-library body .health-essay-index__list{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px 13px;
+}
+html.health-library body .health-essay-index__list>a{
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+  min-height:49px;
+  padding:10px 12px;
+  border:1px solid #ddd9ca;
+  border-radius:4px 10px 4px 10px;
+  background:#fffefa;
+  color:#33523e;
+  font-size:14px;
+  font-weight:680;
+  line-height:1.63;
+  text-decoration:none;
+  overflow-wrap:anywhere;
+  word-break:keep-all;
+}
+html.health-library body .health-essay-index__list>a>span{
+  display:inline-flex;
+  flex:0 0 auto;
+  align-items:center;
+  justify-content:center;
+  width:29px;
+  height:29px;
+  border:1px solid #d8c9ae;
+  border-radius:3px;
+  background:#f5ecdf;
+  color:#8b714c;
+  font:700 11px/1 Georgia,serif;
+}
+html.health-library body .health-essay-index__list>a:hover{
+  background:#eff6ec;
+  border-color:#8ba789;
+}
+html.health-library body .article>section:not([class])>h2[id^="hl-"]{
+  scroll-margin-top:90px;
+}
+html.health-library body .article>section:not([class])>h2[id^="hl-"]::after{
+  content:"";
+  display:block;
+  margin-top:12px;
+  width:45px;
+  height:2px;
+  background:#b9a27a;
+}
+html.health-library body .article>.health-essay-index :is(a,button):focus-visible,
+html.health-library body .article>.health-reading-rooms :is(a,button):focus-visible{
+  outline:3px solid #a88145;
+  outline-offset:3px;
+}
+@media(max-width:760px){
+  html.health-library body .health-reading-rooms__grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  html.health-library body .health-essay-index__list{
+    grid-template-columns:minmax(0,1fr);
+  }
+  html.health-library body .health-essay-index__list>a{
+    min-height:47px;
+  }
+}
+@media(max-width:600px){
+  html.health-library body .article>.health-reading-rooms,
+  html.health-library body .article>.health-essay-index{
+    margin:17px 0 25px;
+    padding:17px 13px;
+  }
+  html.health-library body .health-reading-rooms__grid>a{
+    min-height:49px;
+    padding:8px 6px;
+    font-size:13px;
+  }
+  html.health-library body .health-essay-index__heading{
+    display:block;
+  }
+  html.health-library body .health-essay-index__heading>span{
+    display:block;
+    margin-top:4px;
+  }
+  html.health-library body .health-essay-index__list>a{
+    font-size:13px;
+  }
+}
+@media(forced-colors:active){
+  html.health-library body :is(.health-reading-rooms,.health-reading-rooms__grid>a,.health-essay-index,.health-essay-index__list>a,.health-essay-index__list>a>span){
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  html.health-library body .health-essay-index__list>a>span{
+    outline:1px solid CanvasText;
+  }
+}
+@media print{
+  html.health-library body :is(.health-reading-rooms,.health-essay-index){
+    background:#fff;
+    border:1px solid #555;
+    box-shadow:none;
+    break-inside:avoid;
+  }
+}
