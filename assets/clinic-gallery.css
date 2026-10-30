@@ -1190,3 +1190,130 @@
     display:none;
   }
 }
+
+
+/* Gallery edition XX · Exhibition-room selector within the 23-art modal.
+   Native buttons remain large enough to tap and reveal the active room.
+   Extra controls reduce the picture height, never crop a painting. */
+.gallery-dialog .gallery-dialog-rooms {
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  width:100%;
+  margin:1px auto 9px;
+}
+.gallery-dialog .gallery-dialog-rooms > button {
+  box-sizing:border-box;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:4px 9px;
+  min-width:0;
+  min-height:46px;
+  padding:8px 9px;
+  border:1px solid #cfc5ae;
+  border-radius:7px;
+  background:#fcf8ee;
+  color:#325440;
+  font-family:system-ui,"Apple SD Gothic Neo",sans-serif;
+  text-align:center;
+  word-break:keep-all;
+  transition:background-color .2s ease,border-color .2s ease;
+}
+.gallery-dialog .gallery-dialog-rooms > button > span {
+  color:#967b4c;
+  font-size:11px;
+  font-weight:800;
+}
+.gallery-dialog .gallery-dialog-rooms > button > strong {
+  font-size:13px;
+  font-weight:800;
+  line-height:1.4;
+}
+.gallery-dialog .gallery-dialog-rooms > button > small {
+  color:#6b7868;
+  font-size:11px;
+  font-weight:700;
+}
+.gallery-dialog .gallery-dialog-rooms > button[aria-current="true"] {
+  background:#26543d;
+  border-color:#26543d;
+  color:#fffdf3;
+  box-shadow:inset 0 0 0 1px rgba(255,248,226,.28);
+}
+.gallery-dialog .gallery-dialog-rooms > button[aria-current="true"] :is(span,small) {
+  color:#f0dfb8;
+}
+.gallery-dialog .gallery-dialog-rooms > button:hover {
+  border-color:#84683f;
+}
+.gallery-dialog .gallery-dialog-rooms > button:focus-visible {
+  outline:3px solid #c0954e;
+  outline-offset:3px;
+}
+.gallery-dialog #gallery-dialog-image {
+  box-sizing:border-box;
+  max-height:calc(94vh - 292px);
+  max-height:calc(94dvh - 292px);
+  object-fit:contain;
+}
+.gallery-dialog.gallery-dialog--care #gallery-dialog-image {
+  max-height:calc(94vh - 345px);
+  max-height:calc(94dvh - 345px);
+}
+@media (max-width:540px) {
+  .gallery-dialog .gallery-dialog-rooms {
+    gap:5px;
+    margin:0 auto 7px;
+  }
+  .gallery-dialog .gallery-dialog-rooms > button {
+    flex-direction:column;
+    flex-wrap:nowrap;
+    gap:2px;
+    min-height:52px;
+    padding:6px 4px;
+  }
+  .gallery-dialog .gallery-dialog-rooms > button > span {
+    font-size:10px;
+    line-height:1.3;
+  }
+  .gallery-dialog .gallery-dialog-rooms > button > strong {
+    font-size:12px;
+    line-height:1.45;
+  }
+  .gallery-dialog .gallery-dialog-rooms > button > small {
+    display:none;
+  }
+  .gallery-dialog #gallery-dialog-image {
+    max-height:calc(94vh - 310px);
+    max-height:calc(94dvh - 310px);
+  }
+  .gallery-dialog.gallery-dialog--care #gallery-dialog-image {
+    max-height:calc(94vh - 365px);
+    max-height:calc(94dvh - 365px);
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .gallery-dialog .gallery-dialog-rooms > button {
+    transition:none;
+  }
+}
+@media (forced-colors:active) {
+  .gallery-dialog .gallery-dialog-rooms > button,
+  .gallery-dialog .gallery-dialog-rooms > button[aria-current="true"] {
+    background:ButtonFace;
+    color:ButtonText;
+    border-color:ButtonText;
+    box-shadow:none;
+  }
+  .gallery-dialog .gallery-dialog-rooms > button[aria-current="true"] {
+    outline:2px solid Highlight;
+    outline-offset:-4px;
+  }
+  .gallery-dialog .gallery-dialog-rooms > button :is(span,small),
+  .gallery-dialog .gallery-dialog-rooms > button[aria-current="true"] :is(span,small) {
+    color:ButtonText;
+  }
+}
