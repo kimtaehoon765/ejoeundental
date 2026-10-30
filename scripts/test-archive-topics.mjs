@@ -91,7 +91,7 @@ test('search reveals only matching entries and one-tap reset restores original o
  assert.ok(site.groups.every(g=>g.items.every(li=>!li.hidden)));
 });
 
-test('multiword and reversed-order Korean queries find originals across the title and topic',()=>{
+test('multiword Korean queries match article titles without category-only false positives',()=>{
  const site=setup();
  site.input.value='출혈 잇몸';
  site.input.handlers.input();
@@ -99,14 +99,21 @@ test('multiword and reversed-order Korean queries find originals across the titl
  assert.equal(site.groups.filter(x=>!x.hidden).length,1);
  assert.equal(site.groups[0].items.filter(x=>!x.hidden).length,15);
 
- // A clinical topic can supply one word and an original post title the
- // other; unrelated terms must never cause arbitrary suggestions.
+ // Do not turn a broad category label (치과 약물·전신질환)
+ // into a match when the original article title lacks that word.
  site.input.value='출혈 신경치료';
  site.input.handlers.input();
  assert.match(site.status.textContent,/일치하는 원장 글이 없습니다/);
  assert.ok(site.groups.every(group=>group.hidden));
 
  site.input.value='치과 항응고제';
+ site.input.handlers.input();
+ assert.match(site.status.textContent,/일치하는 원장 글이 없습니다/);
+ assert.ok(site.groups.every(group=>group.hidden));
+
+ // A real article-title phrase still finds the original without requiring
+ // the exact word order from the patient.
+ site.input.value='관리 항응고제';
  site.input.handlers.input();
  assert.match(site.status.textContent,/15편을 찾았습니다/);
  assert.equal(site.groups.find(x=>x.id==='archive-group-med').hidden,false);
