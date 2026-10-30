@@ -51,7 +51,7 @@
   status.setAttribute('role', 'status');
   status.setAttribute('aria-live', 'polite');
   status.textContent = '주제별 제목을 펼치거나 검색어를 입력해 보세요.';
-  box.append(label, input, jumpButton, clearButton, status);
+  box.append(label, input);
   section.insertBefore(box, collection);
 
   const groupsWithLinks = groups.map(group => ({
@@ -97,7 +97,10 @@
     quickTopics.append(button);
     quickButtons.push({ button, key });
   }
-  if (quickButtons.length) box.insertBefore(quickTopics, jumpButton);
+  // The topic suggestions precede result/clear controls. Appending in order
+  // avoids any DOM reordering and also works in lean screen-reader tests.
+  if (quickButtons.length) box.append(quickTopics);
+  box.append(jumpButton, clearButton, status);
   let openBeforeSearch = null;
   let firstMatch = null;
 
