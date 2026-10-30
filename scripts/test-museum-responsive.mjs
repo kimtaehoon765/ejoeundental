@@ -675,3 +675,21 @@ test('October 30 gallery room keeps original art, booking and small-screen navig
  assert.ok(home.includes('class="mobile-booking-actions"'));
  assert.ok(home.includes('href="/gallery.html"')&&home.includes('src="/assets/ejoeundental-hero-cat.webp"'));
 });
+
+
+test('searchable owner journal offers an accessible first-result jump',()=>{
+ const archive=read('clinical-archive.html');
+ const script=read('assets/archive-topics.js');
+ assert.ok(home.includes('id="home-owner-post-search"'), 'homepage journal search remains available');
+ assert.match(archive,/id="archive-blog-collections"/,'public archive keeps its server-rendered topics');
+ assert.match(archive,/\.archive-search \.archive-search-jump\[hidden\]\{display:none!important\}/,
+   'hidden first-result button must not occupy space');
+ assert.match(script,/jumpButton\.hidden = !firstMatch;/,
+   'jump control appears only when a matching article exists');
+ assert.match(script,/input\.addEventListener\('keydown', event => \{/,
+   'keyboard patients can use Enter from the search input');
+ assert.match(script,/firstMatch\.focus\(\{ preventScroll: true \}\)/,
+   'result destination receives focus without navigating to Naver');
+ assert.match(script,/input\.maxLength = 100;/,
+   'archive search respects the homepage query length limit');
+});
