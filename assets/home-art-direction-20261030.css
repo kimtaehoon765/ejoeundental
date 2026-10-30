@@ -1061,3 +1061,186 @@ body.home-page #main-content>#philosophy .philosophy-editorial__painting>figcapt
     color:CanvasText;
   }
 }
+
+/* 2026-10-30 | Compact, keyboard-friendly index to all twelve care rooms.
+   Four priority links are visible; the other eight expand without JS. */
+body.home-page #main-content>#care .care-directory{
+  box-sizing:border-box;
+  display:grid;
+  gap:14px;
+  margin:clamp(20px,3vw,30px) 0 clamp(26px,4vw,38px);
+  padding:clamp(16px,2.4vw,26px);
+  border:1px solid #d8cbb3;
+  border-top:3px solid #b6a073;
+  border-radius:4px 14px 4px 14px;
+  background:linear-gradient(135deg,#fffdf7 0%,#f3f7ee 100%);
+  text-align:left;
+  box-shadow:0 9px 25px rgba(33,61,40,.045);
+}
+body.home-page #main-content>#care .care-directory__intro{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:5px 16px;
+}
+body.home-page #main-content>#care .care-directory__intro>strong{
+  color:#244a35;
+  font:700 clamp(17px,1.55vw,20px)/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.035em;
+}
+body.home-page #main-content>#care .care-directory__intro>span{
+  color:#5c6d5e;
+  font-size:13px;
+  line-height:1.6;
+}
+body.home-page #main-content>#care .care-directory__primary{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:9px;
+}
+body.home-page #main-content>#care .care-directory__primary>a{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:4px;
+  min-width:0;
+  min-height:78px;
+  padding:13px 15px;
+  border:1px solid #d3c9b6;
+  border-left:3px solid #799b83;
+  border-radius:3px 10px 3px 10px;
+  background:#fffefa;
+  text-decoration:none;
+  color:#224b37;
+  transition:background-color .16s ease,border-color .16s ease;
+}
+body.home-page #main-content>#care .care-directory__primary>a>small{
+  color:#957852;
+  font:750 10px/1.4 system-ui,sans-serif;
+  letter-spacing:.1em;
+}
+body.home-page #main-content>#care .care-directory__primary>a>strong{
+  color:#214a37;
+  font:700 clamp(14px,1.2vw,16px)/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.035em;
+  word-break:keep-all;
+}
+body.home-page #main-content>#care .care-directory__more{
+  border-top:1px solid #dbd2bd;
+  padding-top:12px;
+  text-align:left;
+}
+body.home-page #main-content>#care .care-directory__more>summary{
+  box-sizing:border-box;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  width:max-content;
+  max-width:100%;
+  min-height:44px;
+  padding:9px 4px;
+  color:#2d6245;
+  font-size:14px;
+  font-weight:800;
+  line-height:1.6;
+  cursor:pointer;
+  list-style:revert;
+  word-break:keep-all;
+}
+body.home-page #main-content>#care .care-directory__more>summary::after{
+  content:"＋";
+  flex:none;
+  padding-left:10px;
+  color:#836c44;
+}
+body.home-page #main-content>#care .care-directory__more[open]>summary::after{content:"−"}
+body.home-page #main-content>#care .care-directory__secondary{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:9px;
+  padding:12px 0 4px;
+}
+body.home-page #main-content>#care .care-directory__secondary>a{
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  min-width:0;
+  min-height:48px;
+  padding:11px 13px;
+  border:1px solid #d6dbcd;
+  border-radius:5px;
+  background:#fffdf9;
+  color:#315a43;
+  font-size:14px;
+  font-weight:700;
+  line-height:1.55;
+  text-decoration:none;
+  word-break:keep-all;
+}
+body.home-page #main-content>#care .care-directory__secondary>a::after{
+  content:"↗";
+  color:#92774e;
+  flex:none;
+}
+body.home-page #main-content>#care .care-directory a:focus-visible,
+body.home-page #main-content>#care .care-directory summary:focus-visible{
+  outline:3px solid #a88447;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine){
+  body.home-page #main-content>#care .care-directory a:hover{
+    background:#edf4e8;
+    border-color:#7f9b80;
+  }
+}
+@media(max-width:880px){
+  body.home-page #main-content>#care :is(.care-directory__primary,.care-directory__secondary){
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:520px){
+  body.home-page #main-content>#care .care-directory{
+    gap:12px;
+    padding:17px 13px;
+    margin:19px 0 25px;
+  }
+  body.home-page #main-content>#care .care-directory__intro{
+    align-items:flex-start;
+  }
+  body.home-page #main-content>#care .care-directory__intro>span{
+    font-size:12px;
+  }
+  body.home-page #main-content>#care .care-directory__primary>a{
+    min-height:65px;
+    padding:10px 11px;
+    gap:3px;
+  }
+  body.home-page #main-content>#care .care-directory__primary>a>strong{
+    font-size:14px;
+  }
+  body.home-page #main-content>#care .care-directory__secondary>a{
+    min-height:48px;
+    padding:10px 11px;
+    font-size:13px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.home-page #main-content>#care .care-directory a{transition:none}
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#care :is(.care-directory,.care-directory__primary>a,.care-directory__secondary>a){
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#care :is(.care-directory__intro>strong,.care-directory__intro>span,.care-directory__primary>a>small,.care-directory__primary>a>strong,.care-directory__more>summary){
+    color:CanvasText;
+  }
+}
