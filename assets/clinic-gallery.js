@@ -27,7 +27,9 @@
     // paintings must not inherit a medical destination from the prior image.
     if(related){
       const guide=button.closest('.gallery-patient-studies__piece')
-        ?.querySelector('.gallery-patient-studies__actions > a[href^="/"]');
+        ?.querySelector('.gallery-patient-studies__actions > a[href^="/"]') ||
+        button.closest('.gallery-watercolor-card')
+          ?.querySelector('.gallery-note--watercolor[href^="/"]');
       const href=guide?.getAttribute('href');
       const hasGuide=Boolean(href && /^\/[a-z0-9-]+\.html(?:#[-a-z0-9]+)?$/.test(href));
       related.hidden=!hasGuide;
