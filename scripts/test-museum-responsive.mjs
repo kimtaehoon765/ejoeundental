@@ -842,3 +842,36 @@ test('visit-guide address parking atlas keeps map and transit actions usable',()
  assert.ok(visit.includes('@media(max-width:650px){.visit-arrival-panel{grid-template-columns:minmax(0,1fr)'),
   'arrival info should stack on narrow phones without sideways overflow');
 });
+
+
+test('last home stylesheet prevents implicit phone-grid columns under 480px',()=>{
+ const page=read('index.html');
+ const finalCss=read('assets/home-art-direction-20261030.css');
+ const pos=finalCss.lastIndexOf('Mobile hero action-grid alignment');
+ assert.ok(pos>0,'the final art-direction layer must normalize the mobile hero');
+ const grid=finalCss.slice(pos);
+ assert.match(grid, /@media\(max-width:600px\)\{/);
+ assert.match(grid, /\.hero-actions\{\s*display:grid;\s*grid-template-columns:repeat\(2,minmax\(0,1fr\)\);/);
+ const placements=[
+  ['hero-call','grid-column:1;','grid-row:1;'],
+  ['hero-booking','grid-column:2;','grid-row:1;'],
+  ['hero-hours','grid-column:1;','grid-row:2;'],
+  ['hero-symptoms','grid-column:2;','grid-row:2;'],
+  ['hero-map','grid-column:1 / -1;','grid-row:3;']
+ ];
+ for(const [name,col,row] of placements){
+  const css=grid.match(new RegExp('\\.hero-actions>\\.'+name+'\\{([^}]+)\\}'))?.[1]||'';
+  assert.ok(css.includes(col)&&css.includes(row),
+   name+' must fit the explicit two-track phone grid, not create implicit columns');
+  assert.ok(page.includes('class="btn '+name+'"'),name+' must remain visible to patients');
+ }
+ assert.ok(grid.includes('min-height:58px;')&&grid.includes('min-height:48px;'));
+ assert.ok(grid.includes('@media(max-width:360px)'),
+  'very narrow phones need safe touch padding');
+ assert.ok(page.includes('href="https://booking.naver.com/booking/13/bizes/1162931"'),
+  'the build must preserve the real booking destination');
+ assert.ok(page.includes('href="tel:0325132875"'),
+  'the phone call action must remain available on the first screen');
+ assert.ok(page.includes('href="https://map.naver.com/p/entry/place/13239400"'),
+  'the Naver map action must remain available without hiding the clinic address');
+});
