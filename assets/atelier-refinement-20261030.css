@@ -2279,3 +2279,244 @@ body.home-page #main-content>#stories .journal-gallery-cover__poster>span {
     box-shadow:none;
   }
 }
+
+
+/* 2026-10-31 | Director's room: museum-profile finishing.
+   Distinctive editorial typography and framing without extra image downloads,
+   invented qualifications, hidden text or changes to patient destinations. */
+body.home-page #main-content>#doctor{
+  position:relative;
+  border-top:1px solid #b19a68;
+  border-bottom:1px solid rgba(221,198,150,.36);
+  background:
+    radial-gradient(ellipse at 0% 0%,rgba(192,173,126,.15),transparent 47%),
+    radial-gradient(ellipse at 100% 100%,rgba(124,161,135,.18),transparent 54%),
+    linear-gradient(133deg,#14382d 0%,#224a3b 58%,#153a2f 100%);
+}
+body.home-page #main-content>#doctor>.wrap.split{
+  align-items:center;
+  gap:clamp(29px,4.4vw,62px);
+}
+body.home-page #main-content>#doctor .frame{
+  position:relative;
+  box-sizing:border-box;
+  border:1px solid #bba16d;
+  border-radius:3px;
+  padding:clamp(9px,1.25vw,14px);
+  outline:1px solid rgba(255,246,212,.22);
+  outline-offset:4px;
+  background:#f5eddf;
+  box-shadow:0 18px 43px rgba(5,26,17,.24);
+}
+body.home-page #main-content>#doctor .doctor-gallery-art--original-art{
+  border:1px solid #d7c7a8;
+  background:#fbf7ee;
+}
+body.home-page #main-content>#doctor .doctor-gallery-art--original-art>p{
+  margin:0;
+  border-top:1px solid #d8c9ad;
+  background:linear-gradient(160deg,#fffdf7,#f6efe1);
+  color:#264837;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(15px,1.45vw,18px);
+  line-height:1.76;
+}
+body.home-page #main-content>#doctor .doctor-gallery-art--original-art>p>small{
+  display:block;
+  margin-bottom:8px;
+  color:#8d734d;
+  font-family:"DM Sans",system-ui,sans-serif;
+  font-size:10px;
+  font-weight:750;
+  line-height:1.65;
+  letter-spacing:.15em;
+}
+body.home-page #main-content>#doctor>.wrap.split>div:last-child{
+  min-width:0;
+  border-top:1px solid rgba(238,214,167,.46);
+  padding-top:clamp(19px,2vw,28px);
+}
+body.home-page #main-content>#doctor .eyebrow{
+  margin-bottom:clamp(13px,1.6vw,20px);
+  color:#ead5aa;
+  letter-spacing:.19em;
+  font-size:11px;
+}
+body.home-page #main-content>#doctor .doctor-visible-name{
+  margin:0 0 10px;
+  color:#f1dcae;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(15px,1.5vw,19px);
+  line-height:1.65;
+  word-break:keep-all;
+}
+body.home-page #main-content>#doctor #doctor_title{
+  max-width:25ch;
+  margin:0 0 clamp(17px,2.1vw,26px);
+  color:#fffaf0;
+  font-size:clamp(25px,2.8vw,38px);
+  line-height:1.5;
+  letter-spacing:-.052em;
+  text-wrap:balance;
+}
+body.home-page #main-content>#doctor .doctor-direct-care{
+  margin:0 0 15px;
+  padding:14px 16px;
+  border:1px solid rgba(237,219,172,.30);
+  border-left:4px solid #dbbf87;
+  border-radius:3px 10px 3px 10px;
+  background:rgba(255,247,220,.10);
+  line-height:1.75;
+}
+body.home-page #main-content>#doctor .doctor-direct-care strong{
+  color:#fff7de;
+  font-size:clamp(16px,1.45vw,19px);
+  font-weight:750;
+}
+body.home-page #main-content>#doctor #doctor_body{
+  max-width:72ch;
+  margin-block:18px 22px;
+  color:#eff3e9;
+  font-size:clamp(15px,1.25vw,16px);
+  line-height:1.93;
+  word-break:keep-all;
+}
+body.home-page #main-content>#doctor .doctor-care-trails{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px;
+  counter-reset:care-focus;
+  margin-block:21px;
+}
+body.home-page #main-content>#doctor .doctor-care-trails>a{
+  counter-increment:care-focus;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  box-sizing:border-box;
+  min-width:0;
+  min-height:132px;
+  gap:7px;
+  padding:15px 13px;
+  border:1px solid rgba(236,217,175,.36);
+  border-top:3px solid #c5ad77;
+  border-radius:4px 11px 4px 11px;
+  background:rgba(255,253,235,.065);
+  color:#f9f5e9;
+  text-decoration:none;
+}
+body.home-page #main-content>#doctor .doctor-care-trails>a::before{
+  content:counter(care-focus,decimal-leading-zero);
+  color:#e9d0a0;
+  font:700 11px/1.45 Georgia,serif;
+  letter-spacing:.09em;
+}
+body.home-page #main-content>#doctor .doctor-care-trails>a strong{
+  color:#fff9e8;
+  font-size:15px;
+  line-height:1.5;
+  word-break:keep-all;
+}
+body.home-page #main-content>#doctor .doctor-care-trails>a span{
+  color:#e4ebe0;
+  font-size:13px;
+  line-height:1.68;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content>#doctor .doctor-care-trails>a:focus-visible,
+body.home-page #main-content>#doctor .doctor-profile-link>a:focus-visible{
+  outline:3px solid #f0d7a0;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine){
+  body.home-page #main-content>#doctor .doctor-care-trails>a:hover{
+    background:rgba(255,251,231,.12);
+    border-color:rgba(249,220,164,.73);
+  }
+}
+body.home-page #main-content>#doctor .doctor-credential-ledger{
+  margin-top:23px;
+  border-color:rgba(230,208,165,.48);
+  border-top-color:#d6b77c;
+  background:rgba(255,250,234,.055);
+}
+body.home-page #main-content>#doctor .doctor-credential-ledger__item{
+  background:rgba(255,252,241,.075);
+}
+body.home-page #main-content>#doctor .doctor-credential-ledger__item>small{
+  color:#f0d9a7;
+}
+body.home-page #main-content>#doctor .doctor-credential-ledger__item>.pill{
+  color:#fffdf5;
+}
+@media(max-width:1100px){
+  body.home-page #main-content>#doctor .doctor-care-trails{
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.home-page #main-content>#doctor .doctor-care-trails>a{
+    min-height:0;
+    padding:13px 15px;
+    gap:5px;
+  }
+}
+@media(max-width:700px){
+  body.home-page #main-content>#doctor>.wrap.split{
+    gap:clamp(20px,4vw,30px);
+  }
+  body.home-page #main-content>#doctor>.wrap.split>div:last-child{
+    border-top:1px solid rgba(238,214,167,.38);
+    padding-top:22px;
+  }
+  body.home-page #main-content>#doctor .frame{
+    max-width:min(100%,430px);
+    margin-inline:auto;
+    padding:8px;
+  }
+  body.home-page #main-content>#doctor #doctor_title{
+    max-width:none;
+    font-size:clamp(24px,6vw,30px);
+  }
+  body.home-page #main-content>#doctor #doctor_body{
+    font-size:15px;
+    line-height:1.89;
+  }
+  body.home-page #main-content>#doctor .doctor-care-trails>a{
+    min-height:71px;
+  }
+}
+@media(max-width:390px){
+  body.home-page #main-content>#doctor .doctor-direct-care{
+    padding:12px 13px;
+  }
+  body.home-page #main-content>#doctor .doctor-gallery-art--original-art>p{
+    font-size:14px;
+  }
+  body.home-page #main-content>#doctor .doctor-care-trails>a strong{
+    font-size:15px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.home-page #main-content>#doctor .doctor-care-trails>a{
+    transition:none;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#doctor,
+  body.home-page #main-content>#doctor .frame,
+  body.home-page #main-content>#doctor .doctor-direct-care,
+  body.home-page #main-content>#doctor .doctor-care-trails>a,
+  body.home-page #main-content>#doctor .doctor-credential-ledger,
+  body.home-page #main-content>#doctor .doctor-credential-ledger__item{
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+    outline-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#doctor :is(.eyebrow,.doctor-visible-name,#doctor_title,#doctor_body,
+  .doctor-direct-care strong,.doctor-care-trails>a::before,.doctor-care-trails>a strong,
+  .doctor-care-trails>a span,.doctor-credential-ledger__item>small){
+    color:CanvasText;
+  }
+}
