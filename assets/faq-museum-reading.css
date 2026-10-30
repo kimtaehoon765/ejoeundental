@@ -98,3 +98,231 @@ body.faq-museum a:focus-visible,body.faq-museum summary:focus-visible{
 }
 @media(prefers-reduced-motion:reduce){body.faq-museum .faq-related-guides a{transition:none}}
 @media(forced-colors:active){body.faq-museum .faq-museum-art,body.faq-museum .faq-related-guides,body.faq-museum .faq-related-guides a{background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none}}
+
+
+/* 2026-10-31 | Preparation FAQ gallery: visible six-question shelves.
+   Two original paintings, all FAQPage JSON-LD answer text, and the original
+   six FAQ anchor IDs remain unchanged; no script is needed. */
+body.faq-museum.faq-medication-gallery{
+  --faq-gallery-accent:#9aa98b;
+  --faq-gallery-light:#eff4e9;
+  --faq-gallery-heading:#2a503b;
+}
+body.faq-museum.faq-systemic-gallery{
+  --faq-gallery-accent:#9e9eb4;
+  --faq-gallery-light:#f0eff6;
+  --faq-gallery-heading:#384e57;
+}
+body.faq-museum:is(.faq-medication-gallery,.faq-systemic-gallery) {
+  background:
+    radial-gradient(ellipse at 91% 3%,var(--faq-gallery-light),transparent 42%),
+    #fbfaf5;
+}
+body.faq-museum:is(.faq-medication-gallery,.faq-systemic-gallery) main{
+  border-top-color:var(--faq-gallery-accent);
+  border-radius:5px 17px 5px 17px;
+  background:#fffefa;
+}
+body.faq-museum:is(.faq-medication-gallery,.faq-systemic-gallery) .faq-museum-art{
+  border-radius:5px 15px 5px 15px;
+  border-top:3px solid #bca680;
+  padding:clamp(6px,1.1vw,10px);
+  background:linear-gradient(135deg,#ede7d9,#fffdf7 75%);
+}
+body.faq-museum:is(.faq-medication-gallery,.faq-systemic-gallery) .faq-museum-art>img{
+  box-sizing:border-box;
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:none;
+  aspect-ratio:auto;
+  object-fit:contain;
+  border:6px solid #fffaf2;
+  outline:1px solid #d2c6ac;
+  background:#f7f3e9;
+}
+body.faq-museum:is(.faq-medication-gallery,.faq-systemic-gallery) .faq-prep-chapters{
+  box-sizing:border-box;
+  margin:22px 0 25px;
+  padding:clamp(16px,2.4vw,25px);
+  border:1px solid #d7cbb6;
+  border-top:3px solid var(--faq-gallery-accent);
+  border-radius:4px 15px 4px 15px;
+  background:linear-gradient(125deg,var(--faq-gallery-light),#fffdfa 75%);
+  box-shadow:0 11px 27px rgba(35,59,44,.046);
+}
+body.faq-museum .faq-prep-chapters>small{
+  display:block;
+  color:#8c7450;
+  font:760 11px/1.5 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.1em;
+}
+body.faq-museum .faq-prep-chapters>strong{
+  display:block;
+  margin:5px 0 14px;
+  color:var(--faq-gallery-heading);
+  font:700 clamp(18px,2.25vw,24px)/1.58
+    "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.04em;
+  word-break:keep-all;
+}
+body.faq-museum .faq-prep-chapters__links{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px;
+}
+body.faq-museum .faq-prep-chapters__links>a{
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-width:0;
+  min-height:52px;
+  padding:10px 11px;
+  border:1px solid #d5d8cd;
+  border-radius:4px 11px 4px 11px;
+  background:#fffefa;
+  color:#315941;
+  font-size:14px;
+  font-weight:750;
+  line-height:1.58;
+  text-align:center;
+  text-decoration:none;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.faq-museum .faq-prep-chapters__links>a[aria-current="page"]{
+  background:#285943;
+  border-color:#285943;
+  color:#fff;
+}
+body.faq-museum .faq-prep-chapters__links>a:not([aria-current="page"]):hover{
+  background:#f0f5eb;
+  border-color:#87a189;
+}
+body.faq-museum .faq-question-index[open]{
+  box-sizing:border-box;
+  margin:25px 0 29px;
+  border:1px solid #d7cbb8;
+  border-left:4px solid var(--faq-gallery-accent);
+  border-radius:4px 14px 4px 14px;
+  background:#f7f6ee;
+}
+body.faq-museum .faq-question-index[open]>summary{
+  box-sizing:border-box;
+  min-height:58px;
+  background:linear-gradient(110deg,var(--faq-gallery-light),#fffefa 88%);
+  color:var(--faq-gallery-heading);
+  border-bottom:1px solid #d9d0c0;
+  font:750 clamp(15px,1.7vw,17px)/1.6
+    "Noto Serif KR","Apple SD Gothic Neo",serif;
+}
+body.faq-museum .faq-question-index[open] ol{
+  box-sizing:border-box;
+  margin:0;
+  padding:13px clamp(15px,2vw,25px) 19px 37px;
+  column-gap:32px;
+}
+body.faq-museum .faq-question-index[open] li{
+  padding:0 2px 0 4px;
+  color:#88734f;
+}
+body.faq-museum .faq-question-index[open] li>a{
+  box-sizing:border-box;
+  display:inline-flex;
+  align-items:center;
+  min-height:45px;
+  padding:7px 4px;
+  color:#335a42;
+  font-weight:680;
+  text-underline-offset:4px;
+  line-height:1.6;
+}
+body.faq-museum main{
+  counter-reset:faq-readroom-question;
+}
+body.faq-museum .faq-question-target + .card{
+  counter-increment:faq-readroom-question;
+  margin:17px 0;
+  border:1px solid #d8dccc;
+  border-top:3px solid var(--faq-gallery-accent);
+  border-radius:5px 13px 5px 13px;
+  background:#fffefa;
+  box-shadow:0 8px 22px rgba(29,63,44,.04);
+}
+body.faq-museum .faq-question-target + .card::before{
+  content:"QUESTION " counter(faq-readroom-question,decimal-leading-zero);
+  display:block;
+  margin-bottom:8px;
+  color:#937b55;
+  font:800 11px/1.45 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.11em;
+}
+body.faq-museum .faq-question-target + .card h2{
+  color:var(--faq-gallery-heading);
+  line-height:1.56;
+  text-wrap:balance;
+}
+body.faq-museum .faq-question-target:target + .card{
+  border-color:#4c8765;
+  outline:2px solid rgba(60,112,79,.18);
+  outline-offset:2px;
+}
+body.faq-museum :is(.faq-prep-chapters__links>a,.faq-question-index a):focus-visible{
+  outline:3px solid #a98048;
+  outline-offset:3px;
+}
+@media(max-width:760px){
+  body.faq-museum .faq-prep-chapters__links{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.faq-museum .faq-prep-chapters__links>a:last-child{
+    grid-column:1/-1;
+  }
+}
+@media(max-width:530px){
+  body.faq-museum .faq-prep-chapters{
+    padding:17px 13px;
+    margin:18px 0 22px;
+  }
+  body.faq-museum .faq-prep-chapters__links{
+    gap:7px;
+  }
+  body.faq-museum .faq-prep-chapters__links>a{
+    min-height:50px;
+    padding:9px 7px;
+    font-size:13px;
+  }
+  body.faq-museum .faq-question-index[open] ol{
+    columns:1;
+    padding:10px 13px 14px 32px;
+  }
+  body.faq-museum .faq-question-index[open] li>a{
+    min-height:46px;
+    font-size:14px;
+  }
+  body.faq-museum:is(.faq-medication-gallery,.faq-systemic-gallery) .faq-museum-art>img{
+    border-width:4px;
+  }
+}
+@media print{
+  body.faq-museum .faq-prep-chapters{
+    display:none!important;
+  }
+  body.faq-museum .faq-question-target + .card{
+    border:1px solid #aaa;
+    box-shadow:none;
+    break-inside:avoid;
+  }
+}
+@media(forced-colors:active){
+  body.faq-museum :is(
+    .faq-prep-chapters,.faq-prep-chapters__links>a,.faq-question-index,
+    .faq-question-index[open]>summary,.faq-question-target+.card
+  ){
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
