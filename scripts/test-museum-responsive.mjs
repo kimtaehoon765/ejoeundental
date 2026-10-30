@@ -655,6 +655,40 @@ test('first-screen clinical guide cards show readable care titles and supporting
  }
  assert.ok(hero.includes('<!-- BUILD_NAVER_BOOKING_HERO -->'));
 });
+test('six symptom guides appear before search without hiding care or previsit safety',()=>{
+ const html=read('index.html');
+ const start=html.indexOf('<section class="symptom-navigator wrap"');
+ const end=html.indexOf('</section>',start);
+ assert.ok(start>=0&&end>start,'symptom section should exist');
+ const section=html.slice(start,end);
+ const gridIndex=section.indexOf('<div class="symptom-navigator-grid">');
+ const formIndex=section.indexOf('<form class="symptom-quick-search"');
+ assert.ok(gridIndex>0&&formIndex>gridIndex,'browseable symptom questions must precede the search form');
+ const grid=section.slice(gridIndex,formIndex);
+ const links=[...grid.matchAll(/<a href="(\/health\/[a-z0-9-]+\.html)"/g)].map(m=>m[1]);
+ assert.deepEqual(links,[
+  '/health/gum-bleeding.html','/health/swollen-gums.html',
+  '/health/abrasion-sensitive.html','/health/root-canal-after-pain.html',
+  '/health/loose-tooth.html','/health/denture-loose.html'
+ ]);
+ assert.ok(section.includes('class="symptom-catalog-eyebrow"'));
+ assert.ok(section.includes('class="symptom-search-intro"'));
+ assert.ok(section.includes('id="home-symptom-query" name="q" type="search"'));
+ assert.ok(section.includes('action="/search.html" method="get" role="search"'));
+ assert.ok(section.includes('복용 중인 약이나 전신질환'));
+ assert.ok(section.includes('임의로 중단하지 말고'));
+ const css=read('assets/atelier-refinement-20261030.css');
+ for(const fragment of [
+  'Symptom-first reading room',
+  '.symptom-catalog-eyebrow',
+  '.symptom-search-intro',
+  '.symptom-quick-search-row input',
+  '#home-symptom-query',
+  'scroll-margin-top:clamp(80px,13vw,122px)'
+ ]){
+  assert.ok(css.includes(fragment),'patient reading-room layout missing '+fragment);
+ }
+});
 test('homepage patient navigation links eight distinct existing care topics using meaningful labels',()=>{
  const hero=home.match(/<details class="hero-more-care">([\s\S]*?)<\/details>/)?.[1]||'';
  assert.ok(hero.includes('다른 진료·건강정보 8개 더 보기'));
