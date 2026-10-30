@@ -414,3 +414,45 @@ test('gallery entrance uses accessible museum tickets for three rooms and journa
  assert.equal((html.match(/class="gallery-zoom"/g)||[]).length,23,'all twenty-three originals retain optional lightbox');
  assert.ok(html.includes('class="gallery-mobile-dock"'),'phone and booking remain available');
 });
+
+
+test('second exhibition room enlarges three unique clinical watercolors',()=>{
+ const html=read('gallery.html');
+ const watercolors=artworkGroups(html).watercolor;
+ assert.equal(watercolors.length,3,'keep three and only three original clinical paintings');
+ const expected=[
+  ['/assets/watercolor-care-gum-20261029.webp','/gum-treatment.html'],
+  ['/assets/watercolor-care-abrasion-20261029.webp','/cervical-abrasion.html'],
+  ['/assets/watercolor-care-insurance-20261029.webp','/insured-care.html']
+ ];
+ for(const [index,painting] of watercolors.entries()){
+  const [source,guide]=expected[index];
+  assert.ok(painting.includes('src="'+source+'"'),'the original illustration remains unchanged: '+source);
+  assert.ok(painting.includes('href="'+guide+'"'),'clinical guide is linked: '+guide);
+  assert.ok(existsSync('dist'+source),'original artwork must be included in the build: '+source);
+  assert.ok(html.includes('class="gallery-watercolor-original" href="'+source+'"'),
+   'original file link is retained: '+source);
+  assert.ok(html.includes('data-image="'+source+'"'),
+   'painting still opens in the existing optional lightbox: '+source);
+ }
+ const css=read('assets/gallery-clinical-watercolors.css');
+ for(const rule of [
+  'Spacious three-watercolor exhibition wall',
+  '#education .gallery-watercolor-card:last-child',
+  'grid-column:1 / -1',
+  'grid-template-columns:repeat(2,minmax(0,1fr))',
+  'grid-template-columns:minmax(0,1.17fr) minmax(0,.83fr)',
+  '@media(min-width:761px)',
+  '@media(min-width:1021px)',
+  '@media(max-width:760px)',
+  'object-fit:contain',
+  'gallery-watercolor-original',
+  '@media(forced-colors:active)'
+ ])assert.ok(css.includes(rule),'missing responsive, uncropped artwork behavior: '+rule);
+ assert.ok(html.includes(hashedCssUrl('gallery-clinical-watercolors')),
+  'returning gallery visitors load the new watercolor-wall stylesheet');
+ assert.ok(html.includes('수채화 속 진료 항목이 모두 동일한 조건으로 건강보험 적용되는 것은 아닙니다.'),
+  'insurance coverage caveat remains alongside all three artworks');
+ assert.equal((html.match(/class="gallery-zoom"/g)||[]).length,23,
+  'do not remove any image enlargement in the 23-work gallery');
+});
