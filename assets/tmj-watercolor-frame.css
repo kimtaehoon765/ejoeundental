@@ -56,3 +56,120 @@ body.care-gallery-secondary.secondary-hero .ejoeun-tmj-art .ejoeun-topic-art__ca
   background:Canvas; color:CanvasText; border-color:CanvasText; box-shadow:none;
  }
 }
+
+/* 2026-10-30 | TMJ calm consultation painting gallery.
+   A quiet patient information page, not a promotional claim for equipment.
+   The original art and all cautionary, conservative-treatment copy remain. */
+body.care-gallery-secondary.secondary-tmj {
+  background:radial-gradient(ellipse at 90% 4%,rgba(227,220,202,.36),transparent 39%),#fbfaf6;
+}
+body.care-gallery-secondary.secondary-tmj main>.hero{
+  background:linear-gradient(127deg,#fbf9f3,#eff1ec 68%,#f4efe5);
+  border-bottom:1px solid #d8cfbb;
+}
+body.care-gallery-secondary.secondary-tmj main>.hero h1{
+  max-width:22ch;
+  color:#394c42;
+  font-size:clamp(30px,4.2vw,48px);
+  line-height:1.51;
+  letter-spacing:-.055em;
+  text-wrap:balance;
+}
+body.care-gallery-secondary.secondary-tmj main>.hero p{
+  max-width:65ch;
+  line-height:1.89;
+}
+body.care-gallery-secondary.secondary-tmj main>.ejoeun-tmj-art{
+  box-sizing:border-box;
+  border:1px solid #baa77f;
+  border-top:3px solid #ad9775;
+  border-radius:5px 15px 5px 15px;
+  background:linear-gradient(138deg,#e9dfcc,#fffdf7 74%);
+  box-shadow:0 15px 34px rgba(38,57,42,.063);
+}
+body.care-gallery-secondary.secondary-tmj main>.ejoeun-tmj-art .ejoeun-topic-art__visual{
+  justify-content:center;
+  border:6px solid #fffaf1;
+  outline:1px solid #c7b99d;
+  overflow:visible;
+  background:#faf6ec;
+}
+body.care-gallery-secondary.secondary-tmj main>.ejoeun-tmj-art .ejoeun-topic-art__visual img{
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  max-height:none;
+  aspect-ratio:auto;
+  object-fit:contain;
+}
+body.care-gallery-secondary.secondary-tmj main>.ejoeun-tmj-art .ejoeun-topic-art__caption{
+  background:#fffdf8;
+  gap:clamp(10px,1.4vw,15px);
+  padding:clamp(19px,2.7vw,31px);
+}
+body.care-gallery-secondary.secondary-tmj main>.ejoeun-tmj-art .ejoeun-topic-art__caption strong{
+  color:#334b3d;
+  font-size:clamp(19px,2.1vw,27px);
+  line-height:1.56;
+}
+body.care-gallery-secondary.secondary-tmj main>.ejoeun-tmj-art .ejoeun-topic-art__caption>span{
+  color:#4e6353;
+  font-size:clamp(14px,1.3vw,15px);
+  line-height:1.88;
+}
+body.care-gallery-secondary.secondary-tmj main>.section .wrap>h2 {
+  max-width:35ch;
+  padding-left:13px;
+  border-left:3px solid #b0a083;
+  color:#34513f;
+  line-height:1.58;
+  text-wrap:balance;
+}
+body.care-gallery-secondary.secondary-tmj main>.section{
+  border-bottom:1px solid #e5e0d4;
+}
+body.care-gallery-secondary.secondary-tmj .gallery-section-index{
+  border:1px solid #d8cbb5;
+  border-left:4px solid #ae9872;
+  border-radius:5px 13px 5px 13px;
+  background:linear-gradient(120deg,#f5f1e7,#fffdf8);
+}
+body.care-gallery-secondary.secondary-tmj .gallery-section-index>a{
+  min-height:48px;
+  border-radius:4px 10px 4px 10px;
+  overflow-wrap:anywhere;
+}
+@media(max-width:760px){
+  body.care-gallery-secondary.secondary-tmj main>.ejoeun-tmj-art{
+    grid-template-columns:minmax(0,1fr);
+    width:calc(100% - 26px);
+    padding:7px;
+  }
+  body.care-gallery-secondary.secondary-tmj main>.ejoeun-tmj-art .ejoeun-topic-art__visual{
+    border-width:4px;
+  }
+  body.care-gallery-secondary.secondary-tmj main>.ejoeun-tmj-art .ejoeun-topic-art__caption{
+    padding:17px 14px 19px;
+  }
+}
+@media(max-width:500px){
+  body.care-gallery-secondary.secondary-tmj main>.hero h1{
+    max-width:none;
+    font-size:clamp(27px,6.7vw,34px);
+  }
+  body.care-gallery-secondary.secondary-tmj main>.ejoeun-tmj-art .ejoeun-topic-art__caption>span{
+    font-size:14px;
+    line-height:1.85;
+  }
+}
+@media(forced-colors:active){
+  body.care-gallery-secondary.secondary-tmj :is(
+    main>.hero,.ejoeun-tmj-art,.ejoeun-topic-art__visual,
+    .ejoeun-topic-art__caption,.gallery-section-index
+  ){
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
