@@ -140,14 +140,20 @@
 #education .gallery-watercolor-card>.gallery-note--watercolor{
   flex:1 1 auto;
 }
-#education .gallery-watercolor-card>.gallery-zoom{
-  display:none;
+#education .gallery-watercolor-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:9px;
+}
+#education .gallery-watercolor-actions>.gallery-watercolor-original,
+#education .gallery-watercolor-actions>.gallery-zoom{
   box-sizing:border-box;
+  display:inline-flex;
+  flex:1 1 100%;
   align-items:center;
   justify-content:center;
   min-height:46px;
-  width:100%;
-  margin-top:9px;
   padding:9px 12px;
   border:1px solid #b9a47c;
   border-radius:3px 10px 3px 10px;
@@ -155,21 +161,36 @@
   color:#244f3b;
   font:750 13px/1.6 system-ui,"Apple SD Gothic Neo",sans-serif;
   text-align:center;
+  text-decoration:none;
   cursor:pointer;
+  word-break:keep-all;
 }
-.gallery-js #education .gallery-watercolor-card>.gallery-zoom{
+#education .gallery-watercolor-actions>.gallery-zoom{
+  display:none;
+}
+
+.gallery-js #education .gallery-watercolor-actions>.gallery-zoom{
   display:inline-flex;
 }
-#education .gallery-watercolor-card>.gallery-zoom:hover{
+.gallery-js #education .gallery-watercolor-actions>:is(.gallery-watercolor-original,.gallery-zoom){
+  flex:1 1 calc(50% - 9px);
+}
+#education .gallery-watercolor-actions>:is(.gallery-watercolor-original,.gallery-zoom):hover{
   background:#f0eadc;
   border-color:#896b43;
 }
-#education .gallery-watercolor-card>.gallery-zoom:focus-visible{
+#education .gallery-watercolor-actions>:is(.gallery-watercolor-original,.gallery-zoom):focus-visible{
   outline:3px solid #b39250;
   outline-offset:3px;
 }
+@media(max-width:420px){
+  #education .gallery-watercolor-actions>:is(.gallery-watercolor-original,.gallery-zoom){
+    padding:10px 7px;
+    font-size:12.5px;
+  }
+}
 @media(forced-colors:active){
-  #education .gallery-watercolor-card>.gallery-zoom{
+  #education .gallery-watercolor-actions>:is(.gallery-watercolor-original,.gallery-zoom){
     background:ButtonFace;color:ButtonText;border-color:ButtonText;
   }
 }
