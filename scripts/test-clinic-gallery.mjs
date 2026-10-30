@@ -7,6 +7,24 @@ const artworkGroups=html=>({
  watercolor:[...html.matchAll(/<a class="gallery-note gallery-note--watercolor"[^>]*>[\s\S]*?<\/a>/g)].map(m=>m[0]),
  studies:[...html.matchAll(/<figure class="gallery-patient-studies__piece"[^>]*>[\s\S]*?<\/figure>/g)].map(m=>m[0])
 });
+test('the gallery entrance painting is distinct from all 23 numbered works and social preview matches',()=>{
+ const html=read('gallery.html');
+ const hero=html.match(/<div class="gallery-hero-image"><img src="([^"]+)"/)?.[1]||'';
+ const works=artworkGroups(html);
+ const srcs=[...works.originals,...works.watercolor,...works.studies]
+  .map(card=>card.match(/<img\\b[^>]*src="([^"]+)"/)?.[1]);
+ assert.equal(hero,'/assets/ejoeun-original-wisdom-consult-20261029.webp');
+ assert.ok(!srcs.includes(hero),'gallery entrance must not repeat a numbered painting');
+ assert.equal(srcs.length,23,'the numbered collection retains its 23 artworks');
+ assert.ok(html.includes('content="https://ejoeundental.com'+hero+'"'),
+  'share preview must match the gallery entrance painting');
+ assert.ok(!html.includes('이미 홈페이지에서 사용 중인'),'old portrait description should be updated');
+ assert.ok(html.includes('id="art-starry"')&&html.includes('src="/assets/gallery-starry-clinic.svg"'),
+  'the first numbered original must remain available in the exhibition');
+ const css=read('assets/clinic-gallery.css');
+ assert.ok(css.includes('A distinct entrance painting')&&css.includes('aspect-ratio:3 / 2'),
+  'mobile art must remain uncropped with a proper gallery frame');
+});
 test('gallery retains 10 paintings, 3 patient watercolors, and 10 distinct consultation artworks',()=>{
  const html=read('gallery.html'),g=artworkGroups(html);
  assert.deepEqual([g.originals.length,g.watercolor.length,g.studies.length],[10,3,10]);
