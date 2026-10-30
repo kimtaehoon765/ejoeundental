@@ -3488,8 +3488,21 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
   throw new Error('Gallery lightbox script loader missing or duplicated');
  const digest=createHash('sha256').update(fs.readFileSync(script)).digest('hex').slice(0,12);
  html=html.replace(loader,'<script src="/assets/clinic-gallery.js?v='+digest+'" defer></script>');
+ // The three watercolor zoom controls are only revealed by their dedicated
+ // stylesheet. Version it in step with JS so a cached 2026-10-29 CSS cannot
+ // leave the new accessible buttons hidden after deployment.
+ const watercolors=path.join(out,'assets/gallery-clinical-watercolors.css');
+ if(!fs.existsSync(watercolors))throw new Error('Watercolor gallery stylesheet missing');
+ const watercolorLoader=/<link rel="stylesheet" href="\/assets\/gallery-clinical-watercolors\.css(?:\?[^"]*)?">/g;
+ if([...html.matchAll(watercolorLoader)].length!==1)
+  throw new Error('Watercolor gallery stylesheet loader missing or duplicated');
+ const watercolorHash=createHash('sha256')
+  .update(fs.readFileSync(watercolors)).digest('hex').slice(0,12);
+ html=html.replace(watercolorLoader,
+  '<link rel="stylesheet" href="/assets/gallery-clinical-watercolors.css?v='+watercolorHash+'">');
  fs.writeFileSync(page,html);
  console.log('Gallery lightbox JavaScript fingerprinted:',digest);
+ console.log('Gallery watercolor styles fingerprinted:',watercolorHash);
 }
 
 
