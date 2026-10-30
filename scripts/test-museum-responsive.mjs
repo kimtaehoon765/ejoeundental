@@ -52,7 +52,7 @@ test('medical text, all eleven accessible FAQs and original images survive visua
  for(const id of ['doctor_title','doctor_body','focus-care','stories','location'])
   assert.ok(home.includes('id="'+id+'"'),'important content missing: '+id);
  for(const image of ['care-illustration-abrasion.svg','care-illustration-insurance.svg',
-  'care-illustration-scaling.svg','impressionist-water-garden.svg','ejoeundental-hero-cat.webp']){
+  'care-illustration-scaling.svg','impressionist-water-garden.svg','ejoeun-gallery-cat-dentist-20261029.webp']){
   assert.ok(existsSync('dist/assets/'+image),'missing design image: '+image);
  }
  for(const image of ['care-illustration-abrasion.svg','care-illustration-insurance.svg',
@@ -76,7 +76,7 @@ test('mobile typography does not fall back to tiny size in the final museum laye
 
 test('original director and cat portrait remains visible on mobile after the phone and booking actions',()=>{
  const hero=home.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
- assert.ok(hero.includes('class="art hero-artwork"') && hero.includes('src="/assets/ejoeundental-hero-cat.webp"'),
+ assert.ok(hero.includes('class="art hero-artwork"') && hero.includes('src="/assets/ejoeun-gallery-cat-dentist-20261029.webp"'),
   'the original clinic painting must remain in the hero');
  const actions=hero.indexOf('class="hero-actions"');
  const artwork=hero.indexOf('class="art hero-artwork"');
@@ -160,7 +160,7 @@ test('mobile hero artwork preload prioritizes the visible doctor-cat portrait',(
  assert.match(portrait,/fetchpriority="high"/,'load the visible portrait early');
  const imagePreloads=[...home.matchAll(/<link rel="preload" as="image"[^>]*>/g)].map(x=>x[0]);
  assert.equal(imagePreloads.length,1,'avoid preloading multiple competing hero images');
- assert.ok(imagePreloads[0].includes('href="/assets/ejoeundental-hero-cat.webp"'),
+ assert.ok(imagePreloads[0].includes('href="/assets/ejoeun-gallery-cat-dentist-20261029.webp"'),
   'preload should match the portrait shown on phones and desktops');
  assert.ok(!imagePreloads[0].includes('media="(min-width: 601px)"'),
   'preload must also apply to the mobile layout');
@@ -237,7 +237,7 @@ test('mobile art and medical SEO survive the curatorial mobile layer',()=>{
  assert.ok(home.includes('name="google-site-verification"'));
  assert.ok(home.includes('name="naver-site-verification"'));
  assert.ok(home.includes('rel="canonical" href="https://ejoeundental.com/"'));
- assert.ok(home.includes('src="/assets/ejoeundental-hero-cat.webp"'));
+ assert.ok(home.includes('src="/assets/ejoeun-gallery-cat-dentist-20261029.webp"'));
  assert.ok(home.includes('class="mobile-booking-actions"'),
   'the independent mobile telephone/booking dock must survive the build');
  const clean=css.replace(/\/\*[\s\S]*?\*\//g,'').replace(/"(?:\\.|[^"])*"|'(?:\\.|[^'])*'/g,'');
@@ -446,7 +446,7 @@ test('museum identity unifies the first screen while retaining functional patien
  assert.ok(hero.includes('id="headline"'),'original hero heading must remain');
  assert.ok(hero.includes('고려대학교 의학박사(치과학 전공)'));
  assert.ok(hero.includes('통합치의학과 전문의'));
- assert.ok(hero.includes('src="/assets/ejoeundental-hero-cat.webp"'),'white cat and doctor original remain');
+ assert.ok(hero.includes('src="/assets/ejoeun-gallery-cat-dentist-20261029.webp"'),'white cat and doctor original remain');
  assert.ok(hero.includes('<!-- BUILD_NAVER_BOOKING_HERO -->')===false,
    'the booking placeholder should be replaced in the production build');
  const buttons=hero.match(/<div class="hero-actions">([\s\S]*?)<\/div>/)?.[1]||'';
@@ -531,7 +531,7 @@ test('owner-selected crown-margin microleakage painting replaces only the second
 test('atelier entrance keeps the entire clinic journey visible and improves mobile art hierarchy',()=>{
  const hero=home.match(/<section class="hero wrap">[\s\S]*?<\/section>/)?.[0]||'';
  assert.ok(hero.includes('id="headline"'));
- assert.ok(hero.includes('src="/assets/ejoeundental-hero-cat.webp"'));
+ assert.ok(hero.includes('src="/assets/ejoeun-gallery-cat-dentist-20261029.webp"'));
  assert.ok(hero.includes('고려대학교 의학박사(치과학 전공)'));
  assert.ok(hero.includes('통합치의학과 전문의'));
  const actions=hero.match(/<div class="hero-actions">([\s\S]*?)<\/div>/)?.[1]||'';
@@ -674,7 +674,7 @@ test('October 30 gallery room keeps original art, booking and small-screen navig
   home.includes('name="naver-site-verification"'));
  assert.ok(home.includes('class="btn hero-call"')&&home.includes('class="btn hero-booking"'));
  assert.ok(home.includes('class="mobile-booking-actions"'));
- assert.ok(home.includes('href="/gallery.html"')&&home.includes('src="/assets/ejoeundental-hero-cat.webp"'));
+ assert.ok(home.includes('href="/gallery.html"')&&home.includes('src="/assets/ejoeun-gallery-cat-dentist-20261029.webp"'));
 });
 
 
