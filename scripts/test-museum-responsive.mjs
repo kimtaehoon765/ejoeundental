@@ -1145,3 +1145,38 @@ test('all 23 gallery originals stay first-party and descriptions follow the sele
  assert.ok(css.includes('.gallery-dialog .gallery-dialog-art-actions'));
  assert.ok(css.includes('@media(max-width:520px)'));
 });
+
+
+test('director museum profile keeps verified credentials and readable care links',()=>{
+ const doctor=home.match(/<section class="section dark" id="doctor">([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.ok(doctor,'doctor section remains visible');
+ const fixed=['고려대학교 의학박사(치과학 전공)','통합치의학과 전문의',
+  '2003년부터','원장이 직접 검진하고 진단합니다.','자연치아 보존'];
+ for(const phrase of fixed)assert.ok(doctor.includes(phrase),'verified clinic statement missing: '+phrase);
+ assert.equal((doctor.match(/<img\b/g)||[]).length,1,'keep one original art print in the doctor exhibition');
+ assert.ok(doctor.includes('src="/assets/ejoeun-tooth-preservation-garden-cat-20261029.webp"'));
+ for(const destination of ['/doctor.html','/gum-treatment.html','/retreatment.html','/tooth-preservation.html']){
+  assert.ok(doctor.includes('href="'+destination+'"'),'missing doctor/clinical link '+destination);
+ }
+ assert.equal((doctor.match(/class="doctor-credential-ledger__item"/g)||[]).length,3,
+  'retain three factual credentials or practice-history details');
+ assert.equal((doctor.match(/class="doctor-care-trails"/g)||[]).length,1);
+ assert.ok(doctor.includes('<p class="doctor-profile-link"><a href="/doctor.html">'),
+  'profile link is semantic and styled with the stylesheet instead of brittle inline colors');
+ const css=read('assets/atelier-refinement-20261030.css');
+ for(const token of [
+  "Director's room: museum-profile finishing",
+  '#doctor .doctor-care-trails>a::before',
+  'counter-increment:care-focus',
+  '#doctor .doctor-credential-ledger__item>small',
+  '@media(max-width:1100px)',
+  '@media(max-width:700px)',
+  '@media(max-width:390px)',
+  '@media(prefers-reduced-motion:reduce)',
+  '@media(forced-colors:active)'
+ ])assert.ok(css.includes(token),'missing responsive, accessible doctor-gallery treatment: '+token);
+ assert.ok(home.includes('/assets/atelier-refinement-20261030.css?v=20261031-doctor-museum03'),
+  'new doctor finish must be cache-busted');
+ assert.ok(home.includes('class="mobile-booking-actions"')&&home.includes('class="btn hero-booking"'),
+  'working Naver reservation controls remain');
+});
