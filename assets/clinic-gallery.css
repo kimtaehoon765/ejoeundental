@@ -496,3 +496,59 @@
     line-height:1.55;
   }
 }
+
+
+/* 2026-10-30 · Clinical artwork lightbox: relevant reading exit. */
+/* Only the ten illustrated patient studies expose a care link, derived from
+   their actual article anchors; the ten decorative paintings show none. */
+.gallery-dialog .gallery-dialog-care{
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  width:fit-content;
+  max-width:100%;
+  margin:10px auto 4px;
+  padding:10px 20px;
+  border:1px solid #214b39;
+  border-radius:4px 12px 4px 12px;
+  background:#214b39;
+  color:#fffdf4;
+  font:750 14px/1.6 system-ui,"Apple SD Gothic Neo",sans-serif;
+  text-align:center;
+  text-decoration:none;
+  word-break:keep-all;
+}
+.gallery-dialog .gallery-dialog-care[hidden]{display:none!important}
+.gallery-dialog .gallery-dialog-care:hover{
+  background:#15392c;
+  border-color:#15392c;
+}
+.gallery-dialog .gallery-dialog-care:focus-visible{
+  outline:3px solid #b39250;
+  outline-offset:3px;
+}
+.gallery-dialog.gallery-dialog--care #gallery-dialog-image{
+  max-height:calc(94vh - 260px);
+  max-height:calc(94dvh - 260px);
+}
+@media(max-width:520px){
+  .gallery-dialog .gallery-dialog-care{
+    width:100%;
+    margin:9px 0 4px;
+    padding:10px 11px;
+    min-height:48px;
+  }
+  .gallery-dialog.gallery-dialog--care #gallery-dialog-image{
+    max-height:calc(94vh - 273px);
+    max-height:calc(94dvh - 273px);
+  }
+}
+@media(forced-colors:active){
+  .gallery-dialog .gallery-dialog-care{
+    background:LinkText;
+    color:Canvas;
+    border-color:LinkText;
+  }
+}
