@@ -88,3 +88,76 @@ main [id="patient-questions"]{scroll-margin-top:24px}
 .treatment-doctor-credentials a{display:inline-flex;align-items:center;min-height:44px;color:#175b40;font-weight:700;text-underline-offset:3px}
 .treatment-doctor-credentials a:focus-visible{outline:3px solid #a47837;outline-offset:3px}
 @media(max-width:600px){.treatment-doctor-credentials{margin:11px 0 15px!important;padding:10px 12px;font-size:14px}}
+
+
+/* Verified patient guide provenance · Google medical content clarity, 2026-10-30.
+   The visible clinic publisher and accountable treating dentist must match
+   the MedicalWebPage JSON-LD, without claiming a fabricated review process. */
+.care-gallery .clinical-editorial-source {
+  background:linear-gradient(125deg,#f4f7ed 0%,#fbf7ec 100%);
+  border-block:1px solid #d7ddcf;
+  color:#304f3e;
+}
+.care-gallery .clinical-editorial-source__inner {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  max-width:1090px;
+  margin-inline:auto;
+  padding:clamp(15px,2.1vw,25px) clamp(17px,2.8vw,28px);
+}
+.care-gallery .clinical-editorial-source__eyebrow {
+  color:#8d7248;
+  font:800 10px/1.45 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.1em;
+}
+.care-gallery .clinical-editorial-source p {
+  margin:0;
+  color:#355241;
+  font-size:clamp(12px,1.15vw,14px);
+  line-height:1.78;
+  word-break:keep-all;
+}
+.care-gallery .clinical-editorial-source p strong {
+  color:#234d38;
+  font-weight:800;
+}
+.care-gallery .clinical-editorial-source p a {
+  color:#185a3d;
+  font-weight:800;
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
+.care-gallery .clinical-editorial-source p a:focus-visible {
+  outline:3px solid #a88148;
+  outline-offset:3px;
+}
+.care-gallery .clinical-editorial-source small {
+  color:#607263;
+  font:600 11px/1.6 system-ui,sans-serif;
+}
+@media (max-width:600px) {
+  .care-gallery .clinical-editorial-source__inner {
+    padding:15px 15px 17px;
+  }
+  .care-gallery .clinical-editorial-source p {
+    font-size:13px;
+  }
+}
+@media (forced-colors:active) {
+  .care-gallery .clinical-editorial-source {
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+  }
+  .care-gallery .clinical-editorial-source :is(p,strong,a,small,span) {
+    color:CanvasText;
+  }
+}
+@media print {
+  .care-gallery .clinical-editorial-source {
+    background:transparent;
+    border-color:currentColor;
+  }
+}
