@@ -1181,3 +1181,198 @@ body.home-page #main-content > #location #hours-details {
     box-shadow:none;
   }
 }
+
+
+/* 2026-10-30 | Finishing pass: one exhibition language, not more artwork.
+   Calm framing, legible chapter rhythm, picture-first captions and accessible
+   navigation. Every original image, clinical paragraph and destination stays. */
+body.home-page #main-content > .hero.wrap {
+  border:1px solid #d9ceb7;
+  border-radius:9px 25px 9px 25px;
+  box-shadow:0 22px 58px rgba(30,56,39,.065);
+}
+body.home-page #main-content > .hero.wrap #headline {
+  color:#233e32;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-weight:600;
+  letter-spacing:-.062em;
+  line-height:1.47;
+  text-wrap:balance;
+}
+body.home-page #main-content > .hero.wrap .hero-doctor-credentials {
+  border-radius:3px 10px 3px 10px;
+  border-left-color:#a78b5d;
+  background:rgba(255,253,247,.8);
+}
+body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+  padding:clamp(7px,1vw,11px);
+  border:1px solid #d7c8aa;
+  background:#fffdf8;
+  box-shadow:0 18px 38px rgba(34,54,39,.11);
+}
+body.home-page #main-content > .hero.wrap > .art.hero-artwork > img {
+  object-fit:contain;
+  object-position:center;
+  background:#f7f3e9;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque {
+  background:#fffdf8;
+}
+body.home-page #main-content > .hero.wrap .hero-care-summary > a,
+body.home-page #main-content > .hero.wrap .hero-care-summary > details {
+  border-color:#dad5c8;
+}
+body.home-page #main-content > .hero.wrap .hero-care-summary > a:focus-visible,
+body.home-page #main-content > .hero.wrap .hero-care-summary > details > summary:focus-visible {
+  outline:3px solid #a68145;
+  outline-offset:3px;
+}
+body.home-page #main-content > .curated-threshold {
+  border:1px solid #d9d0be;
+  border-radius:5px 19px 5px 19px;
+  box-shadow:0 17px 42px rgba(30,54,38,.055);
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__frame,
+body.home-page #main-content .atelier-collection-peek__frame {
+  border:5px solid #faf6ec;
+  background:#fffdf7;
+  box-shadow:0 9px 24px rgba(39,56,38,.095);
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__frame img,
+body.home-page #main-content .atelier-collection-peek__frame img {
+  display:block;
+  width:100%;
+  max-width:100%;
+  object-fit:contain;
+  object-position:center;
+}
+body.home-page #main-content .curated-threshold__caption strong,
+body.home-page #main-content .atelier-collection-peek__caption strong {
+  color:#264b38;
+  letter-spacing:-.045em;
+}
+body.home-page #main-content > .museum-route {
+  border-top:1px solid #d7c9ad;
+  border-bottom:1px solid #d7c9ad;
+  background:linear-gradient(100deg,rgba(247,244,235,.85),rgba(252,250,244,.92));
+}
+body.home-page #main-content > .museum-route .museum-route__no {
+  color:#99794d;
+  font-variant-numeric:tabular-nums;
+}
+body.home-page #main-content > #focus-care .focus-care-lead {
+  gap:clamp(22px,3.3vw,48px);
+  align-items:center;
+}
+body.home-page #main-content > #focus-care .focus-care-lead-copy > h2 {
+  max-width:19ch;
+  color:#244534;
+  text-wrap:balance;
+}
+body.home-page #main-content > #focus-care .focus-care-art-link--painting {
+  border:7px solid #fbf7ed;
+  box-shadow:0 13px 33px rgba(35,55,39,.1);
+}
+body.home-page #main-content > #focus-care .focus-care-art-link--painting > img {
+  object-fit:contain;
+  background:#f5f1e7;
+}
+body.home-page #main-content > #focus-care .focus-care-painting-ribbon {
+  border-top:1px solid #dcccae;
+  background:linear-gradient(120deg,#fffefa,#f4efe2);
+}
+body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a,
+body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a {
+  border:1px solid #d6cab4;
+  border-radius:5px 15px 5px 15px;
+  box-shadow:0 13px 31px rgba(28,54,37,.085);
+  overflow:hidden;
+}
+body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a > img,
+body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a > img {
+  object-fit:contain;
+  background:#f7f3e9;
+}
+body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a:focus-visible,
+body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a:focus-visible {
+  outline:3px solid #a68145;
+  outline-offset:4px;
+}
+body.home-page #main-content > #stories .journal-gallery-cover {
+  border:1px solid #d7ceb9;
+  border-radius:5px 17px 5px 17px;
+  overflow:hidden;
+  box-shadow:0 14px 35px rgba(25,50,36,.08);
+}
+@media (min-width:901px) {
+  body.home-page #main-content > .hero.wrap {
+    column-gap:clamp(28px,3.5vw,54px);
+  }
+}
+@media (hover:hover) and (pointer:fine) {
+  body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a,
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a {
+    transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease;
+  }
+  body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a:hover,
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a:hover {
+    border-color:#ae9670;
+    box-shadow:0 17px 34px rgba(25,51,36,.14);
+    transform:translateY(-3px);
+  }
+}
+@media (max-width:760px) {
+  body.home-page #main-content > .hero.wrap {
+    border-radius:5px 15px 5px 15px;
+    box-shadow:0 11px 28px rgba(27,52,38,.06);
+  }
+  body.home-page #main-content > .hero.wrap #headline {
+    font-size:clamp(27px,6.7vw,35px);
+    line-height:1.5;
+  }
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    max-width:min(100%,354px);
+    padding:7px;
+  }
+  body.home-page #main-content > .curated-threshold {
+    border-radius:4px 13px 4px 13px;
+  }
+  body.home-page #main-content > .curated-threshold .curated-threshold__frame,
+  body.home-page #main-content .atelier-collection-peek__frame {
+    border-width:4px;
+  }
+  body.home-page #main-content > #focus-care .focus-care-lead-copy > h2 {
+    max-width:none;
+  }
+  body.home-page #main-content > #focus-care .focus-care-art-link--painting {
+    border-width:5px;
+  }
+}
+@media (max-width:360px) {
+  body.home-page #main-content > .hero.wrap #headline {
+    font-size:26px;
+    letter-spacing:-.055em;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a,
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a {
+    transition:none;
+    transform:none;
+  }
+}
+@media (forced-colors:active) {
+  body.home-page #main-content > .hero.wrap,
+  body.home-page #main-content > .hero.wrap .hero-doctor-credentials,
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork,
+  body.home-page #main-content > .curated-threshold,
+  body.home-page #main-content > .museum-route,
+  body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a,
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a,
+  body.home-page #main-content > #stories .journal-gallery-cover {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
