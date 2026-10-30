@@ -1712,7 +1712,10 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  }
  const hero=homepage.match(/<nav class="hero-care-summary"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
  const focus=homepage.match(/<section class="section light" id="focus-care">([\s\S]*?)<\/section>/)?.[1]||'';
- if(!hero.includes('href="/gum-treatment.html">인천·부평 잇몸치료')||
+ // The first-screen care link now separates its readable title from its
+ // summary. Inspect the real anchor text, not an obsolete flat HTML string.
+ const gumAnchor=hero.match(/<a href="\/gum-treatment\.html">([\s\S]*?)<\/a>/)?.[1]||'';
+ if(!gumAnchor.includes('인천·부평 잇몸치료')||
     !focus.includes('인천 잇몸치료·부평 잇몸치료')||
     !focus.includes('href="/gum-treatment.html"')){
   errors.push('홈페이지 핵심 잇몸치료 검색어 및 실제 진료 링크 누락');
