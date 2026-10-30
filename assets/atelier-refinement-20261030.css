@@ -2520,3 +2520,200 @@ body.home-page #main-content>#doctor .doctor-credential-ledger__item>.pill{
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-31 | Museum reading room: FAQ answers and visit desk.
+   Quiet exhibit labels and legible visitor information, not additional art.
+   Retains all 11 answers, links, accessibility, and verified clinic hours. */
+body.home-page #main-content>#faq .faq-reading-gallery {
+  border-color:#cdbb9b;
+  box-shadow:0 14px 34px rgba(36,61,41,.07);
+}
+body.home-page #main-content>#faq .faq-list {
+  gap:10px;
+  max-width:1000px;
+  margin-inline:auto;
+}
+body.home-page #main-content>#faq .faq-list>details {
+  border-color:#d9d4c6;
+  border-left:3px solid #c4b08b;
+  border-radius:4px 12px 4px 12px;
+  background:#fffefa;
+  box-shadow:0 5px 17px rgba(30,61,41,.037);
+}
+body.home-page #main-content>#faq .faq-list>details:nth-child(even) {
+  border-left-color:#8caa8f;
+}
+body.home-page #main-content>#faq .faq-list>details[open] {
+  border-color:#92b49b;
+  border-left-color:#3e7b5a;
+  background:#fffdf8;
+  box-shadow:0 11px 27px rgba(29,65,41,.075);
+}
+body.home-page #main-content>#faq .faq-list>details>summary {
+  gap:clamp(10px,1.8vw,18px);
+  min-height:64px;
+  padding:15px clamp(15px,2vw,24px);
+  color:#254d38;
+  font:700 clamp(15px,1.5vw,17px)/1.65 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.035em;
+  word-break:keep-all;
+  text-wrap:pretty;
+}
+body.home-page #main-content>#faq .faq-list>details>summary::before {
+  width:35px;
+  height:35px;
+  border-radius:3px;
+  border-color:#d8c9a9;
+  background:#f7efde;
+  color:#78613f;
+  font:750 12px/1 "DM Sans",system-ui,sans-serif;
+}
+body.home-page #main-content>#faq .faq-list>details[open]>summary {
+  border-bottom:1px solid #d9e3d4;
+  background:#edf4ea;
+  color:#1f5239;
+}
+body.home-page #main-content>#faq .faq-list>details>p {
+  margin:0;
+  max-width:100%;
+  padding:clamp(17px,2.1vw,26px) clamp(18px,2.5vw,31px);
+  background:#fffefa;
+  color:#3e5846;
+  font-size:15px;
+  line-height:1.98;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content>#faq .faq-list>details>p>a {
+  color:#205f43;
+  text-underline-offset:4px;
+}
+body.home-page #main-content>#faq .faq-list>details:focus-within {
+  scroll-margin-top:125px;
+}
+body.home-page #main-content>#location #address {
+  color:#254b38;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(17px,1.7vw,21px);
+  line-height:1.77;
+  font-weight:650;
+  letter-spacing:-.035em;
+  word-break:keep-all;
+}
+body.home-page #main-content>#location .visit-facts-eyebrow {
+  margin-bottom:10px;
+  padding-left:13px;
+  border-left:2px solid #b79b6a;
+  font-size:11px;
+  font-weight:750;
+  line-height:1.8;
+  letter-spacing:.12em;
+  color:#866a43;
+}
+body.home-page #main-content>#location .visit-quick-facts {
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(11px,1.6vw,17px);
+}
+body.home-page #main-content>#location .visit-quick-facts>div {
+  min-height:154px;
+  border-radius:4px 13px 4px 13px;
+  background:#fffdf8;
+}
+body.home-page #main-content>#location .visit-quick-facts>div:nth-child(even) {
+  background:#f4f8f1;
+}
+body.home-page #main-content>#location .visit-quick-facts>div>strong {
+  margin-bottom:4px;
+  color:#284b38;
+  font:700 clamp(15px,1.5vw,17px)/1.6 "Noto Serif KR","Apple SD Gothic Neo",serif;
+}
+body.home-page #main-content>#location .visit-quick-facts>div>span {
+  color:#405d48;
+  font-size:14px;
+  line-height:1.87;
+  word-break:keep-all;
+}
+body.home-page #main-content>#location .place-visit-actions>a {
+  min-height:55px;
+  border-radius:5px 11px 5px 11px;
+  font-weight:750;
+}
+body.home-page #main-content>#location :is(#parking-details,#hours-details) {
+  scroll-margin-top:120px;
+}
+body.home-page #main-content>#location .alternating-hours-card {
+  min-height:140px;
+  padding:18px;
+  border-top-width:3px;
+  box-shadow:0 6px 20px rgba(34,61,41,.045);
+}
+body.home-page #main-content>#location .alternating-hours-card>strong {
+  display:block;
+  margin-bottom:12px;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(15px,1.5vw,18px);
+  line-height:1.7;
+  color:#2d533f;
+}
+body.home-page #main-content>#location .alternating-hours-card>span {
+  display:block;
+  line-height:1.9;
+  color:#435c47;
+}
+body.home-page #main-content>#location .alternating-hours-card b {
+  font-variant-numeric:tabular-nums;
+  color:#224b37;
+}
+body.home-page #main-content>#location .alternating-hours-call {
+  min-height:52px;
+  border-radius:6px;
+  font-weight:750;
+}
+@media(max-width:1000px) {
+  body.home-page #main-content>#location .visit-quick-facts {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:700px) {
+  body.home-page #main-content>#faq .faq-list>details>summary {
+    min-height:60px;
+    padding:15px 14px;
+    font-size:15px;
+  }
+  body.home-page #main-content>#faq .faq-list>details>summary::before {
+    width:31px;height:31px;
+  }
+  body.home-page #main-content>#faq .faq-list>details>p {
+    padding:18px 16px 21px;
+    font-size:15px;
+    line-height:1.89;
+  }
+  body.home-page #main-content>#location .visit-quick-facts {
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.home-page #main-content>#location .visit-quick-facts>div {
+    min-height:0;
+    padding:16px;
+  }
+  body.home-page #main-content>#location .alternating-hours-card {
+    min-height:0;
+  }
+  body.home-page #main-content>#location :is(#parking-details,#hours-details){
+    scroll-margin-top:150px;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content>#faq .faq-list>details,
+  body.home-page #main-content>#faq .faq-list>details[open],
+  body.home-page #main-content>#faq .faq-list>details>summary,
+  body.home-page #main-content>#faq .faq-list>details>summary::before,
+  body.home-page #main-content>#faq .faq-list>details>p,
+  body.home-page #main-content>#location .visit-quick-facts>div,
+  body.home-page #main-content>#location .alternating-hours-card {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
