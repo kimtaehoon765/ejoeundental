@@ -61,17 +61,22 @@ test('gallery lightbox navigates all 23 paintings and returns keyboard focus',as
  const markup=[...html.matchAll(/<button\b[^>]*class="gallery-zoom"[^>]*>/g)].map(m=>m[0]);
  assert.equal(markup.length,23);
  const attr=(tag,key)=>tag.match(new RegExp('\\b'+key+'="([^"]+)"'))?.[1]||'';
- const mock=(dataset={})=>{const handlers={};return{dataset,handlers,isConnected:true,focused:false,
+ const mock=(dataset={},room='paintings')=>{const handlers={};return{dataset,room,handlers,isConnected:true,focused:false,
   addEventListener(type,fn){handlers[type]=fn;},
+  closest(selector){return selector==='section[id]'?{id:this.room}:null;},
   focus(){this.focused=true;},
   click(){handlers.click?.({target:this})}
  }};
- const buttons=markup.map(tag=>mock({image:attr(tag,'data-image'),alt:attr(tag,'data-alt'),title:attr(tag,'data-title')}));
+ const buttons=markup.map((tag,index)=>mock({
+  image:attr(tag,'data-image'),alt:attr(tag,'data-alt'),title:attr(tag,'data-title')
+ },index<10?'paintings':index<13?'education':'patient-studies'));
  assert.ok(buttons.every(b=>b.dataset.image&&b.dataset.title));
- const img={src:'',alt:''},heading={textContent:''},pos={textContent:''},close=mock(),prev=mock(),next=mock(),dialog=mock();
+ const img=mock(),heading={textContent:''},roomTitle={textContent:''},pos={textContent:''},
+  close=mock(),prev=mock(),next=mock(),dialog=mock();
  dialog.open=false;dialog.showModal=()=>{dialog.open=true};dialog.close=()=>{dialog.open=false;dialog.handlers.close?.()};
  const ids={'gallery-dialog':dialog,'gallery-dialog-image':img,'gallery-dialog-title':heading,
-  'gallery-dialog-position':pos,'gallery-close':close,'gallery-prev':prev,'gallery-next':next};
+  'gallery-dialog-section':roomTitle,'gallery-dialog-position':pos,
+  'gallery-close':close,'gallery-prev':prev,'gallery-next':next};
  const classes=[];
  const document={documentElement:{classList:{add(name){classes.push(name)}}},
   getElementById:id=>ids[id]||null,querySelectorAll:selector=>selector==='.gallery-zoom'?buttons:[]};
@@ -80,12 +85,33 @@ test('gallery lightbox navigates all 23 paintings and returns keyboard focus',as
  buttons[22].click();
  assert.equal(img.src,buttons[22].dataset.image);
  assert.equal(pos.textContent,'23 / 23');
+ assert.match(roomTitle.textContent,/제3전시실.*10 \/ 10/);
  assert.equal(dialog.open,true);
  next.click();
  assert.equal(img.src,buttons[0].dataset.image);
  assert.equal(pos.textContent,'01 / 23');
+ assert.match(roomTitle.textContent,/제1전시실.*1 \/ 10/);
  prev.click();
  assert.equal(img.src,buttons[22].dataset.image);
+ // A gentle horizontal one-finger swipe moves images; vertical movement
+ // must remain untouched so natural scrolling keeps working on phones.
+ img.handlers.touchstart({touches:[{clientX:210,clientY:50}]});
+ img.handlers.touchend({changedTouches:[{clientX:110,clientY:56}]});
+ assert.equal(img.src,buttons[0].dataset.image,'left swipe should show next painting');
+ img.handlers.touchstart({touches:[{clientX:110,clientY:50}]});
+ img.handlers.touchend({changedTouches:[{clientX:208,clientY:55}]});
+ assert.equal(img.src,buttons[22].dataset.image,'right swipe should show prior painting');
+ img.handlers.touchstart({touches:[{clientX:150,clientY:20}]});
+ img.handlers.touchend({changedTouches:[{clientX:153,clientY:130}]});
+ assert.equal(img.src,buttons[22].dataset.image,'vertical scroll must not navigate paintings');
+ img.handlers.touchstart({touches:[{clientX:180,clientY:30},{clientX:200,clientY:40}]});
+ img.handlers.touchend({changedTouches:[{clientX:70,clientY:30}]});
+ assert.equal(img.src,buttons[22].dataset.image,'multitouch should not trigger artwork navigation');
+ // The clinical watercolor is a distinct second exhibit with its own count.
+ buttons[11].click();
+ assert.match(roomTitle.textContent,/제2전시실.*2 \/ 3/);
+ close.click();
+ buttons[22].click();
  let prevented=0;
  dialog.handlers.keydown({key:'ArrowLeft',preventDefault(){prevented++}});
  assert.equal(img.src,buttons[21].dataset.image);
