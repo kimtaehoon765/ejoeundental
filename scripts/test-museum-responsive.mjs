@@ -806,7 +806,7 @@ test('visit-guide shows two clear Friday/Saturday patterns without claiming this
  assert.ok(cards[1].includes('토요일 휴진 주'));
  assert.ok(cards[1].includes('금요일 <b>09:30~18:30</b>'));
  assert.ok(cards[1].includes('토요일 <b>휴진</b>'));
- assert.ok(main.includes('이번 주 확정 일정은 아닙니다.'),
+ assert.ok(main.includes('이 페이지에는 이번 주의 확정 일정이 표시되지 않습니다.'),
   'static alternating-week pattern must not be misrepresented as current availability');
  assert.ok(main.includes('class="visit-cycle__contact" href="tel:0325132875"'),
   'the clinic must offer phone confirmation from the paired schedule cards');
