@@ -1175,8 +1175,12 @@ test('director museum profile keeps verified credentials and readable care links
   '@media(prefers-reduced-motion:reduce)',
   '@media(forced-colors:active)'
  ])assert.ok(css.includes(token),'missing responsive, accessible doctor-gallery treatment: '+token);
- assert.ok(home.includes('/assets/atelier-refinement-20261030.css?v=20261031-doctor-museum03'),
-  'new doctor finish must be cache-busted');
+ const doctorCssLinks=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
+ const doctorCss=doctorCssLinks.find(x=>x.startsWith('/assets/atelier-refinement-20261030.css?v='));
+ assert.ok(doctorCss && doctorCss.split('?v=')[1],
+  'the final doctor refinement stylesheet must be linked with a cache-busting version');
+ assert.ok(doctorCssLinks.indexOf(doctorCss)>doctorCssLinks.findIndex(x=>x.includes('/assets/home-art-direction-20261030.css')),
+  'the new doctor style must load after the earlier art-direction layer');
  assert.ok(home.includes('class="mobile-booking-actions"')&&home.includes('class="btn hero-booking"'),
   'working Naver reservation controls remain');
 });
