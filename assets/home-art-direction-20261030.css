@@ -1732,3 +1732,138 @@ body.home-page #main-content>.hero.wrap .hero-artwork__plaque>a:focus-visible{
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-30 · First-visit atelier: unique medication-list watercolor
+   with a practical checklist link, without duplicating existing artwork. */
+body.home-page #main-content>#visit-guide .visit-first-art {
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:minmax(0,1.3fr) minmax(240px,.95fr);
+  align-items:stretch;
+  gap:clamp(15px,2.5vw,28px);
+  margin:clamp(20px,3vw,32px) 0 clamp(25px,3.7vw,40px);
+  padding:clamp(11px,1.65vw,19px);
+  border:1px solid #d3c4a8;
+  border-top:3px solid #b49b6a;
+  border-radius:4px 15px 4px 15px;
+  background:linear-gradient(132deg,#fffdf8 0%,#f4f7ef 100%);
+  box-shadow:0 11px 28px rgba(35,62,43,.055);
+}
+body.home-page #main-content>#visit-guide .visit-first-art__picture {
+  min-width:0;
+  box-sizing:border-box;
+  margin:0;
+  padding:7px;
+  background:#eee8da;
+  border:1px solid #d4c7b1;
+  border-radius:3px 11px 3px 11px;
+}
+body.home-page #main-content>#visit-guide .visit-first-art__picture>img {
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  aspect-ratio:5 / 2;
+  object-fit:contain;
+  background:#f8f3e8;
+}
+body.home-page #main-content>#visit-guide .visit-first-art__picture>figcaption {
+  box-sizing:border-box;
+  display:block;
+  padding:10px 12px;
+  background:#fffdf8;
+  border-top:1px solid #ded3bd;
+  color:#607363;
+  font-size:12px;
+  line-height:1.65;
+  text-align:left;
+  word-break:keep-all;
+}
+body.home-page #main-content>#visit-guide .visit-first-art__note {
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:clamp(9px,1.4vw,14px);
+  padding:clamp(8px,1.2vw,15px);
+  text-align:left;
+}
+body.home-page #main-content>#visit-guide .visit-first-art__note>small {
+  color:#8f7650;
+  font:800 10px/1.5 "DM Sans",system-ui,sans-serif;
+  letter-spacing:.13em;
+}
+body.home-page #main-content>#visit-guide .visit-first-art__note>strong {
+  color:#254a38;
+  font:700 clamp(18px,1.9vw,23px)/1.5 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.05em;
+  word-break:keep-all;
+}
+body.home-page #main-content>#visit-guide .visit-first-art__note>p {
+  margin:0;
+  color:#496151;
+  font-size:14px;
+  line-height:1.84;
+  word-break:keep-all;
+}
+body.home-page #main-content>#visit-guide .visit-first-art__note>a {
+  box-sizing:border-box;
+  display:inline-flex;
+  align-items:center;
+  max-width:100%;
+  min-height:48px;
+  padding:10px 15px;
+  border:1px solid #9bb5a0;
+  border-radius:4px;
+  background:#eaf2e6;
+  color:#20543a;
+  font-size:13px;
+  font-weight:800;
+  line-height:1.6;
+  text-decoration:none;
+  word-break:keep-all;
+}
+body.home-page #main-content>#visit-guide .visit-first-art__note>a:focus-visible {
+  outline:3px solid #a58246;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine) {
+  body.home-page #main-content>#visit-guide .visit-first-art__note>a:hover {
+    background:#dcebd8;
+    border-color:#6e9679;
+  }
+}
+@media(max-width:760px) {
+  body.home-page #main-content>#visit-guide .visit-first-art {
+    grid-template-columns:minmax(0,1fr);
+    gap:11px;
+    padding:9px;
+    margin:17px 0 24px;
+  }
+  body.home-page #main-content>#visit-guide .visit-first-art__picture {
+    padding:5px;
+  }
+  body.home-page #main-content>#visit-guide .visit-first-art__note {
+    gap:9px;
+    padding:12px 11px 14px;
+  }
+  body.home-page #main-content>#visit-guide .visit-first-art__note>strong {
+    font-size:19px;
+  }
+  body.home-page #main-content>#visit-guide .visit-first-art__note>a {
+    min-height:48px;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#visit-guide :is(.visit-first-art,.visit-first-art__picture,.visit-first-art__picture>figcaption,.visit-first-art__note>a) {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#visit-guide .visit-first-art__note :is(small,strong,p) {
+    color:CanvasText;
+  }
+}
