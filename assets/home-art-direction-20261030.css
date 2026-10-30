@@ -3978,3 +3978,146 @@ body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p:last-child>a
     border-color:LinkText;
   }
 }
+
+
+/* 2026-10-30 · Journal archive shelving: compact 501-title index. */
+/* The eight curated essays keep their framed exhibition cards.
+   The additional 501 original links should read like an indexed library
+   shelf, not 501 oversized cards. All HTML titles and URLs remain intact. */
+body.home-page #main-content>#stories .owner-stories-more{
+  box-sizing:border-box;
+  margin:clamp(16px,2.5vw,26px) 0 clamp(23px,3vw,34px);
+  overflow:visible;
+  border:1px solid #d9d4c5;
+  border-radius:4px 13px 4px 13px;
+  background:#fffdf8;
+  box-shadow:0 6px 19px rgba(39,62,45,.035);
+}
+body.home-page #main-content>#stories .owner-stories-more>summary{
+  box-sizing:border-box;
+  min-height:54px;
+  padding:clamp(14px,1.65vw,19px) clamp(15px,2.2vw,25px);
+  color:#244d38;
+  background:linear-gradient(125deg,#f0f4eb,#fffdf6);
+  line-height:1.65;
+  font-size:clamp(14px,1.25vw,16px);
+  font-weight:750;
+  word-break:keep-all;
+  cursor:pointer;
+}
+body.home-page #main-content>#stories .owner-stories-more>summary:focus-visible{
+  outline:3px solid #a8874f;
+  outline-offset:3px;
+}
+body.home-page #main-content>#stories .owner-stories-more[open]>summary{
+  border-bottom:1px solid #d9d4c5;
+  border-radius:3px 12px 0 0;
+  background:#eaf1e7;
+}
+body.home-page #main-content>#stories .owner-stories-more>.owner-stories-grid{
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:0;
+  width:100%;
+  min-width:0;
+  margin:0;
+  padding:clamp(10px,1.4vw,18px);
+  counter-reset:journal-shelf;
+}
+body.home-page #main-content>#stories .owner-stories-more>.owner-stories-grid>.owner-story-card{
+  box-sizing:border-box;
+  counter-increment:journal-shelf;
+  display:grid;
+  grid-template-columns:32px minmax(0,1fr);
+  align-items:start;
+  column-gap:10px;
+  min-width:0;
+  min-height:58px;
+  margin:0;
+  padding:11px 12px;
+  border:0;
+  border-bottom:1px solid #e6e0d4;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  text-align:left;
+}
+body.home-page #main-content>#stories .owner-stories-more>.owner-stories-grid>.owner-story-card::before{
+  content:counter(journal-shelf,decimal-leading-zero);
+  display:block;
+  margin-top:2px;
+  color:#927a50;
+  font:600 11px/1.6 "DM Sans",system-ui,sans-serif;
+  letter-spacing:.02em;
+}
+body.home-page #main-content>#stories .owner-stories-more>.owner-stories-grid>.owner-story-card>h3{
+  min-width:0;
+  margin:0;
+  font:650 14px/1.64 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:-.018em;
+}
+body.home-page #main-content>#stories .owner-stories-more>.owner-stories-grid>.owner-story-card>h3>a{
+  box-sizing:border-box;
+  display:block;
+  min-height:36px;
+  padding:3px 0;
+  color:#2c533e;
+  text-decoration:none;
+  overflow-wrap:anywhere;
+  word-break:keep-all;
+}
+body.home-page #main-content>#stories .owner-stories-more>.owner-stories-grid>.owner-story-card>h3>a:focus-visible{
+  outline:2px solid #9b7a41;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine){
+  body.home-page #main-content>#stories .owner-stories-more>.owner-stories-grid>.owner-story-card:hover{
+    background:#f3f5ec;
+  }
+  body.home-page #main-content>#stories .owner-stories-more>.owner-stories-grid>.owner-story-card>h3>a:hover{
+    text-decoration:underline;
+    text-underline-offset:3px;
+  }
+}
+@media(max-width:1050px){
+  body.home-page #main-content>#stories .owner-stories-more>.owner-stories-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:650px){
+  body.home-page #main-content>#stories .owner-stories-more>summary{
+    min-height:56px;
+    padding:15px 14px;
+  }
+  body.home-page #main-content>#stories .owner-stories-more>.owner-stories-grid{
+    grid-template-columns:minmax(0,1fr);
+    padding:8px 11px 15px;
+  }
+  body.home-page #main-content>#stories .owner-stories-more>.owner-stories-grid>.owner-story-card{
+    grid-template-columns:30px minmax(0,1fr);
+    column-gap:9px;
+    min-height:56px;
+    padding:10px 6px;
+  }
+  body.home-page #main-content>#stories .owner-stories-more>.owner-stories-grid>.owner-story-card>h3{
+    font-size:14px;
+    line-height:1.72;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#stories .owner-stories-more,
+  body.home-page #main-content>#stories .owner-stories-more>summary,
+  body.home-page #main-content>#stories .owner-stories-more>.owner-stories-grid>.owner-story-card{
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#stories .owner-stories-more>.owner-stories-grid>.owner-story-card::before{
+    color:CanvasText;
+  }
+  body.home-page #main-content>#stories .owner-stories-more>.owner-stories-grid>.owner-story-card>h3>a{
+    color:LinkText;
+  }
+}
