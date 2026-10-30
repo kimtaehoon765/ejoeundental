@@ -2928,33 +2928,40 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   errors.push('의료진 전문의 소개 모바일·키보드 스타일 누락');
 }
 
-/* Homepage hero photo/art source: preserve the actual owner-supplied illustration.
- * Fail the build if an accidental reversion replaces it with stock decor or a broken image.
+/* Homepage hero: approved doctor-and-white-cat originals only.
+ * Verify hero, preload, social image, dimensions and actual image bytes.
+ * Protect both the original illustration and newer mature clinic portrait.
  */
 {
  const hero=readFileSync(join(root,'index.html'),'utf8');
- const image=join(root,'assets/ejoeundental-hero-cat.webp');
  const css=readFileSync(join(root,'assets/style.css'),'utf8');
  const heroSection=hero.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
- const expected='/assets/ejoeundental-hero-cat.webp';
- const title='이조은치과를 상징하는 치과의사와 하얀 고양이 일러스트';
- if(!heroSection.includes('<img src="'+expected+'" width="650" height="543" alt="'+title+'"')||
+ const approved=[
+  {path:'/assets/ejoeundental-hero-cat.webp',width:650,height:543,alt:'이조은치과를 상징하는 치과의사와 하얀 고양이 일러스트'},
+  {path:'/assets/ejoeun-gallery-cat-dentist-20261029.webp',width:1200,height:800,alt:'안경 쓴 이조은치과 김태훈 원장 캐리커처와 복슬복슬한 하얀 고양이가 진료실에서 함께 있는 창작 회화'}
+ ];
+ const chosen=approved.find(art=>heroSection.includes('<img src="'+art.path+'" width="'+art.width+'" height="'+art.height+'" alt="'+art.alt+'"'));
+ const expected=chosen?.path||'';
+ if(!chosen||
     !heroSection.includes('loading="eager" fetchpriority="high" decoding="async"')||
     !hero.includes('<link rel="preload" as="image" type="image/webp" fetchpriority="high" href="'+expected+'">')||
     heroSection.includes('class="flower"')||
     !hero.includes('property="og:image" content="https://ejoeundental.com'+expected+'"')||
+    !hero.includes('property="og:image:width" content="'+chosen.width+'"')||
+    !hero.includes('property="og:image:height" content="'+chosen.height+'"')||
     !hero.includes('name="twitter:card" content="summary_large_image"')||
     !css.includes('.hero .art.hero-artwork')||
     !css.includes('.hero .hero-artwork img')){
-  errors.push('원장 제공 치과의사·흰 고양이 대표 일러스트, 첫 화면 이미지 또는 소셜 공유 카드 누락');
+  errors.push('이조은치과 원장과 흰 고양이 대표 회화, 첫 화면 이미지 또는 소셜 공유 카드 누락');
  }
- if(!existsSync(image)){
-  errors.push('이조은치과 첫 화면 실제 일러스트 이미지 파일 누락');
+ const image=chosen?join(root,chosen.path.slice(1)):null;
+ if(!image||!existsSync(image)){
+  errors.push('이조은치과 첫 화면 실제 회화 이미지 파일 누락');
  }else{
   const body=readFileSync(image);
   const validHeader=body.toString('ascii',0,4)==='RIFF'&&body.toString('ascii',8,12)==='WEBP';
   if(!validHeader||body.length<12000||body.length>300000){
-   errors.push('대표 일러스트 이미지 형식이나 크기 오류');
+   errors.push('대표 회화 이미지 형식이나 크기 오류');
   }
  }
 }
