@@ -2307,6 +2307,34 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   ]){
    if(!client.includes(needle))errors.push('원장 블로그 검색·주제 자동 펼치기 기능 누락: '+needle);
   }
+  // Test the real article-title matcher extracted from the shipping client.
+  // Group labels must not silently satisfy missing words in a search query.
+  const matchStart=client.indexOf('const matchesTitle = title =>');
+  const matchEnd=client.indexOf('const hasTitleMatches = groupsWithLinks.some',matchStart);
+  if(matchStart<0||matchEnd<=matchStart){
+   errors.push('원장 블로그 제목 검색 실제 매칭 코드 누락');
+  }else{
+   try{
+    const matching=new Function('query','terms','title',
+     client.slice(matchStart,matchEnd)+'return matchesTitle(title);');
+    for(const [query,terms,title,expected] of [
+     ['부평잇몸치료',['부평','잇몸치료'],'부평치과 잇몸치료는 어떻게 하나요',true],
+     ['부평잇몸치료',['부평','잇몸치료'],'부평치과를 고르는 방법',false],
+     ['부평신경치료',['부평','신경치료'],'부평 신경치료 후 통증과 관리',true],
+     ['부평신경치료',['부평','신경치료'],'부평 임플란트 비용',false],
+     ['재신경치료',['재신경치료'],'재신경치료가 필요한 경우',true],
+     ['재신경치료',['재신경치료'],'건강보험 잇몸치료',false]
+    ]){
+     const actual=matching(query,terms,title);
+     if(actual!==expected)errors.push('원장 블로그 제목 검색 관련도 오류: '+query+' / '+title);
+    }
+    if(!client.includes('!hasTitleMatches && terms.length === 1 && query.length >= 3')||
+       !client.includes('browsedWholeTopic')||
+       client.includes('title.includes(term) || topic.includes(term)')){
+     errors.push('주제 이름 때문에 원장 블로그 비관련 글이 검색되는 오류 재발');
+    }
+   }catch(e){errors.push('원장 블로그 제목 검색 실행 점검 오류: '+e.message);}
+  }
  }
  if(!/<script defer src="\/assets\/archive-topics\.js\?v=[a-f0-9]{12}"><\/script>/.test(archive))
    errors.push('원장 글 빠른 검색 자바스크립트 로딩 누락');
