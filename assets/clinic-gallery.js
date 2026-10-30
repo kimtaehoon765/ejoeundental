@@ -4,6 +4,7 @@
   const dialog=document.getElementById('gallery-dialog');
   const picture=document.getElementById('gallery-dialog-image');
   const caption=document.getElementById('gallery-dialog-title');
+  const sectionLabel=document.getElementById('gallery-dialog-section');
   const close=document.getElementById('gallery-close');
   const prev=document.getElementById('gallery-prev');
   const next=document.getElementById('gallery-next');
@@ -22,6 +23,25 @@
     picture.src=button.dataset.image || '';
     picture.alt=button.dataset.alt || '이조은치과 창작 그림';
     caption.textContent=button.dataset.title || '그림 감상';
+    // The gallery is three curated rooms, not one anonymous 23-image reel.
+    // Derive labels from the actual section containing each artwork instead
+    // of hard-coding index boundaries that may drift as the gallery grows.
+    const room=button.closest('section[id]')?.id;
+    const rooms={
+      paintings:['제1전시실','풍경과 캐릭터'],
+      education:['제2전시실','진료 수채화'],
+      'patient-studies':['제3전시실','진료 준비 그림']
+    };
+    const roomData=rooms[room];
+    if(sectionLabel){
+      if(roomData){
+        const inRoom=artworks.filter(item=>item.closest('section[id]')?.id===room);
+        sectionLabel.textContent=roomData[0]+' · '+roomData[1]+' '+
+          String(inRoom.indexOf(button)+1)+' / '+inRoom.length;
+      }else{
+        sectionLabel.textContent='이조은치과 · 창작 갤러리';
+      }
+    }
     // Patient-study paintings already link to their matching clinic guide.
     // Reuse that verified local link inside the lightbox; decorative landscape
     // paintings must not inherit a medical destination from the prior image.
@@ -68,6 +88,25 @@
       moveArtwork(event.key==='ArrowLeft'?-1:1);
     }
   });
+  // Swipe only when a one-finger gesture is clearly horizontal. Keep native
+  // vertical scrolling and pinch/zoom intact; never preventDefault on touch.
+  let touchStart=null;
+  picture.addEventListener('touchstart',event=>{
+    if(!dialog.open || event.touches.length!==1){touchStart=null;return;}
+    touchStart={x:event.touches[0].clientX,y:event.touches[0].clientY};
+  },{passive:true});
+  picture.addEventListener('touchend',event=>{
+    if(!dialog.open || !touchStart){touchStart=null;return;}
+    const start=touchStart;
+    touchStart=null;
+    if(event.changedTouches.length!==1)return;
+    const dx=event.changedTouches[0].clientX-start.x;
+    const dy=event.changedTouches[0].clientY-start.y;
+    if(Math.abs(dx)>=60 && Math.abs(dx)>Math.abs(dy)*1.5){
+      moveArtwork(dx<0?1:-1);
+    }
+  },{passive:true});
+  picture.addEventListener('touchcancel',()=>{touchStart=null;},{passive:true});
   close.addEventListener('click',()=>dialog.close());
   dialog.addEventListener('click',event=>{
     if(event.target===dialog) dialog.close();
