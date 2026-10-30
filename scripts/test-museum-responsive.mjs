@@ -816,3 +816,29 @@ test("visit-guide shows two clear Friday/Saturday patterns without claiming this
  assert.ok(home.includes('id="weekly-hours"')&&home.includes('토요일 휴진 주'),
   'home schedule and standalone visit guide must agree on alternating operation');
 });
+
+
+test('visit-guide address parking atlas keeps map and transit actions usable',()=>{
+ const visit=read('visit-guide.html');
+ const parking=visit.match(/<section class="card"><h2 id="visit-parking">([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.ok(parking,'visit-page parking section must exist');
+ const cards=parking.match(/class="visit-arrival-(?:place|parking)"/g)||[];
+ assert.equal(cards.length,2,'actual address and parking should be distinct accessible panels');
+ assert.equal((parking.match(/id="visit-clinic-address"/g)||[]).length,1,
+  'address text must remain the only address-copy source');
+ assert.ok(parking.includes('data-copy-source="visit-clinic-address"'),
+  'existing user-operated copy control must stay linked to original address');
+ assert.ok(parking.includes('인천광역시 부평구 세월천로 34, 대우프라자 305호'));
+ assert.ok(parking.includes('치과 진료 시 3시간 무료 주차'));
+ const actions=parking.match(/<nav class="visit-arrival-actions"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ assert.ok(actions.includes('href="https://map.naver.com/p/entry/place/13239400"'),
+  'the immediate navigation button must link to the existing verified Naver map place');
+ assert.ok(actions.includes('target="_blank" rel="noopener noreferrer"'));
+ assert.ok(actions.includes('href="#transit-heading"'),
+  'transit button must stay in the visit guide rather than unnecessarily returning home');
+ assert.ok(visit.includes('id="transit-heading"'));
+ assert.ok(visit.includes('.visit-arrival-actions a{'));
+ assert.ok(visit.includes('min-height:50px'),'map actions must have adequate touch targets');
+ assert.ok(visit.includes('@media(max-width:650px){.visit-arrival-panel{grid-template-columns:minmax(0,1fr)'),
+  'arrival info should stack on narrow phones without sideways overflow');
+});
