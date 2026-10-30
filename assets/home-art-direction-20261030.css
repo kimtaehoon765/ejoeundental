@@ -896,3 +896,168 @@ body.home-page #main-content>#location .alternating-hours-card>strong{
     color:CanvasText;
   }
 }
+
+/* 2026-10-30 | Quiet philosophy room: a distinct original painting,
+   real explanatory clinical copy, and clear reading order. */
+body.home-page #main-content>#philosophy .philosophy-editorial {
+  display:grid;
+  grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
+  align-items:center;
+  gap:clamp(22px,3.2vw,44px);
+  box-sizing:border-box;
+  margin:clamp(21px,3vw,34px) 0 clamp(27px,4vw,44px);
+  padding:clamp(16px,2vw,26px);
+  border:1px solid #d7ccb6;
+  border-radius:4px 16px 4px 16px;
+  background:linear-gradient(120deg,#fffdf7 3%,#f4f6ec 100%);
+  box-shadow:0 13px 30px rgba(29,57,40,.048);
+  text-align:left;
+}
+body.home-page #main-content>#philosophy .philosophy-editorial__copy {
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:clamp(12px,1.6vw,18px);
+  padding:clamp(4px,1.3vw,16px);
+}
+body.home-page #main-content>#philosophy .philosophy-editorial__eyebrow {
+  display:inline-flex;
+  align-items:center;
+  gap:11px;
+  margin:0;
+  color:#90764d;
+  font:800 10px/1.65 "DM Sans",system-ui,sans-serif;
+  letter-spacing:.13em;
+}
+body.home-page #main-content>#philosophy .philosophy-editorial__eyebrow::before {
+  content:"";
+  display:block;
+  flex:0 0 25px;
+  height:1px;
+  background:#af9871;
+}
+body.home-page #main-content>#philosophy .philosophy-editorial__copy>.lead {
+  box-sizing:border-box;
+  margin:0;
+  max-width:59ch;
+  color:#415749;
+  font-size:clamp(16px,1.35vw,18px);
+  line-height:1.96;
+  letter-spacing:-.025em;
+  text-align:left;
+  word-break:keep-all;
+}
+body.home-page #main-content>#philosophy .philosophy-editorial__guide {
+  display:inline-flex;
+  align-items:center;
+  box-sizing:border-box;
+  max-width:100%;
+  min-height:47px;
+  padding:10px 18px;
+  border:1px solid #b1c3b0;
+  border-radius:5px;
+  background:#ebf2e8;
+  color:#224e37;
+  font:750 14px/1.55 system-ui,sans-serif;
+  text-decoration:none;
+  word-break:keep-all;
+  transition:background-color .18s ease,border-color .18s ease;
+}
+body.home-page #main-content>#philosophy .philosophy-editorial__guide:focus-visible {
+  outline:3px solid #a9884e;
+  outline-offset:3px;
+}
+body.home-page #main-content>#philosophy .philosophy-editorial__painting {
+  width:100%;
+  min-width:0;
+  box-sizing:border-box;
+  margin:0;
+  overflow:hidden;
+  padding:8px;
+  border:1px solid #cbb994;
+  border-radius:3px 13px 3px 13px;
+  background:#eee7d8;
+  box-shadow:0 10px 26px rgba(25,53,36,.075);
+}
+body.home-page #main-content>#philosophy .philosophy-editorial__painting>img {
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:1200 / 680;
+  object-fit:contain;
+  background:#f3f0e4;
+}
+body.home-page #main-content>#philosophy .philosophy-editorial__painting>figcaption {
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  padding:12px clamp(11px,1.6vw,17px) 13px;
+  border-top:1px solid #d9cfb9;
+  background:#fffdf8;
+  text-align:left;
+  color:#274d39;
+  font:650 14px/1.65 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.02em;
+  word-break:keep-all;
+}
+body.home-page #main-content>#philosophy .philosophy-editorial__painting>figcaption>small {
+  color:#8c7147;
+  font:750 10px/1.45 system-ui,sans-serif;
+  letter-spacing:.12em;
+}
+@media(hover:hover) and (pointer:fine) {
+  body.home-page #main-content>#philosophy .philosophy-editorial__guide:hover {
+    background:#dfeddd;
+    border-color:#729476;
+  }
+}
+@media(max-width:840px) {
+  body.home-page #main-content>#philosophy .philosophy-editorial {
+    grid-template-columns:minmax(0,1fr);
+    gap:17px;
+    margin:19px 0 26px;
+    padding:clamp(12px,3vw,20px);
+  }
+  body.home-page #main-content>#philosophy .philosophy-editorial__copy {
+    padding:6px 4px;
+  }
+  body.home-page #main-content>#philosophy .philosophy-editorial__copy>.lead {
+    font-size:16px;
+    line-height:1.87;
+  }
+  body.home-page #main-content>#philosophy .philosophy-editorial__painting {
+    max-width:640px;
+    margin-inline:auto;
+  }
+}
+@media(max-width:480px) {
+  body.home-page #main-content>#philosophy .philosophy-editorial {
+    padding:10px;
+  }
+  body.home-page #main-content>#philosophy .philosophy-editorial__copy {
+    padding:10px 7px 3px;
+  }
+  body.home-page #main-content>#philosophy .philosophy-editorial__painting {
+    padding:5px;
+  }
+  body.home-page #main-content>#philosophy .philosophy-editorial__painting>figcaption {
+    padding:10px 12px 12px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.home-page #main-content>#philosophy .philosophy-editorial__guide {
+    transition:none;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content>#philosophy :is(.philosophy-editorial,.philosophy-editorial__guide,.philosophy-editorial__painting,.philosophy-editorial__painting>figcaption) {
+    border-color:CanvasText;
+    color:CanvasText;
+    background:Canvas;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#philosophy :is(.philosophy-editorial__eyebrow,.philosophy-editorial__copy>.lead,.philosophy-editorial__painting>figcaption>small) {
+    color:CanvasText;
+  }
+}
