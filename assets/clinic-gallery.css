@@ -439,3 +439,60 @@
     aspect-ratio:3/2;
   }
 }
+
+
+/* 2026-10-30 · Full gallery: natural proportions on tablets and phones. */
+/* Keep each of the ten existing paintings in its real proportion rather
+   than forcing a landscape crop/letterbox at narrow breakpoints. */
+@media(max-width:850px){
+  #paintings .gallery-piece .gallery-art-frame>img {
+    box-sizing:border-box;
+    display:block;
+    width:100%;
+    height:auto;
+    min-height:0;
+    max-height:none;
+    aspect-ratio:auto;
+    object-fit:contain;
+    object-position:center;
+    background:#f7f2e7;
+  }
+}
+@media(max-width:780px){
+  /* At tablet size, two narrow paintings are less useful than one full
+     framed original with a readable gallery label. */
+  #paintings .gallery-art-grid {
+    grid-template-columns:minmax(0,1fr);
+    gap:clamp(17px,3vw,25px);
+  }
+  #paintings .gallery-piece {
+    width:100%;
+    max-width:700px;
+    margin-inline:auto;
+  }
+  #paintings .gallery-piece .gallery-art-frame {
+    padding:clamp(9px,2vw,15px);
+  }
+  #paintings .gallery-piece figcaption {
+    padding:clamp(18px,2.8vw,27px) clamp(17px,3.5vw,30px);
+  }
+  #paintings .gallery-piece figcaption p {
+    font-size:clamp(14px,1.8vw,16px);
+    line-height:1.84;
+    word-break:keep-all;
+  }
+}
+@media(max-width:480px){
+  #paintings .gallery-piece figcaption {
+    padding:18px 17px 22px;
+  }
+  #paintings .gallery-piece .gallery-links {
+    gap:5px 17px;
+    align-items:center;
+  }
+  #paintings .gallery-piece .gallery-links :is(a,button) {
+    min-height:46px;
+    font-size:13px;
+    line-height:1.55;
+  }
+}
