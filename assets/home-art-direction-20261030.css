@@ -1867,3 +1867,157 @@ body.home-page #main-content>#visit-guide .visit-first-art__note>a:focus-visible
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-30 | Patient-first urgency guide:
+   distinguish emergency care from routine dental contact without alarmism. */
+body.home-page #main-content>#when-to-call .urgent-care-directory{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(11px,1.9vw,19px);
+  box-sizing:border-box;
+  margin:clamp(20px,2.6vw,30px) 0 clamp(19px,2.7vw,29px);
+}
+body.home-page #main-content>#when-to-call .urgent-care-directory__panel{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  min-width:0;
+  gap:10px;
+  box-sizing:border-box;
+  padding:clamp(17px,2.15vw,25px);
+  border:1px solid #c8d5c8;
+  border-top:3px solid #7c9b84;
+  border-radius:4px 13px 4px 13px;
+  background:linear-gradient(135deg,#f5f9f2,#fffdf7);
+  text-align:left;
+}
+body.home-page #main-content>#when-to-call .urgent-care-directory__panel--emergency{
+  border-color:#d6b6a3;
+  border-top-color:#a45f48;
+  background:linear-gradient(125deg,#fff8f1,#fffdf8);
+}
+body.home-page #main-content>#when-to-call .urgent-care-directory__panel>small{
+  color:#8f7350;
+  font:750 10px/1.5 "DM Sans",system-ui,sans-serif;
+  letter-spacing:.13em;
+}
+body.home-page #main-content>#when-to-call .urgent-care-directory__panel--emergency>small{
+  color:#94513f;
+}
+body.home-page #main-content>#when-to-call .urgent-care-directory__panel>strong{
+  color:#224c37;
+  font:700 clamp(18px,1.85vw,23px)/1.5 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.045em;
+  word-break:keep-all;
+}
+body.home-page #main-content>#when-to-call .urgent-care-directory__panel>p{
+  color:#465e4d;
+  margin:0;
+  font-size:14px;
+  line-height:1.88;
+  word-break:keep-all;
+  flex:1;
+}
+body.home-page #main-content>#when-to-call .urgent-care-directory__panel--emergency>p{
+  color:#6b4b40;
+}
+body.home-page #main-content>#when-to-call .urgent-care-directory__panel>a{
+  display:inline-flex;
+  box-sizing:border-box;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  padding:10px 17px;
+  margin-top:5px;
+  background:#285b40;
+  color:#fffefa;
+  border:1px solid #285b40;
+  border-radius:5px;
+  font-size:14px;
+  font-weight:800;
+  line-height:1.6;
+  text-decoration:none;
+  word-break:keep-all;
+}
+body.home-page #main-content>#when-to-call .urgent-care-directory__panel--emergency>a{
+  background:#924b38;
+  border-color:#924b38;
+}
+body.home-page #main-content>#when-to-call .urgent-care-directory__panel>a:focus-visible{
+  outline:3px solid #9b783e;
+  outline-offset:3px;
+}
+body.home-page #main-content>#when-to-call .urgent-care-directory__panel--emergency>a:focus-visible{
+  outline-color:#8c392e;
+}
+body.home-page #main-content>#when-to-call .grid>.card{
+  min-width:0;
+  padding:clamp(19px,2vw,25px);
+  border-radius:4px 13px 4px 13px;
+  background:#fffdf8;
+}
+body.home-page #main-content>#when-to-call .grid>.card:nth-child(2){
+  border-color:#d8b5a5;
+  border-top-color:#ae654b;
+  background:#fff9f4;
+}
+body.home-page #main-content>#when-to-call .grid>.card h3{
+  color:#254c39;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.04em;
+  word-break:keep-all;
+}
+body.home-page #main-content>#when-to-call .grid>.card p{
+  line-height:1.87;
+  word-break:keep-all;
+}
+body.home-page #main-content>#when-to-call .grid>.card .urgent-care-directory__flag{
+  display:inline-block;
+  box-sizing:border-box;
+  margin:0 0 10px;
+  padding:5px 10px;
+  border:1px solid #d5b0a0;
+  border-radius:3px;
+  background:#fff1e9;
+  color:#8d4636;
+  font-size:12px;
+  font-weight:800;
+  line-height:1.5;
+}
+@media(hover:hover) and (pointer:fine){
+  body.home-page #main-content>#when-to-call .urgent-care-directory__panel>a:hover{
+    filter:brightness(.94);
+  }
+}
+@media(max-width:740px){
+  body.home-page #main-content>#when-to-call .urgent-care-directory{
+    grid-template-columns:minmax(0,1fr);
+    gap:11px;
+    margin:18px 0 20px;
+  }
+  body.home-page #main-content>#when-to-call .urgent-care-directory__panel{
+    padding:19px 17px;
+    gap:8px;
+  }
+  body.home-page #main-content>#when-to-call .urgent-care-directory__panel>a{
+    min-height:50px;
+    width:100%;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#when-to-call :is(.urgent-care-directory__panel,.grid>.card,.grid>.card .urgent-care-directory__flag){
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#when-to-call .urgent-care-directory__panel :is(small,strong,p,a){
+    color:CanvasText;
+  }
+  body.home-page #main-content>#when-to-call .urgent-care-directory__panel>a{
+    background:Canvas;
+    border:2px solid LinkText;
+    color:LinkText;
+  }
+}
