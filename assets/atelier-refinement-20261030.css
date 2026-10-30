@@ -780,3 +780,108 @@ body.home-page #main-content > .hero.wrap .hero-care-summary > a:is(:hover,:focu
     border-color:CanvasText;
   }
 }
+
+
+/* Symptom-first reading room · 2026-10-30.
+   Let readers choose one of six existing symptom guides before the longer
+   search panel. This is an editorial layout change, not extra SEO filler. */
+body.home-page #main-content > .symptom-navigator .symptom-catalog-eyebrow {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:clamp(15px,2vw,22px) 0 clamp(12px,1.5vw,17px);
+  color:#8a6c43;
+  font:800 11px/1.5 "DM Sans",system-ui,sans-serif;
+  letter-spacing:.12em;
+}
+body.home-page #main-content > .symptom-navigator .symptom-catalog-eyebrow::after {
+  content:"";
+  height:1px;
+  flex:1;
+  background:linear-gradient(90deg,#c4ad80,rgba(196,173,128,0));
+}
+body.home-page #main-content > .symptom-navigator .symptom-navigator-grid {
+  margin:0;
+}
+body.home-page #main-content > .symptom-navigator .symptom-navigator-grid > a {
+  height:100%;
+  min-width:0;
+  text-decoration:none;
+}
+body.home-page #main-content > .symptom-navigator .symptom-search-intro {
+  display:block;
+  margin:clamp(26px,3vw,35px) 0 0;
+  padding:0 0 0 12px;
+  border-left:3px solid #b69b67;
+  color:#345844;
+  font:700 clamp(14px,1.3vw,16px)/1.75 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.025em;
+  word-break:keep-all;
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-search {
+  box-sizing:border-box;
+  margin:12px 0 20px;
+  padding:clamp(16px,2vw,24px);
+  border:1px solid #d3d0be;
+  border-top:3px solid #a78c5b;
+  border-radius:4px 13px 4px 13px;
+  background:linear-gradient(137deg,#fbfaf3,#f0f5ee);
+  box-shadow:0 7px 21px rgba(38,61,43,.045);
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-search > label {
+  display:block;
+  color:#214a36;
+  font:750 clamp(15px,1.35vw,17px)/1.6 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.025em;
+  word-break:keep-all;
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-search-row input {
+  box-sizing:border-box;
+  min-width:0;
+  min-height:52px;
+  background:#fffefa;
+  border-color:#9aac98;
+  font-size:16px;
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-search-row button {
+  box-sizing:border-box;
+  min-height:52px;
+  font-weight:800;
+}
+body.home-page #main-content > .symptom-navigator #home-symptom-query {
+  scroll-margin-top:clamp(80px,13vw,122px);
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-topics a {
+  border-color:#c6d0bb;
+  background:#fffefa;
+}
+@media(max-width:600px) {
+  body.home-page #main-content > .symptom-navigator .symptom-catalog-eyebrow {
+    margin:16px 0 13px;
+    font-size:10px;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-search-intro {
+    margin-top:23px;
+    padding-left:10px;
+    font-size:14px;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search {
+    margin:10px 0 17px;
+    padding:15px 12px;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search-row input,
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search-row button {
+    min-height:50px;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > .symptom-navigator .symptom-catalog-eyebrow,
+  body.home-page #main-content > .symptom-navigator .symptom-search-intro,
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search,
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search > label {
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
