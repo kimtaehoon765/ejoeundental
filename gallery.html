@@ -226,13 +226,15 @@
   <button type="button" class="gallery-dialog-room" data-room="patient-studies" aria-current="false" aria-label="제3전시실 진료 준비 그림 10점으로 이동"><span aria-hidden="true">03</span><strong>진료 준비 그림</strong><small>10점</small></button>
 </div>
 <img id="gallery-dialog-image" alt="" decoding="async">
+<p class="gallery-dialog-description" id="gallery-dialog-description" aria-live="off"></p>
 <p class="gallery-dialog-loading" id="gallery-dialog-loading" role="status" aria-live="polite" hidden></p>
 <div class="gallery-dialog-controls" role="group" aria-label="확대 그림 작품 이동">
 <button type="button" id="gallery-prev" aria-label="이전 작품 보기">← 이전 작품</button>
 <span id="gallery-dialog-position" aria-live="polite" aria-atomic="true">01 / 23</span>
 <button type="button" id="gallery-next" aria-label="다음 작품 보기">다음 작품 →</button>
 </div>
-<a class="gallery-dialog-care" id="gallery-dialog-care" hidden>그림과 관련된 건강정보 보기 →</a>
+<div class="gallery-dialog-art-actions" role="group" aria-label="그림 원본과 관련 진료 정보"><a class="gallery-dialog-original" id="gallery-dialog-original" href="/gallery.html" target="_blank" rel="noopener noreferrer" aria-label="선택한 그림의 원본을 새 창에서 보기">선택한 그림 원본 보기 ↗</a>
+<a class="gallery-dialog-care" id="gallery-dialog-care" hidden>그림과 관련된 건강정보 보기 →</a></div>
 <p id="gallery-dialog-help">전시실 선택 · 그림을 좌우로 밀어 이동 · 키보드 ← → / Esc 닫기</p>
 </dialog>
 </body></html>
