@@ -1618,3 +1618,117 @@ body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card 
     box-shadow:none;
   }
 }
+
+
+/* 2026-10-30 · Original hero portrait as a framed gallery exhibit.
+   A real, accessible art label replaces the small overlay pseudo-caption.
+   The same original image remains the LCP candidate with its size and preload. */
+body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-self:center;
+  justify-self:center;
+  gap:0;
+  height:auto;
+  min-width:0;
+  aspect-ratio:auto;
+  line-height:normal;
+  padding:clamp(8px,1vw,13px);
+  border:1px solid #c5ad80;
+  border-radius:3px 13px 3px 13px;
+  background:#eae2d4;
+  box-shadow:0 18px 38px rgba(28,54,37,.12);
+}
+body.home-page #main-content>.hero.wrap>.art.hero-artwork::after{
+  content:none;
+  display:none;
+}
+body.home-page #main-content>.hero.wrap>.art.hero-artwork>img{
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  aspect-ratio:650/543;
+  object-fit:contain;
+  border:1px solid #d6cbb6;
+  border-radius:2px;
+  background:#f9f7f0;
+}
+body.home-page #main-content>.hero.wrap>.art.hero-artwork>.hero-artwork__plaque{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:3px;
+  width:100%;
+  padding:14px clamp(11px,1.5vw,19px) 10px;
+  background:#fffdf7;
+  border-top:1px solid #d8c9aa;
+  text-align:left;
+}
+body.home-page #main-content>.hero.wrap .hero-artwork__plaque>small{
+  color:#927348;
+  font:800 10px/1.55 "DM Sans",system-ui,sans-serif;
+  letter-spacing:.13em;
+}
+body.home-page #main-content>.hero.wrap .hero-artwork__plaque>strong{
+  color:#234936;
+  font:700 clamp(15px,1.45vw,19px)/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.045em;
+  word-break:keep-all;
+}
+body.home-page #main-content>.hero.wrap .hero-artwork__plaque>a{
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+  box-sizing:border-box;
+  padding:8px 0 3px;
+  color:#286044;
+  font-size:13px;
+  font-weight:750;
+  text-decoration:underline;
+  text-underline-offset:4px;
+  line-height:1.6;
+  word-break:keep-all;
+}
+body.home-page #main-content>.hero.wrap .hero-artwork__plaque>a:focus-visible{
+  outline:3px solid #ae874a;
+  outline-offset:3px;
+}
+@media(max-width:760px){
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+    align-self:center;
+    width:min(100%,300px);
+    max-width:300px;
+    padding:7px;
+    margin:8px auto 13px;
+    border-radius:3px 11px 3px 11px;
+  }
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork>.hero-artwork__plaque{
+    padding:12px 12px 8px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-artwork__plaque>strong{
+    font-size:16px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-artwork__plaque>a{
+    font-size:13px;
+  }
+}
+@media(max-width:365px){
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+    width:min(100%,260px);
+    max-width:260px;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork,
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork>.hero-artwork__plaque{
+    background:Canvas;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>.hero.wrap .hero-artwork__plaque :is(small,strong,a){
+    color:CanvasText;
+  }
+}
