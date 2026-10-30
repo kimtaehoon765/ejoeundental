@@ -2189,3 +2189,93 @@ body.home-page #main-content>#care>.wrap>.grid>.care-preservation-feature>.care-
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-31 | Doctor's journal: a quiet book-cover edition.
+   Keep the since-2003 garden painting unique to the clinical manifesto;
+   replace the repeated journal image with tactile paper, gilded lines and type. */
+body.home-page #main-content>#stories .journal-gallery-cover__poster {
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  min-height:clamp(265px,27vw,380px);
+  padding:clamp(23px,3.1vw,40px);
+  border:1px solid #c7b283;
+  background:
+    radial-gradient(ellipse at 17% 12%,rgba(255,242,199,.19),transparent 40%),
+    radial-gradient(ellipse at 80% 88%,rgba(147,186,149,.17),transparent 40%),
+    linear-gradient(145deg,#254a3a,#173b30 72%,#234c3b);
+  text-align:center;
+  color:#fcf5df;
+  box-shadow:inset 0 0 0 7px #244a3b,inset 0 0 0 8px rgba(218,190,136,.42);
+}
+body.home-page #main-content>#stories .journal-gallery-cover__poster::before {
+  content:"✦";
+  position:static;
+  display:grid;
+  place-items:center;
+  box-sizing:border-box;
+  width:64px;
+  height:64px;
+  margin:0 auto clamp(17px,2.1vw,26px);
+  border:1px solid rgba(234,216,167,.77);
+  border-radius:50%;
+  background:rgba(255,250,226,.06);
+  color:#ead3a0;
+  font:400 36px/1 Georgia,serif;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__poster::after {
+  content:"";
+  position:absolute;
+  inset:14px;
+  border:1px solid rgba(230,206,153,.42);
+  pointer-events:none;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__poster>small,
+body.home-page #main-content>#stories .journal-gallery-cover__poster>strong,
+body.home-page #main-content>#stories .journal-gallery-cover__poster>span {
+  position:relative;
+  z-index:1;
+  width:100%;
+  box-sizing:border-box;
+  padding-left:0;
+  padding-right:0;
+  background:transparent;
+  text-align:center;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__poster>small {
+  color:#e1c995;
+  letter-spacing:.17em;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__poster>strong {
+  margin:10px 0 13px;
+  color:#fffaf0;
+  font-size:clamp(23px,2.8vw,37px);
+  line-height:1.5;
+  letter-spacing:-.052em;
+}
+body.home-page #main-content>#stories .journal-gallery-cover__poster>span {
+  color:#e9daba;
+  letter-spacing:.16em;
+}
+@media(max-width:700px) {
+  body.home-page #main-content>#stories .journal-gallery-cover__poster {
+    min-height:290px;
+    padding:35px 29px;
+  }
+  body.home-page #main-content>#stories .journal-gallery-cover__poster>strong {
+    font-size:27px;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content>#stories .journal-gallery-cover__poster,
+  body.home-page #main-content>#stories .journal-gallery-cover__poster::before,
+  body.home-page #main-content>#stories .journal-gallery-cover__poster::after {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
