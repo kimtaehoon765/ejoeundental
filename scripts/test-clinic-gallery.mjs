@@ -25,6 +25,23 @@ test('the gallery entrance painting is distinct from all 23 numbered works and s
  assert.ok(css.includes('A distinct entrance painting')&&css.includes('aspect-ratio:3 / 2'),
   'mobile art must remain uncropped with a proper gallery frame');
 });
+test('mobile gallery catalogue preserves ten native artwork anchors in a swipeable rail',()=>{
+ const html=read('gallery.html');
+ const nav=html.match(/<nav class="gallery-exhibition-index"[^>]*>[\\s\\S]*?<\\/nav>/)?.[0]||'';
+ const hint=html.match(/<p class="gallery-exhibition-swipe-hint"[^>]*>[^<]*/)?.[0]||'';
+ const targetIds=[...nav.matchAll(/href="#(art-[^"]+)"/g)].map(m=>m[1]);
+ assert.equal(targetIds.length,10,'all ten painting navigation links must remain');
+ assert.equal(new Set(targetIds).size,10,'no repeated target');
+ for(const id of targetIds)assert.ok(html.includes('id="'+id+'"'),'missing linked painting '+id);
+ assert.ok(hint.includes('옆으로 밀어서'),'a visible swipe instruction must help phone visitors');
+ assert.ok(nav.includes('aria-describedby="gallery-exhibition-swipe-hint"'));
+ const styles=read('assets/clinic-gallery.css');
+ const mobile=styles.slice(styles.indexOf('/* Mobile exhibition catalogue'));
+ assert.ok(mobile.includes('@media (max-width:650px)'),'phone-only catalogue styles missing');
+ assert.match(mobile,/\\.gallery-exhibition-index \\{[\\s\\S]*?display:flex;[\\s\\S]*?overflow-x:auto;[\\s\\S]*?scroll-snap-type:x mandatory;/);
+ assert.match(mobile,/\\.gallery-exhibition-index > a \\{[\\s\\S]*?scroll-snap-align:start;/);
+ assert.match(mobile,/\\.gallery-exhibition-index > a:focus-visible/);
+});
 test('gallery retains 10 paintings, 3 patient watercolors, and 10 distinct consultation artworks',()=>{
  const html=read('gallery.html'),g=artworkGroups(html);
  assert.deepEqual([g.originals.length,g.watercolor.length,g.studies.length],[10,3,10]);
