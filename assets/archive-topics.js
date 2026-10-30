@@ -154,7 +154,7 @@
     jumpButton.hidden = !firstMatch;
     status.textContent = found
       ? '원장 글 ' + found + '편을 찾았습니다. 첫 결과로 이동하거나 제목을 누르면 네이버 원문이 열립니다.'
-      : '일치하는 원장 글이 없습니다. 검색어를 바꾸거나 아래의 주제 바로 검색을 이용해 보세요.';
+      : '일치하는 원장 글이 없습니다. 검색어를 바꾸거나 위의 주제 바로 검색을 이용해 보세요.';
   }
   // A direct query link is shareable when first opened. Once the patient
   // edits or clears that query, remove its stale URL parameter without
