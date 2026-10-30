@@ -49,6 +49,15 @@ main>h2{font-family:serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:500;margi
 .archive-search .archive-search-jump:focus-visible{outline:3px solid #a47837;outline-offset:3px}
 .archive-search .archive-search-jump[hidden]{display:none!important}
 @media(max-width:460px){.archive-search .archive-search-jump{display:flex;width:100%;margin-right:0}}
+/* Small, data-verified topic shortcuts complement the original archive. */
+.archive-search-topics{display:flex;box-sizing:border-box;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 3px;padding-top:13px;border-top:1px solid #cee0d2}
+.archive-search-topics__label{width:100%;margin-bottom:1px;color:#466853;font-size:12px;font-weight:800;line-height:1.5;letter-spacing:.02em}
+.archive-search-topic{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:9px 13px;border:1px solid #bacfbc;border-radius:5px;background:#fffef9;color:#27543e;font:750 13px/1.55 system-ui,'Apple SD Gothic Neo',sans-serif;cursor:pointer;word-break:keep-all}
+.archive-search-topic:hover{border-color:#71957b;background:#f3f8f0}
+.archive-search-topic[aria-pressed="true"]{border-color:#26553f;background:#26553f;color:#fffefa}
+.archive-search-topic:focus-visible{outline:3px solid #a47837;outline-offset:3px}
+@media(max-width:460px){.archive-search-topics{gap:7px}.archive-search-topic{flex:1 1 calc(50% - 7px);font-size:13px;padding:9px 7px}}
+@media(forced-colors:active){.archive-search,.archive-search-topic{background:Canvas;color:CanvasText;border-color:CanvasText}.archive-search-topic[aria-pressed="true"]{background:Highlight;color:HighlightText;border-color:Highlight}.archive-search-topics{border-color:CanvasText}}
 .archive-search .archive-search-status{margin:9px 0 0;font-size:14px;line-height:1.65;color:#315646;word-break:keep-all}
 .archive-blog-group[hidden],.archive-blog-group li[hidden]{display:none!important}
 .archive-blog-group{scroll-margin-top:20px}
