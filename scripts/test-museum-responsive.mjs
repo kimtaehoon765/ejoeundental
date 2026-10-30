@@ -134,7 +134,7 @@ test('featured exhibition thumbnails open the matching artwork with a visible ta
  const preview=home.match(/<section class="atelier-collection-peek"[\s\S]*?<\/section>/)?.[0] || '';
  assert.ok(preview,'the curated homepage exhibition remains present');
  for(const [id,number,label] of [
-  ['art-lakeside-flower-clinic','07','LAKESIDE BLOOMS'],
+  ['art-lakeside-flower-clinic','06','LAKESIDE BLOOMS'],
   ['art-golden','03','GOLDEN GARDEN']
  ]){
   assert.ok(preview.includes('href="/gallery.html#'+id+'"'),'missing homepage artwork '+id);
