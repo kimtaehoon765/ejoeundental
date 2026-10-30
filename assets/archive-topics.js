@@ -124,22 +124,26 @@
     if (!openBeforeSearch) {
       openBeforeSearch = new Map(groups.map(group => [group, group.open]));
     }
+    // Match all entered words against the actual article title. A broad
+    // category heading must never stand in for a missing term in a title:
+    // "부평 잇몸치료" should not turn every 부평 article into gum care.
+    const matchesTitle = title => title.includes(query) ||
+      (terms.length > 1 && terms.every(term => title.includes(term)));
+    const hasTitleMatches = groupsWithLinks.some(({ items }) =>
+      items.some(({ title }) => matchesTitle(title)));
+    // Only when absolutely no title matches, a single meaningful category
+    // keyword can open that topic as a clearly labeled browsing fallback.
+    const allowCategoryBrowsing = !hasTitleMatches && terms.length === 1 && query.length >= 3;
     let found = 0;
+    let browsedWholeTopic = false;
     firstMatch = null;
     for (const { group, topic, items, countLabel } of groupsWithLinks) {
-      // An archive heading such as "잇몸치료" describes many different posts.
-      // Prefer articles whose own titles match, rather than labeling every
-      // article in that category as an exact search result. If no title
-      // matches, the topic may still be opened as a broad navigation fallback.
-      const titleMatches = items.map(({ title }) =>
-        title.includes(query) ||
-        (terms.length > 1 && terms.every(term =>
-          title.includes(term) || topic.includes(term))));
-      const anyTitleMatch = titleMatches.some(Boolean);
-      const wholeTopicMatches = topic.includes(query);
+      const titleMatches = items.map(({ title }) => matchesTitle(title));
+      const wholeTopicMatches = allowCategoryBrowsing && topic.includes(query);
+      if (wholeTopicMatches) browsedWholeTopic = true;
       let inGroup = 0;
       for (const [index, { li }] of items.entries()) {
-        const matched = titleMatches[index] || (!anyTitleMatch && wholeTopicMatches);
+        const matched = titleMatches[index] || wholeTopicMatches;
         li.hidden = !matched;
         if (matched) {
           inGroup++;
@@ -153,7 +157,9 @@
     }
     jumpButton.hidden = !firstMatch;
     status.textContent = found
-      ? '원장 글 ' + found + '편을 찾았습니다. 첫 결과로 이동하거나 제목을 누르면 네이버 원문이 열립니다.'
+      ? (browsedWholeTopic
+        ? '제목과 정확히 일치하는 글은 없지만, 관련 주제의 원장 글 ' + found + '편을 표시합니다. 제목을 누르면 네이버 원문이 열립니다.'
+        : '원장 글 ' + found + '편을 찾았습니다. 첫 결과로 이동하거나 제목을 누르면 네이버 원문이 열립니다.')
       : '일치하는 원장 글이 없습니다. 검색어를 바꾸거나 위의 주제 바로 검색을 이용해 보세요.';
   }
   // A direct query link is shareable when first opened. Once the patient
