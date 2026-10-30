@@ -806,3 +806,155 @@ body.care-gallery-secondary.secondary-wisdom main>.section {
     box-shadow:none;
   }
 }
+
+
+/* 2026-10-30 | Treatment-gallery exit guide.
+   Curated internal links help readers move across genuine treatment pages.
+   No extra clinical promises, tracking, duplicated images or scripts. */
+body.care-gallery-secondary main>.care-next-gallery,
+body.care-gallery-secondary main.care-gallery-article-shell>.care-next-gallery{
+  box-sizing:border-box;
+  width:calc(100% - 34px);
+  max-width:1020px;
+  margin:clamp(35px,5vw,58px) auto clamp(40px,5vw,66px);
+  padding:clamp(18px,3vw,31px);
+  border:1px solid #d8cbb4;
+  border-top:3px solid #b19a70;
+  border-radius:5px 16px 5px 16px;
+  background:linear-gradient(132deg,#f7f4eb,#fffdf8 55%,#eff4ec);
+  box-shadow:0 13px 29px rgba(30,60,41,.055);
+  color:#294a38;
+}
+body.care-gallery-secondary main.care-gallery-article-shell>.care-next-gallery{
+  width:100%;
+}
+body.care-gallery-secondary .care-next-gallery__intro{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px 18px;
+  border-bottom:1px solid #dbd1bd;
+  padding-bottom:17px;
+  margin-bottom:15px;
+}
+body.care-gallery-secondary .care-next-gallery__intro>div{
+  min-width:0;
+}
+body.care-gallery-secondary .care-next-gallery__intro small{
+  display:block;
+  color:#91744b;
+  font:750 11px/1.6 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.12em;
+}
+body.care-gallery-secondary .care-next-gallery__intro strong{
+  display:block;
+  color:#244c37;
+  font:700 clamp(19px,2.15vw,26px)/1.57
+    "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.045em;
+  text-wrap:balance;
+}
+body.care-gallery-secondary .care-next-gallery__intro p{
+  max-width:63ch;
+  margin:0;
+  align-self:center;
+  color:#526759;
+  font-size:14px;
+  line-height:1.75;
+  word-break:keep-all;
+}
+body.care-gallery-secondary .care-next-gallery__links{
+  counter-reset:care-shelf;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+body.care-gallery-secondary .care-next-gallery__links>a{
+  counter-increment:care-shelf;
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  min-width:0;
+  min-height:60px;
+  gap:13px;
+  padding:11px 13px;
+  border:1px solid #d9d2c2;
+  border-radius:4px 11px 4px 11px;
+  background:#fffefa;
+  color:#28533c;
+  font:750 14px/1.61 "Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  text-decoration:none;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.care-gallery-secondary .care-next-gallery__links>a::before{
+  content:counter(care-shelf,decimal-leading-zero);
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:33px;
+  height:33px;
+  border:1px solid #d6c6a7;
+  border-radius:3px;
+  background:#f4ecde;
+  color:#866d48;
+  font:700 12px/1 Georgia,serif;
+}
+body.care-gallery-secondary .care-next-gallery__links>a:last-child{
+  border-color:#aabda8;
+  background:#edf3e8;
+}
+body.care-gallery-secondary .care-next-gallery__links>a:last-child::before{
+  content:"↗";
+  border-color:#aabda8;
+  background:#e0ecdc;
+  color:#346247;
+  font:750 17px/1 system-ui,sans-serif;
+}
+body.care-gallery-secondary .care-next-gallery__links>a:focus-visible{
+  outline:3px solid #a78148;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine){
+  body.care-gallery-secondary .care-next-gallery__links>a:hover{
+    border-color:#8faa8d;
+    background:#f0f6ed;
+  }
+}
+@media(max-width:700px){
+  body.care-gallery-secondary main>.care-next-gallery,
+  body.care-gallery-secondary main.care-gallery-article-shell>.care-next-gallery{
+    width:calc(100% - 26px);
+    margin:27px auto calc(105px + env(safe-area-inset-bottom,0px));
+    padding:18px 14px;
+  }
+  body.care-gallery-secondary main.care-gallery-article-shell>.care-next-gallery{
+    width:100%;
+  }
+  body.care-gallery-secondary .care-next-gallery__links{
+    grid-template-columns:minmax(0,1fr);
+    gap:8px;
+  }
+  body.care-gallery-secondary .care-next-gallery__links>a{
+    min-height:51px;
+    padding:9px 10px;
+    font-size:14px;
+  }
+  body.care-gallery-secondary .care-next-gallery__intro{
+    gap:5px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.care-gallery-secondary .care-next-gallery__links>a{
+    scroll-behavior:auto;
+  }
+}
+@media(forced-colors:active){
+  body.care-gallery-secondary .care-next-gallery,
+  body.care-gallery-secondary .care-next-gallery__links>a{
+    background:Canvas;color:CanvasText;
+    box-shadow:none;border-color:CanvasText;
+  }
+}
