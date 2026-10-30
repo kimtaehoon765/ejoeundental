@@ -190,9 +190,13 @@ test('gallery lightbox navigates all 23 paintings and returns keyboard focus',as
  const {runInNewContext}=await import('node:vm');
  const html=read('gallery.html'),script=read('assets/clinic-gallery.js');
  const markup=[...html.matchAll(/<button\b[^>]*class="gallery-zoom"[^>]*>/g)].map(m=>m[0]);
+ const roomMarkup=[...html.matchAll(/<button\b[^>]*class="gallery-dialog-room"[^>]*>/g)].map(m=>m[0]);
  assert.equal(markup.length,23);
+ assert.equal(roomMarkup.length,3,'lightbox needs three museum room shortcuts');
  const attr=(tag,key)=>tag.match(new RegExp('\\b'+key+'="([^"]+)"'))?.[1]||'';
- const mock=(dataset={},room='paintings')=>{const handlers={};return{dataset,room,handlers,isConnected:true,focused:false,
+ const mock=(dataset={},room='paintings')=>{const handlers={},attributes={};return{dataset,room,handlers,attributes,isConnected:true,focused:false,
+  setAttribute(name,value){attributes[name]=String(value);},
+  getAttribute(name){return attributes[name]??null;},
   addEventListener(type,fn){handlers[type]=fn;},
   closest(selector){return selector==='section[id]'?{id:this.room}:null;},
   focus(){this.focused=true;},
@@ -202,6 +206,8 @@ test('gallery lightbox navigates all 23 paintings and returns keyboard focus',as
   image:attr(tag,'data-image'),alt:attr(tag,'data-alt'),title:attr(tag,'data-title')
  },index<10?'paintings':index<13?'education':'patient-studies'));
  assert.ok(buttons.every(b=>b.dataset.image&&b.dataset.title));
+ const roomControls=roomMarkup.map(tag=>mock({room:attr(tag,'data-room')}));
+ assert.deepEqual(roomControls.map(button=>button.dataset.room),['paintings','education','patient-studies']);
  const img=mock(),heading={textContent:''},roomTitle={textContent:''},pos={textContent:''},
   close=mock(),prev=mock(),next=mock(),dialog=mock();
  dialog.open=false;dialog.showModal=()=>{dialog.open=true};dialog.close=()=>{dialog.open=false;dialog.handlers.close?.()};
@@ -210,7 +216,8 @@ test('gallery lightbox navigates all 23 paintings and returns keyboard focus',as
   'gallery-close':close,'gallery-prev':prev,'gallery-next':next};
  const classes=[];
  const document={documentElement:{classList:{add(name){classes.push(name)}}},
-  getElementById:id=>ids[id]||null,querySelectorAll:selector=>selector==='.gallery-zoom'?buttons:[]};
+  getElementById:id=>ids[id]||null,
+  querySelectorAll:selector=>selector==='.gallery-zoom'?buttons:selector==='.gallery-dialog-room'?roomControls:[]};
  runInNewContext(script,{document});
  assert.ok(classes.includes('gallery-js'));
  buttons[22].click();
@@ -218,12 +225,32 @@ test('gallery lightbox navigates all 23 paintings and returns keyboard focus',as
  assert.equal(pos.textContent,'23 / 23');
  assert.match(roomTitle.textContent,/제3전시실.*10 \/ 10/);
  assert.equal(dialog.open,true);
+ assert.equal(roomControls[2].getAttribute('aria-current'),'true');
+ assert.equal(roomControls[0].getAttribute('aria-current'),'false');
  next.click();
  assert.equal(img.src,buttons[0].dataset.image);
  assert.equal(pos.textContent,'01 / 23');
  assert.match(roomTitle.textContent,/제1전시실.*1 \/ 10/);
+ assert.equal(roomControls[0].getAttribute('aria-current'),'true');
  prev.click();
  assert.equal(img.src,buttons[22].dataset.image);
+ assert.equal(roomControls[2].getAttribute('aria-current'),'true');
+ // Without closing the modal, jump directly to the first work in each room.
+ roomControls[0].click();
+ assert.equal(img.src,buttons[0].dataset.image);
+ assert.equal(roomControls[0].getAttribute('aria-current'),'true');
+ roomControls[1].click();
+ assert.equal(img.src,buttons[10].dataset.image);
+ assert.equal(pos.textContent,'11 / 23');
+ assert.match(roomTitle.textContent,/제2전시실.*1 \/ 3/);
+ assert.equal(roomControls[1].getAttribute('aria-current'),'true');
+ roomControls[2].click();
+ assert.equal(img.src,buttons[13].dataset.image);
+ assert.equal(pos.textContent,'14 / 23');
+ assert.match(roomTitle.textContent,/제3전시실.*1 \/ 10/);
+ assert.equal(roomControls[2].getAttribute('aria-current'),'true');
+ close.click();
+ buttons[22].click();
  // A gentle horizontal one-finger swipe moves images; vertical movement
  // must remain untouched so natural scrolling keeps working on phones.
  img.handlers.touchstart({touches:[{clientX:210,clientY:50}]});
@@ -255,6 +282,21 @@ test('gallery lightbox navigates all 23 paintings and returns keyboard focus',as
  close.click();
  assert.equal(dialog.open,false);
  assert.equal(buttons[22].focused,true);
+});
+test('gallery dialog room selector keeps art uncropped and buttons readable on mobile',()=>{
+ const html=read('gallery.html'),css=read('assets/clinic-gallery.css');
+ const script=read('assets/clinic-gallery.js');
+ assert.ok(html.includes('aria-describedby="gallery-dialog-help"'));
+ assert.ok(html.includes('role="group" aria-label="확대 화면에서 전시실 바로 선택"'));
+ assert.ok(script.includes("document.querySelectorAll('.gallery-dialog-room')"));
+ assert.ok(script.includes("roomButton.setAttribute('aria-current'"));
+ assert.ok(css.includes('Gallery edition XX · Exhibition-room selector'));
+ assert.ok(css.includes('.gallery-dialog .gallery-dialog-rooms > button:focus-visible'));
+ assert.ok(css.includes('max-height:calc(94dvh - 365px)'));
+ const buttons=[...html.matchAll(/class="gallery-dialog-room"[^>]*>/g)].map(m=>m[0]);
+ assert.equal(buttons.length,3);
+ assert.deepEqual(buttons.map(tag=>tag.match(/data-room="([^"]+)"/)?.[1]),
+   ['paintings','education','patient-studies']);
 });
 test('Google image sitemap lists exactly the 23 images actually exhibited in the gallery',()=>{
  const html=read('gallery.html'),xml=read('sitemap.xml');
