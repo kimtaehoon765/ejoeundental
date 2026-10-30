@@ -120,6 +120,24 @@ test('homepage watercolor shelf swipe instruction is accurate and cache-busted',
  assert.ok(home.includes('그림을 옆으로 밀어 세 가지 진료 안내를 차례로 확인하세요.'));
  assert.ok(home.includes(hashedCssUrl('atelier-refinement-20261030')));
 });
+test('visitors can move from exhibition one to two to three without returning to top',()=>{
+ const html=read('gallery.html');
+ const transitions=[...html.matchAll(/<nav class="gallery-room-transition"[^>]*>[\s\S]*?<\/nav>/g)].map(x=>x[0]);
+ assert.equal(transitions.length,2,'first two exhibition rooms need a next-room guide');
+ assert.ok(transitions[0].includes('href="#education"'),'first room must link directly to watercolors');
+ assert.ok(transitions[1].includes('href="#patient-studies"'),'second room must link to patient art');
+ for(const id of ['paintings','education','patient-studies']){
+  assert.ok(html.includes('id="'+id+'" tabindex="-1"'),'deep-linked exhibition room must accept keyboard focus: '+id);
+ }
+ for(const figure of [...artworkGroups(html).originals,...artworkGroups(html).studies]){
+  assert.ok(figure.includes('tabindex="-1"'),'directly linked art should be programmatically focusable');
+ }
+ const css=read('assets/clinic-gallery.css');
+ assert.ok(css.includes('Exhibition-to-exhibition wayfinding'));
+ assert.ok(css.includes('.gallery-room-transition > a:focus-visible'));
+ assert.ok(css.includes('min-height:52px;'),'mobile next-room controls must be easy to touch');
+ assert.ok(css.includes('scroll-margin-top:83px;'),'section links must clear the sticky phone header');
+});
 test('gallery retains 10 paintings, 3 patient watercolors, and 10 distinct consultation artworks',()=>{
  const html=read('gallery.html'),g=artworkGroups(html);
  assert.deepEqual([g.originals.length,g.watercolor.length,g.studies.length],[10,3,10]);
