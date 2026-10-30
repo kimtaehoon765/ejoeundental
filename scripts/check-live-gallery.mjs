@@ -14,6 +14,7 @@ const originals=[
  'assets/watercolor-care-insurance-20261029.webp',
  'assets/museum-home-v2.css',
  'assets/atelier-home-2026.css',
+ 'assets/home-art-direction-20261030.css',
  'assets/cubist-cat-clinic-thumb.webp',
  'assets/cubist-cat-clinic.webp',
  'assets/lakeside-flower-clinic-thumb.webp',
@@ -181,7 +182,7 @@ try{
  // Bare unversioned URLs can be cached by Cloudflare long after a new release.
  const livePaths=originals.map(p=>{
   const name='/'+p;
-  const document=(p.endsWith('museum-home-v2.css')||p.endsWith('atelier-home-2026.css'))?html:gallery;
+  const document=(p.endsWith('museum-home-v2.css')||p.endsWith('atelier-home-2026.css')||p.endsWith('home-art-direction-20261030.css'))?html:gallery;
   const attrs=[...document.matchAll(/(?:href|src)="([^"]+)"/g)].map(m=>m[1]);
   return attrs.find(a=>a.split('?')[0]===name)||name;
  });
