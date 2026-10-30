@@ -382,3 +382,243 @@ body.search-gallery .search-contact{
   display:none!important;
  }
 }
+
+
+/* 2026-10-30 | Visit-hour atlas and alternating Friday/Saturday gallery cards.
+   Never infer today's operating pattern. Actual times, maps, booking
+   destinations and medical copy remain unchanged. */
+body.visit-gallery header {
+  border:1px solid #d6c6ab;
+  border-radius:6px 22px 6px 22px;
+  background:linear-gradient(122deg,#fffdf7 0%,#f5f6ed 63%,#eaf1e9 100%);
+  box-shadow:0 19px 43px rgba(31,62,41,.066);
+}
+body.visit-gallery header h1 {
+  max-width:25ch;
+  color:#244a37;
+  font-size:clamp(28px,4.25vw,44px);
+  line-height:1.49;
+  letter-spacing:-.055em;
+}
+body.visit-gallery header p {
+  max-width:74ch;
+  line-height:1.91;
+}
+body.visit-gallery .visit-quick-actions > a {
+  box-sizing:border-box;
+  min-width:0;
+  border-radius:5px 12px 5px 12px;
+  min-height:51px;
+  line-height:1.53;
+  text-wrap:balance;
+  overflow-wrap:anywhere;
+}
+body.visit-gallery .visit-quick-actions > a.quick-call {
+  background:#245540;
+  border-color:#245540;
+}
+body.visit-gallery .visit-quick-actions > a.visit-booking {
+  background:#f0e3ca;
+  color:#274d38;
+  border-color:#b6a074;
+}
+body.visit-gallery main > .visit-jump > a {
+  border:1px solid #d9cfbb;
+  border-radius:4px 11px 4px 11px;
+  background:#fffefa;
+  color:#315840;
+  font-weight:770;
+  line-height:1.6;
+}
+body.visit-gallery main > .card {
+  border-color:#d9d8ca;
+  border-top-color:#b39f79;
+  border-radius:5px 16px 5px 16px;
+  background:#fffefa;
+  box-shadow:0 10px 27px rgba(32,62,42,.045);
+}
+body.visit-gallery main > .card:nth-of-type(even) {
+  border-top-color:#8ba38e;
+}
+body.visit-gallery main > .card > h2 {
+  max-width:29ch;
+  padding-left:14px;
+  border-left:3px solid #b3a079;
+  color:#264a37;
+  line-height:1.55;
+}
+body.visit-gallery main > .card:nth-of-type(even) > h2 {
+  border-left-color:#87a08b;
+}
+body.visit-gallery main > .card > p,
+body.visit-gallery main > .card > ul > li {
+  line-height:1.87;
+  color:#465d4e;
+}
+body.visit-gallery #visit-hours + ul {
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 12px;
+  padding:8px clamp(11px,1.6vw,18px);
+  list-style:none;
+  background:#f8f7ef;
+  border:1px solid #ddd6c4;
+  border-radius:5px 11px 5px 11px;
+}
+body.visit-gallery #visit-hours + ul > li {
+  min-width:0;
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  padding:11px 9px 11px 14px;
+  margin:0;
+  border-bottom:1px solid #dfdfd2;
+  border-left:3px solid #b6a179;
+  font-weight:650;
+  line-height:1.73;
+  word-break:keep-all;
+}
+body.visit-gallery #visit-hours + ul > li:nth-child(even) {
+  border-left-color:#8fa78f;
+}
+body.visit-gallery .visit-cycle {
+  border:1px solid #d8cbb1;
+  border-radius:5px 15px 5px 15px;
+  background:linear-gradient(130deg,#f6f1e5,#f0f4ec);
+  padding:clamp(17px,2.5vw,25px);
+}
+body.visit-gallery .visit-cycle h3 {
+  color:#274d39;
+  font:700 clamp(18px,2.15vw,23px)/1.53 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.045em;
+}
+body.visit-gallery .visit-cycle__grid {
+  gap:clamp(10px,1.9vw,20px);
+}
+body.visit-gallery .visit-cycle__card {
+  border:1px solid #ccc7b7;
+  border-top:3px solid #7f9c82;
+  border-radius:4px 12px 4px 12px;
+  background:#fffefa;
+  padding:clamp(15px,2vw,21px);
+  box-shadow:0 8px 19px rgba(30,56,35,.037);
+}
+body.visit-gallery .visit-cycle__card--closed {
+  border-top-color:#bca579;
+  background:#faf7ef;
+}
+body.visit-gallery .visit-cycle__card > strong {
+  margin-bottom:7px;
+  color:#2b513b;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:17px;
+  line-height:1.54;
+}
+body.visit-gallery .visit-cycle__card > span {
+  box-sizing:border-box;
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:7px;
+  min-width:0;
+  padding:9px 0;
+  border-top:1px solid #e7e1d4;
+  font-size:14px;
+  line-height:1.55;
+}
+body.visit-gallery .visit-cycle__card > span > b {
+  flex:0 0 auto;
+  font-weight:800;
+  font-variant-numeric:tabular-nums;
+}
+body.visit-gallery .visit-cycle .visit-cycle__caution {
+  background:#fffaf0;
+  border:1px solid #ead9b5;
+  border-left:4px solid #a88b57;
+  border-radius:3px 9px 3px 9px;
+  line-height:1.8;
+}
+body.visit-gallery .visit-cycle .visit-cycle__contact {
+  min-height:51px;
+  border-radius:5px 11px 5px 11px;
+  background:#24583f;
+}
+body.visit-gallery .visit-arrival-panel > div {
+  border-top-width:3px;
+  box-shadow:0 7px 19px rgba(30,57,41,.035);
+}
+body.visit-gallery .visit-arrival-panel .visit-arrival-parking > p > strong {
+  color:#29583e;
+}
+body.visit-gallery .clinic-local-questions dt {
+  border-color:#dcdaca;
+  color:#285440;
+}
+body.visit-gallery .clinic-local-questions dd {
+  line-height:1.89;
+}
+@media(max-width:730px) {
+  body.visit-gallery #visit-hours + ul {
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.visit-gallery #visit-hours + ul > li {
+    padding:10px 7px 10px 12px;
+  }
+  body.visit-gallery .visit-cycle__grid {
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.visit-gallery .visit-cycle__card > span {
+    flex-wrap:wrap;
+  }
+  body.visit-gallery .visit-quick-actions {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.visit-gallery .visit-quick-actions > a.quick-call,
+  body.visit-gallery .visit-quick-actions > a.visit-booking {
+    grid-column:span 2;
+  }
+}
+@media(max-width:480px){
+  body.visit-gallery header {
+    border-radius:5px 14px 5px 14px;
+  }
+  body.visit-gallery header h1 {
+    font-size:clamp(26px,7vw,34px);
+  }
+  body.visit-gallery .visit-quick-actions {
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.visit-gallery .visit-quick-actions > a.quick-call,
+  body.visit-gallery .visit-quick-actions > a.visit-booking {
+    grid-column:auto;
+  }
+  body.visit-gallery main > .card > h2 {
+    padding-left:11px;
+  }
+  body.visit-gallery #visit-hours + ul {
+    padding:9px;
+  }
+  body.visit-gallery .visit-cycle__card > span > b {
+    font-size:14px;
+  }
+  body.visit-gallery .visit-mobile-actions a {
+    min-height:49px;
+    border-radius:4px 10px 4px 10px;
+    font-size:12px;
+    overflow-wrap:anywhere;
+  }
+}
+@media(forced-colors:active){
+  body.visit-gallery header,
+  body.visit-gallery main > .card,
+  body.visit-gallery #visit-hours + ul,
+  body.visit-gallery .visit-cycle,
+  body.visit-gallery .visit-cycle__card,
+  body.visit-gallery .visit-cycle .visit-cycle__caution {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
