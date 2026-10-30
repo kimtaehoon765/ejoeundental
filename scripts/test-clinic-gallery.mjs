@@ -52,14 +52,14 @@ test('homepage and sitemap make real artwork and clinical guides discoverable',(
  assert.ok(home.includes('name="naver-site-verification"')&&home.includes('name="google-site-verification"'));
  assert.ok(xml.includes('<loc>https://ejoeundental.com/gallery.html</loc>'));
  assert.ok(html.includes('href="/doctor.html"')&&html.includes('href="/stories.html"'));
- assert.equal((html.match(/class="gallery-zoom"/g)||[]).length,20);
+ assert.equal((html.match(/class="gallery-zoom"/g)||[]).length,23);
  assert.equal((html.match(/class="gallery-patient-studies__original"/g)||[]).length,10);
 });
-test('gallery lightbox navigates all 20 interactive paintings and returns keyboard focus',async()=>{
+test('gallery lightbox navigates all 23 paintings and returns keyboard focus',async()=>{
  const {runInNewContext}=await import('node:vm');
  const html=read('gallery.html'),script=read('assets/clinic-gallery.js');
  const markup=[...html.matchAll(/<button\b[^>]*class="gallery-zoom"[^>]*>/g)].map(m=>m[0]);
- assert.equal(markup.length,20);
+ assert.equal(markup.length,23);
  const attr=(tag,key)=>tag.match(new RegExp('\\b'+key+'="([^"]+)"'))?.[1]||'';
  const mock=(dataset={})=>{const handlers={};return{dataset,handlers,isConnected:true,focused:false,
   addEventListener(type,fn){handlers[type]=fn;},
@@ -77,22 +77,22 @@ test('gallery lightbox navigates all 20 interactive paintings and returns keyboa
   getElementById:id=>ids[id]||null,querySelectorAll:selector=>selector==='.gallery-zoom'?buttons:[]};
  runInNewContext(script,{document});
  assert.ok(classes.includes('gallery-js'));
- buttons[19].click();
- assert.equal(img.src,buttons[19].dataset.image);
- assert.equal(pos.textContent,'20 / 20');
+ buttons[22].click();
+ assert.equal(img.src,buttons[22].dataset.image);
+ assert.equal(pos.textContent,'23 / 23');
  assert.equal(dialog.open,true);
  next.click();
  assert.equal(img.src,buttons[0].dataset.image);
- assert.equal(pos.textContent,'01 / 20');
+ assert.equal(pos.textContent,'01 / 23');
  prev.click();
- assert.equal(img.src,buttons[19].dataset.image);
+ assert.equal(img.src,buttons[22].dataset.image);
  let prevented=0;
  dialog.handlers.keydown({key:'ArrowLeft',preventDefault(){prevented++}});
- assert.equal(img.src,buttons[18].dataset.image);
+ assert.equal(img.src,buttons[21].dataset.image);
  assert.equal(prevented,1);
  close.click();
  assert.equal(dialog.open,false);
- assert.equal(buttons[19].focused,true);
+ assert.equal(buttons[22].focused,true);
 });
 test('Google image sitemap lists exactly the 23 images actually exhibited in the gallery',()=>{
  const html=read('gallery.html'),xml=read('sitemap.xml');
