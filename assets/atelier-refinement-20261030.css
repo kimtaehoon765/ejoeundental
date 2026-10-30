@@ -390,3 +390,82 @@ body.home-page #main-content > .hero.wrap > .art.hero-artwork .hero-artwork__pla
     box-shadow:none;
   }
 }
+
+
+/* Patient-first editorial navigation refinement, 2026-10-30.
+   Preserve the searchable copy and every existing anchor. */
+body.home-page #main-content > .hero.wrap .hero-editorial-choices {
+  min-width:0;
+}
+body.home-page #main-content > .hero.wrap .hero-care-summary > a {
+  position:relative;
+  display:block;
+  padding:clamp(12px,1.3vw,16px) clamp(15px,1.8vw,21px);
+  line-height:1.65;
+  text-wrap:pretty;
+  border:1px solid rgba(86,108,84,.18);
+  border-left:3px solid #b79c70;
+  border-radius:8px;
+  background:linear-gradient(115deg,rgba(255,253,248,.98),rgba(241,246,237,.78));
+  box-shadow:0 4px 14px rgba(31,52,38,.04);
+  transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease;
+}
+body.home-page #main-content > .hero.wrap .hero-care-summary > a:hover,
+body.home-page #main-content > .hero.wrap .hero-care-summary > a:focus-visible {
+  border-color:#54745c;
+  border-left-color:#54745c;
+  box-shadow:0 7px 22px rgba(31,52,38,.11);
+  transform:translateY(-1px);
+}
+body.home-page #main-content > .hero.wrap .hero-more-care {
+  margin-top:10px;
+  border:1px solid rgba(86,108,84,.24);
+  border-radius:8px;
+  background:#faf8f1;
+  overflow:hidden;
+}
+body.home-page #main-content > .hero.wrap .hero-more-care > summary {
+  cursor:pointer;
+  padding:14px 18px;
+  font-weight:700;
+  color:#244b36;
+}
+body.home-page #main-content > .hero.wrap .hero-more-care > summary:focus-visible {
+  outline:3px solid #54745c;
+  outline-offset:-3px;
+}
+body.home-page #main-content > .hero.wrap .hero-more-care[open] > summary {
+  border-bottom:1px solid rgba(86,108,84,.18);
+}
+body.home-page #main-content > .hero.wrap .hero-more-care-links {
+  padding:9px 12px 14px;
+}
+body.home-page #main-content > .hero.wrap .hero-more-care-links > a {
+  display:block;
+  padding:11px 9px;
+  line-height:1.55;
+  border-radius:5px;
+}
+body.home-page #main-content > .hero.wrap .hero-more-care-links > a:focus-visible {
+  outline:2px solid #54745c;
+  outline-offset:2px;
+}
+@media (max-width:600px) {
+  body.home-page #main-content > .hero.wrap .hero-care-summary > a {
+    padding:12px 14px;
+    font-size:clamp(14px,3.6vw,16px);
+    overflow-wrap:anywhere;
+  }
+  body.home-page #main-content > .hero.wrap .hero-more-care > summary {
+    padding:13px 14px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  body.home-page #main-content > .hero.wrap .hero-care-summary > a {
+    transition:none;
+  }
+  body.home-page #main-content > .hero.wrap .hero-care-summary > a:hover,
+  body.home-page #main-content > .hero.wrap .hero-care-summary > a:focus-visible {
+    transform:none;
+  }
+}
