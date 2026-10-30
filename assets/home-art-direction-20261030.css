@@ -3814,3 +3814,157 @@ body.home-page #main-content>#care>.wrap>.grid>.care-preservation-feature>p:last
     color:LinkText;
   }
 }
+
+
+/* 2026-10-30 · Four priority care cards: clinical reading rhythm. */
+/* Read the numbered title first, the complete medical explanation next,
+   and the existing patient-education links last. No duplicated artwork
+   or hidden/indexability-reducing content. */
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card{
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:46px minmax(0,1fr);
+  grid-template-rows:auto minmax(0,1fr) auto;
+  align-content:start;
+  align-items:center;
+  column-gap:14px;
+  row-gap:clamp(14px,1.65vw,19px);
+  min-width:0;
+  padding:clamp(20px,2.2vw,30px);
+  border:1px solid #d8d1c2;
+  border-top:3px solid #b89f71;
+  border-radius:4px 15px 4px 15px;
+  background:linear-gradient(155deg,#fffefa,#f8f7f1);
+  box-shadow:0 9px 24px rgba(31,58,41,.052);
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card:nth-child(3),
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card:nth-child(5){
+  border-top-color:#829e87;
+  background:linear-gradient(155deg,#fffefa,#f3f8f1);
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>.num{
+  grid-column:1;
+  grid-row:1;
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:46px;
+  height:46px;
+  margin:0;
+  padding:0;
+  border:1px solid #d5c7aa;
+  border-radius:3px;
+  background:#f2eadb;
+  color:#826840;
+  font:650 23px/1 Georgia,serif;
+  letter-spacing:-.05em;
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card:nth-child(3)>.num,
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card:nth-child(5)>.num{
+  border-color:#cbdacc;
+  background:#e8f0e6;
+  color:#52775d;
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>h3{
+  grid-column:2;
+  grid-row:1;
+  min-width:0;
+  margin:0;
+  padding:0;
+  color:#234936;
+  font:700 clamp(18px,1.9vw,23px)/1.48 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.045em;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+  text-wrap:balance;
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p{
+  grid-column:1 / -1;
+  margin:0;
+  color:#415948;
+  font-size:15px;
+  line-height:1.87;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p:not(:last-child){
+  grid-row:2;
+  align-self:start;
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p:last-child{
+  grid-row:3;
+  align-self:end;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:stretch;
+  gap:8px;
+  margin:0;
+  padding-top:16px;
+  border-top:1px solid #dcded3;
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p:last-child>a{
+  box-sizing:border-box;
+  display:inline-flex;
+  align-items:center;
+  min-width:0;
+  min-height:45px;
+  padding:10px 12px;
+  background:#f0f5ec;
+  border:1px solid #cfdccd;
+  border-radius:5px;
+  color:#25593d;
+  font-size:13px;
+  line-height:1.58;
+  text-decoration:none;
+  font-weight:750;
+  word-break:keep-all;
+}
+body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p:last-child>a:focus-visible{
+  outline:3px solid #ad8748;
+  outline-offset:3px;
+}
+@media(max-width:760px){
+  body.home-page #main-content>#care>.wrap>.grid>.care-primary-card{
+    grid-template-columns:44px minmax(0,1fr);
+    gap:13px;
+    padding:21px 18px 23px;
+  }
+  body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>.num{
+    width:44px;
+    height:44px;
+    font-size:22px;
+  }
+  body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>h3{
+    font-size:19px;
+  }
+  body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p{
+    font-size:15px;
+    line-height:1.86;
+  }
+}
+@media(max-width:440px){
+  body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p:last-child{
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p:last-child>a{
+    width:100%;
+    min-height:47px;
+    font-size:14px;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#care>.wrap>.grid>.care-primary-card,
+  body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>.num{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#care>.wrap>.grid>.care-primary-card>p:last-child>a{
+    background:Canvas;
+    color:LinkText;
+    border-color:LinkText;
+  }
+}
