@@ -3154,3 +3154,159 @@ body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:focus-
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-30 · Focus care exhibition: five distinct reading cards. */
+/* Preserve the five existing links and their search-visible copy. This
+   visual pass removes a duplicate landscape thumbnail from the gum-care
+   shortcut, replaces it with a unique abstract watercolor motif, and
+   standardizes the other four artwork frames without modifying their files. */
+body.home-page #main-content>#focus-care .focus-care-shortcuts {
+  gap:clamp(12px,1.75vw,20px);
+  align-items:stretch;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a,
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(-n+2) {
+  box-sizing:border-box;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:flex-start;
+  gap:8px;
+  padding:clamp(11px,1.45vw,17px) clamp(12px,1.5vw,19px) clamp(17px,2vw,24px);
+  border:1px solid #d9cebb;
+  border-top:3px solid #b59a67;
+  border-radius:3px 15px 3px 15px;
+  background:linear-gradient(156deg,#fffefa 0%,#faf7ef 100%);
+  box-shadow:0 11px 26px rgba(25,56,38,.055);
+  text-decoration:none;
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(even) {
+  border-top-color:#80a18b;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a::before {
+  box-sizing:border-box;
+  display:block;
+  flex:0 0 auto;
+  width:100%;
+  height:clamp(122px,13vw,163px);
+  margin:0 0 10px;
+  border:7px solid #f9f5ea;
+  outline:1px solid #d4c7ab;
+  outline-offset:-1px;
+  border-radius:3px;
+  box-shadow:0 5px 12px rgba(35,57,42,.055);
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:contain;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(-n+2)::before {
+  height:clamp(156px,15vw,196px);
+}
+/* Original abstract botanical watercolor, not a clinical anatomy diagram.
+   This replaces the water-garden painting used elsewhere on the homepage. */
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:first-child::before {
+  background:
+    radial-gradient(ellipse 13% 30% at 34% 65%,rgba(66,127,92,.55) 0 75%,transparent 82%),
+    radial-gradient(ellipse 11% 32% at 48% 41%,rgba(121,158,105,.54) 0 72%,transparent 81%),
+    radial-gradient(ellipse 11% 26% at 65% 63%,rgba(77,134,119,.50) 0 72%,transparent 81%),
+    radial-gradient(ellipse 7% 22% at 78% 38%,rgba(161,181,116,.48) 0 72%,transparent 83%),
+    radial-gradient(ellipse 34% 30% at 70% 2%,rgba(240,208,150,.41),transparent 90%),
+    linear-gradient(140deg,rgba(255,250,234,.86),rgba(224,235,215,.88));
+  background-size:cover;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(2)::before {
+  background-color:#f3f2e9;
+  background-size:contain;
+  background-position:center;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(3)::before,
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(4)::before,
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(5)::before {
+  background-size:contain;
+  background-position:center;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a>strong {
+  display:block;
+  margin:5px 0 0;
+  color:#244a36;
+  font:700 clamp(17px,1.65vw,22px)/1.5 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.045em;
+  word-break:keep-all;
+  text-wrap:pretty;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a>span {
+  color:#52685a;
+  font-size:clamp(13px,1.12vw,14px);
+  line-height:1.7;
+  word-break:keep-all;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a::after {
+  margin-top:auto;
+}
+body.home-page #main-content>#focus-care .focus-care-shortcuts>a:focus-visible {
+  outline:3px solid #a68243;
+  outline-offset:4px;
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a:hover {
+    transform:translateY(-3px);
+    border-color:#9b8f77;
+    box-shadow:0 18px 34px rgba(24,56,37,.10);
+  }
+}
+@media(max-width:700px) {
+  body.home-page #main-content>#focus-care .focus-care-shortcuts {
+    gap:10px;
+  }
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a,
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(-n+2) {
+    min-height:0;
+    padding:9px 9px 15px;
+    gap:6px;
+  }
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a::before,
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(-n+2)::before {
+    height:clamp(95px,22vw,142px);
+    margin-bottom:7px;
+    border-width:5px;
+  }
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a>strong {
+    font-size:clamp(15px,3.7vw,18px);
+    line-height:1.5;
+    margin-top:4px;
+  }
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a>span {
+    font-size:13px;
+  }
+}
+@media(max-width:365px) {
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a::before,
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a:nth-child(-n+2)::before {
+    height:110px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a {
+    transition:none;
+    transform:none;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a::before {
+    background:Canvas;
+    outline-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#focus-care .focus-care-shortcuts>a :is(strong,span) {
+    color:CanvasText;
+  }
+}
