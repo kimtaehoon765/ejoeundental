@@ -2510,3 +2510,131 @@ body.home-page #main-content>#care .care-more-details .care-more-grid>.card:has(
     height:auto;
   }
 }
+
+
+/* 2026-10-30 · Museum framing consistency pass.
+   Harmonize mat / frame / label treatments without cropping the original
+   artworks, changing any clinical writing, or touching sticky booking UI. */
+body.home-page #main-content{
+  --ejoeun-frame-line:#cdbd9e;
+  --ejoeun-frame-mat:#eee7d8;
+  --ejoeun-label-paper:#fffdf6;
+  --ejoeun-label-ink:#315640;
+}
+body.home-page #main-content :is(
+  #care .care-more-details .care-mini-gallery,
+  #health-info .health-topic-card[data-artwork="true"]>.health-topic-painting,
+  #gallery .gallery-home-artworks--complementary>a,
+  #gallery .gallery-new-arrivals__previews--paintings>a,
+  #faq .faq-reading-gallery__painting,
+  #visit-guide .visit-first-art__picture
+){
+  box-sizing:border-box;
+  min-width:0;
+  border-color:var(--ejoeun-frame-line);
+  border-radius:4px 12px 4px 12px;
+  background:var(--ejoeun-frame-mat);
+}
+body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a,
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings>a{
+  box-shadow:0 10px 24px rgba(29,55,39,.07);
+}
+body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a>img,
+body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a:last-child>img{
+  box-sizing:border-box;
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:none;
+  aspect-ratio:680 / 420;
+  border:6px solid #faf6ed;
+  object-fit:contain;
+  object-position:center;
+  background:#f8f5ed;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings>a>img,
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings>a:nth-child(2)>img{
+  box-sizing:border-box;
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:8 / 5;
+  object-fit:contain;
+  object-position:center;
+  background:#f8f5ed;
+}
+body.home-page #main-content :is(
+  #care .care-more-details .care-mini-gallery>figcaption,
+  #health-info .health-topic-card[data-artwork="true"]>.health-topic-painting .health-topic-painting__caption,
+  #faq .faq-reading-gallery__painting>figcaption,
+  #visit-guide .visit-first-art__picture>figcaption
+){
+  box-sizing:border-box;
+  min-height:46px;
+  padding:11px 13px;
+  border-top:1px solid #dbcfb7;
+  background:var(--ejoeun-label-paper);
+  color:var(--ejoeun-label-ink);
+  font-size:12px;
+  line-height:1.72;
+  word-break:keep-all;
+}
+body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a>span,
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings>a>.gallery-new-arrivals__caption{
+  box-sizing:border-box;
+  border-top:1px solid #dbcfb7;
+  background:var(--ejoeun-label-paper);
+  color:var(--ejoeun-label-ink);
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid>.card{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid>.card>p:last-child{
+  margin-top:auto;
+}
+@media(max-width:600px){
+  body.home-page #main-content>#gallery .gallery-home-artworks--complementary{
+    gap:13px;
+  }
+  body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a>img,
+  body.home-page #main-content>#gallery .gallery-home-artworks--complementary>a:last-child>img{
+    border-width:5px;
+  }
+  body.home-page #main-content :is(
+    #care .care-more-details .care-mini-gallery>figcaption,
+    #health-info .health-topic-card[data-artwork="true"]>.health-topic-painting .health-topic-painting__caption,
+    #faq .faq-reading-gallery__painting>figcaption,
+    #visit-guide .visit-first-art__picture>figcaption
+  ){
+    min-height:44px;
+    padding:10px 11px;
+    font-size:12px;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content :is(
+    #care .care-more-details .care-mini-gallery,
+    #health-info .health-topic-card[data-artwork="true"]>.health-topic-painting,
+    #gallery .gallery-home-artworks--complementary>a,
+    #gallery .gallery-new-arrivals__previews--paintings>a,
+    #faq .faq-reading-gallery__painting,
+    #visit-guide .visit-first-art__picture
+  ){
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content :is(
+    #care .care-more-details .care-mini-gallery>figcaption,
+    #health-info .health-topic-card[data-artwork="true"]>.health-topic-painting .health-topic-painting__caption,
+    #faq .faq-reading-gallery__painting>figcaption,
+    #visit-guide .visit-first-art__picture>figcaption
+  ){
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+  }
+}
