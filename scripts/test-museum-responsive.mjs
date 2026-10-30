@@ -416,6 +416,30 @@ test('museum journal and visit guide preserve original blogs, clinic hours, maps
 });
 
 
+test('fixed mobile dock keeps all three patient actions on one row',()=>{
+ const styles=read('assets/home-enhancements.css');
+ const start=styles.indexOf('Three verified mobile bottom actions');
+ assert.ok(start>=0,'three-action mobile dock style must be present');
+ const dockCss=styles.slice(start,styles.indexOf('/* Clinically balanced referral path',start));
+ assert.match(dockCss,/grid-template-columns:minmax\(0,\.82fr\) minmax\(0,1\.32fr\) minmax\(0,1fr\)/,
+  'three fixed actions need three flexible columns, not the old two-column grid');
+ assert.match(dockCss,/padding-bottom:calc\(82px \+ env\(safe-area-inset-bottom,0px\)\)/,
+  'reserve enough scroll space for the full bottom dock');
+ assert.match(dockCss,/\.mobile-booking-visit\{/,
+  'visit guide link must have visible keyboard/touch styling');
+ assert.match(dockCss,/@media\(max-width:360px\)/,
+  'dock needs compact padding on very narrow phone screens');
+ const dock=home.match(/<nav class="mobile-booking-actions"[\s\S]*?<\/nav>/)?.[0]||'';
+ assert.equal((dock.match(/<a\b/g)||[]).length,3,'mobile dock needs exactly three existing actions');
+ for(const cls of ['mobile-booking-call','mobile-booking-naver','mobile-booking-visit']){
+  assert.ok(dock.includes('class="'+cls+'"'),'missing mobile action '+cls);
+ }
+ assert.ok(dock.includes('href="tel:0325132875"'),'phone action must dial clinic');
+ assert.ok(dock.includes('href="https://booking.naver.com/booking/13/bizes/1162931"'),
+  'booking action must retain verified Naver destination');
+ assert.ok(dock.includes('href="/visit-guide.html"'),'visit action must retain guide');
+});
+
 test('museum identity unifies the first screen while retaining functional patient actions',()=>{
  const hero=home.match(/<section class="hero wrap">[\s\S]*?<\/section>/)?.[0]||'';
  assert.ok(hero.includes('id="headline"'),'original hero heading must remain');
