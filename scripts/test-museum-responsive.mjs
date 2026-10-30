@@ -619,6 +619,42 @@ test('gallery SEO image collection agrees with the 23 real original artworks',()
  assert.ok(gallery.includes('<meta name="twitter:description" content="인천 부평구 청천동'));
 });
 
+test('first-screen clinical guide cards show readable care titles and supporting descriptions',()=>{
+ const source=readFileSync('index.html','utf8');
+ const hero=source.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
+ const nav=hero.match(/<nav class="hero-care-summary"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ const primary=nav.slice(0,nav.indexOf('<details class="hero-more-care">'));
+ const anchors=[...primary.matchAll(/<a href="([^"]+)">([\s\S]*?)<\/a>/g)];
+ const expected=[
+  ['/gum-treatment.html','인천·부평 잇몸치료'],
+  ['/retreatment.html','인천 신경치료·부평 신경치료 후 통증'],
+  ['/cervical-abrasion.html','찬물에 시린 이'],
+  ['/insured-care.html','건강보험 적용 진료 알아보기']
+ ];
+ assert.deepEqual(anchors.map(x=>x[1]),expected.map(x=>x[0]));
+ for(let i=0;i<anchors.length;i++){
+  const content=anchors[i][2],title=expected[i][1];
+  assert.ok(content.includes('<span class="hero-care-card__copy"><strong>'+title+'</strong>'),
+    'gallery-like title must remain readable and search-visible for '+title);
+  assert.match(content,/<\/strong><span>[^<]{5,}<\/span><\/span>/,
+    'supporting patient information should have a distinct visual size');
+  assert.ok(content.includes('class="hero-care-card__arrow" aria-hidden="true"'),
+    'decorative arrow should not be announced by screen readers');
+ }
+ assert.equal((nav.match(/<details class="hero-more-care">/g)||[]).length,1,
+   'the eight extra treatment links must remain expandable and crawlable');
+ const css=read('assets/atelier-refinement-20261030.css');
+ for(const token of [
+  'First-screen care collection: readable catalogue labels',
+  '.hero-care-card__copy > strong',
+  '.hero-care-card__copy > span',
+  '.hero-care-card__arrow',
+  '@media (max-width:760px)'
+ ]){
+  assert.ok(css.includes(token),'missing accessible patient-first care card styling: '+token);
+ }
+ assert.ok(hero.includes('<!-- BUILD_NAVER_BOOKING_HERO -->'));
+});
 test('homepage patient navigation links eight distinct existing care topics using meaningful labels',()=>{
  const hero=home.match(/<details class="hero-more-care">([\s\S]*?)<\/details>/)?.[1]||'';
  assert.ok(hero.includes('다른 진료·건강정보 8개 더 보기'));
