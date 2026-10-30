@@ -580,8 +580,8 @@ test('patient-art gallery keeps 10 unique originals and graceful no-JS viewing',
  assert.match(styles,/\.gallery-patient-studies__actions \.gallery-zoom\{display:none\}/);
  assert.match(styles,/\.gallery-js \.gallery-patient-studies__actions \.gallery-zoom\{display:inline-flex\}/);
  assert.match(script,/artworks=\[\.\.\.document\.querySelectorAll\('\.gallery-zoom'\)\]/);
- assert.equal((gallery.match(/class="gallery-zoom"/g)||[]).length,20,
-   '10 prior painting dialogs and 10 patient painting dialogs should stay navigable');
+ assert.equal((gallery.match(/class="gallery-zoom"/g)||[]).length,23,
+   '10 paintings, 3 watercolors and 10 patient studies must stay navigable');
  assert.ok(gallery.includes('id="patient-studies"'));
  for(const id of ['patient-art-safety','patient-art-medication','patient-art-child','patient-art-insurance']){
   assert.ok(block.includes('href="#'+id+'"')&&block.includes('id="'+id+'"'));
@@ -722,8 +722,8 @@ test('patient-study lightbox links directly to the existing health guide while l
   assert.ok(piece.includes('class="gallery-zoom"'),
    'patient-study artwork must keep its zoom control');
  }
- assert.equal((gallery.match(/class="gallery-zoom"/g)||[]).length,20,
-   '10 fine-art paintings and 10 patient studies must remain zoomable');
+ assert.equal((gallery.match(/class="gallery-zoom"/g)||[]).length,23,
+   'all 23 paintings, including three clinical watercolors, must remain zoomable');
  assert.ok(gallery.includes('class="gallery-dialog-care" id="gallery-dialog-care" hidden'),
    'a related-reading action exists but starts hidden');
  assert.ok(script.includes("button.closest('.gallery-patient-studies__piece')"),
@@ -748,4 +748,38 @@ test('built gallery lightbox URL changes whenever its JavaScript changes',()=>{
    'gallery lightbox URL must refresh on the same deployment as its source');
  assert.ok(html.includes('id="gallery-dialog-care" hidden'),
    'the new related-patient-guide action must ship with this script');
+});
+
+
+test('all three original watercolor cards retain medical links and accessible zoom',()=>{
+ const html=read('gallery.html');
+ const js=read('assets/clinic-gallery.js');
+ const watercolorCss=read('assets/gallery-clinical-watercolors.css');
+ const pieces=[...html.matchAll(/<div class="gallery-watercolor-card">([\s\S]*?)<\/div>/g)]
+   .map(match=>match[1]);
+ assert.equal(pieces.length,3,'three existing clinical watercolor images must remain');
+ const expected=[
+  ['/gum-treatment.html','watercolor-care-gum-20261029.webp'],
+  ['/cervical-abrasion.html','watercolor-care-abrasion-20261029.webp'],
+  ['/insured-care.html','watercolor-care-insurance-20261029.webp']
+ ];
+ for(let i=0;i<expected.length;i++){
+  const [href,image]=expected[i];
+  const card=pieces[i];
+  assert.ok(card.includes('class="gallery-note gallery-note--watercolor" href="'+href+'"'),
+   'the original full-card clinical navigation must remain');
+  assert.ok(card.includes('class="gallery-zoom" data-image="/assets/'+image+'"'),
+   'watercolor zoom must open its own actual image');
+  assert.ok(existsSync('dist/assets/'+image),'every zoom source must be published');
+ }
+ assert.ok(js.includes("button.closest('.gallery-watercolor-card')"),
+  'lightbox must resolve watercolor guide from current original card');
+ assert.ok(watercolorCss.includes('#education .gallery-watercolor-card>.gallery-zoom{\n  display:none'),
+  'no broken zoom buttons without browser modal support');
+ assert.ok(watercolorCss.includes('.gallery-js #education .gallery-watercolor-card>.gallery-zoom'),
+  'show zoom controls only when modal support is active');
+ const css=readFileSync('dist/assets/gallery-clinical-watercolors.css');
+ const expectedHash=createHash('sha256').update(css).digest('hex').slice(0,12);
+ assert.ok(html.includes('/assets/gallery-clinical-watercolors.css?v='+expectedHash),
+  'published watercolor stylesheet URL must invalidate stale cached CSS');
 });
