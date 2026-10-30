@@ -411,7 +411,7 @@ body.home-page .care-picture-notes__frame{
   background:#e8decc;border-bottom:1px solid #d7ccb8;
 }
 body.home-page .care-picture-notes__frame img{
-  display:block;width:100%;height:auto;aspect-ratio:4/3;
+  display:block;box-sizing:border-box;width:100%;height:auto;aspect-ratio:3/2;
   object-fit:contain;background:#f7f6ee;border:1px solid rgba(133,119,89,.18);
 }
 body.home-page .care-picture-notes__caption{
@@ -431,8 +431,14 @@ body.home-page .care-picture-notes__caption>span{
   color:#4b6654;font-size:14px;line-height:1.75;
 }
 body.home-page .care-picture-notes__after{
-  margin:23px 0 0;
-  color:#496553;font-size:14px;line-height:1.8;word-break:keep-all;
+  box-sizing:border-box;
+  margin:clamp(19px,2.7vw,30px) 0 0;
+  padding:clamp(13px,1.8vw,19px) clamp(15px,2.3vw,24px);
+  border:1px solid #d5d8c6;
+  border-left:3px solid #8a9e7d;
+  border-radius:3px 11px 3px 11px;
+  background:rgba(255,254,248,.76);
+  color:#385843;font-size:14px;line-height:1.85;word-break:keep-all;
 }
 body.home-page .care-picture-notes__after a{
   display:inline-block;min-height:44px;padding:7px 0;
@@ -456,6 +462,24 @@ body.home-page .care-picture-notes__after a:focus-visible{
   body.home-page .care-picture-notes__frame{
     display:flex;align-items:center;min-width:0;border-bottom:0;
     border-right:1px solid #d7ccb8;
+  }
+}
+/* At 601–760px the original side-by-side art/essay cards made the
+   Korean headings narrow; stack the complete paintings above the copy. */
+@media(max-width:760px){
+  body.home-page .care-picture-notes__card{
+    display:flex;
+    flex-direction:column;
+  }
+  body.home-page .care-picture-notes__frame{
+    display:block;
+    border-right:0;
+    border-bottom:1px solid #d7ccb8;
+    padding:8px;
+  }
+  body.home-page .care-picture-notes__caption{
+    min-width:0;
+    padding:clamp(15px,3vw,20px);
   }
 }
 @media(max-width:600px){
@@ -482,6 +506,10 @@ body.home-page .care-picture-notes__after a:focus-visible{
   background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none;
  }
  body.home-page .care-picture-notes__caption :is(strong,small,span){color:CanvasText}
+ body.home-page .care-picture-notes__after{
+   background:Canvas;color:CanvasText;border-color:CanvasText;
+ }
+ body.home-page .care-picture-notes__after a{color:LinkText}
 }
 
 
