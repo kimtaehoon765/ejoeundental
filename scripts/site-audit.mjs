@@ -3195,7 +3195,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  for(const [slug,count] of pages){
   const doc=readFileSync(join(root,slug+'.html'),'utf8');
   const sections=[...doc.matchAll(/<section class="card"><h2>([^<]+)<\/h2>/g)].map(m=>m[1]);
-  const toc=doc.match(/<details class="faq-question-index">([\s\S]*?)<\/details>/)?.[1]||'';
+  const toc=doc.match(/<details class="faq-question-index"(?: open)?>([\s\S]*?)<\/details>/)?.[1]||'';
   const schema=[...doc.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
    .map(m=>JSON.parse(m[1])).find(x=>x['@type']==='FAQPage');
   let ok=sections.length===count && schema?.mainEntity?.length===count &&
