@@ -86,6 +86,34 @@ test('ten mobile patient-art cards prioritize each linked clinical guide',()=>{
   assert.ok(css.includes(token),'missing responsive patient gallery behavior: '+token);
  }
 });
+test('gallery connects its painting exhibition to four existing patient guides',()=>{
+ const html=read('gallery.html');
+ const start=html.indexOf('<nav class="gallery-care-bridge"');
+ const end=html.indexOf('</nav>',start);
+ const bridge=start>=0&&end>start?html.slice(start,end+6):'';
+ const required=['/gum-treatment.html','/retreatment.html','/insured-care.html','/visit-guide.html'];
+ const destinations=[...bridge.matchAll(/href="([^"]+)"/g)].map(x=>x[1]);
+ assert.deepEqual(destinations.slice(0,4),required,'clinical destinations must retain intended reading order');
+ assert.equal(new Set(destinations).size,destinations.length,'all destinations should be unique');
+ assert.ok(destinations.includes('/#focus-care'),'gallery should reconnect to the home clinical index');
+ assert.ok(bridge.includes('aria-labelledby="gallery-care-bridge-title"'));
+ for(const link of required)assert.ok(existsSync('dist'+link),'clinical link not built: '+link);
+ const css=read('assets/clinic-gallery.css');
+ assert.ok(css.includes('Exhibition exit · artwork leads'));
+ assert.ok(css.includes('.gallery-care-bridge__links > a:focus-visible'));
+ assert.ok(css.includes('grid-template-columns:minmax(0,1fr)'),'mobile care index must be single-column');
+ assert.ok(html.includes('/assets/clinic-gallery.css?v=20261030-clinical-bridge01'),
+  'latest gallery design must be cache-busted');
+ assert.ok(html.includes('/assets/gallery-patient-studies.css?v=20261030-patient-actions01'),
+  'patient action refinements must refresh on visitors browsers');
+});
+test('homepage watercolor shelf swipe instruction is accurate and cache-busted',()=>{
+ const home=read('index.html');
+ assert.ok(home.includes('id="care-picture-swipe-hint"'));
+ assert.ok(home.includes('aria-describedby="care-picture-swipe-hint"'));
+ assert.ok(home.includes('그림을 옆으로 밀어 세 가지 진료 안내를 차례로 확인하세요.'));
+ assert.ok(home.includes('/assets/atelier-refinement-20261030.css?v=20261030-visual-care02'));
+});
 test('gallery retains 10 paintings, 3 patient watercolors, and 10 distinct consultation artworks',()=>{
  const html=read('gallery.html'),g=artworkGroups(html);
  assert.deepEqual([g.originals.length,g.watercolor.length,g.studies.length],[10,3,10]);
