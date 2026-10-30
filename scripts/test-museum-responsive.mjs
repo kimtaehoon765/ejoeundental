@@ -68,15 +68,27 @@ test('premium gallery foyer shows 23 unique works through three real exhibition 
   assert.ok(gallery.includes(anchor),'gallery room must be real: '+anchor);
  }
  const allImages=[...html.matchAll(/<img\b[^>]*src="([^"]+)"/g)].map(x=>x[1]);
- const newPrints=['/assets/care-illustration-abrasion.svg','/assets/care-illustration-insurance.svg'];
- const originalImages=allImages.filter(src=>!newPrints.includes(src));
- assert.equal(originalImages.length,34,'retain all 34 existing homepage artworks');
+ const newArtwork=[
+  '/assets/care-illustration-abrasion.svg',
+  '/assets/care-illustration-insurance.svg',
+  '/assets/ejoeun-doctor-since2003-garden-20261029.svg'
+ ];
+ const originalImages=allImages.filter(src=>!newArtwork.includes(src));
+ assert.equal(originalImages.length,34,'retain all 34 original homepage artworks');
  assert.equal(new Set(originalImages).size,34,'original artwork references remain distinct');
- assert.equal(allImages.length,36,'two original educational prints join the homepage');
- assert.equal(new Set(allImages).size,36,'no artwork should be repeated on the homepage');
- for(const src of newPrints){
-  assert.equal(allImages.filter(image=>image===src).length,1,'each new print appears exactly once: '+src);
+ assert.equal(allImages.length,37,'two clinical prints and one since-2003 painting join the homepage');
+ assert.equal(new Set(allImages).size,37,'no artwork should be repeated on the homepage');
+ for(const src of newArtwork){
+  assert.equal(allImages.filter(image=>image===src).length,1,'each new artwork appears exactly once: '+src);
+  assert.ok(existsSync('dist'+src),'new original artwork must exist in generated site: '+src);
  }
+ assert.ok(html.includes('class="care-preservation-art"') && html.includes('THE LONG VIEW · SINCE 2003'),
+  'the natural-tooth reading panel needs its distinct illustrated exhibit');
+ const preservationCss=read('assets/atelier-refinement-20261030.css');
+ assert.ok(preservationCss.includes('An original landscape beside the tooth-preservation manifesto') &&
+  preservationCss.includes('@media(min-width:821px)') &&
+  preservationCss.includes('.care-preservation-art'),
+  'the exhibition painting needs responsive layout and preservation of image aspect ratio');
  assert.ok(html.includes('health-topic-painting--panorama'),
   'new sensitivity and insurance paintings keep accessible patient-facing captions');
  assert.ok(html.includes('class="mobile-booking-actions"'),'mobile booking stays available');
