@@ -3017,3 +3017,140 @@ body.home-page #main-content>#stories .owner-blog-topic-jumps>a {
     display:none;
   }
 }
+
+
+/* 2026-10-30 · Symptom gallery index: calm, scannable cards. */
+/* Six actual symptom links are rendered like compact catalogue entries.
+   No new imagery, script or hidden paragraphs; the original link text and
+   search form remain readable and crawlable. */
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid {
+  gap:clamp(10px,1.6vw,18px);
+  align-items:stretch;
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a {
+  box-sizing:border-box;
+  position:relative;
+  display:grid;
+  grid-template-columns:39px minmax(0,1fr);
+  grid-template-rows:auto auto;
+  align-content:center;
+  justify-content:stretch;
+  align-items:start;
+  column-gap:clamp(10px,1.25vw,16px);
+  row-gap:5px;
+  min-height:120px;
+  padding:19px clamp(13px,1.6vw,20px);
+  border:1px solid #d8d5c9;
+  border-left:4px solid #a9936b;
+  border-radius:3px 14px 3px 14px;
+  background:linear-gradient(135deg,#fffefa 0%,#f9f6ee 100%);
+  box-shadow:0 8px 20px rgba(31,56,39,.04);
+  text-decoration:none;
+  transition:border-color .2s ease,background-color .2s ease,box-shadow .2s ease,transform .2s ease;
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:nth-child(2n) {
+  border-left-color:#83a18b;
+  background:linear-gradient(135deg,#fffefa 0%,#f2f7ef 100%);
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a::before {
+  box-sizing:border-box;
+  grid-column:1;
+  grid-row:1 / span 2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:36px;
+  height:36px;
+  margin:1px 0 0;
+  border:1px solid #cfbc95;
+  border-radius:50%;
+  background:#f2ead7;
+  color:#6c5537;
+  font:700 12px/1 "DM Sans",system-ui,sans-serif;
+  letter-spacing:.04em;
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:nth-child(2n)::before {
+  background:#e8f0e8;
+  border-color:#bad0bd;
+  color:#42654c;
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a>strong {
+  grid-column:2;
+  grid-row:1;
+  margin:0;
+  color:#224a36;
+  font:700 clamp(16px,1.45vw,19px)/1.5 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.04em;
+  word-break:keep-all;
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a>span {
+  grid-column:2;
+  grid-row:2;
+  display:block;
+  margin:0;
+  color:#526b58;
+  font-size:clamp(12px,1.1vw,14px);
+  line-height:1.64;
+  word-break:keep-all;
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:hover {
+    transform:translateY(-3px);
+    border-color:#9c9a7d;
+    border-left-color:#497c59;
+    box-shadow:0 14px 26px rgba(23,53,35,.09);
+  }
+}
+body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a:focus-visible {
+  outline:3px solid #a47c3e;
+  outline-offset:4px;
+}
+@media(max-width:760px) {
+  body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a {
+    grid-template-columns:36px minmax(0,1fr);
+    min-height:109px;
+    column-gap:11px;
+    padding:15px 13px;
+  }
+  body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a>strong {
+    font-size:16px;
+    line-height:1.5;
+  }
+  body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a>span {
+    font-size:13px;
+  }
+}
+@media(max-width:520px) {
+  body.home-page #main-content>.symptom-navigator .symptom-navigator-grid {
+    grid-template-columns:minmax(0,1fr);
+    gap:9px;
+  }
+  body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a {
+    min-height:87px;
+    grid-template-columns:34px minmax(0,1fr);
+    padding:13px 14px;
+  }
+  body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a::before {
+    width:32px;
+    height:32px;
+    font-size:11px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a {
+    transition:none;
+    transform:none;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a,
+  body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a::before {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>.symptom-navigator .symptom-navigator-grid>a :is(strong,span) {
+    color:CanvasText;
+  }
+}
