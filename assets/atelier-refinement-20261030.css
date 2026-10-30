@@ -1906,3 +1906,97 @@ body.home-page #main-content > #health-info .health-topic-grid > .health-topic-c
     box-shadow:none;
   }
 }
+
+
+/* 2026-10-30 | Final mobile reading rhythm.
+   Keep every searchable paragraph on the page, but make the opening copy
+   feel like an exhibition label rather than a full-width text wall. */
+body.home-page #main-content > :is(#symptoms,#care,#health-info) > .wrap > h2 {
+  max-width:30ch;
+  color:#234635;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-weight:650;
+  line-height:1.49;
+  letter-spacing:-.05em;
+  text-wrap:balance;
+}
+body.home-page #main-content > :is(#symptoms,#care,#health-info) > .wrap > p:not(.notice):not(.symptom-contact):not(.health-more-link) {
+  max-width:76ch;
+  color:#466150;
+  line-height:1.92;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content > #care > .wrap > p + p {
+  margin-top:11px;
+}
+body.home-page #main-content > :is(#symptoms,#care,#health-info) > .wrap > p a {
+  text-underline-offset:4px;
+}
+body.home-page #main-content > #symptoms .symptom-jump-nav,
+body.home-page #main-content > #care .care-directory {
+  scroll-margin-top:110px;
+}
+@media(max-width:600px){
+  body.home-page #main-content > :is(#symptoms,#care,#health-info) > .wrap > h2 {
+    max-width:none;
+    margin-bottom:13px;
+    font-size:clamp(23px,6vw,30px);
+    line-height:1.53;
+  }
+  body.home-page #main-content > :is(#symptoms,#care,#health-info) > .wrap > p:not(.notice):not(.symptom-contact):not(.health-more-link) {
+    max-width:none;
+    margin-top:0;
+    margin-bottom:13px;
+    font-size:15px;
+    line-height:1.85;
+  }
+  body.home-page #main-content > :is(#symptoms,#care,#health-info) > .wrap > .eyebrow {
+    display:block;
+    width:fit-content;
+    max-width:100%;
+    margin-bottom:10px;
+    padding:0 0 5px 10px;
+    border-left:2px solid #b79c6d;
+    color:#7e6d4c;
+    font-size:11px;
+    line-height:1.55;
+    letter-spacing:.12em;
+  }
+  body.home-page #main-content > #symptoms .symptom-jump-nav,
+  body.home-page #main-content > #care .care-directory {
+    margin-top:18px;
+  }
+  body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card > h3,
+  body.home-page #main-content > #care .care-more-details .care-more-grid > .card > h3 {
+    font-size:19px;
+    line-height:1.55;
+    letter-spacing:-.045em;
+  }
+  body.home-page #main-content > #care .care-more-details .care-more-grid .care-mini-gallery > img {
+    width:100%;
+    max-width:100%;
+    object-fit:contain;
+    object-position:center;
+  }
+  body.home-page #main-content > #symptoms .symptom-grid > .card > a,
+  body.home-page #main-content > #care .care-more-details .care-more-grid > .card a {
+    overflow-wrap:anywhere;
+    word-break:keep-all;
+    text-underline-offset:4px;
+  }
+}
+@media(max-width:380px){
+  body.home-page #main-content > :is(#symptoms,#care,#health-info) > .wrap > h2 {
+    font-size:24px;
+  }
+  body.home-page #main-content > #symptoms .symptom-grid > .card > h3 {
+    font-size:19px;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content > :is(#symptoms,#care,#health-info) > .wrap > .eyebrow {
+    color:CanvasText;
+    border-color:CanvasText;
+  }
+}
