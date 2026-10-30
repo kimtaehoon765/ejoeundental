@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync, existsSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 
 const read=(path)=>readFileSync('dist/'+path,'utf8');
 const home=read('index.html');
@@ -734,4 +735,17 @@ test('patient-study lightbox links directly to the existing health guide while l
  assert.ok(css.includes('.gallery-dialog .gallery-dialog-care[hidden]{display:none!important}'));
  assert.ok(css.includes('.gallery-dialog.gallery-dialog--care #gallery-dialog-image'),
    'visible patient-guide action leaves room beneath the painting on phones');
+});
+
+
+test('built gallery lightbox URL changes whenever its JavaScript changes',()=>{
+ const html=read('gallery.html');
+ const script=readFileSync('dist/assets/clinic-gallery.js');
+ const expected=createHash('sha256').update(script).digest('hex').slice(0,12);
+ const urls=[...html.matchAll(/<script src="\/assets\/clinic-gallery\.js\?v=([a-f0-9]{12})" defer><\/script>/g)];
+ assert.equal(urls.length,1,'gallery must load one fingerprinted lightbox script');
+ assert.equal(urls[0][1],expected,
+   'gallery lightbox URL must refresh on the same deployment as its source');
+ assert.ok(html.includes('id="gallery-dialog-care" hidden'),
+   'the new related-patient-guide action must ship with this script');
 });
