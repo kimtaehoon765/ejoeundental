@@ -1722,3 +1722,187 @@ body.home-page #main-content>#gallery .gallery-exhibition-index__room:focus-visi
     grid-template-columns:repeat(3,minmax(0,1fr));
   }
 }
+
+
+/* 2026-10-30 | Patient reading room, phase 2.
+   Give long, indexed clinical text proper page width and allow each unique
+   illustration to be seen at full card size. All copy, links and artwork
+   remain in the document, including the twelve care topics and seven symptoms. */
+@media(min-width:821px){
+  body.home-page #main-content > #symptoms .symptom-grid,
+  body.home-page #main-content > #care > .wrap > .grid,
+  body.home-page #main-content > #health-info .health-topic-grid,
+  body.home-page #main-content > #care .care-more-details .care-more-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:clamp(15px,2.1vw,25px);
+    align-items:stretch;
+  }
+  body.home-page #main-content > #care > .wrap > .grid > .care-preservation-feature {
+    grid-column:1 / -1;
+  }
+  body.home-page #main-content > #symptoms .symptom-grid > .card:last-child:nth-child(odd){
+    grid-column:1 / -1;
+    justify-self:center;
+    width:min(100%,760px);
+  }
+}
+/* The clinical cards are reading plates, not short marketing tiles. */
+body.home-page #main-content > #symptoms .symptom-grid > .card {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  min-width:0;
+  min-height:0;
+  padding:clamp(23px,2.55vw,34px);
+  border:1px solid #ddd5c4;
+  border-top:3px solid #b39a70;
+  border-radius:5px 15px 5px 15px;
+  background:linear-gradient(150deg,#fffefb,#faf8f1);
+  box-shadow:0 9px 28px rgba(37,59,42,.048);
+}
+body.home-page #main-content > #symptoms .symptom-grid > .card:nth-child(even) {
+  border-top-color:#87a58a;
+  background:linear-gradient(155deg,#fffefa,#f4f8f2);
+}
+body.home-page #main-content > #symptoms .symptom-grid > .card > h3 {
+  margin:2px 0 11px;
+  color:#254a37;
+  font:700 clamp(19px,1.85vw,23px)/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.043em;
+  word-break:keep-all;
+  text-wrap:balance;
+}
+body.home-page #main-content > #symptoms .symptom-grid > .card > p {
+  color:#405a49;
+  font-size:clamp(14px,1.18vw,15.5px);
+  line-height:1.91;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content > #symptoms .symptom-grid > .card > a {
+  box-sizing:border-box;
+  min-height:42px;
+  line-height:1.65;
+  font-size:14px;
+  font-weight:700;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+  text-underline-offset:4px;
+}
+body.home-page #main-content > #symptoms .symptom-grid > .card > a:not(:last-of-type) {
+  padding-block:9px;
+  border-bottom:1px solid #e7e0d2;
+}
+body.home-page #main-content > #symptoms .symptom-grid > .card > a:last-of-type {
+  margin-top:12px;
+  border-color:#b7ceb8;
+  border-radius:5px 10px 5px 10px;
+  background:#eff6ed;
+  color:#24563c;
+}
+/* Additional care paintings appear once each; give them a sensible
+   desktop-width pairing instead of narrowing them to three columns. */
+body.home-page #main-content > #care .care-more-details .care-more-grid > .card {
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  min-width:0;
+}
+body.home-page #main-content > #care .care-more-details .care-more-grid > .card > h3 {
+  margin-bottom:10px;
+  font-size:clamp(19px,1.7vw,23px);
+}
+body.home-page #main-content > #care .care-more-details .care-more-grid > .card > p {
+  font-size:15px;
+  line-height:1.87;
+  color:#405949;
+}
+body.home-page #main-content > #care .care-more-details .care-more-grid > .card > p:last-child {
+  margin-top:auto;
+  padding-top:16px;
+}
+body.home-page #main-content > #care .care-more-details .care-more-grid .care-mini-gallery {
+  margin-top:5px;
+  margin-bottom:17px;
+}
+body.home-page #main-content > #care .care-more-details .care-more-grid .care-mini-gallery > img {
+  display:block;
+  max-width:100%;
+  object-fit:contain;
+  background:#f8f5ed;
+}
+/* Patient education: larger illustrations, two-column library index,
+   and the existing accessible text-only topic panels stay readable. */
+body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card {
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  padding:clamp(21px,2.45vw,31px);
+  border:1px solid #ded6c4;
+  border-radius:5px 15px 5px 15px;
+  background:#fffdf8;
+  box-shadow:0 9px 26px rgba(33,60,42,.052);
+}
+body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card:nth-child(even){
+  background:#f9faf4;
+  border-top:2px solid #89a38c;
+}
+body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card > h3{
+  color:#264b39;
+  font-size:clamp(19px,1.8vw,23px);
+  text-wrap:balance;
+}
+body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card > p {
+  color:#405b49;
+  font-size:15px;
+  line-height:1.84;
+  word-break:keep-all;
+}
+body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card > .health-topic-actions {
+  margin-top:auto;
+  padding-top:14px;
+}
+@media(max-width:820px){
+  body.home-page #main-content > #symptoms .symptom-grid,
+  body.home-page #main-content > #care > .wrap > .grid,
+  body.home-page #main-content > #health-info .health-topic-grid,
+  body.home-page #main-content > #care .care-more-details .care-more-grid {
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    gap:clamp(13px,2.4vw,18px);
+  }
+  body.home-page #main-content > #care > .wrap > .grid > .care-preservation-feature,
+  body.home-page #main-content > #symptoms .symptom-grid > .card:last-child {
+    grid-column:auto;
+    justify-self:stretch;
+    max-width:none;
+  }
+  body.home-page #main-content > #symptoms .symptom-grid > .card,
+  body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card{
+    padding:clamp(18px,4.2vw,25px);
+  }
+  body.home-page #main-content > #symptoms .symptom-grid > .card > p,
+  body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card > p {
+    font-size:15px;
+  }
+}
+@media(max-width:360px){
+  body.home-page #main-content > #symptoms .symptom-grid > .card,
+  body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card{
+    padding:18px 15px;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content > #symptoms .symptom-grid > .card,
+  body.home-page #main-content > #symptoms .symptom-grid > .card:nth-child(even),
+  body.home-page #main-content > #symptoms .symptom-grid > .card > a:last-of-type,
+  body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card,
+  body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card:nth-child(even){
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
