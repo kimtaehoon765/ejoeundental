@@ -3354,3 +3354,70 @@ body.home-page #home-representative-guides .home-representative-guide-grid>a:nth
     color:LinkText;
   }
 }
+
+
+/* 2026-10-30 | Mobile opening portrait: larger art, quieter gallery label. */
+/* Preserve the source-order headline and phone/Naver reservation before the
+   portrait. Make the single approved doctor-and-white-cat image a more
+   meaningful part of the mobile exhibition rather than a tiny thumbnail. */
+@media(max-width:760px){
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+    box-sizing:border-box;
+    grid-column:1 / -1;
+    grid-row:2;
+    justify-self:center;
+    align-self:start;
+    width:min(100%,354px);
+    max-width:354px;
+    min-width:0;
+    height:auto;
+    margin:13px auto 20px;
+    padding:8px;
+    border-radius:3px 13px 3px 13px;
+    box-shadow:0 15px 32px rgba(31,54,39,.11);
+  }
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork>img{
+    display:block;
+    width:100%;
+    height:auto;
+    aspect-ratio:650 / 543;
+    object-fit:contain;
+    object-position:center;
+  }
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork>.hero-artwork__plaque{
+    padding:11px 14px 7px;
+    border-top:1px solid #d6c8ab;
+    background:#fffdf7;
+  }
+  body.home-page #main-content>.hero.wrap .hero-artwork__plaque>strong{
+    font-size:17px;
+    line-height:1.48;
+  }
+  body.home-page #main-content>.hero.wrap .hero-artwork__plaque>a{
+    min-height:44px;
+    line-height:1.6;
+  }
+  /* The actual framed artwork already has a readable title and clinic
+     signature; an extra floating text badge crowds narrow screens. */
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork::after{
+    content:none;
+    display:none;
+  }
+}
+@media(max-width:365px){
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+    width:min(100%,305px);
+    max-width:305px;
+    margin:11px auto 17px;
+  }
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork>.hero-artwork__plaque{
+    padding:10px 11px 6px;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork>.hero-artwork__plaque{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+  }
+}
