@@ -2777,3 +2777,95 @@ body.home-page #main-content>#care .care-more-details .care-more-grid>.card>p:la
     outline-color:Highlight;
   }
 }
+
+
+/* 2026-10-30 · Small-phone hero action layout.
+   Correct narrow three-across guide controls while keeping the two real
+   primary actions (phone + verified Naver booking) visible and equal-width.
+   The original six-column layout, links and portrait source remain intact. */
+@media(max-width:600px){
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-call,
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-booking{
+    box-sizing:border-box;
+    min-width:0;
+    min-height:60px;
+    padding:10px 7px;
+    font-size:clamp(13px,3.7vw,15px);
+    line-height:1.5;
+    border-radius:5px 11px 5px 11px;
+    text-align:center;
+    overflow-wrap:anywhere;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-call{
+    background:#235940;
+    color:#fffdf5;
+    border:1px solid #235940;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-booking{
+    display:flex;
+    background:#e6d9bb;
+    color:#264a35;
+    border:1px solid #a98d5d;
+    font-weight:850;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions .hero-phone{
+    font-size:clamp(12px,3.35vw,13.5px);
+    font-variant-numeric:tabular-nums;
+    white-space:nowrap;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>:is(.hero-hours,.hero-symptoms,.hero-map){
+    box-sizing:border-box;
+    min-width:0;
+    min-height:50px;
+    padding:9px 7px;
+    font-size:clamp(12px,3.05vw,13px);
+    line-height:1.5;
+    letter-spacing:-.035em;
+    color:#2d533e;
+    border:1px solid #d8d2c2;
+    background:#fffdf7;
+    white-space:normal;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-hours{
+    background:#eaf2e9;
+    border-color:#bed3c0;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>a:focus-visible{
+    outline:3px solid #a5803d;
+    outline-offset:3px;
+  }
+}
+@media(max-width:480px){
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-hours{
+    grid-column:1 / span 3;
+    grid-row:2;
+    order:2;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-symptoms{
+    grid-column:4 / span 3;
+    grid-row:2;
+    order:3;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-map{
+    grid-column:1 / -1;
+    grid-row:3;
+    order:4;
+    min-height:48px;
+  }
+}
+@media(hover:hover) and (pointer:fine){
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-booking:hover{
+    background:#eee2c7;
+    border-color:#967c4b;
+    color:#254631;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>.hero.wrap .hero-actions>:is(.hero-call,.hero-booking,.hero-hours,.hero-symptoms,.hero-map){
+    background:ButtonFace;
+    color:ButtonText;
+    border:2px solid ButtonText;
+  }
+}
