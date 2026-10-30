@@ -672,3 +672,125 @@
     border-color:CanvasText;
   }
 }
+
+
+/* Mobile exhibition catalogue · 2026-10-30
+   Show all ten work names in a short horizontally swipeable index.
+   Native anchor navigation still jumps to each numbered painting; CSS-only,
+   so no script or additional artwork loads are required. */
+.gallery-exhibition-swipe-hint {
+  display:none;
+}
+@media (max-width:650px) {
+  .gallery-exhibition-swipe-hint {
+    box-sizing:border-box;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    width:calc(100% - 26px);
+    max-width:720px;
+    margin:0 auto 8px;
+    padding:10px 12px;
+    background:#eff2e8;
+    border-left:3px solid #9e8354;
+    color:#234b38;
+    border-radius:3px 8px 8px 3px;
+    font-size:12px;
+    font-weight:750;
+    line-height:1.6;
+    word-break:keep-all;
+  }
+  .gallery-exhibition-swipe-hint > span {
+    flex:none;
+    color:#80633b;
+    font-size:18px;
+  }
+  .gallery-exhibition-index {
+    box-sizing:border-box;
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    gap:9px;
+    width:calc(100% - 26px);
+    max-width:720px;
+    min-width:0;
+    margin:0 auto 15px;
+    padding:3px 2px 15px;
+    border:0;
+    border-radius:0;
+    background:transparent;
+    box-shadow:none;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    scroll-padding-inline:3px;
+    overscroll-behavior-inline:contain;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+    scrollbar-color:#a99062 transparent;
+  }
+  .gallery-exhibition-index > .gallery-exhibition-label {
+    display:none;
+  }
+  .gallery-exhibition-index > a {
+    box-sizing:border-box;
+    flex:0 0 min(59vw,205px);
+    display:flex;
+    justify-content:center;
+    min-width:0;
+    min-height:82px;
+    margin:0;
+    padding:12px 14px;
+    border:1px solid #d1c5ad;
+    border-top:2px solid #b39868;
+    border-radius:4px 9px 4px 9px;
+    background:#fffdf8;
+    box-shadow:0 4px 12px rgba(35,57,40,.055);
+    scroll-snap-align:start;
+    word-break:keep-all;
+  }
+  .gallery-exhibition-index > a > small {
+    color:#8a6d42;
+    font-size:11px;
+  }
+  .gallery-exhibition-index > a > span {
+    color:#214633;
+    font-size:14px;
+    line-height:1.52;
+  }
+  .gallery-exhibition-index > a:focus-visible {
+    outline:3px solid #a47f45;
+    outline-offset:-3px;
+  }
+}
+@media (max-width:360px) {
+  .gallery-exhibition-index > a {
+    flex-basis:min(66vw,187px);
+  }
+}
+@media (forced-colors:active) {
+  .gallery-exhibition-swipe-hint,
+  .gallery-exhibition-index > a {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+  }
+  .gallery-exhibition-index > a :is(small,span),
+  .gallery-exhibition-swipe-hint > span {
+    color:CanvasText;
+  }
+}
+@media print {
+  .gallery-exhibition-swipe-hint {display:none}
+  .gallery-exhibition-index {
+    display:grid;
+    overflow:visible;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    box-shadow:none;
+  }
+  .gallery-exhibition-index > .gallery-exhibition-label {
+    display:flex;
+    grid-column:1 / -1;
+  }
+}
