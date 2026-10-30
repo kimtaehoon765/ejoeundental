@@ -46,6 +46,46 @@ test('mobile gallery catalogue preserves ten native artwork anchors in a swipeab
   assert.ok(mobile.includes(token),'missing mobile gallery interaction: '+token);
  }
 });
+test('gallery links to the owner-configured Naver booking page and exposes phone actions on mobile',()=>{
+ const html=read('gallery.html');
+ const clinic=JSON.parse(readFileSync('content/site.json','utf8'));
+ const booking=clinic.naver_booking_url;
+ const open=html.indexOf('<nav class="gallery-mobile-dock"');
+ const close=html.indexOf('</nav>',open);
+ const dock=open>=0&&close>open?html.slice(open,close+6):'';
+ assert.ok(booking&&booking.startsWith('https://booking.naver.com/'));
+ assert.ok(dock.includes('aria-label="이조은치과 모바일 예약 및 전화"'));
+ assert.ok(dock.includes('href="'+booking+'"'),'mobile booking must match the verified clinic settings');
+ assert.ok(dock.includes('target="_blank" rel="noopener noreferrer"'));
+ assert.ok(dock.includes('href="tel:0325132875"'));
+ assert.ok(html.includes('class="gallery-endnote-booking" href="'+booking+'"'),
+  'desktop readers should also be able to book from the end of the exhibit');
+ const css=read('assets/clinic-gallery.css');
+ for(const token of ['.gallery-mobile-dock {','position:fixed;','env(safe-area-inset-bottom',
+   'body:has(#gallery-dialog[open]) .gallery-mobile-dock',
+   '.gallery-mobile-dock > a:focus-visible']) {
+  assert.ok(css.includes(token),'missing gallery mobile booking dock styling: '+token);
+ }
+});
+test('ten mobile patient-art cards prioritize each linked clinical guide',()=>{
+ const html=read('gallery.html');
+ const pieces=artworkGroups(html).studies;
+ assert.equal(pieces.length,10);
+ for(const piece of pieces){
+  const actions=piece.slice(piece.indexOf('class="gallery-patient-studies__actions"'));
+  assert.ok(actions.includes('href="/'),'patient art must link to medical information');
+  assert.ok(actions.includes('gallery-patient-studies__original'),'full original should remain accessible');
+  assert.ok(actions.includes('gallery-zoom'),'optional zoom must remain usable');
+ }
+ const css=read('assets/gallery-patient-studies.css');
+ for(const token of ['Mobile patient gallery: clinical reading',
+   'grid-template-columns:repeat(2,minmax(0,1fr))',
+   '.gallery-patient-studies__actions > a:first-child',
+   'grid-column:1 / -1',
+   '.gallery-js .gallery-patient-studies__actions > .gallery-zoom']) {
+  assert.ok(css.includes(token),'missing responsive patient gallery behavior: '+token);
+ }
+});
 test('gallery retains 10 paintings, 3 patient watercolors, and 10 distinct consultation artworks',()=>{
  const html=read('gallery.html'),g=artworkGroups(html);
  assert.deepEqual([g.originals.length,g.watercolor.length,g.studies.length],[10,3,10]);
