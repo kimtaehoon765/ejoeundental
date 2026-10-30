@@ -875,3 +875,32 @@ test('last home stylesheet prevents implicit phone-grid columns under 480px',()=
  assert.ok(page.includes('href="https://map.naver.com/p/entry/place/13239400"'),
   'the Naver map action must remain available without hiding the clinic address');
 });
+
+
+test('mobile search keyboard can hide dock without removing call, booking or directions',()=>{
+ const finalCss=read('assets/home-art-direction-20261030.css');
+ const start=finalCss.lastIndexOf('Keep the actual page search fields unobstructed');
+ assert.ok(start>0,'the latest art layer should reserve keyboard-friendly search behavior');
+ const snippet=finalCss.slice(start);
+ const inputs=['home-symptom-query','home-owner-post-search'];
+ for(const id of inputs){
+  assert.ok(home.includes('id="'+id+'" name="q" type="search"'),
+    'the patient and blog search forms must remain fully usable: '+id);
+  const selector='body.home-page:has(#'+id+':focus) .mobile-booking-actions';
+  assert.ok(snippet.includes(selector),
+    'only input focus should temporarily remove the fixed booking dock: '+id);
+  assert.ok(snippet.includes('body.home-page:has(#'+id+':focus) .music-reopen'),
+    'optional music control must not obscure mobile keyboard for '+id);
+ }
+ assert.ok(snippet.includes('scroll-padding-bottom:calc(90px + env(safe-area-inset-bottom,0px))'));
+ assert.ok(snippet.includes('scroll-margin-bottom:calc(95px + env(safe-area-inset-bottom,0px))'));
+ assert.ok(snippet.includes('display:none;'),
+   'focused search fields must have room above the on-screen keyboard');
+ const originalDock=home.match(/<nav class="mobile-booking-actions"[^>]*>[\s\S]*?<\/nav>/)?.[0]||'';
+ assert.equal((originalDock.match(/<a\b/g)||[]).length,3);
+ assert.ok(originalDock.includes('href="tel:0325132875"'));
+ assert.ok(originalDock.includes('href="https://booking.naver.com/booking/13/bizes/1162931"'));
+ assert.ok(originalDock.includes('href="/visit-guide.html"'));
+ assert.ok(home.includes('role="search" aria-label="치과 증상과 진료정보 검색"'));
+ assert.ok(home.includes('role="search" aria-label="원장 네이버 블로그 글 509편 원문 제목 검색"'));
+});
