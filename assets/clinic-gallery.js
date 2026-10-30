@@ -8,6 +8,7 @@
   const prev=document.getElementById('gallery-prev');
   const next=document.getElementById('gallery-next');
   const position=document.getElementById('gallery-dialog-position');
+  const related=document.getElementById('gallery-dialog-care');
   const artworks=[...document.querySelectorAll('.gallery-zoom')];
   if(!dialog || !picture || !caption || !close || !prev || !next ||
      !position || !artworks.length || typeof dialog.showModal!=='function') return;
@@ -21,6 +22,25 @@
     picture.src=button.dataset.image || '';
     picture.alt=button.dataset.alt || '이조은치과 창작 그림';
     caption.textContent=button.dataset.title || '그림 감상';
+    // Patient-study paintings already link to their matching clinic guide.
+    // Reuse that verified local link inside the lightbox; decorative landscape
+    // paintings must not inherit a medical destination from the prior image.
+    if(related){
+      const guide=button.closest('.gallery-patient-studies__piece')
+        ?.querySelector('.gallery-patient-studies__actions > a[href^="/"]');
+      const href=guide?.getAttribute('href');
+      const hasGuide=Boolean(href && /^\/[a-z0-9-]+\.html(?:#[-a-z0-9]+)?$/.test(href));
+      related.hidden=!hasGuide;
+      dialog.classList.toggle('gallery-dialog--care',hasGuide);
+      if(hasGuide){
+        related.setAttribute('href',href);
+        related.textContent='관련 건강정보 읽기 →';
+        related.setAttribute('aria-label',caption.textContent+' 관련 건강정보 읽기');
+      }else{
+        related.removeAttribute('href');
+        related.removeAttribute('aria-label');
+      }
+    }
     position.textContent=String(currentIndex+1).padStart(2,'0')+
       ' / '+String(artworks.length).padStart(2,'0');
   }
