@@ -1373,3 +1373,187 @@
     border-color:CanvasText;
   }
 }
+
+
+/* 2026-10-30 | Picture-first exhibition finishing pass.
+   Preserve each original work at its full visible aspect; do not crop the
+   approved portrait, background art, or educational illustrations.
+   Existing titles, 23 artwork anchors, lightbox and patient links stay. */
+.gallery-hero{
+  grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+  gap:0;
+}
+.gallery-hero-content{
+  background:linear-gradient(137deg,#f7f1e4,#fffdf7 64%,#f1f4eb);
+  border-color:#d4c4a5;
+  border-radius:5px 0 0 19px;
+}
+.gallery-hero-content h1{
+  color:#214131;
+  font-weight:650;
+  line-height:1.47;
+  text-wrap:balance;
+}
+.gallery-hero-image{
+  background:#f2eee2;
+  border:9px solid #e8ddc5;
+  border-left:0;
+  border-radius:0 19px 5px 0;
+  box-shadow:0 18px 38px rgba(27,48,35,.085);
+}
+.gallery-hero-image>img{
+  box-sizing:border-box;
+  width:100%;
+  height:100%;
+  max-height:520px;
+  min-height:0;
+  object-fit:contain;
+  object-position:center;
+  background:#f5f0e4;
+}
+.gallery-hero-image>span{
+  color:#fffaf0;
+  background:rgba(28,56,42,.87);
+  letter-spacing:.09em;
+}
+#paintings .gallery-art-grid{
+  column-gap:clamp(15px,2.5vw,28px);
+  row-gap:clamp(18px,2.9vw,32px);
+}
+#paintings .gallery-piece{
+  border-color:#d6c9af;
+  border-radius:4px 15px 4px 15px;
+  background:#fffcf5;
+  box-shadow:0 13px 30px rgba(34,54,40,.068);
+}
+#paintings .gallery-piece .gallery-art-frame{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#e8dcc5,#f5eedf);
+  padding:clamp(7px,1.2vw,13px);
+}
+#paintings .gallery-piece .gallery-art-frame>img{
+  display:block;
+  width:100%;
+  height:auto;
+  min-height:0;
+  max-height:460px;
+  aspect-ratio:auto;
+  object-fit:contain;
+  object-position:center;
+  border:5px solid #fffcf4;
+  background:#f9f5ec;
+  box-shadow:0 8px 22px rgba(30,52,35,.075);
+}
+#paintings .gallery-piece.gallery-piece-feature .gallery-art-frame>img{
+  width:100%;
+  height:auto;
+  max-height:480px;
+  aspect-ratio:auto;
+  object-fit:contain;
+}
+#paintings .gallery-piece figcaption{
+  padding:clamp(19px,2.2vw,29px);
+  background:#fffdf8;
+}
+#paintings .gallery-piece figcaption>h3{
+  color:#244633;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(20px,2.15vw,26px);
+  line-height:1.49;
+  letter-spacing:-.05em;
+  text-wrap:balance;
+}
+#paintings .gallery-piece figcaption>p{
+  color:#4b6451;
+  line-height:1.83;
+}
+#paintings .gallery-piece .gallery-index{
+  color:#876d48;
+}
+#paintings .gallery-piece .gallery-links{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px 17px;
+}
+#paintings .gallery-piece .gallery-links :is(button,a) {
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+  padding:8px 0;
+  font-size:13px;
+  line-height:1.6;
+  word-break:keep-all;
+  text-underline-offset:4px;
+}
+#paintings .gallery-piece .gallery-links :is(button,a):focus-visible{
+  outline:3px solid #a88550;
+  outline-offset:3px;
+}
+@media(min-width:851px){
+  #paintings .gallery-piece-feature .gallery-art-frame{
+    align-items:center;
+    padding:clamp(13px,1.7vw,20px);
+  }
+  #paintings .gallery-piece-feature figcaption{
+    background:linear-gradient(140deg,#fffdf7,#f6f3e9);
+  }
+}
+@media(max-width:850px){
+  .gallery-hero{
+    grid-template-columns:minmax(0,1fr);
+  }
+  .gallery-hero-content{
+    border-right:1px solid #d4c4a5;
+    border-radius:5px 15px 0 0;
+  }
+  .gallery-hero-image{
+    border:7px solid #e8ddc5;
+    border-top:0;
+    border-radius:0 0 5px 15px;
+  }
+  .gallery-hero-image>img{
+    width:100%;
+    height:auto;
+    max-height:none;
+    aspect-ratio:3/2;
+    object-fit:contain;
+  }
+}
+@media(max-width:600px){
+  #paintings .gallery-piece .gallery-art-frame{
+    padding:8px;
+  }
+  #paintings .gallery-piece .gallery-art-frame>img{
+    width:100%;
+    height:auto;
+    max-height:none;
+    aspect-ratio:auto;
+    border-width:4px;
+  }
+  #paintings .gallery-piece figcaption {
+    padding:18px 17px 22px;
+  }
+  .gallery-hero-image>span{
+    right:9px;
+    bottom:9px;
+    font-size:9px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  #paintings .gallery-piece .gallery-art-frame>img{
+    transition:none;
+  }
+}
+@media(forced-colors:active){
+  .gallery-hero-content,.gallery-hero-image,
+  #paintings .gallery-piece,#paintings .gallery-piece .gallery-art-frame,
+  #paintings .gallery-piece figcaption{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
