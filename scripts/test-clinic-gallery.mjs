@@ -387,3 +387,30 @@ test('museum salon keeps ten full-frame patient artworks in generous columns',()
  assert.ok(html.includes('id="gallery-dialog"')&&html.includes('id="gallery-dialog-original"'),
   'lightbox and original-art control preserved');
 });
+
+
+test('gallery entrance uses accessible museum tickets for three rooms and journal',()=>{
+ const html=read('gallery.html');
+ const hero=html.match(/<section class="gallery-hero"[\s\S]*?<\/section>/)?.[0]||'';
+ const nav=hero.match(/<div class="gallery-hero-actions">([\s\S]*?)<\/div>/)?.[1]||'';
+ const destinations=[...nav.matchAll(/<a href="([^"]+)"/g)].map(m=>m[1]);
+ assert.deepEqual(destinations,[
+  '#paintings','#education','#patient-studies','/stories.html'
+ ],'the original three exhibition rooms and clinician journal remain native links');
+ for(const anchor of destinations.slice(0,3))
+  assert.ok(html.includes('id="'+anchor.slice(1)+'"'),'the linked art room must exist: '+anchor);
+ const css=read('assets/clinic-gallery.css');
+ for(const token of [
+  'Gallery entrance room-ticket navigation',
+  '.gallery-hero .gallery-hero-content>.gallery-hero-actions',
+  'grid-template-columns:repeat(2,minmax(0,1fr));',
+  'ROOM 01 / 10 WORKS','ROOM 02 / 03 WORKS','ROOM 03 / 10 WORKS',
+  "DOCTOR'S JOURNAL",
+  '.gallery-hero .gallery-hero-content>.gallery-hero-actions>a:focus-visible',
+  '@media(max-width:600px)','@media(max-width:390px)',
+  'grid-template-columns:minmax(0,1fr);','@media(forced-colors:active)'
+ ])assert.ok(css.includes(token),'missing readable, responsive gallery room ticket: '+token);
+ assert.ok(html.includes(hashedCssUrl('clinic-gallery')),'hashed CSS should activate for returning visitors');
+ assert.equal((html.match(/class="gallery-zoom"/g)||[]).length,23,'all twenty-three originals retain optional lightbox');
+ assert.ok(html.includes('class="gallery-mobile-dock"'),'phone and booking remain available');
+});
