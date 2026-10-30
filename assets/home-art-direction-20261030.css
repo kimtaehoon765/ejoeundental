@@ -1244,3 +1244,116 @@ body.home-page #main-content>#care .care-directory summary:focus-visible{
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-30: Two distinct new-arrival paintings, with visible exhibition labels.
+   Preserve full images and never reuse the existing starry/street/cubist thumbnails. */
+body.home-page #main-content>#gallery .gallery-new-arrivals {
+  border-top-color:#ad956b;
+  background:linear-gradient(126deg,#f6f3e8 0%,#faf9f2 52%,#eff4eb 100%);
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(12px,1.7vw,18px);
+  align-items:stretch;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings>a {
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  height:100%;
+  padding:7px;
+  overflow:hidden;
+  box-sizing:border-box;
+  border:1px solid #cbbd9e;
+  border-radius:4px 13px 4px 13px;
+  background:#eee8da;
+  text-decoration:none;
+  box-shadow:0 10px 24px rgba(30,58,39,.07);
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings>a>img {
+  box-sizing:border-box;
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:3/2;
+  object-fit:contain;
+  object-position:center;
+  border:0;
+  background:#f6f1e7;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings>a:nth-child(2)>img {
+  aspect-ratio:30/19;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings>a>.gallery-new-arrivals__caption {
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  flex:1;
+  min-height:96px;
+  gap:4px;
+  padding:13px clamp(11px,1.25vw,16px) 15px;
+  border-top:1px solid #e0d5c0;
+  background:#fffcf5;
+  color:#294c38;
+  text-align:left;
+  word-break:keep-all;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings .gallery-new-arrivals__caption>small {
+  display:block;
+  color:#937650;
+  font:750 10px/1.45 "DM Sans",system-ui,sans-serif;
+  letter-spacing:.10em;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings .gallery-new-arrivals__caption>strong {
+  display:block;
+  color:#294b38;
+  font:700 clamp(15px,1.4vw,19px)/1.52 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.042em;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings .gallery-new-arrivals__caption>em {
+  display:block;
+  margin-top:4px;
+  color:#3a664a;
+  font-size:12px;
+  font-style:normal;
+  font-weight:750;
+  line-height:1.55;
+}
+body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings>a:focus-visible,
+body.home-page #main-content>#gallery .gallery-new-arrivals__intro>a:focus-visible {
+  outline:3px solid #b08a45;
+  outline-offset:3px;
+}
+@media(max-width:540px) {
+  body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings {
+    grid-template-columns:minmax(0,1fr);
+    gap:13px;
+  }
+  body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings>a {
+    padding:6px;
+  }
+  body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings>a>img {
+    aspect-ratio:3/2;
+  }
+  body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings>a:nth-child(2)>img {
+    aspect-ratio:30/19;
+  }
+  body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings>a>.gallery-new-arrivals__caption {
+    min-height:0;
+    padding:12px 14px 14px;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content>#gallery :is(.gallery-new-arrivals,.gallery-new-arrivals__previews--paintings>a,.gallery-new-arrivals__previews--paintings>a>.gallery-new-arrivals__caption) {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#gallery .gallery-new-arrivals__previews--paintings .gallery-new-arrivals__caption :is(small,strong,em) {
+    color:CanvasText;
+  }
+}
