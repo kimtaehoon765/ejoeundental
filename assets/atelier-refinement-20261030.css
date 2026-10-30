@@ -550,3 +550,137 @@ body.home-page #main-content > .museum-route .museum-route__stories .museum-rout
     color:CanvasText;
   }
 }
+
+
+/* Two original-art exhibition rails · 2026-10-30.
+   The first collection already swipes on phones; explain its affordance.
+   In the second, let each of the two paintings be seen at a larger size,
+   rather than squeezing both into narrow side-by-side phone thumbnails. */
+body.home-page .curated-threshold__swipe-hint,
+body.home-page .atelier-collection-peek__swipe-hint {
+  display:none;
+}
+@media (max-width:600px) {
+  body.home-page .curated-threshold__swipe-hint {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin:12px 0 2px;
+    padding:10px 12px;
+    color:#f2e5c8;
+    font-size:12px;
+    font-weight:650;
+    line-height:1.6;
+    border:1px solid rgba(230,206,158,.35);
+    border-radius:7px;
+    background:rgba(255,250,239,.07);
+    word-break:keep-all;
+  }
+  body.home-page .curated-threshold__swipe-hint > span {
+    flex:none;
+    font-size:18px;
+  }
+  body.home-page .atelier-collection-peek__swipe-hint {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin:10px 0 0;
+    padding:8px 10px;
+    max-width:35ch;
+    font-size:12px;
+    font-weight:650;
+    line-height:1.65;
+    color:#f4dfb5;
+    border-left:2px solid #d6b77d;
+    background:rgba(255,253,247,.07);
+    word-break:keep-all;
+  }
+  body.home-page .atelier-collection-peek__swipe-hint > span {
+    flex:none;
+    font-size:17px;
+  }
+  body.home-page .atelier-collection-peek__pieces {
+    box-sizing:border-box;
+    display:flex;
+    flex-wrap:nowrap;
+    align-items:stretch;
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    gap:13px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding:5px 4px 15px;
+    scroll-snap-type:x mandatory;
+    scroll-padding-inline:4px;
+    overscroll-behavior-inline:contain;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+    scrollbar-color:#c5b17e transparent;
+  }
+  body.home-page .atelier-collection-peek__pieces > a {
+    box-sizing:border-box;
+    display:flex;
+    flex:0 0 min(79vw,315px);
+    flex-direction:column;
+    min-width:0;
+    max-width:100%;
+    scroll-snap-align:start;
+    scroll-snap-stop:normal;
+    text-decoration:none;
+  }
+  body.home-page .atelier-collection-peek__pieces > a .atelier-collection-peek__frame {
+    display:block;
+    box-sizing:border-box;
+    width:100%;
+    padding:7px;
+    background:#ebe2d0;
+  }
+  body.home-page .atelier-collection-peek__pieces > a .atelier-collection-peek__frame img {
+    box-sizing:border-box;
+    display:block;
+    width:100%;
+    height:auto;
+    aspect-ratio:5 / 3;
+    object-fit:contain;
+    object-position:center;
+  }
+  body.home-page .atelier-collection-peek__pieces > a .atelier-collection-peek__caption {
+    gap:6px;
+    padding-top:12px;
+  }
+  body.home-page .atelier-collection-peek__pieces > a .atelier-collection-peek__caption strong {
+    font-size:14px;
+    line-height:1.6;
+  }
+}
+@media (max-width:360px) {
+  body.home-page .atelier-collection-peek__pieces > a {
+    flex-basis:min(81vw,285px);
+  }
+}
+@media (forced-colors:active) {
+  body.home-page .curated-threshold__swipe-hint,
+  body.home-page .atelier-collection-peek__swipe-hint {
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+  }
+}
+@media print {
+  body.home-page .curated-threshold__swipe-hint,
+  body.home-page .atelier-collection-peek__swipe-hint {
+    display:none;
+  }
+  body.home-page .atelier-collection-peek__pieces {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    overflow:visible;
+  }
+  body.home-page .atelier-collection-peek__pieces > a {
+    flex:initial;
+    width:auto;
+  }
+}
