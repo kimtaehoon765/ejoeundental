@@ -55,7 +55,7 @@ test('core on-page content and indexing markers preserved after design update',(
  assert.ok(home.includes('name="naver-site-verification"'));
  assert.ok(home.includes('name="google-site-verification"'));
  assert.ok(home.includes('rel="canonical" href="https://ejoeundental.com/"'));
- assert.ok(home.includes('src="/assets/ejoeundental-hero-cat.webp"'));
+ assert.ok(home.includes('src="/assets/ejoeun-gallery-cat-dentist-20261029.webp"'));
  assert.ok(home.includes('href="/doctor.html"'));
 });
 
