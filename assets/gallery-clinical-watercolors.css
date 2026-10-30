@@ -127,3 +127,49 @@
   #education .gallery-note--watercolor small,
   #education .gallery-note--watercolor>span>span{color:CanvasText}
 }
+
+/* 2026-10-30 · Watercolor art zoom: optional gallery action. */
+/* Keep the original full-card clinical links unchanged; add a distinct
+   action to view each watercolor at full size, never nested inside a link. */
+#education .gallery-watercolor-card{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  height:100%;
+}
+#education .gallery-watercolor-card>.gallery-note--watercolor{
+  flex:1 1 auto;
+}
+#education .gallery-watercolor-card>.gallery-zoom{
+  display:none;
+  box-sizing:border-box;
+  align-items:center;
+  justify-content:center;
+  min-height:46px;
+  width:100%;
+  margin-top:9px;
+  padding:9px 12px;
+  border:1px solid #b9a47c;
+  border-radius:3px 10px 3px 10px;
+  background:#fbf7ed;
+  color:#244f3b;
+  font:750 13px/1.6 system-ui,"Apple SD Gothic Neo",sans-serif;
+  text-align:center;
+  cursor:pointer;
+}
+.gallery-js #education .gallery-watercolor-card>.gallery-zoom{
+  display:inline-flex;
+}
+#education .gallery-watercolor-card>.gallery-zoom:hover{
+  background:#f0eadc;
+  border-color:#896b43;
+}
+#education .gallery-watercolor-card>.gallery-zoom:focus-visible{
+  outline:3px solid #b39250;
+  outline-offset:3px;
+}
+@media(forced-colors:active){
+  #education .gallery-watercolor-card>.gallery-zoom{
+    background:ButtonFace;color:ButtonText;border-color:ButtonText;
+  }
+}
