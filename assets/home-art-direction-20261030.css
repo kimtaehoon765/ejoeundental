@@ -2869,3 +2869,151 @@ body.home-page #main-content>#care .care-more-details .care-more-grid>.card>p:la
     border:2px solid ButtonText;
   }
 }
+
+
+/* 2026-10-30 · Gallery clarity pass: one artwork per panel. */
+/* The legacy health-card ::before posters duplicate the framed images and
+   crowd mobile reading. Keep each real illustration as the one artwork.
+   This changes only presentation; every text paragraph and link remains. */
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card::before {
+  content:none;
+  display:none;
+}
+body.home-page #main-content>#health-info .health-topic-grid {
+  align-items:stretch;
+  gap:clamp(14px,2vw,24px);
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card {
+  min-width:0;
+  border:1px solid #d9d3c4;
+  border-top:3px solid #b49b6c;
+  border-radius:3px 14px 3px 14px;
+  background:linear-gradient(160deg,#fffefa,#faf8f1);
+  box-shadow:0 12px 26px rgba(27,53,36,.055);
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card:nth-child(even) {
+  border-top-color:#8da992;
+}
+body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card>h3 {
+  margin:0 0 13px;
+  padding-bottom:11px;
+  border-bottom:1px solid #e5e0d6;
+  font-size:clamp(18px,1.65vw,22px);
+  line-height:1.55;
+}
+/* Two typographic panels get their own subtle, non-clinical graphic motifs,
+   never a recycled or medically misleading tooth illustration. */
+body.home-page #main-content>#health-info .health-topic-card:nth-child(3)>.health-topic-art--letterpress,
+body.home-page #main-content>#health-info .health-topic-card:nth-child(4)>.health-topic-art--letterpress {
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  justify-content:center;
+  min-height:clamp(150px,15vw,184px);
+  padding:clamp(18px,2vw,25px);
+  border:1px solid #d2c6af;
+  border-radius:3px 12px 3px 12px;
+  box-shadow:inset 0 0 0 7px rgba(255,255,255,.55);
+}
+body.home-page #main-content>#health-info .health-topic-card:nth-child(3)>.health-topic-art--letterpress {
+  background:radial-gradient(circle at 91% 9%,#e6e0ef 0%,transparent 45%),linear-gradient(138deg,#f1eff6,#fcf9f2 77%);
+  border-left:4px solid #8e84a2;
+}
+body.home-page #main-content>#health-info .health-topic-card:nth-child(4)>.health-topic-art--letterpress {
+  background:radial-gradient(circle at 93% 5%,#e0eaca 0%,transparent 45%),linear-gradient(138deg,#eaf2e6,#fffdf4 80%);
+  border-left:4px solid #7d9e7f;
+}
+body.home-page #main-content>#health-info .health-topic-card:nth-child(3)>.health-topic-art--letterpress::after,
+body.home-page #main-content>#health-info .health-topic-card:nth-child(4)>.health-topic-art--letterpress::after {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  right:-32px;
+  bottom:-60px;
+  width:155px;
+  height:155px;
+  border:19px double rgba(117,128,110,.14);
+  border-radius:50%;
+  pointer-events:none;
+}
+body.home-page #main-content>#health-info .health-topic-art--letterpress :is(small,strong,span) {
+  position:relative;
+  z-index:1;
+}
+body.home-page #main-content>#health-info .health-topic-art--letterpress strong {
+  max-width:22ch;
+  font-size:clamp(17px,1.55vw,21px);
+}
+body.home-page #main-content>#health-info .health-topic-card:nth-child(3)>.health-topic-art--letterpress small {
+  color:#645c7c;
+}
+body.home-page #main-content>#health-info .health-topic-card:nth-child(4)>.health-topic-art--letterpress small {
+  color:#53745c;
+}
+/* Make the existing four reading-room topic tiles look like a cohesive
+   mini-exhibition while keeping the original titles and destinations. */
+body.home-page #main-content>#stories .owner-blog-topic-jumps .owner-blog-topic-art--letterpress {
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+}
+body.home-page #main-content>#stories .owner-blog-topic-jumps .owner-blog-topic-art--letterpress::before {
+  content:"";
+  position:absolute;
+  inset:8px;
+  border:1px solid rgba(255,250,226,.28);
+  border-radius:2px;
+  pointer-events:none;
+}
+body.home-page #main-content>#stories .owner-blog-topic-jumps .owner-blog-topic-art--letterpress::after {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  right:-44px;
+  top:-46px;
+  width:148px;
+  height:148px;
+  border:1px solid rgba(255,254,234,.22);
+  border-radius:50%;
+  box-shadow:0 0 0 17px rgba(255,254,234,.035),0 0 0 34px rgba(255,254,234,.035);
+  pointer-events:none;
+}
+body.home-page #main-content>#stories .owner-blog-topic-jumps>a {
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  body.home-page #main-content>#stories .owner-blog-topic-jumps>a:hover {
+    transform:translateY(-3px);
+    border-color:#ad9871;
+    box-shadow:0 16px 30px rgba(22,49,34,.11);
+  }
+}
+@media(max-width:600px) {
+  body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card {
+    padding:20px 17px 22px;
+    box-shadow:0 5px 15px rgba(27,53,36,.04);
+  }
+  body.home-page #main-content>#health-info .health-topic-card:nth-child(3)>.health-topic-art--letterpress,
+  body.home-page #main-content>#health-info .health-topic-card:nth-child(4)>.health-topic-art--letterpress {
+    min-height:132px;
+    padding:16px 17px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.home-page #main-content>#stories .owner-blog-topic-jumps>a {
+    transition:none;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content>#health-info .health-topic-grid>.health-topic-card,
+  body.home-page #main-content>#health-info .health-topic-art--letterpress {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#health-info .health-topic-art--letterpress::after,
+  body.home-page #main-content>#stories .owner-blog-topic-art--letterpress::after {
+    display:none;
+  }
+}
