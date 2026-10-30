@@ -210,10 +210,12 @@ test('gallery lightbox navigates all 23 paintings and returns keyboard focus',as
  assert.deepEqual(roomControls.map(button=>button.dataset.room),['paintings','education','patient-studies']);
  const img=mock(),loadStatus={hidden:true,textContent:''},
   heading={textContent:''},roomTitle={textContent:''},pos={textContent:''},
+  original=mock(),description={textContent:''},
   close=mock(),prev=mock(),next=mock(),dialog=mock();
  dialog.open=false;dialog.showModal=()=>{dialog.open=true};dialog.close=()=>{dialog.open=false;dialog.handlers.close?.()};
  const ids={'gallery-dialog':dialog,'gallery-dialog-image':img,'gallery-dialog-title':heading,
   'gallery-dialog-section':roomTitle,'gallery-dialog-position':pos,'gallery-dialog-loading':loadStatus,
+  'gallery-dialog-original':original,'gallery-dialog-description':description,
   'gallery-close':close,'gallery-prev':prev,'gallery-next':next};
  const classes=[];
  const document={documentElement:{classList:{add(name){classes.push(name)}}},
@@ -223,6 +225,10 @@ test('gallery lightbox navigates all 23 paintings and returns keyboard focus',as
  assert.ok(classes.includes('gallery-js'));
  buttons[22].click();
  assert.equal(img.src,buttons[22].dataset.image);
+ assert.equal(original.getAttribute('href'),buttons[22].dataset.image,
+  'original artwork link must update to the selected painting');
+ assert.equal(original.hidden,false);
+ assert.ok(description.textContent.length>0,'the selected artwork needs a visible caption');
  assert.equal(loadStatus.hidden,false,'loading feedback should appear until the image is ready');
  assert.match(loadStatus.textContent,/불러오는 중/);
  img.handlers.load();
@@ -234,6 +240,8 @@ test('gallery lightbox navigates all 23 paintings and returns keyboard focus',as
  assert.equal(roomControls[0].getAttribute('aria-current'),'false');
  next.click();
  assert.equal(img.src,buttons[0].dataset.image);
+ assert.equal(original.getAttribute('href'),buttons[0].dataset.image,
+  'moving to the next work must not leave the previous original URL');
  assert.equal(loadStatus.hidden,false,'the next painting needs its own loading state');
  img.handlers.error();
  assert.equal(loadStatus.hidden,false);
