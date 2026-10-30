@@ -30,19 +30,28 @@
   input.type = 'search';
   input.placeholder = '예: 부평 잇몸치료, 산곡동 신경치료';
   input.autocomplete = 'off';
+  input.maxLength = 100;
   input.setAttribute('aria-controls', 'archive-blog-collections');
+  input.setAttribute('aria-describedby', 'archive-search-status');
   const clearButton = document.createElement('button');
   clearButton.type = 'button';
   clearButton.className = 'archive-search-clear';
   clearButton.textContent = '검색 초기화';
   clearButton.setAttribute('aria-label', '검색어를 지우고 전체 글 보기');
   clearButton.hidden = true;
+  const jumpButton = document.createElement('button');
+  jumpButton.type = 'button';
+  jumpButton.className = 'archive-search-jump';
+  jumpButton.textContent = '첫 번째 검색 결과로 이동';
+  jumpButton.setAttribute('aria-controls', 'archive-blog-collections');
+  jumpButton.hidden = true;
   const status = document.createElement('p');
+  status.id = 'archive-search-status';
   status.className = 'archive-search-status';
   status.setAttribute('role', 'status');
   status.setAttribute('aria-live', 'polite');
   status.textContent = '주제별 제목을 펼치거나 검색어를 입력해 보세요.';
-  box.append(label, input, clearButton, status);
+  box.append(label, input, jumpButton, clearButton, status);
   section.insertBefore(box, collection);
 
   const groupsWithLinks = groups.map(group => ({
@@ -60,12 +69,15 @@
   label.textContent = '원장 글 ' + totalPosts + '편에서 제목·주제 찾기';
   status.textContent = '전체 ' + totalPosts + '편 · 주제별 제목을 펼치거나 검색어를 입력해 보세요.';
   let openBeforeSearch = null;
+  let firstMatch = null;
 
   function filterPosts() {
     const query = normalize(input.value);
     const terms = searchTerms(input.value);
     clearButton.hidden = !query;
     if (!query) {
+      firstMatch = null;
+      jumpButton.hidden = true;
       for (const { group, items } of groupsWithLinks) {
         group.hidden = false;
         for (const { li } of items) li.hidden = false;
@@ -79,6 +91,7 @@
       openBeforeSearch = new Map(groups.map(group => [group, group.open]));
     }
     let found = 0;
+    firstMatch = null;
     for (const { group, topic, items } of groupsWithLinks) {
       // An archive heading such as "잇몸치료" describes many different posts.
       // Prefer articles whose own titles match, rather than labeling every
@@ -94,14 +107,18 @@
       for (const [index, { li }] of items.entries()) {
         const matched = titleMatches[index] || (!anyTitleMatch && wholeTopicMatches);
         li.hidden = !matched;
-        if (matched) inGroup++;
+        if (matched) {
+          inGroup++;
+          if (!firstMatch) firstMatch = li.querySelector('a');
+        }
       }
       group.hidden = inGroup === 0;
       group.open = inGroup > 0;
       found += inGroup;
     }
+    jumpButton.hidden = !firstMatch;
     status.textContent = found
-      ? '원장 글 ' + found + '편을 찾았습니다. 제목을 누르면 네이버 원문이 열립니다.'
+      ? '원장 글 ' + found + '편을 찾았습니다. 첫 결과로 이동하거나 제목을 누르면 네이버 원문이 열립니다.'
       : '일치하는 원장 글이 없습니다. 다른 검색어로 다시 찾아보세요.';
   }
   // A direct query link is shareable when first opened. Once the patient
@@ -116,6 +133,20 @@
       (remaining ? '?' + remaining : '') + (window.location.hash || '');
     window.history?.replaceState?.(null, '', target);
   }
+  // A focused result remains on the clinic page until the patient chooses
+  // to open the original Naver link. This is especially helpful on phones.
+  function focusFirstResult() {
+    if (!firstMatch) return;
+    firstMatch.scrollIntoView({ block: 'center' });
+    firstMatch.focus({ preventScroll: true });
+  }
+  jumpButton.addEventListener('click', focusFirstResult);
+  input.addEventListener('keydown', event => {
+    if (event.key === 'Enter' && firstMatch) {
+      event.preventDefault();
+      focusFirstResult();
+    }
+  });
   input.addEventListener('input', filterPosts);
   input.addEventListener('input', discardStaleQueryFromAddress);
   clearButton.addEventListener('click', () => {
