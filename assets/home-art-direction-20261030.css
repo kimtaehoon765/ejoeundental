@@ -3310,3 +3310,47 @@ body.home-page #main-content>#focus-care .focus-care-shortcuts>a:focus-visible {
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-30 | Unique painting policy: the water garden appears once. */
+/* Let the original water-garden artwork stand on its own in the Monet
+   interlude. Other parts of this homepage use quiet original CSS surfaces,
+   not a second background copy of the same picture. All actual artwork,
+   hyperlinks, indexable text and medical information stay untouched. */
+body.home-page #main-content>.hero.wrap::before {
+  background:
+    radial-gradient(ellipse at 97% 12%,rgba(198,213,179,.30),transparent 43%),
+    radial-gradient(ellipse at 10% 91%,rgba(225,202,157,.24),transparent 41%),
+    linear-gradient(145deg,rgba(253,250,240,.97),rgba(237,244,233,.91));
+  background-image:
+    radial-gradient(ellipse at 97% 12%,rgba(198,213,179,.30),transparent 43%),
+    radial-gradient(ellipse at 10% 91%,rgba(225,202,157,.24),transparent 41%),
+    linear-gradient(145deg,rgba(253,250,240,.97),rgba(237,244,233,.91));
+}
+body.home-page #main-content>#doctor::before {
+  background:
+    radial-gradient(ellipse at 75% 18%,rgba(218,195,130,.30),transparent 52%),
+    radial-gradient(ellipse at 20% 79%,rgba(139,186,150,.27),transparent 57%);
+  filter:none;
+}
+body.home-page #main-content>#doctor .frame::before {
+  background:none;
+  opacity:0;
+}
+body.home-page #home-representative-guides .home-representative-guide-grid>a:nth-child(2) {
+  background-image:
+    radial-gradient(ellipse at 78% 16%,rgba(226,202,146,.40),transparent 42%),
+    radial-gradient(ellipse at 35% 55%,rgba(108,158,119,.42),transparent 46%),
+    radial-gradient(ellipse at 75% 84%,rgba(126,172,160,.30),transparent 47%);
+  background-color:#f1f1e7;
+}
+@media(forced-colors:active) {
+  body.home-page #main-content>.hero.wrap::before,
+  body.home-page #main-content>#doctor::before {
+    background:none;
+  }
+  body.home-page #home-representative-guides .home-representative-guide-grid>a:nth-child(2) {
+    background:Canvas;
+    color:LinkText;
+  }
+}
