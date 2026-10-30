@@ -494,3 +494,102 @@ body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasi
   }
   body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care) :is(.gum-hero,main>.hero)::before{background:none}
 }
+
+
+/* 2026-10-30 | Keep medical figures intact across screen sizes.
+   Clinical diagrams need full boundaries; unlike decorative photographs,
+   cropping would remove clinically relevant structures and captions.
+   Existing sources, diagrams, patient links and reserve controls stay. */
+body.care-gallery.care-retreatment main > .hero .hero-grid img,
+body.care-gallery.care-retreatment .block .cards .card img,
+body.care-gallery.care-retreatment .block .steps .step img,
+body.care-gallery.care-retreatment .preserve img {
+  object-fit:contain;
+  object-position:center;
+  background:#faf6ec;
+}
+body.care-gallery.care-retreatment .block .steps .step img{
+  box-sizing:border-box;
+  max-width:100%;
+  border:1px solid #e4dac7;
+  box-shadow:none;
+}
+body.care-gallery.care-retreatment .block .cards .card img{
+  box-sizing:border-box;
+  width:100%;
+  max-width:100%;
+  object-fit:contain;
+  background:#fbf7ef;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care) .treatment-hero-actions a {
+  box-sizing:border-box;
+  text-wrap:balance;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+@media(max-width:760px){
+  body.care-gallery.care-retreatment main > .hero .hero-grid img {
+    display:block;
+    width:100%;
+    max-width:420px;
+    height:auto;
+    max-height:none;
+    margin-inline:auto;
+    object-fit:contain;
+  }
+  body.care-gallery.care-retreatment .block .steps .step img {
+    width:calc(100% - 18px);
+    height:clamp(110px,32vw,160px);
+    object-fit:contain;
+    object-position:center;
+  }
+  body.care-gallery.care-retreatment .block .cards .card img {
+    width:100%;
+    height:auto;
+    aspect-ratio:3/2;
+    object-fit:contain;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care) .treatment-hero-actions {
+    gap:9px;
+    align-items:stretch;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care) .treatment-hero-actions a {
+    min-width:0;
+    min-height:49px;
+    padding:10px 9px;
+    font-size:13px;
+    line-height:1.58;
+  }
+}
+@media(max-width:600px){
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care) .treatment-page-toc {
+    border-radius:4px 12px 4px 12px;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care) .treatment-page-toc a {
+    min-width:0;
+    overflow-wrap:anywhere;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care) .care-gallery-bottom-actions {
+    box-sizing:border-box;
+    grid-template-columns:minmax(0,1fr) minmax(0,1.15fr) minmax(0,1fr);
+    align-items:stretch;
+    gap:7px;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care) .care-gallery-bottom-actions a {
+    box-sizing:border-box;
+    min-width:0;
+    min-height:48px;
+    border-radius:5px 11px 5px 11px;
+    padding:8px 3px;
+    line-height:1.42;
+    font-size:clamp(11px,3.2vw,13px);
+    text-wrap:balance;
+    overflow-wrap:anywhere;
+  }
+}
+@media(forced-colors:active){
+  body.care-gallery.care-retreatment .block .steps .step img{
+    border-color:CanvasText;
+    background:Canvas;
+  }
+}
