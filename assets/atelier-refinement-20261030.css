@@ -469,3 +469,84 @@ body.home-page #main-content > .hero.wrap .hero-more-care-links > a:focus-visibl
     transform:none;
   }
 }
+
+
+/* Editorial museum wayfinding · five destinations, including the doctor's
+   own articles. Keep every existing link and visual-focus state usable. */
+body.home-page #main-content > .museum-route {
+  grid-template-columns:minmax(0,1fr);
+  row-gap:13px;
+  padding:clamp(16px,2.1vw,25px);
+}
+body.home-page #main-content > .museum-route .museum-route__intro {
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  align-items:baseline;
+  gap:6px 15px;
+  border-bottom:1px solid #dfd8c7;
+  padding:0 0 12px;
+}
+body.home-page #main-content > .museum-route .museum-route__links {
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:9px;
+}
+body.home-page #main-content > .museum-route .museum-route__links > a {
+  min-width:0;
+  min-height:82px;
+  align-items:flex-start;
+  padding:14px 11px;
+  box-shadow:0 4px 12px rgba(38,59,42,.035);
+}
+body.home-page #main-content > .museum-route .museum-route__links > .museum-route__stories {
+  border-color:#c9b48a;
+  border-top:2px solid #a98a55;
+  background:linear-gradient(145deg,#fffdf7,#f0efe2);
+}
+body.home-page #main-content > .museum-route .museum-route__stories .museum-route__label strong {
+  color:#214b35;
+}
+@media (max-width:1060px) {
+  body.home-page #main-content > .museum-route .museum-route__links {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+@media (max-width:700px) {
+  body.home-page #main-content > .museum-route .museum-route__links {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.home-page #main-content > .museum-route .museum-route__links > a {
+    min-height:67px;
+    padding:12px 10px;
+  }
+  body.home-page #main-content > .museum-route .museum-route__links > .museum-route__stories {
+    grid-column:1 / -1;
+    min-height:54px;
+    align-items:center;
+  }
+  body.home-page #main-content > .museum-route .museum-route__links > .museum-route__stories .museum-route__label {
+    flex-direction:row;
+    flex-wrap:wrap;
+    align-items:baseline;
+    column-gap:11px;
+  }
+}
+@media (max-width:360px) {
+  body.home-page #main-content > .museum-route {
+    padding:13px 10px 15px;
+  }
+  body.home-page #main-content > .museum-route .museum-route__links > a {
+    padding:11px 8px;
+  }
+}
+@media (forced-colors:active) {
+  body.home-page #main-content > .museum-route .museum-route__links > .museum-route__stories {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+  }
+  body.home-page #main-content > .museum-route .museum-route__stories .museum-route__label strong {
+    color:CanvasText;
+  }
+}
