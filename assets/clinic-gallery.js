@@ -10,6 +10,7 @@
   const next=document.getElementById('gallery-next');
   const position=document.getElementById('gallery-dialog-position');
   const related=document.getElementById('gallery-dialog-care');
+  const loadStatus=document.getElementById('gallery-dialog-loading');
   const artworks=[...document.querySelectorAll('.gallery-zoom')];
   const roomButtons=[...document.querySelectorAll('.gallery-dialog-room')];
   if(!dialog || !picture || !caption || !close || !prev || !next ||
@@ -18,11 +19,26 @@
   let opener=null;
   let currentIndex=0;
 
+  function announceLoad(message) {
+    if(!loadStatus)return;
+    loadStatus.textContent=message;
+    loadStatus.hidden=!message;
+  }
+
+  // The modal starts without an image src, avoiding a hidden eager request.
+  // Only the user-selected painting is loaded; artwork links still work
+  // without JavaScript thanks to the direct original-image anchors.
+  picture.addEventListener('load',()=>announceLoad(''));
+  picture.addEventListener('error',()=>{
+    announceLoad('그림을 표시하지 못했습니다. 확대창을 닫고 원본 보기 링크를 이용해 주세요.');
+  });
+
   function showArtwork(index) {
     currentIndex=(index+artworks.length)%artworks.length;
     const button=artworks[currentIndex];
     picture.src=button.dataset.image || '';
     picture.alt=button.dataset.alt || '이조은치과 창작 그림';
+    announceLoad(picture.complete && picture.naturalWidth>0?'':'그림을 불러오는 중입니다.');
     caption.textContent=button.dataset.title || '그림 감상';
     // The gallery is three curated rooms, not one anonymous 23-image reel.
     // Derive labels from the actual section containing each artwork instead
@@ -130,6 +146,7 @@
     if(event.target===dialog) dialog.close();
   });
   dialog.addEventListener('close',()=>{
+    announceLoad('');
     if(opener?.isConnected) opener.focus();
   });
 })();
