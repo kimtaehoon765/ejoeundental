@@ -87,3 +87,117 @@ body.core-faq-refined :is(a,summary,button):focus-visible{outline:3px solid #a68
  body.core-faq-refined .core-faq-connections a,
  body.core-faq-refined main>.card{background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none}
 }
+
+/* 2026-10-30 | Numbered clinical-question reading rooms.
+   Question text, answers, original landscape art and doctor credentials
+   stay identical; numbering is visual and does not alter the source Q&A. */
+body.core-faq-refined header > h1 {
+  max-width:25ch;
+  color:#264a37;
+  font-weight:650;
+  letter-spacing:-.052em;
+  line-height:1.51;
+}
+body.core-faq-refined main {
+  counter-reset:faq-room;
+  border-color:#d7cbb7;
+  border-top-color:#ad956e;
+  border-radius:5px 18px 5px 18px;
+  background:#fffefa;
+  box-shadow:0 16px 39px rgba(29,58,38,.057);
+}
+body.core-faq-refined main > .card {
+  counter-increment:faq-room;
+  position:relative;
+  border:1px solid #dbd5c9;
+  border-top:3px solid #b49c73;
+  border-radius:5px 14px 5px 14px;
+  background:#fffdf9;
+  box-shadow:0 9px 22px rgba(30,58,39,.047);
+}
+body.core-faq-refined main > .card:nth-of-type(even) {
+  border-top-color:#83a08b;
+}
+body.core-faq-refined main > .card::before {
+  content:"QUESTION " counter(faq-room,decimal-leading-zero);
+  display:block;
+  width:fit-content;
+  max-width:100%;
+  padding:5px 11px;
+  margin:0 0 10px;
+  border-left:3px solid #aa8d5c;
+  background:#f6f0e3;
+  color:#795e3d;
+  font:800 11px/1.55 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.06em;
+}
+body.core-faq-refined main > .card > h2 {
+  max-width:47ch;
+  font-size:clamp(19px,2.45vw,23px);
+  line-height:1.57;
+  text-wrap:balance;
+}
+body.core-faq-refined main > .card > p {
+  max-width:87ch;
+  line-height:1.93;
+  color:#435b49;
+  overflow-wrap:anywhere;
+}
+body.core-faq-refined .faq-question-index {
+  border-radius:4px 12px 4px 12px;
+}
+body.core-faq-refined .faq-question-index > summary {
+  min-height:49px;
+  line-height:1.6;
+}
+body.core-faq-refined main .faq-patient-actions > a {
+  min-width:0;
+  min-height:49px;
+  border-radius:5px 11px 5px 11px;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+  text-wrap:balance;
+}
+body.core-faq-refined .core-faq-connections {
+  border-radius:5px 12px 5px 12px;
+  background:linear-gradient(115deg,#f5f6ee,#fffaf1);
+  border-color:#d7cdb7;
+  border-top-color:#b39a6b;
+}
+body.core-faq-refined .core-faq-connections a {
+  border-radius:4px 10px 4px 10px;
+}
+@media(max-width:600px){
+  body.core-faq-refined main {
+    border-radius:4px 11px 4px 11px;
+  }
+  body.core-faq-refined main > .card {
+    padding:18px 16px 19px;
+  }
+  body.core-faq-refined main > .card::before {
+    margin-bottom:9px;
+  }
+  body.core-faq-refined main > .card > h2 {
+    font-size:clamp(18px,5vw,21px);
+    line-height:1.61;
+  }
+  body.core-faq-refined main > .card > p {
+    font-size:15px;
+    line-height:1.91;
+  }
+}
+@media(forced-colors:active){
+  body.core-faq-refined main,
+  body.core-faq-refined main > .card,
+  body.core-faq-refined .core-faq-connections {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.core-faq-refined main > .card::before {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+  }
+}
