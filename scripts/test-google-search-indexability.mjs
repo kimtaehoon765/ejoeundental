@@ -626,7 +626,8 @@ test('core dental service guides declare real clinic publisher and accountable t
   assert.equal(medical.author?.['@id'],origin+'/#clinic');
   assert.equal(medical.accountablePerson?.['@id'],origin+'/#doctor-person');
   assert.equal(medical.accountablePerson?.name,'김태훈');
-  assert.equal(medical.accountablePerson?.url,origin+'/doctor.html');
+  assert.equal(medical.accountablePerson?.url,origin+'/doctor',
+   'production HTML normalizes internal profile URLs to the canonical extensionless route');
   assert.equal(medical.publisher?.['@id'],origin+'/#clinic');
   assert.equal(medical.dateModified,'2026-10-30');
   assert.ok(html.includes('class="clinical-editorial-source"'),
