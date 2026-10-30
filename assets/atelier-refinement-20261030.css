@@ -1376,3 +1376,349 @@ body.home-page #main-content > #stories .journal-gallery-cover {
     box-shadow:none;
   }
 }
+
+
+/* 2026-10-30 | Three-room museum foyer · original collection 23.
+   No duplicated artwork, extra JS or invisible keywords: the exhibition
+   entrance is an accessible reading order with actual collection links. */
+body.home-page #main-content>#gallery .gallery-home-intro--exhibition{
+  position:relative;
+  isolation:isolate;
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:minmax(0,1.5fr) minmax(240px,.72fr);
+  align-items:center;
+  gap:clamp(22px,4vw,64px);
+  margin:0 0 19px;
+  padding:clamp(28px,4.2vw,55px);
+  overflow:hidden;
+  border:1px solid #baa47b;
+  border-radius:5px 20px 5px 20px;
+  background:
+    radial-gradient(circle at 85% 3%,rgba(217,194,140,.17),transparent 44%),
+    radial-gradient(circle at 3% 99%,rgba(126,166,133,.14),transparent 49%),
+    linear-gradient(129deg,#173a2c 0%,#24523e 65%,#173d30 100%);
+  box-shadow:0 21px 43px rgba(27,54,37,.13);
+}
+body.home-page #main-content>#gallery .gallery-home-intro--exhibition::before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:clamp(9px,1vw,14px);
+  border:1px solid rgba(228,203,152,.4);
+  border-radius:3px 11px 3px 11px;
+  pointer-events:none;
+}
+body.home-page #main-content>#gallery .gallery-exhibition-lead,
+body.home-page #main-content>#gallery .gallery-exhibition-colophon{
+  position:relative;
+  z-index:1;
+  min-width:0;
+}
+body.home-page #main-content>#gallery .gallery-exhibition-lead .eyebrow{
+  margin:0 0 18px;
+  color:#e6ca90;
+  font:750 11px/1.55 "DM Sans",system-ui,sans-serif;
+  letter-spacing:.17em;
+}
+body.home-page #main-content>#gallery .gallery-exhibition-lead h2{
+  margin:0 0 18px;
+  max-width:18ch;
+  color:#fffbf0;
+  font:650 clamp(28px,3.6vw,47px)/1.47 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.055em;
+  word-break:keep-all;
+  text-wrap:balance;
+}
+body.home-page #main-content>#gallery .gallery-exhibition-lead>p{
+  margin:0;
+  max-width:59ch;
+  color:#e2ecdf;
+  font-size:clamp(14px,1.25vw,16px);
+  line-height:1.92;
+  word-break:keep-all;
+  text-wrap:pretty;
+}
+body.home-page #main-content>#gallery .gallery-exhibition-lead>.gallery-exhibition-lead__note{
+  margin-top:clamp(16px,2vw,23px);
+  padding:11px 0 0;
+  max-width:53ch;
+  color:#ebd7b1;
+  border-top:1px solid rgba(223,198,143,.35);
+  font:550 13px/1.85 "Noto Serif KR","Apple SD Gothic Neo",serif;
+}
+body.home-page #main-content>#gallery .gallery-exhibition-colophon{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  padding:14px 0 14px clamp(22px,3.5vw,46px);
+  border-left:1px solid rgba(226,206,161,.43);
+}
+body.home-page #main-content>#gallery .gallery-exhibition-colophon__eyebrow{
+  color:#e9d4a6;
+  font:750 10px/1.65 "DM Sans",system-ui,sans-serif;
+  letter-spacing:.13em;
+}
+body.home-page #main-content>#gallery .gallery-exhibition-colophon__count{
+  display:flex;
+  align-items:baseline;
+  gap:13px;
+  margin:2px 0 10px;
+  color:#fff8e4;
+  font:500 clamp(66px,9vw,120px)/1.1 Georgia,"Times New Roman",serif;
+  letter-spacing:-.08em;
+  font-variant-numeric:lining-nums;
+}
+body.home-page #main-content>#gallery .gallery-exhibition-colophon__count>small{
+  color:#e7d1a8;
+  font:750 11px/1.2 "DM Sans",system-ui,sans-serif;
+  letter-spacing:.15em;
+}
+body.home-page #main-content>#gallery .gallery-exhibition-colophon__rule{
+  width:100%;
+  max-width:230px;
+  height:1px;
+  background:linear-gradient(90deg,#c7aa72,transparent);
+}
+body.home-page #main-content>#gallery .gallery-exhibition-colophon>p{
+  margin:14px 0 15px;
+  color:#e1ebdd;
+  font-size:13px;
+  line-height:1.75;
+  word-break:keep-all;
+}
+body.home-page #main-content>#gallery .gallery-home-intro--exhibition .gallery-home-more{
+  box-sizing:border-box;
+  display:inline-flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  width:100%;
+  min-height:51px;
+  margin:0;
+  padding:12px 14px;
+  border:1px solid #e4c99a;
+  border-radius:4px;
+  background:#f9f3e3;
+  color:#20513b;
+  box-shadow:none;
+  font:800 13px/1.6 system-ui,"Apple SD Gothic Neo",sans-serif;
+  text-decoration:none;
+  word-break:keep-all;
+}
+body.home-page #main-content>#gallery .gallery-home-intro--exhibition .gallery-home-more:hover{
+  border-color:#fff6da;
+  background:#fffaf0;
+}
+body.home-page #main-content>#gallery .gallery-home-intro--exhibition .gallery-home-more:focus-visible{
+  outline:3px solid #f8d49a;
+  outline-offset:4px;
+}
+body.home-page #main-content>#gallery .gallery-exhibition-index{
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(9px,1.45vw,16px);
+  margin:0 auto clamp(24px,3.4vw,39px);
+  padding:0;
+}
+body.home-page #main-content>#gallery .gallery-exhibition-index__room{
+  position:relative;
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:9px;
+  min-width:0;
+  min-height:181px;
+  padding:clamp(17px,2.05vw,25px);
+  border:1px solid #d3c6ac;
+  border-top:3px solid #b59a6b;
+  border-radius:3px 12px 3px 12px;
+  background:linear-gradient(155deg,#fffdfa,#f6f0e4);
+  box-shadow:0 8px 21px rgba(37,55,39,.045);
+  color:#234633;
+  text-decoration:none;
+  transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease;
+}
+body.home-page #main-content>#gallery .gallery-exhibition-index__room:nth-child(2){
+  border-top-color:#729c85;
+  background:linear-gradient(150deg,#fcfdf6,#eff4ea);
+}
+body.home-page #main-content>#gallery .gallery-exhibition-index__room:nth-child(3){
+  border-top-color:#9683a3;
+  background:linear-gradient(155deg,#fffcfa,#f3f0f4);
+}
+body.home-page #main-content>#gallery .gallery-exhibition-index__number{
+  color:#876d43;
+  font:750 10px/1.55 "DM Sans",system-ui,sans-serif;
+  letter-spacing:.13em;
+}
+body.home-page #main-content>#gallery .gallery-exhibition-index__number>span{
+  padding:0 2px;
+  color:#b99d70;
+}
+body.home-page #main-content>#gallery .gallery-exhibition-index__room>strong{
+  margin:0;
+  color:#254c39;
+  font:700 clamp(17px,1.65vw,21px)/1.48 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.045em;
+  word-break:keep-all;
+}
+body.home-page #main-content>#gallery .gallery-exhibition-index__detail{
+  flex:1;
+  color:#536b5b;
+  font:550 13px/1.7 system-ui,"Apple SD Gothic Neo",sans-serif;
+  word-break:keep-all;
+}
+body.home-page #main-content>#gallery .gallery-exhibition-index__action{
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:9px;
+  width:100%;
+  min-height:40px;
+  margin-top:5px;
+  padding-top:11px;
+  border-top:1px solid #d8cbb3;
+  color:#21563b;
+  font:750 12px/1.55 system-ui,"Apple SD Gothic Neo",sans-serif;
+  word-break:keep-all;
+}
+body.home-page #main-content>#gallery .gallery-exhibition-index__action>span{
+  flex:none;
+  color:#9a7948;
+  font-size:17px;
+}
+body.home-page #main-content>#gallery .gallery-exhibition-index__room:focus-visible{
+  outline:3px solid #a88347;
+  outline-offset:4px;
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  body.home-page #main-content>#gallery .gallery-exhibition-index__room:hover{
+    transform:translateY(-3px);
+    border-color:#a78b5f;
+    box-shadow:0 16px 31px rgba(30,54,38,.095);
+  }
+}
+@media(max-width:950px){
+  body.home-page #main-content>#gallery .gallery-home-intro--exhibition{
+    grid-template-columns:minmax(0,1.25fr) minmax(190px,.7fr);
+    gap:20px;
+  }
+  body.home-page #main-content>#gallery .gallery-exhibition-colophon{
+    padding-left:22px;
+  }
+  body.home-page #main-content>#gallery .gallery-exhibition-index__room{
+    padding:16px 13px;
+  }
+}
+@media(max-width:700px){
+  body.home-page #main-content>#gallery .gallery-home-intro--exhibition{
+    grid-template-columns:minmax(0,1fr);
+    gap:18px;
+    margin-bottom:12px;
+    padding:clamp(24px,5vw,32px) clamp(20px,4.7vw,28px);
+  }
+  body.home-page #main-content>#gallery .gallery-exhibition-lead h2{
+    font-size:clamp(27px,6.5vw,34px);
+    margin-bottom:13px;
+  }
+  body.home-page #main-content>#gallery .gallery-exhibition-colophon{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:3px 10px;
+    align-items:center;
+    padding:14px 0 0;
+    border-left:0;
+    border-top:1px solid rgba(226,206,161,.43);
+  }
+  body.home-page #main-content>#gallery .gallery-exhibition-colophon__eyebrow{
+    grid-column:1;
+  }
+  body.home-page #main-content>#gallery .gallery-exhibition-colophon__count{
+    grid-column:2;
+    grid-row:1 / span 3;
+    font-size:clamp(54px,12vw,79px);
+  }
+  body.home-page #main-content>#gallery .gallery-exhibition-colophon__count>small{
+    font-size:9px;
+  }
+  body.home-page #main-content>#gallery .gallery-exhibition-colophon__rule{
+    grid-column:1;
+  }
+  body.home-page #main-content>#gallery .gallery-exhibition-colophon>p{
+    grid-column:1;
+    margin:5px 0 8px;
+  }
+  body.home-page #main-content>#gallery .gallery-home-intro--exhibition .gallery-home-more{
+    grid-column:1 / -1;
+    margin-top:5px;
+  }
+  body.home-page #main-content>#gallery .gallery-exhibition-index{
+    grid-template-columns:minmax(0,1fr);
+    gap:9px;
+    margin-bottom:25px;
+  }
+  body.home-page #main-content>#gallery .gallery-exhibition-index__room{
+    min-height:0;
+    padding:16px;
+    gap:6px;
+  }
+  body.home-page #main-content>#gallery .gallery-exhibition-index__action{
+    margin-top:2px;
+    padding-top:9px;
+  }
+}
+@media(max-width:360px){
+  body.home-page #main-content>#gallery .gallery-exhibition-colophon{
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.home-page #main-content>#gallery .gallery-exhibition-colophon__count{
+    grid-column:1;
+    grid-row:auto;
+    margin:2px 0;
+    font-size:64px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.home-page #main-content>#gallery .gallery-exhibition-index__room{
+    transition:none;
+    transform:none;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#gallery .gallery-home-intro--exhibition,
+  body.home-page #main-content>#gallery .gallery-exhibition-index__room,
+  body.home-page #main-content>#gallery .gallery-home-intro--exhibition .gallery-home-more{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#gallery :is(
+    .gallery-exhibition-lead,.gallery-exhibition-lead .eyebrow,
+    .gallery-exhibition-lead h2,.gallery-exhibition-lead p,
+    .gallery-exhibition-colophon,.gallery-exhibition-colophon span,
+    .gallery-exhibition-colophon p,.gallery-exhibition-index__room span,
+    .gallery-exhibition-index__room strong
+  ){color:CanvasText}
+  body.home-page #main-content>#gallery .gallery-home-intro--exhibition::before{
+    border-color:CanvasText;
+  }
+}
+@media print{
+  body.home-page #main-content>#gallery .gallery-home-intro--exhibition,
+  body.home-page #main-content>#gallery .gallery-exhibition-index__room{
+    color:#173e35;
+    background:#fff;
+    border-color:#a79b84;
+    box-shadow:none;
+    break-inside:avoid;
+  }
+  body.home-page #main-content>#gallery .gallery-exhibition-index{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
