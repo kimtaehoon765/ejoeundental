@@ -136,12 +136,22 @@ body.home-page #main-content>#health-info .health-topic-grid>.card h3 {
   line-height: 1.5;
   word-break: keep-all;
 }
-body.home-page #main-content .care-picture-notes__frame img,
+/* Three original dental watercolors should remain fully visible.
+   Gallery covers may still crop decoratively, but medical story art may not. */
+body.home-page #main-content .care-picture-notes__frame img {
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  aspect-ratio:3 / 2;
+  object-fit:contain;
+  object-position:center;
+}
 body.home-page #main-content #gallery .gallery-home-artworks img {
-  display: block;
-  width: 100%;
-  height: auto;
-  object-fit: cover;
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:cover;
 }
 body.home-page #main-content #gallery .gallery-home-intro h2 {
   text-wrap: balance;
