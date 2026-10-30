@@ -194,3 +194,160 @@
     background:ButtonFace;color:ButtonText;border-color:ButtonText;
   }
 }
+
+
+/* 2026-10-31 | Spacious three-watercolor exhibition wall.
+   Give each distinct clinician illustration the size of an actual artwork:
+   two reading prints and a wider final painting, never crop or repeat images.
+   Native clinical links and optional original/lightbox controls stay intact. */
+#education.gallery-education {
+  background:
+    radial-gradient(ellipse at 100% 10%,rgba(188,211,179,.24),transparent 41%),
+    radial-gradient(ellipse at 0% 87%,rgba(227,201,154,.19),transparent 45%),
+    linear-gradient(150deg,#f3eee5,#fffdf7 55%,#eff4eb);
+}
+#education .gallery-education-grid {
+  display:grid;
+  gap:clamp(15px,2.3vw,26px);
+  align-items:stretch;
+}
+#education .gallery-watercolor-card {
+  min-width:0;
+}
+#education .gallery-note--watercolor {
+  border:1px solid #d0bea0;
+  border-top:4px solid #b29a6c;
+  border-radius:4px 14px 4px 14px;
+  background:#fffdfa;
+  box-shadow:0 12px 30px rgba(34,58,42,.073);
+}
+#education .gallery-watercolor-card:nth-child(2)>.gallery-note--watercolor {
+  border-top-color:#8aa48e;
+}
+#education .gallery-watercolor-card:nth-child(3)>.gallery-note--watercolor {
+  border-top-color:#a79c75;
+}
+#education .gallery-note--watercolor>img {
+  box-sizing:border-box;
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:3/2;
+  object-fit:contain;
+  object-position:center;
+  padding:clamp(9px,1.3vw,16px);
+  border-bottom:1px solid #d9ccb5;
+  background:linear-gradient(140deg,#ede3d3,#f6f0e5);
+}
+#education .gallery-note--watercolor>span {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:11px;
+  padding:clamp(20px,2.3vw,30px);
+  background:linear-gradient(150deg,#fffdf7,#f9f7ef);
+}
+#education .gallery-note--watercolor small {
+  color:#8a714c;
+  font-size:11px;
+  letter-spacing:.075em;
+}
+#education .gallery-note--watercolor strong {
+  font-size:clamp(21px,2.2vw,27px);
+  line-height:1.55;
+  color:#204633;
+  text-wrap:balance;
+}
+#education .gallery-note--watercolor>span>span {
+  margin-top:7px;
+  padding-top:12px;
+  border-top:1px solid #ded6c8;
+  color:#2b6144;
+  font-size:14px;
+  line-height:1.8;
+  word-break:keep-all;
+}
+#education .gallery-watercolor-actions {
+  gap:9px;
+  margin-top:11px;
+}
+#education .gallery-watercolor-actions>:is(.gallery-watercolor-original,.gallery-zoom) {
+  min-height:48px;
+  border-radius:5px 10px 5px 10px;
+  font-size:14px;
+}
+@media(min-width:761px) {
+  #education .gallery-education-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  #education .gallery-watercolor-card:last-child {
+    grid-column:1 / -1;
+  }
+}
+@media(min-width:1021px) {
+  #education .gallery-watercolor-card:last-child>.gallery-note--watercolor {
+    display:grid;
+    grid-template-columns:minmax(0,1.17fr) minmax(0,.83fr);
+    align-items:stretch;
+  }
+  #education .gallery-watercolor-card:last-child>.gallery-note--watercolor>img {
+    width:100%;
+    height:100%;
+    aspect-ratio:3/2;
+    border-right:1px solid #d9ccb5;
+    border-bottom:0;
+  }
+  #education .gallery-watercolor-card:last-child>.gallery-note--watercolor>span {
+    align-self:stretch;
+    justify-content:center;
+    padding:clamp(24px,3vw,41px);
+  }
+  #education .gallery-watercolor-card:last-child .gallery-watercolor-actions {
+    justify-content:flex-end;
+  }
+  #education .gallery-watercolor-card:last-child .gallery-watercolor-actions>:is(.gallery-watercolor-original,.gallery-zoom) {
+    flex:0 1 210px;
+  }
+}
+@media(max-width:760px) {
+  #education .gallery-education-grid {
+    grid-template-columns:minmax(0,1fr);
+    gap:15px;
+  }
+  #education .gallery-note--watercolor>span {
+    padding:18px 19px 21px;
+  }
+  #education .gallery-note--watercolor strong {
+    font-size:21px;
+  }
+  #education .gallery-watercolor-actions>:is(.gallery-watercolor-original,.gallery-zoom) {
+    font-size:13px;
+  }
+}
+@media(forced-colors:active) {
+  #education.gallery-education,
+  #education .gallery-note--watercolor,
+  #education .gallery-note--watercolor>img,
+  #education .gallery-note--watercolor>span {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  #education .gallery-note--watercolor :is(small,strong,span) {
+    color:CanvasText;
+  }
+}
+@media print {
+  #education .gallery-education-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  #education .gallery-watercolor-card:last-child {
+    grid-column:1 / -1;
+  }
+  #education .gallery-note--watercolor {
+    break-inside:avoid;
+    box-shadow:none;
+  }
+}
