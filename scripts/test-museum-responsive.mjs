@@ -1095,3 +1095,31 @@ test('clinic structured hours include reliable Friday mornings but never promise
  assert.ok(visit.includes('이 페이지에는 이번 주의 확정 일정이 표시되지 않습니다.'));
  assert.ok(home.includes('href="tel:0325132875"'));
 });
+
+
+test('all 23 gallery originals stay first-party and descriptions follow the selected painting',()=>{
+ const gallery=read('gallery.html');
+ const script=read('assets/clinic-gallery.js');
+ const css=read('assets/clinic-gallery.css');
+ const buttons=[...gallery.matchAll(/class="gallery-zoom"[^>]*data-image="([^"]+)"/g)]
+   .map(match=>match[1]);
+ assert.equal(buttons.length,23,'all 23 originally curated pieces remain zoomable');
+ assert.equal(new Set(buttons).size,23,'no source picture is duplicated');
+ assert.ok(buttons.every(src=>/^\/assets\/[a-z0-9-]+\.(?:svg|webp|png|jpe?g)$/.test(src)),
+   'zoom sources are local verified image URL shapes');
+ assert.ok(gallery.includes('id="gallery-dialog-description"'));
+ assert.ok(gallery.includes('id="gallery-dialog-original" href="/gallery.html"'));
+ assert.ok(gallery.includes('class="gallery-dialog-care" id="gallery-dialog-care" hidden'),
+   'existing clinical information action is intact');
+ assert.ok(script.includes("description.textContent=artCaption?.textContent?.trim()"),
+   'lightbox artwork descriptions must use the current source caption');
+ assert.ok(script.includes("original.setAttribute('href',sourceImage)"),
+   'original link must track the selected image, not the previous work');
+ assert.ok(script.includes("original.removeAttribute('href')"),
+   'unexpected image URLs must not leave a stale original link');
+ assert.ok(script.includes("related.hidden=!hasGuide;"),
+   'health advice appears only for the selected clinically linked artwork');
+ assert.ok(css.includes('.gallery-dialog .gallery-dialog-description'));
+ assert.ok(css.includes('.gallery-dialog .gallery-dialog-art-actions'));
+ assert.ok(css.includes('@media(max-width:520px)'));
+});
