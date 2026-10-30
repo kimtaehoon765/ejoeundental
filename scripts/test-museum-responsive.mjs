@@ -58,6 +58,29 @@ test('premium home stylesheet ships after earlier layers and keeps booking visib
  assert.match(museum, /\.hero-actions \.hero-call\{\s*display:flex;order:0;grid-column:1;/);
 });
 
+test('four visit facts include true weekday hours and link to complete alternating schedule',()=>{
+ const html=read('index.html');
+ const section=html.match(/<section class="section" id="location">([\s\S]*?)<\/section>/)?.[1]||'';
+ const quick=section.match(/<div class="visit-quick-facts"[^>]*>([\s\S]*?)<\/div><nav class="place-visit-actions"/)?.[1]||'';
+ const cardTitles=[...quick.matchAll(/<strong>([^<]+)<\/strong>/g)].map(m=>m[1]);
+ assert.equal((quick.match(/<div(?: class="visit-quick-facts__weekday")?>/g)||[]).length,4,'visitor summary must contain four facts');
+ for(const title of ['📍 위치','🕘 월~목 진료시간','🚗 주차','🕘 금·토요일']) {
+  assert.ok(cardTitles.includes(title),'missing visit information: '+title);
+ }
+ assert.ok(quick.includes('<b>09:30~18:30</b>'),'do not invent weekday hours');
+ assert.ok(quick.includes('점심시간 13:00~14:00'));
+ assert.ok(quick.includes('href="#hours-details"'),'weekday card must link to registration cutoffs');
+ assert.ok(section.includes('<div class="hours-box" id="hours-details">'),'complete schedule must have a stable anchor');
+ assert.ok(quick.includes('href="#weekly-hours"'),'Friday/Saturday variations must retain a direct link');
+ assert.ok(quick.includes('방문 전 전화 확인'),'do not assert an alternating Friday or Saturday open-now schedule');
+ assert.ok(quick.includes('3시간 무료'),'parking benefits must be preserved');
+ assert.ok(section.includes('금요일 오후 진료와 토요일 진료는 같은 주에 운영하지 않습니다.'));
+ const css=read('assets/atelier-refinement-20261030.css');
+ for(const text of ['Visit at a glance · four verifiable facts','grid-template-columns:repeat(2,minmax(0,1fr))',
+  '.visit-quick-facts__weekday b','#location #hours-details','@media(max-width:640px)']){
+  assert.ok(css.includes(text),'missing responsive visitor detail: '+text);
+ }
+}); 
 test('phone-sized arrival facts are full-width with readable clinic information',()=>{
  const location=home.match(/<section class="section" id="location">([\s\S]*?)<\/section>/)?.[1]||'';
  const anchors=[
