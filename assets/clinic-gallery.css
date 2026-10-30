@@ -794,3 +794,100 @@
     grid-column:1 / -1;
   }
 }
+
+
+/* Mobile appointment actions for the long picture gallery.
+   The configured Naver booking page and clinic telephone are reachable
+   without leaving the exhibition to find the homepage footer. */
+.gallery-mobile-dock {
+  display:none;
+}
+.gallery-endnote .gallery-hero-actions > a.gallery-endnote-booking {
+  background:#ecd4a5;
+  color:#173c2e;
+  border-color:#dbc18f;
+  box-shadow:0 5px 18px rgba(0,0,0,.10);
+}
+.gallery-endnote .gallery-hero-actions > a.gallery-endnote-booking:hover {
+  background:#ffedc9;
+  color:#173c2e;
+}
+.gallery-endnote .gallery-hero-actions > a.gallery-endnote-booking:focus-visible {
+  outline:3px solid #f0d090;
+  outline-offset:3px;
+}
+@media (max-width:650px) {
+  body:has(.gallery-mobile-dock) {
+    padding-bottom:calc(83px + env(safe-area-inset-bottom, 0px));
+  }
+  .gallery-mobile-dock {
+    box-sizing:border-box;
+    position:fixed;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    align-items:center;
+    gap:10px;
+    z-index:45;
+    left:0;
+    right:0;
+    bottom:0;
+    padding:10px max(13px, env(safe-area-inset-right, 0px))
+      calc(10px + env(safe-area-inset-bottom, 0px))
+      max(13px, env(safe-area-inset-left, 0px));
+    background:rgba(255,252,246,.97);
+    border-top:1px solid #d4c3a5;
+    box-shadow:0 -9px 28px rgba(24,51,38,.12);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+  }
+  .gallery-mobile-dock > a {
+    box-sizing:border-box;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-width:0;
+    min-height:49px;
+    padding:11px 8px;
+    border:1px solid #284e3a;
+    border-radius:8px;
+    text-decoration:none;
+    text-align:center;
+    font:800 15px/1.45 system-ui,"Apple SD Gothic Neo",sans-serif;
+    word-break:keep-all;
+  }
+  .gallery-mobile-dock > .gallery-mobile-dock__booking {
+    color:#fffdf3;
+    border-color:#20523b;
+    background:#20523b;
+  }
+  .gallery-mobile-dock > .gallery-mobile-dock__call {
+    color:#214d37;
+    background:#fffdf7;
+  }
+  .gallery-mobile-dock > a:focus-visible {
+    outline:3px solid #af8747;
+    outline-offset:2px;
+  }
+  /* A modal painting uses the top layer; remove the dock so it never
+     competes visually with the full-screen close/previous/next controls. */
+  body:has(#gallery-dialog[open]) .gallery-mobile-dock {
+    display:none;
+  }
+}
+@media (forced-colors:active) {
+  .gallery-mobile-dock {
+    background:Canvas;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  .gallery-mobile-dock > a,
+  .gallery-endnote .gallery-hero-actions > a.gallery-endnote-booking {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
+@media print {
+  .gallery-mobile-dock {display:none!important}
+}
