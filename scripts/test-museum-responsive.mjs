@@ -7,6 +7,41 @@ const read=(path)=>readFileSync('dist/'+path,'utf8');
 const home=read('index.html');
 const museum=read('assets/museum-home-v2.css');
 
+test('visit preparation presents four original clinical steps and three journal reading cards',()=>{
+ const visit=home.match(/<section class="section light" id="visit-guide">([\s\S]*?)<\/section>/)?.[1]||'';
+ const stepGrid=visit.match(/<div class="grid visit-care-steps"[^>]*>([\s\S]*?)<\/div><p class="notice">/)?.[1]||'';
+ const steps=[...stepGrid.matchAll(/<div class="card visit-care-step">([\s\S]*?)<\/div>/g)].map(m=>m[1]);
+ assert.equal(steps.length,4,'retain four first-visit clinical preparations');
+ const expectedTitles=['증상과 치료 이력 정리','원장이 직접 검진·진단','보험 적용과 비용 확인','진료시간·주차 확인'];
+ steps.forEach((card,i)=>{
+  const step=String(i+1).padStart(2,'0');
+  assert.ok(card.includes('class="visit-care-step__number" aria-hidden="true">'+step+' / STEP'));
+  assert.ok(card.includes('<h3>'+expectedTitles[i]+'</h3>'),'step heading should be readable');
+  assert.ok(card.includes('<p>'),'step must explain what happens');
+ });
+ assert.ok(steps[0].includes('/medical-history.html'),'clinical history link must remain');
+ assert.ok(steps[1].includes('href="#philosophy"'),'doctor philosophy link must remain');
+ assert.ok(steps[2].includes('/insured-care.html'),'insurance source remains');
+ assert.ok(steps[3].includes('3시간 무료 주차')&&steps[3].includes('tel:0325132875'),
+  'alternating schedule and clinic contact remain');
+ assert.ok(visit.includes('약은 임의로 중단하지 마세요.'));
+ assert.ok(visit.includes('금·토요일은 격주 운영'));
+ const journal=home.match(/<nav class="story-featured-questions"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ const questions=[...journal.matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)];
+ assert.deepEqual(questions.map(m=>m[1]),['/stories/01/','/stories/02/','/stories/03/'],
+  'retain the original three prominent patient questions');
+ const css=read('assets/atelier-refinement-20261030.css');
+ for(const token of [
+  'Visit journey & doctor', '.visit-care-steps > .visit-care-step',
+  '.visit-care-step__number','grid-template-columns:repeat(2,minmax(0,1fr))',
+  '.story-featured-questions > a::before',
+  'counter-increment:journal-question',
+  '.story-featured-questions > a:focus-visible',
+  '@media(max-width:760px)'
+ ]) {
+  assert.ok(css.includes(token),'missing responsive first-visit/journal improvement '+token);
+ }
+});
 test('premium home stylesheet ships after earlier layers and keeps booking visible',()=>{
  const styles=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
  const museumLink=styles.find(s=>s.includes('/assets/museum-home-v2.css?'));
