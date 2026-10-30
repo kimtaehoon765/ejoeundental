@@ -4121,3 +4121,79 @@ body.home-page #main-content>#stories .owner-stories-more>.owner-stories-grid>.o
     color:LinkText;
   }
 }
+
+
+/* 2026-10-30 · Mobile hero action-grid alignment.
+   The earlier six-track curatorial rule and the later two-track museum
+   rule disagree on small phones; explicit placement prevents implicit
+   grid columns from squeezing the phone, booking and health-guide links. */
+@media(max-width:600px){
+  body.home-page #main-content>.hero.wrap .hero-actions{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-auto-columns:minmax(0,1fr);
+    width:100%;
+    gap:8px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-call{
+    grid-column:1;
+    grid-row:1;
+    order:0;
+    min-width:0;
+    min-height:58px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-booking{
+    display:flex;
+    grid-column:2;
+    grid-row:1;
+    order:1;
+    min-width:0;
+    min-height:58px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-hours{
+    grid-column:1;
+    grid-row:2;
+    order:2;
+    min-width:0;
+    min-height:48px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-symptoms{
+    grid-column:2;
+    grid-row:2;
+    order:3;
+    min-width:0;
+    min-height:48px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-map{
+    grid-column:1 / -1;
+    grid-row:3;
+    order:4;
+    min-height:46px;
+    min-width:0;
+    background:#f5f6ee;
+    border:1px solid #d7dcca;
+    color:#345b45;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>a{
+    box-sizing:border-box;
+    max-width:100%;
+    text-align:center;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+}
+@media(max-width:360px){
+  body.home-page #main-content>.hero.wrap .hero-actions{
+    gap:7px;
+  }
+  body.home-page #main-content>.hero.wrap .hero-actions>a{
+    padding-inline:6px;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>.hero.wrap .hero-actions>.hero-map{
+    background:ButtonFace;
+    border-color:ButtonText;
+    color:ButtonText;
+  }
+}
