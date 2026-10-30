@@ -703,3 +703,35 @@ test('searchable owner journal offers an accessible first-result jump',()=>{
  assert.ok(archive.includes('.archive-search-topic[aria-pressed="true"]'),
    'selected search shortcuts must have a clear active state');
 });
+
+
+test('patient-study lightbox links directly to the existing health guide while landscapes do not',()=>{
+ const gallery=read('gallery.html');
+ const script=read('assets/clinic-gallery.js');
+ const css=read('assets/clinic-gallery.css');
+ const patientSection=gallery.slice(gallery.indexOf('id="patient-studies"'),
+   gallery.indexOf('class="gallery-endnote"'));
+ const patientPieces=[...patientSection.matchAll(/<figure class="gallery-patient-studies__piece"[\s\S]*?<\/figure>/g)]
+   .map(match=>match[0]);
+ assert.equal(patientPieces.length,10,'all 10 original patient-study paintings remain');
+ for(const piece of patientPieces){
+  const href=piece.match(/class="gallery-patient-studies__actions"><a href="(\/[a-z0-9-]+\.html)"/)?.[1];
+  assert.ok(href,'patient-study art must have its own real patient-education link');
+  assert.ok(existsSync('dist'+href),'real health guide must exist: '+href);
+  assert.ok(piece.includes('class="gallery-zoom"'),
+   'patient-study artwork must keep its zoom control');
+ }
+ assert.equal((gallery.match(/class="gallery-zoom"/g)||[]).length,20,
+   '10 fine-art paintings and 10 patient studies must remain zoomable');
+ assert.ok(gallery.includes('class="gallery-dialog-care" id="gallery-dialog-care" hidden'),
+   'a related-reading action exists but starts hidden');
+ assert.ok(script.includes("button.closest('.gallery-patient-studies__piece')"),
+   'related link must be derived from the current patient-study artwork');
+ assert.ok(script.includes("related.hidden=!hasGuide;"),
+   'fine-art paintings must not show the previous medical link');
+ assert.ok(script.includes("related.removeAttribute('href');"),
+   'switching back to a painting must clear the old destination');
+ assert.ok(css.includes('.gallery-dialog .gallery-dialog-care[hidden]{display:none!important}'));
+ assert.ok(css.includes('.gallery-dialog.gallery-dialog--care #gallery-dialog-image'),
+   'visible patient-guide action leaves room beneath the painting on phones');
+});
