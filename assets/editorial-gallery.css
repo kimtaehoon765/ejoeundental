@@ -499,3 +499,440 @@ body.archive-gallery .archive-feature-note{
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-30 | Journal and original-blog reading room.
+   Keep every searchable headline, generated URL, 509 original posts,
+   progressive search control and native <details> semantics intact. */
+body.stories-gallery main,
+body.archive-gallery main{
+  color:#2a4938;
+}
+body.stories-gallery main>h1,
+body.archive-gallery main>h1{
+  max-width:21ch;
+  color:#224334;
+  font-weight:650;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo","Malgun Gothic",serif;
+  font-size:clamp(30px,4.25vw,50px);
+  line-height:1.49;
+  letter-spacing:-.055em;
+  text-wrap:balance;
+}
+body.stories-gallery main>.intro,
+body.archive-gallery main>.intro{
+  max-width:78ch;
+  color:#425d4a;
+  font-size:clamp(15px,1.3vw,17px);
+  line-height:1.94;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.stories-gallery .updated-story-guides{
+  box-sizing:border-box;
+  margin:clamp(24px,3vw,35px) 0;
+  padding:clamp(19px,2.6vw,31px);
+  border:1px solid #d4c8b4;
+  border-top:3px solid #a99062;
+  border-radius:5px 15px 5px 15px;
+  background:linear-gradient(125deg,#fffdf7,#f4f5ed);
+  box-shadow:0 12px 29px rgba(31,60,41,.049);
+}
+body.stories-gallery .updated-story-guides>h2{
+  max-width:31ch;
+  margin-bottom:11px;
+  color:#294635;
+  font:650 clamp(20px,2.1vw,27px)/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.05em;
+  text-wrap:balance;
+}
+body.stories-gallery .updated-story-guides>p{
+  max-width:78ch;
+  margin-bottom:18px;
+  font-size:14px;
+  line-height:1.87;
+}
+body.stories-gallery .updated-story-guides__links{
+  counter-reset:curator-item;
+  gap:10px;
+}
+body.stories-gallery .updated-story-guides__links>a{
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+  min-height:63px;
+  padding:11px 14px;
+  border:1px solid #d9d1c1;
+  border-radius:4px 11px 4px 11px;
+  background:#fffefa;
+  color:#28523c;
+  box-shadow:0 3px 13px rgba(40,62,44,.033);
+  font-size:14px;
+  font-weight:700;
+  line-height:1.67;
+  text-align:left;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+  text-decoration:none;
+}
+body.stories-gallery .updated-story-guides__links>a::before{
+  counter-increment:curator-item;
+  content:counter(curator-item,decimal-leading-zero);
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  align-self:flex-start;
+  flex:0 0 34px;
+  width:34px;
+  height:34px;
+  border:1px solid #dbcaa9;
+  border-radius:3px;
+  background:#f3ecdf;
+  color:#8f734b;
+  font:650 13px/1 Georgia,serif;
+}
+body.stories-gallery .updated-story-guides__links>a:focus-visible{
+  outline:3px solid #a8874b;
+  outline-offset:3px;
+}
+body.stories-gallery .directory-summary{
+  border-color:#cfc4b1;
+  border-radius:5px 15px 5px 15px;
+  background:linear-gradient(128deg,#f1f5ed,#fffdf6 78%);
+  box-shadow:0 12px 26px rgba(33,63,44,.055);
+}
+body.stories-gallery .directory-summary>strong{
+  display:block;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(19px,2vw,24px);
+  line-height:1.55;
+  letter-spacing:-.045em;
+}
+body.stories-gallery .directory-summary>p{
+  max-width:75ch;
+  color:#496452;
+  line-height:1.85;
+}
+body.stories-gallery .directory-search{
+  max-width:900px;
+  gap:10px;
+}
+body.stories-gallery .directory-search :is(input,button){
+  box-sizing:border-box;
+  min-height:48px;
+  line-height:1.55;
+}
+body.stories-gallery .topic-jump{
+  gap:9px;
+}
+body.stories-gallery .topic-jump>a{
+  box-sizing:border-box;
+  min-height:46px;
+  border-color:#cfcbbd;
+  border-radius:5px 10px 5px 10px;
+  background:#fffdf8;
+  color:#305a41;
+  font-size:13px;
+  line-height:1.6;
+}
+body.stories-gallery .story-topic-heading{
+  align-items:center;
+  gap:9px 13px;
+  padding:0 0 13px 15px;
+  border-left:3px solid #ac925f;
+  border-bottom:1px solid #d4c6a9;
+}
+body.stories-gallery .story-topic-heading h2{
+  max-width:36ch;
+  margin:0;
+  color:#234838;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-weight:650;
+  letter-spacing:-.05em;
+  line-height:1.5;
+  text-wrap:balance;
+}
+body.stories-gallery .story-topic-heading>span{
+  border:1px solid #d5c9b1;
+  border-radius:5px;
+  padding:5px 10px;
+  background:#f7f1e5;
+  color:#765f3e;
+  font-weight:800;
+}
+body.stories-gallery .story-grid{
+  gap:clamp(11px,1.6vw,18px);
+}
+body.stories-gallery .story-grid>.story-card{
+  box-sizing:border-box;
+  min-width:0;
+  padding:clamp(18px,2.15vw,25px);
+  border:1px solid #d9d3c5;
+  border-top:3px solid #b3a079;
+  border-radius:5px 14px 5px 14px;
+  background:#fffefa;
+  box-shadow:0 7px 20px rgba(33,59,42,.045);
+}
+body.stories-gallery .story-grid>.story-card:nth-child(even){
+  border-top-color:#85a087;
+}
+body.stories-gallery .story-grid>.story-card>time{
+  color:#8b7751;
+  font-size:12px;
+  letter-spacing:.01em;
+}
+body.stories-gallery .story-grid>.story-card>h3{
+  margin:3px 0 5px;
+  color:#264a37;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(17px,1.7vw,20px);
+  line-height:1.61;
+  letter-spacing:-.045em;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.stories-gallery .story-grid>.story-card>p{
+  color:#4e6555;
+  font-size:14px;
+  line-height:1.87;
+}
+body.stories-gallery .story-grid>.story-card>.read{
+  margin-top:auto;
+  padding-top:13px;
+  border-top:1px solid #ece5d8;
+  color:#266446;
+  line-height:1.6;
+}
+body.stories-gallery .story-grid>.story-card:focus-visible{
+  outline:3px solid #a8864a;
+  outline-offset:3px;
+}
+
+/* Five full-width archives shelved as books rather than squeezed side by side.
+   A native disclosure opens each group, and all original links remain in DOM.
+   The CSS counter provides compact catalogue numbers; search [hidden] works. */
+body.archive-gallery .archive-blog-collections{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:12px;
+  align-items:start;
+  margin:clamp(18px,2.4vw,29px) 0 32px;
+}
+body.archive-gallery .archive-blog-collections>.archive-blog-group{
+  box-sizing:border-box;
+  min-width:0;
+  overflow:hidden;
+  border:1px solid #d9cebb;
+  border-radius:4px 14px 4px 14px;
+  background:#fffdf7;
+  box-shadow:0 7px 23px rgba(35,59,39,.046);
+}
+body.archive-gallery .archive-blog-collections>.archive-blog-group[hidden],
+body.archive-gallery .archive-blog-collections>.archive-blog-group li[hidden]{
+  display:none!important;
+}
+body.archive-gallery .archive-blog-collections>.archive-blog-group>summary{
+  box-sizing:border-box;
+  min-height:67px;
+  padding:15px clamp(15px,2.1vw,24px);
+  gap:11px;
+  border-left:4px solid #b69d72;
+  color:#274a37;
+  background:linear-gradient(110deg,#fffdf9,#f4f3e8);
+  line-height:1.6;
+  word-break:keep-all;
+}
+body.archive-gallery .archive-blog-collections>.archive-blog-group:nth-child(even)>summary{
+  border-left-color:#83a08d;
+}
+body.archive-gallery .archive-blog-collections>.archive-blog-group>summary>strong{
+  min-width:0;
+  font:700 clamp(16px,1.7vw,20px)/1.62 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  color:#244d38;
+  letter-spacing:-.04em;
+}
+body.archive-gallery .archive-blog-collections>.archive-blog-group>summary .archive-blog-count{
+  flex:0 0 auto;
+  min-width:43px;
+  padding:5px 8px;
+  border-radius:4px;
+  background:#e8eee2;
+  color:#315b42;
+  text-align:center;
+}
+body.archive-gallery .archive-blog-collections>.archive-blog-group[open]>summary{
+  background:#eef3e9;
+  border-bottom:1px solid #d6d8c9;
+}
+body.archive-gallery .archive-blog-collections>.archive-blog-group>ol{
+  counter-reset:archive-shelf;
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 clamp(14px,2vw,28px);
+  list-style:none;
+  width:100%;
+  min-width:0;
+  padding:clamp(10px,2vw,22px);
+  margin:0;
+}
+body.archive-gallery .archive-blog-collections>.archive-blog-group>ol>li{
+  counter-increment:archive-shelf;
+  display:grid;
+  grid-template-columns:34px minmax(0,1fr);
+  gap:10px;
+  min-width:0;
+  margin:0;
+  padding:8px 5px;
+  border-bottom:1px solid #ece5d9;
+  line-height:1.7;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.archive-gallery .archive-blog-collections>.archive-blog-group>ol>li::before{
+  content:counter(archive-shelf,decimal-leading-zero);
+  align-self:start;
+  padding-top:12px;
+  color:#927950;
+  font:650 11px/1.6 system-ui,sans-serif;
+  letter-spacing:.025em;
+}
+body.archive-gallery .archive-blog-collections>.archive-blog-group>ol>li>a{
+  box-sizing:border-box;
+  min-width:0;
+  min-height:47px;
+  padding:9px 0;
+  margin:0;
+  color:#2c5940;
+  font-size:14px;
+  font-weight:650;
+  line-height:1.78;
+  text-decoration:none;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.archive-gallery .archive-blog-collections>.archive-blog-group>ol>li>a:focus-visible{
+  outline:3px solid #a9884d;
+  outline-offset:3px;
+}
+body.archive-gallery .archive-blog-collections>.archive-blog-group>ol>li>a:hover{
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
+body.archive-gallery .archive-blog-collections>.archive-blog-group .archive-blog-related{
+  margin:8px clamp(15px,2vw,24px) 22px;
+  padding:14px 0 0;
+  border-top:1px solid #dbd4c5;
+  color:#4a6651;
+}
+body.archive-gallery .archive-search{
+  border:1px solid #cbbca0;
+  border-radius:5px 14px 5px 14px;
+  background:linear-gradient(120deg,#f3f6ed,#fffdf7);
+  box-shadow:0 9px 26px rgba(39,61,43,.047);
+}
+body.archive-gallery .archive-search input[type="search"]{
+  min-width:0;
+  max-width:100%;
+  border-radius:5px 10px 5px 10px;
+}
+body.archive-gallery .archive-search-topics{
+  gap:8px;
+}
+@media(max-width:850px){
+  body.stories-gallery .story-grid{
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.archive-gallery .archive-blog-collections>.archive-blog-group>ol{
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+@media(max-width:680px){
+  body.stories-gallery main>.intro,
+  body.archive-gallery main>.intro{
+    font-size:15px;
+    line-height:1.88;
+  }
+  body.stories-gallery .updated-story-guides{
+    padding:18px 14px 19px;
+  }
+  body.stories-gallery .updated-story-guides__links{
+    grid-template-columns:minmax(0,1fr);
+    gap:8px;
+  }
+  body.stories-gallery .updated-story-guides__links>a{
+    min-height:54px;
+    padding:10px;
+    font-size:13px;
+  }
+  body.stories-gallery .updated-story-guides__links>a::before{
+    flex-basis:32px;
+    width:32px;
+    height:32px;
+  }
+  body.stories-gallery .directory-summary{
+    padding:18px 15px;
+  }
+  body.stories-gallery .directory-search input{
+    flex:1 1 100%;
+    max-width:none;
+  }
+  body.stories-gallery .directory-search button{
+    flex:1 1 auto;
+  }
+  body.stories-gallery .story-topic-heading{
+    padding-left:11px;
+  }
+  body.stories-gallery .story-grid>.story-card{
+    padding:18px 16px 19px;
+  }
+  body.archive-gallery .archive-blog-collections>.archive-blog-group>summary{
+    min-height:58px;
+    padding:12px 11px;
+    gap:8px;
+    border-left-width:3px;
+  }
+  body.archive-gallery .archive-blog-collections>.archive-blog-group>summary>strong{
+    font-size:15px;
+  }
+  body.archive-gallery .archive-blog-collections>.archive-blog-group>ol{
+    padding:10px 9px 15px;
+  }
+  body.archive-gallery .archive-blog-collections>.archive-blog-group>ol>li{
+    grid-template-columns:31px minmax(0,1fr);
+    gap:7px;
+    padding-inline:3px;
+  }
+  body.archive-gallery .archive-blog-collections>.archive-blog-group>ol>li>a{
+    font-size:14px;
+    min-height:48px;
+    line-height:1.76;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.stories-gallery .updated-story-guides__links>a,
+  body.archive-gallery .archive-blog-collections>.archive-blog-group>ol>li>a{
+    transition:none;
+  }
+}
+@media(forced-colors:active){
+  body.stories-gallery .updated-story-guides,
+  body.stories-gallery .updated-story-guides__links>a,
+  body.stories-gallery .story-grid>.story-card,
+  body.archive-gallery .archive-blog-collections>.archive-blog-group,
+  body.archive-gallery .archive-blog-collections>.archive-blog-group>summary,
+  body.archive-gallery .archive-search{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.stories-gallery .updated-story-guides__links>a::before,
+  body.archive-gallery .archive-blog-collections>.archive-blog-group>ol>li::before{
+    color:CanvasText;
+    border-color:CanvasText;
+    background:Canvas;
+  }
+}
