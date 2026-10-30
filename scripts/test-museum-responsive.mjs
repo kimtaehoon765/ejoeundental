@@ -1184,3 +1184,45 @@ test('director museum profile keeps verified credentials and readable care links
  assert.ok(home.includes('class="mobile-booking-actions"')&&home.includes('class="btn hero-booking"'),
   'working Naver reservation controls remain');
 });
+
+
+test('museum FAQ and visit desk keep accessible clinical answers and verified schedule',()=>{
+ const faq=home.match(/<section class="section light" id="faq">([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.equal((faq.match(/<details id="faq-[a-z-]+">/g)||[]).length,11,
+  'all 11 answer panels retain stable anchors and native details');
+ assert.equal((faq.match(/<summary>/g)||[]).length,11,
+  'all FAQ summaries remain available to keyboard and screen readers');
+ assert.ok(faq.includes('faq-reading-gallery__painting') &&
+  faq.includes('src="/assets/ejoeun-systemic-faq-stained-windows-20261029.svg"'),
+  'FAQ original artwork remains unique and uncropped');
+ const location=home.match(/<section class="section" id="location">([\s\S]*?)<\/section>/)?.[1]||'';
+ for(const fact of ['대우프라자 305호','09:30~18:30','13:00~14:00',
+  '오전 12:30 / 오후 18:00','3시간 무료','금·토요일은 두 가지 일정',
+  '토요일 휴진 주','토요일 진료 주','tel:0325132875']) {
+  assert.ok(location.includes(fact),'visit data missing: '+fact);
+ }
+ for(const id of ['address','parking-details','hours-details','weekly-hours']) {
+  assert.ok(location.includes('id="'+id+'"'),'clinic navigation anchor missing: '+id);
+ }
+ const css=read('assets/atelier-refinement-20261030.css');
+ for(const token of [
+  'Museum reading room: FAQ answers and visit desk',
+  '#faq .faq-list>details[open]',
+  '#faq .faq-list>details>summary::before',
+  '#faq .faq-list>details>p',
+  '#location .visit-quick-facts',
+  '#location .alternating-hours-card',
+  'grid-template-columns:repeat(2,minmax(0,1fr))',
+  '@media(max-width:700px)',
+  '@media(forced-colors:active)'
+ ]) {
+  assert.ok(css.includes(token),'missing final accessible FAQ/visit styling: '+token);
+ }
+ const links=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
+ const final=links.findIndex(href=>href.startsWith('/assets/atelier-refinement-20261030.css?v='));
+ const predecessor=links.findIndex(href=>href.startsWith('/assets/home-art-direction-20261030.css?v='));
+ assert.ok(final>predecessor && predecessor>=0,
+  'FAQ and visit finishing styles should load last with a cache-busting query');
+ assert.ok(home.includes('class="mobile-booking-actions"'),
+  'mobile booking/phone dock must stay available');
+});
