@@ -1,49 +1,42 @@
-/* 이조은치과 | Visit & FAQ reading-room refinement | 2026-10-31
-   A restrained final chapter for existing clinic information.
-   Preserve all clinical statements, images, structured data and booking links. */
-body.home-page #main-content > #faq .faq-curated-index {
+/* 이조은치과 | FAQ & visit salon, 2026-10-31.
+   Styles the seven existing build-generated question anchors. No duplicated
+   FAQ links, no changes to clinic statements, phone or reservation actions. */
+body.home-page #main-content > #faq .faq-quick-links {
   box-sizing:border-box;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(8px,1.2vw,13px);
+  max-width:none;
   margin:clamp(22px,3vw,34px) 0 clamp(20px,3vw,30px);
-  padding:clamp(17px,2.3vw,27px);
+  padding:clamp(16px,2.2vw,26px);
   border:1px solid #d7cbb7;
   border-top:2px solid #af956a;
   border-radius:3px 13px 3px 13px;
   background:linear-gradient(127deg,#fffdf8 3%,#f3f5ed 100%);
+  overflow:visible;
 }
-body.home-page #main-content > #faq .faq-curated-index__heading {
-  display:flex;
-  align-items:baseline;
-  flex-wrap:wrap;
-  gap:8px 17px;
-  margin:0 0 clamp(14px,1.8vw,20px);
-}
-body.home-page #main-content > #faq .faq-curated-index__heading > small {
-  color:#876c46;
-  font:750 11px/1.6 system-ui,sans-serif;
-  letter-spacing:.12em;
-}
-body.home-page #main-content > #faq .faq-curated-index__heading > strong {
+body.home-page #main-content > #faq .faq-quick-links::before {
+  content:"자주 찾는 질문 먼저 보기";
+  grid-column:1/-1;
+  display:block;
+  margin-bottom:3px;
   color:#244b36;
   font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
-  font-size:clamp(19px,2vw,24px);
+  font-size:clamp(18px,2vw,23px);
   font-weight:700;
-  line-height:1.5;
+  line-height:1.55;
   letter-spacing:-.045em;
 }
-body.home-page #main-content > #faq .faq-curated-index__links {
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:clamp(8px,1.2vw,13px);
-}
-body.home-page #main-content > #faq .faq-curated-index__links > a {
+body.home-page #main-content > #faq .faq-quick-links > a {
   box-sizing:border-box;
   display:flex;
+  flex:initial;
   align-items:center;
   justify-content:space-between;
   min-width:0;
-  min-height:66px;
+  min-height:57px;
+  padding:12px clamp(11px,1.4vw,17px);
   gap:8px;
-  padding:13px clamp(12px,1.4vw,18px);
   border:1px solid #ddd4c3;
   border-radius:3px 10px 3px 10px;
   background:#fffefa;
@@ -52,16 +45,18 @@ body.home-page #main-content > #faq .faq-curated-index__links > a {
   font-weight:750;
   line-height:1.65;
   text-decoration:none;
+  white-space:normal;
   word-break:keep-all;
+  scroll-snap-align:unset;
   transition:border-color .16s ease,background-color .16s ease;
 }
-body.home-page #main-content > #faq .faq-curated-index__links > a::after {
+body.home-page #main-content > #faq .faq-quick-links > a::after {
   content:"↘";
   flex:0 0 auto;
   color:#9a8157;
-  font-size:16px;
+  font-size:15px;
 }
-body.home-page #main-content > #faq .faq-curated-index__links > a:focus-visible {
+body.home-page #main-content > #faq .faq-quick-links > a:focus-visible {
   outline:3px solid #957341;
   outline-offset:3px;
 }
@@ -69,13 +64,14 @@ body.home-page #main-content > #faq .faq-list > details[id] {
   scroll-margin-top:clamp(100px,12vw,154px);
 }
 body.home-page #main-content > #faq .faq-list > details[id]:target {
-  border-color:#9dae94;
+  border-color:#8fae91;
   box-shadow:0 0 0 2px rgba(99,131,101,.18);
 }
 body.home-page #main-content > #faq .faq-list > details[id]:target > summary {
   background:#edf4e8;
   color:#1e5138;
 }
+/* Visit cards and alternating-week schedule: legible rather than ornamental. */
 body.home-page #main-content > #location .visit-quick-facts > div {
   position:relative;
   border:1px solid #dfd5c4;
@@ -115,33 +111,38 @@ body.home-page #main-content > #location #weekly-hours .alternating-hours-card >
   border-bottom:0;
 }
 @media (hover:hover) and (pointer:fine) {
-  body.home-page #main-content > #faq .faq-curated-index__links > a:hover {
+  body.home-page #main-content > #faq .faq-quick-links > a:hover {
     background:#f6f8f0;
     border-color:#a8b59e;
   }
 }
-@media (max-width:960px) {
-  body.home-page #main-content > #faq .faq-curated-index__links {
+@media (max-width:1100px) {
+  body.home-page #main-content > #faq .faq-quick-links {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+@media (max-width:780px) {
+  body.home-page #main-content > #faq .faq-quick-links {
     grid-template-columns:repeat(2,minmax(0,1fr));
   }
 }
 @media (max-width:600px) {
-  body.home-page #main-content > #faq .faq-curated-index {
-    margin:19px 0 22px;
-    padding:17px 13px;
-    border-radius:3px 11px 3px 11px;
-  }
-  body.home-page #main-content > #faq .faq-curated-index__heading {
-    gap:3px 10px;
-    flex-direction:column;
-  }
-  body.home-page #main-content > #faq .faq-curated-index__links {
+  body.home-page #main-content > #faq .faq-quick-links {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
     gap:8px;
+    margin:19px 0 22px;
+    padding:16px 13px;
+    border-radius:3px 11px 3px 11px;
+    overflow:visible;
+    scroll-snap-type:none;
   }
-  body.home-page #main-content > #faq .faq-curated-index__links > a {
-    min-height:59px;
+  body.home-page #main-content > #faq .faq-quick-links > a {
+    min-width:0;
+    min-height:54px;
     padding:10px 11px;
     font-size:13px;
+    white-space:normal;
   }
   body.home-page #main-content > #location .visit-quick-facts > div {
     box-shadow:none;
@@ -152,18 +153,16 @@ body.home-page #main-content > #location #weekly-hours .alternating-hours-card >
   }
 }
 @media (max-width:350px) {
-  body.home-page #main-content > #faq .faq-curated-index__links {
+  body.home-page #main-content > #faq .faq-quick-links {
     grid-template-columns:minmax(0,1fr);
   }
 }
 @media (prefers-reduced-motion:reduce) {
-  body.home-page #main-content > #faq .faq-curated-index__links > a {
-    transition:none;
-  }
+  body.home-page #main-content > #faq .faq-quick-links > a { transition:none; }
 }
 @media (forced-colors:active) {
-  body.home-page #main-content > #faq .faq-curated-index,
-  body.home-page #main-content > #faq .faq-curated-index__links > a,
+  body.home-page #main-content > #faq .faq-quick-links,
+  body.home-page #main-content > #faq .faq-quick-links > a,
   body.home-page #main-content > #location .visit-quick-facts > div,
   body.home-page #main-content > #location #weekly-hours .alternating-hours-card {
     color:CanvasText;
@@ -171,8 +170,8 @@ body.home-page #main-content > #location #weekly-hours .alternating-hours-card >
     border-color:CanvasText;
     box-shadow:none;
   }
-  body.home-page #main-content > #faq .faq-curated-index :is(small,strong,a),
-  body.home-page #main-content > #faq .faq-curated-index__links > a::after {
+  body.home-page #main-content > #faq .faq-quick-links::before,
+  body.home-page #main-content > #faq .faq-quick-links > a::after {
     color:CanvasText;
   }
 }
