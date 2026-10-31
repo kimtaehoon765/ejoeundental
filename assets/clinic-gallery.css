@@ -1794,3 +1794,191 @@
     box-shadow:none;
   }
 }
+
+
+/* 2026-10-31 | First gallery room: consistent art labels and honest zoom.
+   Keep ten original illustrations uncropped, with their own distinct labels.
+   The optional JS-only zoom must never appear as a dead button when scripts
+   fail; the direct original-file link is always available. */
+#paintings .gallery-art-grid{
+  align-items:stretch;
+  gap:clamp(19px,2.5vw,30px);
+}
+#paintings .gallery-piece:not(.gallery-piece-feature){
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+}
+#paintings .gallery-piece{
+  overflow:hidden;
+  border:1px solid #d6c6a7;
+  border-top:4px solid #baa071;
+  border-radius:4px 16px 4px 16px;
+  background:#fffdf9;
+}
+#paintings .gallery-piece:nth-child(even){
+  border-top-color:#85a48a;
+}
+#paintings .gallery-piece .gallery-art-frame{
+  box-sizing:border-box;
+  min-width:0;
+  padding:clamp(9px,1.35vw,16px);
+  background:linear-gradient(145deg,#e8ddca,#f8f2e6);
+  border-bottom:1px solid #dbcfb8;
+}
+#paintings .gallery-piece .gallery-art-frame>img{
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  min-height:0;
+  aspect-ratio:auto;
+  object-fit:contain;
+  object-position:center;
+  border:5px solid #fffaf0;
+  background:#f8f4ec;
+  box-shadow:0 8px 19px rgba(34,54,40,.075);
+}
+#paintings .gallery-piece figcaption{
+  display:flex;
+  flex-direction:column;
+  flex:1;
+  min-width:0;
+  padding:clamp(20px,2.3vw,30px);
+  border-top:0;
+  background:linear-gradient(145deg,#fffdf8,#f8f6ef);
+}
+#paintings .gallery-piece .gallery-index{
+  display:block;
+  width:fit-content;
+  max-width:100%;
+  margin-bottom:6px;
+  padding-bottom:8px;
+  border-bottom:1px solid #ceb789;
+  color:#846943;
+  font:800 11px/1.5 system-ui,sans-serif;
+  letter-spacing:.07em;
+  overflow-wrap:anywhere;
+}
+#paintings .gallery-piece figcaption>h3{
+  margin:8px 0 10px;
+  color:#244b38;
+  font-size:clamp(20px,2.2vw,27px);
+  line-height:1.55;
+  text-wrap:balance;
+}
+#paintings .gallery-piece figcaption>p{
+  max-width:57ch;
+  margin:0 0 18px;
+  color:#4d6454;
+  font-size:15px;
+  line-height:1.88;
+  word-break:keep-all;
+}
+#paintings .gallery-piece .gallery-links{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:stretch;
+  gap:9px;
+  width:100%;
+  margin-top:auto;
+  padding-top:14px;
+  border-top:1px solid #e1d8c6;
+}
+#paintings .gallery-piece .gallery-links :is(a,button){
+  box-sizing:border-box;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:0;
+  min-height:49px;
+  margin:0;
+  padding:11px 12px;
+  border:1px solid #c6b591;
+  border-radius:5px 10px 5px 10px;
+  background:#fbf7ed;
+  color:#29543d;
+  font:750 13px/1.55 system-ui,"Apple SD Gothic Neo",sans-serif;
+  text-align:center;
+  text-decoration:none;
+  cursor:pointer;
+  word-break:keep-all;
+}
+#paintings .gallery-piece .gallery-links>button.gallery-zoom{
+  background:#28553e;
+  border-color:#28553e;
+  color:#fffaf0;
+}
+html:not(.gallery-js) #paintings .gallery-piece .gallery-links>button.gallery-zoom{
+  display:none;
+}
+html:not(.gallery-js) #paintings .gallery-piece .gallery-links>a{
+  grid-column:1/-1;
+}
+html.gallery-js #paintings .gallery-piece .gallery-links>button.gallery-zoom{
+  display:inline-flex;
+}
+#paintings .gallery-piece .gallery-links :is(a,button):focus-visible{
+  outline:3px solid #ad874d;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine){
+  #paintings .gallery-piece .gallery-links>a:hover{
+    background:#f2eddc;
+  }
+  #paintings .gallery-piece .gallery-links>button.gallery-zoom:hover{
+    background:#1f4734;
+    border-color:#1f4734;
+  }
+}
+@media(max-width:780px){
+  #paintings .gallery-piece:not(.gallery-piece-feature){
+    max-width:700px;
+    margin-inline:auto;
+  }
+}
+@media(max-width:600px){
+  #paintings .gallery-piece .gallery-art-frame{
+    padding:9px;
+  }
+  #paintings .gallery-piece .gallery-art-frame>img{
+    width:100%;
+    height:auto;
+    max-height:none;
+    border-width:4px;
+  }
+  #paintings .gallery-piece figcaption{
+    padding:19px 17px 23px;
+  }
+  #paintings .gallery-piece .gallery-links :is(a,button){
+    min-height:48px;
+    padding:10px 8px;
+    font-size:13px;
+  }
+}
+@media(max-width:370px){
+  #paintings .gallery-piece .gallery-links{
+    grid-template-columns:minmax(0,1fr);
+    gap:7px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  #paintings .gallery-piece .gallery-links :is(a,button){
+    transition:none;
+  }
+}
+@media(forced-colors:active){
+  #paintings .gallery-piece,
+  #paintings .gallery-piece .gallery-art-frame,
+  #paintings .gallery-piece .gallery-art-frame>img,
+  #paintings .gallery-piece figcaption,
+  #paintings .gallery-piece .gallery-links :is(a,button){
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  #paintings .gallery-piece .gallery-index{
+    color:CanvasText;
+  }
+}
