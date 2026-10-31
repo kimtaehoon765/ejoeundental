@@ -407,3 +407,185 @@
     box-shadow:none;
   }
 }
+
+
+/* 2026-10-31 | Mobile full-room gallery lightbox
+   Present the existing 23 images in a full-height, scrollable exhibition
+   room on phones. The actual artwork retains its natural uncropped bounds.
+   Dialog navigation, mobile gestures, source links and the visible patient
+   education note all remain usable without introducing a new script. */
+@media(max-width:700px){
+  .gallery-dialog{
+    box-sizing:border-box;
+    position:fixed;
+    inset:0;
+    width:100%;
+    max-width:100vw;
+    height:100vh;
+    max-height:100vh;
+    height:100dvh;
+    max-height:100dvh;
+    margin:0;
+    padding:calc(11px + env(safe-area-inset-top,0px))
+      max(13px,env(safe-area-inset-right,0px))
+      calc(15px + env(safe-area-inset-bottom,0px))
+      max(13px,env(safe-area-inset-left,0px));
+    border:0;
+    border-radius:0;
+    background:linear-gradient(153deg,#faf7ee,#f4f5ec);
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+  }
+  .gallery-dialog .gallery-dialog-head{
+    top:calc(-11px - env(safe-area-inset-top,0px));
+    padding:10px 2px 12px;
+    margin-bottom:9px;
+    border-bottom:1px solid #d8c9ae;
+    background:rgba(250,247,237,.97);
+    backdrop-filter:blur(9px);
+  }
+  .gallery-dialog .gallery-dialog-heading{
+    min-width:0;
+    word-break:keep-all;
+  }
+  .gallery-dialog .gallery-dialog-section{
+    color:#766145;
+    font-size:11px;
+    line-height:1.55;
+  }
+  .gallery-dialog .gallery-dialog-heading>strong{
+    color:#254b36;
+    font-size:clamp(17px,4.2vw,21px);
+    line-height:1.52;
+    word-break:keep-all;
+  }
+  .gallery-dialog .gallery-dialog-head>button{
+    flex-shrink:0;
+    min-height:48px;
+    padding:10px 13px;
+    border-color:#c8b89b;
+    background:#fffdf8;
+    color:#244d37;
+    border-radius:5px 11px 5px 11px;
+    font-size:14px;
+    font-weight:800;
+  }
+  .gallery-dialog .gallery-dialog-rooms{
+    gap:7px;
+    margin:0 0 13px;
+  }
+  .gallery-dialog .gallery-dialog-rooms>button{
+    min-width:0;
+    min-height:52px;
+    padding:8px 4px;
+    border-radius:5px 11px 5px 11px;
+    background:#fffdf7;
+    border-color:#d4c8b2;
+  }
+  .gallery-dialog .gallery-dialog-rooms>button[aria-current="true"]{
+    background:#28543e;
+    color:#fffefa;
+    border-color:#28543e;
+  }
+  .gallery-dialog #gallery-dialog-image,
+  .gallery-dialog.gallery-dialog--care #gallery-dialog-image{
+    box-sizing:border-box;
+    display:block;
+    width:100%;
+    max-width:100%;
+    height:auto;
+    max-height:58vh;
+    max-height:58dvh;
+    margin:0 auto;
+    padding:7px;
+    border:1px solid #c6b493;
+    border-radius:3px;
+    background:#eee4d2;
+    object-fit:contain;
+    object-position:center;
+    box-shadow:0 12px 26px rgba(26,48,36,.09);
+  }
+  .gallery-dialog .gallery-dialog-description{
+    box-sizing:border-box;
+    max-width:64ch;
+    margin:12px auto 5px;
+    padding:0 5px;
+    color:#49614d;
+    font-size:clamp(13px,3.5vw,15px);
+    line-height:1.85;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+  .gallery-dialog .gallery-dialog-controls{
+    position:sticky;
+    bottom:calc(-15px - env(safe-area-inset-bottom,0px));
+    z-index:2;
+    box-sizing:border-box;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+    gap:7px;
+    margin:13px 0 8px;
+    padding:10px 4px calc(11px + env(safe-area-inset-bottom,0px));
+    border-top:1px solid #d7ccb8;
+    border-bottom:1px solid #e4ddcd;
+    background:rgba(250,247,238,.97);
+    backdrop-filter:blur(9px);
+  }
+  .gallery-dialog .gallery-dialog-controls>button{
+    min-width:0;
+    min-height:50px;
+    padding:9px 7px;
+    font-size:clamp(12px,3.2vw,14px);
+    font-weight:800;
+    line-height:1.5;
+    border-radius:5px 10px 5px 10px;
+  }
+  .gallery-dialog #gallery-dialog-position{
+    color:#526b55;
+    font-size:12px;
+    font-weight:800;
+    white-space:nowrap;
+    text-align:center;
+  }
+  .gallery-dialog .gallery-dialog-art-actions{
+    gap:8px;
+    margin:14px auto 10px;
+  }
+  .gallery-dialog .gallery-dialog-art-actions>a{
+    min-height:49px;
+    line-height:1.65;
+  }
+  .gallery-dialog #gallery-dialog-help{
+    max-width:43ch;
+    margin:12px auto;
+    padding-bottom:8px;
+    color:#526658;
+    font-size:12px;
+    line-height:1.8;
+    word-break:keep-all;
+  }
+}
+@media(max-width:700px) and (max-height:530px){
+  .gallery-dialog #gallery-dialog-image,
+  .gallery-dialog.gallery-dialog--care #gallery-dialog-image{
+    max-height:40vh;
+    max-height:40dvh;
+  }
+}
+@media(forced-colors:active){
+  .gallery-dialog .gallery-dialog-controls,
+  .gallery-dialog .gallery-dialog-head,
+  .gallery-dialog #gallery-dialog-image,
+  .gallery-dialog .gallery-dialog-rooms>button{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  .gallery-dialog .gallery-dialog-heading>strong,
+  .gallery-dialog .gallery-dialog-section,
+  .gallery-dialog .gallery-dialog-description{
+    color:CanvasText;
+  }
+}
