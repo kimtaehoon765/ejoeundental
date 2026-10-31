@@ -3684,14 +3684,14 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
   'newer art layers cached independently:',2,'bundle:',bundled);
 }
 
-// Home finishing CSS bundle: preserve the two late layers without rewriting rules.
-// The quiet finishing layer and the latest responsive fixes are adjacent in
+// Home finishing CSS bundle: preserve the three late layers without rewriting rules.
+// The two museum finishing layers and FAQ/visit salon styles are adjacent in
 // homepage HTML. Keep their exact cascade and originals in dist for audits,
-// while sending one fingerprinted stylesheet rather than two blocking requests.
+// while sending one fingerprinted stylesheet instead of three blocking requests.
 // In particular, do not merge the earlier art-direction or medical CSS layers.
 {
  const homepage=path.join(out,'index.html');
- const originals=['quiet-museum-finish-20261031.css','museum-finish-20261031.css'];
+ const originals=['quiet-museum-finish-20261031.css','museum-finish-20261031.css','home-visit-faq-salon-20261031.css'];
  const boundary='\n\n/* Ejoeun home finishing source boundary — cascade retained. */\n\n';
  const parts=originals.map(name=>{
   const file=path.join(out,'assets',name);
@@ -3707,7 +3707,7 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
   return css.trimEnd();
  });
  // The source is intentionally documented. Only the deployed bundle omits
- // full-line documentation comments (all comments in these two files).
+ // full-line documentation comments (all comments in these three files).
  // Throw rather than risk deleting inline tokens, selector separators,
  // conditional hacks, or CSS data needed for rendering.
  const stripStandaloneComments=(name,css)=>{
@@ -3726,17 +3726,17 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
  const bundled='home-finishing-'+hash+'.css';
  fs.writeFileSync(path.join(out,'assets',bundled),combined,'utf8');
  let html=fs.readFileSync(homepage,'utf8');
- const group=/<link rel="stylesheet" href="\/assets\/quiet-museum-finish-20261031\.css(?:\?[^"]*)?">\s*<link rel="stylesheet" href="\/assets\/museum-finish-20261031\.css(?:\?[^"]*)?">/g;
+ const group=/<link rel="stylesheet" href="\/assets\/quiet-museum-finish-20261031\.css(?:\?[^"]*)?">\s*<link rel="stylesheet" href="\/assets\/museum-finish-20261031\.css(?:\?[^"]*)?">\s*<link rel="stylesheet" href="\/assets\/home-visit-faq-salon-20261031\.css(?:\?[^"]*)?">/g;
  if([...html.matchAll(group)].length!==1)
-  throw new Error('Expected exactly one ordered home finishing CSS pair');
+  throw new Error('Expected exactly one ordered home finishing CSS trio');
  const before=(html.match(/<link rel="stylesheet" href="\/assets\//g)||[]).length;
  const link='<link rel="stylesheet" href="/assets/'+bundled+'">';
  html=html.replace(group,link);
  const after=(html.match(/<link rel="stylesheet" href="\/assets\//g)||[]).length;
  const earlier=html.indexOf('href="/assets/atelier-refinement-20261030.css');
  const placement=html.indexOf(link);
- if(earlier<0||placement<=earlier||after!==before-1)
+ if(earlier<0||placement<=earlier||after!==before-2)
   throw new Error('Home finishing CSS merging changed link order or count');
  fs.writeFileSync(homepage,html,'utf8');
- console.log('Homepage finishing CSS requests: 2 -> 1; documented CSS comments removed from delivery:', unoptimized.length-combined.length,'characters; source rules and order retained:',bundled);
+ console.log('Homepage finishing CSS requests: 3 -> 1; documented CSS comments removed from delivery:', unoptimized.length-combined.length,'characters; source rules and order retained:',bundled);
 }
