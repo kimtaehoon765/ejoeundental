@@ -3706,7 +3706,22 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
   }
   return css.trimEnd();
  });
- const combined=parts.join(boundary)+'\n';
+ // The source is intentionally documented. Only the deployed bundle omits
+ // full-line documentation comments (all comments in these two files).
+ // Throw rather than risk deleting inline tokens, selector separators,
+ // conditional hacks, or CSS data needed for rendering.
+ const stripStandaloneComments=(name,css)=>{
+  const every=[...css.matchAll(/\/\*[\s\S]*?\*\//g)];
+  const fullLine=[...css.matchAll(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm)];
+  if(every.length!==fullLine.length)
+   throw new Error('Unsafe inline CSS comment in home finishing style: '+name);
+  return css.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'').trimEnd();
+ };
+ const combined=parts.map((css,i)=>stripStandaloneComments(originals[i],css))
+  .join('\n\n')+'\n';
+ const unoptimized=parts.join(boundary)+'\n';
+ if(combined.length>=unoptimized.length)
+  throw new Error('Home finishing optimization did not reduce stylesheet bytes');
  const hash=createHash('sha256').update(combined).digest('hex').slice(0,12);
  const bundled='home-finishing-'+hash+'.css';
  fs.writeFileSync(path.join(out,'assets',bundled),combined,'utf8');
@@ -3723,5 +3738,5 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
  if(earlier<0||placement<=earlier||after!==before-1)
   throw new Error('Home finishing CSS merging changed link order or count');
  fs.writeFileSync(homepage,html,'utf8');
- console.log('Homepage finishing CSS requests: 2 -> 1; exact style order and source retained:',bundled);
+ console.log('Homepage finishing CSS requests: 2 -> 1; documented CSS comments removed from delivery:', unoptimized.length-combined.length,'characters; source rules and order retained:',bundled);
 }
