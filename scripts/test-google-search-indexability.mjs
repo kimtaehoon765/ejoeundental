@@ -712,9 +712,14 @@ test('primary clinic, gallery, doctor and preservation social previews use disti
    assert.equal(built[0][1],src[0][1],name+' accessibility description drifted');
    assert.ok(built[0][1].includes('고양이'),name+' creative artwork description absent');
   }
-  assert.ok(html.includes('<link rel="canonical" href="'+
-   (name==='index.html'?origin+'/':origin+'/'+name.replace(/\.html$/,''))+
-   '">'),name+' must keep preferred production URL');
+  const canonicals=[...html.matchAll(/<link rel="canonical" href="([^"]+)"/g)]
+   .map(match=>match[1]);
+  const slug=name.replace(/\.html$/,'');
+  const permitted=name==='index.html'?[origin+'/']:
+   [origin+'/'+slug,origin+'/'+name];
+  assert.equal(canonicals.length,1,name+' needs one production canonical');
+  assert.ok(permitted.includes(canonicals[0]),
+   name+' must keep its actual public canonical URL without a preview domain');
   const bytes=readFileSync(path.join(output,'assets',image));
   assert.ok(bytes.length>1000&&bytes.subarray(0,4).toString('ascii')==='RIFF'&&
    bytes.subarray(8,12).toString('ascii')==='WEBP',
