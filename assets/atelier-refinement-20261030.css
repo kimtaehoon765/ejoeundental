@@ -5265,3 +5265,115 @@ body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintin
     border-color:ButtonText;
   }
 }
+
+
+/* 2026-10-31 | Six-route patient museum directory
+   Add one native symptom jump to the five existing destinations. Keep the
+   original clinical content, artwork, URLs, booking controls and SEO intact. */
+body.home-page #main-content > .museum-route.wrap .museum-route__links {
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(8px,1.3vw,13px);
+}
+body.home-page #main-content > .museum-route.wrap .museum-route__links > a {
+  box-sizing:border-box;
+  min-height:79px;
+  border:1px solid #ddd2bb;
+  border-left:3px solid #a99067;
+  border-radius:4px 11px 4px 11px;
+  background:#fffdf8;
+  box-shadow:0 5px 13px rgba(29,55,40,.037);
+  color:#264938;
+}
+body.home-page #main-content > .museum-route.wrap .museum-route__links > .museum-route__symptoms {
+  border-color:#b7cdb8;
+  border-left-color:#467455;
+  background:linear-gradient(145deg,#f4faf1,#fffefa);
+}
+body.home-page #main-content > .museum-route.wrap .museum-route__links > .museum-route__symptoms .museum-route__no {
+  color:#3a7150;
+}
+body.home-page #main-content > .museum-route.wrap .museum-route__links > .museum-route__symptoms .museum-route__label strong {
+  color:#1e5137;
+  font-weight:800;
+}
+body.home-page #main-content > .museum-route.wrap .museum-route__links > .museum-route__stories {
+  grid-column:auto;
+  min-height:79px;
+  border-top:1px solid #d2c3a2;
+  border-left-color:#ad915e;
+}
+body.home-page #main-content > .museum-route.wrap .museum-route__links > .museum-route__stories .museum-route__label {
+  flex-direction:column;
+  align-items:flex-start;
+  flex-wrap:nowrap;
+  gap:5px;
+}
+body.home-page #main-content > .museum-route.wrap .museum-route__links > a .museum-route__label strong {
+  color:#274b38;
+  font-size:clamp(13px,1.35vw,15px);
+  line-height:1.5;
+  word-break:keep-all;
+}
+body.home-page #main-content > .museum-route.wrap .museum-route__links > a .museum-route__label small {
+  color:#52685a;
+  font-size:clamp(11px,1vw,12px);
+  line-height:1.6;
+  word-break:keep-all;
+}
+body.home-page #main-content > .museum-route.wrap .museum-route__links > a:focus-visible {
+  outline:3px solid #a78141;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine) {
+  body.home-page #main-content > .museum-route.wrap .museum-route__links > a:hover {
+    border-color:#8fa58d;
+    background:#f5f8f1;
+  }
+}
+@media(max-width:700px) {
+  body.home-page #main-content > .museum-route.wrap {
+    margin-bottom:clamp(23px,6vw,36px);
+  }
+  body.home-page #main-content > .museum-route.wrap .museum-route__links {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+  }
+  body.home-page #main-content > .museum-route.wrap .museum-route__links > a,
+  body.home-page #main-content > .museum-route.wrap .museum-route__links > .museum-route__stories {
+    grid-column:auto;
+    min-width:0;
+    min-height:78px;
+    padding:12px 9px;
+    gap:8px;
+    align-items:flex-start;
+  }
+  body.home-page #main-content > .museum-route.wrap .museum-route__links > a .museum-route__label strong {
+    font-size:clamp(12px,3.45vw,15px);
+  }
+  body.home-page #main-content > .museum-route.wrap .museum-route__links > a .museum-route__label small {
+    font-size:11px;
+  }
+}
+@media(max-width:370px) {
+  body.home-page #main-content > .museum-route.wrap .museum-route__links > a,
+  body.home-page #main-content > .museum-route.wrap .museum-route__links > .museum-route__stories {
+    padding:11px 7px;
+    gap:5px;
+  }
+  body.home-page #main-content > .museum-route.wrap .museum-route__links > a .museum-route__no {
+    font-size:10px;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > .museum-route.wrap .museum-route__links > a,
+  body.home-page #main-content > .museum-route.wrap .museum-route__links > .museum-route__symptoms,
+  body.home-page #main-content > .museum-route.wrap .museum-route__links > .museum-route__stories {
+    background:Canvas;
+    color:LinkText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content > .museum-route.wrap .museum-route__links > a :is(.museum-route__no,.museum-route__label strong,.museum-route__label small) {
+    color:CanvasText;
+  }
+}
