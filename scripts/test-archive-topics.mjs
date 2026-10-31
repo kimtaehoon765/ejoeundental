@@ -323,3 +323,27 @@ test('switching from a search URL to an original topic cleans stale query metada
  assert.equal(site.groups[0].open,true);
  assert.equal(site.groups[0].hidden,false);
 });
+
+test('native 509-article reading routes expose all five authentic source groups',()=>{
+ const built=readFileSync('dist/clinical-archive.html','utf8');
+ const source=readFileSync('clinical-archive.html','utf8');
+ const style=readFileSync('dist/assets/editorial-gallery.css','utf8');
+ const expected=['gum','root','ethics','med','other'];
+ const jump=built.match(/<nav class="archive-original-topics"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ const ids=[...jump.matchAll(/href="#archive-group-([^"]+)"/g)].map(m=>m[1]);
+ assert.deepEqual(ids,expected,'all five distinct topic groups need native deep links');
+ for(const category of expected){
+  assert.ok(built.includes('id="archive-group-'+category+'"'),
+   'source blog topic does not exist: '+category);
+ }
+ assert.ok(built.includes('class="archive-reader-routes"'));
+ assert.ok(built.includes('href="#archive-blog-posts"'));
+ assert.ok(built.includes('href="/stories.html#story-directory"'));
+ assert.ok(style.includes('Owner archive reader routes'),
+  'new catalog must carry its visual layout into the build');
+ assert.ok(style.includes('grid-template-columns:repeat(5,minmax(0,1fr))'));
+ assert.ok(style.includes('@media(max-width:750px)'));
+ assert.ok(source.includes('editorial-gallery.css?v=20261031-archive-reader-routes03'));
+ assert.equal((built.match(/href="https:\/\/(?:m\.)?blog\.naver\.com\/[a-z0-9]+\/[0-9]+"/g)||[]).length,509,
+  'the archive must retain 509 original blog article URLs');
+});
