@@ -1913,3 +1913,25 @@ test('homepage loads one nonblocking stylesheet for both display font families',
  assert.ok(preload.includes('imagesrcset=')&&preload.includes('imagesizes='),
   'portrait preload must select the same responsive candidate');
 });
+
+test('homepage finishing CSS is one exact order-preserving fingerprinted file',()=>{
+ const names=['quiet-museum-finish-20261031.css','museum-finish-20261031.css'];
+ const boundary='\n\n/* Ejoeun home finishing source boundary — cascade retained. */\n\n';
+ const expected=names.map(name=>read('assets/'+name).trimEnd()).join(boundary)+'\n';
+ const hash=createHash('sha256').update(expected).digest('hex').slice(0,12);
+ const bundle='/assets/home-finishing-'+hash+'.css';
+ assert.ok(home.includes('href="'+bundle+'"'),'fingerprinted homepage finishing bundle is linked');
+ assert.equal(read(bundle.slice(1)),expected,
+  'merged CSS must exactly preserve original rules and their cascade order');
+ assert.ok(!names.some(name=>home.includes('href="/assets/'+name)),
+  'avoid duplicate finishing CSS HTTP requests');
+ const cssLinks=[...home.matchAll(/<link rel="stylesheet" href="(\/assets\/[^"]+)"/g)].map(m=>m[1]);
+ assert.ok(cssLinks.includes(bundle),'build should render finishing CSS as one file');
+ const prior=cssLinks.findIndex(item=>item.startsWith('/assets/atelier-refinement-20261030.css?v='));
+ assert.ok(prior>=0&&cssLinks.indexOf(bundle)===prior+1,
+  'finish styles must apply last, immediately after the existing atelier layer');
+ assert.ok(read(bundle.slice(1)).includes('Clear anchor offsets for sticky clinic navigation'),
+  'retained finishing layer must protect mobile jumps');
+ assert.ok(read(bundle.slice(1)).includes('Care cards and doctor credentials: final reading hierarchy'),
+  'retained finishing layer must preserve doctor and priority treatment styles');
+});
