@@ -1770,3 +1770,126 @@ body.home-page #main-content > #doctor .doctor-profile-link > a {
     color:CanvasText;
   }
 }
+
+/* 2026-10-31 | Mobile reading clarity for aftercare and local care. */
+/* Treat these lower-page clinical summaries as readable reference notes.
+   Keep all treatment explanations, original links and neighborhood text. */
+body.home-page #main-content > :is(#care-after-treatment,#local-care) > .wrap > p {
+  max-width:77ch;
+  color:#455e4d;
+  font-size:clamp(14px,1.2vw,16px);
+  line-height:1.9;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content > :is(#care-after-treatment,#local-care) > .wrap > .grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  align-items:stretch;
+  gap:clamp(12px,1.55vw,20px);
+  margin-top:clamp(16px,2.2vw,26px);
+}
+body.home-page #main-content > #local-care > .wrap > .grid {
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+body.home-page #main-content > :is(#care-after-treatment,#local-care) > .wrap > .grid > .card {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  min-height:0;
+  padding:clamp(17px,2vw,25px);
+  border:1px solid #dcd7c8;
+  border-top:2px solid #9db29c;
+  border-radius:4px;
+  background:#fffefa;
+  box-shadow:none;
+}
+body.home-page #main-content > #care-after-treatment > .wrap > .grid > .card {
+  border-top-color:#c1a675;
+}
+body.home-page #main-content > :is(#care-after-treatment,#local-care) > .wrap > .grid > .card > h3 {
+  margin:0 0 9px;
+  color:#244b36;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(18px,1.8vw,23px);
+  line-height:1.52;
+  letter-spacing:-.045em;
+  text-wrap:balance;
+  word-break:keep-all;
+}
+body.home-page #main-content > :is(#care-after-treatment,#local-care) > .wrap > .grid > .card > p {
+  margin:0 0 11px;
+  color:#455d4b;
+  font-size:clamp(14px,1.15vw,15px);
+  line-height:1.85;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content > :is(#care-after-treatment,#local-care) > .wrap > .grid > .card > p:last-child {
+  margin-top:auto;
+  margin-bottom:0;
+  padding-top:12px;
+  border-top:1px solid #e5dece;
+}
+body.home-page #main-content > :is(#care-after-treatment,#local-care) > .wrap > .grid > .card > p:last-child > a {
+  display:inline-block;
+  padding-block:6px;
+  color:#2a6044;
+  font-weight:750;
+  line-height:1.6;
+  text-underline-offset:4px;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content > #local-care .bupyeong-choice-panel {
+  border-radius:4px;
+  box-shadow:none;
+}
+body.home-page #main-content > #local-care .bupyeong-choice-links > a {
+  border-radius:4px;
+  box-shadow:none;
+}
+/* Long, keyword-rich location explanations stay visible but are no longer
+   an edge-to-edge text wall on a narrow handset. */
+body.home-page #main-content > #local-care .local-area-context {
+  max-width:77ch;
+  padding-block:9px;
+  border-top:1px solid #e4dece;
+}
+@media(max-width:880px) {
+  body.home-page #main-content > :is(#care-after-treatment,#local-care) > .wrap > .grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:640px) {
+  body.home-page #main-content > :is(#care-after-treatment,#local-care) > .wrap > .grid {
+    grid-template-columns:minmax(0,1fr);
+    gap:12px;
+    margin-top:15px;
+  }
+  body.home-page #main-content > :is(#care-after-treatment,#local-care) > .wrap > .grid > .card {
+    padding:17px 16px;
+  }
+  body.home-page #main-content > :is(#care-after-treatment,#local-care) > .wrap > .grid > .card > h3 {
+    font-size:19px;
+  }
+  body.home-page #main-content > :is(#care-after-treatment,#local-care) > .wrap > p {
+    font-size:14px;
+    line-height:1.85;
+  }
+  body.home-page #main-content > #local-care .bupyeong-choice-panel {
+    padding:16px 14px;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > :is(#care-after-treatment,#local-care) > .wrap > .grid > .card,
+  body.home-page #main-content > #local-care .bupyeong-choice-panel {
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content > :is(#care-after-treatment,#local-care) > .wrap > .grid > .card :is(h3,p) {
+    color:CanvasText;
+  }
+}
