@@ -3981,3 +3981,215 @@ body.home-page #main-content>#home-representative-guides .home-representative-ar
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-31 | Eight-care gallery entrance and reading plates.
+   Keep the eight original specialty descriptions and one-of-a-kind artwork.
+   Only their native expandable index and gallery caption/link readability change. */
+body.home-page #main-content>#care .care-more-details{
+  box-sizing:border-box;
+  min-width:0;
+  margin-top:clamp(20px,2.7vw,34px);
+  padding:clamp(12px,1.4vw,17px);
+  border:1px solid #d4c4aa;
+  border-top:4px solid #ae9164;
+  border-radius:4px 17px 4px 17px;
+  background:
+    radial-gradient(ellipse at 100% 0%,rgba(192,211,175,.18),transparent 37%),
+    linear-gradient(140deg,#f8f3e9,#f5f8f1);
+  box-shadow:0 13px 29px rgba(28,54,37,.047);
+}
+body.home-page #main-content>#care .care-more-details>summary{
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  min-height:66px;
+  margin:0;
+  padding:clamp(16px,2vw,24px);
+  border:1px solid #c3ab82;
+  border-radius:4px 13px 4px 13px;
+  background:linear-gradient(118deg,#214937,#2d5842);
+  color:#fffaf0;
+  font:700 clamp(15px,1.4vw,18px)/1.65 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  text-align:left;
+  text-wrap:balance;
+  word-break:keep-all;
+  cursor:pointer;
+  list-style:none;
+}
+body.home-page #main-content>#care .care-more-details>summary::-webkit-details-marker{
+  display:none;
+}
+body.home-page #main-content>#care .care-more-details>summary>span{
+  box-sizing:border-box;
+  display:inline-flex;
+  flex:0 0 auto;
+  align-items:center;
+  justify-content:center;
+  width:38px;
+  height:38px;
+  margin:0;
+  border:1px solid rgba(251,240,209,.48);
+  border-radius:5px;
+  background:rgba(255,255,255,.10);
+  color:#fff1cb;
+  font:800 17px/1 system-ui,sans-serif;
+}
+body.home-page #main-content>#care .care-more-details[open]>summary{
+  background:linear-gradient(118deg,#e7d5ac,#f9edcf);
+  color:#254937;
+  border-color:#bba277;
+}
+body.home-page #main-content>#care .care-more-details[open]>summary>span{
+  color:#28533a;
+  border-color:#ccb88d;
+  background:#fffbf0;
+}
+body.home-page #main-content>#care .care-more-details>summary:focus-visible{
+  outline:3px solid #a27b3b;
+  outline-offset:4px;
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid{
+  gap:clamp(14px,2vw,24px);
+  margin-top:clamp(15px,2.1vw,23px);
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid>.card{
+  box-sizing:border-box;
+  min-width:0;
+  padding:clamp(20px,2.3vw,30px);
+  border:1px solid #d8cdb6;
+  border-top:3px solid #b49b6d;
+  border-radius:4px 15px 4px 15px;
+  background:#fffdf8;
+  box-shadow:0 9px 24px rgba(28,53,37,.056);
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid>.card:nth-child(even){
+  border-top-color:#87a48c;
+  background:#fafcf7;
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid>.card>h3{
+  color:#244b38;
+  font:700 clamp(21px,1.85vw,25px)/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.05em;
+  text-wrap:balance;
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid>.card>p{
+  color:#486251;
+  font-size:15px;
+  line-height:1.9;
+  word-break:keep-all;
+}
+body.home-page #main-content>#care .care-more-details .care-mini-gallery{
+  padding:clamp(8px,1.05vw,13px);
+  border:1px solid #d3c1a2;
+  border-radius:4px 13px 4px 13px;
+  background:linear-gradient(150deg,#e7ddca,#f5ede0);
+  box-shadow:0 9px 22px rgba(33,55,41,.07);
+}
+body.home-page #main-content>#care .care-more-details .care-mini-gallery>img{
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  max-height:none;
+  aspect-ratio:auto;
+  object-fit:contain;
+  object-position:center;
+  border:1px solid rgba(163,145,113,.29);
+  background:#faf7ef;
+}
+body.home-page #main-content>#care .care-more-details .care-mini-gallery>figcaption{
+  box-sizing:border-box;
+  padding:clamp(12px,1.5vw,17px);
+  min-height:0;
+  border-top:1px solid #d6c7a9;
+  background:#fffcf6;
+  color:#405b47;
+  font-size:13px;
+  line-height:1.79;
+  word-break:keep-all;
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid>.card>p:last-child{
+  margin-top:auto;
+  padding-top:clamp(12px,1.5vw,18px);
+  border-top:1px solid #ded8cb;
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid>.card>p:last-child>a{
+  min-height:45px;
+  padding:10px 5px;
+  line-height:1.6;
+  color:#285940;
+  font-weight:700;
+}
+body.home-page #main-content>#care .care-more-details .care-more-grid>.card>p:last-child>a:focus-visible{
+  outline:3px solid #ac8147;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine){
+  body.home-page #main-content>#care .care-more-details:not([open])>summary:hover{
+    background:#315e46;
+    border-color:#cfb789;
+  }
+}
+@media(max-width:820px){
+  body.home-page #main-content>#care .care-more-details{
+    padding:12px;
+    margin-top:18px;
+  }
+  body.home-page #main-content>#care .care-more-details>summary{
+    min-height:59px;
+    padding:13px 15px;
+    font-size:16px;
+  }
+}
+@media(max-width:600px){
+  body.home-page #main-content>#care .care-more-details{
+    margin-inline:0;
+    padding:9px;
+    border-radius:4px 12px 4px 12px;
+  }
+  body.home-page #main-content>#care .care-more-details>summary{
+    min-height:56px;
+    padding:11px 13px;
+    font-size:15px;
+  }
+  body.home-page #main-content>#care .care-more-details>summary>span{
+    width:33px;
+    height:33px;
+  }
+  body.home-page #main-content>#care .care-more-details .care-more-grid>.card{
+    padding:18px 16px;
+  }
+  body.home-page #main-content>#care .care-more-details .care-mini-gallery{
+    padding:8px;
+  }
+  body.home-page #main-content>#care .care-more-details .care-mini-gallery>figcaption{
+    padding:11px 12px;
+    font-size:12px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.home-page #main-content>#care .care-more-details>summary>span{
+    transition:none;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#care .care-more-details,
+  body.home-page #main-content>#care .care-more-details>summary,
+  body.home-page #main-content>#care .care-more-details[open]>summary,
+  body.home-page #main-content>#care .care-more-details .care-more-grid>.card,
+  body.home-page #main-content>#care .care-more-details .care-mini-gallery,
+  body.home-page #main-content>#care .care-more-details .care-mini-gallery>figcaption{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#care .care-more-details>summary>span{
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+  }
+}
