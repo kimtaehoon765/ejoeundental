@@ -76,15 +76,22 @@ test('three priority public clinic pages publish authentic share-preview images'
  assert.ok(existsSync(imagePath),'branded photo must be in production build');
  for(const file of ['gum-treatment.html','stories.html','visit-guide.html']){
   const html=readFileSync('dist/'+file,'utf8');
-  // The gum-treatment guide now has its own genuine periodontal watercolor.
-  // The story/visit pages continue to use the verified doctor-and-cat portrait.
+  // The owner-approved journal portrait differs from the earlier visit guide
+  // picture; periodontal care keeps its own medical watercolor.
   const gum=file==='gum-treatment.html';
-  const artwork=gum?'https://ejoeundental.com/assets/watercolor-care-gum-20261029.webp':image;
+  const journal=file==='stories.html';
+  const artwork=gum?'https://ejoeundental.com/assets/watercolor-care-gum-20261029.webp':
+   journal?'https://ejoeundental.com/assets/ejoeun-gallery-cat-dentist-20261029.webp':image;
+  const dimension=gum?['960','640']:journal?['1200','800']:['650','543'];
+  const imageAlt=gum?'노란 손잡이 큐렛을 그린 이조은치과 잇몸치료 수채화':
+   journal?'이조은치과 김태훈 원장 캐리커처와 복슬복슬한 하얀 고양이가 함께 있는 창작 회화':
+    '이조은치과의 하얀 고양이와 치과의사 일러스트';
+  assert.ok(existsSync('dist/assets/'+artwork.split('/').at(-1)),
+   file+': own public OG artwork is included in production');
   const fields=[
    ['property','og:image',artwork],['property','og:image:type','image/webp'],
-   ['property','og:image:width',gum?'960':'650'],['property','og:image:height',gum?'640':'543'],
-   ['property','og:image:alt',gum?'노란 손잡이 큐렛을 그린 이조은치과 잇몸치료 수채화':'이조은치과의 하얀 고양이와 치과의사 일러스트'],
-   ['name','twitter:image',artwork]
+   ['property','og:image:width',dimension[0]],['property','og:image:height',dimension[1]],
+   ['property','og:image:alt',imageAlt],['name','twitter:image',artwork]
   ];
   for(const [kind,key,value] of fields){
    const markup='<meta '+kind+'="'+key+'" content="'+value+'">';
