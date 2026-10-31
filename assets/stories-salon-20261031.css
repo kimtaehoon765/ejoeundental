@@ -319,3 +319,155 @@ body.stories-gallery .bottom-help{
     box-shadow:none;
   }
 }
+
+
+/* 2026-10-31 | Journal archive: fully visible, easy to scan.
+   Every generated story title and full teaser stays readable and indexable.
+   Stronger topic dividers, restrained metadata and more comfortable text
+   measures make a large article archive feel like a curated reading room. */
+body.stories-gallery #story-directory{
+  max-width:100%;
+  min-width:0;
+}
+body.stories-gallery #story-directory .topic-jump{
+  box-sizing:border-box;
+  max-width:100%;
+  gap:8px;
+  padding:clamp(16px,2.3vw,24px);
+  border:1px solid #d9d1bd;
+  border-top:3px solid #ab946a;
+  border-radius:5px 13px 5px 13px;
+  background:linear-gradient(145deg,#fffdf8,#f3f6ec);
+  box-shadow:0 8px 22px rgba(27,56,39,.04);
+}
+body.stories-gallery #story-directory .topic-jump>a{
+  box-sizing:border-box;
+  min-height:45px;
+  padding:9px 13px;
+  border:1px solid #d9d9cb;
+  border-radius:5px 10px 5px 10px;
+  background:#fffefa;
+  color:#2a5740;
+  font-weight:750;
+  line-height:1.56;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.stories-gallery #story-directory .topic-jump>a:focus-visible{
+  outline:3px solid #a47d40;
+  outline-offset:3px;
+}
+body.stories-gallery #story-directory .story-topic{
+  margin-block:clamp(29px,4vw,46px);
+  scroll-margin-top:110px;
+}
+body.stories-gallery #story-directory .story-topic-heading{
+  align-items:baseline;
+  gap:10px;
+  margin-bottom:clamp(16px,2.4vw,26px);
+  padding:4px 0 17px 16px;
+  border-left:4px solid #ad9465;
+  border-bottom:1px solid #ddd4c3;
+}
+body.stories-gallery #story-directory .story-topic-heading h2{
+  margin:0;
+  color:#264b39;
+  font-family:'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.045em;
+  line-height:1.53;
+  text-wrap:balance;
+}
+body.stories-gallery #story-directory .story-grid{
+  align-items:stretch;
+  gap:clamp(14px,2vw,21px);
+}
+body.stories-gallery #story-directory .story-card{
+  min-width:0;
+  gap:clamp(9px,1.3vw,15px);
+  padding:clamp(21px,2.5vw,30px);
+  border:1px solid #ded8ca;
+  border-top:3px solid #95ac94;
+  border-radius:5px 13px 5px 13px;
+  background:#fffefa;
+  box-shadow:0 7px 22px rgba(28,57,39,.04);
+}
+body.stories-gallery #story-directory .story-card time{
+  font-size:12px;
+  font-weight:700;
+  color:#826e4e;
+  line-height:1.55;
+}
+body.stories-gallery #story-directory .story-card h3{
+  max-width:38ch;
+  margin:0;
+  color:#244937;
+  font-family:'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  font-size:clamp(18px,1.8vw,21px);
+  line-height:1.56;
+  letter-spacing:-.04em;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+  text-wrap:balance;
+}
+body.stories-gallery #story-directory .story-card>p{
+  max-width:67ch;
+  margin:0;
+  color:#496251;
+  font-size:clamp(15px,1.3vw,16px);
+  line-height:1.88;
+  overflow-wrap:anywhere;
+  word-break:keep-all;
+}
+body.stories-gallery #story-directory .story-card>.read{
+  display:inline-flex;
+  align-items:center;
+  min-height:45px;
+  margin-top:auto;
+  padding-top:12px;
+  border-top:1px solid #e4dfd3;
+  color:#286244;
+  font-size:14px;
+  line-height:1.62;
+  font-weight:750;
+}
+@media(max-width:650px){
+  body.stories-gallery #story-directory .topic-jump{
+    gap:7px;
+    padding:16px 12px;
+  }
+  body.stories-gallery #story-directory .topic-jump>a{
+    min-height:48px;
+    padding:9px 11px;
+    font-size:13px;
+  }
+  body.stories-gallery #story-directory .story-topic-heading{
+    margin-bottom:16px;
+    padding:2px 0 13px 11px;
+  }
+  body.stories-gallery #story-directory .story-card{
+    padding:22px 18px;
+    gap:12px;
+    box-shadow:none;
+  }
+  body.stories-gallery #story-directory .story-card>p{
+    font-size:16px;
+    line-height:1.88;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.stories-gallery #story-directory :is(.story-card,.topic-jump>a){
+    transition:none;
+    transform:none;
+  }
+}
+@media(forced-colors:active){
+  body.stories-gallery #story-directory :is(.topic-jump,.topic-jump>a,.story-card){
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.stories-gallery #story-directory .story-card :is(h3,p,time,.read){
+    color:CanvasText;
+  }
+}
