@@ -1442,3 +1442,53 @@ body.home-page #main-content > .hero.wrap .hero-actions > .hero-booking {
     box-shadow:none;
   }
 }
+
+/* 2026-10-31 | Clear anchor offsets for sticky clinic navigation. */
+/* Both scroll-padding on html and scroll-margin on the original section
+   targets were adding together. Keep the existing per-section clearance and
+   let it alone protect links beneath the sticky header; this avoids a large
+   empty gap on short mobile viewports. The :has() selector is narrowly
+   homepage-scoped and degrades to the previous safe offsets when unsupported. */
+html:has(body.home-page),
+html.home-scrolled:has(body.home-page) {
+  scroll-padding-top:0;
+}
+/* Returning to the beginning still respects the normal page flow. */
+body.home-page #main-content {
+  scroll-margin-top:0;
+}
+/* Mark the intended destination without moving content or changing URLs.
+   These sections are used by the arrival and visit-guide quick links. */
+body.home-page #main-content #hours-details:target,
+body.home-page #main-content #parking-details:target,
+body.home-page #main-content #weekly-hours:target {
+  outline:3px solid rgba(178,147,84,.65);
+  outline-offset:4px;
+  scroll-margin-top:112px;
+}
+body.home-page #main-content :is(#symptom-navigator-title,#symptoms-heading):target {
+  text-decoration:underline;
+  text-decoration-thickness:2px;
+  text-decoration-color:#b39a69;
+  text-underline-offset:.23em;
+}
+@media(max-width:700px) {
+  body.home-page #main-content #hours-details:target,
+  body.home-page #main-content #parking-details:target,
+  body.home-page #main-content #weekly-hours:target {
+    scroll-margin-top:128px;
+    outline-offset:2px;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content :is(
+    #hours-details,#parking-details,#weekly-hours
+  ):target {
+    outline-color:Highlight;
+  }
+  body.home-page #main-content :is(
+    #symptom-navigator-title,#symptoms-heading
+  ):target {
+    text-decoration-color:Highlight;
+  }
+}
