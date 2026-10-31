@@ -3637,3 +3637,49 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
  console.log('Stable gallery foundation requests: 3 -> 1;',
   'later art layers retained:',newerLayers.length,'bundle:',bundleName);
 }
+
+
+// Curated homepage exhibition CSS bundle: three stable layers, exact cascade order.
+// These are contiguous and stable exhibition-only files. Frequently modified
+// home-art-direction / atelier-refinement remain separately cached. Do NOT
+// remove or rewrite medical content, original paintings or clinical links.
+{
+ const homepage=path.join(out,'index.html');
+ const originals=['atelier-home-2026.css','curatorial-home.css','gallery-edition-polish.css'];
+ const boundary='\n\n/* Ejoeun curated exhibition CSS source boundary. */\n\n';
+ const css=originals.map(name=>{
+  const file=path.join(out,'assets',name);
+  if(!fs.existsSync(file))throw new Error('Curated exhibition CSS missing: '+name);
+  const text=fs.readFileSync(file,'utf8');
+  if(/@import\s|@charset\s|@namespace\s/i.test(text))
+   throw new Error('CSS imports/charset/namespace prevent exact bundle: '+name);
+  for(const match of text.matchAll(/url\(\s*['"]?([^)'"]+)/g)){
+   const ref=match[1].trim();
+   if(!ref.startsWith('/')&&!ref.startsWith('data:'))
+    throw new Error('Relative or unsafe CSS URL in '+name+': '+ref);
+  }
+  return text.trimEnd();
+ });
+ const combined=css.join(boundary)+'\n';
+ const hash=createHash('sha256').update(combined).digest('hex').slice(0,12);
+ const bundled='exhibition-foundation-'+hash+'.css';
+ fs.writeFileSync(path.join(out,'assets',bundled),combined,'utf8');
+ let html=fs.readFileSync(homepage,'utf8');
+ const group=/<link rel="stylesheet" href="\/assets\/atelier-home-2026\.css(?:\?[^"]*)?">\s*<link rel="stylesheet" href="\/assets\/curatorial-home\.css(?:\?[^"]*)?">\s*<link rel="stylesheet" href="\/assets\/gallery-edition-polish\.css(?:\?[^"]*)?">/g;
+ if([...html.matchAll(group)].length!==1)
+  throw new Error('Expected one ordered three-style exhibition group');
+ const link='<link rel="stylesheet" href="/assets/'+bundled+'">';
+ const prev=html.indexOf('href="/assets/gallery-foundation-');
+ const after=html.indexOf('href="/assets/home-art-direction-20261030.css');
+ const final=html.indexOf('href="/assets/atelier-refinement-20261030.css');
+ const oldCount=(html.match(/<link rel="stylesheet" href="\/assets\//g)||[]).length;
+ html=html.replace(group,link);
+ const at=html.indexOf(link);
+ const newCount=(html.match(/<link rel="stylesheet" href="\/assets\//g)||[]).length;
+ if(prev<0||after<0||final<0||!(prev<at&&at<after&&after<final)||
+    newCount!==oldCount-2)
+  throw new Error('Exhibition bundling disturbed existing CSS cascade or link count');
+ fs.writeFileSync(homepage,html,'utf8');
+ console.log('Homepage stable exhibition CSS requests: 3 -> 1;',
+  'newer art layers cached independently:',2,'bundle:',bundled);
+}
