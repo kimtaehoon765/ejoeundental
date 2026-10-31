@@ -467,3 +467,192 @@ body.home-page #main-content :is(
     color:CanvasText;
   }
 }
+
+/* 2026-10-31 | Curated exhibition wall and clinical illustration labels. */
+/* The gallery has three rooms and original illustrations. Build a coherent
+   reading rhythm without introducing duplicate images or modifying links. */
+body.home-page #main-content > #gallery.gallery-home-preview {
+  background:linear-gradient(165deg,#f6f3e9,#fffdf8 50%,#f2f4ec);
+}
+body.home-page #main-content > #gallery .gallery-home-intro--exhibition {
+  gap:clamp(16px,2.4vw,30px);
+  margin-bottom:clamp(24px,3vw,38px);
+}
+body.home-page #main-content > #gallery .gallery-exhibition-lead > h2 {
+  color:#1e4733;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  line-height:1.48;
+  letter-spacing:-.055em;
+  text-wrap:balance;
+}
+body.home-page #main-content > #gallery .gallery-exhibition-lead > p {
+  max-width:67ch;
+  color:#4c6051;
+  line-height:1.95;
+  word-break:keep-all;
+}
+body.home-page #main-content > #gallery .gallery-exhibition-index__room {
+  border:1px solid #d8cbb5;
+  border-radius:4px;
+  background:#fffefa;
+  box-shadow:0 5px 18px rgba(33,54,39,.045);
+}
+body.home-page #main-content > #gallery .gallery-exhibition-index__room > strong {
+  color:#234b37;
+  line-height:1.55;
+  text-wrap:balance;
+}
+body.home-page #main-content > #gallery .gallery-exhibition-index__detail {
+  line-height:1.8;
+  word-break:keep-all;
+}
+body.home-page #main-content > #gallery .gallery-home-artworks--complementary,
+body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings {
+  align-items:stretch;
+  gap:clamp(13px,2.2vw,24px);
+}
+body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a,
+body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a {
+  box-sizing:border-box;
+  display:flex;
+  min-width:0;
+  flex-direction:column;
+  overflow:hidden;
+  border:1px solid #d2c6b1;
+  border-radius:4px;
+  background:#fffdf8;
+  box-shadow:0 8px 22px rgba(33,54,40,.055);
+  transition:border-color .17s ease,box-shadow .17s ease;
+}
+body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a > img,
+body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a > img {
+  box-sizing:border-box;
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:8 / 5;
+  object-fit:contain;
+  object-position:center;
+  padding:clamp(8px,1.2vw,13px);
+  background:#eae5d9;
+  border-bottom:1px solid #c8bda8;
+}
+body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a > span,
+body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a > .gallery-new-arrivals__caption {
+  box-sizing:border-box;
+  flex:1;
+  width:100%;
+  padding:clamp(14px,1.75vw,21px);
+  background:#fffefa;
+  border-top:0;
+}
+body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a > span strong,
+body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a > .gallery-new-arrivals__caption strong {
+  color:#244936;
+  line-height:1.6;
+  letter-spacing:-.04em;
+  text-wrap:balance;
+}
+body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a > span small,
+body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a > .gallery-new-arrivals__caption em {
+  color:#55705c;
+  line-height:1.75;
+  word-break:keep-all;
+}
+body.home-page #main-content > #gallery .gallery-new-arrivals__intro > h3 {
+  color:#234b37;
+  letter-spacing:-.05em;
+  text-wrap:balance;
+}
+/* Clinical illustrations are paintings first, explanatory links second.
+   Panoramic abrasion/insurance images retain their own natural ratio. */
+body.home-page #main-content > #health-info .health-topic-painting,
+body.home-page #main-content > .care-picture-notes .care-picture-notes__frame {
+  overflow:hidden;
+  border-color:#d7c8ad;
+  background:#ede9dd;
+}
+body.home-page #main-content > #health-info .health-topic-painting > img,
+body.home-page #main-content > .care-picture-notes .care-picture-notes__frame > img {
+  display:block;
+  max-width:100%;
+  object-fit:contain;
+  object-position:center;
+}
+body.home-page #main-content > #health-info .health-topic-painting__caption,
+body.home-page #main-content > .care-picture-notes .care-picture-notes__caption {
+  background:#fffefa;
+  border-top:1px solid #e2d9ca;
+}
+body.home-page #main-content > .care-picture-notes .care-picture-notes__caption strong {
+  color:#224b35;
+  line-height:1.6;
+  text-wrap:balance;
+}
+body.home-page #main-content > .care-picture-notes .care-picture-notes__caption > span {
+  line-height:1.8;
+  word-break:keep-all;
+}
+/* Native gallery links remain tabbable and readable. */
+body.home-page #main-content > #gallery :is(
+  .gallery-exhibition-index__room,
+  .gallery-home-artworks--complementary > a,
+  .gallery-new-arrivals__previews--paintings > a
+):focus-visible,
+body.home-page #main-content > .care-picture-notes .care-picture-notes__card:focus-visible {
+  outline:3px solid #a78550;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine) {
+  body.home-page #main-content > #gallery :is(
+    .gallery-exhibition-index__room,
+    .gallery-home-artworks--complementary > a,
+    .gallery-new-arrivals__previews--paintings > a
+  ):hover {
+    border-color:#ac9369;
+    box-shadow:0 12px 25px rgba(30,56,38,.1);
+  }
+}
+@media(max-width:600px) {
+  body.home-page #main-content > #gallery .gallery-home-intro--exhibition {
+    margin-bottom:22px;
+  }
+  body.home-page #main-content > #gallery .gallery-exhibition-lead > h2 {
+    font-size:clamp(26px,6.8vw,34px);
+  }
+  body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a > img,
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a > img {
+    width:100%;
+    height:auto;
+    aspect-ratio:8/5;
+    object-fit:contain;
+    padding:7px;
+  }
+  body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a > span,
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a > .gallery-new-arrivals__caption {
+    padding:14px 15px 16px;
+  }
+  body.home-page #main-content > #health-info .health-topic-painting > img,
+  body.home-page #main-content > .care-picture-notes .care-picture-notes__frame > img {
+    max-width:100%;
+    object-fit:contain;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a,
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a {
+    transition:none;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > #gallery.gallery-home-preview,
+  body.home-page #main-content > #gallery .gallery-exhibition-index__room,
+  body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a,
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a,
+  body.home-page #main-content > #health-info .health-topic-painting__caption {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
