@@ -589,3 +589,87 @@
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-31 | Gallery-to-care caption and frame alignment.
+   Match the clinic's four patient-guide exhibition rooms while keeping
+   every original artwork, gallery order, alt text and zoom interaction. */
+.gallery-hero-content,
+#paintings .gallery-piece,
+#education .gallery-note--watercolor,
+.gallery-patient-studies__piece {
+  border-radius:5px 14px 5px 14px;
+}
+.gallery-section-intro h2,
+.gallery-patient-studies__intro h2 {
+  max-width:29ch;
+  letter-spacing:-.055em;
+  text-wrap:balance;
+}
+#paintings .gallery-piece figcaption,
+.gallery-patient-studies__piece figcaption {
+  border-top:1px solid #ded3bf;
+}
+#paintings .gallery-piece figcaption>h3,
+.gallery-patient-studies__piece h3 {
+  font-family:'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  font-weight:700;
+  letter-spacing:-.04em;
+  line-height:1.55;
+}
+#paintings .gallery-piece figcaption>p,
+.gallery-patient-studies__piece p {
+  max-width:62ch;
+  line-height:1.86;
+  overflow-wrap:anywhere;
+}
+#education .gallery-note--watercolor>span {
+  border-top:1px solid #ded3bf;
+}
+#paintings .gallery-piece .gallery-art-frame,
+.gallery-patient-studies__frame {
+  border-bottom:1px solid #ccba98;
+}
+#paintings .gallery-piece .gallery-art-frame>img,
+#education .gallery-note--watercolor>img,
+.gallery-patient-studies__frame img {
+  object-fit:contain;
+  object-position:center;
+}
+#paintings .gallery-piece .gallery-links :is(a,button),
+#education .gallery-watercolor-actions :is(a,button),
+.gallery-patient-studies__actions :is(a,button) {
+  box-sizing:border-box;
+  min-height:48px;
+  line-height:1.55;
+  font-weight:700;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+.gallery-care-bridge__links>a:focus-visible,
+#paintings .gallery-piece .gallery-links :is(a,button):focus-visible,
+#education .gallery-watercolor-actions :is(a,button):focus-visible,
+.gallery-patient-studies__actions :is(a,button):focus-visible {
+  outline:3px solid #a17c40;
+  outline-offset:3px;
+}
+@media(max-width:650px) {
+  #paintings .gallery-piece figcaption,
+  .gallery-patient-studies__piece figcaption {
+    padding:18px 16px 21px;
+  }
+  #paintings .gallery-piece .gallery-links :is(a,button),
+  #education .gallery-watercolor-actions :is(a,button),
+  .gallery-patient-studies__actions :is(a,button) {
+    min-height:49px;
+  }
+}
+@media(forced-colors:active) {
+  #paintings .gallery-piece figcaption,
+  .gallery-patient-studies__piece figcaption,
+  #education .gallery-note--watercolor>span {
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+  }
+}
