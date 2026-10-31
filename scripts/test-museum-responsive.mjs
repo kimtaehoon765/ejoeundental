@@ -244,7 +244,7 @@ test('wisdom tooth and cavity exhibits retain distinct original paintings and pa
    c.file+': exactly one unchanged clinically qualified original painting');
   assert.equal((cards.match(new RegExp('<'+c.card+'\\b','g'))||[]).length,c.count,
    c.file+': preserve original educational questions and their routes');
-  assert.equal((toc.match(/<a\\b/g)||[]).length,4,
+  assert.equal((toc.match(/<a\b/g)||[]).length,4,
    c.file+': original chapter navigation retains all four destinations');
   assert.ok(linkedVersionedStyle(html,'care-gallery-secondary.css'),
    c.file+': refreshed style should not be stuck behind an old browser cache');
