@@ -456,3 +456,42 @@ test('second exhibition room enlarges three unique clinical watercolors',()=>{
  assert.equal((html.match(/class="gallery-zoom"/g)||[]).length,23,
   'do not remove any image enlargement in the 23-work gallery');
 });
+
+
+test('gallery room one shows full-frame pictures and hides unavailable zoom',()=>{
+ const html=read('gallery.html');
+ const artworks=artworkGroups(html);
+ assert.equal(artworks.originals.length,10,'all ten original paintings remain in the first exhibition');
+ const originals=artworks.originals.map(markup=>markup.match(/<img\b[^>]*src="([^"]+)"/)?.[1]);
+ assert.equal(new Set(originals).size,10,'each of the first-room paintings is distinct');
+ for(const [i,figure] of artworks.originals.entries()){
+  assert.ok(figure.includes('class="gallery-links"'),'the painting keeps its own label and control links');
+  assert.ok(figure.includes('class="gallery-zoom"'),'optional enhancement remains in the markup');
+  assert.ok(figure.includes('target="_blank" rel="noopener noreferrer"'),
+    'a non-JavaScript original-file fallback remains available at painting '+(i+1));
+ }
+ const css=read('assets/clinic-gallery.css');
+ for(const rule of [
+   'First gallery room: consistent art labels and honest zoom',
+   '#paintings .gallery-piece figcaption',
+   '#paintings .gallery-piece .gallery-links',
+   'grid-template-columns:repeat(2,minmax(0,1fr))',
+   'object-fit:contain',
+   'html:not(.gallery-js) #paintings .gallery-piece .gallery-links>button.gallery-zoom',
+   'display:none;',
+   'html:not(.gallery-js) #paintings .gallery-piece .gallery-links>a',
+   'html.gallery-js #paintings .gallery-piece .gallery-links>button.gallery-zoom',
+   'display:inline-flex;',
+   '@media(max-width:600px)',
+   '@media(max-width:370px)',
+   '@media(forced-colors:active)'
+ ]){
+   assert.ok(css.includes(rule),'missing readable first-room display or progressively enhanced action: '+rule);
+ }
+ assert.ok(html.includes(hashedCssUrl('clinic-gallery')),
+   'gallery must load its latest original-image framing and buttons');
+ assert.equal((html.match(/class="gallery-zoom"/g)||[]).length,23,
+   'existing full 23-work enlargement menu must not be altered');
+ assert.ok(html.includes('class="gallery-mobile-dock"'),
+   'gallery reservation and telephone dock must remain');
+});
