@@ -47,11 +47,14 @@ async function main(){
   const builtHome=local('index.html').toString('utf8');
   const builtStories=local('stories.html').toString('utf8');
   const builtGallery=local('gallery.html').toString('utf8');
+  const builtDoctor=local('doctor.html').toString('utf8');
+  const builtPreservation=local('tooth-preservation.html').toString('utf8');
   const commit=meta(builtHome,'ejoeundental-build-commit');
   verdict('검증에 사용한 빌드 커밋',/^[0-9a-f]{40}$/.test(commit),
     commit||'커밋 정보 없음');
   const routes=[['홈페이지','/',builtHome],['치과 이야기','/stories',builtStories],
-    ['갤러리','/gallery',builtGallery]];
+    ['갤러리','/gallery',builtGallery],['의료진 소개','/doctor',builtDoctor],
+    ['자연치아 보존','/tooth-preservation',builtPreservation]];
   const pages={};
   await Promise.all(routes.map(async([label,path,expected])=>{
     try{
@@ -98,6 +101,42 @@ async function main(){
     storyImage===liveStoryImage&&
     storyImage.endsWith('/assets/ejoeun-gallery-cat-dentist-20261029.webp'),
     '공개 '+(liveStoryImage||'없음')+' / 이번 빌드 '+(storyImage||'없음'));
+  // Compare the page-specific social card each visitor and messenger sees
+  // against the same built release. No duplicate artwork is added to the page.
+  const socialCases=[
+    ['홈페이지','/',builtHome,'ejoeun-gallery-cat-dentist-20261029.webp'],
+    ['갤러리','/gallery',builtGallery,'ejoeun-original-wisdom-consult-20261029.webp'],
+    ['의료진 소개','/doctor',builtDoctor,'ejoeun-gallery-cat-dentist-20261029.webp'],
+    ['자연치아 보존','/tooth-preservation',builtPreservation,
+      'ejoeun-tooth-preservation-garden-cat-20261029.webp']
+  ];
+  for(const [label,route,expected,image] of socialCases){
+    const live=pages[route]||'';
+    const props=[['property','og:image'],['property','og:image:type'],
+      ['property','og:image:width'],['property','og:image:height'],
+      ['property','og:image:alt'],['name','twitter:card'],
+      ['name','twitter:image'],['name','twitter:image:alt']];
+    const tag=(html,kind,key)=>html.match(new RegExp(
+      '<meta '+kind+'="'+key+'" content="([^"]+)"'
+    ))?.[1]||'';
+    const complete=props.every(([kind,key])=>{
+      const builtValue=tag(expected,kind,key);
+      return Boolean(builtValue)&&builtValue===tag(live,kind,key);
+    });
+    const imageUrl=origin+'/assets/'+image;
+    const right=complete&&tag(live,'property','og:image')===imageUrl&&
+      tag(live,'name','twitter:image')===imageUrl;
+    verdict(label+' SNS 미리보기 원본·설명',
+      right,right?'OG·Twitter 그림 8개 필드 공개·빌드 일치':
+      '대표 그림 '+(tag(live,'property','og:image')||'없음')+
+      ' · 이 빌드 '+imageUrl);
+  }
+  await checkAsset('갤러리 공유 원본 그림',
+    'assets/ejoeun-original-wisdom-consult-20261029.webp',
+    '/assets/ejoeun-original-wisdom-consult-20261029.webp');
+  await checkAsset('자연치아 보존 공유 원본 그림',
+    'assets/ejoeun-tooth-preservation-garden-cat-20261029.webp',
+    '/assets/ejoeun-tooth-preservation-garden-cat-20261029.webp');
   const count=html=>(html.match(/class="gallery-zoom"/g)||[]).length;
   const builtGalleryCount=count(builtGallery),publicGalleryCount=count(pages['/gallery']||'');
   verdict('갤러리 전시 23점·확대 버튼',
