@@ -21,6 +21,20 @@ const galleryFoundation=()=>{
 };
 
 
+const exhibitionFoundation=()=>{
+ const names=['atelier-home-2026.css','curatorial-home.css','gallery-edition-polish.css'];
+ const boundary='\n\n/* Ejoeun curated exhibition CSS source boundary. */\n\n';
+ const expected=names.map(name=>read('assets/'+name).trimEnd()).join(boundary)+'\n';
+ const hash=createHash('sha256').update(expected).digest('hex').slice(0,12);
+ const href='/assets/exhibition-foundation-'+hash+'.css';
+ assert.ok(home.includes('href="'+href+'"'),'immutable exhibition CSS is linked');
+ assert.equal(read(href.slice(1)),expected,'3 original exhibition styles retained verbatim in cascade order');
+ assert.ok(!names.some(name=>home.includes('href="/assets/'+name)),
+  'do not re-fetch the 3 original exhibition CSS files');
+ return href;
+};
+
+
 test('patient health-library search desks remain accessible and link to one verified search route',()=>{
  const css=read('assets/health-library-gallery.css');
  assert.ok(css.includes('2026-10-31 | Search desk for four patient reading rooms'));
@@ -149,10 +163,10 @@ test('homepage critical CSS retains its cascade while reducing three requests to
  assert.ok(!home.includes('href="/assets/address-copy.css'),
   'avoid the redundant render-blocking address CSS request');
  const foundation=galleryFoundation();
- const later=['atelier-home-2026.css','curatorial-home.css','gallery-edition-polish.css',
-  'home-art-direction-20261030.css','atelier-refinement-20261030.css'];
+ const later=[exhibitionFoundation(),
+  '/assets/home-art-direction-20261030.css','/assets/atelier-refinement-20261030.css'];
  const positions=[home.indexOf('href="'+foundation+'"'),
-  ...later.map(name=>home.indexOf('href="/assets/'+name))];
+  ...later.map(href=>home.indexOf('href="'+href))];
  assert.ok(positions.every(n=>n>=0),'all existing museum styles must still load');
  assert.ok(positions.every((n,i)=>i===0||n>positions[i-1]),
   'museum styles remain in approved cascade order');
@@ -472,7 +486,7 @@ test('premium home stylesheet ships after earlier layers and keeps booking visib
  const styles=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
  const museumLink=galleryFoundation();
  assert.ok(styles.includes(museumLink),'immutable museum CSS must be referenced');
- assert.ok(styles.indexOf(museumLink)<styles.findIndex(s=>s.includes('/assets/atelier-home-2026.css')),
+ assert.ok(styles.indexOf(museumLink)<styles.indexOf(exhibitionFoundation()),
   'museum foundation must precede the later gallery finish styles');
  const hero=home.match(/<div class="hero-actions">([\s\S]*?)<\/div>/)?.[1]||'';
  assert.ok(hero.includes('class="btn hero-call"'),'call must remain');
@@ -681,12 +695,14 @@ test('mobile quick navigation remains readable without removing booking or story
 test('final responsive layer places phone and Naver booking above secondary guides',()=>{
  const finalCss=read('assets/curatorial-home.css');
  const styles=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
- const finalStyle=styles.find(s=>s.includes('/assets/curatorial-home.css?'));
+ const finalStyle=exhibitionFoundation();
  assert.ok(finalStyle,'the final responsive stylesheet must be linked');
- assert.ok(styles.indexOf(finalStyle)>styles.findIndex(s=>s.includes('/assets/museum-home-v2.css')),
-  'final mobile layout must win over the original two-column layout');
- assert.ok(styles.indexOf(finalStyle)>styles.findIndex(s=>s.includes('/assets/atelier-home-2026.css')),
-  'the last responsive layer must load after the editorial refinements');
+ assert.ok(styles.indexOf(finalStyle)>styles.indexOf(galleryFoundation()),
+  'mobile exhibition rules must override earlier museum layers');
+ const exhibition=read(finalStyle.slice(1));
+ assert.ok(exhibition.indexOf(read('assets/curatorial-home.css').trimEnd())>
+  exhibition.indexOf(read('assets/atelier-home-2026.css').trimEnd()),
+  'original responsive layout follows original editorial rules in bundled CSS');
  const hero=home.match(/<div class="hero-actions">([\s\S]*?)<\/div>/)?.[1]||'';
  const booking=hero.match(/<a\b[^>]*class="btn hero-booking"[^>]*>/)?.[0]||'';
  const phone=hero.match(/<a\b[^>]*class="btn hero-call"[^>]*>/)?.[0]||'';
@@ -781,7 +797,7 @@ test('museum wall has one lead painting and two companion originals without crop
   'mobile preserves a prominent first image and swipeable companion artworks');
  assert.match(css,/scroll-snap-type:x mandatory;/,
   'mobile gallery still needs its existing swipe behavior');
- assert.ok(home.includes('curatorial-home.css?'),
+ assert.ok(home.includes('href="'+exhibitionFoundation()+'"'),
   'the production homepage must load the final exhibition layer');
 });
 
@@ -818,7 +834,7 @@ test('clinical exhibit cards keep all five genuine treatment links and illustrat
   'keyboard patients need an obvious focus indicator');
  assert.match(final,/@media\(forced-colors:active\)/,
   'high-contrast accessibility must remain usable');
- assert.ok(home.includes('curatorial-home.css?'),
+ assert.ok(home.includes('href="'+exhibitionFoundation()+'"'),
   'visual layer must load on homepage');
 });
 
@@ -1037,7 +1053,7 @@ test('atelier entrance keeps the entire clinic journey visible and improves mobi
  assert.match(refined,/min-height:58px;/,'phone and Naver booking must have usable touch size');
  assert.match(refined,/:focus-visible/,'links should retain visible keyboard focus');
  assert.match(refined,/@media\(forced-colors:active\)/);
- assert.ok(home.includes('/assets/curatorial-home.css?'), 'versioned premium gallery stylesheet must load after the build');
+ assert.ok(home.includes('href="'+exhibitionFoundation()+'"'), 'versioned premium gallery stylesheet must load after the build');
 });
 
 test('patient-art gallery keeps 10 unique originals and graceful no-JS viewing',()=>{
@@ -1680,7 +1696,7 @@ test('gallery exit presents four genuine care guides and prominent Naver booking
  }
  const styles=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
  const after=styles.findIndex(x=>x.startsWith('/assets/atelier-refinement-20261030.css?v='));
- const before=styles.findIndex(x=>x.startsWith('/assets/gallery-edition-polish.css?v='));
+ const before=styles.indexOf(exhibitionFoundation());
  assert.ok(after>before && before>=0,'closing gallery finishes after old design layers');
  assert.ok(home.includes('class="mobile-booking-actions"') &&
   home.includes('href="tel:0325132875"'),'independent mobile phone and booking stay available');
