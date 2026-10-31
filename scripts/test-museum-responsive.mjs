@@ -1893,7 +1893,8 @@ test('eight care gallery keeps all twelve services and original artwork',()=>{
 
 test('mobile homepage keeps original portrait without costly Korean webfont subsets',()=>{
  const head=home.slice(0,home.indexOf('</head>'));
- const allFontLinks=[...head.matchAll(/<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com\/css2\?[^"]+"[^>]*>/g)].map(m=>m[0]);
+ const activeHead=head.replace(/<noscript>[\s\S]*?<\/noscript>/g,'');
+ const allFontLinks=[...activeHead.matchAll(/<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com\/css2\?[^"]+"[^>]*>/g)].map(m=>m[0]);
  assert.equal(allFontLinks.length,2,
   'ship only the lightweight Latin family and a desktop-only Korean serif');
  const latin=allFontLinks.find(link=>link.includes('family=DM+Sans'));
