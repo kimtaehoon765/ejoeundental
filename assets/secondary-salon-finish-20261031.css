@@ -478,3 +478,247 @@ body.care-gallery.care-gallery-secondary:is(.secondary-cavity,.secondary-denture
     box-shadow:none;
   }
 }
+
+
+/* 2026-10-31 | Child & wisdom consult reading-room refinement.
+   Scope exclusively to three preexisting treatment pages.
+   Retain all original paintings, medical decisions and booking targets. */
+body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathways-gallery,.pediatric-ortho-decisions){
+  --consult-ink:#244a38;
+  --consult-paper:#fffefa;
+  --consult-border:#d9cebc;
+  --consult-accent:#a58f67;
+}
+body.care-gallery.care-gallery-secondary.pediatric-pathways-gallery{
+  --consult-accent:#8baa8d;
+}
+body.care-gallery.care-gallery-secondary.pediatric-ortho-decisions{
+  --consult-accent:#829cac;
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+  .treatment-page-toc.gallery-section-index{
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  align-items:stretch;
+  gap:clamp(8px,1.1vw,12px);
+  margin-block:clamp(20px,2.6vw,31px);
+  padding:clamp(17px,2vw,24px);
+  border:1px solid var(--consult-border);
+  border-top:3px solid var(--consult-accent);
+  border-radius:4px 14px 4px 14px;
+  background:linear-gradient(135deg,#fffefa,#f4f7ef);
+  box-shadow:0 8px 20px rgba(30,51,38,.04);
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+  .treatment-page-toc.gallery-section-index>strong{
+  display:block;
+  grid-column:1/-1;
+  margin:0 0 2px;
+  color:var(--consult-ink);
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(17px,1.6vw,20px);
+  font-weight:700;
+  line-height:1.55;
+  letter-spacing:-.04em;
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+  .treatment-page-toc.gallery-section-index>a{
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  min-width:0;
+  min-height:54px;
+  padding:11px 14px;
+  border:1px solid #ded5c4;
+  border-radius:4px 10px 4px 10px;
+  background:#fffefa;
+  color:#28543d;
+  font-size:clamp(13px,1.16vw,15px);
+  font-weight:740;
+  line-height:1.65;
+  text-decoration:none;
+  overflow-wrap:anywhere;
+  word-break:keep-all;
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+  .treatment-page-toc.gallery-section-index>a:last-child{
+  border-left:3px solid var(--consult-accent);
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+  .ejoeun-topic-art{
+  border-top:3px solid var(--consult-accent);
+  background:linear-gradient(138deg,#f5f0e6,#fffefa 60%,#f1f6ee);
+  box-shadow:0 12px 26px rgba(31,52,38,.055);
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+  .ejoeun-topic-art__visual>img{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:none;
+  object-fit:contain;
+  object-position:center;
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+  .ejoeun-topic-art__caption>strong{
+  color:var(--consult-ink);
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(20px,2vw,26px);
+  line-height:1.56;
+  letter-spacing:-.045em;
+  text-wrap:balance;
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+  .ejoeun-topic-art__caption>span{
+  color:#475f4d;
+  line-height:1.87;
+  word-break:keep-all;
+}
+/* Wisdom consultation: examination, medication and recovery remain distinct. */
+body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-patient-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(11px,1.45vw,18px);
+}
+body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-patient-grid>article{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  padding:clamp(18px,1.9vw,24px);
+  border:1px solid var(--consult-border);
+  border-top:3px solid #aa976f;
+  border-radius:4px 13px 4px 13px;
+  background:var(--consult-paper);
+  box-shadow:0 6px 17px rgba(29,51,39,.035);
+}
+body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-patient-grid>article:nth-child(even){
+  border-top-color:#95ac94;
+}
+body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-patient-grid h3{
+  color:var(--consult-ink);
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.035em;
+  line-height:1.57;
+  word-break:keep-all;
+}
+body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-patient-grid :is(p,li){
+  color:#4a6251;
+  font-size:15px;
+  line-height:1.83;
+  word-break:keep-all;
+}
+body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-patient-grid article>a{
+  margin-top:auto;
+  min-height:46px;
+  display:inline-flex;
+  align-items:center;
+  color:#276143;
+  font-size:14px;
+  text-underline-offset:4px;
+}
+body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-medication-note{
+  border:1px solid #e2d3bc;
+  border-left:4px solid #af9161;
+  border-radius:4px 12px 4px 12px;
+  background:#fff9ee;
+  line-height:1.85;
+}
+/* Pediatric consultations: readable decisions, without adding new claims. */
+body.care-gallery.care-gallery-secondary.pediatric-pathways-gallery .pediatric-care-decisions,
+body.care-gallery.care-gallery-secondary.pediatric-ortho-decisions .child-ortho-scope{
+  box-sizing:border-box;
+  padding:clamp(18px,2vw,26px);
+  border:1px solid var(--consult-border);
+  border-left:4px solid var(--consult-accent);
+  border-radius:4px 13px 4px 13px;
+  background:linear-gradient(128deg,#f5f8f1,#fffefa);
+  box-shadow:0 6px 16px rgba(30,55,43,.035);
+}
+body.care-gallery.care-gallery-secondary.pediatric-pathways-gallery .pediatric-care-decisions>h2,
+body.care-gallery.care-gallery-secondary.pediatric-ortho-decisions .child-ortho-scope>h2{
+  color:var(--consult-ink);
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(20px,2vw,25px);
+  line-height:1.5;
+  letter-spacing:-.04em;
+}
+body.care-gallery.care-gallery-secondary:is(.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+  .care-gallery-article-shell > :is(section,aside){
+  scroll-margin-top:105px;
+}
+body.care-gallery.care-gallery-secondary:is(.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+  .care-gallery-article-shell :is(.pediatric-steps-links>a,.ortho-choice-card>a){
+  min-height:44px;
+  text-underline-offset:4px;
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+  .treatment-page-toc.gallery-section-index>a:focus-visible{
+  outline:3px solid #937039;
+  outline-offset:3px;
+}
+@media (hover:hover) and (pointer:fine){
+  body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+    .treatment-page-toc.gallery-section-index>a:hover{
+    border-color:#a6b6a2;
+    background:#f1f7ee;
+  }
+}
+@media(max-width:850px){
+  body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+    .treatment-page-toc.gallery-section-index{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:650px){
+  body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+    .treatment-page-toc.gallery-section-index{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    padding:15px 12px;
+    box-shadow:none;
+  }
+  body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+    .treatment-page-toc.gallery-section-index>a{
+    min-height:50px;
+    padding:10px 9px;
+    font-size:13px;
+  }
+  body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+    .ejoeun-topic-art{
+    box-shadow:none;
+  }
+  body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-patient-grid{
+    grid-template-columns:minmax(0,1fr);
+    gap:9px;
+  }
+  body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-patient-grid>article{
+    padding:17px 16px;
+    box-shadow:none;
+  }
+  body.care-gallery.care-gallery-secondary:is(.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+    :is(.pediatric-care-decisions,.child-ortho-scope){
+    box-shadow:none;
+    padding:17px 15px;
+  }
+}
+@media(max-width:365px){
+  body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+    .treatment-page-toc.gallery-section-index{
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+    .treatment-page-toc.gallery-section-index>a{transition:none}
+}
+@media(forced-colors:active){
+  body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathways-gallery,.pediatric-ortho-decisions)
+    :is(.treatment-page-toc,.treatment-page-toc>a,.ejoeun-topic-art,.wisdom-patient-grid>article,.wisdom-medication-note,.pediatric-care-decisions,.child-ortho-scope){
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+}
