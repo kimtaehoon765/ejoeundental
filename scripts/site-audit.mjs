@@ -2973,9 +2973,26 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  ];
  const chosen=approved.find(art=>heroSection.includes('<img src="'+art.path+'" width="'+art.width+'" height="'+art.height+'" alt="'+art.alt+'"'));
  const expected=chosen?.path||'';
+ const preload=hero.match(/<link rel="preload" as="image" type="image\/webp"[^>]*>/)?.[0]||'';
+ const optimized=expected==='/assets/ejoeun-gallery-cat-dentist-20261029.webp';
+ const base='/assets/ejoeun-gallery-cat-dentist-20261029';
+ const responsiveSet=base+'-480.webp 480w, '+base+'-720.webp 720w, '+base+'.webp 1200w';
+ const sizes='(max-width: 600px) calc(100vw - 72px), (max-width: 960px) 48vw, 550px';
+ const preloadMatches=preload.includes('fetchpriority="high"')&&
+   preload.includes('href="'+expected+'"')&&
+   (!optimized||(preload.includes('imagesrcset="'+responsiveSet+'"')&&
+     preload.includes('imagesizes="'+sizes+'"')&&
+     heroSection.includes('srcset="'+responsiveSet+'" sizes="'+sizes+'"')&&
+     [480,720].every(width=>{
+       const name=join(root,'assets/ejoeun-gallery-cat-dentist-20261029-'+width+'.webp');
+       if(!existsSync(name))return false;
+       const data=readFileSync(name);
+       return data.length>12000&&data.toString('ascii',0,4)==='RIFF'&&
+         data.toString('ascii',8,12)==='WEBP';
+     })));
  if(!chosen||
     !heroSection.includes('loading="eager" fetchpriority="high" decoding="async"')||
-    !hero.includes('<link rel="preload" as="image" type="image/webp" fetchpriority="high" href="'+expected+'">')||
+    !preloadMatches||
     heroSection.includes('class="flower"')||
     !hero.includes('property="og:image" content="https://ejoeundental.com'+expected+'"')||
     !hero.includes('property="og:image:width" content="'+chosen.width+'"')||
