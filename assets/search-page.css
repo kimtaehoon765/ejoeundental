@@ -141,3 +141,303 @@ html{scroll-padding-top:24px}#symptom-search{scroll-margin-top:24px}@media(prefe
 .search-visit-examples a:hover{background:#e8f2eb;text-decoration:underline}
 .search-visit-examples a:focus-visible{outline:3px solid #a47837;outline-offset:2px}
 @media(max-width:600px){.search-visit-examples{gap:7px}.search-visit-examples a{min-height:48px}}
+
+
+/* 2026-10-31 | Result-reading salon for four health-library searches
+   Present first-party search results as accessible reading cards. Keep the
+   existing categories, 20-at-a-time paging, related clinical links, and the
+   private-search/noindex rules untouched. */
+body.search-gallery .search-primary{
+  scroll-margin-top:95px;
+}
+body.search-gallery .search-primary .search-query-view:not([hidden]){
+  display:block;
+  box-sizing:border-box;
+  margin:clamp(13px,2vw,19px) 0 12px;
+  padding:14px clamp(14px,2vw,21px);
+  border:1px solid #d8cdb7;
+  border-left:4px solid #ac9267;
+  border-radius:4px 12px 4px 12px;
+  background:linear-gradient(135deg,#fffcf3,#eff4ea);
+  color:#244f39;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo","Malgun Gothic",serif;
+  font-size:clamp(16px,2vw,21px);
+  font-weight:750;
+  line-height:1.65;
+  letter-spacing:-.035em;
+  overflow-wrap:anywhere;
+  word-break:keep-all;
+}
+body.search-gallery .search-primary .search-query-view[hidden]{
+  display:none!important;
+}
+body.search-gallery .search-primary #status{
+  box-sizing:border-box;
+  display:block;
+  margin:10px 0 16px;
+  padding:11px 14px;
+  border:1px solid #d5e0d3;
+  border-radius:5px 11px 5px 11px;
+  background:#f3f8f0;
+  color:#2a553e;
+  font-size:14px;
+  font-weight:730;
+  line-height:1.77;
+  overflow-wrap:anywhere;
+}
+body.search-gallery .search-primary #results:not(:empty){
+  border-top:1px solid #d3c5a9;
+  padding-top:clamp(18px,2.5vw,28px);
+}
+body.search-gallery .search-category-filters{
+  box-sizing:border-box;
+  gap:8px;
+  margin:5px 0 clamp(19px,3vw,28px);
+  padding:11px 0 16px;
+  border-bottom:1px solid #ddd8c7;
+}
+body.search-gallery .search-category-filter{
+  min-height:48px;
+  padding:10px 15px;
+  border:1px solid #c7d5c7;
+  border-radius:4px 11px 4px 11px;
+  background:#fffefa;
+  color:#345b42;
+  font-weight:800;
+  line-height:1.6;
+}
+body.search-gallery .search-category-filter[aria-pressed="true"]{
+  background:#28563e;
+  border-color:#28563e;
+  color:#fffefa;
+}
+body.search-gallery .search-category-filter:focus-visible{
+  outline:3px solid #af864d;
+  outline-offset:3px;
+}
+body.search-gallery .search-result-list{
+  min-width:0;
+  display:flow-root;
+}
+body.search-gallery .search-result-list .search-result-section{
+  margin:clamp(24px,3vw,33px) 0 16px;
+  padding:0 0 11px 13px;
+  border-left:3px solid #a68e64;
+  border-bottom:1px solid #ddd7c7;
+  color:#264b38;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo","Malgun Gothic",serif;
+  font-size:clamp(19px,2.2vw,25px);
+  font-weight:700;
+  line-height:1.58;
+  letter-spacing:-.04em;
+}
+body.search-gallery .search-result-list .result{
+  position:relative;
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:9px;
+  min-width:0;
+  margin:0 0 14px;
+  padding:clamp(18px,2.5vw,25px);
+  border:1px solid #dcd7c9;
+  border-top:3px solid #92aa94;
+  border-radius:4px 13px 4px 13px;
+  background:#fffefa;
+  color:#294b37;
+  box-shadow:0 10px 25px rgba(29,58,40,.05);
+  text-decoration:none;
+  transition:border-color .18s,background-color .18s,box-shadow .18s;
+}
+body.search-gallery .search-result-list .result:nth-of-type(even){
+  border-top-color:#b4a07d;
+}
+body.search-gallery .search-result-list .result:hover,
+body.search-gallery .search-result-list .result:focus-visible{
+  border-color:#91ac93;
+  background:#fdfef9;
+  box-shadow:0 12px 28px rgba(27,60,40,.08);
+}
+body.search-gallery .search-result-list .result:focus-visible{
+  outline:3px solid #ab864b;
+  outline-offset:3px;
+}
+body.search-gallery .search-result-list .result .result-kind{
+  display:inline-flex;
+  align-items:center;
+  box-sizing:border-box;
+  max-width:100%;
+  width:fit-content;
+  min-height:27px;
+  margin:0;
+  padding:4px 10px;
+  border:1px solid #d3e1d2;
+  border-radius:4px 8px 4px 8px;
+  font-size:12px;
+  line-height:1.45;
+  font-weight:800;
+  overflow-wrap:anywhere;
+}
+body.search-gallery .search-result-list .result .result-kind[data-category="story"]{
+  border-color:#d9ceea;
+}
+body.search-gallery .search-result-list .result .result-kind[data-category="medical"]{
+  border-color:#e5d7b9;
+}
+body.search-gallery .search-result-list .result h2{
+  max-width:100%;
+  margin:0;
+  color:#234e39;
+  font:700 clamp(19px,2.2vw,24px)/1.55 "Noto Serif KR","Apple SD Gothic Neo","Malgun Gothic",serif;
+  letter-spacing:-.04em;
+  text-wrap:balance;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.search-gallery .search-result-list .result>p{
+  max-width:82ch;
+  margin:0;
+  color:#49624f;
+  font-size:clamp(15px,1.5vw,16px);
+  font-weight:450;
+  line-height:1.88;
+  word-break:keep-all;
+}
+body.search-gallery .search-result-list .result>small{
+  margin-top:3px;
+  color:#657562;
+  font-size:12px;
+  font-weight:600;
+  line-height:1.65;
+  overflow-wrap:anywhere;
+}
+body.search-gallery .search-result-list .result .result-match-note{
+  box-sizing:border-box;
+  font-size:12px;
+  line-height:1.6;
+}
+body.search-gallery .search-result-list .result:has(+ .result-next){
+  margin-bottom:0;
+  border-bottom-color:#e2decf;
+  border-bottom-left-radius:0;
+  border-bottom-right-radius:0;
+}
+body.search-gallery .search-result-list .result-next{
+  box-sizing:border-box;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:0 0 15px;
+  padding:11px 14px 14px;
+  border:1px solid #ded7c9;
+  border-top:0;
+  border-radius:0 0 4px 13px;
+  background:#f5f7ef;
+  color:#2a5c41;
+}
+body.search-gallery .search-result-list .result-next>a{
+  box-sizing:border-box;
+  display:inline-flex;
+  align-items:center;
+  min-width:0;
+  min-height:46px;
+  margin:0;
+  padding:9px 12px;
+  border:1px solid #c2d6c2;
+  border-radius:4px 9px 4px 9px;
+  background:#fffefa;
+  color:#295b41;
+  font-size:13px;
+  font-weight:750;
+  line-height:1.6;
+  text-decoration:none;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.search-gallery .search-result-list .result-next>a:hover{
+  border-color:#8eb397;
+  background:#eff6ec;
+}
+body.search-gallery .search-show-more{
+  box-sizing:border-box;
+  min-height:54px;
+  padding:12px 17px;
+  margin:clamp(19px,3vw,28px) 0;
+  border:1px solid #8cae92;
+  border-radius:4px 12px 4px 12px;
+  background:#eff6ec;
+  color:#28543e;
+  font-size:15px;
+  font-weight:800;
+  line-height:1.6;
+}
+body.search-gallery .search-show-more:hover{
+  background:#e5f1e3;
+  border-color:#679675;
+}
+@media(max-width:650px){
+  body.search-gallery .search-primary .search-query-view:not([hidden]){
+    font-size:18px;
+    margin:12px 0 11px;
+    padding:13px 12px;
+  }
+  body.search-gallery .search-primary #status{
+    padding:10px 12px;
+    font-size:14px;
+  }
+  body.search-gallery .search-category-filters{
+    gap:7px;
+  }
+  body.search-gallery .search-category-filter{
+    flex:1 1 auto;
+    min-height:48px;
+    padding:9px 12px;
+    font-size:13px;
+  }
+  body.search-gallery .search-result-list .result{
+    margin:0 0 12px;
+    padding:19px 16px;
+    gap:8px;
+  }
+  body.search-gallery .search-result-list .result h2{
+    font-size:clamp(19px,5.2vw,22px);
+    line-height:1.57;
+  }
+  body.search-gallery .search-result-list .result>p{
+    font-size:16px;
+    line-height:1.87;
+  }
+  body.search-gallery .search-result-list .result-next{
+    padding:10px 11px 12px;
+  }
+  body.search-gallery .search-result-list .result-next>a{
+    flex:1 1 100%;
+    min-height:48px;
+    font-size:14px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.search-gallery .search-result-list .result{
+    transition:none;
+  }
+}
+@media(forced-colors:active){
+  body.search-gallery :is(.search-query-view,#status,.search-result-list .result,.search-result-list .result-next,.search-result-list .result-next>a,.search-category-filter,.search-show-more){
+    background:Canvas!important;
+    color:CanvasText!important;
+    border-color:CanvasText!important;
+    box-shadow:none;
+  }
+  body.search-gallery .search-category-filter[aria-pressed="true"]{
+    outline:2px solid Highlight;
+    outline-offset:-3px;
+  }
+}
+@media print{
+  body.search-gallery .search-result-list .result,
+  body.search-gallery .search-result-list .result-next{
+    box-shadow:none;
+    break-inside:avoid;
+  }
+}
