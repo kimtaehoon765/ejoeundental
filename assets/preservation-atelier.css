@@ -210,3 +210,154 @@ body.care-gallery.care-tooth-preservation .preserve-atelier__picture img{
     color:CanvasText;
   }
 }
+
+/* 2026-10-31 | The preservation decision gallery, reading-room finish.
+   No changes to medical prognosis text, existing artwork, links or SEO data. */
+body.care-gallery.care-tooth-preservation .preserve-toc{
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-bottom:clamp(24px,3vw,37px);
+  padding:clamp(18px,2.4vw,27px);
+  border:1px solid #d8cab4;
+  border-top:3px solid #ad966d;
+  border-radius:4px 14px 4px 14px;
+  background:linear-gradient(132deg,#fffdf8,#f2f6ef);
+  box-shadow:0 9px 23px rgba(32,56,40,.045);
+}
+body.care-gallery.care-tooth-preservation .preserve-toc>strong{
+  grid-column:1/-1;
+  color:#254a38;
+  margin:0 0 4px;
+  font:700 clamp(19px,2vw,24px)/1.5 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.045em;
+}
+body.care-gallery.care-tooth-preservation .preserve-toc>a{
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  min-width:0;
+  min-height:57px;
+  margin:0;
+  padding:12px 14px;
+  border:1px solid #ded5c5;
+  border-radius:4px 10px 4px 10px;
+  background:#fffefa;
+  color:#285740;
+  font-size:clamp(13px,1.15vw,15px);
+  font-weight:740;
+  line-height:1.65;
+  text-decoration:none;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.care-gallery.care-tooth-preservation .preserve-toc>a:last-child{
+  border-left:3px solid #ad9467;
+}
+body.care-gallery.care-tooth-preservation .preserve-symptom-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(11px,1.5vw,17px);
+}
+body.care-gallery.care-tooth-preservation .preserve-symptom-grid>.preserve-symptom-item{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  gap:7px;
+  padding:clamp(17px,2vw,24px);
+  border:1px solid #ddd5c4;
+  border-top:3px solid #b6a076;
+  border-radius:4px 13px 4px 13px;
+  background:#fffefa;
+  box-shadow:0 7px 19px rgba(34,56,40,.032);
+}
+body.care-gallery.care-tooth-preservation .preserve-symptom-grid>.preserve-symptom-item:nth-child(even){border-top-color:#93aa91}
+body.care-gallery.care-tooth-preservation .preserve-symptom-item>h3{
+  margin:0 0 3px;
+  color:#244a37;
+  font:700 clamp(17px,1.7vw,21px)/1.58 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.037em;
+  text-wrap:balance;
+}
+body.care-gallery.care-tooth-preservation .preserve-symptom-item>p{
+  color:#4b6351;
+  font-size:15px;
+  line-height:1.88;
+  word-break:keep-all;
+}
+body.care-gallery.care-tooth-preservation .preserve-symptom-item>a{
+  display:inline-flex;
+  align-items:center;
+  width:fit-content;
+  max-width:100%;
+  min-height:46px;
+  margin-top:auto;
+  color:#276345;
+  font-size:14px;
+  font-weight:750;
+  line-height:1.65;
+  text-underline-offset:4px;
+}
+body.care-gallery.care-tooth-preservation .preserve-section>h2{
+  color:#244a36;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.043em;
+  line-height:1.5;
+  text-wrap:balance;
+}
+body.care-gallery.care-tooth-preservation .preserve-toc>a:focus-visible,
+body.care-gallery.care-tooth-preservation .preserve-symptom-item>a:focus-visible{
+  outline:3px solid #96703d;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine){
+  body.care-gallery.care-tooth-preservation .preserve-toc>a:hover{
+    background:#f1f7ee;
+    border-color:#a9bca4;
+  }
+}
+@media(max-width:920px){
+  body.care-gallery.care-tooth-preservation .preserve-toc{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:650px){
+  body.care-gallery.care-tooth-preservation .preserve-toc{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    padding:15px 12px;
+    box-shadow:none;
+  }
+  body.care-gallery.care-tooth-preservation .preserve-toc>a{
+    min-height:51px;
+    padding:10px;
+    font-size:13px;
+  }
+  body.care-gallery.care-tooth-preservation .preserve-symptom-grid{
+    grid-template-columns:minmax(0,1fr);
+    gap:9px;
+  }
+  body.care-gallery.care-tooth-preservation .preserve-symptom-grid>.preserve-symptom-item{
+    padding:17px 15px;
+    box-shadow:none;
+  }
+}
+@media(max-width:370px){
+  body.care-gallery.care-tooth-preservation .preserve-toc{
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.care-gallery.care-tooth-preservation .preserve-toc>a{transition:none}
+}
+@media(forced-colors:active){
+  body.care-gallery.care-tooth-preservation :is(.preserve-toc,.preserve-toc>a,.preserve-symptom-item){
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
