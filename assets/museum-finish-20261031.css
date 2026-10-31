@@ -2329,3 +2329,163 @@ body.home-page #main-content > .home-care-paths .home-care-paths__note {
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-31 | Clinical directory exhibition index refinement.
+   Better orientation among twelve already linked disciplines; retain text and SEO. */
+body.home-page #main-content>#care .care-directory{
+  border-top:3px solid #ae9569;
+  border-radius:4px 16px 4px 16px;
+  background:linear-gradient(140deg,#fffcf7,#f3f6ee);
+}
+body.home-page #main-content>#care .care-directory__intro>strong{
+  display:block;
+  color:#264c38;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(20px,2.3vw,27px);
+  letter-spacing:-.05em;
+  line-height:1.48;
+}
+body.home-page #main-content>#care .care-directory__intro>span{
+  color:#596d5c;
+  font-size:14px;
+  line-height:1.65;
+}
+body.home-page #main-content>#care .care-directory__primary{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(9px,1.3vw,16px);
+}
+body.home-page #main-content>#care .care-directory__primary>a{
+  display:flex;
+  box-sizing:border-box;
+  flex-direction:column;
+  justify-content:center;
+  gap:8px;
+  min-width:0;
+  min-height:110px;
+  padding:clamp(14px,1.6vw,21px);
+  border:1px solid #d6cdbd;
+  border-top:3px solid #aa956d;
+  border-radius:4px 12px 4px 12px;
+  background:#fffefa;
+  box-shadow:0 5px 14px rgba(31,53,39,.028);
+}
+body.home-page #main-content>#care .care-directory__primary>a:nth-child(even){
+  border-top-color:#86a38c;
+}
+body.home-page #main-content>#care .care-directory__primary>a>small{
+  color:#806b4e;
+  font:750 10px/1.55 system-ui,sans-serif;
+  letter-spacing:.08em;
+}
+body.home-page #main-content>#care .care-directory__primary>a>strong{
+  color:#254d39;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(17px,1.6vw,21px);
+  letter-spacing:-.04em;
+  line-height:1.58;
+  word-break:keep-all;
+}
+body.home-page #main-content>#care .care-directory__more{
+  overflow:clip;
+  margin-top:18px;
+  border:1px solid #dcd2bf;
+  border-radius:4px 12px 4px 12px;
+  background:#fffefa;
+}
+body.home-page #main-content>#care .care-directory__more>summary{
+  box-sizing:border-box;
+  min-height:56px;
+  padding:14px clamp(15px,1.8vw,22px);
+  color:#28543e;
+  font-size:clamp(14px,1.25vw,16px);
+  font-weight:760;
+  line-height:1.55;
+}
+body.home-page #main-content>#care .care-directory__more[open]>summary{
+  border-bottom:1px solid #e5dbcb;
+  background:#f8f8f1;
+}
+body.home-page #main-content>#care .care-directory__secondary{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:9px;
+  padding:clamp(12px,1.5vw,18px);
+}
+body.home-page #main-content>#care .care-directory__secondary>a{
+  display:flex;
+  box-sizing:border-box;
+  align-items:center;
+  justify-content:center;
+  min-width:0;
+  min-height:54px;
+  padding:10px 12px;
+  border:1px solid #dfd8ca;
+  border-radius:4px 9px 4px 9px;
+  background:#fffefa;
+  color:#28543e;
+  font-size:14px;
+  font-weight:720;
+  line-height:1.6;
+  text-align:center;
+  word-break:keep-all;
+}
+body.home-page #main-content>#care .care-directory :is(a,summary):focus-visible{
+  outline:3px solid #987541;
+  outline-offset:3px;
+}
+@media(max-width:1000px){
+  body.home-page #main-content>#care .care-directory__primary{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.home-page #main-content>#care .care-directory__secondary{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:600px){
+  body.home-page #main-content>#care .care-directory{
+    padding:17px 13px;
+    border-radius:4px 12px 4px 12px;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#care .care-directory__primary{
+    gap:9px;
+  }
+  body.home-page #main-content>#care .care-directory__primary>a{
+    min-height:83px;
+    padding:13px 11px;
+    gap:4px;
+    box-shadow:none;
+  }
+  body.home-page #main-content>#care .care-directory__primary>a>small{
+    font-size:9px;
+    letter-spacing:.03em;
+  }
+  body.home-page #main-content>#care .care-directory__primary>a>strong{
+    font-size:clamp(15px,3.7vw,18px);
+  }
+  body.home-page #main-content>#care .care-directory__secondary{
+    gap:8px;
+    padding:10px;
+  }
+  body.home-page #main-content>#care .care-directory__secondary>a{
+    min-height:52px;
+    padding:9px 7px;
+    font-size:13px;
+  }
+}
+@media(max-width:360px){
+  body.home-page #main-content>#care .care-directory__primary,
+  body.home-page #main-content>#care .care-directory__secondary{
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>#care :is(.care-directory,.care-directory__primary>a,.care-directory__secondary>a,.care-directory__more,.care-directory__more>summary){
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
