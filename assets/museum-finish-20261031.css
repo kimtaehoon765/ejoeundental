@@ -2104,3 +2104,228 @@ body.home-page #main-content > .curated-threshold .curated-threshold__caption st
     box-shadow:none;
   }
 }
+
+
+/* 2026-10-31 | Patient guide catalog finishing.
+   The four clinical reading cards keep their original destinations and
+   content. Add an unobtrusive three-topic shelf without duplicated artwork. */
+body.home-page #main-content > .home-care-paths {
+  border-color:#d7cbb7;
+  background:linear-gradient(139deg,#faf7ef 0%,#fffefa 56%,#f3f6ee 100%);
+  box-shadow:0 14px 33px rgba(37,60,43,.045);
+}
+body.home-page #main-content > .home-care-paths > .home-care-paths__eyebrow {
+  color:#8a7048;
+  font-weight:750;
+  letter-spacing:.145em;
+}
+body.home-page #main-content > .home-care-paths > h2 {
+  color:#224935;
+  line-height:1.47;
+  letter-spacing:-.06em;
+}
+body.home-page #main-content > .home-care-paths > .home-care-paths__intro {
+  max-width:73ch;
+  color:#485e4e;
+  line-height:1.9;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__grid > a {
+  border-color:#ded4c3;
+  border-top-color:#b19b73;
+  background:#fffefb;
+  box-shadow:0 7px 19px rgba(35,57,43,.035);
+  transition:border-color .16s ease,box-shadow .16s ease;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__grid > a:nth-child(2) {
+  border-top-color:#79987b;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__grid > a:nth-child(n+3) {
+  box-shadow:none;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__visual {
+  border-bottom-color:rgba(206,188,159,.56);
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__meta {
+  color:#8a744f;
+  font-weight:760;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__grid > a > strong {
+  color:#204934;
+  letter-spacing:-.045em;
+  line-height:1.49;
+  text-wrap:balance;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__desc {
+  color:#4d6151;
+  line-height:1.85;
+  word-break:keep-all;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__grid > a > em {
+  min-height:46px;
+  border-color:#b7ccb7;
+  background:#f0f6ec;
+  color:#2b6043;
+  font-style:normal;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__grid > a:focus-visible,
+body.home-page #main-content > .home-care-paths .home-care-paths__other-links > a:focus-visible {
+  outline:3px solid #94723f;
+  outline-offset:3px;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__other {
+  margin-top:clamp(20px,2.7vw,31px);
+  padding-top:clamp(18px,2.5vw,27px);
+  border-top:1px solid #d6c9b4;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__other-head {
+  display:flex;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:4px 16px;
+  margin-bottom:14px;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__other-head > small {
+  color:#886c45;
+  font:750 11px/1.7 system-ui,sans-serif;
+  letter-spacing:.12em;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__other-head > strong {
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(18px,1.8vw,22px);
+  color:#254b38;
+  letter-spacing:-.04em;
+  line-height:1.55;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__other-links {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(9px,1.3vw,15px);
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__other-links > a {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  box-sizing:border-box;
+  gap:10px;
+  min-width:0;
+  min-height:102px;
+  padding:clamp(13px,1.8vw,20px);
+  border:1px solid #ded4c0;
+  border-left:3px solid #af986b;
+  border-radius:3px 11px 3px 11px;
+  background:#fffefa;
+  color:#234c37;
+  text-decoration:none;
+  transition:background-color .16s ease,border-color .16s ease;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__other-links > a:nth-child(2) {
+  border-left-color:#89a58d;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__other-links > a:nth-child(3) {
+  border-left-color:#a7a2b7;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__other-links > a > span:first-child {
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  min-width:0;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__other-links > a strong {
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(16px,1.5vw,19px);
+  line-height:1.55;
+  letter-spacing:-.04em;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__other-links > a small {
+  font-size:13px;
+  line-height:1.7;
+  color:#516857;
+  overflow-wrap:anywhere;
+  word-break:keep-all;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__other-links > a > span:last-child {
+  align-self:flex-start;
+  color:#897047;
+  font-size:19px;
+  font-weight:650;
+}
+body.home-page #main-content > .home-care-paths .home-care-paths__note {
+  max-width:78ch;
+  color:#566d5a;
+  line-height:1.8;
+}
+@media(hover:hover) and (pointer:fine) {
+  body.home-page #main-content > .home-care-paths .home-care-paths__grid > a:hover {
+    border-color:#b6a27f;
+    box-shadow:0 13px 26px rgba(33,56,43,.09);
+  }
+  body.home-page #main-content > .home-care-paths .home-care-paths__other-links > a:hover {
+    background:#f4f7ef;
+    border-color:#b5c7b1;
+  }
+}
+@media(max-width:800px) {
+  body.home-page #main-content > .home-care-paths .home-care-paths__other-links {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.home-page #main-content > .home-care-paths .home-care-paths__other-links > a:last-child {
+    grid-column:1/-1;
+  }
+}
+@media(max-width:700px) {
+  body.home-page #main-content > .home-care-paths {
+    margin-block:28px;
+    padding:22px 14px;
+    box-shadow:none;
+  }
+  body.home-page #main-content > .home-care-paths .home-care-paths__grid > a {
+    box-shadow:none;
+    border-radius:3px 10px 3px 10px;
+  }
+  body.home-page #main-content > .home-care-paths .home-care-paths__grid > a > strong {
+    font-size:clamp(18px,4.5vw,22px);
+  }
+  body.home-page #main-content > .home-care-paths .home-care-paths__desc {
+    line-height:1.73;
+  }
+  body.home-page #main-content > .home-care-paths .home-care-paths__other-head {
+    flex-direction:column;
+    align-items:flex-start;
+    margin-bottom:11px;
+  }
+  body.home-page #main-content > .home-care-paths .home-care-paths__other-links > a {
+    min-height:85px;
+    padding:13px 14px;
+  }
+}
+@media(max-width:440px) {
+  body.home-page #main-content > .home-care-paths .home-care-paths__other-links {
+    grid-template-columns:minmax(0,1fr);
+    gap:8px;
+  }
+  body.home-page #main-content > .home-care-paths .home-care-paths__other-links > a:last-child {
+    grid-column:auto;
+  }
+  body.home-page #main-content > .home-care-paths .home-care-paths__other-links > a {
+    min-height:70px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.home-page #main-content > .home-care-paths .home-care-paths__other-links > a,
+  body.home-page #main-content > .home-care-paths .home-care-paths__grid > a {
+    transition:none;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > .home-care-paths,
+  body.home-page #main-content > .home-care-paths .home-care-paths__grid > a,
+  body.home-page #main-content > .home-care-paths .home-care-paths__other-links > a {
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content > .home-care-paths .home-care-paths__other-links > a :is(strong,small,span) {
+    color:CanvasText;
+  }
+}
