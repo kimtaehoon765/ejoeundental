@@ -673,3 +673,159 @@
     border-color:CanvasText;
   }
 }
+
+/* 2026-10-31 | Exhibition label system for all three rooms. */
+/* Align the full gallery with the homepage: warm paper, thin frame,
+   un-cropped source paintings, readable labels and consistent actions.
+   Preserve all 23 original image sources, zoom UI and clinical routes. */
+.gallery-hero .gallery-hero-content > h1,
+.gallery-section-intro > h2,
+.gallery-patient-studies__intro > h2 {
+  letter-spacing:-.055em;
+  line-height:1.48;
+  text-wrap:balance;
+}
+.gallery-hero .gallery-hero-content > p:not(.gallery-kicker),
+.gallery-section-intro > p,
+.gallery-patient-studies__intro > p {
+  line-height:1.92;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+.gallery-hero .gallery-hero-image {
+  border:1px solid #c9b99c;
+  border-radius:4px;
+  padding:clamp(8px,1.1vw,13px);
+  background:#eae2d2;
+  box-shadow:0 14px 32px rgba(30,54,40,.09);
+}
+.gallery-hero .gallery-hero-image > img {
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  aspect-ratio:3 / 2;
+  object-fit:contain;
+  object-position:center;
+  border:1px solid #e3d9c6;
+  background:#f7f1e7;
+}
+.gallery-hero .gallery-hero-image > span {
+  line-height:1.6;
+  letter-spacing:.11em;
+}
+#paintings .gallery-piece,
+#education .gallery-note--watercolor,
+.gallery-patient-studies__piece {
+  border-radius:4px;
+  border-color:#d6c6aa;
+  background:#fffefa;
+  box-shadow:0 9px 25px rgba(30,54,39,.065);
+}
+#paintings .gallery-piece .gallery-art-frame,
+#education .gallery-note--watercolor > img,
+.gallery-patient-studies__frame {
+  background:#ece5d9;
+  border-color:#d4c3a7;
+}
+#paintings .gallery-piece .gallery-art-frame > img,
+#education .gallery-note--watercolor > img,
+.gallery-patient-studies__frame > img {
+  object-fit:contain;
+  object-position:center;
+}
+#paintings .gallery-piece figcaption,
+#education .gallery-note--watercolor > span,
+.gallery-patient-studies__piece figcaption {
+  background:#fffefa;
+  border-color:#e2d9c9;
+}
+#paintings .gallery-piece figcaption > h3,
+#education .gallery-note--watercolor strong,
+.gallery-patient-studies__piece figcaption > h3 {
+  color:#214a35;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-weight:700;
+  letter-spacing:-.045em;
+  line-height:1.53;
+  text-wrap:balance;
+}
+#paintings .gallery-piece figcaption > p,
+.gallery-patient-studies__piece figcaption > p {
+  color:#4d6352;
+  font-size:clamp(14px,1.15vw,16px);
+  line-height:1.9;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+#paintings .gallery-piece .gallery-index,
+#education .gallery-note--watercolor small,
+.gallery-patient-studies__piece .gallery-patient-studies__index {
+  color:#846b46;
+  font-weight:800;
+  letter-spacing:.1em;
+}
+#paintings .gallery-piece .gallery-links,
+#education .gallery-watercolor-actions,
+.gallery-patient-studies__actions {
+  gap:9px;
+}
+#paintings .gallery-piece .gallery-links :is(a,button),
+#education .gallery-watercolor-actions :is(a,button),
+.gallery-patient-studies__actions :is(a,button) {
+  box-sizing:border-box;
+  min-width:0;
+  min-height:48px;
+  border-radius:5px;
+  font-weight:750;
+  line-height:1.55;
+  text-align:center;
+  overflow-wrap:anywhere;
+  word-break:keep-all;
+}
+@media(max-width:650px) {
+  .gallery-hero .gallery-hero-image {
+    padding:7px;
+    box-shadow:0 8px 19px rgba(31,52,38,.055);
+  }
+  .gallery-hero .gallery-hero-image > img {
+    width:100%;
+    height:auto;
+    aspect-ratio:3/2;
+    object-fit:contain;
+  }
+  #paintings .gallery-piece,
+  #education .gallery-note--watercolor,
+  .gallery-patient-studies__piece {
+    box-shadow:none;
+  }
+  #paintings .gallery-piece figcaption,
+  .gallery-patient-studies__piece figcaption,
+  #education .gallery-note--watercolor > span {
+    padding:18px 16px 21px;
+  }
+  #paintings .gallery-piece .gallery-links :is(a,button),
+  #education .gallery-watercolor-actions :is(a,button),
+  .gallery-patient-studies__actions :is(a,button) {
+    min-height:49px;
+  }
+}
+@media(forced-colors:active) {
+  .gallery-hero .gallery-hero-image,
+  .gallery-hero .gallery-hero-image > img,
+  #paintings .gallery-piece,
+  #education .gallery-note--watercolor,
+  .gallery-patient-studies__piece,
+  #paintings .gallery-piece figcaption,
+  #education .gallery-note--watercolor > span,
+  .gallery-patient-studies__piece figcaption {
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  #paintings .gallery-piece figcaption > h3,
+  #education .gallery-note--watercolor strong,
+  .gallery-patient-studies__piece figcaption > h3 {
+    color:CanvasText;
+  }
+}
