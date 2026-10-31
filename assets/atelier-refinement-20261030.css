@@ -3461,3 +3461,132 @@ body.home-page #main-content>.home-finish-nav .home-finish-actions>a:focus-visib
     color:LinkText;
   }
 }
+
+
+/* 2026-10-31 | Opening portrait: faithful 3-to-2 canvas and gallery masthead.
+   The original 1200 × 800 doctor-and-cat painting is shown without changing
+   its aspect, crop, preload, text or button destinations. */
+body.home-page #main-content>.hero.wrap{
+  border-top:3px solid #bfa579;
+}
+body.home-page #main-content>.hero.wrap .kicker{
+  display:flex;
+  align-items:center;
+  gap:clamp(9px,1.2vw,15px);
+  max-width:100%;
+  color:#765d37;
+  font:800 11px/1.75 "DM Sans",system-ui,sans-serif;
+  letter-spacing:.15em;
+  word-break:keep-all;
+}
+body.home-page #main-content>.hero.wrap .kicker::before{
+  content:"";
+  width:clamp(21px,2.1vw,33px);
+  height:1px;
+  flex:none;
+  background:#b99b65;
+}
+body.home-page #main-content>.hero.wrap #headline{
+  color:#213e30;
+  margin-block:clamp(17px,2.1vw,27px) clamp(16px,1.9vw,23px);
+  line-height:1.45;
+  text-wrap:balance;
+}
+body.home-page #main-content>.hero.wrap .hero-doctor-credentials{
+  border:1px solid #ded1b7;
+  border-left:4px solid #aa8b59;
+  border-radius:3px 12px 3px 12px;
+  padding:clamp(12px,1.5vw,18px);
+  background:linear-gradient(140deg,#fffcf5,#f4f4e9);
+  color:#294b38;
+}
+body.home-page #main-content>.hero.wrap .hero-doctor-credentials strong{
+  color:#234a35;
+  word-break:keep-all;
+}
+body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+  max-width:100%;
+  border:1px solid #c1a779;
+  outline:1px solid rgba(148,118,72,.2);
+  outline-offset:4px;
+  background:#f5efe3;
+}
+body.home-page #main-content>.hero.wrap>.art.hero-artwork>img{
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:3/2;
+  object-fit:contain;
+  object-position:center;
+  background:#f7f1e6;
+}
+body.home-page #main-content>.hero.wrap .hero-artwork__plaque{
+  border-top:1px solid #cfbc9a;
+  padding-block:clamp(12px,1.2vw,15px) 9px;
+}
+body.home-page #main-content>.hero.wrap .hero-artwork__plaque>small{
+  color:#886b43;
+}
+body.home-page #main-content>.hero.wrap .hero-artwork__plaque>strong{
+  color:#204632;
+  text-wrap:balance;
+}
+body.home-page #main-content>.hero.wrap .hero-actions>.hero-booking:focus-visible,
+body.home-page #main-content>.hero.wrap .hero-actions>.hero-call:focus-visible,
+body.home-page #main-content>.hero.wrap .hero-doctor-credentials>a:focus-visible{
+  outline:3px solid #a47b3e;
+  outline-offset:3px;
+}
+@media(min-width:901px){
+  body.home-page #main-content>.hero.wrap>div:first-child{
+    align-self:center;
+  }
+  body.home-page #main-content>.hero.wrap #headline{
+    max-width:16ch;
+    font-size:clamp(36px,3.6vw,47px);
+  }
+}
+@media(max-width:760px){
+  body.home-page #main-content>.hero.wrap #headline{
+    max-width:100%;
+    margin-block:17px 16px;
+    font-size:clamp(27px,6.7vw,35px);
+  }
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+    width:min(100%,354px);
+    max-width:354px;
+    padding:7px;
+  }
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork>img{
+    width:100%;
+    height:auto;
+    aspect-ratio:3/2;
+    object-fit:contain;
+  }
+  body.home-page #main-content>.hero.wrap .hero-doctor-credentials{
+    padding:12px;
+  }
+}
+@media(max-width:365px){
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+    width:min(100%,305px);
+    max-width:305px;
+  }
+  body.home-page #main-content>.hero.wrap .kicker{
+    letter-spacing:.08em;
+    font-size:10px;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content>.hero.wrap,
+  body.home-page #main-content>.hero.wrap .hero-doctor-credentials,
+  body.home-page #main-content>.hero.wrap>.art.hero-artwork{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    outline-color:CanvasText;
+  }
+  body.home-page #main-content>.hero.wrap .kicker::before{
+    background:CanvasText;
+  }
+}
