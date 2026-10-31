@@ -447,3 +447,147 @@ body.visit-gallery footer{
  body.visit-gallery .visit-mobile-actions{display:none!important}
  body.visit-gallery main>section.card{break-inside:avoid}
 }
+
+
+/* 2026-10-31 | Arrival desk legibility refinement.
+ * Presentation only; preserve weekly alternation, telephone, map, SEO and booking. */
+body.visit-gallery .visit-hours-card>ul>li {
+  display:flex;
+  align-items:center;
+  min-height:52px;
+  color:#2c513b;
+  font-weight:725;
+  line-height:1.65;
+}
+body.visit-gallery .visit-cycle__grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(10px,1.5vw,17px);
+}
+body.visit-gallery .visit-cycle__card {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  min-width:0;
+  padding:clamp(17px,2vw,23px);
+  box-shadow:0 6px 18px rgba(32,56,42,.035);
+}
+body.visit-gallery .visit-cycle__card>strong {
+  display:block;
+  margin:0 0 2px;
+  color:#244b37;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(17px,1.7vw,20px);
+  line-height:1.55;
+  letter-spacing:-.035em;
+}
+body.visit-gallery .visit-cycle__card>span {
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:4px 12px;
+  min-height:35px;
+  margin:0;
+  padding:6px 0 9px;
+  border-bottom:1px solid #e2ddcf;
+  color:#49614e;
+  font-size:14px;
+  line-height:1.75;
+}
+body.visit-gallery .visit-cycle__card>span:last-child{border-bottom:0}
+body.visit-gallery .visit-cycle__card>span>b {
+  color:#23523a;
+  font-variant-numeric:tabular-nums;
+  font-weight:800;
+  font-size:clamp(14px,1.4vw,16px);
+}
+body.visit-gallery .visit-cycle__card--closed>span:last-child>b{color:#66533e}
+body.visit-gallery .visit-cycle .visit-cycle__caution {
+  border:1px solid #e5d3b8;
+  border-left:4px solid #ae8950;
+  border-radius:4px 11px 4px 11px;
+  background:linear-gradient(110deg,#fff8eb,#fffdfa);
+  color:#554831;
+  font-size:15px;
+}
+body.visit-gallery .visit-cycle .visit-cycle__caution>strong{color:#654c2c}
+body.visit-gallery .visit-arrival-panel>div {
+  min-width:0;
+  box-shadow:0 6px 15px rgba(30,53,38,.028);
+}
+body.visit-gallery .visit-arrival-panel #visit-clinic-address{
+  overflow-wrap:anywhere;
+  word-break:keep-all;
+}
+body.visit-gallery .clinic-local-questions dl{
+  display:grid;
+  gap:0;
+}
+body.visit-gallery .clinic-local-questions dl>dt{
+  margin-top:11px;
+  padding:14px 16px 6px;
+  border:1px solid #e0d9c9;
+  border-left:3px solid #ad9770;
+  border-bottom:0;
+  border-radius:4px 10px 0 0;
+  background:#fffefa;
+  color:#254c37;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-weight:750;
+  line-height:1.6;
+  word-break:keep-all;
+}
+body.visit-gallery .clinic-local-questions dl>dd{
+  margin:0;
+  padding:4px 16px 15px;
+  border:1px solid #e0d9c9;
+  border-left:3px solid #ad9770;
+  border-top:0;
+  border-radius:0 0 4px 10px;
+  background:#fffefa;
+  color:#4b6251;
+  line-height:1.88;
+  word-break:keep-all;
+}
+body.visit-gallery .clinic-local-questions dl>dt:nth-of-type(even),
+body.visit-gallery .clinic-local-questions dl>dt:nth-of-type(even)+dd{
+  border-left-color:#91a993;
+}
+body.visit-gallery .visit-jump>a:focus-visible,
+body.visit-gallery .visit-cycle__contact:focus-visible{
+  outline:3px solid #98743e;
+  outline-offset:3px;
+}
+@media(max-width:700px){
+  body.visit-gallery .visit-cycle__grid{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:600px){
+  body.visit-gallery .visit-cycle__card{
+    padding:15px;
+    box-shadow:none;
+  }
+  body.visit-gallery .visit-cycle__card>span{
+    flex-wrap:wrap;
+    min-height:0;
+    padding-block:6px;
+  }
+  body.visit-gallery .visit-arrival-panel>div{box-shadow:none}
+  body.visit-gallery .clinic-local-questions dl>dt{
+    padding:12px 13px 5px;
+    font-size:16px;
+  }
+  body.visit-gallery .clinic-local-questions dl>dd{
+    padding:3px 13px 14px;
+    font-size:15px;
+  }
+}
+@media(forced-colors:active){
+  body.visit-gallery :is(.visit-cycle__card,.visit-cycle__caution,.clinic-local-questions dt,.clinic-local-questions dd){
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
