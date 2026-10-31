@@ -1,0 +1,47 @@
+name: Build verified mobile variants of approved clinic art
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/responsive-hero-assets.yml'
+      - 'scripts/generate-responsive-hero.py'
+      - 'assets/ejoeun-gallery-cat-dentist-20261029.webp'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: clinic-original-art-variants
+  cancel-in-progress: false
+jobs:
+  create-webp-variants:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install reproducible image resizing
+        run: python -m pip install --disable-pip-version-check 'Pillow==11.3.0'
+      - name: Preserve original and export reduced original-art copies
+        run: |
+          set -euo pipefail
+          git hash-object assets/ejoeun-gallery-cat-dentist-20261029.webp > /tmp/original-art-sha
+          python scripts/generate-responsive-hero.py
+          test "$(git hash-object assets/ejoeun-gallery-cat-dentist-20261029.webp)" = "$(cat /tmp/original-art-sha)"
+          test -s assets/ejoeun-gallery-cat-dentist-20261029-480.webp
+          test -s assets/ejoeun-gallery-cat-dentist-20261029-720.webp
+      - name: Commit only newly resized variants
+        run: |
+          set -euo pipefail
+          git add assets/ejoeun-gallery-cat-dentist-20261029-480.webp assets/ejoeun-gallery-cat-dentist-20261029-720.webp
+          if git diff --cached --quiet; then
+            echo "Existing responsive copies already match the approved original."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Publish original approved doctor-cat art at 480w and 720w for mobile"
+            git push origin HEAD:main
+          fi
