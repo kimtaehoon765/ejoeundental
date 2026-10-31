@@ -316,7 +316,7 @@ console.log('JavaScript syntax checked:', javascriptFiles.length);
       !markup.includes('aria-describedby="'+statusId+'"')||
       !markup.includes('id="'+statusId+'" role="status" aria-live="polite"')||
       !markup.includes('class="clinic-copy-row" hidden')||
-      !markup.includes('/assets/address-copy.css?v='+hash+'"')||
+      !(name==='index.html'?hasFreshCss(markup,'home-enhancements'):markup.includes('/assets/address-copy.css?v='+hash+'"'))||
       !markup.includes('src="/assets/address-copy.js" defer')){
     errors.push('주소 복사 접근성·실제 주소 연결·반응형 캐시 누락: '+name);
    }
@@ -2944,7 +2944,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
     !doctor.includes('원장이 직접 검진하고 진단합니다')||
     !dentist?.additionalProperty?.some(x=>x.name==='원장 학위'&&x.value===expected)||
     !dentist?.additionalProperty?.some(x=>x.name==='원장 전문의 자격'&&x.value===specialist)||
-    !/\/assets\/home-enhancements\.css\?v=[0-9a-f]{12}/.test(home)||
+    !hasFreshCss(home,'home-enhancements')||
     !homeCss.includes('.hero-doctor-credentials a:focus-visible')){
    errors.push('원장 의학박사·통합치의학과 전문의 첫 화면·의료진 소개·구조화 데이터 불일치');
  }
