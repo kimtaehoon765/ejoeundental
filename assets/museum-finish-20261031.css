@@ -1,0 +1,249 @@
+/* Ejoeun Dental | 2026-10-31 | Museum finish.
+   Visual treatment only: preserve existing art, semantic content, SEO,
+   original clinical wording and working phone/booking/navigation links. */
+body.home-page {
+  --museum-ink:#234636;
+  --museum-ivory:#fffdf7;
+  --museum-mat:#f3efe5;
+  --museum-border:#d9cdb7;
+  --museum-brass:#9b8056;
+}
+
+/* First impression: give the original doctor-and-white-cat painting room
+   to breathe instead of trapping it in a small decorative thumbnail. */
+body.home-page #main-content > .hero.wrap {
+  background:linear-gradient(120deg,#fffdf8 0%,#faf8f0 52%,#f1f5ed 100%);
+  border:1px solid #e1d8c8;
+  box-shadow:0 20px 54px rgba(31,52,39,.07);
+}
+body.home-page #main-content > .hero.wrap .kicker {
+  color:#8a7047;
+  font-weight:750;
+  letter-spacing:.16em;
+}
+body.home-page #main-content > .hero.wrap #headline {
+  color:#193d2d;
+  text-wrap:balance;
+  line-height:1.43;
+  letter-spacing:-.065em;
+}
+body.home-page #main-content > .hero.wrap .hero-doctor-credentials {
+  border-left:2px solid var(--museum-brass);
+  background:#fffefa;
+  box-shadow:none;
+}
+body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+  box-sizing:border-box;
+  height:auto;
+  min-height:0;
+  max-height:none;
+  overflow:visible;
+  border:1px solid #bbaa8b;
+  border-radius:2px;
+  padding:9px;
+  background:#e9e1d1;
+  box-shadow:0 17px 38px rgba(33,50,38,.14);
+}
+body.home-page #main-content > .hero.wrap > .art.hero-artwork > img {
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:3 / 2;
+  object-fit:contain;
+  object-position:center;
+  border:0;
+  border-radius:1px;
+  background:#f6f1e9;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque {
+  padding:13px 12px 11px;
+  background:#fffdf8;
+  border-top:1px solid #c8b89c;
+  text-align:center;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque > small {
+  font-size:10px;
+  letter-spacing:.17em;
+  color:#876b43;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque > strong {
+  color:#254a36;
+  line-height:1.55;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque > a {
+  text-underline-offset:5px;
+}
+
+/* Buttons are functional, not ornamental: one clear hierarchy,
+   with phone and verified booking links remaining prominent. */
+body.home-page #main-content > .hero.wrap .hero-actions > a {
+  border-radius:5px;
+  box-shadow:none;
+  transition:background-color .18s ease,border-color .18s ease,
+             box-shadow .18s ease;
+}
+body.home-page #main-content > .hero.wrap .hero-actions > .hero-call {
+  color:#fffdf6;
+  background:#1c4c38;
+  border-color:#1c4c38;
+  box-shadow:0 6px 16px rgba(25,63,43,.11);
+}
+body.home-page #main-content > .hero.wrap .hero-actions > .hero-booking {
+  color:#254635;
+  background:#e9dcc4;
+  border-color:#c4ad84;
+  box-shadow:0 6px 16px rgba(68,61,42,.07);
+}
+body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-hours,.hero-symptoms,.hero-map) {
+  color:#325541;
+  border-color:#d9d6c9;
+  background:#fffefa;
+}
+
+/* Gallery wall: coherent frames and typography, and no cropped originals. */
+body.home-page #main-content > .curated-threshold {
+  border-color:#ded3bf;
+  background:linear-gradient(126deg,#f6f2e9,#fffefa 60%,#f4f3ea);
+  box-shadow:0 12px 35px rgba(41,56,39,.055);
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__intro h2 {
+  color:#214532;
+  letter-spacing:-.055em;
+  line-height:1.48;
+  text-wrap:balance;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__intro > p:not(.curated-threshold__eyebrow) {
+  line-height:1.9;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__piece {
+  border-radius:2px;
+  border:1px solid #d9cdb9;
+  background:var(--museum-ivory);
+  box-shadow:0 5px 17px rgba(32,57,40,.05);
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__frame {
+  padding:9px;
+  background:#e9e2d4;
+  border:1px solid #cbbd9e;
+  box-shadow:none;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__frame img {
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  background:#e9e2d4;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__caption {
+  background:#fffefa;
+  border-top:1px solid #e3daca;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__caption strong {
+  color:#254833;
+}
+
+/* Matching editorial captions for the later reading gallery,
+   while leaving images, links and the card count untouched. */
+body.home-page #main-content > .care-picture-notes .care-picture-notes__card {
+  border:1px solid #ddd3c1;
+  border-radius:3px;
+  background:#fffdf8;
+  box-shadow:0 8px 24px rgba(35,55,39,.055);
+}
+body.home-page #main-content > .care-picture-notes .care-picture-notes__frame {
+  background:#eee8dc;
+  border-color:#d3c2a8;
+}
+body.home-page #main-content > .care-picture-notes .care-picture-notes__frame img {
+  object-fit:contain;
+}
+body.home-page #main-content > .care-picture-notes .care-picture-notes__caption strong {
+  color:#244835;
+}
+body.home-page #main-content > #philosophy .grid > .card,
+body.home-page #main-content > #care .grid > .card {
+  border-color:#e1dccc;
+  box-shadow:0 5px 20px rgba(33,56,39,.045);
+}
+
+/* Larger portrait on phones: a proper illustration panel, not a postage
+   stamp. Keep a single-column layout and all direct patient shortcuts. */
+@media(min-width:960px) {
+  body.home-page #main-content > .hero.wrap {
+    column-gap:clamp(26px,3.3vw,48px);
+    grid-template-columns:minmax(0,1.03fr) minmax(0,.97fr);
+  }
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    justify-self:stretch;
+    align-self:start;
+    width:100%;
+    max-width:none;
+    margin-top:10px;
+  }
+}
+@media(min-width:601px) and (max-width:959px) {
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    width:100%;
+    max-width:520px;
+    margin-inline:auto;
+  }
+}
+@media(max-width:600px) {
+  body.home-page #main-content > .hero.wrap {
+    background:linear-gradient(155deg,#fffdf8,#f7f5eb 70%,#f1f5ef);
+    box-shadow:0 7px 22px rgba(34,53,39,.04);
+  }
+  body.home-page #main-content > .hero.wrap #headline {
+    font-size:clamp(27px,7.15vw,36px);
+    line-height:1.44;
+  }
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    width:min(100%,360px);
+    max-width:none;
+    height:auto;
+    margin:16px auto 22px;
+    padding:8px;
+    box-shadow:0 12px 26px rgba(32,53,39,.12);
+  }
+  body.home-page #main-content > .hero.wrap .hero-artwork__plaque {
+    padding:11px 8px 9px;
+  }
+  body.home-page #main-content > .curated-threshold {
+    box-shadow:none;
+  }
+  body.home-page #main-content > .curated-threshold .curated-threshold__frame {
+    padding:7px;
+  }
+}
+@media(max-width:375px) {
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    width:100%;
+    max-width:none;
+  }
+}
+@media(hover:hover) and (pointer:fine) {
+  body.home-page #main-content > .curated-threshold .curated-threshold__piece:hover,
+  body.home-page #main-content > .care-picture-notes .care-picture-notes__card:hover {
+    border-color:#b8a27b;
+    box-shadow:0 11px 25px rgba(35,57,40,.1);
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > a:hover {
+    box-shadow:0 5px 17px rgba(28,59,40,.13);
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.home-page #main-content > .hero.wrap .hero-actions > a {
+    transition:none;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > .hero.wrap,
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork,
+  body.home-page #main-content > .curated-threshold,
+  body.home-page #main-content > .curated-threshold .curated-threshold__piece,
+  body.home-page #main-content > .care-picture-notes .care-picture-notes__card {
+    background:Canvas;
+    border-color:CanvasText;
+    color:CanvasText;
+    box-shadow:none;
+  }
+}
