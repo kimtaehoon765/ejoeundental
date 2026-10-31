@@ -48,6 +48,39 @@ test('patient health-library search desks remain accessible and link to one veri
   'all hub forms target the real public health-information search page');
 });
 
+
+test('search results preserve patient-facing categories and show a safe query banner',()=>{
+ const html=read('search.html');
+ const css=read('assets/search-page.css');
+ const script=read('assets/search.js');
+ assert.ok(html.includes('name="robots" content="noindex,follow"'),
+  'parameterized search results must remain non-indexable');
+ assert.ok(html.includes('rel="canonical" href="https://ejoeundental.com/search.html"'),
+  'public search canonical stays the clean page');
+ assert.ok(html.includes('id="search-query-view" class="search-query-view" aria-label="현재 검색어" hidden'),
+  'query banner starts hidden until an actual patient query is provided');
+ assert.ok(html.includes('id="status" role="status" aria-live="polite"'),
+  'screen readers still hear the count or loading status');
+ assert.ok(html.includes('id="results" aria-label="홈페이지 검색 결과"'),
+  'results region remains the first-party target');
+ assert.ok(html.includes('search-page.css?v=20261031-results-atelier01'));
+ assert.ok(css.includes('2026-10-31 | Result-reading salon for four health-library searches'));
+ assert.ok(css.includes('body.search-gallery .search-result-list .result-next>a'),
+  'clinical follow-up links stay visually distinct from search result cards');
+ assert.ok(css.includes('body.search-gallery .search-category-filter[aria-pressed="true"]'));
+ assert.ok(script.includes("queryView.textContent='“'+q+'” 검색 결과'"),
+  'query text must be inserted via textContent, never untrusted HTML');
+ assert.ok(script.includes('queryView.hidden=false'), 'show banner for nonempty queries');
+ assert.ok(script.includes("showResults('all')")&&script.includes('search-show-more'),
+  'existing ranking, filters and batched results remain available');
+ for(const file of ['gum-health.html','root-canal-health.html',
+   'insurance-health.html','additional-health.html']){
+  const hub=read(file);
+  assert.ok(hub.includes('action="/search.html" method="get"') &&
+   hub.includes('name="q" type="search"'),file+': the new search desk still works');
+ }
+});
+
 test('visit preparation presents four original clinical steps and three journal reading cards',()=>{
  const visit=home.match(/<section class="section light" id="visit-guide">([\s\S]*?)<\/section>/)?.[1]||'';
  const stepGrid=visit.match(/<div class="grid visit-care-steps"[^>]*>([\s\S]*?)<\/div><p class="notice">/)?.[1]||'';
