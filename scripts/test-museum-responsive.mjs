@@ -1927,7 +1927,7 @@ test('mobile homepage keeps original portrait without costly Korean webfont subs
 });
 
 test('homepage finishing CSS is one exact order-preserving fingerprinted file',()=>{
- const names=['quiet-museum-finish-20261031.css','museum-finish-20261031.css'];
+ const names=['quiet-museum-finish-20261031.css','museum-finish-20261031.css','home-visit-faq-salon-20261031.css'];
  const documented=names.map(name=>read('assets/'+name).trimEnd());
  const countComments=css=>(css.match(/\/\*[\s\S]*?\*\//g)||[]).length;
  const countFullLineComments=css=>(css.match(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm)||[]).length;
@@ -1946,17 +1946,23 @@ test('homepage finishing CSS is one exact order-preserving fingerprinted file',(
  assert.equal(read(bundle.slice(1)),expected,
   'build delivery must preserve all non-comment CSS bytes and exact cascade order');
  assert.ok(!names.some(name=>home.includes('href="/assets/'+name)),
-  'the two original finishing styles must no longer trigger individual HTTP requests');
+  'the three original finishing styles must no longer trigger individual HTTP requests');
  const cssLinks=[...home.matchAll(/<link rel="stylesheet" href="(\/assets\/[^"]+)"/g)].map(m=>m[1]);
  assert.ok(cssLinks.includes(bundle),'build must render exactly one finishing stylesheet');
  const prior=cssLinks.findIndex(item=>item.startsWith('/assets/atelier-refinement-20261030.css?v='));
  assert.ok(prior>=0&&cssLinks.indexOf(bundle)===prior+1,
-  'finish styles must apply last, immediately after the existing atelier layer');
+  'finish styles must apply in the original order, immediately after the existing atelier layer');
  const originalDocs=documented.join(' ');
  assert.ok(originalDocs.includes('Clear anchor offsets for sticky clinic navigation'),
   'original layer still documents mobile anchor behavior');
  assert.ok(originalDocs.includes('Care cards and doctor credentials: final reading hierarchy'),
   'original layer still documents priority care and doctor credentials');
+ assert.ok(originalDocs.includes('FAQ & visit salon'),
+  'the original clinic schedule and FAQ styles must remain in the bundle');
+ assert.ok(expected.includes('body.home-page #main-content > #faq .faq-quick-links'),
+  'the seven build-generated FAQ question links must retain their presentation');
+ assert.ok(expected.includes('body.home-page #main-content > #location'),
+  'the patient visiting-hour layout must retain its source order');
 });
 
 test('identical homepage CSS declarations are not repeated in a matching scope',()=>{
