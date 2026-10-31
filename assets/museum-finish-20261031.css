@@ -839,3 +839,109 @@ body.home-page #main-content > #stories .owner-stories-more > summary:focus-visi
     color:CanvasText;
   }
 }
+
+/* 2026-10-31 | Full-page reading rhythm and closing chapter. */
+/* Carry the same editorial typography from the artwork entrance through
+   the practical patient-guidance sections. Emergency panels retain priority. */
+body.home-page #main-content > :is(
+  #when-to-call,#visit-guide,#care-after-treatment,#local-care,#location
+) {
+  scroll-margin-top:100px;
+}
+body.home-page #main-content > :is(
+  #when-to-call,#visit-guide,#care-after-treatment,#local-care
+) > .wrap > .eyebrow,
+body.home-page #main-content > #location > .wrap > div:first-child > .eyebrow {
+  color:#877048;
+  letter-spacing:.17em;
+  font-weight:750;
+}
+body.home-page #main-content > :is(
+  #when-to-call,#visit-guide,#care-after-treatment,#local-care
+) > .wrap > h2,
+body.home-page #main-content > #location > .wrap > div:first-child > h2 {
+  color:#204633;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(27px,2.8vw,39px);
+  line-height:1.51;
+  letter-spacing:-.055em;
+  text-wrap:balance;
+  margin-block:12px clamp(16px,2.4vw,28px);
+}
+body.home-page #main-content > :is(
+  #when-to-call,#visit-guide,#care-after-treatment,#local-care
+) > .wrap > p {
+  color:#465b4d;
+  line-height:1.9;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+/* The final "next step" becomes a companion to the green entry/doctor area,
+   rather than an unrelated last-minute promotion. */
+body.home-page #main-content > .home-finish-nav {
+  border-top:1px solid #ae976c;
+  border-bottom:1px solid #a18c65;
+  background:linear-gradient(128deg,#214a3a,#17382d 66%,#244c3b);
+}
+body.home-page #main-content > .home-finish-nav #home-finish-title {
+  letter-spacing:-.055em;
+  line-height:1.5;
+  max-width:24ch;
+}
+body.home-page #main-content > .home-finish-nav .home-finish-actions > a {
+  border-radius:5px;
+  line-height:1.6;
+  text-wrap:balance;
+}
+body.home-page #main-content > .home-finish-nav .home-finish-actions > a.home-finish-booking {
+  background:#ead9b3;
+  color:#224736;
+  border-color:#ecdabb;
+}
+body.home-page #main-content > .home-archive-gallery {
+  border-color:#d8cfbd;
+  box-shadow:0 6px 22px rgba(32,53,39,.04);
+}
+body.home-page #main-content > .home-previsit-links > .home-previsit-card {
+  border-color:#ded5c3;
+  box-shadow:0 4px 16px rgba(33,53,41,.03);
+}
+/* Maintain text flow and tap targets on small phones; do not change
+   the verified booking bar or collapse medical/legal information. */
+@media(max-width:600px) {
+  body.home-page #main-content > :is(
+    #when-to-call,#visit-guide,#care-after-treatment,#local-care,#location
+  ) { scroll-margin-top:110px; }
+  body.home-page #main-content > :is(
+    #when-to-call,#visit-guide,#care-after-treatment,#local-care
+  ) > .wrap > h2,
+  body.home-page #main-content > #location > .wrap > div:first-child > h2 {
+    font-size:clamp(26px,6.7vw,33px);
+    line-height:1.47;
+  }
+  body.home-page #main-content > .home-finish-nav {
+    padding:clamp(32px,8vw,43px) 17px;
+  }
+  body.home-page #main-content > .home-finish-nav .home-finish-actions > a {
+    min-height:52px;
+    padding:12px 9px;
+  }
+  body.home-page #main-content > .home-archive-gallery,
+  body.home-page #main-content > .home-previsit-links > .home-previsit-card {
+    box-shadow:none;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > .home-finish-nav,
+  body.home-page #main-content > .home-archive-gallery,
+  body.home-page #main-content > .home-previsit-links > .home-previsit-card {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content > .home-finish-nav :is(
+    #home-finish-title,.home-finish-kicker,
+    .home-finish-content > div:first-child > p:last-child
+  ) { color:CanvasText; }
+}
