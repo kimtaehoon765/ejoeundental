@@ -73,6 +73,32 @@ test('gallery links to the owner-configured Naver booking page and exposes phone
   assert.ok(css.includes(token),'missing gallery mobile booking dock styling: '+token);
  }
 });
+test('all ten patient-study artworks have unique direct navigation targets',()=>{
+ const html=read('gallery.html');
+ const nav=html.match(/<nav class="gallery-patient-studies__jump"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ const ids=[...nav.matchAll(/href="#(patient-art-[^"]+)"/g)].map(m=>m[1]);
+ const expected=[
+  'patient-art-safety','patient-art-heart','patient-art-kidney',
+  'patient-art-liver','patient-art-oncology','patient-art-medication',
+  'patient-art-systemic','patient-art-child','patient-art-orthodontics',
+  'patient-art-insurance'
+ ];
+ assert.deepEqual(ids,expected,'patient exhibition catalog must list all ten distinct works in viewing order');
+ for(const id of expected){
+  assert.ok(html.includes('id="'+id+'"'),'missing target for catalog link: '+id);
+ }
+ assert.ok(nav.includes('gallery-patient-studies__jump-heading'),
+  'complete exhibition needs a visible, labeled reading index');
+ const css=read('assets/gallery-salon-finish-20261031.css');
+ for(const token of ['Patient art room complete catalog',
+   'grid-template-columns:repeat(5,minmax(0,1fr))',
+   'grid-template-columns:repeat(3,minmax(0,1fr))',
+   'grid-template-columns:repeat(2,minmax(0,1fr))',
+   '.gallery-patient-studies__jump>a:focus-visible']){
+  assert.ok(css.includes(token),'missing responsive ten-work catalog rule: '+token);
+ }
+});
+
 test('ten mobile patient-art cards prioritize each linked clinical guide',()=>{
  const html=read('gallery.html');
  const pieces=artworkGroups(html).studies;
