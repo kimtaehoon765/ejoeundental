@@ -247,7 +247,7 @@ test('wisdom tooth and cavity exhibits retain distinct original paintings and pa
 });
 
 
-test("children's dental and early orthodontic exhibition preserves artworks and visit routes",()=>{
+test('pediatric dental and orthodontic exhibits preserve original illustrations and clinic routes',()=>{
  const css=read('assets/child-care-exhibition-20261031.css');
  assert.ok(css.includes('어린이 진료와 성장기 교정 전시실'),
   'two pediatric treatment guides receive their distinct shared gallery design');
@@ -281,7 +281,7 @@ test("children's dental and early orthodontic exhibition preserves artworks and 
    c.file+': keep a dedicated original and responsive artwork');
   assert.ok(art&&toc&&html.indexOf(art)<html.indexOf(toc),
    c.file+': artwork visible before reading chapters');
-  assert.equal((toc.match(/<a\\b/g)||[]).length,c.chapterCount,
+  assert.equal((toc.match(/<a /g)||[]).length,c.chapterCount,
    c.file+': preserve the original quick chapter navigation');
   for(const label of c.labels){
    assert.equal((html.match(new RegExp('id="'+label+'"','g'))||[]).length,1,
