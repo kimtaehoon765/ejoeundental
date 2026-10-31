@@ -3379,6 +3379,47 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  console.log('Medication and medical-history reading order checked:',cases.length,'patient pages');
 }
 
+
+// Validate the immutable homepage gallery foundation bundle and its source order.
+// Catch broken CSS links before publishing: a correct hash also proves
+// the desktop/mobile cascade was concatenated without dropping any rules.
+{
+ const page=readFileSync(join(root,'index.html'),'utf8');
+ const names=['gallery-upgrade.css','gallery-finish.css','museum-home-v2.css'];
+ const boundary='\n\n/* Ejoeun museum gallery foundation: original CSS file boundary. */\n\n';
+ const raw=names.map(name=>{
+  const filename=join(root,'assets',name);
+  if(!existsSync(filename)){errors.push('갤러리 기본 CSS 원본 누락: '+name);return null;}
+  return readFileSync(filename,'utf8').trimEnd();
+ });
+ if(raw.every(v=>v!==null)){
+  const expected=raw.join(boundary)+'\n';
+  const hash=createHash('sha256').update(expected).digest('hex').slice(0,12);
+  const name='gallery-foundation-'+hash+'.css';
+  const link='<link rel="stylesheet" href="/assets/'+name+'">';
+  const bundle=join(root,'assets',name);
+  const oldNames=names.some(n=>page.includes('href="/assets/'+n));
+  const newer=[
+   '/assets/atelier-home-2026.css',
+   '/assets/curatorial-home.css',
+   '/assets/gallery-edition-polish.css',
+   '/assets/home-art-direction-20261030.css',
+   '/assets/atelier-refinement-20261030.css'
+  ];
+  const positions=newer.map(n=>page.indexOf('href="'+n));
+  if(!existsSync(bundle)||
+     readFileSync(bundle,'utf8')!==expected||
+     page.split(link).length!==2||oldNames||
+     positions.some(n=>n<0)||
+     positions.some((n,i)=>i>0&&n<=positions[i-1])||
+     page.indexOf(link)>positions[0]){
+    errors.push('홈페이지 갤러리 CSS 묶음: 캐시 해시·원본·배치 순서 불일치');
+  } else {
+    console.log('Gallery CSS bundle audit: three stable source styles, original cascade preserved; newest five styles independent');
+  }
+ }
+}
+
 // Report every audit error, including the checks above this final line.
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);
