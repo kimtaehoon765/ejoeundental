@@ -1985,3 +1985,36 @@ test('identical homepage CSS declarations are not repeated in a matching scope',
  assert.ok(museum.includes('Portrait-led entrance finishing'),
   'new entrance stylesheet must retain the original portrait presentation rules');
 });
+
+test('previsit selection tally stays local and the existing clinic safety advice remains',()=>{
+ const previsit=read('previsit-checklist.html');
+ const history=read('medical-history.html');
+ const visual=read('assets/previsit-journey.css');
+ const behavior=read('assets/previsit-checklist-progress.js');
+ assert.equal((previsit.match(/type="checkbox"/g)||[]).length,10,
+  'retain the ten patient-preparation choices');
+ assert.ok(previsit.includes('id="previsit-progress" hidden'),
+  'enhancement must remain hidden when JavaScript is unavailable');
+ assert.ok(previsit.includes('id="previsit-selected-count" role="status" aria-live="polite"'),
+  'checked count is accessible to screen reader users');
+ assert.ok(previsit.includes('id="previsit-clear" type="button" disabled'),
+  'selection reset cannot submit medical information');
+ assert.ok(previsit.includes('previsit-checklist-progress.js?v='),
+  'local-only enhancement must be loaded from the clinic asset');
+ assert.ok(visual.includes('Local-only visit preparation and medical Q&A typography'));
+ assert.ok(visual.includes('.previsit-progress[hidden]') &&
+  visual.includes('display:none!important'),
+  'no-JavaScript fallback and printed checklists should omit the controls');
+ assert.ok(behavior.includes("section.addEventListener('change',update)") &&
+  behavior.includes("clear.addEventListener('click'"),
+  'selection counter and reset should both work without saving selections');
+ assert.ok(!/(?:fetch\s*\(|XMLHttpRequest|localStorage|sessionStorage|navigator\.sendBeacon|document\.cookie)/.test(behavior),
+  'preparation choices must not be persisted or transmitted');
+ for(const page of [previsit,history]){
+  assert.ok(page.includes('처방약')||page.includes('복용 중인 약은 임의로 중단하지 마세요'),
+   'keep the medication caution before clinical treatment');
+  assert.ok(page.includes('previsit-journey.css?v=20261031-prepared-journey02'));
+ }
+ assert.ok(previsit.includes('booking.naver.com/booking/13/bizes/1162931'));
+ assert.ok(history.includes('id="visit-checklist"'),'printable health-history form preserved');
+});
