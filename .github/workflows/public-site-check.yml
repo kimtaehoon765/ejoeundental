@@ -57,16 +57,14 @@ jobs:
         run: |
           node --check scripts/check-ai-search-live.mjs
           node scripts/check-ai-search-live.mjs
-      - name: Compare live journal caricature and original cat image
+      # The original two legacy probes assumed an old portrait file name
+      # and an unbundled museum CSS URL, which produced false negatives.
+      # Compare the real public pages and asset hashes against THIS build.
+      - name: Compare live Cloudflare release with current clinic HTML and assets
         continue-on-error: true
         run: |
-          node --check scripts/check-live-journal-art.mjs
-          node scripts/check-live-journal-art.mjs
-      - name: Confirm public dental art gallery and original paintings
-        continue-on-error: true
-        run: |
-          node --check scripts/check-live-gallery.mjs
-          node scripts/check-live-gallery.mjs
+          node --check scripts/check-live-deployment.mjs
+          node scripts/check-live-deployment.mjs
       - name: Verify first-visit page is included
         run: |
           test -s dist/previsit-checklist.html
