@@ -32,9 +32,12 @@ async function search(q,pages,{fail=false,hostname='ejoeundental.pages.dev',book
  const results=new Element('section');
  results.dataset.bookingUrl=booking.url;
  results.dataset.bookingLabel=booking.label;
- const map={'#q':input,'#status':status,'#results':results};
+ const queryView=new Element('span');
+ const map={'#q':input,'#status':status,'#results':results,'#search-query-view':queryView};
  const document={
   querySelector:selector=>map[selector]||null,
+  // Match the optional search-heading lookup used by the real browser script.
+  getElementById:id=>map['#'+id]||null,
   createElement:tag=>new Element(tag)
  };
  const fetch=async()=>fail?{ok:false}: {ok:true,json:async()=>pages};
