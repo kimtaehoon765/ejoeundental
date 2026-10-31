@@ -101,6 +101,33 @@ async function main(){
     storyImage===liveStoryImage&&
     storyImage.endsWith('/assets/ejoeun-gallery-cat-dentist-20261029.webp'),
     '공개 '+(liveStoryImage||'없음')+' / 이번 빌드 '+(storyImage||'없음'));
+  // First-viewport artwork: one preload and one high-priority native image,
+  // with original dimensions and descriptive alt text kept intact.
+  const firstArt=[
+    ['의료진 소개','/doctor',builtDoctor,'ejoeun-doctor-since2003-garden-20261029.svg','image/svg+xml'],
+    ['갤러리','/gallery',builtGallery,'ejoeun-original-wisdom-consult-20261029.webp','image/webp']
+  ];
+  for(const [label,route,expected,filename,type] of firstArt){
+    const actual=pages[route]||'';
+    const rel='/assets/'+filename;
+    const preload='<link rel="preload" as="image" type="'+type+
+      '" fetchpriority="high" href="'+rel+'">';
+    const figure=(html)=>[...html.matchAll(/<img\\b[^>]*>/g)].find(x=>x[0].includes('src="'+rel+'"'))?.[0]||'';
+    const currentFigure=figure(actual),builtFigure=figure(expected);
+    const imageOk=currentFigure===builtFigure&&
+      currentFigure.includes('loading="eager"')&&
+      currentFigure.includes('fetchpriority="high"')&&
+      currentFigure.includes('decoding="async"')&&
+      /width="\\d+" height="\\d+"/.test(currentFigure)&&
+      currentFigure.includes('alt="');
+    verdict(label+' 첫 그림 우선 로딩·미리 불러오기',
+      imageOk&&actual.includes(preload)&&expected.includes(preload),
+      imageOk?'원본 그림·가로세로 크기 유지 / 고우선순위 그림·preload 동기화':
+      '이미지 로딩 힌트 또는 원본 그림 불일치');
+  }
+  await checkAsset('의료진 소개 첫 그림 원본',
+    'assets/ejoeun-doctor-since2003-garden-20261029.svg',
+    '/assets/ejoeun-doctor-since2003-garden-20261029.svg');
   // Compare the page-specific social card each visitor and messenger sees
   // against the same built release. No duplicate artwork is added to the page.
   const socialCases=[
