@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 
 const read=(path)=>readFileSync('dist/'+path,'utf8');
 const degree='고려대학교 의학박사(치과학 전공)';
@@ -30,7 +31,15 @@ test('homepage introduces doctor credentials prominently and preserves direct di
   assert.ok(description.includes(term),'homepage snippet missing essential user-facing detail '+term);
  assert.match(description,/고려대학교 의학박사\(치과학 전공\)·통합치의학과 전문의/);
  assert.match(description,/통합치의학과 전문의/);
- assert.match(html,/\/assets\/home-enhancements\.css\?v=[^"']+/);
+ const combined=['style.css','home-enhancements.css','address-copy.css']
+  .map(name=>read('assets/'+name).trimEnd())
+  .join('\n\n/* Original stylesheet boundary — cascade order retained. */\n\n')+'\n';
+ const hash=createHash('sha256').update(combined).digest('hex').slice(0,12);
+ const bundled='/assets/home-critical-'+hash+'.css';
+ assert.ok(html.includes('href="'+bundled+'"'),
+  'medical credentials and patient actions must load the immutable first-screen stylesheet');
+ assert.equal(read(bundled.slice(1)),combined,
+  'medical credential CSS must survive the original cascade consolidation');
 });
 
 test('machine-readable credentials reflect exactly the patient-facing qualifications',()=>{
