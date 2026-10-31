@@ -1973,6 +1973,8 @@ test('identical homepage CSS declarations are not repeated in a matching scope',
  assert.ok(linkedVersionedStyle(home,'atelier-refinement-20261030.css'),
   'built homepage must still load the actual pre-final stylesheet');
 
- assert.ok(original.includes('museum-finish-20261031.css?v=20261031-safe-dedup12'),
-  'latest homepage finishing CSS should invalidate the original source cache');
+ assert.ok(original.includes('museum-finish-20261031.css?v=20261031-portrait-entrance13'),
+  'portrait entrance styling must carry a fresh browser CSS version');
+ assert.ok(museum.includes('Portrait-led entrance finishing'),
+  'new entrance stylesheet must retain the original portrait presentation rules');
 });
