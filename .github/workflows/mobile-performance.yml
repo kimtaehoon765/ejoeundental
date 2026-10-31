@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/mobile-performance.yml'
+      - 'index.html'
 permissions:
   contents: read
 jobs:
