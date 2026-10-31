@@ -5997,3 +5997,145 @@ body.home-page #main-content > #philosophy .grid > .card p {
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-31 | Patient reading rhythm across three homepage libraries.
+   Clinical descriptions and original health links are all shown, not
+   hidden/clamped. Clear editorial spacing replaces a crowded listing feel. */
+body.home-page #main-content > :is(#symptoms,#care,#health-info) > .wrap {
+  min-width:0;
+}
+body.home-page #main-content > :is(#symptoms,#care,#health-info) > .wrap > h2 {
+  margin-top:clamp(8px,1.4vw,15px);
+  margin-bottom:clamp(13px,2vw,20px);
+}
+body.home-page #main-content > #symptoms .symptom-grid,
+body.home-page #main-content > #care > .wrap > .grid,
+body.home-page #main-content > #health-info .health-topic-grid {
+  align-items:stretch;
+  row-gap:clamp(15px,2.2vw,25px);
+}
+body.home-page #main-content > #symptoms .symptom-grid > .card,
+body.home-page #main-content > #care > .wrap > .grid > .card,
+body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card {
+  box-sizing:border-box;
+  min-width:0;
+  padding:clamp(21px,2.5vw,33px);
+  border:1px solid #dcd5c6;
+  border-top:3px solid #ae9b78;
+  border-radius:5px 13px 5px 13px;
+  background:#fffdf8;
+  box-shadow:0 7px 23px rgba(29,54,40,.038);
+}
+body.home-page #main-content > #symptoms .symptom-grid > .card:nth-child(2n),
+body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card:nth-child(2n) {
+  border-top-color:#88a08c;
+  background:#fffefa;
+}
+body.home-page #main-content > #care > .wrap > .grid > .card.care-primary-card {
+  border-top-color:#86a18a;
+}
+body.home-page #main-content > #symptoms .symptom-grid > .card > h3,
+body.home-page #main-content > #care > .wrap > .grid > .card > h3,
+body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card > h3 {
+  margin:0 0 clamp(12px,1.7vw,18px);
+  color:#254936;
+  font-family:'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  font-weight:700;
+  line-height:1.56;
+  letter-spacing:-.037em;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+  text-wrap:balance;
+}
+body.home-page #main-content > #symptoms .symptom-grid > .card > p,
+body.home-page #main-content > #care > .wrap > .grid > .card > p,
+body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card > p:not(.health-topic-actions) {
+  max-width:67ch;
+  color:#465e4d;
+  font-size:clamp(15px,1.3vw,16px);
+  line-height:1.88;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content > #symptoms .symptom-grid > .card > p + a {
+  display:inline-block;
+  margin-top:clamp(9px,1.4vw,14px);
+  padding-top:clamp(9px,1.4vw,14px);
+  border-top:1px solid #e6e0d4;
+}
+body.home-page #main-content > #symptoms .symptom-grid > .card > a,
+body.home-page #main-content > #care > .wrap > .grid > .card a,
+body.home-page #main-content > #health-info .health-topic-actions > a {
+  color:#285e43;
+  text-underline-offset:4px;
+  overflow-wrap:anywhere;
+  word-break:keep-all;
+}
+body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card > .health-topic-actions {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px 12px;
+  width:100%;
+  min-width:0;
+  margin-top:auto;
+  padding-top:clamp(13px,1.7vw,20px);
+  border-top:1px solid #e5e0d4;
+}
+body.home-page #main-content > #health-info .health-topic-actions > a {
+  display:inline-flex;
+  align-items:center;
+  box-sizing:border-box;
+  min-height:44px;
+  max-width:100%;
+  line-height:1.6;
+}
+body.home-page #main-content > #care .care-more-details .care-more-grid > .card > p {
+  max-width:67ch;
+  line-height:1.88;
+}
+@media(max-width:820px){
+  body.home-page #main-content > #symptoms .symptom-grid,
+  body.home-page #main-content > #care > .wrap > .grid,
+  body.home-page #main-content > #health-info .health-topic-grid {
+    grid-template-columns:minmax(0,1fr);
+    gap:clamp(13px,2.4vw,18px);
+  }
+}
+@media(max-width:600px){
+  body.home-page #main-content > #symptoms .symptom-grid > .card,
+  body.home-page #main-content > #care > .wrap > .grid > .card,
+  body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card {
+    min-height:0;
+    padding:21px 18px 23px;
+    box-shadow:0 5px 14px rgba(29,54,40,.035);
+  }
+  body.home-page #main-content > :is(#symptoms,#care,#health-info) > .wrap > h2 {
+    margin-top:7px;
+    margin-bottom:14px;
+  }
+  body.home-page #main-content > #symptoms .symptom-grid > .card > p,
+  body.home-page #main-content > #care > .wrap > .grid > .card > p,
+  body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card > p:not(.health-topic-actions) {
+    font-size:16px;
+    line-height:1.86;
+  }
+  body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card > .health-topic-actions {
+    padding-top:12px;
+    gap:5px 10px;
+  }
+}
+@media(forced-colors:active){
+  body.home-page #main-content > #symptoms .symptom-grid > .card,
+  body.home-page #main-content > #care > .wrap > .grid > .card,
+  body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card {
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content > :is(#symptoms,#care,#health-info) .grid > .card :is(h3,p,a) {
+    color:CanvasText;
+  }
+}
