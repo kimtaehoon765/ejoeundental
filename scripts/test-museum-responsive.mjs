@@ -1662,6 +1662,13 @@ test('gallery exit presents four genuine care guides and prominent Naver booking
  }
  assert.ok(guides.includes('치료 결과를 뜻하지 않습니다.'),
   'clinical imagery disclaimer remains visible');
+ const secondary=guides.match(/<nav class="home-care-paths__other"[\s\S]*?<\/nav>/)?.[0]||'';
+ assert.ok(secondary.includes('aria-label="추가 진료 안내 세 가지"'),
+  'the gallery exit must provide a clear secondary care navigation');
+ for(const route of ['/cavity-treatment.html','/denture.html','/implant.html']){
+  assert.ok(secondary.includes('href="'+route+'"'),
+   'supplementary treatment guide link missing: '+route);
+ }
  const archive=home.match(/<section class="home-archive-gallery"[\s\S]*?<\/section>/)?.[0]||'';
  assert.ok(archive.includes('href="/clinical-archive.html"'),
   'original clinician article archive remains available');
@@ -1973,7 +1980,7 @@ test('identical homepage CSS declarations are not repeated in a matching scope',
  assert.ok(linkedVersionedStyle(home,'atelier-refinement-20261030.css'),
   'built homepage must still load the actual pre-final stylesheet');
 
- assert.ok(original.includes('museum-finish-20261031.css?v=20261031-portrait-entrance13'),
+ assert.ok(original.includes('museum-finish-20261031.css?v=20261031-care-catalog14'),
   'portrait entrance styling must carry a fresh browser CSS version');
  assert.ok(museum.includes('Portrait-led entrance finishing'),
   'new entrance stylesheet must retain the original portrait presentation rules');
