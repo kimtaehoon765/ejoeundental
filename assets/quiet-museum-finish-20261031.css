@@ -154,3 +154,184 @@ body.home-page #main-content > #health-info .health-topic-actions > a {
     box-shadow: none;
   }
 }
+
+
+/* 2026-10-31 | Museum salon refinement: a calmer, scannable clinical journal.
+   No new image downloads, no hidden headings, and no changes to booking,
+   search metadata, medical copy or the original paintings. */
+body.home-page #main-content > #stories .journal-salon-new {
+  box-sizing:border-box;
+  margin:clamp(24px,3.2vw,42px) 0;
+  padding:clamp(20px,3vw,38px);
+  border:1px solid #d5c7ad;
+  border-top:3px solid #a68e64;
+  border-radius:3px 18px 3px 18px;
+  background:
+    radial-gradient(ellipse at 100% 0%,rgba(183,200,169,.22),transparent 44%),
+    linear-gradient(146deg,#fffdf7,#f3f5ec);
+  box-shadow:0 14px 36px rgba(30,54,40,.055);
+}
+body.home-page #main-content > #stories .journal-salon-new__intro {
+  max-width:72ch;
+  margin-bottom:clamp(18px,2.4vw,27px);
+}
+body.home-page #main-content > #stories .journal-salon-new__overline {
+  display:block;
+  color:#80683f;
+  font:750 11px/1.7 system-ui,sans-serif;
+  letter-spacing:.17em;
+}
+body.home-page #main-content > #stories .journal-salon-new__intro h3 {
+  margin:7px 0 8px;
+  color:#234733;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(22px,2.5vw,30px);
+  line-height:1.5;
+  letter-spacing:-.055em;
+  text-wrap:balance;
+}
+body.home-page #main-content > #stories .journal-salon-new__intro p {
+  margin:0;
+  max-width:65ch;
+  color:#4c6353;
+  font-size:clamp(14px,1.3vw,16px);
+  line-height:1.85;
+  word-break:keep-all;
+}
+body.home-page #main-content > #stories .journal-salon-new__grid {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(9px,1.35vw,17px);
+}
+body.home-page #main-content > #stories .journal-salon-new__grid > a {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  min-height:205px;
+  padding:clamp(17px,1.8vw,24px);
+  border:1px solid #ded3bf;
+  border-top:2px solid #b39a70;
+  border-radius:3px;
+  background:#fffefa;
+  color:#244635;
+  text-decoration:none;
+  box-shadow:0 5px 15px rgba(26,45,35,.025);
+  transition:border-color .18s ease,background-color .18s ease,box-shadow .18s ease;
+}
+body.home-page #main-content > #stories .journal-salon-new__grid > a:nth-child(even) {
+  border-top-color:#94ab93;
+}
+body.home-page #main-content > #stories .journal-salon-new__grid > a > span {
+  display:block;
+  min-height:34px;
+  margin-bottom:12px;
+  color:#826e4b;
+  font:750 10px/1.6 system-ui,sans-serif;
+  letter-spacing:.11em;
+}
+body.home-page #main-content > #stories .journal-salon-new__grid > a > strong {
+  display:block;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(19px,1.9vw,23px);
+  line-height:1.52;
+  letter-spacing:-.045em;
+}
+body.home-page #main-content > #stories .journal-salon-new__grid > a > small {
+  display:block;
+  margin:10px 0 17px;
+  color:#506555;
+  font-size:13px;
+  line-height:1.75;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content > #stories .journal-salon-new__grid > a > em {
+  display:block;
+  margin-top:auto;
+  padding-top:10px;
+  border-top:1px solid #e7dfd1;
+  color:#2d6245;
+  font-size:13px;
+  font-style:normal;
+  font-weight:800;
+  line-height:1.6;
+}
+body.home-page #main-content > #stories .journal-salon-new__grid > a:focus-visible {
+  outline:3px solid #9e7740;
+  outline-offset:3px;
+}
+@media (hover:hover) and (pointer:fine) {
+  body.home-page #main-content > #stories .journal-salon-new__grid > a:hover {
+    border-color:#a69b7d;
+    background:#fbfcf7;
+    box-shadow:0 10px 23px rgba(30,56,43,.08);
+  }
+}
+/* Gallery-first opening and clearer reading rhythm without hiding SEO text. */
+body.home-page #main-content > .hero.wrap .hero-actions > a {
+  min-height:46px;
+  align-content:center;
+}
+body.home-page #main-content > :is(#focus-care,#home-representative-guides,#stories,#health-info) {
+  scroll-margin-top:100px;
+}
+body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a {
+  text-underline-offset:4px;
+}
+body.home-page #main-content > #stories .journal-gallery-cover__caption strong,
+body.home-page #main-content > #gallery .gallery-exhibition-lead h2 {
+  letter-spacing:-.055em;
+  text-wrap:balance;
+}
+@media (max-width:1050px) {
+  body.home-page #main-content > #stories .journal-salon-new__grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.home-page #main-content > #stories .journal-salon-new__grid > a {
+    min-height:180px;
+  }
+}
+@media (max-width:600px) {
+  body.home-page #main-content > #stories .journal-salon-new {
+    margin-block:23px;
+    padding:19px 15px 21px;
+    border-radius:3px 12px 3px 12px;
+    box-shadow:none;
+  }
+  body.home-page #main-content > #stories .journal-salon-new__grid {
+    grid-template-columns:minmax(0,1fr);
+    gap:9px;
+  }
+  body.home-page #main-content > #stories .journal-salon-new__grid > a {
+    min-height:0;
+    padding:16px 17px;
+  }
+  body.home-page #main-content > #stories .journal-salon-new__grid > a > span {
+    min-height:0;
+    margin-bottom:5px;
+  }
+  body.home-page #main-content > #stories .journal-salon-new__grid > a > small {
+    margin:5px 0 10px;
+  }
+  body.home-page #main-content > #stories .journal-salon-new__grid > a > em {
+    padding-top:8px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  body.home-page #main-content > #stories .journal-salon-new__grid > a { transition:none; }
+}
+@media (forced-colors:active) {
+  body.home-page #main-content > #stories .journal-salon-new,
+  body.home-page #main-content > #stories .journal-salon-new__grid > a {
+    border-color:CanvasText;
+    color:CanvasText;
+    background:Canvas;
+    box-shadow:none;
+  }
+  body.home-page #main-content > #stories .journal-salon-new__grid > a :is(span,strong,small,em),
+  body.home-page #main-content > #stories .journal-salon-new__overline,
+  body.home-page #main-content > #stories .journal-salon-new__intro :is(h3,p) {
+    color:CanvasText;
+  }
+}
