@@ -247,3 +247,223 @@ body.home-page #main-content > #care .grid > .card {
     box-shadow:none;
   }
 }
+
+/* 2026-10-31 | Gallery-to-clinic editorial rhythm. */
+/* Keep the long, indexable patient-education page visually navigable.
+   Do not hide, truncate or relocate clinical content or artwork. */
+body.home-page #main-content > :is(
+  #philosophy,#focus-care,#home-representative-guides,
+  #symptoms,#care,#health-info,#stories,#faq
+) {
+  padding-block:clamp(58px,6.7vw,94px);
+}
+body.home-page #main-content > :is(
+  #home-representative-guides,#symptoms,#care,#health-info,#stories,#faq
+) > .wrap > .eyebrow,
+body.home-page #main-content > #philosophy > .wrap > .eyebrow {
+  color:#876d43;
+  letter-spacing:.19em;
+  font-size:clamp(10px,.89vw,12px);
+  font-weight:800;
+}
+body.home-page #main-content > :is(
+  #home-representative-guides,#symptoms,#care,#health-info,#stories,#faq
+) > .wrap > h2,
+body.home-page #main-content > #philosophy > .wrap > h2 {
+  color:#204331;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(27px,2.8vw,39px);
+  font-weight:700;
+  line-height:1.52;
+  letter-spacing:-.055em;
+  text-wrap:balance;
+  margin-top:12px;
+  margin-bottom:clamp(16px,2.2vw,26px);
+}
+body.home-page #main-content > :is(
+  #home-representative-guides,#symptoms,#care,#health-info,#stories,#faq
+) > .wrap > p {
+  color:#465a4c;
+  font-size:clamp(14px,1.13vw,16px);
+  line-height:1.95;
+  overflow-wrap:anywhere;
+  word-break:keep-all;
+}
+/* Restraint in the physician's reading-room painting and caption. */
+body.home-page #main-content > #philosophy .philosophy-editorial__painting {
+  border:1px solid #ddd0b8;
+  background:#f4f0e5;
+  box-shadow:0 11px 30px rgba(34,54,40,.07);
+}
+body.home-page #main-content > #philosophy .philosophy-editorial__painting > img {
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  object-position:center;
+}
+body.home-page #main-content > #philosophy .philosophy-editorial__painting > figcaption {
+  color:#495d4b;
+  line-height:1.7;
+  background:#fffdf8;
+}
+/* Four questions: readable labels rather than equal-weight beige tiles. */
+body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a {
+  border:1px solid #dcd4c3;
+  background:#fffefa;
+  box-shadow:0 5px 19px rgba(32,54,39,.04);
+  transition:border-color .17s ease,box-shadow .17s ease;
+}
+body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a > strong {
+  color:#214b35;
+  line-height:1.55;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a > span {
+  color:#536558;
+  line-height:1.8;
+  overflow-wrap:anywhere;
+}
+/* Symptoms and the 12-treatment directory use the same visual language,
+   so patients can tell links from non-interactive explanatory text. */
+body.home-page #main-content > #symptoms .symptom-grid > .card,
+body.home-page #main-content > #care .grid > .card {
+  border:1px solid #e0d8c7;
+  background:#fffefa;
+  border-radius:5px;
+  box-shadow:0 5px 20px rgba(30,53,38,.045);
+}
+body.home-page #main-content > #symptoms .symptom-grid > .card > h3,
+body.home-page #main-content > #care .grid > .card > h3 {
+  color:#204633;
+  line-height:1.5;
+  letter-spacing:-.035em;
+}
+body.home-page #main-content > #care .care-directory__primary > a {
+  border-color:#c8d6c5;
+  background:linear-gradient(135deg,#f3f7ee,#fffefa);
+  box-shadow:0 4px 16px rgba(32,61,39,.04);
+  transition:border-color .17s ease,box-shadow .17s ease;
+}
+body.home-page #main-content > #care .care-directory__primary > a > strong {
+  color:#204c35;
+}
+body.home-page #main-content > #care .care-directory__secondary > a {
+  border-color:#ddd7c9;
+  background:#fffefa;
+}
+/* Keep the doctor credential panel calm and legible on dark green. */
+body.home-page #main-content > #doctor {
+  background:linear-gradient(115deg,#193c30,#224c3d 72%,#1d4437);
+}
+body.home-page #main-content > #doctor #doctor_title {
+  line-height:1.55;
+  letter-spacing:-.045em;
+  text-wrap:balance;
+  color:#fff9ed;
+}
+body.home-page #main-content > #doctor #doctor_body {
+  color:#f1f1e7;
+  line-height:1.95;
+}
+body.home-page #main-content > #doctor .doctor-profile-link > a {
+  text-underline-offset:5px;
+}
+/* Journal cover, health cards and FAQ share clear editorial borders. */
+body.home-page #main-content > #stories .journal-gallery-cover {
+  border:1px solid #d8cbb5;
+  border-radius:3px;
+  box-shadow:0 10px 26px rgba(34,56,40,.06);
+}
+body.home-page #main-content > #stories .journal-gallery-cover__caption {
+  background:#fffdf8;
+  line-height:1.65;
+}
+body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card {
+  background:#fffefa;
+  border:1px solid #e0d8c7;
+  border-radius:5px;
+  box-shadow:0 5px 20px rgba(31,54,40,.045);
+}
+body.home-page #main-content > #health-info .health-topic-card > h3 {
+  color:#234b36;
+  letter-spacing:-.035em;
+}
+body.home-page #main-content > #faq .faq-list > details {
+  background:#fffefa;
+  border:1px solid #dcd4c4;
+  border-radius:5px;
+  box-shadow:0 3px 11px rgba(32,54,39,.025);
+}
+body.home-page #main-content > #faq .faq-list > details > summary {
+  color:#204934;
+  line-height:1.7;
+}
+body.home-page #main-content > #faq .faq-list > details[open] {
+  border-color:#b5c7b3;
+}
+/* All prominent reading tiles keep a visible keyboard affordance. */
+body.home-page #main-content :is(
+  #home-representative-guides .home-representative-guide-grid > a,
+  #care .care-directory__primary > a,
+  #care .care-directory__secondary > a,
+  #stories .journal-gallery-cover
+):focus-visible {
+  outline:3px solid #a08046;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine) {
+  body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a:hover,
+  body.home-page #main-content > #care .care-directory__primary > a:hover {
+    border-color:#ac956c;
+    box-shadow:0 9px 25px rgba(31,59,41,.1);
+  }
+}
+/* Mobile reading rhythm without changing the sticky booking/phone dock. */
+@media(max-width:600px) {
+  body.home-page #main-content > :is(
+    #philosophy,#focus-care,#home-representative-guides,
+    #symptoms,#care,#health-info,#stories,#faq
+  ) { padding-block:clamp(48px,12vw,62px); }
+  body.home-page #main-content > :is(
+    #home-representative-guides,#symptoms,#care,#health-info,#stories,#faq
+  ) > .wrap > h2,
+  body.home-page #main-content > #philosophy > .wrap > h2 {
+    font-size:clamp(26px,6.8vw,33px);
+    line-height:1.48;
+  }
+  body.home-page #main-content > :is(
+    #home-representative-guides,#symptoms,#care,#health-info,#stories,#faq
+  ) > .wrap > p {
+    font-size:15px;
+    line-height:1.9;
+  }
+  body.home-page #main-content > #symptoms .symptom-grid > .card,
+  body.home-page #main-content > #care .grid > .card,
+  body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card {
+    border-radius:5px;
+    box-shadow:none;
+  }
+  body.home-page #main-content > #stories .journal-gallery-cover {
+    box-shadow:none;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a,
+  body.home-page #main-content > #care .care-directory__primary > a {
+    transition:none;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > #doctor,
+  body.home-page #main-content > #stories .journal-gallery-cover,
+  body.home-page #main-content > #faq .faq-list > details,
+  body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content > #doctor :is(#doctor_title,#doctor_body) {
+    color:CanvasText;
+  }
+}
