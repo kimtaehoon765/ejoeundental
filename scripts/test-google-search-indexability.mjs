@@ -675,3 +675,49 @@ test('verified Oct 29 revision dates for updated dental patient guides reach pub
  assert.ok(published.includes('https://ejoeundental.com/'),
   'published index should keep the canonical custom domain');
 });
+
+
+test('primary clinic, gallery, doctor and preservation social previews use distinct approved originals',()=>{
+ const cases=[
+  ['index.html','ejoeun-gallery-cat-dentist-20261029.webp',1200,800],
+  ['gallery.html','ejoeun-original-wisdom-consult-20261029.webp',1200,800],
+  ['doctor.html','ejoeun-gallery-cat-dentist-20261029.webp',1200,800],
+  ['tooth-preservation.html','ejoeun-tooth-preservation-garden-cat-20261029.webp',960,640]
+ ];
+ const imageUri=(name)=>origin+'/assets/'+name;
+ for(const [name,image,width,height] of cases){
+  const html=readFileSync(path.join(output,name),'utf8');
+  const source=readFileSync(name,'utf8');
+  const img=imageUri(image);
+  const tags=[
+   ['property','og:image',img],
+   ['property','og:image:type','image/webp'],
+   ['property','og:image:width',String(width)],
+   ['property','og:image:height',String(height)],
+   ['name','twitter:card','summary_large_image'],
+   ['name','twitter:image',img]
+  ];
+  for(const [attr,key,value] of tags){
+   const tag='<meta '+attr+'="'+key+'" content="'+value+'">';
+   assert.equal(html.split(tag).length-1,1,
+    name+' must publish exactly one fresh social tag '+key);
+   assert.equal(source.split(tag).length-1,1,
+    name+' should retain its original social tag '+key);
+  }
+  for(const [attr,key] of [['property','og:image:alt'],['name','twitter:image:alt']]){
+   const regex=new RegExp('<meta '+attr+'="'+key+'" content="([^"]+)">','g');
+   const src=[...source.matchAll(regex)],built=[...html.matchAll(regex)];
+   assert.equal(src.length,1,name+' missing original artwork description '+key);
+   assert.equal(built.length,1,name+' missing published artwork description '+key);
+   assert.equal(built[0][1],src[0][1],name+' accessibility description drifted');
+   assert.ok(built[0][1].includes('고양이'),name+' creative artwork description absent');
+  }
+  assert.ok(html.includes('<link rel="canonical" href="'+
+   (name==='index.html'?origin+'/':origin+'/'+name.replace(/\.html$/,''))+
+   '">'),name+' must keep preferred production URL');
+  const bytes=readFileSync(path.join(output,'assets',image));
+  assert.ok(bytes.length>1000&&bytes.subarray(0,4).toString('ascii')==='RIFF'&&
+   bytes.subarray(8,12).toString('ascii')==='WEBP',
+   name+' sharing original must exist as genuine WebP');
+ }
+});
