@@ -4193,3 +4193,191 @@ body.home-page #main-content>#care .care-more-details .care-more-grid>.card>p:la
     border-color:CanvasText;
   }
 }
+
+
+/* 2026-10-31 | Quiet salon finish: one coherent opening-room hierarchy.
+   Preserve all clinic copy, artwork sources, treatment links, mobile booking dock
+   and search metadata; this is a visual-only finishing pass. */
+body.home-page {
+  --salon-paper: #fdfbf5;
+  --salon-ink: #253f32;
+  --salon-burnished-gold: #a78b5b;
+}
+body.home-page #main-content > .hero.wrap {
+  margin-top: clamp(16px,2.2vw,30px);
+  margin-bottom: clamp(28px,4vw,55px);
+  background:
+    radial-gradient(ellipse at 84% 10%,rgba(210,191,153,.16),transparent 44%),
+    linear-gradient(155deg,#fffefa,#f7f5ee);
+  border-color: #d8cbb4;
+  border-top-color: #b49767;
+  box-shadow: 0 21px 60px rgba(26,51,36,.075);
+}
+body.home-page #main-content > .hero.wrap > div:first-child {
+  align-self: center;
+}
+body.home-page #main-content > .hero.wrap #headline {
+  color: var(--salon-ink);
+  font-family: 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  font-weight: 700;
+  line-height: 1.39;
+  letter-spacing: -.057em;
+  text-wrap: balance;
+}
+body.home-page #main-content > .hero.wrap .hero-doctor-credentials {
+  background: rgba(255,253,247,.78);
+  border-color: #ddd2bc;
+  border-left-color: #ab8b57;
+  box-shadow: none;
+}
+body.home-page #main-content > .hero.wrap .hero-doctor-credentials strong {
+  font-weight: 750;
+}
+body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+  box-sizing: border-box;
+  padding: clamp(8px,1vw,13px);
+  border: 1px solid #cbb88e;
+  border-radius: 3px;
+  outline: 1px solid rgba(139,111,69,.28);
+  outline-offset: 5px;
+  background: #e9dfcc;
+  box-shadow: 0 22px 44px rgba(31,54,39,.115);
+}
+body.home-page #main-content > .hero.wrap > .art.hero-artwork > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: contain;
+  border: 1px solid #e0d1b4;
+  border-radius: 1px;
+  background: #f7f1e5;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque {
+  padding: 15px 9px 8px;
+  border-color: #c6b58f;
+  background: #fffdf6;
+  text-align: center;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque > strong {
+  font-size: clamp(15px,1.4vw,18px);
+  font-weight: 700;
+  line-height: 1.6;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque > a {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.65;
+  text-underline-offset: 4px;
+}
+body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-call,.hero-booking) {
+  min-height: 52px;
+  border-radius: 5px;
+  box-shadow: 0 4px 12px rgba(26,58,40,.08);
+}
+body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-hours,.hero-symptoms,.hero-map) {
+  min-height: 46px;
+  border-radius: 5px;
+  box-shadow: none;
+  background: rgba(255,254,250,.7);
+}
+body.home-page #main-content > .hero.wrap .hero-editorial-detail > :is(.hero-editorial-choices,.hero-editorial-story) {
+  border-color: #e1d7c6;
+  box-shadow: none;
+  background: rgba(255,254,250,.87);
+}
+body.home-page #main-content > .hero.wrap .hero-editorial-label {
+  color: #806640;
+  letter-spacing: .15em;
+}
+body.home-page #main-content > .hero.wrap .hero-principles {
+  border-top: 1px solid rgba(158,146,112,.28);
+  padding-top: 13px;
+}
+body.home-page #main-content > .curated-threshold {
+  box-shadow: 0 15px 40px rgba(30,55,42,.05);
+  border-color: #ded2bd;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__frame {
+  background: #f7f3e9;
+  border-color: #cbbb9c;
+  box-shadow: 0 9px 22px rgba(33,55,42,.11);
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__caption strong {
+  color: #2b4939;
+}
+body.home-page #main-content > .museum-route.wrap .museum-route__links > a {
+  text-underline-offset: 5px;
+}
+body.home-page #main-content > :is(#philosophy,#focus-care,#care,#doctor,#gallery,#stories,#location) h2 {
+  letter-spacing: -.05em;
+  text-wrap: balance;
+}
+@media (min-width: 960px) {
+  body.home-page #main-content > .hero.wrap {
+    column-gap: clamp(34px,4vw,58px);
+    padding: clamp(36px,4vw,56px) clamp(34px,4.3vw,60px);
+  }
+  body.home-page #main-content > .hero.wrap #headline {
+    font-size: clamp(37px,3.7vw,49px);
+  }
+}
+@media (max-width: 760px) {
+  body.home-page #main-content > .hero.wrap {
+    margin-top: 9px;
+    margin-bottom: 27px;
+    padding: 22px 16px 23px;
+    box-shadow: 0 11px 31px rgba(29,54,38,.065);
+  }
+  body.home-page #main-content > .hero.wrap #headline {
+    font-size: clamp(27px,6.9vw,35px);
+    line-height: 1.43;
+  }
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    width: min(100%,365px);
+    max-width: 365px;
+    padding: 7px;
+    margin: 16px auto 23px;
+    box-shadow: 0 13px 27px rgba(31,54,39,.105);
+  }
+  body.home-page #main-content > .hero.wrap .hero-artwork__plaque {
+    padding: 11px 6px 6px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-call,.hero-booking) {
+    min-height: 52px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-hours,.hero-symptoms,.hero-map) {
+    min-height: 44px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-editorial-detail > :is(.hero-editorial-choices,.hero-editorial-story) {
+    border-radius: 5px;
+  }
+}
+@media (max-width: 375px) {
+  body.home-page #main-content > .hero.wrap {
+    padding: 18px 12px 21px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-artwork__plaque > strong {
+    font-size: 15px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.home-page #main-content > .hero.wrap .hero-actions > a {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  body.home-page #main-content > .hero.wrap,
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork,
+  body.home-page #main-content > .hero.wrap .hero-artwork__plaque,
+  body.home-page #main-content > .hero.wrap .hero-doctor-credentials,
+  body.home-page #main-content > .curated-threshold {
+    border-color: CanvasText;
+    outline-color: CanvasText;
+    background: Canvas;
+    color: CanvasText;
+    box-shadow: none;
+  }
+}
