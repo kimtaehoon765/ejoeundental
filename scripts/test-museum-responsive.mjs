@@ -1891,27 +1891,31 @@ test('eight care gallery keeps all twelve services and original artwork',()=>{
   'phone and booking shortcuts must remain available');
 });
 
-test('homepage loads one nonblocking stylesheet for both display font families',()=>{
+test('mobile homepage keeps original portrait without costly Korean webfont subsets',()=>{
  const head=home.slice(0,home.indexOf('</head>'));
- const fontStyles=[...head.matchAll(/<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com\/css2\?[^"]+" media="print" onload="this\.media='all'">/g)];
- assert.equal(fontStyles.length,1,
-  'use one nonblocking font CSS request, not one separate request per family');
- const href=fontStyles[0][0];
- assert.ok(href.includes('family=DM+Sans:wght@400;600;700')&&
-  href.includes('family=Noto+Serif+KR:wght@500;600;700')&&
-  href.includes('display=optional'),
-  'combined Google Fonts query retains both families with optional display');
+ const allFontLinks=[...head.matchAll(/<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com\/css2\?[^"]+"[^>]*>/g)].map(m=>m[0]);
+ assert.equal(allFontLinks.length,2,
+  'ship only the lightweight Latin family and a desktop-only Korean serif');
+ const latin=allFontLinks.find(link=>link.includes('family=DM+Sans'));
+ const korean=allFontLinks.find(link=>link.includes('family=Noto+Serif+KR'));
+ assert.ok(latin?.includes('media="print" onload="this.media=\'all\'"'),
+  'optional Latin typography should not block first paint');
+ assert.ok(!latin.includes('Noto+Serif+KR'),
+  'do not mix the expensive Korean subsets into the mobile font request');
+ assert.ok(korean?.includes('media="(min-width: 801px)"'),
+  'only desktop viewports should activate the original Korean serif');
+ assert.ok(korean.includes('display=optional'),
+  'desktop serif font must still use optional font display');
  const fallback=head.match(/<noscript><link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com\/css2\?[^"]+"><\/noscript>/g)||[];
- assert.equal(fallback.length,1,'one matching no-JS fallback keeps both font families');
- assert.ok(fallback[0].includes('family=DM+Sans')&&
-   fallback[0].includes('family=Noto+Serif+KR'));
+ assert.equal(fallback.length,1,'no-script mobile fallback should use one Latin family');
+ assert.ok(fallback[0].includes('family=DM+Sans')&&!fallback[0].includes('Noto+Serif+KR'));
  const portrait=home.match(/<img\b[^>]*ejoeun-gallery-cat-dentist-20261029\.webp[^>]*>/)?.[0]||'';
  assert.ok(portrait.includes('srcset=')&&portrait.includes('sizes=')&&
   portrait.includes('loading="eager" fetchpriority="high" decoding="async"'),
-  'keep the responsive, high-priority original doctor-and-cat portrait');
+  'retain the approved responsive high-priority doctor-and-cat portrait');
  const preload=head.match(/<link rel="preload" as="image"[^>]*>/)?.[0]||'';
  assert.ok(preload.includes('imagesrcset=')&&preload.includes('imagesizes='),
-  'portrait preload must select the same responsive candidate');
+  'portrait preload should select the same responsive image');
 });
 
 test('homepage finishing CSS is one exact order-preserving fingerprinted file',()=>{
