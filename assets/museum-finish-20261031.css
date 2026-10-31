@@ -1492,3 +1492,129 @@ body.home-page #main-content :is(#symptom-navigator-title,#symptoms-heading):tar
     text-decoration-color:Highlight;
   }
 }
+
+/* 2026-10-31 | Edit down duplicate exhibition decoration. */
+/* This is the SECOND small painting invitation on the homepage.
+   Keep its two different works, links, captions and location, but make it a
+   restrained editorial chapter rather than another dark full-bleed hero. */
+body.home-page #main-content > .atelier-collection-peek {
+  margin:clamp(14px,2vw,25px) 0 clamp(16px,2.3vw,29px);
+  padding:clamp(22px,3vw,34px) 0;
+  color:#2a4d3b;
+  border-block:1px solid #d7c9ac;
+  background:linear-gradient(130deg,#f4f5ed,#fbfaf4 58%,#f2f3e9);
+}
+body.home-page #main-content > .atelier-collection-peek::before,
+body.home-page #main-content > .atelier-collection-peek::after {
+  display:none;
+}
+body.home-page #main-content > .atelier-collection-peek .atelier-collection-peek__layout {
+  gap:clamp(19px,3vw,38px);
+}
+body.home-page #main-content > .atelier-collection-peek .atelier-collection-peek__eyebrow {
+  margin-bottom:8px;
+  color:#8b764f;
+}
+body.home-page #main-content > .atelier-collection-peek .atelier-collection-peek__intro h2 {
+  margin:0 0 9px;
+  color:#244934;
+  font-size:clamp(24px,2.55vw,32px);
+  line-height:1.5;
+}
+body.home-page #main-content > .atelier-collection-peek .atelier-collection-peek__intro > p:not(.atelier-collection-peek__eyebrow) {
+  max-width:40ch;
+  color:#536958;
+  line-height:1.8;
+}
+body.home-page #main-content > .atelier-collection-peek .atelier-collection-peek__intro > a {
+  margin-top:12px;
+  color:#2b6043;
+  border-bottom-color:#b4a37f;
+  text-underline-offset:5px;
+}
+body.home-page #main-content > .atelier-collection-peek .atelier-collection-peek__pieces > a {
+  color:#28503c;
+  text-decoration:none;
+}
+body.home-page #main-content > .atelier-collection-peek .atelier-collection-peek__pieces > a .atelier-collection-peek__frame {
+  padding:6px;
+  border:1px solid #cdbd9e;
+  border-radius:3px;
+  background:#e8e1d2;
+  box-shadow:none;
+}
+body.home-page #main-content > .atelier-collection-peek .atelier-collection-peek__pieces > a .atelier-collection-peek__frame img {
+  width:100%;
+  height:auto;
+  aspect-ratio:5/3;
+  object-fit:contain;
+  object-position:center;
+}
+body.home-page #main-content > .atelier-collection-peek .atelier-collection-peek__caption {
+  padding-top:9px;
+  color:#28503c;
+}
+body.home-page #main-content > .atelier-collection-peek .atelier-collection-peek__caption > span {
+  color:#806b49;
+  border-left-color:#ac9364;
+  background:rgba(167,145,103,.07);
+}
+body.home-page #main-content > .atelier-collection-peek .atelier-collection-peek__caption > strong {
+  color:#28503c;
+  font-weight:700;
+  line-height:1.62;
+}
+body.home-page #main-content > .atelier-collection-peek :is(
+  .atelier-collection-peek__intro > a,
+  .atelier-collection-peek__pieces > a
+):focus-visible {
+  outline:3px solid #a5814b;
+  outline-offset:3px;
+}
+@media(max-width:750px) {
+  body.home-page #main-content > .atelier-collection-peek {
+    padding-block:22px;
+  }
+  body.home-page #main-content > .atelier-collection-peek .atelier-collection-peek__layout {
+    gap:14px;
+  }
+}
+@media(max-width:600px) {
+  body.home-page #main-content > .atelier-collection-peek {
+    margin:16px 0 18px;
+    padding:20px 0 22px;
+  }
+  body.home-page #main-content > .atelier-collection-peek .atelier-collection-peek__intro h2 {
+    font-size:clamp(23px,5.8vw,28px);
+  }
+  body.home-page #main-content > .atelier-collection-peek .atelier-collection-peek__pieces {
+    gap:10px;
+  }
+  body.home-page #main-content > .atelier-collection-peek .atelier-collection-peek__pieces > a .atelier-collection-peek__frame {
+    padding:5px;
+  }
+}
+@media(hover:hover) and (pointer:fine) {
+  body.home-page #main-content > .atelier-collection-peek .atelier-collection-peek__pieces > a:hover .atelier-collection-peek__frame {
+    box-shadow:0 5px 14px rgba(35,57,40,.075);
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > .atelier-collection-peek,
+  body.home-page #main-content > .atelier-collection-peek .atelier-collection-peek__pieces > a .atelier-collection-peek__frame {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content > .atelier-collection-peek :is(
+    .atelier-collection-peek__eyebrow,
+    .atelier-collection-peek__intro h2,
+    .atelier-collection-peek__intro > a,
+    .atelier-collection-peek__caption,
+    .atelier-collection-peek__caption > span,
+    .atelier-collection-peek__caption > strong
+  ) {
+    color:CanvasText;
+  }
+}
