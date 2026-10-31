@@ -1890,3 +1890,26 @@ test('eight care gallery keeps all twelve services and original artwork',()=>{
  assert.ok(home.includes('class="mobile-booking-actions"')&&home.includes('class="btn hero-booking"'),
   'phone and booking shortcuts must remain available');
 });
+
+test('homepage loads one nonblocking stylesheet for both display font families',()=>{
+ const head=home.slice(0,home.indexOf('</head>'));
+ const fontStyles=[...head.matchAll(/<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com\/css2\?[^"]+" media="print" onload="this\.media='all'">/g)];
+ assert.equal(fontStyles.length,1,
+  'use one nonblocking font CSS request, not one separate request per family');
+ const href=fontStyles[0][0];
+ assert.ok(href.includes('family=DM+Sans:wght@400;600;700')&&
+  href.includes('family=Noto+Serif+KR:wght@500;600;700')&&
+  href.includes('display=optional'),
+  'combined Google Fonts query retains both families with optional display');
+ const fallback=head.match(/<noscript><link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com\/css2\?[^"]+"><\/noscript>/g)||[];
+ assert.equal(fallback.length,1,'one matching no-JS fallback keeps both font families');
+ assert.ok(fallback[0].includes('family=DM+Sans')&&
+   fallback[0].includes('family=Noto+Serif+KR'));
+ const portrait=home.match(/<img\b[^>]*ejoeun-gallery-cat-dentist-20261029\.webp[^>]*>/)?.[0]||'';
+ assert.ok(portrait.includes('srcset=')&&portrait.includes('sizes=')&&
+  portrait.includes('loading="eager" fetchpriority="high" decoding="async"'),
+  'keep the responsive, high-priority original doctor-and-cat portrait');
+ const preload=head.match(/<link rel="preload" as="image"[^>]*>/)?.[0]||'';
+ assert.ok(preload.includes('imagesrcset=')&&preload.includes('imagesizes='),
+  'portrait preload must select the same responsive candidate');
+});
