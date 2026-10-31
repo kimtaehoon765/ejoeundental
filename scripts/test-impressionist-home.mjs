@@ -20,8 +20,26 @@ test('the mobile homepage presents the original portrait after key actions and k
  assert.match(hero,/class="art hero-artwork"/);
  assert.ok(hero.includes('loading="eager" fetchpriority="high" decoding="async"'),
   'The visible original doctor-cat portrait should load early on both phones and desktop');
- assert.match(home,/<link rel="preload" as="image" type="image\/webp" fetchpriority="high" href="\/assets\/ejoeun-gallery-cat-dentist-20261029\.webp">/,
-  'Use one shared preload for the original portrait across screen sizes');
+ const responsiveBase='/assets/ejoeun-gallery-cat-dentist-20261029';
+ const responsiveSet=responsiveBase+'-480.webp 480w, '+
+  responsiveBase+'-720.webp 720w, '+responsiveBase+'.webp 1200w';
+ const sizes='(max-width: 600px) calc(100vw - 72px), (max-width: 960px) 48vw, 550px';
+ const preloads=[...home.matchAll(/<link rel="preload" as="image"[^>]*>/g)].map(m=>m[0]);
+ assert.equal(preloads.length,1,'keep one shared high-priority image preload');
+ assert.ok(preloads[0].includes('href="'+responsiveBase+'.webp"')&&
+  preloads[0].includes('imagesrcset="'+responsiveSet+'"')&&
+  preloads[0].includes('imagesizes="'+sizes+'"'),
+  'mobile and desktop must preload a right-sized copy of the approved original');
+ const artImg=hero.match(/<img\\b[^>]*src="\\/assets\\/ejoeun-gallery-cat-dentist-20261029\\.webp"[^>]*>/)?.[0]||'';
+ assert.ok(artImg.includes('srcset="'+responsiveSet+'"')&&
+  artImg.includes('sizes="'+sizes+'"'),
+  'portrait and preload must choose the same original-art resolution');
+ for(const width of [480,720]){
+  const bytes=readFileSync('dist/assets/ejoeun-gallery-cat-dentist-20261029-'+width+'.webp');
+  assert.ok(bytes.length>12000&&bytes.subarray(0,4).toString('ascii')==='RIFF'&&
+   bytes.subarray(8,12).toString('ascii')==='WEBP',
+   'missing verified mobile WebP original: '+width+'px');
+ }
 
  assert.match(home,/class="monet-interlude"/);
  assert.match(home,/aria-labelledby="monet-interlude-title"/);
