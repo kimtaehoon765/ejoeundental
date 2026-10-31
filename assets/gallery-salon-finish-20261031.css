@@ -904,3 +904,142 @@
   }
   .gallery-section-intro :is(h2,p),.gallery-patient-studies__intro :is(h2,p) { color:CanvasText; }
 }
+
+
+/* 2026-10-31 | Patient art room complete catalog.
+   Existing artwork sources, zoom dialog, image descriptions and clinical links
+   are unchanged. All ten works are now directly addressable in one catalog. */
+.gallery-patient-studies__jump {
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:clamp(8px,1.1vw,13px);
+  margin:clamp(18px,2.6vw,30px) 0 clamp(23px,3vw,36px);
+  padding:clamp(15px,2vw,25px);
+  border:1px solid #d9cdb9;
+  border-top:3px solid #ae9672;
+  border-radius:4px 14px 4px 14px;
+  background:linear-gradient(130deg,#fffefa,#f3f7ef);
+  box-shadow:0 10px 25px rgba(36,58,41,.043);
+}
+.gallery-patient-studies__jump>.gallery-patient-studies__jump-heading{
+  display:flex;
+  grid-column:1/-1;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:5px 17px;
+  margin-bottom:3px;
+}
+.gallery-patient-studies__jump-heading>small{
+  color:#826a45;
+  font:750 10px/1.6 system-ui,sans-serif;
+  letter-spacing:.11em;
+}
+.gallery-patient-studies__jump-heading>strong{
+  color:#264b38;
+  font:700 clamp(19px,2vw,24px)/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.045em;
+  text-wrap:balance;
+}
+.gallery-patient-studies__jump>a{
+  box-sizing:border-box;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  flex-direction:column;
+  min-width:0;
+  min-height:94px;
+  gap:6px;
+  padding:clamp(11px,1.3vw,17px);
+  border:1px solid #ded3c2;
+  border-top:2px solid #af9874;
+  border-radius:4px 11px 4px 11px;
+  background:#fffefa;
+  box-shadow:none;
+  text-align:left;
+  text-decoration:none;
+}
+.gallery-patient-studies__jump>a:nth-of-type(even){
+  border-top-color:#91aa95;
+}
+.gallery-patient-studies__jump>a>small{
+  color:#806c4d;
+  font:750 10px/1.5 system-ui,sans-serif;
+  letter-spacing:.02em;
+}
+.gallery-patient-studies__jump>a>strong{
+  color:#2a503c;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(13px,1.18vw,15px);
+  font-weight:750;
+  line-height:1.57;
+  letter-spacing:-.027em;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+.gallery-patient-studies__jump>a:focus-visible{
+  outline:3px solid #957140;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine){
+  .gallery-patient-studies__jump>a:hover{
+    border-color:#99b198;
+    background:#f2f8f0;
+  }
+}
+@media(max-width:1020px){
+  .gallery-patient-studies__jump{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+@media(max-width:650px){
+  .gallery-patient-studies__jump{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    margin:16px 0 23px;
+    padding:14px 11px;
+    box-shadow:none;
+  }
+  .gallery-patient-studies__jump>.gallery-patient-studies__jump-heading{
+    flex-direction:column;
+    gap:3px;
+    margin-bottom:5px;
+  }
+  .gallery-patient-studies__jump-heading>strong{
+    font-size:19px;
+  }
+  .gallery-patient-studies__jump>a{
+    min-height:80px;
+    padding:11px 10px;
+    gap:4px;
+  }
+  .gallery-patient-studies__jump>a>small{font-size:10px}
+  .gallery-patient-studies__jump>a>strong{
+    font-size:13px;
+    line-height:1.6;
+  }
+}
+@media(max-width:350px){
+  .gallery-patient-studies__jump{
+    grid-template-columns:minmax(0,1fr);
+  }
+  .gallery-patient-studies__jump>a{
+    min-height:57px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .gallery-patient-studies__jump>a{transition:none}
+}
+@media(forced-colors:active){
+  .gallery-patient-studies__jump,
+  .gallery-patient-studies__jump>a{
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+  .gallery-patient-studies__jump-heading :is(strong,small),
+  .gallery-patient-studies__jump>a :is(strong,small){
+    color:CanvasText;
+  }
+}
