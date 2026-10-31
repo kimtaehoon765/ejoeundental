@@ -200,6 +200,52 @@ test('implant and denture consultation exhibits show original art before navigat
  }
 });
 
+
+test('wisdom tooth and cavity exhibits retain distinct original paintings and patient routes',()=>{
+ const style=read('assets/care-gallery-secondary.css');
+ assert.ok(style.includes('2026-10-31 | Wisdom and cavity consultation exhibition'),
+  'two treatment galleries must have their own final design');
+ assert.ok(style.includes('counter-reset:wisdom-question') &&
+           style.includes('counter-reset:cavity-question'),
+  'original medical questions have readable separate sequence numbers');
+ for(const target of ['@media(max-width:760px)','@media(max-width:650px)',
+  'object-fit:contain','@media(forced-colors:active)']){
+  assert.ok(style.includes(target),'keep responsive and accessible artwork: '+target);
+ }
+ const treatments=[
+  {file:'wisdom-tooth.html',body:'secondary-wisdom',
+   image:'ejoeun-original-wisdom-consult-20261029.webp',
+   grid:'wisdom-patient-grid',card:'article',count:2},
+  {file:'cavity-treatment.html',body:'secondary-cavity',
+   image:'ejoeun-watercolor-cavity-20261029.webp',
+   grid:'cavity-patient-grid',card:'a',count:5}
+ ];
+ for(const c of treatments){
+  const html=read(c.file);
+  const toc=html.match(/<nav class="treatment-page-toc gallery-section-index"[\s\S]*?<\/nav>/)?.[0]||'';
+  const art=html.match(/<figure class="ejoeun-topic-art"[\s\S]*?<\/figure>/)?.[0]||'';
+  const cards=html.match(new RegExp('<div class="'+c.grid+'">([\\s\\S]*?)<\\/div>'))?.[1]||'';
+  assert.ok(html.includes(c.body),c.file+': correct treatment-specific gallery');
+  assert.ok(art&&toc&&html.indexOf(art)<html.indexOf(toc),
+   c.file+': painting is visible before the article chapter index');
+  assert.ok(art.includes(c.image)&& (art.match(/<img\\b/g)||[]).length===1,
+   c.file+': exactly one unchanged clinically qualified original painting');
+  assert.equal((cards.match(new RegExp('<'+c.card+'\\b','g'))||[]).length,c.count,
+   c.file+': preserve original educational questions and their routes');
+  assert.equal((toc.match(/<a\\b/g)||[]).length,4,
+   c.file+': original chapter navigation retains all four destinations');
+  assert.ok(html.includes('care-gallery-secondary.css?v=20261031-wisdom-cavity-gallery05'),
+   c.file+': refreshed style should not be stuck behind an old browser cache');
+  assert.ok(html.includes('href="tel:0325132875"')&&
+    html.includes('https://booking.naver.com/booking/13/bizes/1162931')&&
+    html.includes('class="care-gallery-bottom-actions"'),
+   c.file+': telephone, booking and mobile quick actions stay available');
+  assert.ok(html.includes('rel="canonical"')&&
+    html.includes('application/ld+json'),
+   c.file+': search and medical metadata unchanged');
+ }
+});
+
 test('visit preparation presents four original clinical steps and three journal reading cards',()=>{
  const visit=home.match(/<section class="section light" id="visit-guide">([\s\S]*?)<\/section>/)?.[1]||'';
  const stepGrid=visit.match(/<div class="grid visit-care-steps"[^>]*>([\s\S]*?)<\/div><p class="notice">/)?.[1]||'';
