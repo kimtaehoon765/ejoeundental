@@ -303,6 +303,64 @@ test('pediatric dental and orthodontic exhibits preserve original illustrations 
  }
 });
 
+
+test('scaling and TMJ reading exhibits retain paintings and native patient routes',()=>{
+ const style=read('assets/scaling-tmj-exhibition-20261031.css');
+ assert.ok(style.includes('Scaling and TMJ patient-reading exhibition'),
+  'two treatment galleries have a dedicated reading layout');
+ for(const token of [
+   '--care-atlas-accent','scaling-patient-reading',
+   'grid-template-columns:repeat(2,minmax(0,1fr))',
+   '@media(max-width:650px)','@media(forced-colors:active)',
+   'object-fit:contain',':focus-visible'
+ ]){
+  assert.ok(style.includes(token),'preserve patient accessibility styles: '+token);
+ }
+ const guides=[
+  {file:'scaling.html',body:'secondary-scaling',
+   art:'ejoeun-scaling-stilllife-20261029.svg',
+   chapterIds:['gallery-scaling-timing','gallery-scaling-vs-gum','gallery-scaling-insurance'],
+   essentialLink:'/gum-treatment.html',readingCount:4},
+  {file:'tmj-care.html',body:'secondary-tmj',
+   art:'ejoeun-tmj-rest-portrait-20261029.svg',
+   chapterIds:['gallery-tmj-symptoms','gallery-tmj-care','gallery-tmj-aftercare'],
+   essentialLink:'/search.html',readingCount:0}
+ ];
+ for(const c of guides){
+  const h=read(c.file);
+  const nav=h.match(/<nav class="treatment-page-toc gallery-section-index"[\s\S]*?<\/nav>/)?.[0]||'';
+  const art=h.match(/<figure class="ejoeun-topic-art[^"]*"[\s\S]*?<\/figure>/)?.[0]||'';
+  assert.ok(h.includes(c.body)&&nav&&art,c.file+': original article structures remain');
+  assert.ok(h.indexOf(art)<h.indexOf(nav),
+   c.file+': original artwork precedes the quick reading index');
+  assert.ok(art.includes(c.art)&&(art.match(/<img /g)||[]).length===1,
+   c.file+': keep one clinically qualified original artwork');
+  assert.equal((nav.match(/<a /g)||[]).length,4,
+   c.file+': exactly three chapter links and the visit link');
+  for(const id of c.chapterIds){
+   assert.equal(h.split('id="'+id+'"').length-1,1,
+    c.file+': preserve the section target '+id);
+   assert.ok(nav.includes('href="#'+id+'"'),
+    c.file+': preserve its chapter navigation');
+  }
+  assert.ok(h.includes('scaling-tmj-exhibition-20261031.css?v=20261031-atlas-room01'),
+   c.file+': fresh final exhibit style linked');
+  assert.ok(h.includes('href="'+c.essentialLink+'"'),
+   c.file+': original safety or symptom information remains');
+  assert.ok(h.includes('href="tel:0325132875"')&&
+   h.includes('https://booking.naver.com/booking/13/bizes/1162931')&&
+   h.includes('class="care-gallery-bottom-actions"'),
+   c.file+': phone, verified booking and mobile actions remain');
+  assert.ok(h.includes('rel="canonical"')&&h.includes('application/ld+json'),
+   c.file+': existing SEO and structured metadata remain');
+  if(c.readingCount){
+   const reading=h.match(/<ul class="scaling-patient-reading">([\s\S]*?)<\/ul>/)?.[1]||'';
+   assert.equal((reading.match(/<li>/g)||[]).length,c.readingCount,
+    'keep original four post-scaling advice articles');
+  }
+ }
+});
+
 test('visit preparation presents four original clinical steps and three journal reading cards',()=>{
  const visit=home.match(/<section class="section light" id="visit-guide">([\s\S]*?)<\/section>/)?.[1]||'';
  const stepGrid=visit.match(/<div class="grid visit-care-steps"[^>]*>([\s\S]*?)<\/div><p class="notice">/)?.[1]||'';
