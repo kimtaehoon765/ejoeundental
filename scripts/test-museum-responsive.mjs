@@ -1946,3 +1946,25 @@ test('homepage finishing CSS is one exact order-preserving fingerprinted file',(
  assert.ok(originalDocs.includes('Care cards and doctor credentials: final reading hierarchy'),
   'original layer still documents priority care and doctor credentials');
 });
+
+test('identical homepage CSS declarations are not repeated in a matching scope',()=>{
+ const atelier=read('assets/atelier-refinement-20261030.css');
+ const museum=read('assets/museum-finish-20261031.css');
+ const director=read('assets/home-art-direction-20261030.css');
+ const plaque=/body\.home-page #main-content > \.hero\.wrap \.hero-artwork__plaque\s*\{\s*padding:10px 10px 8px;\s*\}/g;
+ const doctor=/body\.home-page #main-content > #doctor \.doctor-profile-link > a\s*\{\s*text-underline-offset:5px;\s*\}/g;
+ assert.equal([...atelier.matchAll(plaque)].length,1,
+  'the narrow-screen portrait caption needs one effective matching style');
+ assert.equal([...museum.matchAll(doctor)].length,1,
+  'the doctor detail link needs one underline setting in the final layer');
+ // This matching visual rule serves different base/mobile media contexts.
+ // It must NOT be removed as an identical duplicate.
+ const mobileBadge=/body\.home-page #main-content>\.hero\.wrap>\.art\.hero-artwork::after\s*\{\s*content:none;\s*display:none;\s*\}/g;
+ assert.equal([...director.matchAll(mobileBadge)].length,2,
+  'base and narrow-screen illustration overlays require their own overrides');
+ assert.ok(home.includes('atelier-refinement-20261030.css?v=20261031-safe-dedup25'),
+  'modified pre-final CSS should invalidate previous browser caches');
+ const original=readFileSync('index.html','utf8');
+ assert.ok(original.includes('museum-finish-20261031.css?v=20261031-safe-dedup12'),
+  'latest homepage finishing CSS should invalidate the original source cache');
+});
