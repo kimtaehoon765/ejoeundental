@@ -114,12 +114,20 @@ async function main(){
       '이번 빌드 '+(expectedUrl||'없음')+' / 실사이트 '+(liveHref?'동일':'다름 또는 없음'));
     if(expectedUrl)await checkAsset(label,'assets/'+expectedUrl.split('/').pop().split('?')[0],expectedUrl);
   }
-  // The source page used 11 styles; production must now request five, with
-  // all original gallery/exhibition styling still present in hashed bundles.
-  const cssCount=html=>(html.match(/<link rel="stylesheet" href="\/assets\//g)||[]).length;
-  verdict('메인 CSS 다운로드 요청 7 → 5개',
-    cssCount(builtHome)===5&&cssCount(liveHome)===5,
-    '공개 '+cssCount(liveHome)+'개 / 이번 빌드 '+cssCount(builtHome)+'개');
+  // The source page has 11 linked styles and the build adds one FAQ guide.
+  // Three verified 3-to-1 bundles reduce its actual public requests from 8
+  // to 6; the independent FAQ and two frequently edited styles stay intact.
+  const cssHrefs=html=>[...html.matchAll(/<link rel="stylesheet" href="(\/assets\/[^"]+)"/g)]
+    .map(match=>match[1]);
+  const builtCss=cssHrefs(builtHome),liveCss=cssHrefs(liveHome);
+  const preserved=['/assets/home-critical-','/assets/gallery-foundation-',
+    '/assets/exhibition-foundation-','/assets/home-art-direction-20261030.css',
+    '/assets/atelier-refinement-20261030.css','/assets/faq-deep-links.css'];
+  verdict('메인 CSS 다운로드 요청 8 → 6개',
+    builtCss.length===6&&liveCss.length===6&&
+    builtCss.every((href,i)=>href===liveCss[i])&&
+    preserved.every((prefix,i)=>builtCss[i].startsWith(prefix)),
+    '공개 '+liveCss.length+'개 / 이번 빌드 '+builtCss.length+'개 · 파일·순서 일치');
 
   const storyImage=og(builtStories,'og:image');
   const liveStoryImage=og(pages['/stories']||'','og:image');
