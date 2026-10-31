@@ -5701,3 +5701,28 @@ body.home-page #main-content > .symptom-navigator .symptom-previsit :is(.symptom
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-31 | First-touch patient actions
+   Direct phone, Naver booking and visit links remain native anchors.
+   No on-click JavaScript, no new visual motion or layout shifting. */
+@media(pointer:coarse){
+  body.home-page #main-content>.hero .hero-actions>a,
+  body.home-page .mobile-booking-actions>a,
+  body.home-page header .mobile-quick>a{
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:rgba(149,117,70,.24);
+  }
+  body.home-page #main-content>.hero .hero-actions>a:active,
+  body.home-page .mobile-booking-actions>a:active,
+  body.home-page header .mobile-quick>a:active{
+    filter:brightness(.94);
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.home-page #main-content>.hero .hero-actions>a,
+  body.home-page .mobile-booking-actions>a,
+  body.home-page header .mobile-quick>a{
+    transition:none;
+  }
+}
