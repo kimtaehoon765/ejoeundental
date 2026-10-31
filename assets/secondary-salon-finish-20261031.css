@@ -722,3 +722,223 @@ body.care-gallery.care-gallery-secondary:is(.secondary-wisdom,.pediatric-pathway
     box-shadow:none;
   }
 }
+
+
+/* 2026-10-31 | Scaling and jaw comfort salon refinement.
+   Artwork, authored patient guidance and all appointment targets stay intact. */
+body.care-gallery.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj){
+  --salon-procedure-ink:#244a37;
+  --salon-procedure-paper:#fffefa;
+  --salon-procedure-rule:#dacfbf;
+  --salon-procedure-accent:#91a48a;
+}
+body.care-gallery.care-gallery-secondary.secondary-tmj{
+  --salon-procedure-accent:#ac9574;
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.treatment-page-toc.gallery-section-index {
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  padding:clamp(17px,2vw,25px);
+  border:1px solid var(--salon-procedure-rule);
+  border-top:3px solid var(--salon-procedure-accent);
+  border-radius:4px 14px 4px 14px;
+  background:linear-gradient(130deg,#fffefa,#f3f7ef);
+  box-shadow:0 8px 22px rgba(32,55,41,.045);
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.treatment-page-toc.gallery-section-index>strong {
+  grid-column:1/-1;
+  color:var(--salon-procedure-ink);
+  font:700 clamp(17px,1.65vw,20px)/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.04em;
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.treatment-page-toc.gallery-section-index>a {
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  min-width:0;
+  min-height:55px;
+  padding:12px 13px;
+  border:1px solid #dfd5c6;
+  border-radius:4px 10px 4px 10px;
+  background:var(--salon-procedure-paper);
+  color:#29543d;
+  font-size:clamp(13px,1.12vw,15px);
+  line-height:1.6;
+  font-weight:740;
+  text-decoration:none;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.treatment-page-toc.gallery-section-index>a:last-child{
+  border-left:3px solid var(--salon-procedure-accent);
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.ejoeun-topic-art{
+  border-top:3px solid var(--salon-procedure-accent);
+  background:linear-gradient(142deg,#f4eee3,#fffefa 57%,#f2f6ef);
+  box-shadow:0 14px 29px rgba(32,54,41,.07);
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.ejoeun-topic-art__visual>img{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:none;
+  object-fit:contain;
+  object-position:center;
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.ejoeun-topic-art__caption>strong{
+  color:var(--salon-procedure-ink);
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.045em;
+  line-height:1.55;
+  text-wrap:balance;
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.ejoeun-topic-art__caption>span{
+  color:#47604d;
+  line-height:1.88;
+  word-break:keep-all;
+}
+body.care-gallery.care-gallery-secondary.secondary-scaling .scaling-patient-reading{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(10px,1.35vw,15px);
+  margin-block:20px 25px;
+  padding:0;
+  list-style:none;
+}
+body.care-gallery.care-gallery-secondary.secondary-scaling .scaling-patient-reading>li{
+  box-sizing:border-box;
+  min-width:0;
+  margin:0;
+  padding:clamp(16px,1.6vw,20px);
+  border:1px solid #dcd3c4;
+  border-top:3px solid #b6a073;
+  border-radius:4px 11px 4px 11px;
+  background:#fffefa;
+  box-shadow:0 5px 16px rgba(35,52,42,.035);
+}
+body.care-gallery.care-gallery-secondary.secondary-scaling .scaling-patient-reading>li:nth-child(even){
+  border-top-color:#92ac90;
+}
+body.care-gallery.care-gallery-secondary.secondary-scaling .scaling-patient-reading>li>a{
+  color:#245b40;
+  font-weight:760;
+  min-height:46px;
+  line-height:1.7;
+  text-underline-offset:4px;
+  word-break:keep-all;
+}
+body.care-gallery.care-gallery-secondary.secondary-scaling .scaling-patient-reading>li>span{
+  margin-top:7px;
+  color:#526856;
+  font-size:14px;
+  line-height:1.8;
+  word-break:keep-all;
+}
+body.care-gallery.care-gallery-secondary.secondary-tmj main>.section .wrap{
+  border:1px solid #ded5c7;
+  border-left:3px solid #ad9a7a;
+  border-radius:4px 12px 4px 12px;
+  background:#fffefa;
+  box-shadow:0 6px 17px rgba(33,54,40,.035);
+}
+body.care-gallery.care-gallery-secondary.secondary-tmj main>.section:nth-of-type(even) .wrap{
+  border-left-color:#8fa48e;
+}
+body.care-gallery.care-gallery-secondary.secondary-tmj main>.section .wrap>h2{
+  color:#254a38;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(22px,2.15vw,29px);
+  line-height:1.55;
+  letter-spacing:-.045em;
+  text-wrap:balance;
+}
+body.care-gallery.care-gallery-secondary.secondary-tmj main>.section .wrap>p{
+  color:#465e4f;
+  line-height:1.9;
+  word-break:keep-all;
+}
+body.care-gallery.care-gallery-secondary.secondary-tmj main>.section .wrap>h3{
+  color:#2a513c;
+  line-height:1.6;
+  font-size:clamp(17px,1.6vw,20px);
+  word-break:keep-all;
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.treatment-page-toc.gallery-section-index>a:focus-visible,
+body.care-gallery.care-gallery-secondary.secondary-scaling .scaling-patient-reading>li>a:focus-visible{
+  outline:3px solid #966d38;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine){
+  body.care-gallery.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+  .treatment-page-toc.gallery-section-index>a:hover{
+    border-color:#9db398;
+    background:#f1f7ef;
+  }
+}
+@media(max-width:900px){
+  body.care-gallery.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+  .treatment-page-toc.gallery-section-index{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:650px){
+  body.care-gallery.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+  .treatment-page-toc.gallery-section-index{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    padding:15px 12px;
+    gap:8px;
+    box-shadow:none;
+  }
+  body.care-gallery.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+  .treatment-page-toc.gallery-section-index>a{
+    min-height:50px;
+    padding:10px 9px;
+    font-size:13px;
+  }
+  body.care-gallery.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+  .ejoeun-topic-art{
+    box-shadow:none;
+  }
+  body.care-gallery.care-gallery-secondary.secondary-scaling .scaling-patient-reading{
+    grid-template-columns:minmax(0,1fr);
+    gap:9px;
+  }
+  body.care-gallery.care-gallery-secondary.secondary-scaling .scaling-patient-reading>li{
+    padding:15px 14px;
+    box-shadow:none;
+  }
+  body.care-gallery.care-gallery-secondary.secondary-tmj main>.section .wrap{
+    padding:20px 16px;
+    box-shadow:none;
+  }
+}
+@media(max-width:360px){
+  body.care-gallery.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+  .treatment-page-toc.gallery-section-index{
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.care-gallery.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+  .treatment-page-toc.gallery-section-index>a{transition:none}
+}
+@media(forced-colors:active){
+  body.care-gallery.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+  :is(.treatment-page-toc,.treatment-page-toc>a,.ejoeun-topic-art,.scaling-patient-reading>li,.section .wrap){
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+}
