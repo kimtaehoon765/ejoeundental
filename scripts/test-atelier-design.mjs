@@ -9,8 +9,17 @@ const museum=read('assets/museum-home-v2.css');
 test('Atelier premium stylesheet loaded AFTER the existing museum/mobile safety layer',()=>{
  const styles=[...home.matchAll(/<link[^>]+rel="stylesheet" href="([^"]+)"/g)].map(x=>x[1]);
  const a=styles.findIndex(s=>s.includes('/assets/atelier-home-2026.css?v='));
- const m=styles.findIndex(s=>s.includes('museum-home-v2.css'));
- assert.ok(a>=0&&m>=0&&a>m,'new finishing stylesheet must be after museum css');
+ // The gallery base is now a content-hashed bundle; verify it contains all
+ // original rules in approved order before asserting the Atelier cascade.
+ const bundled=styles.find(s=>/\/assets\/gallery-foundation-[0-9a-f]{12}\.css$/.test(s));
+ assert.ok(bundled,'the immutable gallery foundation must be linked');
+ const foundation=read(bundled.slice(1));
+ const sourceOrder=['assets/gallery-upgrade.css','assets/gallery-finish.css','assets/museum-home-v2.css']
+  .map(file=>foundation.indexOf(read(file).trimEnd()));
+ assert.ok(sourceOrder.every(n=>n>=0)&&sourceOrder.every((n,i)=>i===0||n>sourceOrder[i-1]),
+  'gallery original rules must be preserved in their cascade order');
+ const m=styles.indexOf(bundled);
+ assert.ok(a>=0&&m>=0&&a>m,'new finishing stylesheet must be after museum foundation');
  assert.ok(!styles.slice(a+1).some(x=>/museum-home-v2|gallery-finish|gallery-upgrade/.test(x)),
   'an older museum layer must not override the Atelier finish');
 });
