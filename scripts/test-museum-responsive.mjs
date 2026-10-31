@@ -1458,3 +1458,53 @@ test('patient-question salon preserves four original article links and unique pa
  assert.ok(last>before&&before>=0,'refined reading room must load after the earlier designs');
  assert.ok(home.includes('class="mobile-booking-actions"'),'mobile phone and appointment stay accessible');
 });
+
+
+test('eight care gallery keeps all twelve services and original artwork',()=>{
+ const section=home.match(/<section class="section" id="care">([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.ok(section.includes('이조은치과 주요 진료 12가지'));
+ const primary=section.match(/<div class="care-directory__primary">([\s\S]*?)<\/div>/)?.[1]||'';
+ const major=[...primary.matchAll(/<a href="([^"]+)"><small>/g)].map(x=>x[1]);
+ assert.deepEqual(major,['/gum-treatment.html','/retreatment.html','/cervical-abrasion.html','/insured-care.html']);
+ const more=section.match(/<details class="care-directory__more" open>[\s\S]*?<div class="care-directory__secondary">([\s\S]*?)<\/div>/)?.[1]||'';
+ const additional=[...more.matchAll(/<a href="([^"]+)">/g)].map(x=>x[1]);
+ assert.deepEqual(additional,[
+  '/implant.html','/cavity-treatment.html','/wisdom-tooth.html','/tmj-care.html',
+  '/scaling.html','/denture.html','/pediatric-orthodontics.html','/pediatric-dentistry.html'
+ ],'the full twelve-category clinical index must remain visible and correct');
+ const gallery=section.match(/<details class="care-more-details">([\s\S]*?)<\/details>/)?.[1]||'';
+ assert.ok(gallery.includes('<summary>임플란트·충치·틀니 등 다른 진료 8가지 더 보기'),
+  'the native eight-specialty disclosure must remain keyboard accessible');
+ const figures=[...gallery.matchAll(/<figure class="care-mini-gallery(?: care-mini-gallery--wide)?"><img src="([^"]+)"[^>]*>/g)];
+ assert.equal(figures.length,8,'each of the additional eight specialties must keep its original illustrated frame');
+ const artworks=figures.map(x=>x[1]);
+ assert.equal(new Set(artworks).size,8,'do not repeat medical artwork in the specialty gallery');
+ for(const image of artworks){
+  assert.ok(existsSync('dist'+image),'the original illustrated care artwork remains published: '+image);
+ }
+ for(const topic of ['임플란트','충치치료','사랑니 발치','턱관절 치료','스케일링',
+  '틀니치료','어린이 교정','어린이 치과진료']){
+  assert.ok(gallery.includes('<h3>'+topic+'</h3>'),'specialty and original explanation remain: '+topic);
+ }
+ assert.ok(section.includes('진료 가능 범위와 치료 방법은 개별 검사 결과에 따라 달라질 수 있습니다.'),
+  'patient-facing clinical limitations must remain visible');
+ const css=read('assets/atelier-refinement-20261030.css');
+ for(const rule of [
+  'Eight-care gallery entrance and reading plates',
+  '#care .care-more-details>summary',
+  '#care .care-more-details[open]>summary',
+  '#care .care-more-details .care-mini-gallery>img',
+  'aspect-ratio:auto;',
+  'object-fit:contain;',
+  '#care .care-more-details .care-more-grid>.card>p:last-child>a:focus-visible',
+  '@media(max-width:820px)','@media(max-width:600px)',
+  '@media(prefers-reduced-motion:reduce)','@media(forced-colors:active)'
+ ])assert.ok(css.includes(rule),'missing readable accessible secondary specialty catalogue: '+rule);
+ const styles=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(x=>x[1]);
+ const last=styles.findIndex(x=>x.startsWith('/assets/atelier-refinement-20261030.css?v='));
+ const old=styles.findIndex(x=>x.startsWith('/assets/home-art-direction-20261030.css?v='));
+ assert.ok(last>old&&old>=0,'latest art-room layer loads after prior visual treatment');
+ assert.equal((home.match(/<img\b/g)||[]).length,36,'existing homepage artwork set is unchanged');
+ assert.ok(home.includes('class="mobile-booking-actions"')&&home.includes('class="btn hero-booking"'),
+  'phone and booking shortcuts must remain available');
+});
