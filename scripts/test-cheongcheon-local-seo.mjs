@@ -179,14 +179,20 @@ test('homepage links to four clinically distinct original patient education arti
  }
  assert.ok(!feature.includes('전혀 아프지 않')&&!feature.includes('완치'),
   'homepage cannot promise all patients will have the same clinical outcome');
- assert.match(home,/\/assets\/home-enhancements\.css\?v=[a-zA-Z0-9-]+/,
-  'generated homepage must use a cache-versioned stylesheet for returning mobile users');
+ // Production bundles the original first-screen styles into an immutable
+ // content-hashed CSS asset rather than serving the old individual link.
+ const merged=['style.css','home-enhancements.css','address-copy.css']
+  .map(name=>readFileSync('dist/assets/'+name,'utf8').trimEnd())
+  .join('\n\n/* Original stylesheet boundary — cascade order retained. */\n\n')+'\n';
+ const bundleHash=createHash('sha256').update(merged).digest('hex').slice(0,12);
+ const bundle='/assets/home-critical-'+bundleHash+'.css';
+ assert.ok(home.includes('href="'+bundle+'"'),
+  'published homepage must link the content-hashed critical CSS bundle');
  assert.match(readFileSync('index.html','utf8'),
   /\/assets\/home-enhancements\.css\?v=[A-Za-z0-9-]+/,
   'source homepage must carry a cache-versioned featured patient stylesheet');
- const actualStyleHash=createHash('sha256').update(css).digest('hex').slice(0,12);
- assert.ok(home.includes('/assets/home-enhancements.css?v='+actualStyleHash),
-  'published homepage must use the current stylesheet content hash, not an obsolete version');
+ assert.equal(readFileSync('dist'+bundle,'utf8'),merged,
+  'published homepage critical bundle must retain the exact original stylesheet rules');
  assert.ok(css.includes('.home-representative-guide-grid a:focus-visible'),
   'keyboard users must see a visible focus ring on original clinic stories');
  assert.ok(css.includes('grid-template-columns:1fr'),
