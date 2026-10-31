@@ -1962,9 +1962,12 @@ test('identical homepage CSS declarations are not repeated in a matching scope',
  const mobileBadge=/body\.home-page #main-content>\.hero\.wrap>\.art\.hero-artwork::after\s*\{\s*content:none;\s*display:none;\s*\}/g;
  assert.equal([...director.matchAll(mobileBadge)].length,2,
   'base and narrow-screen illustration overlays require their own overrides');
- assert.ok(home.includes('atelier-refinement-20261030.css?v=20261031-safe-dedup25'),
-  'modified pre-final CSS should invalidate previous browser caches');
  const original=readFileSync('index.html','utf8');
+ assert.ok(original.includes('atelier-refinement-20261030.css?v=20261031-safe-dedup25'),
+  'original homepage source must invalidate the pre-final browser CSS cache');
+ assert.ok(linkedVersionedStyle(home,'atelier-refinement-20261030.css'),
+  'built homepage must still load the actual pre-final stylesheet');
+
  assert.ok(original.includes('museum-finish-20261031.css?v=20261031-safe-dedup12'),
   'latest homepage finishing CSS should invalidate the original source cache');
 });
