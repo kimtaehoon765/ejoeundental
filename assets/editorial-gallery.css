@@ -936,3 +936,186 @@ body.archive-gallery .archive-search-topics{
     background:Canvas;
   }
 }
+
+
+/* 2026-10-31 | Owner archive reader routes.
+   Navigation only: all 509 authentic Naver source titles and five disclosure
+   groups remain server-rendered, indexed and available without JavaScript. */
+body.archive-gallery .archive-reader-routes {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(10px,1.4vw,17px);
+  margin:clamp(19px,2.5vw,32px) 0 clamp(28px,3.4vw,42px);
+}
+body.archive-gallery .archive-reader-routes>a {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  min-width:0;
+  min-height:157px;
+  padding:clamp(17px,2vw,24px);
+  border:1px solid #ded2bd;
+  border-top:3px solid #ae9568;
+  border-radius:4px 13px 4px 13px;
+  background:#fffefa;
+  color:#254b38;
+  box-shadow:0 8px 21px rgba(33,54,40,.04);
+  text-decoration:none;
+}
+body.archive-gallery .archive-reader-routes>a:nth-child(2){border-top-color:#92aa8e}
+body.archive-gallery .archive-reader-routes>a:nth-child(3){border-top-color:#b3a0a3}
+body.archive-gallery .archive-reader-routes>a>small {
+  color:#846c49;
+  font:750 10px/1.55 system-ui,sans-serif;
+  letter-spacing:.12em;
+}
+body.archive-gallery .archive-reader-routes>a>strong {
+  color:#254c39;
+  font:700 clamp(17px,1.7vw,21px)/1.53 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.045em;
+  text-wrap:balance;
+  word-break:keep-all;
+}
+body.archive-gallery .archive-reader-routes>a>span {
+  margin-top:auto;
+  color:#536b58;
+  font-size:13px;
+  line-height:1.7;
+  word-break:keep-all;
+}
+body.archive-gallery .archive-original-topics {
+  box-sizing:border-box;
+  margin:clamp(20px,3vw,35px) 0 15px;
+  padding:clamp(17px,2vw,24px);
+  border:1px solid #d9ceb9;
+  border-top:3px solid #aa9368;
+  border-radius:4px 14px 4px 14px;
+  background:linear-gradient(133deg,#fffdf8,#f1f6ec);
+  box-shadow:0 9px 22px rgba(31,54,40,.045);
+}
+body.archive-gallery .archive-original-topics>strong {
+  display:block;
+  color:#244b37;
+  font:700 clamp(19px,2vw,24px)/1.5 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.045em;
+}
+body.archive-gallery .archive-original-topics>p {
+  max-width:75ch;
+  margin:7px 0 17px;
+  color:#526956;
+  font-size:14px;
+  line-height:1.8;
+  word-break:keep-all;
+}
+body.archive-gallery .archive-original-topics__links {
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:clamp(8px,1.1vw,13px);
+}
+body.archive-gallery .archive-original-topics__links>a {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-width:0;
+  min-height:94px;
+  gap:6px;
+  padding:clamp(11px,1.2vw,16px);
+  border:1px solid #ded6c7;
+  border-left:3px solid #ab9871;
+  border-radius:3px 10px 3px 10px;
+  background:#fffefa;
+  color:#264e3c;
+  text-decoration:none;
+}
+body.archive-gallery .archive-original-topics__links>a:nth-child(even) {
+  border-left-color:#93af93;
+}
+body.archive-gallery .archive-original-topics__links>a>small {
+  color:#816f50;
+  font:750 10px/1.5 system-ui,sans-serif;
+  letter-spacing:.02em;
+}
+body.archive-gallery .archive-original-topics__links>a>span {
+  color:#254e3a;
+  font:700 clamp(13px,1.2vw,15px)/1.6 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.03em;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.archive-gallery #archive-blog-posts,
+body.archive-gallery #archive-topics-heading,
+body.archive-gallery #archive-original-topics,
+body.archive-gallery .archive-blog-group[id] {
+  scroll-margin-top:90px;
+}
+body.archive-gallery :is(.archive-reader-routes,.archive-original-topics__links)>a:focus-visible {
+  outline:3px solid #9e7840;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine) {
+  body.archive-gallery .archive-reader-routes>a:hover,
+  body.archive-gallery .archive-original-topics__links>a:hover {
+    border-color:#a6baa4;
+    background:#f4f8f1;
+    box-shadow:0 11px 25px rgba(32,54,40,.075);
+  }
+}
+@media(max-width:950px) {
+  body.archive-gallery .archive-original-topics__links {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+@media(max-width:750px) {
+  body.archive-gallery .archive-reader-routes {
+    grid-template-columns:minmax(0,1fr);
+    gap:9px;
+  }
+  body.archive-gallery .archive-reader-routes>a {
+    min-height:100px;
+    padding:15px 16px;
+    gap:4px;
+  }
+  body.archive-gallery .archive-reader-routes>a>strong {font-size:18px}
+  body.archive-gallery .archive-original-topics__links {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:600px) {
+  body.archive-gallery .archive-original-topics {
+    padding:16px 12px;
+    box-shadow:none;
+  }
+  body.archive-gallery .archive-original-topics>strong {font-size:20px}
+  body.archive-gallery .archive-original-topics__links {gap:8px}
+  body.archive-gallery .archive-original-topics__links>a {
+    min-height:78px;
+    padding:11px 9px;
+  }
+  body.archive-gallery .archive-reader-routes>a {
+    box-shadow:none;
+  }
+}
+@media(max-width:350px) {
+  body.archive-gallery .archive-original-topics__links {
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.archive-gallery .archive-reader-routes>a,
+  body.archive-gallery .archive-original-topics__links>a {
+    transition:none;
+  }
+}
+@media(forced-colors:active) {
+  body.archive-gallery :is(.archive-reader-routes>a,.archive-original-topics,.archive-original-topics__links>a) {
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+  body.archive-gallery .archive-original-topics__links>a :is(small,span) {
+    color:CanvasText;
+  }
+}
