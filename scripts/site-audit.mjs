@@ -144,6 +144,24 @@ const paths = new Set(files.map(f => '/' + f.slice(root.length + 1).replaceAll('
 function hasFreshCss(html,basename){
  const file=join(root,'assets',basename+'.css');
  if(!existsSync(file))return false;
+ // The homepage's three unchanged opening styles ship as one content-hashed
+ // /assets/home-critical-{sha}.css request. Verify its exact fingerprint so
+ // stale deployments cannot pass these original CSS freshness checks.
+ if(basename==='home-enhancements'&&html.includes('/assets/home-critical-')){
+  const cssPaths=['style.css','home-enhancements.css','address-copy.css'];
+  const sources=cssPaths.map(name=>{
+   const filepath=join(root,'assets',name);
+   if(!existsSync(filepath))return null;
+   return readFileSync(filepath,'utf8').trimEnd();
+  });
+  if(sources.some(source=>source===null))return false;
+  const merged=sources.join('\n\n/* Original stylesheet boundary — cascade order retained. */\n\n')+'\n';
+  const expected=createHash('sha256').update(merged).digest('hex').slice(0,12);
+  const bundled='home-critical-'+expected+'.css';
+  return existsSync(join(root,'assets',bundled))&&
+   html.includes('/assets/'+bundled+'"')&&
+   readFileSync(join(root,'assets',bundled),'utf8')===merged;
+ }
  const expected=createHash('sha256').update(readFileSync(file)).digest('hex').slice(0,12);
  return html.includes('/assets/'+basename+'.css?v='+expected+'"')||
         html.includes("/assets/"+basename+".css?v="+expected+"'");
