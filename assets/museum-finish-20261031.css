@@ -1326,3 +1326,119 @@ body.home-page #main-content > #gallery .gallery-new-arrivals {
     box-shadow:none;
   }
 }
+
+/* 2026-10-31 | Matching mobile booking dock and opening actions. */
+/* Reuse one simple visual language for the first-screen actions and the
+   existing build-generated three-link dock. No new button or click handler.
+   The keyboard-focus suppression in home-art-direction remains in effect. */
+body.home-page {
+  --mobile-cta-forest:#1c4c38;
+  --mobile-cta-gold:#e9dcc4;
+  --mobile-cta-gold-border:#c4ad84;
+  --mobile-cta-paper:#fffdf8;
+}
+body.home-page #main-content > .hero.wrap .hero-actions > .hero-call {
+  background:var(--mobile-cta-forest);
+  color:#fffdf6;
+  border-color:var(--mobile-cta-forest);
+}
+body.home-page #main-content > .hero.wrap .hero-actions > .hero-booking {
+  background:var(--mobile-cta-gold);
+  color:#254635;
+  border-color:var(--mobile-cta-gold-border);
+}
+@media(max-width:600px) {
+  /* Preserve room for the dock including the operating system safe area. */
+  body.home-page {
+    padding-bottom:calc(92px + env(safe-area-inset-bottom,0px));
+  }
+  body.home-page .mobile-booking-actions {
+    box-sizing:border-box;
+    position:fixed;
+    inset:auto 0 0;
+    z-index:25;
+    display:grid;
+    grid-template-columns:minmax(0,.92fr) minmax(0,1.19fr) minmax(0,.89fr);
+    gap:7px;
+    align-items:stretch;
+    width:100%;
+    padding:8px max(9px,env(safe-area-inset-left,0px))
+            calc(9px + env(safe-area-inset-bottom,0px))
+            max(9px,env(safe-area-inset-right,0px));
+    border-top:1px solid #c6b995;
+    background:#faf8f1;
+    box-shadow:0 -5px 20px rgba(27,54,39,.1);
+  }
+  body.home-page .mobile-booking-actions > a {
+    box-sizing:border-box;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-width:0;
+    min-height:52px;
+    margin:0;
+    padding:9px 5px;
+    border:1px solid transparent;
+    border-radius:5px;
+    box-shadow:none;
+    font-size:clamp(12px,3.1vw,14px);
+    line-height:1.45;
+    font-weight:800;
+    letter-spacing:-.02em;
+    text-align:center;
+    text-decoration:none;
+    white-space:normal;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+    touch-action:manipulation;
+  }
+  body.home-page .mobile-booking-actions > .mobile-booking-call {
+    background:var(--mobile-cta-forest);
+    color:#fffdf6;
+    border-color:var(--mobile-cta-forest);
+  }
+  body.home-page .mobile-booking-actions > .mobile-booking-naver {
+    background:var(--mobile-cta-gold);
+    color:#254635;
+    border-color:var(--mobile-cta-gold-border);
+  }
+  body.home-page .mobile-booking-actions > .mobile-booking-visit {
+    background:var(--mobile-cta-paper);
+    color:#315540;
+    border-color:#d4cbbb;
+  }
+  body.home-page .mobile-booking-actions > a:focus-visible {
+    outline:3px solid #a5814b;
+    outline-offset:2px;
+  }
+  body.home-page .music-reopen {
+    bottom:calc(96px + env(safe-area-inset-bottom,0px));
+  }
+}
+@media(max-width:360px) {
+  body.home-page .mobile-booking-actions {
+    gap:5px;
+    padding-inline:6px;
+  }
+  body.home-page .mobile-booking-actions > a {
+    min-height:52px;
+    padding:8px 2px;
+    font-size:12px;
+    letter-spacing:-.035em;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.home-page .mobile-booking-actions > a {
+    transition:none;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page .mobile-booking-actions,
+  body.home-page .mobile-booking-actions > a,
+  body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-call,.hero-booking) {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
