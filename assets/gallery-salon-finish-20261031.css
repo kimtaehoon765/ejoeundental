@@ -829,3 +829,78 @@
     color:CanvasText;
   }
 }
+
+
+/* Exhibition room transitions | 2026-10-31
+   Paintings remain unchanged; this pass improves orientation and reading
+   contrast between the three existing rooms of the 23-work gallery. */
+.gallery-section-intro,
+.gallery-patient-studies__intro {
+  box-sizing:border-box;
+  position:relative;
+  max-width:960px;
+  margin-bottom:clamp(20px,2.8vw,36px);
+  padding:clamp(16px,2.5vw,28px) clamp(19px,2.8vw,32px);
+  border-left:3px solid #b59a68;
+  background:linear-gradient(95deg,rgba(250,248,239,.94),rgba(255,254,250,0));
+}
+.gallery-education .gallery-section-intro,
+.gallery-patient-studies__intro {
+  border-left-color:#8ea58d;
+}
+.gallery-section-intro > .gallery-kicker,
+.gallery-patient-studies__intro > .gallery-kicker {
+  color:#806b4a;
+  letter-spacing:.14em;
+}
+.gallery-section-intro > h2,
+.gallery-patient-studies__intro > h2 {
+  color:#244b36;
+  letter-spacing:-.052em;
+  line-height:1.45;
+  text-wrap:balance;
+}
+.gallery-section-intro > p:not(.gallery-kicker),
+.gallery-patient-studies__intro > p:not(.gallery-kicker) {
+  max-width:72ch;
+  color:#4b6251;
+  line-height:1.87;
+  word-break:keep-all;
+}
+#paintings .gallery-art-frame > img,
+#education .gallery-note--watercolor > img,
+.gallery-patient-studies__frame > img {
+  transition:filter .18s ease;
+}
+.gallery-header a:focus-visible,
+.gallery-section a:focus-visible,
+.gallery-patient-studies a:focus-visible,
+.gallery-section button:focus-visible,
+.gallery-patient-studies button:focus-visible {
+  outline:3px solid #986e38;
+  outline-offset:3px;
+}
+.gallery-piece[id],.gallery-patient-studies__piece[id] { scroll-margin-top:90px; }
+@media (max-width:650px) {
+  .gallery-section-intro,
+  .gallery-patient-studies__intro {
+    padding:15px 15px 16px;
+    border-left-width:2px;
+    margin-bottom:20px;
+  }
+  .gallery-section-intro > h2,.gallery-patient-studies__intro > h2 {
+    line-height:1.5;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  #paintings .gallery-art-frame > img,
+  #education .gallery-note--watercolor > img,
+  .gallery-patient-studies__frame > img { transition:none; }
+}
+@media (forced-colors:active) {
+  .gallery-section-intro,.gallery-patient-studies__intro {
+    border-color:CanvasText;
+    background:Canvas;
+  }
+  .gallery-section-intro :is(h2,p),.gallery-patient-studies__intro :is(h2,p) { color:CanvasText; }
+}
