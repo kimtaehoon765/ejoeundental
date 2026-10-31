@@ -3534,3 +3534,51 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
  fs.writeFileSync(file,html);
  console.log('Homepage build fingerprint:',source,commit.slice(0,12));
 }
+
+// Homepage critical CSS consolidation · preserve original cascade order.
+// These three consecutive first-screen CSS files share the /assets/ base path.
+// Concatenate in document order rather than minifying or rewriting selectors:
+// the doctor's credentials, mobile phone / Naver booking dock, and address
+// copy action must retain exactly the same cascade and interactions.
+// Keep frequently edited gallery CSS layers separate for better cache reuse.
+{
+ const homepage=path.join(out,'index.html');
+ const cssPaths=['style.css','home-enhancements.css','address-copy.css'];
+ const parts=cssPaths.map(name=>{
+  const filename=path.join(out,'assets',name);
+  if(!fs.existsSync(filename))throw new Error('Home critical CSS source missing: '+name);
+  const css=fs.readFileSync(filename,'utf8');
+  if(/@import\s|@charset\s/i.test(css))
+   throw new Error('Home critical CSS unexpectedly imports a new stylesheet: '+name);
+  return css.trimEnd();
+ });
+ const merged=parts.join('\n\n/* Original stylesheet boundary — cascade order retained. */\n\n')+'\n';
+ const fingerprint=createHash('sha256').update(merged).digest('hex').slice(0,12);
+ const bundledName='home-critical-'+fingerprint+'.css';
+ fs.writeFileSync(path.join(out,'assets',bundledName),merged,'utf8');
+ let html=fs.readFileSync(homepage,'utf8');
+ const group=/<link rel="stylesheet" href="\/assets\/style\.css(?:\?[^"]*)?">\s*<link rel="stylesheet" href="\/assets\/home-enhancements\.css(?:\?[^"]*)?">\s*<link rel="stylesheet" href="\/assets\/address-copy\.css(?:\?[^"]*)?">/g;
+ const matches=[...html.matchAll(group)];
+ if(matches.length!==1)throw new Error('Home critical CSS link sequence not found exactly once');
+ const link='<link rel="stylesheet" href="/assets/'+bundledName+'">';
+ html=html.replace(group,link);
+ // All subsequent painterly gallery rules remain in their original order,
+ // following inline layout and genuine medical schema; nothing is stripped.
+ const galleryLinks=[
+  '/assets/gallery-upgrade.css',
+  '/assets/gallery-finish.css',
+  '/assets/museum-home-v2.css',
+  '/assets/atelier-home-2026.css',
+  '/assets/curatorial-home.css',
+  '/assets/gallery-edition-polish.css',
+  '/assets/home-art-direction-20261030.css',
+  '/assets/atelier-refinement-20261030.css'
+ ];
+ const later=galleryLinks.map(href=>html.indexOf('href="'+href));
+ if(later.some(n=>n<0) || later.some((n,i)=>i>0&&n<=later[i-1]) ||
+    html.indexOf(link)<0||html.indexOf(link)>later[0])
+  throw new Error('Critical home CSS consolidation changed museum stylesheet order');
+ fs.writeFileSync(homepage,html,'utf8');
+ console.log('Home render-blocking CSS requests: 3 -> 1;',
+  'preserved gallery layers:',galleryLinks.length,'bundle:',bundledName);
+}
