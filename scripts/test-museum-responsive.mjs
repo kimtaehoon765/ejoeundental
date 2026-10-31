@@ -82,6 +82,38 @@ test('search results preserve patient-facing categories and show a safe query ba
 });
 
 
+
+test('mobile header scroll work is frame-batched and primary patient actions stay native',()=>{
+ const source=readFileSync('index.html','utf8');
+ const home=read('index.html');
+ const css=read('assets/atelier-refinement-20261030.css');
+ assert.ok(source.includes("window.requestAnimationFrame(adjust)"),
+  'mobile scroll header should update at most once per display frame');
+ assert.ok(source.includes("if(pending)return;")&&
+  source.includes("window.addEventListener('scroll',scheduleAdjust,{passive:true})"),
+  'scroll events should be coalesced and passive');
+ assert.ok(source.includes("root.classList.contains('home-scrolled')!==compact"),
+  'do not invalidate styles for unchanged compact-header state');
+ assert.ok(source.includes('window.innerWidth<=600 && window.scrollY>220'),
+  'retain the originally approved 600px and 220px compact-header thresholds');
+ assert.ok(css.includes('2026-10-31 | First-touch patient actions')&&
+  css.includes('touch-action:manipulation'),
+  'primary mobile phone and booking anchors need native tap responsiveness');
+ assert.ok(css.includes('.mobile-booking-actions>a:active')&&
+  css.includes('body.home-page header .mobile-quick>a:active'),
+  'mobile booking dock and header shortcuts keep clear touch feedback');
+ assert.ok(home.includes('atelier-refinement-20261030.css?v=20261031-touch-feedback19'),
+  'homepage invalidates cached touch feedback styles');
+ assert.ok(home.includes('href="tel:0325132875"')&&
+  home.includes('class="mobile-booking-actions"'),
+  'the original clinic phone and fixed mobile patient routes remain');
+ assert.ok(home.includes('loading="eager" fetchpriority="high" decoding="async"'),
+  'portrait first-paint loading remains prioritized');
+ assert.ok(home.includes('name="google-site-verification"')&&
+  home.includes('rel="canonical" href="https://ejoeundental.com/"'),
+  'original Google verification and preferred search URL remain');
+});
+
 test('homepage critical CSS retains its cascade while reducing three requests to one',()=>{
  const home=read('index.html');
  const cssHref=home.match(/href="(\/assets\/home-critical-([0-9a-f]{12})\.css)"/)?.[1];
