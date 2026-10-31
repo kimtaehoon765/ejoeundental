@@ -807,7 +807,17 @@ for (const file of html) {
  if(expectedExpanded.some(url=>!extraHrefs.includes(url)))errors.push('어린이·사랑니·턱관절 안내 진료 바로가기 누락');
  if(hero.indexOf('class="hero-actions"')<0||hero.indexOf('class="hero-actions"')>hero.indexOf('class="hero-care-summary"'))errors.push('첫 화면 전화·진료시간 문의가 진료 메뉴보다 아래에 있음');
  if(!hero.includes('href="tel:0325132875"'))errors.push('첫 화면 전화 문의 연결 누락');
- if(!homepage.includes('href="/assets/home-enhancements.css'))errors.push('홈페이지 공통 개선 스타일 누락');
+ // Production combines only the three first-screen styles to reduce
+ // render-blocking requests. Verify the versioned bundle and source CSS
+ // rather than requiring the old individual link in generated HTML.
+ const bundle=homepage.match(/href="\/assets\/home-critical-([0-9a-f]{12})\.css"/);
+ const originalEnhancements=join(root,'assets/home-enhancements.css');
+ if(!bundle||!existsSync(join(root,'assets','home-critical-'+bundle[1]+'.css'))||
+    !existsSync(originalEnhancements)||
+    !readFileSync(join(root,'assets','home-critical-'+bundle[1]+'.css'),'utf8')
+      .includes(readFileSync(originalEnhancements,'utf8').trimEnd())){
+  errors.push('홈페이지 공통 개선 스타일의 초기 통합 파일 누락 또는 내용 불일치');
+ }
 }
 
 // 홈페이지 전체 진료 5+8: 환자 우선 4개 진료와 자연치아 보존 원칙은
