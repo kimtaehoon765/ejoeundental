@@ -112,13 +112,13 @@ async function main(){
     const rel='/assets/'+filename;
     const preload='<link rel="preload" as="image" type="'+type+
       '" fetchpriority="high" href="'+rel+'">';
-    const figure=(html)=>[...html.matchAll(/<img\\b[^>]*>/g)].find(x=>x[0].includes('src="'+rel+'"'))?.[0]||'';
+    const figure=(html)=>[...html.matchAll(/<img\b[^>]*>/g)].find(x=>x[0].includes('src="'+rel+'"'))?.[0]||'';
     const currentFigure=figure(actual),builtFigure=figure(expected);
     const imageOk=currentFigure===builtFigure&&
       currentFigure.includes('loading="eager"')&&
       currentFigure.includes('fetchpriority="high"')&&
       currentFigure.includes('decoding="async"')&&
-      /width="\\d+" height="\\d+"/.test(currentFigure)&&
+      /width="\d+" height="\d+"/.test(currentFigure)&&
       currentFigure.includes('alt="');
     verdict(label+' 첫 그림 우선 로딩·미리 불러오기',
       imageOk&&actual.includes(preload)&&expected.includes(preload),
