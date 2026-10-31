@@ -3417,9 +3417,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   const bundle=join(root,'assets',name);
   const oldNames=names.some(n=>page.includes('href="/assets/'+n));
   const newer=[
-   '/assets/atelier-home-2026.css',
-   '/assets/curatorial-home.css',
-   '/assets/gallery-edition-polish.css',
+   '/assets/exhibition-foundation-',
    '/assets/home-art-direction-20261030.css',
    '/assets/atelier-refinement-20261030.css'
   ];
@@ -3433,6 +3431,39 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
     errors.push('홈페이지 갤러리 CSS 묶음: 캐시 해시·원본·배치 순서 불일치');
   } else {
     console.log('Gallery CSS bundle audit: three stable source styles, original cascade preserved; newest five styles independent');
+  }
+ }
+}
+
+// Validate the immutable curated exhibition homepage bundle.
+// Only contiguous, stable decorative styles are bundled; original CSS files
+// remain available for rollback and exact byte-for-byte integrity checking.
+{
+ const homepage=readFileSync(join(root,'index.html'),'utf8');
+ const names=['atelier-home-2026.css','curatorial-home.css','gallery-edition-polish.css'];
+ const boundary='\n\n/* Ejoeun curated exhibition CSS source boundary. */\n\n';
+ const sources=names.map(name=>{
+  const p=join(root,'assets',name);
+  if(!existsSync(p)){errors.push('전시 CSS 원본 누락: '+name);return null;}
+  return readFileSync(p,'utf8').trimEnd();
+ });
+ if(sources.every(s=>s!==null)){
+  const expected=sources.join(boundary)+'\n';
+  const hash=createHash('sha256').update(expected).digest('hex').slice(0,12);
+  const bundled='exhibition-foundation-'+hash+'.css';
+  const path=join(root,'assets',bundled);
+  const href='/assets/'+bundled;
+  const originalLinked=names.some(name=>homepage.includes('href="/assets/'+name));
+  const previous=homepage.indexOf('href="/assets/gallery-foundation-');
+  const bundledAt=homepage.indexOf('href="'+href+'"');
+  const direction=homepage.indexOf('href="/assets/home-art-direction-20261030.css');
+  const refinement=homepage.indexOf('href="/assets/atelier-refinement-20261030.css');
+  if(!existsSync(path)||readFileSync(path,'utf8')!==expected||
+    originalLinked||homepage.split('href="'+href+'"').length!==2||
+    !(previous>=0&&previous<bundledAt&&bundledAt<direction&&direction<refinement)){
+   errors.push('전시 CSS 3종 묶음: 원본 무결성 또는 적용 순서 불일치');
+  }else{
+   console.log('Homepage exhibition CSS audit: 3 -> 1 immutable links; original rules retained');
   }
  }
 }
