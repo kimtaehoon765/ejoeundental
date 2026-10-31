@@ -3683,3 +3683,45 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
  console.log('Homepage stable exhibition CSS requests: 3 -> 1;',
   'newer art layers cached independently:',2,'bundle:',bundled);
 }
+
+// Home finishing CSS bundle: preserve the two late layers without rewriting rules.
+// The quiet finishing layer and the latest responsive fixes are adjacent in
+// homepage HTML. Keep their exact cascade and originals in dist for audits,
+// while sending one fingerprinted stylesheet rather than two blocking requests.
+// In particular, do not merge the earlier art-direction or medical CSS layers.
+{
+ const homepage=path.join(out,'index.html');
+ const originals=['quiet-museum-finish-20261031.css','museum-finish-20261031.css'];
+ const boundary='\n\n/* Ejoeun home finishing source boundary — cascade retained. */\n\n';
+ const parts=originals.map(name=>{
+  const file=path.join(out,'assets',name);
+  if(!fs.existsSync(file))throw new Error('Home finishing CSS missing: '+name);
+  const css=fs.readFileSync(file,'utf8');
+  if(/@import\s|@charset\s|@namespace\s/i.test(css))
+   throw new Error('CSS directives prevent faithful home finishing bundle: '+name);
+  for(const match of css.matchAll(/url\(\s*['"]?([^)'"\s]+)/g)){
+   const ref=match[1].trim();
+   if(!ref.startsWith('/')&&!ref.startsWith('data:'))
+    throw new Error('Relative CSS asset in home finishing layer '+name+': '+ref);
+  }
+  return css.trimEnd();
+ });
+ const combined=parts.join(boundary)+'\n';
+ const hash=createHash('sha256').update(combined).digest('hex').slice(0,12);
+ const bundled='home-finishing-'+hash+'.css';
+ fs.writeFileSync(path.join(out,'assets',bundled),combined,'utf8');
+ let html=fs.readFileSync(homepage,'utf8');
+ const group=/<link rel="stylesheet" href="\/assets\/quiet-museum-finish-20261031\.css(?:\?[^"]*)?">\s*<link rel="stylesheet" href="\/assets\/museum-finish-20261031\.css(?:\?[^"]*)?">/g;
+ if([...html.matchAll(group)].length!==1)
+  throw new Error('Expected exactly one ordered home finishing CSS pair');
+ const before=(html.match(/<link rel="stylesheet" href="\/assets\//g)||[]).length;
+ const link='<link rel="stylesheet" href="/assets/'+bundled+'">';
+ html=html.replace(group,link);
+ const after=(html.match(/<link rel="stylesheet" href="\/assets\//g)||[]).length;
+ const earlier=html.indexOf('href="/assets/atelier-refinement-20261030.css');
+ const placement=html.indexOf(link);
+ if(earlier<0||placement<=earlier||after!==before-1)
+  throw new Error('Home finishing CSS merging changed link order or count');
+ fs.writeFileSync(homepage,html,'utf8');
+ console.log('Homepage finishing CSS requests: 2 -> 1; exact style order and source retained:',bundled);
+}
