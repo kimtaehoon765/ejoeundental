@@ -1890,3 +1890,217 @@ body.home-page #main-content > #local-care .local-area-context {
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-31 | Portrait-led entrance finishing
+   Increase visual emphasis of the original dentist + white-cat painting,
+   clarify primary/secondary actions, and tune gallery captions.
+   Preserve image intrinsic ratio, the booking destination and all SEO text. */
+body.home-page #main-content > .hero.wrap {
+  border:1px solid #ddd3c0;
+  border-top:3px solid #ad9366;
+  background:linear-gradient(129deg,#fffef9 1%,#faf8f0 49%,#f1f5ed 100%);
+  box-shadow:0 17px 39px rgba(32,52,37,.065);
+}
+body.home-page #main-content > .hero.wrap .kicker {
+  display:inline-flex;
+  align-items:center;
+  column-gap:11px;
+  color:#806744;
+  font-size:clamp(10px,.96vw,12px);
+  letter-spacing:.145em;
+}
+body.home-page #main-content > .hero.wrap .kicker::before {
+  content:"";
+  display:block;
+  width:23px;
+  height:1px;
+  flex:0 0 23px;
+  background:#ac8d5b;
+}
+body.home-page #main-content > .hero.wrap #headline {
+  color:#1d422f;
+  max-width:18ch;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  text-wrap:balance;
+  letter-spacing:-.062em;
+}
+body.home-page #main-content > .hero.wrap .hero-doctor-credentials {
+  border:1px solid #ddd2bf;
+  border-left:3px solid #a58b5b;
+  background:rgba(255,254,249,.91);
+  box-shadow:none;
+}
+body.home-page #main-content > .hero.wrap .hero-doctor-credentials > strong {
+  color:#264a37;
+  font-weight:760;
+}
+body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+  box-sizing:border-box;
+  padding:clamp(8px,1.05vw,12px);
+  border:1px solid #bda982;
+  border-radius:2px;
+  outline:none;
+  background:#eae0cc;
+  box-shadow:0 19px 39px rgba(32,52,37,.115);
+}
+body.home-page #main-content > .hero.wrap > .art.hero-artwork > img {
+  display:block;
+  width:100%;
+  max-width:100%;
+  height:auto;
+  aspect-ratio:3/2;
+  object-fit:contain;
+  object-position:center;
+  border:0;
+  border-radius:1px;
+  background:#f7f1e5;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque {
+  padding:15px 10px 11px;
+  border-top:1px solid #c8b899;
+  border-radius:0;
+  background:#fffefa;
+  text-align:center;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque > small {
+  display:block;
+  color:#826940;
+  letter-spacing:.15em;
+  line-height:1.7;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque > strong {
+  display:block;
+  color:#244b35;
+  font-size:clamp(17px,1.5vw,21px);
+  letter-spacing:-.04em;
+  line-height:1.58;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque > a {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  color:#2f6949;
+  font-weight:740;
+  text-underline-offset:4px;
+}
+body.home-page #main-content > .hero.wrap .hero-actions > a {
+  border-radius:4px 11px 4px 11px;
+  line-height:1.55;
+  letter-spacing:-.012em;
+}
+body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-call,.hero-booking) {
+  box-shadow:0 6px 14px rgba(32,55,37,.09);
+}
+body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-hours,.hero-symptoms,.hero-map) {
+  background:#fffefa;
+  border-color:#d5d6c9;
+  box-shadow:none;
+}
+body.home-page #main-content > .hero.wrap .hero-actions > a:focus-visible,
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque > a:focus-visible {
+  outline:3px solid #916b37;
+  outline-offset:3px;
+}
+body.home-page #main-content > .hero.wrap > .hero-editorial-detail {
+  border-top:1px solid #d5c8b3;
+}
+body.home-page #main-content > .hero.wrap > .hero-editorial-detail > :is(.hero-editorial-choices,.hero-editorial-story) {
+  border:1px solid #ded7c9;
+  border-top:2px solid #bba273;
+  border-radius:3px 12px 3px 12px;
+  background:#fffefa;
+  box-shadow:none;
+}
+body.home-page #main-content > .hero.wrap > .hero-editorial-detail > .hero-editorial-story {
+  border-top-color:#93ad94;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__caption {
+  border-top:1px solid #e1d7c7;
+  background:#fffefa;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__caption strong {
+  color:#254935;
+  letter-spacing:-.038em;
+  text-wrap:balance;
+}
+@media(min-width:960px){
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    margin-top:0;
+    align-self:center;
+  }
+}
+@media(max-width:600px){
+  body.home-page #main-content > .hero.wrap {
+    border-top-width:2px;
+    box-shadow:0 7px 20px rgba(32,52,37,.04);
+  }
+  body.home-page #main-content > .hero.wrap #headline {
+    max-width:100%;
+    line-height:1.44;
+  }
+  body.home-page #main-content > .hero.wrap .kicker {
+    font-size:11px;
+    letter-spacing:.09em;
+  }
+  body.home-page #main-content > .hero.wrap .kicker::before {
+    width:16px;
+    flex-basis:16px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-doctor-credentials {
+    margin-block:9px 10px;
+  }
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    width:min(100%,365px);
+    max-width:365px;
+    padding:7px;
+    margin:10px auto 16px;
+    box-shadow:0 11px 24px rgba(32,52,37,.09);
+  }
+  body.home-page #main-content > .hero.wrap .hero-artwork__plaque {
+    padding:11px 8px 6px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-artwork__plaque > strong {
+    font-size:17px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions {
+    gap:8px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-call,.hero-booking) {
+    min-height:56px;
+    box-shadow:none;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-hours,.hero-symptoms,.hero-map) {
+    min-height:46px;
+  }
+  body.home-page #main-content > .hero.wrap > .hero-editorial-detail > :is(.hero-editorial-choices,.hero-editorial-story) {
+    border-radius:3px 11px 3px 11px;
+  }
+}
+@media(max-width:375px){
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    width:100%;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.home-page #main-content > .hero.wrap .hero-actions > a { transition:none; }
+}
+@media(forced-colors:active){
+  body.home-page #main-content > .hero.wrap,
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork,
+  body.home-page #main-content > .hero.wrap > .hero-editorial-detail > :is(.hero-editorial-choices,.hero-editorial-story),
+  body.home-page #main-content > .hero.wrap .hero-doctor-credentials {
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content > .hero.wrap .kicker::before { background:CanvasText; }
+  body.home-page #main-content > .hero.wrap .hero-actions > a {
+    background:ButtonFace;
+    color:ButtonText;
+    border-color:ButtonText;
+    box-shadow:none;
+  }
+}
