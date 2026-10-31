@@ -1319,3 +1319,48 @@ test('gallery exit presents four genuine care guides and prominent Naver booking
  assert.ok(home.includes('class="mobile-booking-actions"') &&
   home.includes('href="tel:0325132875"'),'independent mobile phone and booking stay available');
 });
+
+
+test('opening gallery hero keeps doctor-cat full portrait and validated primary actions',()=>{
+ const hero=home.match(/<section class="hero wrap">([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.ok(hero,'opening hero remains available to readers and crawlers');
+ assert.ok(hero.includes('id="headline"')&&hero.includes('자연치아를 먼저 생각합니다.'),
+  'retain the clinic tooth-preservation headline');
+ for(const fact of ['SINCE 2003','고려대학교 의학박사(치과학 전공)',
+   '통합치의학과 전문의','청천동치과 이조은치과']){
+   assert.ok(hero.includes(fact),'missing factual clinic introduction: '+fact);
+ }
+ const art=hero.match(/<img\b[^>]*src="\/assets\/ejoeun-gallery-cat-dentist-20261029\.webp"[^>]*>/)?.[0]||'';
+ assert.ok(art && art.includes('width="1200" height="800"'),
+  'preserve the approved original 3:2 doctor-cat painting');
+ assert.ok(art.includes('loading="eager"')&&art.includes('fetchpriority="high"'),
+  'original above-the-fold art remains prioritized without extra requests');
+ const actions=hero.match(/<div class="hero-actions">([\s\S]*?)<\/div>/)?.[1]||'';
+ const phone=actions.match(/<a\b[^>]*class="btn hero-call"[^>]*>/)?.[0]||'';
+ const book=actions.match(/<a\b[^>]*class="btn hero-booking"[^>]*>/)?.[0]||'';
+ assert.ok(phone.includes('href="tel:0325132875"'));
+ assert.ok(book.includes('href="https://booking.naver.com/booking/13/bizes/1162931"'));
+ for(const dest of ['class="btn hero-hours"','class="btn hero-symptoms"','class="btn hero-map"']){
+   assert.ok(actions.includes(dest),'keep the clinical direction control '+dest);
+ }
+ const css=read('assets/atelier-refinement-20261030.css');
+ for(const rule of [
+   'Opening portrait: faithful 3-to-2 canvas and gallery masthead',
+   '.hero.wrap>.art.hero-artwork>img',
+   'aspect-ratio:3/2;',
+   'object-fit:contain;',
+   '.hero.wrap .hero-doctor-credentials',
+   '@media(min-width:901px)',
+   '@media(max-width:760px)',
+   '@media(max-width:365px)',
+   '@media(forced-colors:active)'
+ ])assert.ok(css.includes(rule),'missing accessible original-art opening design: '+rule);
+ const imgs=[...home.matchAll(/<img\b[^>]*src="([^"]+)"/g)].map(m=>m[1]);
+ assert.equal(imgs.length,36,'keep all thirty-six original homepage illustrations');
+ assert.equal(new Set(imgs).size,36,'do not reuse any painting on the same homepage');
+ const styles=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
+ const final=styles.findIndex(s=>s.startsWith('/assets/atelier-refinement-20261030.css?v='));
+ const earlier=styles.findIndex(s=>s.startsWith('/assets/home-art-direction-20261030.css?v='));
+ assert.ok(final>earlier && earlier>=0,'latest portrait finish loads after older responsive layout');
+ assert.ok(home.includes('class="mobile-booking-actions"'),'working phone-side booking dock remains');
+});
