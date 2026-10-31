@@ -29,7 +29,14 @@ test('the mobile homepage presents the original portrait after key actions and k
 });
 
 test('original gallery and responsive accent are local, cached, and accessible',()=>{
- assert.match(home,/home-enhancements\.css\?v=[0-9a-f]{12}/,'Build should fingerprint CSS without stale cache keys');
+ // Critical home styles are delivered as one immutable hashed asset.
+ const sources=['style.css','home-enhancements.css','address-copy.css']
+  .map(name=>readFileSync('dist/assets/'+name,'utf8').trimEnd());
+ const merged=sources.join('\n\n/* Original stylesheet boundary — cascade order retained. */\n\n')+'\n';
+ const expected=createHash('sha256').update(merged).digest('hex').slice(0,12);
+ const asset='/assets/home-critical-'+expected+'.css';
+ assert.ok(home.includes('href="'+asset+'"'),'Home critical CSS must be fingerprinted after consolidation');
+ assert.equal(readFileSync('dist'+asset,'utf8'),merged,'Existing first-screen CSS must remain byte-for-byte unchanged');
  assert.match(css,/@media\(max-width:600px\)/);
  assert.match(css,/\.hero-gallery-window\{[\s\S]*?display:block/);
  const hash=createHash('sha256').update(artwork).digest('hex').slice(0,12);
