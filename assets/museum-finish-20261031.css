@@ -1618,3 +1618,155 @@ body.home-page #main-content > .atelier-collection-peek :is(
     color:CanvasText;
   }
 }
+
+/* 2026-10-31 | Care cards and doctor credentials: final reading hierarchy. */
+/* Keep the four clinical priorities, full patient text, existing link targets,
+   natural-tooth artwork and expandable eight-care section intact. A calmer
+   uniform margin and ruled reading links reinforce a medical reference style. */
+body.home-page #main-content > #care > .wrap > .grid {
+  align-items:stretch;
+  column-gap:clamp(12px,1.8vw,21px);
+  row-gap:clamp(14px,2vw,22px);
+}
+body.home-page #main-content > #care > .wrap > .grid > .card.care-primary-card {
+  min-width:0;
+  border:1px solid #d8d6c8;
+  border-top:3px solid #789982;
+  border-radius:4px;
+  background:#fffefa;
+  box-shadow:0 4px 16px rgba(31,54,39,.035);
+}
+body.home-page #main-content > #care > .wrap > .grid > .card.care-primary-card > h3 {
+  color:#244b37;
+  line-height:1.49;
+  letter-spacing:-.04em;
+  text-wrap:balance;
+}
+body.home-page #main-content > #care > .wrap > .grid > .card.care-primary-card > p {
+  color:#405a49;
+  line-height:1.83;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content > #care > .wrap > .grid > .card.care-primary-card > p:last-child {
+  border-top:1px solid #e2ddcf;
+}
+body.home-page #main-content > #care > .wrap > .grid > .card.care-primary-card > p:last-child > a {
+  color:#285a40;
+  text-underline-offset:4px;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content > #care > .wrap > .grid > .card.care-primary-card > p:last-child > a:focus-visible,
+body.home-page #main-content > #care .care-directory__primary > a:focus-visible {
+  outline:3px solid #a37e45;
+  outline-offset:3px;
+}
+body.home-page #main-content > #care .care-directory__primary > a {
+  border-radius:4px;
+  box-shadow:none;
+}
+body.home-page #main-content > #care .care-directory__primary > a > strong {
+  line-height:1.55;
+  text-wrap:balance;
+}
+/* The existing doctor portrait should stay whole and the three credentials
+   stay plainly readable. Reduce decoration around the actual qualifications
+   rather than inventing another title or replacing the approved artwork. */
+body.home-page #main-content > #doctor > .wrap.split {
+  align-items:center;
+}
+body.home-page #main-content > #doctor .frame {
+  border-radius:3px;
+  box-shadow:0 11px 32px rgba(5,26,17,.17);
+}
+body.home-page #main-content > #doctor #doctor_title {
+  line-height:1.5;
+  text-wrap:balance;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content > #doctor #doctor_body {
+  line-height:1.88;
+  max-width:68ch;
+}
+body.home-page #main-content > #doctor .doctor-care-trails > a {
+  border-radius:4px;
+  box-shadow:none;
+}
+body.home-page #main-content > #doctor .doctor-credential-ledger {
+  box-sizing:border-box;
+  border:1px solid rgba(234,213,167,.51);
+  border-top:2px solid #d5b87f;
+  border-radius:4px;
+  box-shadow:none;
+}
+body.home-page #main-content > #doctor .doctor-credential-ledger__item {
+  min-width:0;
+  border-radius:3px;
+  background:rgba(255,253,243,.065);
+  box-shadow:none;
+}
+body.home-page #main-content > #doctor .doctor-credential-ledger__item > small {
+  color:#f0dcb2;
+  line-height:1.55;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content > #doctor .doctor-credential-ledger__item > .pill {
+  color:#fffdf6;
+  line-height:1.65;
+  text-wrap:pretty;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content > #doctor .doctor-profile-link > a {
+  text-underline-offset:5px;
+}
+/* Keep the numbered care cards comfortable on phones without adding
+   horizontal scrolling or changing the fixed phone/booking controls. */
+@media(max-width:820px) {
+  body.home-page #main-content > #care > .wrap > .grid {
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+@media(max-width:600px) {
+  body.home-page #main-content > #care > .wrap > .grid > .card.care-primary-card {
+    padding:clamp(16px,4.5vw,21px);
+    box-shadow:none;
+  }
+  body.home-page #main-content > #care > .wrap > .grid > .card.care-primary-card > p {
+    font-size:14px;
+    line-height:1.85;
+  }
+  body.home-page #main-content > #doctor .frame {
+    box-shadow:none;
+  }
+  body.home-page #main-content > #doctor .doctor-credential-ledger {
+    padding:9px;
+  }
+  body.home-page #main-content > #doctor .doctor-credential-ledger__item {
+    padding:12px 13px;
+  }
+  body.home-page #main-content > #doctor #doctor_body {
+    line-height:1.87;
+  }
+}
+@media(hover:hover) and (pointer:fine) {
+  body.home-page #main-content > #care .care-directory__primary > a:hover {
+    border-color:#97b099;
+    box-shadow:0 5px 14px rgba(30,57,40,.055);
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > #care > .wrap > .grid > .card.care-primary-card,
+  body.home-page #main-content > #doctor .frame,
+  body.home-page #main-content > #doctor .doctor-care-trails > a,
+  body.home-page #main-content > #doctor .doctor-credential-ledger,
+  body.home-page #main-content > #doctor .doctor-credential-ledger__item {
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content > #doctor .doctor-credential-ledger__item :is(small,.pill),
+  body.home-page #main-content > #care > .wrap > .grid > .card.care-primary-card :is(h3,p) {
+    color:CanvasText;
+  }
+}
