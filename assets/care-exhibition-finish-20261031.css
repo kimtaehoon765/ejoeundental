@@ -1,0 +1,233 @@
+/* 이조은치과 · Four rooms, one clinical art collection · 2026-10-31
+   Final, last-loaded visual layer for the four primary treatment articles.
+   Original watercolor/clinical diagrams, patient wording and booking stay intact.
+   Desktop insurance art hangs on the opposite side; mobile art comes first. */
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care){
+  --exhibit-ink:#254837;
+  --exhibit-paper:#fffdf7;
+  --exhibit-stroke:#d8cdbc;
+  --exhibit-shadow:0 16px 34px rgba(30,52,37,.075);
+  --exhibit-accent:#54765e;
+  --exhibit-wash:#edf5e9;
+}
+body.care-gallery.care-gum-treatment{
+  --exhibit-accent:#54765e;
+  --exhibit-wash:#eaf3e8;
+}
+body.care-gallery.care-retreatment{
+  --exhibit-accent:#93754c;
+  --exhibit-wash:#f4eddf;
+}
+body.care-gallery.care-cervical-abrasion{
+  --exhibit-accent:#77738f;
+  --exhibit-wash:#f0eef6;
+}
+body.care-gallery.care-insured-care{
+  --exhibit-accent:#527e79;
+  --exhibit-wash:#e9f1ef;
+}
+/* An identifying wash, rather than recycling one artwork on four heroes. */
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care) :is(.gum-hero,main>.hero){
+  border-top:4px solid var(--exhibit-accent);
+  border-bottom-color:#ddd5c6;
+  background:
+    radial-gradient(ellipse at 100% 0%,rgba(255,255,255,.72),transparent 54%),
+    linear-gradient(123deg,#fffdf8 0%,#f9f7ef 43%,var(--exhibit-wash) 100%);
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care) :is(.gum-hero,main>.hero) :is(.eyebrow,.gum-tag){
+  border-left-color:var(--exhibit-accent);
+  color:#5f634d;
+  font-weight:800;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care) :is(.gum-hero,main>.hero) h1{
+  max-width:27ch;
+  color:var(--exhibit-ink);
+  font-weight:700;
+  text-wrap:balance;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care) :is(.gum-hero,main>.hero) :is(.treatment-doctor-credentials,.care-gallery-clinician){
+  border:1px solid #d6d4c6;
+  border-left:4px solid var(--exhibit-accent);
+  border-radius:4px 13px 4px 13px;
+  background:rgba(255,254,249,.94);
+  box-shadow:0 7px 22px rgba(26,54,37,.045);
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care) .treatment-quick-links a[aria-current="page"]{
+  background:#254c38;
+  border:1px solid #254c38;
+  border-bottom:3px solid var(--exhibit-accent);
+  color:#fffdf7;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care) .treatment-page-toc{
+  border:1px solid var(--exhibit-stroke);
+  border-top:3px solid var(--exhibit-accent);
+  background:linear-gradient(135deg,#fffefa,#f7f7f1);
+  box-shadow:0 9px 24px rgba(25,49,37,.045);
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care) .treatment-page-toc>a{
+  border-color:#d9d7ca;
+  background:#fffdf8;
+  color:#285440;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care) :is(.gum-section,.block,.section) h2{
+  border-left-color:var(--exhibit-accent);
+  color:var(--exhibit-ink);
+}
+/* The actual three watercolor paintings keep their full edges and captions. */
+body.care-gallery:is(.care-gum-treatment,.care-cervical-abrasion,.care-insured-care) .care-feature-art{
+  border-block:1px solid #d5ccbb;
+  background:
+    radial-gradient(ellipse at 0% 100%,rgba(255,255,255,.7),transparent 62%),
+    linear-gradient(135deg,var(--exhibit-wash),#fbfaf4 59%,#f6f1e8);
+}
+body.care-gallery:is(.care-gum-treatment,.care-cervical-abrasion,.care-insured-care) .care-feature-art__layout{
+  grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  max-width:1120px;
+  gap:clamp(22px,3.6vw,49px);
+}
+body.care-gallery:is(.care-gum-treatment,.care-cervical-abrasion,.care-insured-care) .care-feature-art__image{
+  position:relative;
+  min-width:0;
+  box-sizing:border-box;
+  padding:clamp(10px,1.5vw,17px);
+  background:#e7ddca;
+  border:1px solid #bea985;
+  outline:5px solid rgba(255,251,239,.9);
+  outline-offset:-7px;
+  border-radius:2px;
+  box-shadow:0 15px 33px rgba(33,48,35,.11);
+}
+body.care-gallery:is(.care-gum-treatment,.care-cervical-abrasion,.care-insured-care) .care-feature-art__image>img{
+  display:block;
+  width:100%;
+  max-width:100%;
+  height:auto;
+  aspect-ratio:3/2;
+  object-fit:contain;
+  object-position:center;
+  border:1px solid rgba(116,99,70,.25);
+  background:#fffdf8;
+}
+body.care-gallery:is(.care-gum-treatment,.care-cervical-abrasion,.care-insured-care) .care-feature-art__image>figcaption{
+  padding:12px 5px 2px;
+  color:#536658;
+  text-align:center;
+  font-size:12px;
+  line-height:1.72;
+  word-break:keep-all;
+}
+body.care-gallery:is(.care-gum-treatment,.care-cervical-abrasion,.care-insured-care) .care-feature-art__copy{
+  min-width:0;
+  padding:clamp(8px,2vw,24px) 2px;
+}
+body.care-gallery:is(.care-gum-treatment,.care-cervical-abrasion,.care-insured-care) .care-feature-art__eyebrow{
+  color:#705c3d;
+  font-size:11px;
+  letter-spacing:.12em;
+}
+body.care-gallery:is(.care-gum-treatment,.care-cervical-abrasion,.care-insured-care) .care-feature-art__copy>h2{
+  color:var(--exhibit-ink);
+  font-size:clamp(24px,2.7vw,34px);
+  line-height:1.52;
+  text-wrap:balance;
+}
+body.care-gallery:is(.care-gum-treatment,.care-cervical-abrasion,.care-insured-care) .care-feature-art__copy>p:not(.care-feature-art__eyebrow){
+  font-size:clamp(16px,1.45vw,18px);
+  line-height:1.9;
+  color:#415c49;
+  word-break:keep-all;
+}
+/* Alternate one exhibition room, without changing the mobile reading order. */
+@media(min-width:801px){
+  body.care-gallery.care-insured-care .care-feature-art__image{order:2}
+  body.care-gallery.care-insured-care .care-feature-art__copy{order:1}
+}
+/* Retreatment has an anatomical illustration rather than a watercolor: 
+   display the *existing* original diagram in its own quiet frame. */
+body.care-gallery.care-retreatment main>.hero .hero-grid{
+  gap:clamp(23px,3.2vw,46px);
+  align-items:center;
+}
+body.care-gallery.care-retreatment main>.hero .hero-grid>img{
+  display:block;
+  min-width:0;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  max-height:none;
+  aspect-ratio:519/327;
+  padding:clamp(9px,1.5vw,16px);
+  object-fit:contain;
+  object-position:center;
+  border:1px solid #bfa986;
+  border-radius:3px;
+  background:#fbf8ed;
+  box-shadow:var(--exhibit-shadow);
+}
+body.care-gallery.care-retreatment .block :is(.card,.step)>img{
+  object-fit:contain;
+  object-position:center;
+}
+@media(max-width:800px){
+  body.care-gallery:is(.care-gum-treatment,.care-cervical-abrasion,.care-insured-care) .care-feature-art__layout{
+    grid-template-columns:minmax(0,1fr);
+    gap:18px;
+  }
+  body.care-gallery.care-insured-care .care-feature-art__image,
+  body.care-gallery.care-insured-care .care-feature-art__copy{order:initial}
+  body.care-gallery:is(.care-gum-treatment,.care-cervical-abrasion,.care-insured-care) .care-feature-art__image{
+    width:100%;
+    max-width:690px;
+    margin-inline:auto;
+  }
+  body.care-gallery.care-retreatment main>.hero .hero-grid>img{
+    width:min(100%,520px);
+    margin-inline:auto;
+  }
+}
+@media(max-width:600px){
+  body.care-gallery:is(.care-gum-treatment,.care-cervical-abrasion,.care-insured-care) .care-feature-art{
+    padding:26px 16px 30px;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-cervical-abrasion,.care-insured-care) .care-feature-art__image{
+    padding:9px;
+    outline-width:3px;
+    outline-offset:-5px;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-cervical-abrasion,.care-insured-care) .care-feature-art__copy{
+    padding:0;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-cervical-abrasion,.care-insured-care) .care-feature-art__copy>h2{
+    font-size:clamp(23px,5.9vw,29px);
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-cervical-abrasion,.care-insured-care) .care-feature-art__copy>p:not(.care-feature-art__eyebrow){
+    font-size:16px;
+    line-height:1.88;
+  }
+  body.care-gallery.care-retreatment main>.hero .hero-grid>img{
+    padding:8px;
+    width:100%;
+    max-width:420px;
+  }
+}
+@media(forced-colors:active){
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care) :is(.gum-hero,main>.hero,.treatment-page-toc,.care-feature-art),
+  body.care-gallery:is(.care-gum-treatment,.care-cervical-abrasion,.care-insured-care) .care-feature-art__image,
+  body.care-gallery.care-retreatment main>.hero .hero-grid>img{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+    outline-color:CanvasText;
+  }
+}
+@media print{
+  body.care-gallery:is(.care-gum-treatment,.care-cervical-abrasion,.care-insured-care) .care-feature-art__image{
+    box-shadow:none;
+    break-inside:avoid;
+  }
+  body.care-gallery.care-retreatment main>.hero .hero-grid>img{
+    box-shadow:none;
+    break-inside:avoid;
+  }
+}
