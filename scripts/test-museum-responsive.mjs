@@ -1364,3 +1364,49 @@ test('opening gallery hero keeps doctor-cat full portrait and validated primary 
  assert.ok(final>earlier && earlier>=0,'latest portrait finish loads after older responsive layout');
  assert.ok(home.includes('class="mobile-booking-actions"'),'working phone-side booking dock remains');
 });
+
+
+test('focused care desk makes five genuine wayfinding links easy to read',()=>{
+ const focus=home.match(/<section class="section light" id="focus-care">([\s\S]*?)<\/section>/)?.[1]||'';
+ assert.ok(focus.includes('자연치아를 지키는 진료에 집중합니다'),'important medical intro is retained');
+ assert.ok(focus.includes('인천 잇몸치료·부평 잇몸치료')&&
+  focus.includes('인천 신경치료·부평 신경치료'),'SEO text remains original');
+ const guide=focus.match(/<nav class="focus-care-shortcuts"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ const guided=[...guide.matchAll(/<a href="([^"]+)">/g)].map(x=>x[1]);
+ assert.deepEqual(guided,[
+  '/gum-treatment.html','/retreatment.html','/cervical-abrasion.html',
+  '/insured-care.html','/scaling.html'
+ ],'all original clinician care cards keep their native links');
+ const desk=focus.match(/<nav class="care-find-links"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+ const destinations=[...desk.matchAll(/<a href="([^"]+)">/g)].map(x=>x[1]);
+ assert.deepEqual(destinations,['#symptoms','#care','/search.html','#faq','#visit-guide'],
+  'visitor information desk retains the five working patient routes');
+ for(const anchor of ['symptoms','care','faq','visit-guide']){
+  assert.ok(home.includes('id="'+anchor+'"'),'matching homepage jump anchor missing: '+anchor);
+ }
+ const art=focus.match(/<img src="\/assets\/ejoeun-scaling-stilllife-20261029\.svg"[^>]*>/)?.[0]||'';
+ assert.ok(art.includes('width="1200" height="800"') && art.includes('loading="lazy"'),
+  'the unique full-ratio original doctor-care artwork stays untouched');
+ assert.ok(focus.includes('치과의사가 직접 잇몸을 살핍니다.')&&
+  focus.includes('원장이 직접 검진·진단'),'core medical philosophy is preserved');
+ const css=read('assets/atelier-refinement-20261030.css');
+ for(const rule of [
+  'Focus-care patient information desk',
+  '#focus-care .focus-care-lead-copy>h2',
+  '#focus-care .focus-care-lead-art>figcaption',
+  '#focus-care .care-find-links',
+  'grid-template-columns:repeat(5,minmax(0,1fr))',
+  'grid-template-columns:repeat(3,minmax(0,1fr))',
+  'grid-template-columns:repeat(2,minmax(0,1fr))',
+  '@media(max-width:1000px)','@media(max-width:700px)',
+  '@media(max-width:365px)','@media(forced-colors:active)'
+ ])assert.ok(css.includes(rule),'missing responsive focus-care museum desk: '+rule);
+ assert.equal((home.match(/<img\b/g)||[]).length,36,
+  'do not add or remove illustrations while refining patient links');
+ assert.ok(home.includes('class="mobile-booking-actions"') &&
+  home.includes('class="btn hero-booking"'),'mobile booking functions preserved');
+ const cssUrls=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(x=>x[1]);
+ const last=cssUrls.findIndex(x=>x.startsWith('/assets/atelier-refinement-20261030.css?v='));
+ const earlier=cssUrls.findIndex(x=>x.startsWith('/assets/home-art-direction-20261030.css?v='));
+ assert.ok(last>earlier && earlier>=0,'updated information desk stylesheet loads last');
+});
