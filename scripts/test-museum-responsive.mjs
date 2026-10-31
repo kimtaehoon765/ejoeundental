@@ -1410,3 +1410,51 @@ test('focused care desk makes five genuine wayfinding links easy to read',()=>{
  const earlier=cssUrls.findIndex(x=>x.startsWith('/assets/home-art-direction-20261030.css?v='));
  assert.ok(last>earlier && earlier>=0,'updated information desk stylesheet loads last');
 });
+
+
+test('patient-question salon preserves four original article links and unique painting',()=>{
+ const section=home.match(/<section class="section light" id="home-representative-guides"[\s\S]*?<\/section>/)?.[0]||'';
+ assert.ok(section.includes('id="home-representative-guides-title"'),
+  'patient education room needs its original discoverable heading');
+ const grid=section.match(/<div class="home-representative-guide-grid">([\s\S]*?)<\/div>/)?.[1]||'';
+ const links=[...grid.matchAll(/<a href="([^"]+)"><strong>([^<]+)<\/strong><span>([^<]+)<\/span><\/a>/g)];
+ assert.deepEqual(links.map(x=>x[1]),[
+  '/stories/2026-10-24-bupyeong-swollen-bleeding-gums-visit-dentist/',
+  '/stories/2026-10-26-cheongcheon-gum-color-change-red-gums-periodontal-care/',
+  '/stories/2026-10-24-bupyeong-severe-toothache-deep-caries-extraction-vs-root-canal/',
+  '/stories/2026-10-24-bupyeong-cavity-gi-insurance/'
+ ],'retain four distinct source-linked patient education articles in order');
+ for(const [,href,title,description] of links){
+  assert.ok(title.length>8&&description.length>12,'do not hide patient-friendly article copy');
+  assert.ok(existsSync('dist'+href+'index.html'),'the linked educational article must be published: '+href);
+ }
+ assert.ok(section.includes('각 증상의 원인은 개인마다 달라 진찰과 검사가 필요합니다.'),
+  'do not suppress the original non-diagnostic caution');
+ const painting=section.match(/<img src="\/assets\/ejoeun-preservation-atelier-20261029\.svg"[^>]*>/)?.[0]||'';
+ assert.ok(painting.includes('width="1200" height="760"')&&painting.includes('loading="lazy"'),
+  'approved unique natural-tooth artwork keeps its original dimensions and lazy loading');
+ assert.ok(section.includes('href="/tooth-preservation.html"'),
+  'full tooth-preservation explanation remains linked');
+ const images=[...home.matchAll(/<img\b[^>]*src="([^"]+)"/g)].map(x=>x[1]);
+ assert.equal(images.length,36,'all existing original homepage images remain');
+ assert.equal(new Set(images).size,36,'homepage never repeats its original art');
+ const css=read('assets/atelier-refinement-20261030.css');
+ for(const rule of [
+  'Four patient questions in the illustrated reading salon',
+  'counter-reset:patient-question',
+  'counter-increment:patient-question',
+  'counter(patient-question,decimal-leading-zero)',
+  '#home-representative-guides .home-representative-guide-grid>a:focus-visible',
+  '#home-representative-guides .home-representative-art img',
+  'aspect-ratio:30/19;',
+  '@media(min-width:1080px)',
+  '@media(max-width:1079px)',
+  '@media(max-width:700px)',
+  '@media(forced-colors:active)'
+ ])assert.ok(css.includes(rule),'missing mobile-friendly museum reading room: '+rule);
+ const styles=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(x=>x[1]);
+ const last=styles.findIndex(x=>x.startsWith('/assets/atelier-refinement-20261030.css?v='));
+ const before=styles.findIndex(x=>x.startsWith('/assets/home-art-direction-20261030.css?v='));
+ assert.ok(last>before&&before>=0,'refined reading room must load after the earlier designs');
+ assert.ok(home.includes('class="mobile-booking-actions"'),'mobile phone and appointment stay accessible');
+});
