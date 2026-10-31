@@ -5377,3 +5377,196 @@ body.home-page #main-content > .museum-route.wrap .museum-route__links > a:focus
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-31 | Symptom search mobile reading and touch harmony
+   Refine the six existing native links, GET search form and preparation text
+   without touching their destinations, SEO copy, medication advice or assets. */
+body.home-page #main-content > .symptom-navigator.wrap {
+  scroll-margin-top:110px;
+}
+body.home-page #main-content > .symptom-navigator #symptom-navigator-title,
+body.home-page #main-content > .symptom-navigator #home-symptom-query {
+  scroll-margin-top:112px;
+}
+body.home-page #main-content > .symptom-navigator .symptom-navigator-grid {
+  gap:clamp(10px,1.5vw,17px);
+}
+body.home-page #main-content > .symptom-navigator .symptom-navigator-grid > a {
+  border-radius:5px 13px 5px 13px;
+  outline-offset:3px;
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-search {
+  border-radius:5px 14px 5px 14px;
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-search-row {
+  align-items:stretch;
+  gap:10px;
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-search-row input {
+  flex:1 1 auto;
+  box-sizing:border-box;
+  width:100%;
+  min-width:0;
+  min-height:54px;
+  padding:11px 14px;
+  font-size:16px;
+  line-height:1.5;
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-search-row button {
+  box-sizing:border-box;
+  flex:0 0 auto;
+  min-height:54px;
+  padding:11px 18px;
+  font-size:14px;
+  line-height:1.6;
+  white-space:normal;
+  word-break:keep-all;
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-search > p {
+  color:#526b59;
+  line-height:1.75;
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-topics {
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  align-items:stretch;
+  gap:9px;
+  margin-top:17px;
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-topics > span {
+  grid-column:1 / -1;
+  display:block;
+  margin:0;
+  color:#45604d;
+  font-size:12px;
+  font-weight:800;
+  line-height:1.6;
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-topics > a {
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-width:0;
+  min-height:48px;
+  padding:9px 8px;
+  border:1px solid #cdd7c7;
+  border-radius:5px 10px 5px 10px;
+  background:#fdfdf8;
+  color:#254c36;
+  font-size:13px;
+  font-weight:750;
+  line-height:1.5;
+  text-align:center;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-topics > a:focus-visible {
+  outline:3px solid #a98446;
+  outline-offset:3px;
+}
+body.home-page #main-content > .symptom-navigator .symptom-previsit,
+body.home-page #main-content > .symptom-navigator .symptom-preservation-cta {
+  border-radius:5px 13px 5px 13px;
+}
+body.home-page #main-content > .symptom-navigator .symptom-previsit > strong {
+  color:#244a36;
+  line-height:1.55;
+}
+body.home-page #main-content > .symptom-navigator .symptom-previsit > p {
+  color:#4c6355;
+  line-height:1.85;
+}
+body.home-page #main-content > .symptom-navigator .symptom-previsit :is(.symptom-previsit-checklist,.symptom-previsit-more) > summary {
+  box-sizing:border-box;
+  min-height:48px;
+  padding:10px 12px;
+  line-height:1.65;
+  word-break:keep-all;
+}
+body.home-page #main-content > .symptom-navigator .symptom-previsit :is(.symptom-previsit-checklist,.symptom-previsit-more) > summary:focus-visible {
+  outline:3px solid #a98446;
+  outline-offset:3px;
+}
+@media(max-width:900px) {
+  body.home-page #main-content > .symptom-navigator .symptom-quick-topics {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+@media(max-width:600px) {
+  body.home-page #main-content > .symptom-navigator #symptom-navigator-title,
+  body.home-page #main-content > .symptom-navigator #home-symptom-query {
+    scroll-margin-top:135px;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-navigator-grid {
+    grid-template-columns:minmax(0,1fr);
+    gap:9px;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-navigator-grid > a {
+    box-sizing:border-box;
+    min-height:88px;
+    padding:12px 13px;
+    grid-template-columns:36px minmax(0,1fr);
+    column-gap:11px;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-navigator-grid > a > strong {
+    font-size:clamp(15px,4vw,17px);
+    line-height:1.5;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-navigator-grid > a > span {
+    font-size:13px;
+    line-height:1.6;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search {
+    padding:clamp(14px,3vw,19px);
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search-row {
+    flex-direction:column;
+    gap:9px;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search-row :is(input,button) {
+    width:100%;
+    min-height:52px;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-quick-topics {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    margin-top:15px;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-quick-topics > a {
+    min-height:48px;
+    padding:10px 7px;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-quick-topics > a:last-child:nth-child(even) {
+    grid-column:1 / -1;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-previsit,
+  body.home-page #main-content > .symptom-navigator .symptom-preservation-cta {
+    padding:16px 14px;
+  }
+}
+@media(max-width:360px) {
+  body.home-page #main-content > .symptom-navigator .symptom-quick-topics {
+    gap:7px;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-quick-topics > a {
+    font-size:12px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.home-page #main-content > .symptom-navigator .symptom-quick-topics > a {
+    transition:none;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search-row :is(input,button),
+  body.home-page #main-content > .symptom-navigator .symptom-quick-topics > a,
+  body.home-page #main-content > .symptom-navigator .symptom-previsit,
+  body.home-page #main-content > .symptom-navigator .symptom-preservation-cta {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
