@@ -103,6 +103,13 @@ cp('tmj-care.html','tmj-care.html');cp('wisdom-tooth.html','wisdom-tooth.html');
   if(!main || html.includes('class="reading-controls"'))throw new Error('Patient reading control target is missing or duplicated: '+relative);
   html=html.replace(main,main+readingPanel);
   html=html.replace('</head>','<link rel="stylesheet" href="/assets/reading-controls.css"></head>');
+  // A single exhibition-style reading layer for the 46 detailed health
+  // articles. Keep the four topic hubs unchanged and preserve all source HTML.
+  if(relative.startsWith('health/')){
+   const styleLink='<link rel="stylesheet" href="/assets/health-article-atelier-20261031.css?v=20261031-patient-reading01">';
+   if(html.includes(styleLink))throw new Error('Duplicate health article atelier style: '+relative);
+   html=html.replace('</head>',styleLink+'</head>');
+  }
   html=html.replace('</body>','<script defer src="/assets/reading-controls.js?v='+scriptHash+'"></script></body>');
   fs.writeFileSync(filename,html);
  }
