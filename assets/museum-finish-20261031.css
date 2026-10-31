@@ -1173,3 +1173,156 @@ body.home-page #main-content > #gallery .gallery-new-arrivals {
     border-color:CanvasText;
   }
 }
+
+/* 2026-10-31 | Patient-first mobile opening and two-tier actions. */
+/* Preserve every navigation target, H1, credential and indexable paragraph.
+   Make the first mobile glance easier to scan: two strong decisions and a
+   lighter second row, followed by the complete uncropped clinic portrait. */
+@media(max-width:600px) {
+  body.home-page #main-content > .hero.wrap {
+    row-gap:clamp(11px,2.9vw,15px);
+    padding-block:clamp(17px,4.5vw,24px);
+    box-shadow:0 5px 19px rgba(30,54,39,.035);
+  }
+  body.home-page #main-content > .hero.wrap .kicker {
+    font-size:10px;
+    letter-spacing:.12em;
+    line-height:1.65;
+  }
+  body.home-page #main-content > .hero.wrap #headline {
+    font-size:clamp(27px,7vw,34px);
+    line-height:1.38;
+    letter-spacing:-.062em;
+    margin-block:8px 11px;
+    max-width:100%;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+  body.home-page #main-content > .hero.wrap .hero-doctor-credentials {
+    padding:9px 11px;
+    margin-block:9px 10px;
+    line-height:1.65;
+    border-left-width:2px;
+    box-shadow:none;
+  }
+  body.home-page #main-content > .hero.wrap .hero-doctor-credentials :is(strong,span,a) {
+    overflow-wrap:anywhere;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions {
+    gap:7px;
+    width:100%;
+    margin:10px 0 8px;
+    align-items:stretch;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-call,.hero-booking) {
+    box-sizing:border-box;
+    min-width:0;
+    min-height:57px;
+    padding:9px 6px;
+    border-radius:5px;
+    font-size:clamp(12px,3.15vw,14px);
+    line-height:1.46;
+    box-shadow:none;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-hours,.hero-symptoms,.hero-map) {
+    box-sizing:border-box;
+    min-width:0;
+    min-height:45px;
+    padding:8px 5px;
+    border:1px solid #d9d8cb;
+    border-radius:4px;
+    background:#fafaf5;
+    color:#365843;
+    font-size:clamp(11px,2.9vw,13px);
+    line-height:1.45;
+    font-weight:700;
+    box-shadow:none;
+    white-space:normal;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+  body.home-page #main-content > .hero.wrap .hero-local-intro {
+    margin-block:9px 5px;
+    padding-left:10px;
+    border-left-width:2px;
+    font-size:clamp(12px,3.2vw,13px);
+    line-height:1.78;
+    word-break:keep-all;
+  }
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    box-sizing:border-box;
+    width:min(100%,360px);
+    max-width:360px;
+    height:auto;
+    min-height:0;
+    padding:7px;
+    margin:9px auto 17px;
+    box-shadow:0 8px 22px rgba(31,55,40,.075);
+  }
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork > img {
+    width:100%;
+    height:auto;
+    aspect-ratio:3/2;
+    object-fit:contain;
+  }
+  body.home-page #main-content > .hero.wrap .hero-artwork__plaque {
+    padding:9px 8px 8px;
+  }
+}
+/* On a regular-width phone all three low-priority guides fit a single row.
+   Very narrow phones deliberately retain a full-width map link below. */
+@media(min-width:390px) and (max-width:600px) {
+  body.home-page #main-content > .hero.wrap .hero-actions {
+    display:grid;
+    grid-template-columns:repeat(6,minmax(0,1fr));
+    grid-auto-columns:minmax(0,1fr);
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > .hero-call {
+    display:flex;
+    grid-column:1 / span 3;
+    grid-row:1;
+    order:0;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > .hero-booking {
+    display:flex;
+    grid-column:4 / span 3;
+    grid-row:1;
+    order:1;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > .hero-hours {
+    grid-column:1 / span 2;
+    grid-row:2;
+    order:2;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > .hero-symptoms {
+    grid-column:3 / span 2;
+    grid-row:2;
+    order:3;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > .hero-map {
+    grid-column:5 / span 2;
+    grid-row:2;
+    order:4;
+  }
+}
+@media(max-width:389px) {
+  body.home-page #main-content > .hero.wrap .hero-actions > .hero-map {
+    grid-column:1/-1;
+    grid-row:3;
+    min-height:44px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-hours,.hero-symptoms) {
+    min-height:46px;
+    font-size:12px;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > .hero.wrap .hero-actions > :is(
+    .hero-call,.hero-booking,.hero-hours,.hero-symptoms,.hero-map
+  ) {
+    background:ButtonFace;
+    color:ButtonText;
+    border-color:ButtonText;
+    box-shadow:none;
+  }
+}
