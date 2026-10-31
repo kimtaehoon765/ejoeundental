@@ -81,6 +81,44 @@ test('search results preserve patient-facing categories and show a safe query ba
  }
 });
 
+
+test('homepage critical CSS retains its cascade while reducing three requests to one',()=>{
+ const home=read('index.html');
+ const cssHref=home.match(/href="(\/assets\/home-critical-([0-9a-f]{12})\.css)"/)?.[1];
+ assert.ok(cssHref,'fingerprinted first-screen CSS bundle is linked');
+ const stylesheet=read(cssHref.slice(1));
+ const originals=['style.css','home-enhancements.css','address-copy.css'];
+ const boundaries=[];
+ for(const file of originals){
+  const original=read('assets/'+file).trimEnd();
+  const at=stylesheet.indexOf(original);
+  assert.ok(at>=0,'bundle must contain unchanged stylesheet '+file);
+  boundaries.push(at);
+  assert.equal(stylesheet.indexOf(original,at+1),-1,
+   'do not duplicate original stylesheet '+file);
+ }
+ assert.ok(boundaries[0]<boundaries[1]&&boundaries[1]<boundaries[2],
+  'critical stylesheet cascade order must remain intact');
+ assert.ok(!home.includes('href="/assets/home-enhancements.css'),
+  'avoid the redundant render-blocking enhancement CSS request');
+ assert.ok(!home.includes('href="/assets/address-copy.css'),
+  'avoid the redundant render-blocking address CSS request');
+ const later=[
+  'gallery-upgrade.css','gallery-finish.css','museum-home-v2.css',
+  'atelier-home-2026.css','curatorial-home.css','gallery-edition-polish.css',
+  'home-art-direction-20261030.css','atelier-refinement-20261030.css'
+ ];
+ const positions=later.map(name=>home.indexOf('href="/assets/'+name));
+ assert.ok(positions.every(n=>n>=0),'all existing museum styles must still load');
+ assert.ok(positions.every((n,i)=>i===0||n>positions[i-1]),
+  'museum styles remain in approved cascade order');
+ assert.ok(home.indexOf(cssHref)<positions[0],
+  'critical stylesheet must load before museum finish layers');
+ assert.ok(home.includes('href="tel:0325132875"')&&
+  home.includes('class="mobile-booking-actions"'),
+  'original phone and booking actions remain present');
+});
+
 test('visit preparation presents four original clinical steps and three journal reading cards',()=>{
  const visit=home.match(/<section class="section light" id="visit-guide">([\s\S]*?)<\/section>/)?.[1]||'';
  const stepGrid=visit.match(/<div class="grid visit-care-steps"[^>]*>([\s\S]*?)<\/div><p class="notice">/)?.[1]||'';
