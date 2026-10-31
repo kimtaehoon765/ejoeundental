@@ -1,0 +1,449 @@
+/* 이조은치과 · Visit & Arrival Atelier · 2026-10-31
+   Purely visual layer. Medical, schedule, parking, phone, booking and
+   external directions content remain the authoritative original markup. */
+body.visit-gallery{
+ --visit-ink:#264a37;
+ --visit-deep:#173e2e;
+ --visit-gold:#a68b60;
+ --visit-paper:#fffefa;
+ --visit-cream:#f8f6ef;
+ --visit-border:#ded6c4;
+ --visit-sage:#edf4ec;
+ box-sizing:border-box;
+ background:linear-gradient(180deg,#f5f5ee 0%,#f9f9f5 38%,#f4f6f1 100%);
+ color:var(--visit-ink);
+ font-family:"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+ line-height:1.86;
+ word-break:keep-all;
+}
+body.visit-gallery :is(header,main,footer){
+ box-sizing:border-box;
+ width:100%;
+ max-width:960px;
+ margin-inline:auto;
+ padding-inline:clamp(18px,4.2vw,44px);
+}
+body.visit-gallery header{
+ position:relative;
+ margin-top:clamp(18px,4vw,38px);
+ margin-bottom:clamp(15px,2.5vw,28px);
+ padding-top:clamp(24px,4vw,47px);
+ padding-bottom:clamp(25px,4vw,40px);
+ border:1px solid #d5c9b3;
+ border-top:4px solid var(--visit-gold);
+ border-radius:4px 20px 4px 20px;
+ background:
+  radial-gradient(ellipse at 100% 0%,rgba(191,211,185,.28),transparent 55%),
+  linear-gradient(143deg,#fffdf7,#f6f5ec 75%,#edf3eb);
+ box-shadow:0 16px 44px rgba(33,57,41,.07);
+ overflow:hidden;
+}
+body.visit-gallery header::after{
+ content:"";
+ position:absolute;
+ right:20px;
+ top:20px;
+ width:72px;
+ height:72px;
+ border-top:1px solid rgba(161,134,88,.45);
+ border-right:1px solid rgba(161,134,88,.45);
+ pointer-events:none;
+}
+body.visit-gallery header>a:first-child{
+ display:inline-flex;
+ align-items:center;
+ min-height:44px;
+ color:#38634a;
+ font-size:13px;
+ font-weight:750;
+ text-decoration:none;
+ text-underline-offset:4px;
+}
+body.visit-gallery .visit-atelier-eyebrow{
+ margin:clamp(17px,2.8vw,27px) 0 7px;
+ color:#816743;
+ font:800 11px/1.6 system-ui,sans-serif;
+ letter-spacing:.12em;
+}
+body.visit-gallery header h1{
+ max-width:24ch;
+ margin:0 0 18px;
+ color:#244a37;
+ font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+ font-weight:700;
+ font-size:clamp(27px,4.2vw,42px);
+ line-height:1.42;
+ letter-spacing:-.045em;
+ text-wrap:balance;
+}
+body.visit-gallery header>p:not(.visit-atelier-eyebrow){
+ max-width:73ch;
+ margin:0;
+ color:#4b6150;
+ font-size:clamp(15px,1.6vw,17px);
+ line-height:1.92;
+ overflow-wrap:anywhere;
+}
+body.visit-gallery header>p strong{color:#27553c}
+body.visit-gallery .visit-quick-actions{
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ max-width:710px;
+ gap:10px;
+ margin-top:21px;
+}
+body.visit-gallery .visit-quick-actions>a{
+ box-sizing:border-box;
+ min-width:0;
+ min-height:52px;
+ padding:12px 15px;
+ border:1px solid #c7d3c3;
+ border-radius:4px 11px 4px 11px;
+ background:#fffefa;
+ color:#2b5c41;
+ font-size:14px;
+ line-height:1.55;
+ font-weight:780;
+ box-shadow:0 3px 10px rgba(30,61,43,.035);
+}
+body.visit-gallery .visit-quick-actions>.quick-call{
+ border-color:#28563d;
+ background:#28563d;
+ color:#fff;
+}
+body.visit-gallery .visit-quick-actions>a:focus-visible{
+ outline:3px solid #a7824e;
+ outline-offset:3px;
+}
+body.visit-gallery main{
+ padding-top:0;
+ padding-bottom:clamp(32px,5vw,58px);
+}
+body.visit-gallery main>nav[aria-label="현재 위치"]{
+ color:#627263;
+ padding:0 2px;
+ font-size:12px!important;
+}
+body.visit-gallery .visit-jump{
+ gap:10px;
+ margin:12px 0 clamp(19px,3vw,31px);
+}
+body.visit-gallery .visit-jump>a{
+ box-sizing:border-box;
+ min-width:0;
+ min-height:54px;
+ padding:11px 14px;
+ border:1px solid #d9d0bc;
+ border-bottom:3px solid #bba47b;
+ border-radius:4px 11px 4px 11px;
+ background:var(--visit-paper);
+ color:#33563f;
+ font-size:14px;
+ font-weight:800;
+ line-height:1.55;
+}
+body.visit-gallery .visit-jump>a:nth-child(2){border-bottom-color:#8eaa8e}
+body.visit-gallery .visit-jump>a:nth-child(3){border-bottom-color:#8da8a8}
+body.visit-gallery .visit-jump>a:nth-child(4){border-bottom-color:#a99c88}
+body.visit-gallery .visit-jump>a:hover,
+body.visit-gallery .visit-arrival-actions>a:hover{
+ border-color:#7a987d;
+ background:#f5faf3;
+}
+body.visit-gallery main>section.card{
+ position:relative;
+ margin:clamp(13px,2vw,22px) 0;
+ padding:clamp(21px,3.1vw,33px);
+ border:1px solid #ded9cb;
+ border-radius:5px 17px 5px 17px;
+ background:#fffefa;
+ box-shadow:0 9px 25px rgba(33,53,40,.043);
+}
+body.visit-gallery main>section.card h2{
+ margin:0 0 15px;
+ color:#264d38;
+ font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+ font-size:clamp(21px,2.35vw,27px);
+ font-weight:700;
+ line-height:1.5;
+ letter-spacing:-.04em;
+ text-wrap:balance;
+}
+body.visit-gallery main>section.card :is(p,li,dd){
+ font-size:clamp(15px,1.45vw,16px);
+ line-height:1.88;
+ word-break:keep-all;
+ overflow-wrap:anywhere;
+}
+body.visit-gallery main>section.card :is(p,ul,ol,dl)+p{margin-top:13px}
+body.visit-gallery main>section.card a{
+ text-underline-offset:4px;
+ overflow-wrap:anywhere;
+}
+body.visit-gallery .visit-hours-card{
+ border-top:4px solid #b39b70;
+ background:linear-gradient(170deg,#fffefa,#faf8f1);
+}
+body.visit-gallery .visit-hours-card>h2::before,
+body.visit-gallery .visit-parking-card>h2::before,
+body.visit-gallery .visit-transit-card>h2::before,
+body.visit-gallery .visit-preparation-card>h2::before{
+ display:block;
+ margin-bottom:8px;
+ color:#826842;
+ font:800 11px/1.45 system-ui,sans-serif;
+ letter-spacing:.15em;
+}
+body.visit-gallery .visit-hours-card>h2::before{content:"01 · OPENING HOURS"}
+body.visit-gallery .visit-parking-card>h2::before{content:"02 · ADDRESS & PARKING"}
+body.visit-gallery .visit-transit-card>h2::before{content:"03 · FIND US"}
+body.visit-gallery .visit-preparation-card>h2::before{content:"04 · BEFORE YOUR VISIT"}
+body.visit-gallery .visit-hours-card>ul{
+ margin:17px 0 24px;
+ padding:0;
+ list-style:none;
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:9px;
+}
+body.visit-gallery .visit-hours-card>ul>li{
+ box-sizing:border-box;
+ min-width:0;
+ margin:0;
+ padding:12px 13px 12px 17px;
+ border-left:3px solid #b9a47e;
+ background:#f5f6ef;
+ border-radius:3px 9px 3px 9px;
+ font-weight:680;
+ color:#345340;
+}
+body.visit-gallery .visit-hours-card>ul>li:last-child{
+ border-left-color:#8a9f8a;
+ background:#f0f5ee;
+}
+body.visit-gallery .visit-cycle{
+ padding:clamp(17px,2.5vw,26px);
+ border:1px solid #d8d0bc;
+ border-top:3px solid var(--visit-gold);
+ border-radius:5px 15px 5px 15px;
+ background:linear-gradient(137deg,#faf8ef,#f1f6ee);
+}
+body.visit-gallery .visit-cycle>h3{
+ margin:0 0 9px;
+ font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+ color:#264b37;
+ font-size:clamp(18px,2vw,22px);
+ line-height:1.48;
+}
+body.visit-gallery .visit-cycle>p{line-height:1.78}
+body.visit-gallery .visit-cycle__grid{gap:12px}
+body.visit-gallery .visit-cycle__card{
+ border:1px solid #d1d8c7;
+ border-top:3px solid #75937b;
+ border-radius:4px 12px 4px 12px;
+ padding:clamp(15px,2vw,20px);
+ background:#fffefa;
+}
+body.visit-gallery .visit-cycle__card--closed{
+ border-top-color:#ad9874;
+ background:#f8f5ee;
+}
+body.visit-gallery .visit-cycle__card>strong{
+ color:#26543b;
+ font-size:clamp(16px,1.7vw,18px);
+}
+body.visit-gallery .visit-cycle__card>span{
+ display:flex;
+ align-items:baseline;
+ justify-content:space-between;
+ flex-wrap:wrap;
+ column-gap:7px;
+ row-gap:1px;
+ min-width:0;
+ font-size:14px;
+ line-height:1.8;
+}
+body.visit-gallery .visit-cycle__card>span>b{
+ font-weight:800;
+ color:#24513a;
+ font-size:15px;
+ white-space:normal;
+ text-align:right;
+}
+body.visit-gallery .visit-cycle__card--closed>span>b{color:#645f53}
+body.visit-gallery .visit-cycle .visit-cycle__caution{
+ margin-top:16px;
+ padding:14px 16px;
+ border-left:3px solid #b18a4e;
+ background:#fff9ed;
+ color:#5b4e38;
+ line-height:1.82;
+}
+body.visit-gallery .visit-cycle .visit-cycle__contact{
+ min-height:52px;
+ border-radius:5px 11px 5px 11px;
+ background:#23533c;
+ font-size:15px;
+ line-height:1.5;
+}
+body.visit-gallery .visit-parking-card{border-top:4px solid #7c9e81}
+body.visit-gallery .visit-arrival-panel{gap:12px}
+body.visit-gallery .visit-arrival-panel>div{
+ border:1px solid #dcd5c5;
+ border-top:3px solid #b59d71;
+ border-radius:4px 13px 4px 13px;
+ background:#fffdf8;
+}
+body.visit-gallery .visit-arrival-panel>.visit-arrival-parking{
+ border-top-color:#81a089;
+ background:linear-gradient(130deg,#f8faf4,#eef5eb);
+}
+body.visit-gallery .visit-arrival-label{
+ font-weight:800;
+ font-size:11px;
+ letter-spacing:.14em;
+ color:#806947;
+}
+body.visit-gallery .visit-arrival-panel #visit-clinic-address{
+ color:#254a36;
+ font-size:clamp(17px,2vw,21px);
+ font-weight:750;
+ line-height:1.64;
+}
+body.visit-gallery .visit-arrival-actions>a{
+ min-height:52px;
+ background:#f8faf5;
+ border:1px solid #c7d7c4;
+ border-radius:4px 11px 4px 11px;
+ color:#25563c;
+}
+body.visit-gallery .visit-arrival-actions>a:first-child{
+ background:#285941;
+ border-color:#285941;
+ color:#fffefa;
+}
+body.visit-gallery .visit-transit-card{border-top:4px solid #839c9b}
+body.visit-gallery .visit-preparation-card{border-top:4px solid #a89781}
+body.visit-gallery .clinic-local-questions{
+ background:linear-gradient(135deg,#fffefa,#f4f8f0);
+ border-color:#d7d6c7;
+}
+body.visit-gallery .clinic-local-questions :is(dt,dd){line-height:1.84}
+body.visit-gallery .clinic-local-questions dt{
+ color:#244f38;
+ font-size:16px;
+}
+body.visit-gallery .clinic-local-questions dd{margin:6px 0 16px}
+body.visit-gallery .links a{
+ box-sizing:border-box;
+ min-height:44px;
+ border-radius:5px;
+}
+body.visit-gallery footer{
+ border-top:1px solid #d9d1c1;
+ color:#607263;
+ font-size:13px;
+ line-height:1.8;
+}
+@media(max-width:700px){
+ body.visit-gallery header{margin-top:13px;margin-bottom:17px}
+ body.visit-gallery .visit-hours-card>ul{
+  grid-template-columns:minmax(0,1fr);
+  gap:7px;
+ }
+ body.visit-gallery .visit-hours-card>ul>li{padding:10px 12px 10px 15px}
+ body.visit-gallery .visit-cycle__grid{grid-template-columns:minmax(0,1fr)}
+ body.visit-gallery .visit-arrival-panel{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:600px){
+ body.visit-gallery{padding-bottom:calc(86px + env(safe-area-inset-bottom,0px))}
+ body.visit-gallery :is(header,main,footer){padding-inline:16px}
+ body.visit-gallery header{
+  margin-inline:12px;
+  width:calc(100% - 24px);
+  padding:24px 17px 26px;
+  border-radius:4px 16px 4px 16px;
+ }
+ body.visit-gallery header::after{width:38px;height:38px;right:12px;top:12px}
+ body.visit-gallery header h1{
+  font-size:clamp(27px,7vw,36px);
+  line-height:1.48;
+ }
+ body.visit-gallery header>p:not(.visit-atelier-eyebrow){
+  font-size:15px;
+  line-height:1.87;
+ }
+ body.visit-gallery .visit-quick-actions{
+  gap:8px;
+  margin-top:17px;
+ }
+ body.visit-gallery .visit-quick-actions>a{
+  min-height:49px;
+  padding:10px 8px;
+  font-size:clamp(12px,3.25vw,14px);
+ }
+ body.visit-gallery .visit-jump{gap:8px}
+ body.visit-gallery .visit-jump>a{
+  min-height:50px;
+  padding:10px 7px;
+  font-size:clamp(12px,3.5vw,14px);
+ }
+ body.visit-gallery main>section.card{
+  padding:20px 17px;
+  border-radius:4px 14px 4px 14px;
+  margin:13px 0;
+ }
+ body.visit-gallery main>section.card h2{
+  font-size:clamp(20px,5.6vw,25px);
+  line-height:1.52;
+ }
+ body.visit-gallery main>section.card :is(p,li,dd){
+  font-size:16px;
+  line-height:1.88;
+ }
+ body.visit-gallery .visit-cycle{padding:14px}
+ body.visit-gallery .visit-cycle__card{padding:14px}
+ body.visit-gallery .visit-cycle__card>span>b{font-size:14px}
+ body.visit-gallery .visit-arrival-panel>div{padding:16px}
+ body.visit-gallery .visit-mobile-actions{
+  gap:7px;
+  background:rgba(251,252,248,.98);
+  border-top:1px solid #c8d4c4;
+ }
+ body.visit-gallery .visit-mobile-actions>a{
+  border-radius:4px 10px 4px 10px;
+  min-height:49px;
+  padding:8px 4px;
+ }
+}
+@media(max-width:375px){
+ body.visit-gallery .visit-quick-actions{grid-template-columns:minmax(0,1fr)}
+ body.visit-gallery .visit-jump>a{font-size:12px}
+ body.visit-gallery .visit-cycle__card>span{gap:4px}
+}
+@media(prefers-reduced-motion:reduce){
+ body.visit-gallery .visit-jump>a,
+ body.visit-gallery .visit-quick-actions>a,
+ body.visit-gallery .visit-arrival-actions>a{transition:none}
+}
+@media(forced-colors:active){
+ body.visit-gallery header,
+ body.visit-gallery main>section.card,
+ body.visit-gallery .visit-cycle,
+ body.visit-gallery .visit-cycle__card,
+ body.visit-gallery .visit-arrival-panel>div,
+ body.visit-gallery .visit-jump>a,
+ body.visit-gallery .visit-quick-actions>a{
+  background:Canvas;
+  color:CanvasText;
+  border-color:CanvasText;
+  box-shadow:none;
+ }
+}
+@media print{
+ body.visit-gallery{background:#fff;padding-bottom:0}
+ body.visit-gallery header,
+ body.visit-gallery main>section.card,
+ body.visit-gallery .visit-cycle{box-shadow:none}
+ body.visit-gallery .visit-mobile-actions{display:none!important}
+ body.visit-gallery main>section.card{break-inside:avoid}
+}
