@@ -1,0 +1,321 @@
+/* 이조은치과 · Original stories journal salon · 2026-10-31
+   Presentation only: no article links, search behavior, blog URLs, clinic
+   credentials, source text or generated directory placeholders are altered. */
+body.stories-gallery{
+  --journal-ink:#254835;
+  --journal-gold:#ad8b56;
+  --journal-sage:#839f86;
+  --journal-paper:#fffefa;
+  background:linear-gradient(180deg,#f7f8f3,#fbfaf5 42%,#f5f7f0);
+}
+body.stories-gallery #main{
+  max-width:1160px;
+  padding-top:clamp(26px,4vw,50px);
+}
+body.stories-gallery #main>.eyebrow{
+  color:#786844;
+  font-size:11px;
+  letter-spacing:.15em;
+}
+body.stories-gallery #main>h1{
+  margin:12px 0 clamp(22px,3.5vw,38px);
+  font-size:clamp(32px,4.4vw,49px);
+  color:#244534;
+  letter-spacing:-.058em;
+  line-height:1.44;
+  text-wrap:balance;
+}
+body.stories-gallery .journal-entrance{
+  display:grid;
+  grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);
+  gap:clamp(12px,2vw,24px);
+  align-items:stretch;
+  margin:0 0 clamp(21px,3vw,34px);
+}
+body.stories-gallery .journal-entrance__copy{
+  box-sizing:border-box;
+  min-width:0;
+  padding:clamp(21px,3.2vw,37px);
+  border:1px solid #d4c9b5;
+  border-top:4px solid #ad9166;
+  border-radius:5px 18px 5px 18px;
+  background:
+    radial-gradient(ellipse at 96% 0%,rgba(190,207,182,.29),transparent 55%),
+    linear-gradient(135deg,#fffdf7,#f5f6ed);
+  box-shadow:0 13px 30px rgba(33,56,40,.056);
+}
+body.stories-gallery .journal-entrance__copy>.intro{
+  max-width:65ch;
+  margin:0 0 19px;
+  font-size:clamp(16px,1.5vw,18px);
+  line-height:1.94;
+  color:#425a48;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.stories-gallery .journal-entrance__copy>.intro a{
+  color:#285940;
+  text-underline-offset:5px;
+  font-weight:800;
+}
+body.stories-gallery .journal-entrance__copy>.doctor-byline{
+  margin:0;
+  max-width:100%;
+  padding:15px 17px;
+  border:1px solid #d5d9c7;
+  border-left:3px solid #8eaa8e;
+  border-radius:5px 11px 5px 11px;
+  background:rgba(255,254,251,.84);
+  color:#455f4b;
+  font-size:14px;
+  line-height:1.84;
+  box-shadow:none;
+}
+body.stories-gallery .journal-entrance__paths{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  padding:clamp(21px,3vw,33px);
+  border:1px solid #d3ddcf;
+  border-top:4px solid #8ca68f;
+  border-radius:5px 18px 5px 18px;
+  background:linear-gradient(135deg,#f1f6ef,#fffefa);
+  box-shadow:0 13px 29px rgba(30,52,41,.042);
+}
+body.stories-gallery .journal-entrance__paths>strong{
+  color:#28513a;
+  font:700 clamp(19px,2vw,23px)/1.6 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.04em;
+}
+body.stories-gallery .journal-entrance__paths>.journal-entrance__hint{
+  margin:7px 0 16px;
+  color:#55705a;
+  font-size:14px;
+  line-height:1.75;
+}
+body.stories-gallery .journal-entrance__paths>.story-key-guides{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:9px;
+  margin:0;
+}
+body.stories-gallery .journal-entrance__paths>.story-key-guides>a{
+  display:flex;
+  align-items:center;
+  box-sizing:border-box;
+  min-width:0;
+  min-height:53px;
+  padding:11px 13px;
+  border:1px solid #d0d8c7;
+  border-left:3px solid #8ca68f;
+  border-radius:4px 10px 4px 10px;
+  background:#fffefa;
+  color:#315c42;
+  font-size:14px;
+  line-height:1.65;
+  font-weight:800;
+  text-decoration:none;
+  overflow-wrap:anywhere;
+}
+body.stories-gallery .journal-entrance__paths>.story-key-guides>a:nth-child(even){
+  border-left-color:#ad946b;
+  background:#fbf9f3;
+}
+body.stories-gallery .journal-entrance__paths>.story-key-guides>a:hover{
+  border-color:#91b59a;
+  background:#ecf4e9;
+}
+body.stories-gallery .updated-story-guides{
+  padding:clamp(19px,2.8vw,30px);
+  border:1px solid #d2c9b5;
+  border-top:3px solid #b39a72;
+  border-radius:5px 16px 5px 16px;
+  background:linear-gradient(145deg,#fffefa,#f7f5ed);
+  box-shadow:0 9px 25px rgba(37,57,43,.041);
+}
+body.stories-gallery .updated-story-guides>h2{
+  color:var(--journal-ink);
+  font-size:clamp(21px,2.5vw,27px);
+  line-height:1.51;
+}
+body.stories-gallery .updated-story-guides>p{
+  font-size:15px;
+  line-height:1.83;
+}
+body.stories-gallery .updated-story-guides__links>a{
+  min-height:55px;
+  padding:12px 15px;
+  border-radius:4px 11px 4px 11px;
+  background:#fffdf8;
+  color:#2c573e;
+  font-size:14px;
+  line-height:1.67;
+}
+body.stories-gallery .directory-summary{
+  border:1px solid #cfd9c7;
+  border-top:3px solid #8ea68d;
+  border-radius:5px 16px 5px 16px;
+  background:linear-gradient(140deg,#f0f5eb,#fffcf4);
+}
+body.stories-gallery .directory-actions>a{
+  min-height:53px;
+  border-radius:4px 11px 4px 11px;
+  line-height:1.6;
+}
+body.stories-gallery .directory-search label{
+  font-size:15px;
+  color:#315c42;
+}
+body.stories-gallery .directory-search input{
+  min-height:50px;
+  font-size:16px;
+  line-height:1.55;
+  border-radius:5px 10px 5px 10px;
+}
+body.stories-gallery .directory-search button{
+  min-height:50px;
+  font-size:15px;
+  border-radius:5px 10px 5px 10px;
+}
+body.stories-gallery .story-topic{
+  margin-block:clamp(28px,4vw,47px);
+  scroll-margin-top:100px;
+}
+body.stories-gallery .story-topic-heading{
+  gap:13px;
+  padding:0 0 15px 13px;
+  border-left:3px solid #a88e61;
+  border-bottom:1px solid #d9d6c9;
+}
+body.stories-gallery .story-topic:nth-of-type(even)>.story-topic-heading{
+  border-left-color:#82a08b;
+}
+body.stories-gallery .story-topic-heading h2{
+  color:#254835;
+  font-size:clamp(23px,3vw,31px);
+}
+body.stories-gallery .story-grid{
+  gap:clamp(11px,2vw,19px);
+}
+body.stories-gallery .story-card{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  min-width:0;
+  padding:clamp(20px,2.5vw,29px);
+  border:1px solid #ded8ca;
+  border-top:3px solid #94aa94;
+  border-radius:4px 14px 4px 14px;
+  background:#fffefa;
+  box-shadow:0 11px 27px rgba(37,61,44,.04);
+  text-decoration:none;
+}
+body.stories-gallery .story-card:focus-visible{
+  outline:3px solid #a78346;
+  outline-offset:3px;
+}
+body.stories-gallery .story-card:hover{
+  border-color:#8aab93;
+  background:#fdfef9;
+  box-shadow:0 13px 27px rgba(37,61,44,.062);
+}
+body.stories-gallery .story-card time{
+  display:block;
+  color:#806b4e;
+  font-size:12px;
+  font-weight:750;
+  letter-spacing:.02em;
+}
+body.stories-gallery .story-card h3{
+  color:#234e36;
+  font:700 clamp(18px,1.75vw,21px)/1.58 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.045em;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.stories-gallery .story-card>p{
+  color:#48624e;
+  font-size:clamp(15px,1.3vw,16px);
+  line-height:1.89;
+  word-break:keep-all;
+}
+body.stories-gallery .story-card>.read{
+  display:inline-flex;
+  align-items:center;
+  min-height:43px;
+  padding-top:12px;
+  margin-top:auto;
+  border-top:1px solid #dce5d8;
+  color:#2d6346;
+  font-size:14px;
+  line-height:1.65;
+}
+body.stories-gallery .bottom-help{
+  border:1px solid #d5d8c8;
+  border-top:3px solid #9fb49a;
+  border-radius:4px 14px 4px 14px;
+  background:#fffefa;
+}
+@media(max-width:850px){
+  body.stories-gallery .journal-entrance{grid-template-columns:minmax(0,1fr)}
+  body.stories-gallery .journal-entrance__paths>.story-key-guides{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:650px){
+  body.stories-gallery #main>h1{font-size:clamp(30px,7vw,39px)}
+  body.stories-gallery .journal-entrance__copy,
+  body.stories-gallery .journal-entrance__paths{
+    padding:21px 17px;
+  }
+  body.stories-gallery .journal-entrance__copy>.intro{
+    font-size:16px;
+    line-height:1.9;
+  }
+  body.stories-gallery .journal-entrance__paths>.story-key-guides{
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.stories-gallery .updated-story-guides{
+    padding:19px 15px;
+  }
+  body.stories-gallery .updated-story-guides__links>a{
+    font-size:14px;
+    min-height:52px;
+  }
+  body.stories-gallery .directory-search{
+    align-items:stretch;
+  }
+  body.stories-gallery .directory-search input,
+  body.stories-gallery .directory-search button{
+    width:100%;
+    max-width:none;
+    flex:1 1 100%;
+    min-height:50px;
+    font-size:16px;
+  }
+  body.stories-gallery .story-card{
+    padding:21px 18px;
+    gap:9px;
+  }
+  body.stories-gallery .story-card h3{font-size:19px}
+  body.stories-gallery .story-card>p{font-size:16px;line-height:1.88}
+  body.stories-gallery .story-card>.read{min-height:46px}
+}
+@media(prefers-reduced-motion:reduce){
+  body.stories-gallery .journal-entrance__paths>.story-key-guides>a,
+  body.stories-gallery .story-card{transition:none}
+}
+@media(forced-colors:active){
+  body.stories-gallery .journal-entrance__copy,
+  body.stories-gallery .journal-entrance__paths,
+  body.stories-gallery .journal-entrance__paths>.story-key-guides>a,
+  body.stories-gallery .updated-story-guides,
+  body.stories-gallery .directory-summary,
+  body.stories-gallery .story-card{
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
