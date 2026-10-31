@@ -20,6 +20,27 @@ jobs:
         run: |
           command -v google-chrome
           google-chrome --version
+      - name: Record the deployed Cloudflare revision before measuring
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location --retry 2 --max-time 30 \
+            "https://ejoeundental.com/" -o "$RUNNER_TEMP/live-home.html"
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          const html=fs.readFileSync(path.join(process.env.RUNNER_TEMP,'live-home.html'),'utf8');
+          const deployed=html.match(/<meta name="ejoeundental-build-commit" content="([a-f0-9]{40})"/i)?.[1]||null;
+          const source=process.env.GITHUB_SHA;
+          const status=deployed===source?'current':deployed?'previous-release':'unknown';
+          const report={deployedCommit:deployed,sourceCommit:source,status,checkedOrigin:'https://ejoeundental.com/'};
+          fs.writeFileSync(path.join(process.env.RUNNER_TEMP,'deployment-fingerprint.json'),JSON.stringify(report,null,2));
+          console.log('[MOBILE BASELINE] Cloudflare build:',deployed||'not identified','/ workflow source:',source,'/ status:',status);
+          if(process.env.GITHUB_STEP_SUMMARY)fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
+           '\n**실제 공개 배포 버전:** '+(deployed||'확인 불가')+
+           '\n\n**검사 대상 GitHub 커밋:** '+source+
+           '\n\n**배포 일치 여부:** '+status+'\n');
+          NODE
       - name: Measure actual deployed site in simulated mobile conditions
         shell: bash
         run: |
@@ -104,5 +125,6 @@ jobs:
             ${{ runner.temp }}/lighthouse-doctor.json
             ${{ runner.temp }}/lighthouse-gallery.json
             ${{ runner.temp }}/lighthouse-mobile-summary.json
+            ${{ runner.temp }}/deployment-fingerprint.json
           if-no-files-found: warn
           retention-days: 7
