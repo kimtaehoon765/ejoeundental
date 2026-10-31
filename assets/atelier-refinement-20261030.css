@@ -4575,3 +4575,244 @@ body.home-page #main-content > #care .care-directory :is(a,summary):focus-visibl
     color: CanvasText;
   }
 }
+
+
+/* 2026-10-31 | Curator's reading room and credential exhibition
+   A quiet, readable profile and doctor's-library finish. This is CSS-only:
+   all medical credentials, published stories, Naver links, page titles,
+   structured data, artwork URLs and booking actions remain intact. */
+body.home-page #main-content > #doctor .doctor-credential-ledger {
+  border-color: rgba(226,202,153,.58);
+  border-top-color: #dbc18e;
+  background: rgba(14,46,33,.15);
+  box-shadow: 0 8px 25px rgba(4,22,15,.09);
+}
+body.home-page #main-content > #doctor .doctor-credential-ledger__item {
+  border-color: rgba(216,197,156,.56);
+  background: rgba(255,253,241,.10);
+}
+body.home-page #main-content > #doctor .doctor-credential-ledger__item:nth-child(-n+2) {
+  border-color: #d9c79f;
+  background: linear-gradient(147deg,#fffaf0,#f3eddf);
+}
+body.home-page #main-content > #doctor .doctor-credential-ledger__item:nth-child(-n+2) > small {
+  color: #82663c;
+}
+body.home-page #main-content > #doctor .doctor-credential-ledger__item:nth-child(-n+2) > :is(.pill,#doctor_degree,.doctor-specialist-pill) {
+  color: #244936;
+  font-weight: 750;
+}
+body.home-page #main-content > #doctor .doctor-credential-ledger__item:nth-child(3) {
+  border-top-color: #cfb77f;
+}
+body.home-page #main-content > #doctor .doctor-profile-link > a {
+  border-color: rgba(242,220,170,.61);
+  background: rgba(255,251,232,.11);
+  color: #fff4d6!important;
+  font-weight: 750;
+}
+body.home-page #main-content > #stories {
+  border-top: 1px solid #ded4c0;
+  background: linear-gradient(180deg,#fbfaf5 0%,#f8f7f1 65%,#f5f5ed 100%);
+}
+body.home-page #main-content > #stories > .wrap > .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #866b42;
+  letter-spacing: .18em;
+  font-weight: 800;
+}
+body.home-page #main-content > #stories > .wrap > .eyebrow::before {
+  content: "";
+  display: block;
+  flex: none;
+  width: 26px;
+  height: 1px;
+  background: #b99c67;
+}
+body.home-page #main-content > #stories > .wrap > h2 {
+  margin-bottom: clamp(23px,3vw,35px);
+  color: #244737;
+  font-family: 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  font-weight: 700;
+  letter-spacing: -.054em;
+  line-height: 1.47;
+  text-wrap: balance;
+}
+body.home-page #main-content > #stories .journal-gallery-cover {
+  overflow: hidden;
+  border: 1px solid #cdb993;
+  border-radius: 4px 16px 4px 16px;
+  background: #fffdf7;
+  box-shadow: 0 18px 44px rgba(31,55,38,.075);
+}
+body.home-page #main-content > #stories .journal-gallery-cover__caption {
+  background: linear-gradient(145deg,#fffdf7,#f6f2e8);
+  border-color: #e0d3bc;
+}
+body.home-page #main-content > #stories .journal-gallery-cover__caption > strong {
+  color: #244c36;
+  letter-spacing: -.05em;
+  line-height: 1.52;
+}
+body.home-page #main-content > #stories .journal-gallery-cover:focus-visible {
+  outline: 3px solid #ad8343;
+  outline-offset: 4px;
+}
+body.home-page #main-content > #stories .story-collection-menu {
+  box-sizing: border-box;
+  gap: clamp(9px,1.6vw,17px);
+  margin: clamp(21px,2.8vw,34px) 0;
+}
+body.home-page #main-content > #stories .story-collection-menu > a {
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 64px;
+  border: 1px solid #d7cab3;
+  border-left: 3px solid #ad9364;
+  border-radius: 4px 12px 4px 12px;
+  background: #fffdf7;
+  color: #24503b;
+  font-weight: 750;
+  line-height: 1.7;
+  text-decoration: none;
+}
+body.home-page #main-content > #stories .story-collection-menu > a:nth-child(2) {
+  border-left-color: #83a08b;
+  background: #f8faf5;
+}
+body.home-page #main-content > #stories .story-featured-questions {
+  border: 1px solid #d9cdb5;
+  border-top: 3px solid #af9564;
+  box-shadow: 0 9px 26px rgba(36,62,46,.04);
+}
+body.home-page #main-content > #stories .story-featured-questions > a {
+  border-color: #d9cfbe;
+  border-left-color: #b39a6e;
+  background: #fffefa;
+}
+body.home-page #main-content > #stories .story-featured-questions > a:nth-of-type(2) {
+  border-left-color: #87a48d;
+  background: #fbfcf7;
+}
+body.home-page #main-content > #stories .owner-blog-direct-search {
+  border: 1px solid #d5c9b2;
+  border-top: 4px solid #ab9060;
+  border-radius: 4px 15px 4px 15px;
+  background:
+    radial-gradient(ellipse at 100% 0,rgba(178,202,173,.20),transparent 45%),
+    #fffdf7;
+  box-shadow: 0 13px 30px rgba(30,59,44,.05);
+}
+body.home-page #main-content > #stories .owner-blog-direct-search > label {
+  color: #254a37;
+  font-family: 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  font-weight: 750;
+  letter-spacing: -.04em;
+}
+body.home-page #main-content > #stories .owner-blog-direct-search__fields > input {
+  min-height: 53px;
+  border-color: #aebfac;
+  border-radius: 6px;
+  background: #fffefa;
+  font-size: 16px;
+}
+body.home-page #main-content > #stories .owner-blog-direct-search__fields > input::placeholder {
+  color: #667a6b;
+  opacity: 1;
+}
+body.home-page #main-content > #stories .owner-blog-direct-search__fields > button {
+  min-height: 53px;
+  border-color: #244f39;
+  border-radius: 6px;
+  background: #244f39;
+  font-weight: 800;
+  letter-spacing: -.025em;
+}
+body.home-page #main-content > #stories .owner-blog-direct-search__fields > :is(input,button):focus-visible {
+  outline: 3px solid #ac8549;
+  outline-offset: 3px;
+}
+body.home-page #main-content > #stories .owner-latest-exhibition-head {
+  border-bottom: 1px solid #d7c8ac;
+  padding-bottom: clamp(16px,2vw,23px);
+}
+body.home-page #main-content > #stories .owner-latest-exhibition-head__copy > small {
+  color: #866f48;
+  letter-spacing: .12em;
+}
+body.home-page #main-content > #stories .owner-latest-exhibition-head__copy > h4 {
+  color: #244a36;
+  font-family: 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  font-weight: 750;
+  letter-spacing: -.045em;
+  line-height: 1.55;
+}
+body.home-page #main-content > #stories .owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"] > .owner-story-card {
+  border: 1px solid #ddd5c6;
+  border-left: 3px solid #b49d75;
+  border-radius: 4px 12px 4px 12px;
+  background: #fffefa;
+  box-shadow: 0 6px 18px rgba(32,59,43,.038);
+}
+body.home-page #main-content > #stories .owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"] > .owner-story-card:nth-child(2n) {
+  border-left-color: #88a48e;
+  background: #fbfcf8;
+}
+body.home-page #main-content > #stories .owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"] > .owner-story-card h3 > a {
+  color: #244836;
+  line-height: 1.7;
+  text-underline-offset: 4px;
+}
+@media (hover:hover) and (pointer:fine) {
+  body.home-page #main-content > #stories .story-collection-menu > a:hover,
+  body.home-page #main-content > #stories .story-featured-questions > a:hover,
+  body.home-page #main-content > #stories .owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"] > .owner-story-card:hover {
+    border-color: #9fa88d;
+    background: #f5f8f1;
+  }
+  body.home-page #main-content > #stories .owner-blog-direct-search__fields > button:hover {
+    background: #183f2d;
+    border-color: #183f2d;
+  }
+}
+@media (max-width: 760px) {
+  body.home-page #main-content > #stories > .wrap > h2 {
+    font-size: clamp(27px,6.2vw,34px);
+  }
+  body.home-page #main-content > #stories .story-featured-questions > a {
+    min-height: 82px;
+  }
+  body.home-page #main-content > #stories .journal-gallery-cover {
+    box-shadow: 0 10px 27px rgba(31,56,40,.055);
+  }
+  body.home-page #main-content > #doctor .doctor-credential-ledger {
+    box-shadow: none;
+  }
+}
+@media (max-width: 540px) {
+  body.home-page #main-content > #stories .owner-blog-direct-search__fields {
+    grid-template-columns: minmax(0,1fr);
+  }
+  body.home-page #main-content > #stories .owner-blog-direct-search__fields > :is(input,button) {
+    width: 100%;
+    min-height: 51px;
+  }
+  body.home-page #main-content > #stories .owner-latest-exhibition-head__copy > h4 {
+    font-size: clamp(20px,5.2vw,24px);
+  }
+}
+@media (forced-colors: active) {
+  body.home-page #main-content > #doctor .doctor-credential-ledger__item:nth-child(-n+2),
+  body.home-page #main-content > #stories :is(.journal-gallery-cover,.journal-gallery-cover__caption,.story-collection-menu>a,.story-featured-questions,.story-featured-questions>a,.owner-blog-direct-search,.owner-blog-direct-search__fields>input,.owner-blog-direct-search__fields>button,.owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"]>.owner-story-card) {
+    color: CanvasText;
+    background: Canvas;
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+  body.home-page #main-content > #doctor .doctor-credential-ledger__item:nth-child(-n+2) :is(small,.pill,#doctor_degree,.doctor-specialist-pill),
+  body.home-page #main-content > #stories .owner-stories-grid[aria-label="원장의 치과 이야기 최신 8편"]>.owner-story-card h3>a {
+    color: CanvasText;
+  }
+}
