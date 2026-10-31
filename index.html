@@ -1263,16 +1263,26 @@ body.home-page .hero-stories-shortcut a:focus-visible{
 </script>
 <script src="/assets/address-copy.js" defer></script>
 <script>
-/* Mobile reading: keep the five quick links on arrival, then reduce the
-   sticky homepage header to the clinic name, search and call as visitors read. */
+/* Mobile reading: keep five quick links on arrival, then show a compact
+   clinic header after scrolling. Batch scroll work to one animation frame. */
 (function(){
   var root=document.documentElement;
+  var pending=false;
   function adjust(){
-    root.classList.toggle('home-scrolled',window.innerWidth<=600 && window.scrollY>220);
+    pending=false;
+    var compact=window.innerWidth<=600 && window.scrollY>220;
+    if(root.classList.contains('home-scrolled')!==compact){
+      root.classList.toggle('home-scrolled',compact);
+    }
   }
-  window.addEventListener('scroll',adjust,{passive:true});
-  window.addEventListener('resize',adjust,{passive:true});
-  window.addEventListener('pageshow',adjust);
+  function scheduleAdjust(){
+    if(pending)return;
+    pending=true;
+    window.requestAnimationFrame(adjust);
+  }
+  window.addEventListener('scroll',scheduleAdjust,{passive:true});
+  window.addEventListener('resize',scheduleAdjust,{passive:true});
+  window.addEventListener('pageshow',scheduleAdjust);
   adjust();
 })();
 </script>
