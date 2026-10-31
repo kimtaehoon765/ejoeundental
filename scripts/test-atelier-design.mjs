@@ -8,7 +8,14 @@ const museum=read('assets/museum-home-v2.css');
 
 test('Atelier premium stylesheet loaded AFTER the existing museum/mobile safety layer',()=>{
  const styles=[...home.matchAll(/<link[^>]+rel="stylesheet" href="([^"]+)"/g)].map(x=>x[1]);
- const a=styles.findIndex(s=>s.includes('/assets/atelier-home-2026.css?v='));
+ const exhibitionHref=styles.find(s=>/\/assets\/exhibition-foundation-[0-9a-f]{12}\.css$/.test(s));
+ assert.ok(exhibitionHref,'immutable three-layer exhibition CSS bundle must be linked');
+ const exhibition=read(exhibitionHref.slice(1));
+ const exhibitionLayers=['assets/atelier-home-2026.css','assets/curatorial-home.css','assets/gallery-edition-polish.css'];
+ const exhibitPositions=exhibitionLayers.map(file=>exhibition.indexOf(read(file).trimEnd()));
+ assert.ok(exhibitPositions.every(n=>n>=0)&&exhibitPositions.every((n,i)=>i===0||n>exhibitPositions[i-1]),
+  'Atelier, curatorial and finishing CSS must retain original source order');
+ const a=styles.indexOf(exhibitionHref);
  // The gallery base is now a content-hashed bundle; verify it contains all
  // original rules in approved order before asserting the Atelier cascade.
  const bundled=styles.find(s=>/\/assets\/gallery-foundation-[0-9a-f]{12}\.css$/.test(s));
