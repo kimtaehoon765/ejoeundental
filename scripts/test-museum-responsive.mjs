@@ -31,9 +31,17 @@ test('patient health-library search desks remain accessible and link to one veri
    file+': refreshed shared reading-room stylesheet');
   assert.ok(h.includes('rel="canonical"') && h.includes('tel:0325132875'),
    file+': original SEO and clinic contact retained');
-  assert.ok(h.includes('class="health-reading-rooms"') &&
-            h.includes('class="health-essay-index"'),
-   file+': original topic and article navigation retained');
+  assert.ok(h.includes('class="health-reading-rooms"'),
+   file+': original four-way topic selector retained');
+  if(file==='additional-health.html'){
+   for(const id of ['dentures','abrasion','cavities','preservation']){
+    assert.ok(h.includes('id="'+id+'"'),
+     file+': original 16-article topic section retained: '+id);
+   }
+  }else{
+   assert.ok(h.includes('class="health-essay-index"'),
+    file+': original 10-article reading index retained');
+  }
  }
  const search=read('search.html');
  assert.ok(search.includes('name="q" type="search"'),
