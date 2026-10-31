@@ -365,9 +365,6 @@ body.home-page #main-content > #doctor #doctor_body {
   color:#f1f1e7;
   line-height:1.95;
 }
-body.home-page #main-content > #doctor .doctor-profile-link > a {
-  text-underline-offset:5px;
-}
 /* Journal cover, health cards and FAQ share clear editorial borders. */
 body.home-page #main-content > #stories .journal-gallery-cover {
   border:1px solid #d8cbb5;
