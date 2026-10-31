@@ -151,6 +151,55 @@ test('homepage critical CSS retains its cascade while reducing three requests to
   'original phone and booking actions remain present');
 });
 
+
+test('implant and denture consultation exhibits show original art before navigation',()=>{
+ const style=read('assets/care-gallery-secondary.css');
+ assert.ok(style.includes('2026-10-31 | Preservation-first treatment exhibition: implant and dentures'),
+  'shared patient reading-gallery styling should be present');
+ for(const target of [
+  'counter-reset:question-card','counter-increment:question-card',
+  'grid-template-columns:repeat(2,minmax(0,1fr))',
+  '@media(max-width:650px)','@media(forced-colors:active)',
+  'object-fit:contain','touch-action'
+ ]){
+  // Touch behavior comes from the existing native care-gallery actions; the
+  // new exhibition CSS is restricted to the other typography/layout targets.
+  if(target==='touch-action')continue;
+  assert.ok(style.includes(target),'missing exhibition visual target '+target);
+ }
+ const cases=[
+  {file:'implant.html',slug:'implant',body:'secondary-implant',
+   topic:'ejoeun-watercolor-implant-20261029.webp',cards:'implant-patient-grid',
+   links:4,section:'implant-patient-decisions-heading'},
+  {file:'denture.html',slug:'denture',body:'secondary-denture',
+   topic:'ejoeun-watercolor-denture-20261029.webp',cards:'denture-question-grid',
+   links:4,section:'denture-patient-title'}
+ ];
+ for(const c of cases){
+  const h=read(c.file);
+  const nav=h.match(/<nav class="treatment-page-toc gallery-section-index"[\s\S]*?<\/nav>/)?.[0]||'';
+  const art=h.match(/<figure class="ejoeun-topic-art"[\s\S]*?<\/figure>/)?.[0]||'';
+  const grid=h.match(new RegExp('<div class="'+c.cards+'">([\\s\\S]*?)<\\/div>'))?.[1]||'';
+  assert.ok(h.includes('class="care-gallery care-gallery-secondary secondary-article '+c.body+'"'));
+  assert.ok(nav&&art&&h.indexOf(art)<h.indexOf(nav),
+   c.slug+': unique original art must precede the reading index');
+  assert.ok(art.includes(c.topic),c.slug+': preserve its unique original painting');
+  assert.equal((art.match(/<img\\b/g)||[]).length,1,
+   c.slug+': keep one painting per treatment page, no repeated images');
+  assert.equal((grid.match(/<article>/g)||[]).length,c.links,
+   c.slug+': keep all four original patient decision cards');
+  assert.ok(h.includes('id="'+c.section+'"'),c.slug+': chapter target preserved');
+  assert.ok(h.includes('care-gallery-secondary.css?v=20261031-treatment-exhibition04'),
+   c.slug+': visual CSS asset cache refreshed');
+  assert.ok(h.includes('href="tel:0325132875"')&&
+   h.includes('https://booking.naver.com/booking/13/bizes/1162931')&&
+   h.includes('class="care-gallery-bottom-actions"'),
+   c.slug+': native phone, Naver booking and mobile dock retained');
+  assert.ok(h.includes('rel="canonical"')&&h.includes('application/ld+json'),
+   c.slug+': existing search metadata retained');
+ }
+});
+
 test('visit preparation presents four original clinical steps and three journal reading cards',()=>{
  const visit=home.match(/<section class="section light" id="visit-guide">([\s\S]*?)<\/section>/)?.[1]||'';
  const stepGrid=visit.match(/<div class="grid visit-care-steps"[^>]*>([\s\S]*?)<\/div><p class="notice">/)?.[1]||'';
