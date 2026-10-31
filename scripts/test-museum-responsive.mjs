@@ -6,6 +6,19 @@ import {createHash} from 'node:crypto';
 const read=(path)=>readFileSync('dist/'+path,'utf8');
 const home=read('index.html');
 const museum=read('assets/museum-home-v2.css');
+// Content-hashed gallery foundation and independent newer patient styles.
+const linkedVersionedStyle=(markup,name)=>
+ markup.includes('/assets/'+name+'?v=')&&existsSync('dist/assets/'+name);
+const galleryFoundation=()=>{
+ const names=['gallery-upgrade.css','gallery-finish.css','museum-home-v2.css'];
+ const boundary='\n\n/* Ejoeun museum gallery foundation: original CSS file boundary. */\n\n';
+ const expected=names.map(name=>read('assets/'+name).trimEnd()).join(boundary)+'\n';
+ const hash=createHash('sha256').update(expected).digest('hex').slice(0,12);
+ const url='/assets/gallery-foundation-'+hash+'.css';
+ assert.ok(home.includes('href="'+url+'"'),'immutable museum CSS linked');
+ assert.equal(read(url.slice(1)),expected,'original gallery rules preserved in order');
+ return url;
+};
 
 
 test('patient health-library search desks remain accessible and link to one verified search route',()=>{
@@ -27,7 +40,7 @@ test('patient health-library search desks remain accessible and link to one veri
   assert.ok(h.includes('name="q" type="search"'),file+': query accepted by search.html');
   assert.ok(h.includes('<label for="'+id+'">') && h.includes('id="'+id+'"'),
    file+': accessible search label and unique input');
-  assert.ok(h.includes('health-library-gallery.css?v=20261031-patient-search03'),
+  assert.ok(linkedVersionedStyle(h,'health-library-gallery.css'),
    file+': refreshed shared reading-room stylesheet');
   assert.ok(h.includes('rel="canonical"') && h.includes('tel:0325132875'),
    file+': original SEO and clinic contact retained');
@@ -63,7 +76,7 @@ test('search results preserve patient-facing categories and show a safe query ba
   'screen readers still hear the count or loading status');
  assert.ok(html.includes('id="results" aria-label="홈페이지 검색 결과"'),
   'results region remains the first-party target');
- assert.ok(html.includes('search-page.css?v=20261031-results-atelier01'));
+ assert.ok(linkedVersionedStyle(html,'search-page.css'));
  assert.ok(css.includes('2026-10-31 | Result-reading salon for four health-library searches'));
  assert.ok(css.includes('body.search-gallery .search-result-list .result-next>a'),
   'clinical follow-up links stay visually distinct from search result cards');
@@ -102,7 +115,7 @@ test('mobile header scroll work is frame-batched and primary patient actions sta
  assert.ok(css.includes('.mobile-booking-actions>a:active')&&
   css.includes('body.home-page header .mobile-quick>a:active'),
   'mobile booking dock and header shortcuts keep clear touch feedback');
- assert.ok(home.includes('atelier-refinement-20261030.css?v=20261031-touch-feedback19'),
+ assert.ok(linkedVersionedStyle(home,'atelier-refinement-20261030.css'),
   'homepage invalidates cached touch feedback styles');
  assert.ok(home.includes('href="tel:0325132875"')&&
   home.includes('class="mobile-booking-actions"'),
@@ -135,12 +148,11 @@ test('homepage critical CSS retains its cascade while reducing three requests to
   'avoid the redundant render-blocking enhancement CSS request');
  assert.ok(!home.includes('href="/assets/address-copy.css'),
   'avoid the redundant render-blocking address CSS request');
- const later=[
-  'gallery-upgrade.css','gallery-finish.css','museum-home-v2.css',
-  'atelier-home-2026.css','curatorial-home.css','gallery-edition-polish.css',
-  'home-art-direction-20261030.css','atelier-refinement-20261030.css'
- ];
- const positions=later.map(name=>home.indexOf('href="/assets/'+name));
+ const foundation=galleryFoundation();
+ const later=['atelier-home-2026.css','curatorial-home.css','gallery-edition-polish.css',
+  'home-art-direction-20261030.css','atelier-refinement-20261030.css'];
+ const positions=[home.indexOf('href="'+foundation+'"'),
+  ...later.map(name=>home.indexOf('href="/assets/'+name))];
  assert.ok(positions.every(n=>n>=0),'all existing museum styles must still load');
  assert.ok(positions.every((n,i)=>i===0||n>positions[i-1]),
   'museum styles remain in approved cascade order');
@@ -184,12 +196,12 @@ test('implant and denture consultation exhibits show original art before navigat
   assert.ok(nav&&art&&h.indexOf(art)<h.indexOf(nav),
    c.slug+': unique original art must precede the reading index');
   assert.ok(art.includes(c.topic),c.slug+': preserve its unique original painting');
-  assert.equal((art.match(/<img\\b/g)||[]).length,1,
+  assert.equal((art.match(/<img\b/g)||[]).length,1,
    c.slug+': keep one painting per treatment page, no repeated images');
   assert.equal((grid.match(/<article>/g)||[]).length,c.links,
    c.slug+': keep all four original patient decision cards');
   assert.ok(h.includes('id="'+c.section+'"'),c.slug+': chapter target preserved');
-  assert.ok(h.includes('care-gallery-secondary.css?v=20261031-treatment-exhibition04'),
+  assert.ok(linkedVersionedStyle(h,'care-gallery-secondary.css'),
    c.slug+': visual CSS asset cache refreshed');
   assert.ok(h.includes('href="tel:0325132875"')&&
    h.includes('https://booking.naver.com/booking/13/bizes/1162931')&&
@@ -228,13 +240,13 @@ test('wisdom tooth and cavity exhibits retain distinct original paintings and pa
   assert.ok(html.includes(c.body),c.file+': correct treatment-specific gallery');
   assert.ok(art&&toc&&html.indexOf(art)<html.indexOf(toc),
    c.file+': painting is visible before the article chapter index');
-  assert.ok(art.includes(c.image)&& (art.match(/<img\\b/g)||[]).length===1,
+  assert.ok(art.includes(c.image)&& (art.match(/<img\b/g)||[]).length===1,
    c.file+': exactly one unchanged clinically qualified original painting');
   assert.equal((cards.match(new RegExp('<'+c.card+'\\b','g'))||[]).length,c.count,
    c.file+': preserve original educational questions and their routes');
   assert.equal((toc.match(/<a\\b/g)||[]).length,4,
    c.file+': original chapter navigation retains all four destinations');
-  assert.ok(html.includes('care-gallery-secondary.css?v=20261031-wisdom-cavity-gallery05'),
+  assert.ok(linkedVersionedStyle(html,'care-gallery-secondary.css'),
    c.file+': refreshed style should not be stuck behind an old browser cache');
   assert.ok(html.includes('href="tel:0325132875"')&&
     html.includes('https://booking.naver.com/booking/13/bizes/1162931')&&
@@ -291,7 +303,7 @@ test('pediatric dental and orthodontic exhibits preserve original illustrations 
   }
   if(c.extra)assert.ok(html.includes(c.extra),
    c.file+': keep distinct second picture for first examination and prevention');
-  assert.ok(html.includes('child-care-exhibition-20261031.css?v=20261031-child-rooms01'),
+  assert.ok(linkedVersionedStyle(html,'child-care-exhibition-20261031.css'),
    c.file+': correct cache-versioned gallery CSS');
   assert.ok(html.includes('href="tel:0325132875"')&&
    html.includes('https://booking.naver.com/booking/13/bizes/1162931')&&
@@ -343,7 +355,7 @@ test('scaling and TMJ reading exhibits retain paintings and native patient route
    assert.ok(nav.includes('href="#'+id+'"'),
     c.file+': preserve its chapter navigation');
   }
-  assert.ok(h.includes('scaling-tmj-exhibition-20261031.css?v=20261031-atlas-room01'),
+  assert.ok(linkedVersionedStyle(h,'scaling-tmj-exhibition-20261031.css'),
    c.file+': fresh final exhibit style linked');
   assert.ok(h.includes('href="'+c.essentialLink+'"'),
    c.file+': original safety or symptom information remains');
@@ -458,10 +470,10 @@ test('premium gallery foyer shows 23 unique works through three real exhibition 
 });
 test('premium home stylesheet ships after earlier layers and keeps booking visible',()=>{
  const styles=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
- const museumLink=styles.find(s=>s.includes('/assets/museum-home-v2.css?'));
- assert.ok(museumLink,'versioned museum CSS must be referenced');
- assert.ok(styles.indexOf(museumLink)>styles.findIndex(s=>s.includes('/assets/gallery-finish.css')),
-  'museum refinements must win over earlier gallery layer');
+ const museumLink=galleryFoundation();
+ assert.ok(styles.includes(museumLink),'immutable museum CSS must be referenced');
+ assert.ok(styles.indexOf(museumLink)<styles.findIndex(s=>s.includes('/assets/atelier-home-2026.css')),
+  'museum foundation must precede the later gallery finish styles');
  const hero=home.match(/<div class="hero-actions">([\s\S]*?)<\/div>/)?.[1]||'';
  assert.ok(hero.includes('class="btn hero-call"'),'call must remain');
  assert.ok(hero.includes('class="btn hero-booking"'),'real Naver booking link must remain');
@@ -1335,7 +1347,7 @@ test('all three original watercolor cards retain medical links and accessible zo
 
 test("visit-guide shows two clear Friday/Saturday patterns without claiming this week's hours",()=>{
  const visit=read('visit-guide.html');
- const main=visit.match(/<section class="card"><h2 id="visit-hours">[\s\S]*?<\/section>/)?.[0]||'';
+ const main=visit.match(/<section class="card visit-hours-card"><h2 id="visit-hours">[\s\S]*?<\/section>/)?.[0]||'';
  assert.ok(main,'standalone visit guide must retain its full opening-hours section');
  assert.ok(main.includes('월~목: 09:30~18:30'));
  assert.ok(main.includes('점심시간: 13:00~14:00'));
@@ -1362,7 +1374,7 @@ test("visit-guide shows two clear Friday/Saturday patterns without claiming this
 
 test('visit-guide address parking atlas keeps map and transit actions usable',()=>{
  const visit=read('visit-guide.html');
- const parking=visit.match(/<section class="card"><h2 id="visit-parking">([\s\S]*?)<\/section>/)?.[1]||'';
+ const parking=visit.match(/<section class="card visit-parking-card"><h2 id="visit-parking">([\s\S]*?)<\/section>/)?.[1]||'';
  assert.ok(parking,'visit-page parking section must exist');
  const cards=parking.match(/class="visit-arrival-(?:place|parking)"/g)||[];
  assert.equal(cards.length,2,'actual address and parking should be distinct accessible panels');
