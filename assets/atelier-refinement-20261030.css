@@ -6310,3 +6310,118 @@ body.home-page #main-content > .hero.wrap .hero-visit-note {
     transform:none;
   }
 }
+
+
+/* 2026-10-31 | Mobile clinical navigation touch and focus finish.
+   The actual call/booking/visit dock is build-generated from the verified
+   booking configuration. Do not duplicate or change those anchors. Keep the
+   five arrival shortcuts while the three-link reading header remains usable. */
+@media(max-width:600px) {
+  html:has(body.home-page) {
+    scroll-padding-top:96px;
+    scroll-padding-bottom:calc(96px + env(safe-area-inset-bottom,0px));
+  }
+  html.home-scrolled:has(body.home-page) {
+    scroll-padding-top:76px;
+  }
+  body.home-page header .nav .mobile-quick {
+    box-sizing:border-box;
+    min-width:0;
+    max-width:100%;
+    gap:5px;
+  }
+  body.home-page header .nav .mobile-quick > a {
+    box-sizing:border-box;
+    min-width:0;
+    min-height:48px;
+    padding:8px 3px;
+    line-height:1.4;
+    text-align:center;
+    text-wrap:balance;
+    overflow-wrap:anywhere;
+    word-break:keep-all;
+    border-radius:5px 9px 5px 9px;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick > a {
+    font-size:clamp(10px,2.7vw,12px);
+  }
+  html.home-scrolled body.home-page header .nav .mobile-quick > a:is(
+    [href="#home-symptom-query"],.stories-mobile-link,.mobile-call
+  ) {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:48px;
+    font-size:clamp(11px,2.9vw,13px);
+  }
+  body.home-page header .nav .mobile-quick > a:focus-visible,
+  body.home-page .mobile-booking-actions > a:focus-visible {
+    outline:3px solid #a37e43;
+    outline-offset:2px;
+  }
+  body.home-page .mobile-booking-actions {
+    box-sizing:border-box;
+    grid-template-columns:minmax(0,.95fr) minmax(0,1.35fr) minmax(0,.95fr);
+    gap:7px;
+    padding:9px 10px calc(9px + env(safe-area-inset-bottom,0px));
+    border-top:1px solid #c9cfbb;
+    background:rgba(255,253,247,.98);
+    box-shadow:0 -5px 20px rgba(28,53,40,.095);
+  }
+  body.home-page .mobile-booking-actions > a {
+    box-sizing:border-box;
+    min-width:0;
+    min-height:52px;
+    padding:10px 4px;
+    font-size:clamp(12px,3.3vw,14px);
+    line-height:1.45;
+    border-radius:5px 10px 5px 10px;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+  body.home-page .mobile-booking-actions > .mobile-booking-naver {
+    background:#286b4a;
+    border-color:#286b4a;
+    color:#fff;
+  }
+  body.home-page .mobile-booking-actions > .mobile-booking-call,
+  body.home-page .mobile-booking-actions > .mobile-booking-visit {
+    background:#fffefa;
+    border-color:#d1c7b5;
+    color:#244b36;
+  }
+  body.home-page #main-content :is(
+    #symptom-navigator-title,#home-symptom-query,#care,#stories,#location,
+    #philosophy,#doctor,#symptoms,#health-info
+  ) {
+    scroll-margin-top:110px;
+  }
+}
+@media(max-width:360px) {
+  body.home-page header .nav .mobile-quick > a {
+    padding-inline:1px;
+    min-height:50px;
+  }
+  body.home-page .mobile-booking-actions {
+    gap:5px;
+    padding-inline:6px;
+  }
+  body.home-page .mobile-booking-actions > a {
+    min-height:52px;
+    font-size:12px;
+    padding-inline:2px;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page .mobile-booking-actions,
+  body.home-page .mobile-booking-actions > a {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page .mobile-booking-actions > a:focus-visible,
+  body.home-page header .nav .mobile-quick > a:focus-visible {
+    outline-color:Highlight;
+  }
+}
