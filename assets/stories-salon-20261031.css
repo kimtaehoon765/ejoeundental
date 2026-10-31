@@ -471,3 +471,100 @@ body.stories-gallery #story-directory .story-card>.read{
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-31 | Seven featured articles as a small exhibition index.
+   Numbering is purely presentational. All seven real article titles remain
+   fully visible with native links and their original order unchanged. */
+body.stories-gallery .updated-story-guides {
+  border-color:#d6ccb7;
+  border-top-color:#ae9164;
+  background:linear-gradient(135deg,#fffdf7,#f4f6ed);
+}
+body.stories-gallery .updated-story-guides > h2 {
+  max-width:33ch;
+  margin-bottom:13px;
+  color:#284a36;
+  font-family:'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  letter-spacing:-.045em;
+  line-height:1.5;
+  text-wrap:balance;
+}
+body.stories-gallery .updated-story-guides > p {
+  max-width:70ch;
+  line-height:1.86;
+  margin-bottom:clamp(16px,2.3vw,24px);
+}
+body.stories-gallery .updated-story-guides__links {
+  counter-reset:journal-feature;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(9px,1.4vw,15px);
+}
+body.stories-gallery .updated-story-guides__links > a {
+  counter-increment:journal-feature;
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:28px minmax(0,1fr);
+  align-items:start;
+  column-gap:12px;
+  min-width:0;
+  min-height:76px;
+  padding:clamp(14px,1.7vw,20px);
+  border:1px solid #dfd6c4;
+  border-left:3px solid #a68d61;
+  border-radius:4px 12px 4px 12px;
+  background:#fffefa;
+  color:#2b503c;
+  font-size:clamp(14px,1.25vw,16px);
+  font-weight:750;
+  line-height:1.7;
+  text-decoration:none;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.stories-gallery .updated-story-guides__links > a:nth-child(even) {
+  border-left-color:#8ea690;
+}
+body.stories-gallery .updated-story-guides__links > a::before {
+  content:counter(journal-feature,decimal-leading-zero);
+  margin-top:3px;
+  padding-right:8px;
+  border-right:1px solid #d5c5a9;
+  color:#8a704a;
+  font:750 12px/1.5 Georgia,serif;
+  letter-spacing:.04em;
+}
+body.stories-gallery .updated-story-guides__links > a:hover {
+  border-color:#a9aa8e;
+  background:#fbfcf5;
+}
+body.stories-gallery .updated-story-guides__links > a:focus-visible {
+  outline:3px solid #a47d40;
+  outline-offset:3px;
+}
+@media(max-width:700px){
+  body.stories-gallery .updated-story-guides__links {
+    grid-template-columns:minmax(0,1fr);
+    gap:9px;
+  }
+  body.stories-gallery .updated-story-guides__links > a {
+    min-height:65px;
+    padding:14px 13px;
+    grid-template-columns:24px minmax(0,1fr);
+    column-gap:10px;
+    font-size:15px;
+  }
+}
+@media(forced-colors:active){
+  body.stories-gallery .updated-story-guides,
+  body.stories-gallery .updated-story-guides__links > a {
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+  }
+  body.stories-gallery .updated-story-guides__links > a::before {
+    color:CanvasText;
+    border-color:CanvasText;
+  }
+}
