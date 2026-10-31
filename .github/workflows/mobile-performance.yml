@@ -1,0 +1,108 @@
+name: Measure live mobile page performance
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/mobile-performance.yml'
+permissions:
+  contents: read
+jobs:
+  lighthouse-mobile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check Chrome available on runner
+        run: |
+          command -v google-chrome
+          google-chrome --version
+      - name: Measure actual deployed site in simulated mobile conditions
+        shell: bash
+        run: |
+          set -euo pipefail
+          declare -A urls
+          urls[home]="https://ejoeundental.com/"
+          urls[doctor]="https://ejoeundental.com/doctor"
+          urls[gallery]="https://ejoeundental.com/gallery"
+          for name in home doctor gallery; do
+            echo "Measuring mobile $name on deployed production origin"
+            npx --yes lighthouse@12.8.2 "${urls[$name]}" \
+              --output=json --output-path="$RUNNER_TEMP/lighthouse-$name.json" \
+              --only-categories=performance \
+              --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" \
+              --max-wait-for-load=45000 --quiet
+          done
+      - name: Record lab metrics and diagnostic opportunities
+        if: always()
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          const labels={home:'홈페이지',doctor:'의료진 소개',gallery:'갤러리'};
+          const dir=process.env.RUNNER_TEMP;
+          let rows=[];
+          for(const [slug,label] of Object.entries(labels)){
+            const file=path.join(dir,'lighthouse-'+slug+'.json');
+            if(!fs.existsSync(file)){
+              rows.push({label,error:'측정 결과 없음'});
+              continue;
+            }
+            const report=JSON.parse(fs.readFileSync(file,'utf8'));
+            const audit=key=>report.audits?.[key]?.numericValue;
+            const metric=(key,unit)=>{const v=audit(key);return Number.isFinite(v)?(unit==='ms'?Math.round(v)+' ms':v.toFixed(3)):'–';};
+            const perf=report.categories?.performance?.score;
+            const row={label,url:report.finalDisplayedUrl,score:typeof perf==='number'?Math.round(perf*100):null,
+              fcp:metric('first-contentful-paint','ms'),
+              lcp:metric('largest-contentful-paint','ms'),
+              cls:metric('cumulative-layout-shift','none'),
+              tbt:metric('total-blocking-time','ms'),
+              speedIndex:metric('speed-index','ms')
+            };
+            const opportunities=Object.values(report.audits||{})
+             .filter(a=>a.details?.type==='opportunity'&&Number.isFinite(a.details?.overallSavingsMs)&&a.details.overallSavingsMs>100)
+             .sort((a,b)=>b.details.overallSavingsMs-a.details.overallSavingsMs)
+             .slice(0,4)
+             .map(a=>({name:a.title,savingsMs:Math.round(a.details.overallSavingsMs)}));
+            row.opportunities=opportunities;
+            rows.push(row);
+          }
+          const metricColumn=k=>rows.map(r=>r[k]??'–');
+          const lines=[
+            '## 모바일 Lighthouse 실측 — 실제 공개 홈페이지',
+            '',
+            '이 결과는 GitHub Actions Chrome의 **모바일 모의 실험실 측정**입니다. 실제 환자의 모바일 사용 기록(CrUX)이나 네이버·구글 검색 순위가 아닙니다.',
+            '',
+            '| 페이지 | 점수 | FCP | LCP | CLS | TBT | Speed Index |',
+            '|---|---:|---:|---:|---:|---:|---:|',
+            ...rows.map(r=>'| '+r.label+' | '+(r.score??'–')+
+             ' | '+(r.fcp??'–')+' | '+(r.lcp??'–')+' | '+(r.cls??'–')+
+             ' | '+(r.tbt??'–')+' | '+(r.speedIndex??'–')+' |'),
+            '',
+            '### 관찰된 개선 기회',
+            ...rows.flatMap(r=>[
+              '- '+r.label+': '+((r.opportunities||[]).map(o=>o.name+' (예상 '+o.savingsMs+' ms)').join(', ')||'자동 추정 항목 없음')
+            ]),
+            ''
+          ];
+          const summary=lines.join('\n');
+          console.log(summary);
+          if(process.env.GITHUB_STEP_SUMMARY)fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,summary+'\n');
+          fs.writeFileSync(path.join(dir,'lighthouse-mobile-summary.json'),JSON.stringify(rows,null,2));
+          NODE
+      - name: Attach original Lighthouse JSON reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-lighthouse-report
+          path: |
+            ${{ runner.temp }}/lighthouse-home.json
+            ${{ runner.temp }}/lighthouse-doctor.json
+            ${{ runner.temp }}/lighthouse-gallery.json
+            ${{ runner.temp }}/lighthouse-mobile-summary.json
+          if-no-files-found: warn
+          retention-days: 7
