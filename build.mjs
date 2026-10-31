@@ -3582,3 +3582,58 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
  console.log('Home render-blocking CSS requests: 3 -> 1;',
   'preserved gallery layers:',galleryLinks.length,'bundle:',bundledName);
 }
+
+
+// Homepage stable gallery foundation CSS: preserve the three oldest museum layers.
+// The frequently edited art-direction/refinement layers stay as independent
+// cached files. Concatenate only contiguous stable styles in the original
+// cascade order, reducing three stylesheet fetches to one. CSS url() values
+// must be root-relative, so moving the file cannot break any artwork assets.
+// Original source styles remain in dist for audit and cache rollback.
+{
+ const homepage=path.join(out,'index.html');
+ const names=['gallery-upgrade.css','gallery-finish.css','museum-home-v2.css'];
+ const boundary='\n\n/* Ejoeun museum gallery foundation: original CSS file boundary. */\n\n';
+ const parts=names.map(name=>{
+  const filename=path.join(out,'assets',name);
+  if(!fs.existsSync(filename))
+   throw new Error('Gallery foundation source missing: '+name);
+  const css=fs.readFileSync(filename,'utf8');
+  if(/@import\s|@charset\s/i.test(css))
+   throw new Error('Cannot safely bundle imported gallery styles: '+name);
+  for(const match of css.matchAll(/url\(\s*['"]?([^)'"]+)/g)){
+   const url=match[1].trim();
+   if(!url.startsWith('/')&&!url.startsWith('data:'))
+    throw new Error('Non-root-relative gallery CSS asset URL in '+name+': '+url);
+  }
+  return css.trimEnd();
+ });
+ const merged=parts.join(boundary)+'\n';
+ const digest=createHash('sha256').update(merged).digest('hex').slice(0,12);
+ const bundleName='gallery-foundation-'+digest+'.css';
+ fs.writeFileSync(path.join(out,'assets',bundleName),merged,'utf8');
+ let html=fs.readFileSync(homepage,'utf8');
+ const group=/<link rel="stylesheet" href="\/assets\/gallery-upgrade\.css(?:\?[^"]*)?">\s*<link rel="stylesheet" href="\/assets\/gallery-finish\.css(?:\?[^"]*)?">\s*<link rel="stylesheet" href="\/assets\/museum-home-v2\.css(?:\?[^"]*)?">/g;
+ if([...html.matchAll(group)].length!==1)
+  throw new Error('Expected exactly one contiguous 3-style gallery foundation group');
+ const link='<link rel="stylesheet" href="/assets/'+bundleName+'">';
+ const oldRequestCount=[...html.matchAll(/<link rel="stylesheet" href="\/assets\//g)].length;
+ html=html.replace(group,link);
+ const newerLayers=[
+  '/assets/atelier-home-2026.css',
+  '/assets/curatorial-home.css',
+  '/assets/gallery-edition-polish.css',
+  '/assets/home-art-direction-20261030.css',
+  '/assets/atelier-refinement-20261030.css'
+ ];
+ const positions=newerLayers.map(href=>html.indexOf('href="'+href));
+ if(positions.some(n=>n<0)||positions.some((n,i)=>i>0&&n<=positions[i-1])||
+    html.indexOf(link)<0||html.indexOf(link)>=positions[0])
+  throw new Error('Gallery bundling disturbed the later museum CSS cascade');
+ const newRequestCount=[...html.matchAll(/<link rel="stylesheet" href="\/assets\//g)].length;
+ if(newRequestCount!==oldRequestCount-2)
+  throw new Error('Gallery foundation bundling changed unexpected CSS links');
+ fs.writeFileSync(homepage,html,'utf8');
+ console.log('Stable gallery foundation requests: 3 -> 1;',
+  'later art layers retained:',newerLayers.length,'bundle:',bundleName);
+}
