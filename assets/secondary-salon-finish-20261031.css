@@ -1,0 +1,218 @@
+/* 이조은치과 · Clinical Salon secondary treatment guides · 2026-10-31
+ * A shared LAST stylesheet for nine distinct clinical pages.
+ * Keep original artwork, text, medical claims, search markup, appointment links,
+ * patient safety instructions and mobile docks completely unchanged.
+ * Design continuity with the home gallery: museum paper, restrained matting,
+ * accessible typography and clear patient navigation. */
+body.care-gallery.care-gallery-secondary {
+  --salon-secondary-ink:#254838;
+  --salon-secondary-gold:#a78d61;
+  --salon-secondary-line:#dcd1bd;
+  --salon-secondary-paper:#fffdf8;
+}
+body.care-gallery.care-gallery-secondary .care-secondary-breadcrumb {
+  border:1px solid #ddd3c1;
+  border-radius:5px 11px 5px 11px;
+  background:#fcfaf4;
+  box-shadow:none;
+  color:#48634e;
+}
+body.care-gallery.care-gallery-secondary .care-secondary-breadcrumb a {
+  text-underline-offset:4px;
+}
+body.care-gallery.care-gallery-secondary .care-gallery-article-shell>h1,
+body.care-gallery.care-gallery-secondary.secondary-hero main>.hero h1 {
+  color:var(--salon-secondary-ink);
+  font-family:'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  font-weight:700;
+  letter-spacing:-.055em;
+  line-height:1.46;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+  text-wrap:balance;
+}
+body.care-gallery.care-gallery-secondary .care-gallery-article-shell>.intro,
+body.care-gallery.care-gallery-secondary .care-gallery-article-shell>h1+p:not(.intro) {
+  border:1px solid #ded5c5;
+  border-left:4px solid #9eaa91;
+  border-radius:4px 12px 4px 12px;
+  background:linear-gradient(128deg,#f8f9f1,#fffefa);
+  box-shadow:0 7px 20px rgba(31,53,40,.037);
+}
+body.care-gallery.care-gallery-secondary :is(.clinician-byline,.gallery-secondary-clinician) {
+  border-color:#ddd5c5;
+  border-left-color:#a99164;
+  border-radius:4px 12px 4px 12px;
+  background:#fffcf7;
+  box-shadow:0 7px 23px rgba(32,56,40,.045);
+}
+body.care-gallery.care-gallery-secondary .treatment-hero-actions>a,
+body.care-gallery.care-gallery-secondary .treatment-hero-actions a {
+  box-sizing:border-box;
+  min-width:0;
+  min-height:50px;
+  border-radius:5px 11px 5px 11px;
+  font-weight:750;
+  text-align:center;
+  line-height:1.55;
+  overflow-wrap:anywhere;
+}
+body.care-gallery.care-gallery-secondary .treatment-hero-actions a:focus-visible {
+  outline:3px solid #a17c40;
+  outline-offset:3px;
+}
+/* Each page retains its own locally authored medical illustration. */
+body.care-gallery.care-gallery-secondary .ejoeun-topic-art {
+  border:1px solid #cfc0a5;
+  border-top:3px solid #a99164;
+  border-radius:4px 15px 4px 15px;
+  background:linear-gradient(145deg,#f4eee2,#fffdf8 61%,#f2f5ee);
+  box-shadow:0 15px 32px rgba(31,55,40,.072);
+}
+body.care-gallery.care-gallery-secondary .ejoeun-topic-art__visual {
+  box-sizing:border-box;
+  min-width:0;
+  border:6px solid #fffaf0;
+  outline:1px solid #d5c7b0;
+  background:#f6f0e5;
+  box-shadow:0 7px 20px rgba(31,55,39,.065);
+}
+body.care-gallery.care-gallery-secondary .ejoeun-topic-art__visual img {
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:none;
+  object-fit:contain;
+  object-position:center;
+}
+body.care-gallery.care-gallery-secondary .ejoeun-topic-art__caption {
+  min-width:0;
+  padding:clamp(18px,2.4vw,32px);
+}
+body.care-gallery.care-gallery-secondary .ejoeun-topic-art__caption strong {
+  color:#244936;
+  font-family:'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  font-weight:700;
+  line-height:1.55;
+  letter-spacing:-.04em;
+  text-wrap:balance;
+}
+body.care-gallery.care-gallery-secondary .ejoeun-topic-art__caption>span {
+  color:#4c6353;
+  line-height:1.87;
+}
+body.care-gallery.care-gallery-secondary .ejoeun-topic-art__caption>a {
+  min-height:44px;
+  font-weight:750;
+  text-underline-offset:5px;
+}
+body.care-gallery.care-gallery-secondary .gallery-section-index {
+  border:1px solid #d8cfbd;
+  border-left:4px solid #aa946c;
+  border-radius:5px 13px 5px 13px;
+  background:linear-gradient(125deg,#f5f4eb,#fffdf8);
+  box-shadow:0 7px 20px rgba(30,52,40,.043);
+}
+body.care-gallery.care-gallery-secondary .gallery-section-index>strong {
+  color:#294d3a;
+  font-family:'Noto Serif KR','Apple SD Gothic Neo','Malgun Gothic',serif;
+  font-size:clamp(16px,1.6vw,20px);
+  letter-spacing:-.035em;
+  line-height:1.55;
+}
+body.care-gallery.care-gallery-secondary .gallery-section-index>a {
+  box-sizing:border-box;
+  min-width:0;
+  min-height:48px;
+  border:1px solid #d5dbcf;
+  border-radius:5px 10px 5px 10px;
+  background:#fffefa;
+  color:#285740;
+  font-weight:750;
+  line-height:1.55;
+  text-align:center;
+  overflow-wrap:anywhere;
+  word-break:keep-all;
+}
+body.care-gallery.care-gallery-secondary .gallery-section-index>a:hover {
+  background:#eff4eb;
+  border-color:#9eaf95;
+}
+body.care-gallery.care-gallery-secondary .gallery-section-index>a:focus-visible,
+body.care-gallery.care-gallery-secondary .ejoeun-topic-art__caption>a:focus-visible {
+  outline:3px solid #a17c40;
+  outline-offset:3px;
+}
+body.care-gallery.care-gallery-secondary.secondary-hero main>.hero::before {
+  content:none;
+  display:none;
+}
+body.care-gallery.care-gallery-secondary.secondary-hero main>.hero {
+  background:linear-gradient(135deg,#fffdf8,#f6f7ef);
+  border-top:3px solid #aa946b;
+  border-bottom:1px solid #ddd4c3;
+}
+body.care-gallery.care-gallery-secondary .care-gallery-article-shell>section {
+  border-color:#ded8ca;
+  border-radius:5px 13px 5px 13px;
+  box-shadow:0 8px 24px rgba(30,55,40,.035);
+}
+@media(max-width:760px) {
+  body.care-gallery.care-gallery-secondary .ejoeun-topic-art {
+    grid-template-columns:minmax(0,1fr);
+    gap:8px;
+  }
+  body.care-gallery.care-gallery-secondary .ejoeun-topic-art__caption {
+    padding:19px 16px 21px;
+  }
+  body.care-gallery.care-gallery-secondary .ejoeun-topic-art__visual {
+    border-width:5px;
+  }
+  body.care-gallery.care-gallery-secondary .gallery-section-index {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    padding:15px 12px;
+  }
+  body.care-gallery.care-gallery-secondary .gallery-section-index>a {
+    min-height:50px;
+    padding:10px 8px;
+  }
+}
+@media(max-width:600px) {
+  body.care-gallery.care-gallery-secondary .care-secondary-breadcrumb {
+    margin-top:10px;
+    padding:10px 13px;
+  }
+  body.care-gallery.care-gallery-secondary .care-gallery-article-shell>h1 {
+    line-height:1.45;
+  }
+  body.care-gallery.care-gallery-secondary .ejoeun-topic-art__caption strong {
+    font-size:clamp(20px,5.3vw,27px);
+  }
+  body.care-gallery.care-gallery-secondary .treatment-hero-actions a {
+    min-height:50px;
+  }
+}
+@media(max-width:350px) {
+  body.care-gallery.care-gallery-secondary .gallery-section-index {
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.care-gallery.care-gallery-secondary .gallery-section-index>a {
+    transition:none;
+    transform:none;
+  }
+}
+@media(forced-colors:active) {
+  body.care-gallery.care-gallery-secondary :is(.care-secondary-breadcrumb,.clinician-byline,.gallery-secondary-clinician,.ejoeun-topic-art,.ejoeun-topic-art__visual,.gallery-section-index),
+  body.care-gallery.care-gallery-secondary .gallery-section-index>a {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.care-gallery.care-gallery-secondary .ejoeun-topic-art__caption :is(strong,span,a) {
+    color:CanvasText;
+  }
+}
