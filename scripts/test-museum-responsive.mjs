@@ -246,6 +246,63 @@ test('wisdom tooth and cavity exhibits retain distinct original paintings and pa
  }
 });
 
+
+test("children's dental and early orthodontic exhibition preserves artworks and visit routes",()=>{
+ const css=read('assets/child-care-exhibition-20261031.css');
+ assert.ok(css.includes('어린이 진료와 성장기 교정 전시실'),
+  'two pediatric treatment guides receive their distinct shared gallery design');
+ for(const token of ['--child-exhibit-accent','#edf4f5',
+  '.care-gallery-article-shell>.ejoeun-topic-art',
+  'object-fit:contain','@media(max-width:760px)',
+  '@media(max-width:550px)','@media(forced-colors:active)',
+  '@media print',':focus-visible']){
+  assert.ok(css.includes(token),'patient reading and accessible CSS kept: '+token);
+ }
+ const guides=[
+  {file:'pediatric-dentistry.html',body:'pediatric-pathways-gallery',
+   art:'ejoeun-original-pediatric-20261029.webp',
+   chapterCount:7,extra:'ejoeun-pediatric-three-paths-20261029.svg',
+   labels:['gallery-child-babyteeth','gallery-child-prevention',
+    'pediatric-first-exam','pediatric-treatment-heading',
+    'pediatric-restorative-options','pediatric-trauma']},
+  {file:'pediatric-orthodontics.html',body:'pediatric-ortho-decisions',
+   art:'ejoeun-child-orthodontic-growth-art-20261029.svg',
+   chapterCount:5,extra:'',
+   labels:['ortho-care-options','gallery-ortho-exam',
+    'gallery-ortho-timing','child-removable-orthodontics-heading']}
+ ];
+ for(const c of guides){
+  const html=read(c.file);
+  const art=html.match(/<figure class="ejoeun-topic-art(?: [^"]+)?"[\s\S]*?<\/figure>/)?.[0]||'';
+  const toc=html.match(/<nav class="treatment-page-toc gallery-section-index"[\s\S]*?<\/nav>/)?.[0]||'';
+  assert.ok(html.includes('class="care-gallery care-gallery-secondary secondary-article '+c.body+'"'),
+   c.file+': correct scoped pediatric design');
+  assert.ok(art.includes(c.art)&&art.includes('loading="lazy" decoding="async"'),
+   c.file+': keep a dedicated original and responsive artwork');
+  assert.ok(art&&toc&&html.indexOf(art)<html.indexOf(toc),
+   c.file+': artwork visible before reading chapters');
+  assert.equal((toc.match(/<a\\b/g)||[]).length,c.chapterCount,
+   c.file+': preserve the original quick chapter navigation');
+  for(const label of c.labels){
+   assert.equal((html.match(new RegExp('id="'+label+'"','g'))||[]).length,1,
+    c.file+': original patient reading target exists once: '+label);
+   assert.ok(toc.includes('href="#'+label+'"'),
+    c.file+': quick navigation retains its section target');
+  }
+  if(c.extra)assert.ok(html.includes(c.extra),
+   c.file+': keep distinct second picture for first examination and prevention');
+  assert.ok(html.includes('child-care-exhibition-20261031.css?v=20261031-child-rooms01'),
+   c.file+': correct cache-versioned gallery CSS');
+  assert.ok(html.includes('href="tel:0325132875"')&&
+   html.includes('https://booking.naver.com/booking/13/bizes/1162931')&&
+   html.includes('class="care-gallery-bottom-actions"'),
+   c.file+': native call, verified booking and mobile action dock retained');
+  assert.ok(html.includes('rel="canonical"')&&
+   html.includes('application/ld+json'),
+   c.file+': medical search metadata remains untouched');
+ }
+});
+
 test('visit preparation presents four original clinical steps and three journal reading cards',()=>{
  const visit=home.match(/<section class="section light" id="visit-guide">([\s\S]*?)<\/section>/)?.[1]||'';
  const stepGrid=visit.match(/<div class="grid visit-care-steps"[^>]*>([\s\S]*?)<\/div><p class="notice">/)?.[1]||'';
