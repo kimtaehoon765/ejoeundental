@@ -5952,9 +5952,6 @@ body.home-page #main-content > #philosophy .grid > .card p {
     margin:11px auto 18px;
     box-shadow:0 13px 28px rgba(30,52,38,.11),0 0 0 3px rgba(255,251,243,.95);
   }
-  body.home-page #main-content > .hero.wrap .hero-artwork__plaque {
-    padding:10px 10px 8px;
-  }
   body.home-page #main-content > .hero.wrap .hero-care-summary > a {
     min-height:73px;
     padding:12px 13px;
