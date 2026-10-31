@@ -2013,7 +2013,13 @@ test('previsit selection tally stays local and the existing clinic safety advice
  for(const page of [previsit,history]){
   assert.ok(page.includes('처방약')||page.includes('복용 중인 약은 임의로 중단하지 마세요'),
    'keep the medication caution before clinical treatment');
-  assert.ok(page.includes('previsit-journey.css?v=20261031-prepared-journey02'));
+  assert.ok(page.includes('/assets/previsit-journey.css?v='),
+   'built page should link to the content-versioned preparation stylesheet');
+ }
+ for(const name of ['previsit-checklist.html','medical-history.html']){
+  const original=readFileSync(name,'utf8');
+  assert.ok(original.includes('previsit-journey.css?v=20261031-prepared-journey02'),
+   'original '+name+' must use the new preparation CSS version');
  }
  assert.ok(previsit.includes('booking.naver.com/booking/13/bizes/1162931'));
  assert.ok(history.includes('id="visit-checklist"'),'printable health-history form preserved');
