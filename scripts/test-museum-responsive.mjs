@@ -7,6 +7,39 @@ const read=(path)=>readFileSync('dist/'+path,'utf8');
 const home=read('index.html');
 const museum=read('assets/museum-home-v2.css');
 
+
+test('patient health-library search desks remain accessible and link to one verified search route',()=>{
+ const css=read('assets/health-library-gallery.css');
+ assert.ok(css.includes('2026-10-31 | Search desk for four patient reading rooms'));
+ assert.ok(css.includes('health-library-find'));
+ const hubs=[
+  ['gum-health.html','health-hub-gum','library-search-gum'],
+  ['root-canal-health.html','health-hub-root','library-search-root'],
+  ['insurance-health.html','health-hub-insurance','library-search-insurance'],
+  ['additional-health.html','health-hub-other','library-search-other']
+ ];
+ for(const [file,theme,id] of hubs){
+  const h=read(file);
+  assert.ok(h.includes('class="health-library '+theme+'"'),file+': themed patient hub');
+  assert.equal((h.match(/class="health-library-find"/g)||[]).length,1,
+   file+': exactly one cross-topic search form');
+  assert.ok(h.includes('action="/search.html" method="get"'),file+': existing search route');
+  assert.ok(h.includes('name="q" type="search"'),file+': query accepted by search.html');
+  assert.ok(h.includes('<label for="'+id+'">') && h.includes('id="'+id+'"'),
+   file+': accessible search label and unique input');
+  assert.ok(h.includes('health-library-gallery.css?v=20261031-patient-search03'),
+   file+': refreshed shared reading-room stylesheet');
+  assert.ok(h.includes('rel="canonical"') && h.includes('tel:0325132875'),
+   file+': original SEO and clinic contact retained');
+  assert.ok(h.includes('class="health-reading-rooms"') &&
+            h.includes('class="health-essay-index"'),
+   file+': original topic and article navigation retained');
+ }
+ const search=read('search.html');
+ assert.ok(search.includes('name="q" type="search"'),
+  'all hub forms target the real public health-information search page');
+});
+
 test('visit preparation presents four original clinical steps and three journal reading cards',()=>{
  const visit=home.match(/<section class="section light" id="visit-guide">([\s\S]*?)<\/section>/)?.[1]||'';
  const stepGrid=visit.match(/<div class="grid visit-care-steps"[^>]*>([\s\S]*?)<\/div><p class="notice">/)?.[1]||'';
