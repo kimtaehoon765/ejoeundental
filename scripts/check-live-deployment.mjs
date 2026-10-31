@@ -114,20 +114,22 @@ async function main(){
       '이번 빌드 '+(expectedUrl||'없음')+' / 실사이트 '+(liveHref?'동일':'다름 또는 없음'));
     if(expectedUrl)await checkAsset(label,'assets/'+expectedUrl.split('/').pop().split('?')[0],expectedUrl);
   }
-  // The source page has 11 linked styles and the build adds one FAQ guide.
-  // Three verified 3-to-1 bundles reduce its actual public requests from 8
-  // to 6; the independent FAQ and two frequently edited styles stay intact.
+  // The current source page also has a standalone quiet-museum finish.
+  // The FAQ bundle is added by the build: three exact 3-to-1 groupings save
+  // six requests, from 13 potentially separate styles to 7 public CSS links.
   const cssHrefs=html=>[...html.matchAll(/<link rel="stylesheet" href="(\/assets\/[^"]+)"/g)]
     .map(match=>match[1]);
   const builtCss=cssHrefs(builtHome),liveCss=cssHrefs(liveHome);
   const preserved=['/assets/home-critical-','/assets/gallery-foundation-',
     '/assets/exhibition-foundation-','/assets/home-art-direction-20261030.css',
-    '/assets/atelier-refinement-20261030.css','/assets/faq-deep-links.css'];
-  verdict('메인 CSS 다운로드 요청 8 → 6개',
-    builtCss.length===6&&liveCss.length===6&&
+    '/assets/atelier-refinement-20261030.css',
+    '/assets/quiet-museum-finish-20261031.css','/assets/faq-deep-links.css'];
+  verdict('메인 CSS 요청 절감·파일 순서 검증',
+    builtCss.length===7&&liveCss.length===7&&
     builtCss.every((href,i)=>href===liveCss[i])&&
     preserved.every((prefix,i)=>builtCss[i].startsWith(prefix)),
-    '공개 '+liveCss.length+'개 / 이번 빌드 '+builtCss.length+'개 · 파일·순서 일치');
+    '공개 '+liveCss.length+'개 / 이번 빌드 '+builtCss.length+
+    '개 · 동일한 원본 CSS 순서와 개별 미술관 마감 스타일 유지');
 
   const storyImage=og(builtStories,'og:image');
   const liveStoryImage=og(pages['/stories']||'','og:image');
