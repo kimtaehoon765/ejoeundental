@@ -441,3 +441,126 @@ body.search-gallery .search-show-more:hover{
     break-inside:avoid;
   }
 }
+
+
+/* 2026-10-31 | Search room wayfinding.
+ * Keep the existing local search engine and medically reviewed article index. */
+body.search-gallery .search-reading-routes{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(8px,1.2vw,14px);
+  margin:clamp(22px,3vw,32px) 0 clamp(20px,2.5vw,28px);
+}
+body.search-gallery .search-reading-routes>a{
+  display:flex;
+  box-sizing:border-box;
+  flex-direction:column;
+  justify-content:center;
+  min-width:0;
+  min-height:100px;
+  gap:8px;
+  padding:clamp(13px,1.6vw,19px);
+  border:1px solid #ded2c0;
+  border-top:3px solid #b29a6e;
+  border-radius:4px 12px 4px 12px;
+  background:#fffefa;
+  text-decoration:none;
+  box-shadow:0 5px 17px rgba(36,56,42,.03);
+}
+body.search-gallery .search-reading-routes>a:nth-child(even){
+  border-top-color:#8daa90;
+}
+body.search-gallery .search-reading-routes>a>small{
+  font:750 10px/1.55 system-ui,sans-serif;
+  letter-spacing:.075em;
+  color:#836d4e;
+}
+body.search-gallery .search-reading-routes>a>strong{
+  font:700 clamp(15px,1.5vw,18px)/1.56 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  color:#28543e;
+  letter-spacing:-.037em;
+  word-break:keep-all;
+  text-wrap:balance;
+}
+body.search-gallery :is(#q,#search-topic-guide,#symptom-search){
+  scroll-margin-top:100px;
+}
+body.search-gallery .search-primary{
+  border-top:3px solid #9eaf91;
+  background:linear-gradient(135deg,#fffefa,#f3f7ee);
+}
+body.search-gallery .search-primary .search-form input{
+  min-height:54px;
+  border-color:#aac2af;
+  font-size:16px;
+}
+body.search-gallery .search-primary .search-form button{
+  min-height:54px;
+  font-weight:800;
+}
+body.search-gallery .search-topic-index{
+  border-top:3px solid #b5a176;
+}
+body.search-gallery .search-topic-index__grid>a{
+  border-top:2px solid #bec5ad;
+}
+body.search-gallery .search-topic-index__grid>a:nth-child(even){
+  border-top-color:#96b09a;
+}
+body.search-gallery .search-reading-routes>a:focus-visible{
+  outline:3px solid #9f763d;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine){
+  body.search-gallery .search-reading-routes>a:hover{
+    background:#f3f7ef;
+    border-color:#a5baa6;
+    box-shadow:0 8px 21px rgba(30,54,39,.075);
+  }
+}
+@media(max-width:900px){
+  body.search-gallery .search-reading-routes{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.search-gallery .search-reading-routes>a{min-height:90px}
+}
+@media(max-width:600px){
+  body.search-gallery .search-reading-routes{
+    gap:8px;
+    margin-block:18px 20px;
+  }
+  body.search-gallery .search-reading-routes>a{
+    min-height:80px;
+    padding:13px 11px;
+    box-shadow:none;
+  }
+  body.search-gallery .search-reading-routes>a>small{
+    font-size:9px;
+    letter-spacing:.01em;
+  }
+  body.search-gallery .search-reading-routes>a>strong{
+    font-size:15px;
+  }
+  body.search-gallery .search-primary .search-form{
+    gap:7px;
+  }
+  body.search-gallery .search-primary .search-form input{
+    min-width:0;
+  }
+  body.search-gallery .search-primary .search-form button{
+    padding-inline:16px;
+  }
+}
+@media(max-width:345px){
+  body.search-gallery .search-reading-routes{
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+@media(forced-colors:active){
+  body.search-gallery :is(.search-reading-routes>a,.search-primary,.search-topic-index){
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+}
