@@ -5726,3 +5726,103 @@ body.home-page #main-content > .symptom-navigator .symptom-previsit :is(.symptom
     transition:none;
   }
 }
+
+
+/* 2026-10-31 | Salon painting-ratio and quieter museum labels.
+   Original illustrations stay full-frame instead of being cropped inside
+   near-square display mats. Text, booking, phone, SEO and artwork sources
+   remain untouched. The three paintings still use native, keyboard-focusable
+   gallery links. */
+body.home-page #main-content > .curated-threshold .curated-threshold__works {
+  align-items:stretch;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__piece {
+  border-color:#d5c9b3;
+  border-radius:3px 11px 3px 11px;
+  background:#fffdf8;
+  box-shadow:0 8px 23px rgba(34,54,40,.065);
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__frame {
+  display:grid;
+  place-items:center;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  aspect-ratio:8 / 5;
+  padding:8px;
+  overflow:hidden;
+  border:1px solid #d3c3a9;
+  border-bottom-color:#cdbd9f;
+  background:#ede8dc;
+  box-shadow:none;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__frame img {
+  display:block;
+  width:100%;
+  height:100%;
+  max-width:100%;
+  max-height:100%;
+  aspect-ratio:auto;
+  object-fit:contain;
+  object-position:center;
+  background:#ede8dc;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__frame::after {
+  inset:8px;
+  border-color:rgba(255,251,240,.64);
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__caption {
+  min-height:81px;
+  padding:12px 13px 15px;
+  gap:6px;
+  border-top:1px solid #e8dfcf;
+  background:#fffdf8;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__number {
+  color:#826c49;
+  font-size:10px;
+  letter-spacing:.14em;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__caption strong {
+  color:#214b37;
+  font-size:clamp(14px,1.22vw,17px);
+  line-height:1.5;
+}
+@media(hover:hover) and (pointer:fine) {
+  body.home-page #main-content > .curated-threshold .curated-threshold__piece:hover {
+    transform:translateY(-2px);
+    border-color:#a58b5d;
+    box-shadow:0 13px 29px rgba(30,53,40,.095);
+  }
+}
+@media(max-width:760px) {
+  body.home-page #main-content > .curated-threshold .curated-threshold__frame {
+    aspect-ratio:8 / 5;
+    border-width:1px;
+    padding:7px;
+  }
+  body.home-page #main-content > .curated-threshold .curated-threshold__caption {
+    min-height:76px;
+    padding:12px 13px 14px;
+  }
+  body.home-page #main-content > .curated-threshold .curated-threshold__caption strong {
+    font-size:16px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.home-page #main-content > .curated-threshold .curated-threshold__piece {
+    transition:none;
+    transform:none;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > .curated-threshold :is(.curated-threshold__piece,.curated-threshold__frame,.curated-threshold__caption) {
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content > .curated-threshold .curated-threshold__caption :is(.curated-threshold__number,strong) {
+    color:CanvasText;
+  }
+}
