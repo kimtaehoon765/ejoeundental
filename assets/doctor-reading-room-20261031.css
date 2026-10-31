@@ -1,0 +1,360 @@
+/* 이조은치과 · Doctor's reading room · 2026-10-31
+   Pair the existing original garden painting with the verified credentials
+   on larger screens; keep them in natural reading order on smaller screens.
+   All qualifications, clinical statements, image, metadata, and actions stay. */
+body.doctor-gallery #doctor-profile-main{
+  max-width:1140px;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening{
+  display:grid;
+  grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
+  gap:clamp(12px,1.8vw,23px);
+  align-items:stretch;
+  margin:0 0 clamp(18px,3vw,29px);
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>*{
+  min-width:0;
+  box-sizing:border-box;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero{
+  position:relative;
+  margin:0;
+  height:100%;
+  padding:clamp(24px,3.1vw,39px);
+  border:1px solid #d5c5a8;
+  border-top:3px solid #a48a5b;
+  border-radius:5px 17px 5px 17px;
+  background:
+    radial-gradient(ellipse at 100% 0,rgba(192,214,188,.32),transparent 48%),
+    linear-gradient(145deg,#fffdf6,#f0f3e9);
+  box-shadow:0 16px 35px rgba(34,56,40,.065);
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>.eyebrow{
+  display:block;
+  width:fit-content;
+  padding:0 0 7px 11px;
+  border-left:3px solid #ad8f5c;
+  color:#80683f;
+  font-size:11px;
+  letter-spacing:.13em;
+  line-height:1.6;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>h1{
+  max-width:none;
+  margin:16px 0 19px;
+  color:#244735;
+  font-size:clamp(29px,3.1vw,39px);
+  line-height:1.48;
+  font-weight:700;
+  letter-spacing:-.055em;
+  text-wrap:balance;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>p{
+  max-width:72ch;
+  color:#405947;
+  font-size:15px;
+  line-height:1.9;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>p.lead{
+  font-size:clamp(16px,1.5vw,18px);
+  line-height:1.9;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>.credentials{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:8px;
+  margin:18px 0;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>.credentials>span{
+  box-sizing:border-box;
+  justify-content:flex-start;
+  width:100%;
+  min-height:42px;
+  padding:9px 12px;
+  border:1px solid #d3d2bc;
+  border-left:3px solid #a88e61;
+  border-radius:4px 10px 4px 10px;
+  background:#fffef9;
+  box-shadow:none;
+  color:#2d523b;
+  font-weight:750;
+  font-size:14px;
+  line-height:1.6;
+  word-break:keep-all;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>.credentials>span:nth-child(2){
+  border-left-color:#72997d;
+  background:#f1f6ed;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>.credentials>span:nth-child(3){
+  border-left-color:#b6a27c;
+  background:#f7f4eb;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>.actions{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  margin-top:19px;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>.actions>a{
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-width:0;
+  min-height:52px;
+  padding:10px 9px;
+  border-radius:4px 10px 4px 10px;
+  text-align:center;
+  font-size:clamp(12px,1.15vw,14px);
+  line-height:1.55;
+  font-weight:800;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>.actions>a:first-child{
+  grid-column:1/-1;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.doctor-tenure-art{
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  gap:0;
+  min-width:0;
+  max-width:100%;
+  height:100%;
+  margin:0;
+  padding:9px;
+  border:1px solid #cabb9f;
+  border-top:3px solid #ae9164;
+  border-radius:5px 17px 5px 17px;
+  background:linear-gradient(155deg,#f4ecda,#fffdf6 55%,#eef3e9);
+  box-shadow:0 16px 34px rgba(30,52,36,.075);
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.doctor-tenure-art>.doctor-tenure-art__frame{
+  display:flex;
+  align-items:center;
+  min-width:0;
+  border:1px solid #ceb995;
+  background:#fbf6eb;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.doctor-tenure-art>.doctor-tenure-art__frame>img{
+  display:block;
+  width:100%;
+  max-width:100%;
+  height:auto;
+  aspect-ratio:12/7;
+  object-fit:contain;
+  object-position:center;
+  background:#fbf6e9;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.doctor-tenure-art>figcaption{
+  display:flex;
+  flex:1;
+  justify-content:center;
+  gap:clamp(9px,1.3vw,15px);
+  padding:clamp(17px,2.5vw,30px);
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.doctor-tenure-art>figcaption>strong{
+  color:#244e38;
+  font-size:clamp(20px,2.1vw,27px);
+  line-height:1.52;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.doctor-tenure-art>figcaption>p{
+  color:#4c6250;
+  font-size:clamp(14px,1.15vw,15px);
+  line-height:1.84;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-opening>.doctor-tenure-art>figcaption>a{
+  font-size:14px;
+  min-height:48px;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-reading-index{
+  padding:clamp(17px,2.3vw,24px);
+  margin:0 0 clamp(22px,3vw,35px);
+  border:1px solid #d6c9b3;
+  border-top:3px solid #b49a6f;
+  border-radius:4px 14px 4px 14px;
+  background:linear-gradient(145deg,#fffef9,#f6f7f0);
+  box-shadow:0 8px 25px rgba(33,59,42,.046);
+}
+body.doctor-gallery #doctor-profile-main>.doctor-reading-index>strong{
+  display:block;
+  margin:0 0 13px;
+  color:#284e3a;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(17px,1.8vw,21px);
+  line-height:1.55;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-reading-index>.doctor-reading-links{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-reading-index>.doctor-reading-links>a{
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  min-width:0;
+  min-height:53px;
+  padding:10px 12px;
+  border:1px solid #d7d7c6;
+  border-left:3px solid #9aab91;
+  border-radius:4px 10px 4px 10px;
+  background:#fffefa;
+  color:#2c583f;
+  font-weight:750;
+  font-size:14px;
+  line-height:1.56;
+  text-decoration:none;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-reading-index>.doctor-reading-links>a:nth-child(even){
+  border-left-color:#b5a17c;
+  background:#fbfaf5;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-reading-index>.doctor-reading-links>a:hover{
+  border-color:#8cae95;
+  background:#f1f7ee;
+}
+body.doctor-gallery #doctor-profile-main>.doctor-reading-index>.doctor-reading-links>a:focus-visible{
+  outline:3px solid #a88447;
+  outline-offset:3px;
+}
+body.doctor-gallery #doctor-profile-main :is(#principles,#periodontal,#retreatment,#treatment-choice,#doctor-common-questions,#clinic-location){
+  scroll-margin-top:100px;
+}
+body.doctor-gallery #doctor-profile-main .doctor-quick-answers{
+  margin-top:17px;
+}
+body.doctor-gallery #doctor-profile-main .doctor-quick-answers>dt{
+  margin-top:13px;
+  padding:17px 0 8px;
+  border-top:1px solid #d8decf;
+  color:#27513c;
+  font-size:16px;
+  line-height:1.68;
+  font-weight:800;
+}
+body.doctor-gallery #doctor-profile-main .doctor-quick-answers>dd{
+  margin:0 0 18px;
+  color:#415a49;
+  font-size:16px;
+  line-height:1.9;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.doctor-gallery #doctor-profile-main .doctor-quick-answers>dd>a{
+  color:#275d42;
+  text-underline-offset:4px;
+}
+@media(max-width:900px){
+  body.doctor-gallery #doctor-profile-main>.doctor-opening{
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.doctor-tenure-art{
+    height:auto;
+    display:grid;
+    grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+  }
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>.credentials{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>.credentials>span:last-child{
+    grid-column:1/-1;
+  }
+}
+@media(max-width:700px){
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero{
+    padding:clamp(21px,4.5vw,32px);
+  }
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>h1{
+    font-size:clamp(28px,6.8vw,36px);
+    line-height:1.45;
+  }
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>p{
+    font-size:16px;
+    line-height:1.89;
+  }
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>.credentials{
+    grid-template-columns:minmax(0,1fr);
+    gap:8px;
+  }
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>.credentials>span:last-child{
+    grid-column:auto;
+  }
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>.actions>a{
+    min-height:49px;
+    font-size:13px;
+  }
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.doctor-tenure-art{
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    padding:7px;
+  }
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.doctor-tenure-art>figcaption{
+    padding:17px 16px 20px;
+  }
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.doctor-tenure-art>figcaption>p{
+    font-size:14px;
+    line-height:1.85;
+  }
+  body.doctor-gallery #doctor-profile-main>.doctor-reading-index>.doctor-reading-links{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.doctor-gallery #doctor-profile-main .doctor-quick-answers>dt,
+  body.doctor-gallery #doctor-profile-main .doctor-quick-answers>dd{
+    font-size:16px;
+  }
+}
+@media(max-width:420px){
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>.actions{
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero>.actions>a:first-child{
+    grid-column:auto;
+  }
+  body.doctor-gallery #doctor-profile-main>.doctor-reading-index{
+    padding:15px 13px;
+  }
+  body.doctor-gallery #doctor-profile-main>.doctor-reading-index>.doctor-reading-links{
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.doctor-gallery #doctor-profile-main>.doctor-reading-index>.doctor-reading-links>a{
+    min-height:48px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.doctor-gallery #doctor-profile-main>.doctor-reading-index>.doctor-reading-links>a{
+    transition:none;
+  }
+}
+@media(forced-colors:active){
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero,
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.doctor-tenure-art,
+  body.doctor-gallery #doctor-profile-main>.doctor-reading-index,
+  body.doctor-gallery #doctor-profile-main>.doctor-reading-index>.doctor-reading-links>a{
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.doctor-tenure-art>.doctor-tenure-art__frame{
+    background:Canvas;
+    border-color:CanvasText;
+  }
+}
+@media print{
+  body.doctor-gallery #doctor-profile-main>.doctor-opening{
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.hero,
+  body.doctor-gallery #doctor-profile-main>.doctor-opening>.doctor-tenure-art,
+  body.doctor-gallery #doctor-profile-main>.doctor-reading-index{
+    box-shadow:none;
+    break-inside:avoid;
+  }
+}
