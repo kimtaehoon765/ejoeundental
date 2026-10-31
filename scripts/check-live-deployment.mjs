@@ -79,6 +79,24 @@ async function main(){
     liveHome.includes('fetchpriority="high"')&&
     builtHome.includes('src="/assets/ejoeun-gallery-cat-dentist-20261029.webp"'),
     '승인된 첫 화면 그림·우선 로딩');
+  // Two byte-verified responsive copies keep the original portrait
+  // untouched; srcset must also be supplied on the preloaded first-fold image.
+  const portraitBase='/assets/ejoeun-gallery-cat-dentist-20261029';
+  const responsiveSet=portraitBase+'-480.webp 480w, '+
+    portraitBase+'-720.webp 720w, '+portraitBase+'.webp 1200w';
+  const mobileSizes='(max-width: 600px) calc(100vw - 72px), '+
+    '(max-width: 960px) 48vw, 550px';
+  const responsiveMarkers=[
+    'srcset="'+responsiveSet+'" sizes="'+mobileSizes+'"',
+    'imagesrcset="'+responsiveSet+'" imagesizes="'+mobileSizes+'"'
+  ];
+  verdict('모바일 원장·고양이 원본 축소본 선택·미리 불러오기',
+    responsiveMarkers.every(marker=>builtHome.includes(marker)&&liveHome.includes(marker)),
+    '480w·720w 원본 축소본과 1200w 보존 작품, 동일한 preload');
+  for(const width of [480,720]){
+    const relative='assets/ejoeun-gallery-cat-dentist-20261029-'+width+'.webp';
+    await checkAsset('원본 작품 '+width+'px 모바일 축소본',relative,'/'+relative);
+  }
   await checkAsset('승인된 원장·고양이 원본 그림',
     'assets/ejoeun-gallery-cat-dentist-20261029.webp',
     '/assets/ejoeun-gallery-cat-dentist-20261029.webp');
