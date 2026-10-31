@@ -958,3 +958,472 @@ body.care-gallery-secondary .care-next-gallery__links>a:focus-visible{
     box-shadow:none;border-color:CanvasText;
   }
 }
+
+
+/* 2026-10-31 | Preservation-first treatment exhibition: implant and dentures
+   Existing unique watercolor paintings, physician information, treatment
+   options and accessible links are preserved. Design only, not clinical claims. */
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture){
+ --care-exhibit-paper:#fffcf5;
+ --care-exhibit-ink:#243f34;
+ --care-exhibit-brass:#ae9367;
+ --care-exhibit-line:#ded6c6;
+ background:
+  radial-gradient(ellipse at 82% 3%,rgba(217,220,202,.24),transparent 38%),
+  repeating-linear-gradient(90deg,transparent 0,transparent 117px,rgba(112,102,75,.025) 118px,transparent 119px),
+  #f8f7f1;
+}
+body.care-gallery-secondary.secondary-implant{
+ --care-exhibit-plate:#597a7b;
+ --care-exhibit-wash:#eaf1ec;
+}
+body.care-gallery-secondary.secondary-denture{
+ --care-exhibit-plate:#8c7796;
+ --care-exhibit-wash:#f2ecf3;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell{
+ box-sizing:border-box;
+ width:calc(100% - clamp(16px,4vw,56px));
+ max-width:1060px;
+ margin:clamp(14px,2.5vw,30px) auto;
+ padding:clamp(23px,4.6vw,53px) clamp(18px,5.1vw,58px) clamp(65px,8vw,100px);
+ border:1px solid var(--care-exhibit-line);
+ border-top:4px solid var(--care-exhibit-plate);
+ border-radius:3px 21px 3px 21px;
+ background:linear-gradient(155deg,#fffdf8 0%,var(--care-exhibit-paper) 52%,#fffdf9 100%);
+ box-shadow:0 21px 53px rgba(34,52,35,.068);
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>h1{
+ max-width:25ch;
+ margin:13px 0 15px;
+ color:var(--care-exhibit-ink);
+ font-family:"Noto Serif KR","Apple SD Gothic Neo","Malgun Gothic",serif;
+ font-weight:700;
+ font-size:clamp(31px,4.1vw,48px);
+ line-height:1.46;
+ letter-spacing:-.065em;
+ text-wrap:balance;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>h1::before{
+ content:"A STUDY IN PRESERVATION";
+ display:block;
+ margin:0 0 13px;
+ color:var(--care-exhibit-plate);
+ font:800 11px/1.8 "DM Sans",system-ui,sans-serif;
+ letter-spacing:.16em;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>h1+p{
+ max-width:72ch;
+ margin:0 0 23px;
+ padding:0 0 21px;
+ border-bottom:1px solid #e4dbca;
+ color:#455c4c;
+ font-size:clamp(16px,1.55vw,18px);
+ line-height:1.95;
+ word-break:keep-all;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>.clinician-byline{
+ margin:18px 0 18px;
+ padding:clamp(15px,2.3vw,22px);
+ border:1px solid #dcd9c9;
+ border-left:4px solid var(--care-exhibit-plate);
+ border-radius:4px 13px 4px 13px;
+ background:#fffdf9;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>.treatment-hero-actions{
+ margin:17px 0 26px;
+ gap:10px;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>.treatment-hero-actions>a{
+ box-sizing:border-box;
+ min-height:54px;
+ border-radius:4px 11px 4px 11px;
+ font-size:14px;
+ line-height:1.58;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>.ejoeun-topic-art{
+ position:relative;
+ max-width:none;
+ width:100%;
+ display:grid;
+ grid-template-columns:minmax(0,1.3fr) minmax(260px,.7fr);
+ gap:clamp(9px,1.3vw,14px);
+ margin:clamp(17px,2.8vw,30px) 0 22px;
+ padding:clamp(9px,1.5vw,16px);
+ border:1px solid #cabea5;
+ border-top:3px solid var(--care-exhibit-plate);
+ border-radius:3px 16px 3px 16px;
+ background:linear-gradient(135deg,#eee6d7,#fffcf4 64%);
+ box-shadow:0 18px 40px rgba(37,54,37,.085);
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>.ejoeun-topic-art>.ejoeun-topic-art__visual{
+ box-sizing:border-box;
+ min-width:0;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ border:9px solid #fffdf7;
+ outline:1px solid #cfbea0;
+ background:#faf6eb;
+ overflow:hidden;
+ box-shadow:0 12px 24px rgba(58,52,35,.10);
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>.ejoeun-topic-art>.ejoeun-topic-art__visual>img{
+ display:block;
+ box-sizing:border-box;
+ width:100%;
+ max-width:100%;
+ height:auto;
+ max-height:none;
+ aspect-ratio:3/2;
+ object-fit:contain;
+ object-position:center;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>.ejoeun-topic-art>.ejoeun-topic-art__caption{
+ display:flex;
+ flex-direction:column;
+ align-items:flex-start;
+ justify-content:center;
+ gap:clamp(10px,1.4vw,17px);
+ padding:clamp(17px,2.4vw,27px);
+ background:#fffdf9;
+ min-width:0;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>.ejoeun-topic-art>.ejoeun-topic-art__caption>small{
+ color:var(--care-exhibit-plate);
+ font-size:11px;
+ font-weight:800;
+ line-height:1.6;
+ letter-spacing:.11em;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>.ejoeun-topic-art>.ejoeun-topic-art__caption>strong{
+ color:var(--care-exhibit-ink);
+ font-family:"Noto Serif KR","Apple SD Gothic Neo","Malgun Gothic",serif;
+ font-size:clamp(21px,2.45vw,29px);
+ font-weight:700;
+ line-height:1.55;
+ letter-spacing:-.042em;
+ text-wrap:balance;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>.ejoeun-topic-art>.ejoeun-topic-art__caption>span{
+ color:#59695b;
+ font-size:14px;
+ line-height:1.87;
+ word-break:keep-all;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>.ejoeun-topic-art>.ejoeun-topic-art__caption>a{
+ color:#2c5b44;
+ font-weight:800;
+ line-height:1.6;
+ text-underline-offset:4px;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>.gallery-section-index{
+ display:grid;
+ grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:8px;
+ padding:clamp(17px,2.4vw,24px);
+ border:1px solid #dcd4c4;
+ border-left:4px solid var(--care-exhibit-plate);
+ border-radius:4px 13px 4px 13px;
+ background:linear-gradient(126deg,var(--care-exhibit-wash),#fffdf8);
+ box-shadow:0 7px 22px rgba(35,55,38,.04);
+ margin:19px 0 clamp(22px,3.3vw,35px);
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>.gallery-section-index>strong{
+ grid-column:1/-1;
+ color:var(--care-exhibit-ink);
+ font-family:"Noto Serif KR","Apple SD Gothic Neo","Malgun Gothic",serif;
+ font-size:clamp(17px,2vw,22px);
+ line-height:1.5;
+ padding:0 0 6px;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>.gallery-section-index>a{
+ box-sizing:border-box;
+ min-width:0;
+ min-height:50px;
+ padding:10px 11px;
+ border:1px solid #d8d5c6;
+ border-radius:3px 10px 3px 10px;
+ background:#fffefa;
+ color:#325b43;
+ font-size:13px;
+ font-weight:750;
+ line-height:1.6;
+ text-decoration:none;
+ overflow-wrap:anywhere;
+ word-break:keep-all;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>.gallery-section-index>a:hover{
+ background:#f3f7ed;
+ border-color:#8ca58c;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>section:is(.implant-patient-decisions,.denture-patient-questions){
+ box-sizing:border-box;
+ margin:clamp(24px,3vw,39px) 0 clamp(30px,4vw,48px);
+ padding:clamp(22px,3vw,32px);
+ border:1px solid #d6cbb9;
+ border-top:4px solid var(--care-exhibit-brass);
+ border-radius:3px 16px 3px 16px;
+ background:linear-gradient(135deg,#f8f5ed,#fffcf7 68%);
+ box-shadow:0 15px 31px rgba(36,51,38,.055);
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>section:is(.implant-patient-decisions,.denture-patient-questions)>h2{
+ margin:0 0 10px;
+ color:#274c38;
+ font-family:"Noto Serif KR","Apple SD Gothic Neo","Malgun Gothic",serif;
+ font-size:clamp(23px,2.8vw,30px);
+ line-height:1.55;
+ letter-spacing:-.045em;
+ text-wrap:balance;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>section:is(.implant-patient-decisions,.denture-patient-questions)>p{
+ max-width:79ch;
+ color:#4c6251;
+ font-size:16px;
+ line-height:1.91;
+ word-break:keep-all;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell :is(.implant-patient-grid,.denture-question-grid){
+ counter-reset:question-card;
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:12px;
+ margin:22px 0 8px;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell :is(.implant-patient-grid,.denture-question-grid)>article{
+ counter-increment:question-card;
+ box-sizing:border-box;
+ position:relative;
+ display:flex;
+ flex-direction:column;
+ min-width:0;
+ margin:0;
+ padding:clamp(19px,2.5vw,27px);
+ border:1px solid #dad7c9;
+ border-top:3px solid var(--care-exhibit-plate);
+ border-radius:3px 12px 3px 12px;
+ background:#fffefa;
+ box-shadow:0 7px 20px rgba(34,57,40,.04);
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell :is(.implant-patient-grid,.denture-question-grid)>article::before{
+ content:"QUESTION " counter(question-card,decimal-leading-zero);
+ display:block;
+ width:fit-content;
+ margin-bottom:13px;
+ padding-bottom:6px;
+ border-bottom:1px solid #d3c3a8;
+ color:var(--care-exhibit-plate);
+ font:800 11px/1.55 "DM Sans",system-ui,sans-serif;
+ letter-spacing:.115em;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell :is(.implant-patient-grid,.denture-question-grid)>article>h3{
+ margin:0 0 10px;
+ color:#2b4b38;
+ font-family:"Noto Serif KR","Apple SD Gothic Neo","Malgun Gothic",serif;
+ font-size:clamp(18px,2vw,21px);
+ font-weight:700;
+ line-height:1.61;
+ letter-spacing:-.034em;
+ word-break:keep-all;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell :is(.implant-patient-grid,.denture-question-grid)>article>p{
+ color:#4e6052;
+ font-size:15px;
+ line-height:1.88;
+ margin:0 0 17px;
+ word-break:keep-all;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell :is(.implant-patient-grid,.denture-question-grid)>article>a{
+ display:inline-flex;
+ align-items:center;
+ width:fit-content;
+ min-height:46px;
+ margin-top:auto;
+ padding:5px 0;
+ color:#315d44;
+ font-size:14px;
+ font-weight:800;
+ line-height:1.6;
+ text-underline-offset:5px;
+ overflow-wrap:anywhere;
+ word-break:keep-all;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>h2{
+ margin:clamp(32px,4.7vw,54px) 0 14px;
+ padding:0 0 12px 16px;
+ border-left:3px solid var(--care-exhibit-plate);
+ border-bottom:1px solid #ddd9cc;
+ color:#254735;
+ font-family:"Noto Serif KR","Apple SD Gothic Neo","Malgun Gothic",serif;
+ font-size:clamp(22px,2.7vw,28px);
+ line-height:1.57;
+ letter-spacing:-.035em;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>h2+p{
+ color:#465e4d;
+ font-size:clamp(16px,1.5vw,17px);
+ line-height:1.95;
+ word-break:keep-all;
+}
+body.care-gallery-secondary.secondary-denture
+.care-gallery-article-shell>section:not(.denture-patient-questions){
+ border-radius:4px 13px 4px 13px;
+ border:1px solid #dfd7c9;
+ border-top:2px solid #ac9baf;
+ background:#fffefa;
+ box-shadow:0 7px 22px rgba(31,52,40,.045);
+}
+body.care-gallery-secondary.secondary-denture
+.care-gallery-article-shell>section:not(.denture-patient-questions)>h2{
+ margin:0 0 13px;
+ color:#294a3a;
+ font-family:"Noto Serif KR","Apple SD Gothic Neo","Malgun Gothic",serif;
+ font-size:clamp(22px,2.6vw,27px);
+ line-height:1.56;
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell>.care-next-gallery{
+ border:1px solid #d7cbb6;
+ border-top:3px solid var(--care-exhibit-brass);
+ border-radius:4px 16px 4px 16px;
+ background:linear-gradient(130deg,#f6f2e9,#fffdf9);
+}
+body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+.care-gallery-article-shell :is(a,summary):focus-visible{
+ outline:3px solid #a78149;
+ outline-offset:3px;
+}
+@media(max-width:760px){
+ body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+ .care-gallery-article-shell>.ejoeun-topic-art{
+  grid-template-columns:minmax(0,1fr);
+ }
+ body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+ .care-gallery-article-shell>.gallery-section-index{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+ }
+}
+@media(max-width:650px){
+ body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+ .care-gallery-article-shell{
+  width:calc(100% - 12px);
+  margin:8px auto 20px;
+  padding:clamp(21px,5.2vw,27px) clamp(15px,4.5vw,23px)
+   calc(94px + env(safe-area-inset-bottom,0px));
+  border-radius:3px 12px 3px 12px;
+ }
+ body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+ .care-gallery-article-shell>h1{
+  margin:10px 0 15px;
+  font-size:clamp(29px,7vw,37px);
+  line-height:1.45;
+ }
+ body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+ .care-gallery-article-shell>h1+p{
+  font-size:16px;
+  line-height:1.88;
+  padding-bottom:19px;
+ }
+ body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+ .care-gallery-article-shell>.ejoeun-topic-art{
+  padding:8px;
+  gap:8px;
+  margin:19px 0 17px;
+ }
+ body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+ .care-gallery-article-shell>.ejoeun-topic-art>.ejoeun-topic-art__visual{
+  border-width:6px;
+ }
+ body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+ .care-gallery-article-shell>.ejoeun-topic-art>.ejoeun-topic-art__caption{
+  padding:19px 15px;
+  gap:10px;
+ }
+ body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+ .care-gallery-article-shell>.gallery-section-index{
+  gap:7px;
+  padding:17px 13px;
+ }
+ body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+ .care-gallery-article-shell>.gallery-section-index>a{
+  min-height:49px;
+  padding:10px 9px;
+  font-size:13px;
+ }
+ body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+ .care-gallery-article-shell :is(.implant-patient-grid,.denture-question-grid){
+  grid-template-columns:minmax(0,1fr);
+  gap:10px;
+  margin:18px 0 0;
+ }
+ body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+ .care-gallery-article-shell>section:is(.implant-patient-decisions,.denture-patient-questions){
+  padding:21px 15px;
+  margin:22px 0 29px;
+ }
+ body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+ .care-gallery-article-shell :is(.implant-patient-grid,.denture-question-grid)>article{
+  padding:20px 17px;
+ }
+ body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+ .care-gallery-article-shell>h2{
+  font-size:clamp(21px,5.6vw,25px);
+ }
+}
+@media(forced-colors:active){
+ body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+ :is(.care-gallery-article-shell,.ejoeun-topic-art,.ejoeun-topic-art__visual,
+ .gallery-section-index,.implant-patient-decisions,.denture-patient-questions,
+ .implant-patient-grid>article,.denture-question-grid>article){
+  background:Canvas!important;
+  color:CanvasText!important;
+  border-color:CanvasText!important;
+  box-shadow:none!important;
+ }
+}
+@media print{
+ body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+ .care-gallery-article-shell{
+  max-width:none;
+  width:100%;
+  margin:0;
+  padding:0!important;
+  border:0;
+  box-shadow:none;
+ }
+ body.care-gallery-secondary:is(.secondary-implant,.secondary-denture)
+ .care-gallery-article-shell :is(.implant-patient-grid,.denture-question-grid)>article{
+  break-inside:avoid;
+  box-shadow:none;
+ }
+}
