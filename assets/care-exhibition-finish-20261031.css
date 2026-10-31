@@ -559,3 +559,224 @@ body.care-gallery:is(.care-gum-treatment,.care-retreatment) #patient-questions d
     color:CanvasText;
   }
 }
+
+
+/* 2026-10-31 | Sensitivity and insurance reading rooms.
+   Preserve watercolor artwork, medical claims and original page destinations.
+   Make symptom and benefit-eligibility decisions easy to scan on small screens. */
+body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) .treatment-page-toc{
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  padding:clamp(17px,2.2vw,27px);
+  border:1px solid #d8ccba;
+  border-top:3px solid var(--exhibit-accent);
+  border-radius:3px 14px 3px 14px;
+  background:linear-gradient(133deg,#fffefa,#f4f7f0);
+  box-shadow:0 8px 22px rgba(32,54,40,.04);
+}
+body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) .treatment-page-toc>strong{
+  grid-column:1/-1;
+  margin-bottom:4px;
+  color:#264a38;
+  font:700 clamp(17px,1.6vw,20px)/1.6 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.04em;
+}
+body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) .treatment-page-toc>a{
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  min-width:0;
+  min-height:56px;
+  padding:11px 14px;
+  border:1px solid #ded4c3;
+  border-radius:3px 10px 3px 10px;
+  background:#fffefa;
+  color:#27543e;
+  text-decoration:none;
+  font-size:clamp(13px,1.12vw,15px);
+  font-weight:750;
+  line-height:1.6;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) .treatment-page-toc>a:last-child{
+  border-left:3px solid var(--exhibit-accent);
+}
+body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) main>.hero h1{
+  color:#214734;
+  letter-spacing:-.055em;
+  line-height:1.43;
+  text-wrap:balance;
+}
+body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) main>.hero p:not(.small){
+  color:#455f4d;
+  line-height:1.89;
+  word-break:keep-all;
+}
+/* Separate a symptom-led choice from an insurance eligibility explanation. */
+body.care-gallery.care-cervical-abrasion .cervical-symptom-cards,
+body.care-gallery.care-insured-care .insurance-care-path-grid{
+  display:grid;
+  gap:clamp(12px,1.5vw,18px);
+}
+body.care-gallery.care-cervical-abrasion .cervical-symptom-cards{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+body.care-gallery.care-insured-care .insurance-care-path-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+body.care-gallery.care-cervical-abrasion .cervical-symptom-cards>article,
+body.care-gallery.care-insured-care .insurance-care-path-grid>article{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  padding:clamp(18px,1.9vw,23px);
+  border:1px solid #dfd6c6;
+  border-top:3px solid #af976d;
+  border-radius:4px 12px 4px 12px;
+  background:#fffefa;
+  box-shadow:0 6px 18px rgba(33,54,39,.04);
+}
+body.care-gallery.care-cervical-abrasion .cervical-symptom-cards>article:nth-child(even),
+body.care-gallery.care-insured-care .insurance-care-path-grid>article:nth-child(even){
+  border-top-color:#92aa96;
+}
+body.care-gallery.care-cervical-abrasion .cervical-symptom-cards h3,
+body.care-gallery.care-insured-care .insurance-care-path-grid h3{
+  color:#244b39;
+  font:700 clamp(17px,1.5vw,19px)/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.035em;
+  word-break:keep-all;
+}
+body.care-gallery.care-cervical-abrasion .cervical-symptom-cards p,
+body.care-gallery.care-insured-care .insurance-care-path-grid p{
+  color:#4c6453;
+  font-size:15px;
+  line-height:1.85;
+  word-break:keep-all;
+}
+body.care-gallery.care-cervical-abrasion .cervical-symptom-cards a,
+body.care-gallery.care-insured-care .insurance-care-path-grid a{
+  display:inline-flex;
+  align-items:center;
+  width:fit-content;
+  max-width:100%;
+  margin-top:auto;
+  min-height:46px;
+  color:#246345;
+  font-size:14px;
+  line-height:1.65;
+  font-weight:750;
+  text-decoration-thickness:1px;
+  text-underline-offset:4px;
+}
+body.care-gallery.care-cervical-abrasion .cervical-symptom-note,
+body.care-gallery.care-insured-care .insurance-care-warning{
+  border:1px solid #e1d4bf;
+  border-left:4px solid #a58a5f;
+  border-radius:3px 12px 3px 12px;
+  background:linear-gradient(125deg,#fff9ed,#fffef9);
+  color:#4d5e4e;
+  line-height:1.87;
+  word-break:keep-all;
+}
+body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) #patient-questions details{
+  border:1px solid #e0d8c9;
+  border-left:3px solid var(--exhibit-accent);
+  border-radius:3px 11px 3px 11px;
+  background:#fffefa;
+  box-shadow:none;
+}
+body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) #patient-questions details[open]{
+  border-color:#a6bda9;
+  background:#f8faf4;
+}
+body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) #patient-questions details>summary{
+  box-sizing:border-box;
+  min-height:56px;
+  padding:13px 15px;
+  color:#254b38;
+  line-height:1.75!important;
+  word-break:keep-all;
+}
+body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) #patient-questions details>p{
+  color:#465e4e;
+  padding:7px 15px 17px;
+  font-size:15px;
+  line-height:1.9!important;
+  word-break:keep-all;
+}
+body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) :is(#cervical-symptom-guide,#insurance-care-paths,#patient-questions){
+  scroll-margin-top:110px;
+}
+@media(hover:hover) and (pointer:fine){
+  body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) .treatment-page-toc>a:hover{
+    background:#f2f7ef;
+    border-color:#acc0aa;
+  }
+}
+@media(max-width:920px){
+  body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) .treatment-page-toc{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.care-gallery.care-insured-care .insurance-care-path-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:650px){
+  body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) .treatment-page-toc{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    margin-inline:15px;
+    padding:14px 12px;
+    box-shadow:none;
+  }
+  body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) .treatment-page-toc>a{
+    min-height:52px;
+    padding:10px;
+    font-size:13px;
+  }
+  body.care-gallery.care-cervical-abrasion .cervical-symptom-cards,
+  body.care-gallery.care-insured-care .insurance-care-path-grid{
+    grid-template-columns:minmax(0,1fr);
+    gap:10px;
+  }
+  body.care-gallery.care-cervical-abrasion .cervical-symptom-cards>article,
+  body.care-gallery.care-insured-care .insurance-care-path-grid>article{
+    padding:17px 16px;
+    box-shadow:none;
+  }
+  body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) #patient-questions details>summary{
+    font-size:16px;
+    min-height:54px;
+  }
+  body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) #patient-questions details>p{
+    font-size:15px;
+  }
+}
+@media(max-width:365px){
+  body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) .treatment-page-toc{
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) .treatment-page-toc>a{
+    transition:none;
+  }
+}
+@media(forced-colors:active){
+  body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) :is(.treatment-page-toc,.treatment-page-toc>a,#patient-questions details),
+  body.care-gallery.care-cervical-abrasion :is(.cervical-symptom-cards>article,.cervical-symptom-note),
+  body.care-gallery.care-insured-care :is(.insurance-care-path-grid>article,.insurance-care-warning){
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+  body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) #patient-questions details :is(summary,p){
+    color:CanvasText;
+  }
+}
