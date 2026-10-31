@@ -640,3 +640,137 @@ body.stories-gallery .updated-story-guides__previous > summary:focus-visible {
     background:Canvas;
   }
 }
+
+
+/* 2026-10-31 | Journal reading-room routes.
+ * Navigation links point to existing content; no scripts or archive duplication. */
+body.stories-gallery .journal-reading-routes{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(9px,1.3vw,15px);
+  margin:clamp(19px,2.7vw,31px) 0 clamp(24px,3.3vw,38px);
+}
+body.stories-gallery .journal-reading-routes>a{
+  display:flex;
+  box-sizing:border-box;
+  flex-direction:column;
+  min-width:0;
+  min-height:154px;
+  gap:7px;
+  padding:clamp(16px,1.9vw,24px);
+  border:1px solid #d9cdb8;
+  border-top:3px solid #b49a72;
+  border-radius:4px 13px 4px 13px;
+  background:#fffefa;
+  color:#244a38;
+  box-shadow:0 7px 20px rgba(31,54,39,.035);
+  text-decoration:none;
+}
+body.stories-gallery .journal-reading-routes>a:nth-child(even){
+  border-top-color:#91aa92;
+}
+body.stories-gallery .journal-reading-routes>a>small{
+  display:block;
+  color:#806b4a;
+  font:750 10px/1.6 system-ui,sans-serif;
+  letter-spacing:.1em;
+}
+body.stories-gallery .journal-reading-routes>a>strong{
+  display:block;
+  color:#254d39;
+  font:700 clamp(16px,1.55vw,20px)/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.04em;
+  word-break:keep-all;
+  text-wrap:balance;
+}
+body.stories-gallery .journal-reading-routes>a>span{
+  margin-top:auto;
+  color:#566c59;
+  font-size:13px;
+  line-height:1.7;
+  word-break:keep-all;
+}
+body.stories-gallery .journal-reading-routes>a:focus-visible{
+  outline:3px solid #9c783f;
+  outline-offset:3px;
+}
+body.stories-gallery #story-search,
+body.stories-gallery #story-directory,
+body.stories-gallery #updated-story-guides-title{
+  scroll-margin-top:clamp(95px,10vw,130px);
+}
+body.stories-gallery .directory-summary{
+  border-top:3px solid #a68f68;
+  background:linear-gradient(140deg,#fffefa,#f4f7ee);
+}
+body.stories-gallery .directory-summary .directory-search{
+  box-sizing:border-box;
+  border:1px solid #dcd3c2;
+  border-radius:4px 12px 4px 12px;
+  background:#fffefa;
+}
+body.stories-gallery .directory-summary .directory-search label{
+  color:#254d38;
+  font-weight:800;
+}
+body.stories-gallery .directory-summary .directory-search input{
+  min-height:49px;
+  border-color:#bacbbb;
+  background:#fffefa;
+  font-size:16px;
+}
+body.stories-gallery .directory-summary .directory-search button{
+  min-height:49px;
+  border-radius:4px 10px 4px 10px;
+}
+@media(hover:hover) and (pointer:fine){
+  body.stories-gallery .journal-reading-routes>a:hover{
+    background:#f7faf3;
+    border-color:#9eaf9c;
+    box-shadow:0 10px 22px rgba(31,54,39,.08);
+  }
+}
+@media(max-width:900px){
+  body.stories-gallery .journal-reading-routes{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.stories-gallery .journal-reading-routes>a{min-height:130px}
+}
+@media(max-width:600px){
+  body.stories-gallery .journal-reading-routes{
+    gap:8px;
+    margin-block:18px 25px;
+  }
+  body.stories-gallery .journal-reading-routes>a{
+    min-height:120px;
+    padding:15px 12px;
+    box-shadow:none;
+  }
+  body.stories-gallery .journal-reading-routes>a>small{
+    font-size:9px;
+    letter-spacing:.02em;
+  }
+  body.stories-gallery .journal-reading-routes>a>strong{
+    font-size:16px;
+    line-height:1.48;
+  }
+  body.stories-gallery .journal-reading-routes>a>span{
+    font-size:12px;
+  }
+}
+@media(max-width:350px){
+  body.stories-gallery .journal-reading-routes{
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.stories-gallery .journal-reading-routes>a{
+    min-height:90px;
+  }
+}
+@media(forced-colors:active){
+  body.stories-gallery :is(.journal-reading-routes>a,.directory-summary,.directory-summary .directory-search){
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+}
