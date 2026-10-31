@@ -1,0 +1,393 @@
+/* 이조은치과 2026-10-31 | Scaling and TMJ patient-reading exhibition
+   Keep the distinct existing illustrations, original medical explanations,
+   linked source articles, physician attribution and native booking anchors. */
+body.care-gallery-secondary.secondary-scaling{
+ --care-atlas-ink:#27513c;
+ --care-atlas-accent:#7f9d83;
+ --care-atlas-wash:#edf5eb;
+ background:radial-gradient(ellipse at 85% 1%,#e4f0e2,transparent 41%),#faf9f4;
+}
+body.care-gallery-secondary.secondary-tmj{
+ --care-atlas-ink:#425448;
+ --care-atlas-accent:#a58c67;
+ --care-atlas-wash:#f3efe5;
+ background:radial-gradient(ellipse at 86% 1%,#ede6d8,transparent 41%),#faf9f4;
+}
+body.care-gallery-secondary.secondary-scaling .care-gallery-article-shell{
+ box-sizing:border-box;
+ width:calc(100% - clamp(14px,4vw,50px));
+ max-width:1060px;
+ margin:clamp(12px,2.7vw,31px) auto;
+ padding:clamp(22px,4vw,48px) clamp(17px,4.4vw,50px) clamp(82px,8vw,108px);
+ border:1px solid #d8d8c9;
+ border-top:4px solid var(--care-atlas-accent);
+ border-radius:3px 17px 3px 17px;
+ background:linear-gradient(158deg,#fffdf8,#fffefa 72%,#f9fbf6);
+ box-shadow:0 16px 42px rgba(35,54,40,.06);
+}
+body.care-gallery-secondary.secondary-scaling .care-gallery-article-shell>h1{
+ max-width:30ch;
+ margin:12px 0 15px;
+ color:var(--care-atlas-ink);
+ font-family:"Noto Serif KR","Apple SD Gothic Neo","Malgun Gothic",serif;
+ font-size:clamp(30px,4.1vw,44px);
+ line-height:1.52;
+ letter-spacing:-.055em;
+ text-wrap:balance;
+}
+body.care-gallery-secondary.secondary-scaling .care-gallery-article-shell>.intro{
+ margin:15px 0 19px;
+ padding:clamp(17px,2.5vw,25px);
+ border:1px solid #d9dfd1;
+ border-left:4px solid var(--care-atlas-accent);
+ border-radius:4px 12px 4px 12px;
+ background:linear-gradient(135deg,#f1f7ec,#fffefa);
+}
+body.care-gallery-secondary.secondary-scaling .care-gallery-article-shell>.intro p{
+ margin:0 0 9px;
+ color:#475e4d;
+ font-size:clamp(15px,1.5vw,17px);
+ line-height:1.91;
+}
+body.care-gallery-secondary.secondary-scaling .care-gallery-article-shell>nav[aria-label="주요 진료 바로가기"]{
+ box-sizing:border-box;
+ display:flex;
+ flex-wrap:wrap;
+ gap:8px!important;
+ margin:0 0 23px!important;
+ padding:11px 13px;
+ border:1px solid #dce1d7;
+ border-radius:4px 11px 4px 11px;
+ background:#fffdf7;
+}
+body.care-gallery-secondary.secondary-scaling .care-gallery-article-shell>nav[aria-label="주요 진료 바로가기"]>a{
+ box-sizing:border-box;
+ min-height:44px;
+ display:inline-flex;
+ align-items:center;
+ padding:9px 12px;
+ border-radius:4px 9px 4px 9px;
+ background:#f3f7ef;
+ border:1px solid #d2ded1;
+ color:#305f47;
+ font-size:13px;
+ font-weight:740;
+ line-height:1.55;
+ text-decoration:none;
+}
+body.care-gallery-secondary.secondary-scaling .care-gallery-article-shell>nav[aria-label="주요 진료 바로가기"]>a[aria-current="page"]{
+ border-color:#719b7d;
+ background:#dfeee0;
+ color:#205037;
+}
+body.care-gallery-secondary.secondary-tmj main>.hero{
+ box-sizing:border-box;
+ padding:clamp(46px,5.6vw,75px) 21px clamp(28px,4vw,45px);
+ border-top:4px solid var(--care-atlas-accent);
+ border-bottom:1px solid #d5cbb9;
+ background:linear-gradient(136deg,#fffdf5,#f2efe7 62%,#eaf0e9);
+}
+body.care-gallery-secondary.secondary-tmj main>.hero h1{
+ max-width:26ch;
+ color:var(--care-atlas-ink);
+ font-family:"Noto Serif KR","Apple SD Gothic Neo","Malgun Gothic",serif;
+ font-size:clamp(31px,4.7vw,52px);
+ line-height:1.51;
+ letter-spacing:-.052em;
+ text-wrap:balance;
+}
+body.care-gallery-secondary.secondary-tmj main>.hero p{
+ color:#4e6354;
+ font-size:clamp(16px,1.7vw,19px);
+ line-height:1.87;
+}
+body.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.treatment-hero-actions{
+ gap:9px;
+ margin-block:18px 25px;
+}
+body.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.treatment-hero-actions>a{
+ box-sizing:border-box;
+ min-width:0;
+ min-height:52px;
+ border-radius:4px 11px 4px 11px;
+ font-size:14px;
+ font-weight:780;
+ line-height:1.5;
+}
+body.care-gallery-secondary.secondary-scaling .care-gallery-article-shell>.ejoeun-scaling-art,
+body.care-gallery-secondary.secondary-tmj main>.ejoeun-tmj-art{
+ box-sizing:border-box;
+ width:min(calc(100% - 24px),1040px);
+ max-width:1040px;
+ display:grid;
+ grid-template-columns:minmax(0,1.27fr) minmax(230px,.73fr);
+ align-items:stretch;
+ gap:10px;
+ margin:clamp(22px,3.5vw,39px) auto 24px;
+ padding:clamp(8px,1.3vw,14px);
+ border:1px solid #cdbfa9;
+ border-top:4px solid var(--care-atlas-accent);
+ border-radius:4px 15px 4px 15px;
+ background:linear-gradient(135deg,var(--care-atlas-wash),#fffefa 72%);
+ box-shadow:0 16px 35px rgba(40,56,41,.07);
+}
+body.care-gallery-secondary.secondary-scaling .care-gallery-article-shell>.ejoeun-scaling-art{
+ width:100%;
+}
+body.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.ejoeun-topic-art__visual{
+ box-sizing:border-box;
+ min-width:0;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ border:7px solid #fffdf8;
+ outline:1px solid #c8bba1;
+ background:#f9f5ed;
+ overflow:hidden;
+ box-shadow:0 9px 22px rgba(47,56,39,.08);
+}
+body.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.ejoeun-topic-art__visual img{
+ display:block;
+ box-sizing:border-box;
+ width:100%;
+ max-width:100%;
+ height:auto;
+ max-height:none;
+ aspect-ratio:auto;
+ object-fit:contain;
+ object-position:center;
+}
+body.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.ejoeun-topic-art__caption{
+ box-sizing:border-box;
+ display:flex;
+ flex-direction:column;
+ align-items:flex-start;
+ justify-content:center;
+ min-width:0;
+ gap:clamp(11px,1.4vw,16px);
+ padding:clamp(18px,2.4vw,30px);
+ background:#fffefa;
+}
+body.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.ejoeun-topic-art__caption strong{
+ color:var(--care-atlas-ink);
+ font-family:"Noto Serif KR","Apple SD Gothic Neo","Malgun Gothic",serif;
+ font-size:clamp(21px,2.4vw,29px);
+ line-height:1.54;
+ letter-spacing:-.04em;
+ text-wrap:balance;
+}
+body.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.ejoeun-topic-art__caption>span{
+ color:#506454;
+ font-size:14px;
+ line-height:1.9;
+ word-break:keep-all;
+}
+body.care-gallery-secondary.secondary-scaling .care-gallery-article-shell>.gallery-section-index,
+body.care-gallery-secondary.secondary-tmj main>.gallery-section-index{
+ box-sizing:border-box;
+ display:grid;
+ grid-template-columns:repeat(4,minmax(0,1fr));
+ width:min(calc(100% - 24px),1040px);
+ max-width:1040px;
+ gap:9px;
+ margin:20px auto clamp(25px,4vw,43px);
+ padding:clamp(17px,2.6vw,24px);
+ border:1px solid #d6d3c6;
+ border-left:4px solid var(--care-atlas-accent);
+ border-radius:4px 13px 4px 13px;
+ background:linear-gradient(130deg,var(--care-atlas-wash),#fffefa 74%);
+ box-shadow:0 7px 22px rgba(34,60,44,.045);
+}
+body.care-gallery-secondary.secondary-scaling .care-gallery-article-shell>.gallery-section-index{
+ width:100%;
+}
+body.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.gallery-section-index>strong{
+ grid-column:1/-1;
+ color:var(--care-atlas-ink);
+ font-family:"Noto Serif KR","Apple SD Gothic Neo","Malgun Gothic",serif;
+ font-size:clamp(17px,2vw,21px);
+ line-height:1.6;
+}
+body.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.gallery-section-index>a{
+ box-sizing:border-box;
+ min-width:0;
+ min-height:49px;
+ display:inline-flex;
+ justify-content:center;
+ align-items:center;
+ padding:10px;
+ border:1px solid #d4dbd0;
+ border-radius:4px 9px 4px 9px;
+ background:#fffefa;
+ color:#315b45;
+ font-size:13px;
+ font-weight:780;
+ line-height:1.58;
+ text-align:center;
+ text-decoration:none;
+ overflow-wrap:anywhere;
+ word-break:keep-all;
+}
+body.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+.gallery-section-index>a:hover{
+ background:#f3f8ef;
+ border-color:#a3b79e;
+}
+body.care-gallery-secondary.secondary-scaling .care-gallery-article-shell>section{
+ border-radius:4px 12px 4px 12px;
+ border-top:2px solid var(--care-atlas-accent);
+ background:#fffefa;
+ box-shadow:0 7px 23px rgba(33,59,38,.035);
+}
+body.care-gallery-secondary.secondary-scaling .care-gallery-article-shell>section>h2,
+body.care-gallery-secondary.secondary-tmj main>.section .wrap>h2{
+ color:var(--care-atlas-ink);
+ font-family:"Noto Serif KR","Apple SD Gothic Neo","Malgun Gothic",serif;
+ font-size:clamp(22px,2.7vw,28px);
+ line-height:1.59;
+ letter-spacing:-.035em;
+}
+body.care-gallery-secondary.secondary-scaling .scaling-patient-reading{
+ counter-reset:scaling-reader;
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:10px;
+ padding:0;
+ list-style:none;
+}
+body.care-gallery-secondary.secondary-scaling .scaling-patient-reading>li{
+ counter-increment:scaling-reader;
+ box-sizing:border-box;
+ display:flex;
+ flex-direction:column;
+ gap:7px;
+ min-width:0;
+ padding:18px 17px;
+ border:1px solid #d6dfd2;
+ border-top:3px solid var(--care-atlas-accent);
+ border-radius:4px 10px 4px 10px;
+ background:#fffefa;
+}
+body.care-gallery-secondary.secondary-scaling .scaling-patient-reading>li::before{
+ content:"READING " counter(scaling-reader,decimal-leading-zero);
+ color:#66846c;
+ font:800 11px/1.6 system-ui,sans-serif;
+ letter-spacing:.11em;
+}
+body.care-gallery-secondary.secondary-scaling .scaling-patient-reading>li>a{
+ min-height:44px;
+ display:inline-flex;
+ align-items:center;
+ color:#2b6546;
+ font-size:15px;
+ font-weight:750;
+ line-height:1.58;
+ text-underline-offset:4px;
+ overflow-wrap:anywhere;
+}
+body.care-gallery-secondary.secondary-scaling .scaling-patient-reading>li>span{
+ color:#536d5b;
+ font-size:14px;
+ line-height:1.78;
+ word-break:keep-all;
+}
+body.care-gallery-secondary.secondary-tmj main>.section{
+ box-sizing:border-box;
+ padding:clamp(12px,2.2vw,27px) 16px;
+ background:transparent;
+ border:0;
+}
+body.care-gallery-secondary.secondary-tmj main>.section .wrap{
+ box-sizing:border-box;
+ max-width:1030px;
+ padding:clamp(18px,3vw,32px);
+ border:1px solid #e0d9c9;
+ border-top:2px solid var(--care-atlas-accent);
+ border-radius:4px 14px 4px 14px;
+ background:#fffefa;
+ box-shadow:0 9px 26px rgba(38,53,40,.04);
+}
+body.care-gallery-secondary.secondary-tmj main>.section .wrap>p{
+ color:#4a6050;
+ font-size:clamp(16px,1.6vw,17px);
+ line-height:1.91;
+ word-break:keep-all;
+}
+body.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+:is(.ejoeun-topic-art__caption>a,.gallery-section-index>a,
+    .scaling-patient-reading>li>a):focus-visible{
+ outline:3px solid #ae884b;
+ outline-offset:3px;
+}
+@media(max-width:760px){
+ body.care-gallery-secondary.secondary-scaling .care-gallery-article-shell>.ejoeun-scaling-art,
+ body.care-gallery-secondary.secondary-tmj main>.ejoeun-tmj-art{
+  grid-template-columns:minmax(0,1fr);
+ }
+ body.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+ .gallery-section-index{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ }
+}
+@media(max-width:650px){
+ body.care-gallery-secondary.secondary-scaling .care-gallery-article-shell{
+  width:calc(100% - 12px);
+  margin:7px auto 18px;
+  padding:20px 15px calc(95px + env(safe-area-inset-bottom,0px));
+ }
+ body.care-gallery-secondary.secondary-tmj main>.ejoeun-tmj-art,
+ body.care-gallery-secondary.secondary-tmj main>.gallery-section-index{
+  width:calc(100% - 20px);
+ }
+ body.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+ .ejoeun-topic-art__visual{border-width:5px}
+ body.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+ .ejoeun-topic-art__caption{padding:18px 14px}
+ body.care-gallery-secondary.secondary-scaling .scaling-patient-reading{
+  grid-template-columns:minmax(0,1fr);
+ }
+ body.care-gallery-secondary.secondary-tmj main>.section{
+  padding:11px 10px;
+ }
+ body.care-gallery-secondary.secondary-tmj main>.section .wrap{
+  padding:19px 16px;
+ }
+ body.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+ .gallery-section-index{gap:7px;padding:14px 12px}
+ body.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+ .gallery-section-index>a{min-height:48px;padding:9px 8px}
+}
+@media(forced-colors:active){
+ body.care-gallery-secondary:is(.secondary-scaling,.secondary-tmj)
+ :is(.ejoeun-topic-art,.ejoeun-topic-art__visual,.gallery-section-index,
+     .scaling-patient-reading>li,.section .wrap,.care-gallery-article-shell){
+  background:Canvas!important;
+  color:CanvasText!important;
+  border-color:CanvasText!important;
+  box-shadow:none!important;
+ }
+}
+@media print{
+ body.care-gallery-secondary.secondary-scaling .care-gallery-article-shell{
+  width:100%;
+  max-width:none;
+  margin:0;
+  padding:0!important;
+  border:0;
+  box-shadow:none;
+ }
+ body.care-gallery-secondary.secondary-scaling .scaling-patient-reading>li,
+ body.care-gallery-secondary.secondary-tmj main>.section .wrap{
+  break-inside:avoid;
+  box-shadow:none;
+ }
+}
