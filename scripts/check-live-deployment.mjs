@@ -103,6 +103,7 @@ async function main(){
   const cssNames=[
     ['첫 화면 통합 CSS','home-critical-[0-9a-f]{12}\\.css'],
     ['갤러리 기본 통합 CSS','gallery-foundation-[0-9a-f]{12}\\.css'],
+    ['전시관 3종 통합 CSS','exhibition-foundation-[0-9a-f]{12}\\.css'],
     ['최근 화면 개선 CSS','atelier-refinement-20261030\\.css']
   ];
   for(const [label,pattern] of cssNames){
@@ -113,6 +114,13 @@ async function main(){
       '이번 빌드 '+(expectedUrl||'없음')+' / 실사이트 '+(liveHref?'동일':'다름 또는 없음'));
     if(expectedUrl)await checkAsset(label,'assets/'+expectedUrl.split('/').pop().split('?')[0],expectedUrl);
   }
+  // The source page used 11 styles; production must now request five, with
+  // all original gallery/exhibition styling still present in hashed bundles.
+  const cssCount=html=>(html.match(/<link rel="stylesheet" href="\/assets\//g)||[]).length;
+  verdict('메인 CSS 다운로드 요청 7 → 5개',
+    cssCount(builtHome)===5&&cssCount(liveHome)===5,
+    '공개 '+cssCount(liveHome)+'개 / 이번 빌드 '+cssCount(builtHome)+'개');
+
   const storyImage=og(builtStories,'og:image');
   const liveStoryImage=og(pages['/stories']||'','og:image');
   verdict('치과 이야기 SNS 공유 이미지',
