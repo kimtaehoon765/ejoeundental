@@ -593,3 +593,186 @@ body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasi
     background:Canvas;
   }
 }
+
+
+/* 2026-10-31 | Periodontal and retreatment clinical reading gallery
+   Scoped finishing layer for the existing periodontal and root-canal
+   retreatment articles. Every clinical explanation, original illustration,
+   numbered stage, source URL, SEO field and phone/booking link stays intact. */
+body.care-gallery:is(.care-gum-treatment,.care-retreatment) {
+  --clinical-reading-ink:#264c38;
+  --clinical-reading-copy:#405d49;
+  --clinical-reading-rule:#d9cdb7;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment) :is(.gum-hero,main>.hero) {
+  border-top:3px solid var(--care-gallery-accent);
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment) :is(.gum-hero,main>.hero) h1 {
+  max-width:25ch;
+  color:#244a35;
+  font-weight:700;
+  letter-spacing:-.055em;
+  text-wrap:balance;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment) :is(.gum-hero,main>.hero) p:not(.treatment-doctor-credentials) {
+  color:#3b5846;
+  line-height:1.92;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment) .treatment-page-toc {
+  box-sizing:border-box;
+  border-color:var(--clinical-reading-rule);
+  border-top:3px solid var(--care-gallery-accent);
+  border-radius:4px 14px 4px 14px;
+  background:linear-gradient(140deg,#fffefa,#f6f7ef);
+  box-shadow:0 12px 28px rgba(30,55,39,.05);
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment) .treatment-page-toc > strong {
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  color:#244e39;
+  line-height:1.6;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment) .treatment-page-toc > a {
+  box-sizing:border-box;
+  border-color:#d6d4c5;
+  border-radius:5px 10px 5px 10px;
+  background:#fffdf8;
+  color:#28563d;
+  line-height:1.65;
+  word-break:keep-all;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment) :is(.gum-section,.block,.section) :is(p,li) {
+  color:var(--clinical-reading-copy);
+  line-height:1.9;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment) :is(.gum-section,.block,.section) h2 {
+  color:var(--clinical-reading-ink);
+  letter-spacing:-.052em;
+  text-wrap:balance;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment) :is(.gum-section,.block,.section) :is(.gum-box,.gum-step,.card,.panel,.step) {
+  min-width:0;
+  border-color:#d9d2c0;
+  border-radius:5px 13px 5px 13px;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment) :is(.gum-step,.block .card,.block .panel,.block .step) :is(h3,strong) {
+  word-break:keep-all;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment) main :is(#patient-next-steps,#related-care,#patient-questions) {
+  scroll-margin-top:112px;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment) #patient-questions details {
+  border:1px solid #dce4d8;
+  border-left:3px solid var(--care-gallery-accent);
+  border-radius:5px 11px 5px 11px;
+  background:#fffdf8;
+  overflow:visible;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment) #patient-questions details[open] {
+  border-color:#a8c2a9;
+  background:#f8fbf6;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment) #patient-questions summary {
+  box-sizing:border-box;
+  min-height:52px;
+  padding:12px 14px;
+  font-weight:750;
+  line-height:1.65;
+  color:#24513a;
+  word-break:keep-all;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment) #patient-questions details p {
+  margin-top:0;
+  padding:4px 14px 16px;
+  font-size:1rem;
+  line-height:1.85;
+  color:#415d4a;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment) #patient-questions summary:focus-visible,
+body.care-gallery:is(.care-gum-treatment,.care-retreatment) .treatment-page-toc > a:focus-visible {
+  outline:3px solid #a68243;
+  outline-offset:3px;
+}
+@media(max-width:760px) {
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) :is(.gum-hero,main>.hero) h1 {
+    max-width:none;
+    font-size:clamp(27px,7vw,37px);
+    line-height:1.44;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) :is(.gum-hero,main>.hero) p:not(.treatment-doctor-credentials) {
+    font-size:1rem;
+    line-height:1.87;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) :is(.gum-section,.block,.section) h2 {
+    font-size:clamp(23px,5.8vw,31px);
+    line-height:1.48;
+    margin-bottom:18px;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) :is(.gum-section,.block,.section) :is(p,li) {
+    font-size:1rem;
+    line-height:1.88;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) :is(.gum-section,.block,.section) :is(p,ul,ol) + p {
+    margin-top:clamp(13px,2vw,19px);
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) .treatment-page-toc {
+    gap:8px;
+    margin:18px 16px 27px;
+    padding:15px 12px;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) .treatment-page-toc > strong {
+    flex-basis:100%;
+    font-size:15px;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) .treatment-page-toc > a {
+    flex:1 1 calc(50% - 8px);
+    min-width:0;
+    min-height:48px;
+    padding:10px 11px;
+    font-size:clamp(12px,3.1vw,14px);
+    line-height:1.55;
+    text-align:center;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) .treatment-hero-actions > a {
+    min-height:52px;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) :is(.gum-box,.gum-step,.block .card,.block .panel,.block .step) {
+    overflow-wrap:anywhere;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) #patient-questions summary {
+    font-size:1rem;
+    line-height:1.65;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) #patient-questions details p {
+    font-size:1rem;
+    line-height:1.87;
+  }
+}
+@media(max-width:365px) {
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) .treatment-page-toc {
+    padding:12px 9px;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) .treatment-page-toc > a {
+    font-size:12px;
+    padding:9px 6px;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) #patient-questions summary {
+    padding-inline:10px;
+  }
+}
+@media(forced-colors:active) {
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) .treatment-page-toc,
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) .treatment-page-toc > a,
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) #patient-questions details {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment) #patient-questions :is(summary,p) {
+    color:CanvasText;
+  }
+}
