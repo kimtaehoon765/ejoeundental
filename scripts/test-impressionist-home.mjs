@@ -30,7 +30,8 @@ test('the mobile homepage presents the original portrait after key actions and k
   preloads[0].includes('imagesrcset="'+responsiveSet+'"')&&
   preloads[0].includes('imagesizes="'+sizes+'"'),
   'mobile and desktop must preload a right-sized copy of the approved original');
- const artImg=hero.match(/<img\\b[^>]*src="\\/assets\\/ejoeun-gallery-cat-dentist-20261029\\.webp"[^>]*>/)?.[0]||'';
+ const imageStart=hero.indexOf('<img src="'+responsiveBase+'.webp"');
+ const artImg=imageStart>=0?hero.slice(imageStart,hero.indexOf('>',imageStart)+1):'';
  assert.ok(artImg.includes('srcset="'+responsiveSet+'"')&&
   artImg.includes('sizes="'+sizes+'"'),
   'portrait and preload must choose the same original-art resolution');
