@@ -4816,3 +4816,183 @@ body.home-page #main-content > #stories .owner-stories-grid[aria-label="원장�
     color: CanvasText;
   }
 }
+
+
+/* 2026-10-31 | Gallery foyer to exhibition-wall bridge
+   Match the standalone museum's mat, label and three-room design without
+   adding pictures, removing SEO copy, duplicating artworks or altering links. */
+body.home-page #main-content > #gallery.gallery-home-preview {
+  background:linear-gradient(180deg,#f9f8f2 0%,#f5f4ed 53%,#faf9f3 100%);
+  border-top:1px solid #ded3bd;
+  border-bottom:1px solid #ded5c4;
+}
+body.home-page #main-content > #gallery .gallery-home-intro--exhibition {
+  border-color:#bba277;
+  box-shadow:0 19px 46px rgba(27,54,39,.12);
+}
+body.home-page #main-content > #gallery .gallery-exhibition-index__room {
+  border-color:#d5c9b5;
+  border-top-color:#aa8f61;
+  box-shadow:0 8px 24px rgba(31,54,37,.052);
+}
+body.home-page #main-content > #gallery .gallery-exhibition-index__room:nth-child(2) {
+  border-top-color:#86a28c;
+}
+body.home-page #main-content > #gallery .gallery-exhibition-index__room:nth-child(3) {
+  border-top-color:#a28eaa;
+}
+body.home-page #main-content > #gallery .gallery-home-artworks--complementary,
+body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings {
+  align-items:stretch;
+  gap:clamp(13px,1.9vw,23px);
+}
+body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a,
+body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a {
+  display:flex;
+  flex-direction:column;
+  box-sizing:border-box;
+  min-width:0;
+  height:100%;
+  padding:clamp(8px,1.1vw,13px);
+  border:1px solid #c8b68f;
+  border-radius:4px 14px 4px 14px;
+  background:linear-gradient(140deg,#e6dcc9,#f4ebdc);
+  box-shadow:0 13px 29px rgba(29,53,37,.074);
+  text-decoration:none;
+}
+body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a > img,
+body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a > img,
+body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a:nth-child(2) > img {
+  box-sizing:border-box;
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:none;
+  aspect-ratio:auto;
+  object-fit:contain;
+  object-position:center;
+  border:5px solid #fffaf0;
+  background:#f7f1e7;
+  box-shadow:0 7px 15px rgba(35,58,43,.07);
+}
+body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a > span,
+body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a > .gallery-new-arrivals__caption {
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  flex:1;
+  gap:5px;
+  min-height:96px;
+  box-sizing:border-box;
+  margin:0;
+  padding:clamp(14px,1.6vw,20px);
+  border:1px solid #dbcfb7;
+  border-top:0;
+  border-radius:0 0 4px 4px;
+  background:#fffdf7;
+  color:#254b37;
+  word-break:keep-all;
+}
+body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a > span::before {
+  content:"THE PAINTING ROOM";
+  display:block;
+  margin-bottom:1px;
+  color:#8b7149;
+  font:800 10px/1.5 'DM Sans',system-ui,sans-serif;
+  letter-spacing:.11em;
+}
+body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a > span > strong,
+body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings .gallery-new-arrivals__caption > strong {
+  display:block;
+  color:#214632;
+  font:750 clamp(16px,1.65vw,20px)/1.52 'Noto Serif KR','Apple SD Gothic Neo',serif;
+  letter-spacing:-.045em;
+}
+body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a > span > small,
+body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings .gallery-new-arrivals__caption > em {
+  color:#527058;
+  font-size:13px;
+  font-weight:750;
+  line-height:1.65;
+}
+body.home-page #main-content > #gallery .gallery-new-arrivals {
+  border-color:#d9c8aa;
+  background:linear-gradient(145deg,#f5f1e8,#f8f8f1 55%,#f3f6ee);
+}
+body.home-page #main-content > #gallery .gallery-new-arrivals__intro h3 {
+  color:#264c37;
+  line-height:1.55;
+  letter-spacing:-.046em;
+  text-wrap:balance;
+}
+body.home-page #main-content > #gallery .gallery-new-arrivals__intro > a:focus-visible,
+body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a:focus-visible,
+body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a:focus-visible {
+  outline:3px solid #aa8244;
+  outline-offset:4px;
+}
+@media(hover:hover) and (pointer:fine) {
+  body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a:hover,
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a:hover {
+    border-color:#9e875d;
+    box-shadow:0 17px 32px rgba(29,53,38,.11);
+  }
+}
+@media(max-width:760px) {
+  body.home-page #main-content > #gallery .gallery-home-artworks--complementary,
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings {
+    grid-template-columns:minmax(0,1fr);
+    gap:14px;
+  }
+  body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a,
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a {
+    width:100%;
+    max-width:650px;
+    margin-inline:auto;
+    padding:8px;
+  }
+  body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a > img,
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a > img,
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a:nth-child(2) > img {
+    height:auto;
+    max-height:none;
+    border-width:4px;
+  }
+  body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a > span,
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a > .gallery-new-arrivals__caption {
+    min-height:0;
+    padding:15px 14px 17px;
+  }
+}
+@media(max-width:390px) {
+  body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a > span,
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a > .gallery-new-arrivals__caption {
+    padding:13px 12px 15px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a,
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a {
+    transition:none;
+    transform:none;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > #gallery.gallery-home-preview,
+  body.home-page #main-content > #gallery .gallery-exhibition-index__room,
+  body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a,
+  body.home-page #main-content > #gallery .gallery-new-arrivals,
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a,
+  body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a > span,
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a > .gallery-new-arrivals__caption {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content > #gallery .gallery-home-artworks--complementary > a > span :is(strong,small),
+  body.home-page #main-content > #gallery .gallery-new-arrivals__previews--paintings > a .gallery-new-arrivals__caption :is(strong,em,small) {
+    color:CanvasText;
+  }
+}
