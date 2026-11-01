@@ -7,5 +7,15 @@
   "source_note": "screenshots_summary: 2026-11-01 원장이 제공한 네이버 블로그 본문 캡처를 바탕으로 새로 구성한 환자 교육 콘텐츠. 원문 URL 미확인.",
   "related_source_titles": [
     "단순포진 입술포진 헤르페스 herpes simplex virus 부평치과"
+  ],
+  "references": [
+    {
+      "label": "NHS: 입술포진(Cold sores) 증상·전염·진료 안내",
+      "url": "https://www.nhs.uk/conditions/cold-sores/"
+    },
+    {
+      "label": "미국 CDC: 단순포진 검사와 감염 이해(HSV 치료 지침)",
+      "url": "https://www.cdc.gov/std/treatment-guidelines/herpes.htm"
+    }
   ]
 }
