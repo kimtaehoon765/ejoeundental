@@ -2148,3 +2148,24 @@ test('only below-fold paintings are low-priority while director portrait loads e
  assert.equal((source.match(/<link rel="preload" as="image"/g)||[]).length,1);
  assert.ok(source.includes('<!-- BUILD_NAVER_BOOKING_MOBILE -->'));
 });
+
+
+test('mobile search entry keeps native GET, clear labels and larger tap controls',()=>{
+ const source=read('index.html');
+ const css=read('assets/museum-finish-20261031.css');
+ const head=source.slice(source.indexOf('<header>'),source.indexOf('</header>'));
+ const form=source.slice(source.indexOf('<form class="symptom-quick-search"'),source.indexOf('</form>',source.indexOf('<form class="symptom-quick-search"'))+7);
+ assert.ok(form.includes('action="/search.html" method="get" role="search"'));
+ assert.ok(form.includes('<label for="home-symptom-query">'));
+ assert.ok(form.includes('id="home-symptom-query" name="q" type="search"'));
+ assert.ok(form.includes('enterkeyhint="search" maxlength="120" required'));
+ assert.ok(form.includes('<button type="submit">건강정보 검색 →</button>'));
+ assert.ok(head.includes('href="#home-symptom-query"')&&head.includes('href="#symptom-navigator-title"'));
+ assert.ok(css.includes('2026-11-01 | Mobile readable quick actions and symptom search'));
+ assert.ok(css.includes('font-size:clamp(11.5px,3.05vw,13px)'));
+ assert.ok(css.includes('font-size:clamp(12px,3.25vw,14px)'));
+ assert.match(css,/#home-symptom-query\s*\{[\s\S]*?min-height:54px;[\s\S]*?font-size:16px;/);
+ assert.ok(css.includes('.symptom-quick-search:focus-within'));
+ assert.ok(css.includes('#home-symptom-query:target'));
+ assert.ok(source.includes('<!-- BUILD_NAVER_BOOKING_MOBILE -->'));
+});
