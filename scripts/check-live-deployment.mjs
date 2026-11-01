@@ -104,7 +104,8 @@ async function main(){
     ['첫 화면 통합 CSS','home-critical-[0-9a-f]{12}\\.css'],
     ['갤러리 기본 통합 CSS','gallery-foundation-[0-9a-f]{12}\\.css'],
     ['전시관 3종 통합 CSS','exhibition-foundation-[0-9a-f]{12}\\.css'],
-    ['최근 화면 개선 CSS','atelier-refinement-20261030\\.css']
+    ['최근 화면 개선 CSS','atelier-refinement-20261030\\.css'],
+    ['미술관 마감 통합 CSS','home-finishing-[0-9a-f]{12}\\.css']
   ];
   for(const [label,pattern] of cssNames){
     const match=builtHome.match(new RegExp('href="(\\/assets\\/'+pattern+'(?:\\?[^"]*)?)"'));
@@ -123,7 +124,7 @@ async function main(){
   const preserved=['/assets/home-critical-','/assets/gallery-foundation-',
     '/assets/exhibition-foundation-','/assets/home-art-direction-20261030.css',
     '/assets/atelier-refinement-20261030.css',
-    '/assets/quiet-museum-finish-20261031.css','/assets/faq-deep-links.css'];
+    '/assets/home-finishing-','/assets/faq-deep-links.css'];
   verdict('메인 CSS 요청 절감·파일 순서 검증',
     builtCss.length===7&&liveCss.length===7&&
     builtCss.every((href,i)=>href===liveCss[i])&&
