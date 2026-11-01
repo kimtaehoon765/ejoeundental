@@ -100,6 +100,10 @@ test('three priority public clinic pages publish authentic share-preview images'
  }
  const probe=readFileSync('scripts/live-domain-check.mjs','utf8');
  assert.ok(probe.includes('const socialImageReady='));
+ assert.ok(probe.includes("const isStories=label==='홈페이지 치과 이야기 전체 글'"),
+  'live domain probe must distinguish the approved story portrait from the visitor guide');
+ assert.ok(probe.includes("isStories?'1200':'650'")&&probe.includes("isStories?'800':'543'"),
+  'live domain probe must validate the actual 1200x800 gallery story preview');
  assert.ok(probe.includes('const mobileGardenPreload='));
  assert.ok(probe.includes('const desktopHeroPreload='));
  assert.ok(!probe.includes('h3 광고 헤더 미검출 — 다른 연결'));
