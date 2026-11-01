@@ -1022,6 +1022,15 @@ const searchScriptHash=createHash('sha256').update(searchJs).digest('hex').slice
 const searchHtmlPath=path.join(out,'search.html');
 let searchHtml=fs.readFileSync(searchHtmlPath,'utf8');
 searchHtml=searchHtml.replace(/(src=["']\/assets\/search\.js)(?:\?[^"']*)?(["'])/g,(_,start,end)=>start+'?v='+searchScriptHash+end);
+// Fingerprint the search stylesheet as well as its script. The production
+// audit already requires content-hashed CSS, so static source version strings
+// must never allow an old mobile search layout to survive a fresh build.
+const searchCssPath=path.join(out,'assets','search-page.css');
+const searchCssHash=createHash('sha256').update(fs.readFileSync(searchCssPath)).digest('hex').slice(0,12);
+const searchCssLink=/(href=["']\/assets\/search-page\.css)(?:\?[^"']*)?(["'])/g;
+if([...searchHtml.matchAll(searchCssLink)].length!==1)
+ throw new Error('Expected one search-page.css link in search.html');
+searchHtml=searchHtml.replace(searchCssLink,(_,start,end)=>start+'?v='+searchCssHash+end);
 // The patient-site booking search card must use the same vetted Naver
 // destination and honest direct-vs-search label as the mobile home CTA.
 // This is build-time data only: no client API request or invented booking ID.
