@@ -810,6 +810,6 @@ test('externally verifiable medical references are linked on the five screenshot
   assert.equal((html.match(/aria-label="의학정보 참고자료"/g)||[]).length,1,
    'Avoid duplicate source sections in '+slug);
   assert.ok(html.includes('<link rel="canonical" href="'+origin+'/stories/'+slug+'/">'),
-   'Don't change the actual Google canonical when linking references: '+slug);
+   "Keep the actual Google canonical when linking references: "+slug);
  }
 });
