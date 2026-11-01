@@ -175,3 +175,16 @@ body.home-page #main-content > #location #weekly-hours .alternating-hours-card >
     color:CanvasText;
   }
 }
+
+
+/* 2026-11-01 | Keep question shortcuts comfortably readable at phone widths.
+   Two 150–180px columns forced Korean question titles into awkward wraps. */
+@media (max-width:390px) {
+  body.home-page #main-content > #faq .faq-quick-links {
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.home-page #main-content > #faq .faq-quick-links > a {
+    min-height:50px;
+    font-size:14px;
+  }
+}
