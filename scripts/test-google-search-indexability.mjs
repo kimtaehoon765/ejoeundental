@@ -773,3 +773,43 @@ test('oral disease and mouthrinse educational guides have a coherent browseable 
    'topic changes should not change a published article URL: '+slug);
  }
 });
+
+
+test('externally verifiable medical references are linked on the five screenshot-derived patient guides',()=>{
+ const sources={
+  '2026-11-01-cheongcheon-oral-herpes-cold-sores-guide':[
+   'https://www.nhs.uk/conditions/cold-sores/',
+   'https://www.cdc.gov/std/treatment-guidelines/herpes.htm'
+  ],
+  '2026-11-01-cheongcheon-chlorhexidine-listerine-mouthrinse-guide':[
+   'https://www.ada.org/resources/ada-library/oral-health-topics/mouthrinse-mouthwash/'
+  ],
+  '2026-11-01-cheongcheon-jaw-osteomyelitis-dental-infection':[
+   'https://pubmed.ncbi.nlm.nih.gov/40419417/'
+  ],
+  '2026-11-01-cheongcheon-crown-denture-implant-bite-adjustment':[
+   'https://www.nhs.uk/tests-and-treatments/dentures/',
+   'https://www.leedsth.nhs.uk/patients/resources/complete-dentures/'
+  ],
+  '2026-11-01-cheongcheon-wisdom-tooth-implant-nerve-numbness':[
+   'https://www.nhs.uk/tests-and-treatments/wisdom-tooth-removal/',
+   'https://www.cuh.nhs.uk/patient-information/patient-information-and-consent-to-surgical-removal-of-impacted-wisdom-teeth/'
+  ]
+ };
+ for(const [slug,links] of Object.entries(sources)){
+  const page=path.join(output,'stories',slug,'index.html');
+  assert.ok(existsSync(page),'Expected a published patient article: '+slug);
+  const html=readFileSync(page,'utf8');
+  assert.ok(html.includes('aria-label="의학정보 참고자료"'),slug+' should visibly cite medical resources');
+  assert.ok(html.includes('해외 기관의 진료 절차와 보험 안내는 국내와 다를 수 있습니다.'),slug+' should explain geography limits');
+  assert.ok(html.includes('aria-label="건강정보 자료 출처와 편집 방식"'),slug+' should keep original provenance');
+  for(const url of links){
+   const tag='href="'+url+'" target="_blank" rel="noopener noreferrer"';
+   assert.ok(html.includes(tag),'Missing safe public evidence link on '+slug+': '+url);
+  }
+  assert.equal((html.match(/aria-label="의학정보 참고자료"/g)||[]).length,1,
+   'Avoid duplicate source sections in '+slug);
+  assert.ok(html.includes('<link rel="canonical" href="'+origin+'/stories/'+slug+'/">'),
+   'Don't change the actual Google canonical when linking references: '+slug);
+ }
+});
