@@ -332,7 +332,7 @@ test('sitemap uses verified care-hub and insurance FAQ revision dates rather tha
  const edited={
   'gum-health':'2026-10-27',
   'insurance-health':'2026-10-27',
-  'additional-health':'2026-10-27',
+  'additional-health':'2026-11-01',
   'dental-insurance-faq':'2026-10-29'
  };
  for(const [slug,date] of Object.entries(edited)){
