@@ -1714,8 +1714,14 @@ for(const slug of ['gum-treatment','retreatment','cervical-abrasion','insured-ca
  const desc=periodontal.match(/<meta name="description" content="([^"]+)"/)?.[1]||'';
  const pageSchemas=[...periodontal.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));
  const medical=pageSchemas.find(x=>x['@type']==='MedicalWebPage');
- for(const term of ['인천 잇몸치료','부평 잇몸치료']){
-  if(!title.includes(term)||!desc.includes('잇몸치료')||!desc.includes('청천동'))errors.push('지역 잇몸치료 검색어 누락: '+term);
+ // The title should describe the distinct care question without artificially
+ // repeating treatment/location phrases; the body still explains the Incheon
+ // and Bupyeong service area and links to the actual Cheongcheon address.
+ if(!title.includes('부평 잇몸치료')||
+    !desc.includes('인천 부평구 청천동')||
+    !desc.includes('잇몸치료')||
+    !periodontal.includes('인천 잇몸치료·부평 잇몸치료 안내 — 청천동·산곡역 인근')){
+  errors.push('잇몸치료 제목·진료 지역·본문 안내 불일치');
  }
  if(!periodontal.includes('id="gum-main-title">인천·부평 잇몸치료,')||
     !periodontal.includes('인천 잇몸치료·부평 잇몸치료 안내 — 청천동·산곡역 인근')||
@@ -2057,7 +2063,8 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
    errors.push('인천·부평 신경치료 건강정보의 진료 안내·SEO·구조화 데이터 불일치');
  }
  const retreatSchema=schemas(retreat).find(s=>s['@type']==='MedicalWebPage');
- if(!title(retreat).includes('인천 재신경치료')||!title(retreat).includes('부평 재신경치료')||
+ if(!title(retreat).includes('부평 재신경치료')||
+   !meta(retreat,'description').includes('인천 부평구 청천동')||
    !(keywords.every(word=>meta(retreat,'description').includes(word))||meta(retreat,'description').includes('인천·부평 재신경치료'))||
    !retreat.includes('href="/root-canal-health.html"')||
    retreatSchema?.name!==title(retreat)||retreatSchema?.description!==meta(retreat,'description')||
