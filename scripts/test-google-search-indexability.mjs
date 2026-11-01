@@ -1009,3 +1009,28 @@ test('AI search clinic identity and alternating schedule remain verifiable in st
  }
  assert.ok(probe.includes('User-Agent 모의 응답이며 실제 AI 수집·인용 여부는 확인 불가'));
 });
+
+
+test('AI-visible clinic appointment action matches the real owner-approved Naver reservation link',()=>{
+ const home=readFileSync(path.join(output,'index.html'),'utf8');
+ const visit=readFileSync(path.join(output,'visit-guide.html'),'utf8');
+ const config=JSON.parse(readFileSync('content/site.json','utf8'));
+ const expected=config.naver_booking_url;
+ assert.match(expected,/^https:\/\/(?:m\.)?booking\.naver\.com\/booking\/\d+\/bizes\/\d+/,
+  'Only the clinic-verified real booking address may be represented as reservable');
+ const graphs=[...home.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1]));
+ const clinic=graphs.find(obj=>obj['@type']==='Dentist'&&obj.name==='이조은치과');
+ assert.ok(clinic,'Public dentist identity must remain available');
+ assert.deepEqual(clinic.potentialAction,{
+  '@type':'ReserveAction',
+  name:'이조은치과 공식 네이버 예약',
+  target:expected
+ });
+ for(const html of [home,visit]){
+  assert.ok(html.includes('href="'+expected+'"'),
+    'The structured booking target must be identical to a visible patient booking link');
+ }
+ assert.equal(clinic.telephone,'+82-32-513-2875');
+ assert.equal(clinic.address?.streetAddress,'세월천로 34 대우프라자 305호');
+});
