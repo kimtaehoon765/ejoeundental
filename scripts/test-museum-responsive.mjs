@@ -2110,3 +2110,21 @@ test('2026-11-01 compact homepage layout preserves all sections and SEO entry po
  assert.ok(!css.slice(css.indexOf('2026-11-01 | A shorter homepage reading journey'))
    .includes('display:none'),'the new reading-density rules cannot hide medical content');
 });
+
+
+test('compact phone header routes to symptoms without duplicating dock telephone',()=>{
+ const source=read('index.html');
+ const css=read('assets/museum-finish-20261031.css');
+ const header=source.slice(source.indexOf('<header>'),source.indexOf('</header>'));
+ assert.ok(css.includes('2026-11-01 | Compact mobile header gives patients the symptom guide'));
+ assert.ok(css.includes('html.home-scrolled body.home-page header .nav .mobile-quick a[href="#symptom-navigator-title"]'));
+ assert.ok(css.includes('html.home-scrolled body.home-page header .nav .mobile-quick a.mobile-call {\n    display:none;'));
+ assert.ok(header.includes('href="#symptom-navigator-title"')&&header.includes('href="#home-symptom-query"'));
+ assert.ok(header.includes('class="stories-mobile-link"')&&header.includes('class="mobile-call"'));
+ assert.ok(source.includes('<!-- BUILD_NAVER_BOOKING_MOBILE -->'));
+ assert.ok(source.includes('href="tel:0325132875"')&&
+   source.includes('<!-- BUILD_NAVER_BOOKING_HERO -->'));
+ assert.ok(source.includes('id="symptom-navigator-title"')&&
+   source.includes('id="home-symptom-query"'));
+ assert.ok(css.includes('@media (max-width:600px)'));
+});
