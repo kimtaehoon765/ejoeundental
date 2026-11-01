@@ -1383,3 +1383,23 @@ test('all 46 Google-indexable health guides attribute information to the real cl
    page+' must not invent editorial dates or reviewer approvals');
  }
 });
+
+
+test('bite adjustment guide recommends connected implant or denture cases rather than cavity cases',()=>{
+ const slug='2026-11-01-cheongcheon-crown-denture-implant-bite-adjustment';
+ const html=readFileSync('dist/stories/'+slug+'/index.html','utf8');
+ const related=html.match(/<aside class="story-related" aria-labelledby="related-story-title">([\s\S]*?)<\/aside>/)?.[1]||'';
+ const linked=[...related.matchAll(/href="\/stories\/([^"/]+)\//g)].map(m=>decodeURIComponent(m[1]));
+ assert.ok(linked.length>=1&&linked.length<=3,'only meaningful related patient guides should be presented');
+ assert.ok(related.includes('같은 주제의 치과 이야기'),
+  'a prosthetic adjustment article must find actual prosthetic guides');
+ const posts=JSON.parse(readFileSync('dist/content/posts-index.json','utf8'));
+ const bySlug=new Map(posts.map(item=>[item.slug,item]));
+ for(const target of linked){
+  const title=bySlug.get(target)?.title||'';
+  assert.match(title,/임플란트|틀니|의치/,
+   'guide must recommend an actual denture or implant topic: '+target);
+ }
+ assert.ok(html.includes('href="/stories.html#topic-prosthetic"'),
+  'preserve the existing prosthetic directory link');
+});
