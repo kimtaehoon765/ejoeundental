@@ -2044,3 +2044,22 @@ test('mobile optional music stays above booking actions and FAQ deep links revea
  assert.ok(faqLinkScript.includes('if(question)question.open=true'),
    'a question reached by direct link or quick navigation opens visibly');
 });
+
+
+test('portrait-led first screen stays simple without removing search or contact content',()=>{
+ const finish=read('assets/museum-finish-20261031.css');
+ const source=readFileSync('index.html','utf8');
+ const start=source.indexOf('<section class="hero wrap">');
+ const end=source.indexOf('</section>',start);
+ const hero=source.slice(start,end);
+ assert.ok(start>=0 && end>start);
+ assert.ok(finish.includes('2026-11-01 | Quiet, portrait-first homepage entrance'));
+ assert.ok(finish.includes('body.home-page #main-content > .hero.wrap .hero-actions > .hero-map {\n    display:none;'),
+   'mobile keeps the map link in markup while removing its duplicated first-screen button');
+ assert.ok(hero.includes('<h1 id="headline">') && hero.includes('자연치아를 먼저 생각합니다.'));
+ assert.ok(hero.includes('class="art hero-artwork"') && hero.includes('ejoeun-gallery-cat-dentist-20261029.webp'));
+ assert.ok(hero.includes('<!-- BUILD_NAVER_BOOKING_HERO -->') && hero.includes('href="tel:0325132875"'));
+ assert.ok(hero.includes('href="https://map.naver.com/p/entry/place/13239400"'));
+ assert.ok(hero.includes('class="hero-editorial-detail"') && hero.includes('class="hero-care-summary"'));
+ assert.ok(source.includes('id="location"') && source.includes('id="symptom-navigator-title"'));
+});
