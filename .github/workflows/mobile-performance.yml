@@ -15,6 +15,18 @@ on:
       - 'assets/home-art-direction-20261030.css'
       - 'assets/atelier-refinement-20261030.css'
       - 'assets/clinic-gallery.css'
+      - 'assets/style.css'
+      - 'assets/home-enhancements.css'
+      - 'assets/address-copy.css'
+      - 'assets/gallery-upgrade.css'
+      - 'assets/gallery-finish.css'
+      - 'assets/museum-home-v2.css'
+      - 'assets/atelier-home-2026.css'
+      - 'assets/curatorial-home.css'
+      - 'assets/gallery-edition-polish.css'
+      - 'assets/quiet-museum-finish-20261031.css'
+      - 'assets/museum-finish-20261031.css'
+      - 'assets/home-visit-faq-salon-20261031.css'
 permissions:
   contents: read
 jobs:
