@@ -959,3 +959,53 @@ test('Naver primary clinic titles and descriptions remain unique, precise and co
     'Do not hide the clinic care pages from Naver');
  }
 });
+
+
+test('AI search clinic identity and alternating schedule remain verifiable in static HTML',()=>{
+ const home=readFileSync(path.join(output,'index.html'),'utf8');
+ const jsons=[...home.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(x=>JSON.parse(x[1]));
+ const clinic=jsons.find(x=>x['@type']==='Dentist');
+ assert.ok(clinic,'Clinic medical business schema must remain public');
+ const opening=clinic.additionalProperty?.find(x=>x.name==='금·토요일 격주 진료')?.value||'';
+ assert.ok(opening.includes('토요일 진료 주에는 금요일 09:30~13:00'));
+ assert.ok(opening.includes('토요일 휴진 주에는 금요일 09:30~18:30'));
+ assert.ok(opening.includes('전화 확인'));
+ const pages=[
+  {
+   slug:'doctor',
+   phrases:['김태훈','고려대학교 의학박사(치과학 전공)','통합치의학과 전문의'],
+   schema:'ProfilePage'
+  },
+  {
+   slug:'visit-guide',
+   phrases:['금요일: 격주 09:30~13:00 또는 09:30~18:30',
+    '토요일: 격주 09:30~13:00 / 격주 휴진','세월천로 34'],
+   schema:'MedicalWebPage'
+  },
+  {
+   slug:'root-canal-retreatment-faq',
+   phrases:['재신경치료를 하면 반드시 성공하나요?'],
+   schema:'FAQPage'
+  }
+ ];
+ for(const page of pages){
+  const html=readFileSync(path.join(output,page.slug+'.html'),'utf8');
+  const graphs=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(x=>JSON.parse(x[1]));
+  assert.ok(graphs.some(x=>x['@type']===page.schema),
+   page.slug+' should retain the clinically relevant schema');
+  assert.ok(html.includes('<link rel="canonical" href="'+origin+'/'+page.slug+'">'),
+   page.slug+' needs the public, consistent canonical link');
+  assert.ok(!/noindex/i.test(html.slice(0,html.indexOf('</head>'))),
+   page.slug+' must remain eligible for crawling');
+  for(const phrase of page.phrases){
+   assert.ok(html.includes(phrase),page.slug+' missing published medical fact: '+phrase);
+  }
+ }
+ const probe=readFileSync('scripts/live-domain-check.mjs','utf8');
+ for(const label of ['AI 검색봇 중요정보 의료진','AI 검색봇 중요정보 진료시간','AI 검색봇 중요정보 재신경치료 FAQ']){
+  assert.ok(probe.includes("label: '"+label+"'"),'Live AI source probe missing: '+label);
+ }
+ assert.ok(probe.includes('User-Agent 모의 응답이며 실제 AI 수집·인용 여부는 확인 불가'));
+});
