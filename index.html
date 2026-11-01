@@ -38,7 +38,31 @@
      desktop gallery, but use the device's native serif fallback on phones. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&amp;display=optional" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&amp;display=optional"></noscript>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&amp;display=optional" media="(min-width: 801px)">
+<!-- Load the large Korean serif CSS only when a desktop viewport actually uses it.
+     A media attribute alone still downloads this stylesheet on some mobile browsers. -->
+<script>
+(() => {
+  const desktopSerifUrl='https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&display=optional';
+  const desktopSerifMedia=window.matchMedia('(min-width: 801px)');
+  let serifLink=null;
+  const syncDesktopSerif=()=>{
+    if(desktopSerifMedia.matches&&!serifLink){
+      serifLink=document.createElement('link');
+      serifLink.rel='stylesheet';
+      serifLink.href=desktopSerifUrl;
+      serifLink.media='(min-width: 801px)';
+      document.head.appendChild(serifLink);
+    }else if(!desktopSerifMedia.matches&&serifLink){
+      serifLink.remove();
+      serifLink=null;
+    }
+  };
+  syncDesktopSerif();
+  if(desktopSerifMedia.addEventListener)desktopSerifMedia.addEventListener('change',syncDesktopSerif);
+  else if(desktopSerifMedia.addListener)desktopSerifMedia.addListener(syncDesktopSerif);
+})();
+</script>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&amp;display=optional" media="(min-width: 801px)"></noscript>
 <link rel="stylesheet" href="/assets/style.css?v=20261020-fontload1">
 <link rel="stylesheet" href="/assets/home-enhancements.css?v=20261030-mobile-dock3">
 <link rel="stylesheet" href="/assets/address-copy.css">
