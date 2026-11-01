@@ -3016,3 +3016,72 @@ body.home-page #main-content > #gallery .gallery-new-arrivals {
 }
 /* In-page targets remain reachable below the compact header; this is not
    an auto-scroll or a second navigation system. */
+
+
+/* 2026-11-01 | Mobile readable quick actions and symptom search.
+   Three links after scrolling, five links on arrival, and the existing native
+   GET /search.html?q= flow remain intact; no scripts or new dependencies. */
+@media(max-width:600px) {
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick > a {
+    box-sizing:border-box;
+    min-width:0;
+    min-height:49px;
+    padding-inline:2px;
+    font-size:clamp(11.5px,3.05vw,13px);
+    line-height:1.45;
+    letter-spacing:-.025em;
+    overflow-wrap:anywhere;
+  }
+  html.home-scrolled body.home-page header .nav .mobile-quick a[href="#symptom-navigator-title"],
+  html.home-scrolled body.home-page header .nav .mobile-quick a[href="#home-symptom-query"],
+  html.home-scrolled body.home-page header .nav .mobile-quick a.stories-mobile-link {
+    min-height:49px;
+    font-size:clamp(12px,3.25vw,14px);
+    line-height:1.4;
+    letter-spacing:-.025em;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search {
+    border-color:#b5cbbb;
+    background:#f8faf5;
+  }
+  /* At least 16px avoids automatic viewport zoom on mobile form focus. */
+  body.home-page #main-content > .symptom-navigator #home-symptom-query {
+    box-sizing:border-box;
+    width:100%;
+    min-width:0;
+    min-height:54px;
+    padding:12px 14px;
+    font-size:16px;
+    line-height:1.55;
+    background:#fffefa;
+    color:#173e35;
+    caret-color:#1f5a47;
+  }
+  body.home-page #main-content > .symptom-navigator #home-symptom-query::placeholder {
+    color:#546b5b;
+    opacity:1;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search-row > button {
+    min-height:54px;
+    padding:12px 15px;
+    font-size:16px;
+    line-height:1.45;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search:focus-within {
+    border-color:#67927c;
+    box-shadow:0 0 0 2px rgba(48,110,77,.1);
+  }
+  body.home-page #main-content > .symptom-navigator #home-symptom-query:target {
+    outline:3px solid #ad8846;
+    outline-offset:3px;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search:focus-within {
+    border-color:Highlight;
+    box-shadow:none;
+  }
+  body.home-page #main-content > .symptom-navigator #home-symptom-query:target {
+    outline-color:Highlight;
+  }
+}
