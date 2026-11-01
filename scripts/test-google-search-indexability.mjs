@@ -909,6 +909,10 @@ test('Naver Yeti crawl readiness and full-text RSS remain available on productio
   assert.ok(html.includes('<h1'),'Naver bot should receive server-rendered treatment text');
  }
  const probe=readFileSync('scripts/live-domain-check.mjs','utf8');
+ assert.ok(probe.includes("gumTitle.includes('부평 잇몸치료')"),
+  'Naver live check must accept a natural localized title, not demand repetitive exact-match city names');
+ assert.ok(!probe.includes("bothAreas.every(term=>gumTitle.includes(term))"),
+  'Do not reintroduce obsolete keyword repetition requirements in live checks');
  assert.ok(probe.includes("label: '네이버 Yeti 잇몸치료 모의 검사'"));
  assert.ok(probe.includes("label: '네이버 Yeti 재신경치료 모의 검사'"));
  assert.ok(probe.includes("User-Agent 응답 테스트이며 네이버 실제 수집·색인·순위는 확인하지 않음"),
