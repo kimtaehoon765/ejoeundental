@@ -632,3 +632,65 @@ body.search-gallery .search-reading-routes {
     color:CanvasText;
   }
 }
+
+
+/* 2026-11-01 | Clinical focus labels for verified search-result URLs.
+   Document type stays distinct from topic; insurance is shown only on
+   insurance-specific resources and never promises coverage of a treatment. */
+body.search-gallery .search-result-list .result-labels {
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:7px;
+  min-width:0;
+  margin:0 0 3px;
+}
+body.search-gallery .search-result-list .result-labels > .result-kind {
+  margin:0;
+}
+body.search-gallery .search-result-list .result-focus {
+  display:inline-flex;
+  align-items:center;
+  box-sizing:border-box;
+  max-width:100%;
+  min-height:27px;
+  margin:0;
+  padding:4px 10px;
+  border:1px solid #aec8b8;
+  border-radius:4px 8px 4px 8px;
+  background:#f0f7ef;
+  color:#25533e;
+  font-size:12px;
+  font-weight:800;
+  line-height:1.45;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.search-gallery .search-result-list .result-focus[data-focus="root"] {
+  border-color:#b0c5d7;
+  background:#eef4f9;
+  color:#25465e;
+}
+body.search-gallery .search-result-list .result-focus[data-focus="insurance"] {
+  border-color:#d4c29c;
+  background:#fbf6e9;
+  color:#624c25;
+}
+@media(max-width:650px) {
+  body.search-gallery .search-result-list .result-labels {
+    gap:6px;
+    margin-bottom:3px;
+  }
+  body.search-gallery .search-result-list .result-focus {
+    min-height:30px;
+    padding:5px 9px;
+    font-size:12px;
+  }
+}
+@media(forced-colors:active) {
+  body.search-gallery .search-result-list .result-focus {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+  }
+}
