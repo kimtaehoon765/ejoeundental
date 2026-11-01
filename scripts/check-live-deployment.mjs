@@ -49,11 +49,13 @@ async function main(){
   const builtGallery=local('gallery.html').toString('utf8');
   const builtDoctor=local('doctor.html').toString('utf8');
   const builtPreservation=local('tooth-preservation.html').toString('utf8');
+  const builtSearch=local('search.html').toString('utf8');
   const commit=meta(builtHome,'ejoeundental-build-commit');
   verdict('검증에 사용한 빌드 커밋',/^[0-9a-f]{40}$/.test(commit),
     commit||'커밋 정보 없음');
   const routes=[['홈페이지','/',builtHome],['치과 이야기','/stories',builtStories],
-    ['갤러리','/gallery',builtGallery],['의료진 소개','/doctor',builtDoctor],
+    ['갤러리','/gallery',builtGallery],['통합 검색','/search',builtSearch],
+    ['의료진 소개','/doctor',builtDoctor],
     ['자연치아 보존','/tooth-preservation',builtPreservation]];
   const pages={};
   await Promise.all(routes.map(async([label,path,expected])=>{
@@ -74,6 +76,51 @@ async function main(){
     /^[0-9a-f]{40}$/.test(commit)&&meta(liveHome,'ejoeundental-build-commit')===commit,
     '공개 '+(meta(liveHome,'ejoeundental-build-commit')||'없음')+
       ' / GitHub 빌드 '+(commit||'없음'));
+  // Verify the real patient search page after Cloudflare finishes deploying.
+  // The previous build checks ran before Cloudflare's deployment completion,
+  // so source CI success was sometimes mistaken for live search availability.
+  const liveSearch=pages['/search']||'';
+  const searchHasPatientWorkflow=html=>{
+    const form=html.match(/<form class="search-form"[\s\S]*?<\/form>/)?.[0]||'';
+    return form.includes('action="/search.html" method="get"')&&
+      form.includes('id="q" name="q" type="search"')&&
+      html.includes('id="status" role="status"')&&
+      html.includes('id="results" aria-label="홈페이지 검색 결과"')&&
+      html.indexOf('class="search-primary"')<html.indexOf('class="search-reading-routes"')&&
+      html.includes('<meta name="robots" content="noindex,follow">');
+  };
+  verdict('통합 검색 입력·결과와 안내 순서',
+    searchHasPatientWorkflow(builtSearch)&&searchHasPatientWorkflow(liveSearch),
+    'GET 검색 · 상태 메시지 · 결과 우선 표시 · 검색 결과 색인 제외');
+  for(const [label,filename,attr] of [
+    ['통합 검색 결과 CSS','search-page.css','href'],
+    ['통합 검색 프로그램','search.js','src']
+  ]){
+    const quoted=filename.replace(/\./g,'\\.');
+    const pattern=new RegExp(attr+'="(\\/assets\\/'+quoted+'\\?v=[0-9a-f]{12})"');
+    const expected=builtSearch.match(pattern)?.[1]||'';
+    const delivered=liveSearch.match(pattern)?.[1]||'';
+    verdict(label+' HTML 버전 연결',Boolean(expected)&&expected===delivered,
+      '이번 빌드 '+(expected||'없음')+' / 실사이트 '+(delivered||'없음'));
+    if(expected){
+      await checkAsset(label,'assets/'+filename,expected);
+    }
+  }
+  const dock=html=>html.match(/<nav class="mobile-booking-actions"[^>]*>[\s\S]*?<\/nav>/)?.[0]||'';
+  const liveDock=dock(liveHome),builtDock=dock(builtHome);
+  verdict('모바일 전화·네이버 예약·오시는 길 버튼',
+    Boolean(builtDock)&&builtDock===liveDock&&
+    (liveDock.match(/<a\b/g)||[]).length===3&&
+    liveDock.includes('class="mobile-booking-call"')&&
+    liveDock.includes('class="mobile-booking-naver"')&&
+    liveDock.includes('class="mobile-booking-visit"'),
+    '빌드와 실제 응답의 3개 전화·예약·방문 버튼 완전 일치');
+  const searchTap='searchShortcut.addEventListener(\'click\',function()';
+  verdict('모바일 검색 바로가기 입력 포커스',
+    builtHome.includes(searchTap)&&liveHome.includes(searchTap)&&
+    builtHome.includes('href="#home-symptom-query"')&&
+    liveHome.includes('href="#home-symptom-query"'),
+    '검색을 눌렀을 때만 입력창 포커스 · 원래 링크 보존');
   verdict('대표 원장·하얀 고양이 그림 연결',
     liveHome.includes('src="/assets/ejoeun-gallery-cat-dentist-20261029.webp"')&&
     liveHome.includes('fetchpriority="high"')&&
