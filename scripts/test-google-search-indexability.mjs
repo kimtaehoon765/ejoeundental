@@ -752,3 +752,24 @@ test('screenshot-derived medical guides visibly identify their source without in
    'guide must retain its single production canonical URL: '+slug);
  }
 });
+
+
+test('oral disease and mouthrinse educational guides have a coherent browseable topic',()=>{
+ const directory=readFileSync(path.join(output,'stories.html'),'utf8');
+ const heading='<section class="story-topic" id="topic-oral"';
+ assert.ok(directory.includes(heading),'oral health topic should be a static HTML section');
+ assert.ok(directory.includes('구강질환·구강관리'),'patients should see a descriptive oral health topic label');
+ for(const slug of [
+  '2026-11-01-cheongcheon-oral-herpes-cold-sores-guide',
+  '2026-11-01-cheongcheon-jaw-osteomyelitis-dental-infection',
+  '2026-11-01-cheongcheon-chlorhexidine-listerine-mouthrinse-guide'
+ ]){
+  const storyUrl='/stories/'+slug+'/';
+  assert.ok(directory.includes('href="'+storyUrl+'"'),'directory should have a crawlable link: '+slug);
+  const article=readFileSync(path.join(output,'stories',slug,'index.html'),'utf8');
+  assert.ok(article.includes('href="/stories.html#topic-oral"'),
+   'patient guide should link back to its exact category: '+slug);
+  assert.ok(article.includes('<link rel="canonical" href="'+origin+storyUrl+'">'),
+   'topic changes should not change a published article URL: '+slug);
+ }
+});
