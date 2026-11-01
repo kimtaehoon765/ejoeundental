@@ -3019,14 +3019,14 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const preload=hero.match(/<link rel="preload" as="image" type="image\/webp"[^>]*>/)?.[0]||'';
  const optimized=expected==='/assets/ejoeun-gallery-cat-dentist-20261029.webp';
  const base='/assets/ejoeun-gallery-cat-dentist-20261029';
- const responsiveSet=base+'-480.webp 480w, '+base+'-720.webp 720w, '+base+'.webp 1200w';
+ const responsiveSet=base+'-480.webp 480w, '+base+'-640.webp 640w, '+base+'-720.webp 720w, '+base+'.webp 1200w';
  const sizes='(max-width: 600px) calc(100vw - 72px), (max-width: 960px) 48vw, 550px';
  const preloadMatches=preload.includes('fetchpriority="high"')&&
    preload.includes('href="'+expected+'"')&&
    (!optimized||(preload.includes('imagesrcset="'+responsiveSet+'"')&&
      preload.includes('imagesizes="'+sizes+'"')&&
      heroSection.includes('srcset="'+responsiveSet+'" sizes="'+sizes+'"')&&
-     [480,720].every(width=>{
+     [480,640,720].every(width=>{
        const name=join(root,'assets/ejoeun-gallery-cat-dentist-20261029-'+width+'.webp');
        if(!existsSync(name))return false;
        const data=readFileSync(name);
