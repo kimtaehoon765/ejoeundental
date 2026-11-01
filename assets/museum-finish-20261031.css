@@ -2712,3 +2712,92 @@ body.home-page #main-content > :is(#philosophy,#home-representative-guides,#heal
     max-width:calc(100vw - 12px);
   }
 }
+
+
+/* 2026-11-01 | Quiet, portrait-first homepage entrance.
+   Distinguish the two primary contact actions from informational shortcuts.
+   Keep every real link, painting, H1, clinic credential and SEO paragraph in
+   the document; mobile still has the persistent verified booking dock. */
+body.home-page #main-content > .hero.wrap #headline {
+  margin-block:clamp(12px,1.8vw,19px) clamp(12px,1.4vw,16px);
+}
+body.home-page #main-content > .hero.wrap .hero-actions {
+  row-gap:8px;
+  margin-block:clamp(12px,1.6vw,18px) 8px;
+}
+body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-call,.hero-booking) {
+  font-weight:800;
+  border-radius:6px;
+}
+body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-hours,.hero-symptoms,.hero-map) {
+  background:transparent;
+  border:1px solid #d9dcd1;
+  color:#315943;
+  box-shadow:none;
+  font-weight:700;
+}
+body.home-page #main-content > .hero.wrap .hero-local-intro {
+  max-width:56ch;
+  margin-block:7px 0;
+  line-height:1.65;
+}
+@media (hover:hover) and (pointer:fine) {
+  body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-hours,.hero-symptoms,.hero-map):hover {
+    background:#f0f4ec;
+    border-color:#a6b8a7;
+    box-shadow:none;
+  }
+}
+@media (max-width:600px) {
+  body.home-page #main-content > .hero.wrap {
+    row-gap:13px;
+    padding-top:20px;
+    padding-bottom:23px;
+  }
+  body.home-page #main-content > .hero.wrap #headline {
+    margin:11px 0 12px;
+    line-height:1.38;
+  }
+  body.home-page #main-content > .hero.wrap .hero-doctor-credentials {
+    padding:9px 11px;
+    margin-block:8px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions {
+    margin:11px 0 9px;
+    gap:7px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-hours,.hero-symptoms) {
+    min-height:44px;
+    padding:8px 7px;
+    grid-row:2;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > .hero-hours {
+    grid-column:1 / span 3;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > .hero-symptoms {
+    grid-column:4 / span 3;
+  }
+  /* 지도는 같은 페이지의 오시는 길과 모바일 위치 메뉴에서 제공된다.
+     첫 화면에는 중복되는 세 번째 보조 버튼을 표시하지 않는다. */
+  body.home-page #main-content > .hero.wrap .hero-actions > .hero-map {
+    display:none;
+  }
+  body.home-page #main-content > .hero.wrap .hero-local-intro {
+    font-size:13px;
+    margin:8px 0 0;
+    line-height:1.6;
+  }
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    margin-block:0 6px;
+  }
+  body.home-page #main-content > .hero.wrap > .hero-editorial-detail {
+    padding-top:14px;
+  }
+}
+@media (forced-colors:active) {
+  body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-hours,.hero-symptoms,.hero-map) {
+    background:ButtonFace;
+    color:ButtonText;
+    border-color:ButtonText;
+  }
+}
