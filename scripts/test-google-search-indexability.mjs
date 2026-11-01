@@ -728,3 +728,27 @@ test('primary clinic, gallery, doctor and preservation social previews use disti
    name+' sharing original must exist as genuine WebP');
  }
 });
+
+
+test('screenshot-derived medical guides visibly identify their source without inventing original links',()=>{
+ const slugs=[
+  '2026-11-01-cheongcheon-oral-herpes-cold-sores-guide',
+  '2026-11-01-cheongcheon-chlorhexidine-listerine-mouthrinse-guide',
+  '2026-11-01-cheongcheon-jaw-osteomyelitis-dental-infection',
+  '2026-11-01-cheongcheon-crown-denture-implant-bite-adjustment',
+  '2026-11-01-cheongcheon-wisdom-tooth-implant-nerve-numbness'
+ ];
+ for(const slug of slugs){
+  const page=path.join(output,'stories',slug,'index.html');
+  assert.ok(existsSync(page),'published clinical guide must exist: '+slug);
+  const html=readFileSync(page,'utf8');
+  assert.ok(html.includes('aria-label="건강정보 자료 출처와 편집 방식"'),
+   'screenshot-based guide must disclose its source: '+slug);
+  assert.ok(html.includes('원문 주소가 확인되지 않아 임의의 링크를 표시하지 않았습니다.'),
+   'missing blog source must not be invented: '+slug);
+  assert.ok(html.includes('개별 진단이나 처방을 대신하지 않습니다.'),
+   'general health guide must not imply a personalized prescription: '+slug);
+  assert.ok(html.includes('<link rel="canonical" href="'+origin+'/stories/'+slug+'/">'),
+   'guide must retain its single production canonical URL: '+slug);
+ }
+});
