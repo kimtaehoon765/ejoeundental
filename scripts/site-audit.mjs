@@ -2065,7 +2065,8 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  const retreatSchema=schemas(retreat).find(s=>s['@type']==='MedicalWebPage');
  if(!title(retreat).includes('부평 재신경치료')||
    !meta(retreat,'description').includes('인천 부평구 청천동')||
-   !(keywords.every(word=>meta(retreat,'description').includes(word))||meta(retreat,'description').includes('인천·부평 재신경치료'))||
+   !meta(retreat,'description').includes('재신경치료')||
+   !meta(retreat,'description').includes('자연치아 보존')||
    !retreat.includes('href="/root-canal-health.html"')||
    retreatSchema?.name!==title(retreat)||retreatSchema?.description!==meta(retreat,'description')||
    og(retreat,'og:title')!==title(retreat)||og(retreat,'og:description')!==meta(retreat,'description')){
