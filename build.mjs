@@ -515,7 +515,9 @@ const articleSourceNote=safeSourceBlog?
   :String(post.source_note||'').startsWith('screenshots_summary')
    ?'원장이 제공한 네이버 블로그 본문 사진을 읽고 핵심 의견을 정리한 글입니다. 일부 의학적 설명은 근거 자료를 참고하여 보완했습니다. '
    :'이 글은 원장이 작성한 네이버 블로그 글을 환자 교육용으로 요약·재구성했습니다. ')+
- '<a href="'+escaped(safeSourceBlog)+'" target="_blank" rel="noopener noreferrer">원문 보기 ↗</a></p></aside>':'';
+ '<a href="'+escaped(safeSourceBlog)+'" target="_blank" rel="noopener noreferrer">원문 보기 ↗</a></p></aside>':
+ String(post.source_note||'').startsWith('screenshots_summary')?
+ '<aside class="notice" aria-label="건강정보 자료 출처와 편집 방식"><strong>건강정보 자료 출처</strong><p>이 글은 이조은치과 원장이 제공한 네이버 블로그 본문 화면을 바탕으로 홈페이지 환자 교육용으로 재구성했습니다. 원문 주소가 확인되지 않아 임의의 링크를 표시하지 않았습니다. 내용은 일반적인 건강정보이며 진찰·검사에 따른 개별 진단이나 처방을 대신하지 않습니다.</p></aside>':'';
 // This post was already appended to the chronological published posts array.
 const currentArticleIndex=posts.length-1;
 const articlePrev=currentArticleIndex>0?posts[currentArticleIndex-1]:null;
