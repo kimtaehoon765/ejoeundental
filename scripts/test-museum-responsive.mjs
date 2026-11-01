@@ -2283,3 +2283,19 @@ test('search results distinguish clinical guides without implying insurance cove
    'clearly styled clinical label: '+id);
  assert.ok(css.includes('@media(forced-colors:active)'));
 });
+
+
+test('search styles and script links match the actual production content hashes',()=>{
+ const html=read('search.html');
+ for(const [file,label] of [['search-page.css','CSS'],['search.js','JavaScript']]){
+  const asset=read('assets/'+file);
+  const expected=createHash('sha256').update(asset).digest('hex').slice(0,12);
+  const kind=file.endsWith('.css')?'href':'src';
+  assert.ok(html.includes(kind+'="/assets/'+file+'?v='+expected+'"'),
+   label+' search asset must be freshly fingerprinted on every production build');
+ }
+ assert.ok(html.includes('<meta name="robots" content="noindex,follow"'));
+ assert.ok(html.includes('rel="canonical" href="https://ejoeundental.com/search.html"'));
+ assert.ok(html.includes('id="status" role="status"'));
+ assert.ok(html.includes('id="results" aria-label="홈페이지 검색 결과"'));
+});
