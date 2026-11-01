@@ -3885,3 +3885,27 @@ function stripBundleDocumentation(css,label){
  fs.writeFileSync(homepage,html,'utf8');
  console.log('Homepage finishing CSS requests: 3 -> 1; documented CSS comments removed from delivery:', unoptimized.length-combined.length,'characters; source rules and order retained:',bundled);
 }
+
+// Advertise the exact first-screen CSS bundle to Cloudflare Pages Early Hints.
+// The generated CSS filename changes with source content; deriving the header
+// during each build avoids stale preloads and duplicate downloads. Never add
+// a preload for the full-size hero image because responsive srcset determines
+// the correct device-sized file in the document.
+{
+ const homepage=fs.readFileSync(path.join(out,'index.html'),'utf8');
+ const matches=[...homepage.matchAll(/<link rel="stylesheet" href="(\/assets\/home-critical-[0-9a-f]{12}\.css)">/g)];
+ if(matches.length!==1)throw new Error('Cannot set Early Hints: missing unique critical CSS');
+ const href=matches[0][1];
+ if(!fs.existsSync(path.join(out,href.slice(1))))
+  throw new Error('Cannot set Early Hints: CSS bundle not found: '+href);
+ const headerFile=path.join(out,'_headers');
+ const original=fs.readFileSync(headerFile,'utf8');
+ const homepageCacheRule=/^\/(\r?\n)  Cache-Control: public, max-age=0, must-revalidate(?=\r?\n|$)/gm;
+ if([...original.matchAll(homepageCacheRule)].length!==1||
+    original.includes('  Link: </assets/home-critical-'))
+  throw new Error('Cannot set Early Hints: homepage header rule ambiguous');
+ const updated=original.replace(homepageCacheRule,
+  match=>match+'\n  Link: <'+href+'>; rel=preload; as=style');
+ fs.writeFileSync(headerFile,updated,'utf8');
+ console.log('Cloudflare Pages homepage CSS Early Hints:',href);
+}
