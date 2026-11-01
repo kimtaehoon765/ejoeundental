@@ -396,6 +396,9 @@ const relatedStoryTopic=title=>storyTitleIntent(title)||
  (storyPreservationIntent(title)?'preserve':'')||
  relatedStoryCategories.find(([,pattern])=>pattern.test(String(title||'')))?.[0]||'other';
 const storyDirectoryTopic=title=>{
+ // Bite/occlusal adjustment spans crowns, dentures and implant prosthetics.
+ // It is not a cavity treatment merely because the headline mentions a crown.
+ if(/교합\s*조정/.test(String(title||'')))return 'prosthetic';
  const intent=storyTitleIntent(title);
  return (storyPreservationIntent(title)?'preserve':'')||
   ({implant:'prosthetic',denture:'prosthetic',root:'root',gum:'gum',
