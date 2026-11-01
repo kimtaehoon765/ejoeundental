@@ -2789,6 +2789,19 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
     errors.push('Cloudflare Pages 검색/진료 자료 갱신 헤더 누락: '+route);
   }
   if(rules.length!==9)errors.push('Cloudflare Pages 예상 응답 헤더 규칙 수 불일치: '+rules.length);
+  // Only the homepage's immutable, content-addressed first-screen CSS is
+  // advertised through 103 Early Hints. Do not preload the 1200px hero
+  // fallback instead of its responsive mobile image variants.
+  const markup=readFileSync(join(root,'index.html'),'utf8');
+  const criticalStyles=[...markup.matchAll(/<link rel="stylesheet" href="(\/assets\/home-critical-[0-9a-f]{12}\.css)">/g)];
+  const criticalHref=criticalStyles[0]?.[1];
+  const earlyHint=byPath('/')[0]?.headers.get('Link');
+  if(criticalStyles.length!==1||!criticalHref||
+     earlyHint!=='<'+criticalHref+'>; rel=preload; as=style'||
+     !existsSync(join(root,criticalHref.slice(1)))){
+   errors.push('Cloudflare Pages 모바일 첫 화면 CSS Early Hints 경로·해시 불일치');
+  }
+
   if(txt.length>14000)errors.push('Cloudflare Pages 응답 헤더 파일이 불필요하게 큼');
  }
 }
