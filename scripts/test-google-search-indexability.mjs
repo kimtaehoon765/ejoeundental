@@ -623,8 +623,8 @@ test('core dental service guides declare real clinic publisher and accountable t
   '.clinical-editorial-source p a:focus-visible','@media (max-width:600px)']){
   assert.ok(stylesheet.includes(token),'visible verified medical responsibility needs styled disclosure: '+token);
  }
- for(const [file,label] of [['gum-treatment.html','잇몸치료 안내'],
-  ['retreatment.html','재신경치료 안내']]){
+ for(const [file,label,revision] of [['gum-treatment.html','잇몸치료 안내','2026-11-01'],
+  ['retreatment.html','재신경치료 안내','2026-10-30']]){
   const source=readFileSync(file,'utf8');
   const html=readFileSync(path.join(output,file),'utf8');
   const medical=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
@@ -637,25 +637,25 @@ test('core dental service guides declare real clinic publisher and accountable t
   assert.equal(medical.accountablePerson?.url,origin+'/doctor',
    'production HTML normalizes internal profile URLs to the canonical extensionless route');
   assert.equal(medical.publisher?.['@id'],origin+'/#clinic');
-  assert.equal(medical.dateModified,'2026-10-30');
+  assert.equal(medical.dateModified,revision);
   assert.ok(html.includes('class="clinical-editorial-source"'),
    'publisher identity must be visible to the reader as well as machines');
   assert.ok(html.includes('<strong>'+label+' 정보 제공: 이조은치과</strong>'));
   assert.ok(html.includes('<a href="/doctor.html">김태훈 원장</a>'));
-  assert.ok(html.includes('<time datetime="2026-10-30">2026년 10월 30일</time>'));
+  assert.ok(html.includes('<time datetime="'+revision+'">'+(revision==='2026-11-01'?'2026년 11월 1일':'2026년 10월 30일')+'</time>'));
   assert.ok(html.includes('실제 진단과 치료 선택은 진찰·검사 결과에 따라 달라집니다'));
   assert.ok(source.includes('class="clinical-editorial-source"'),
    'never rely on an unreviewable build-only attribution');
   const slug=file.slice(0,-5);
-  const expected='<loc>'+origin+'/'+slug+'</loc><lastmod>2026-10-30</lastmod>';
+  const expected='<loc>'+origin+'/'+slug+'</loc><lastmod>'+revision+'</lastmod>';
   assert.ok(sitemap.includes(expected),'published Google sitemap should reflect actual page revision: '+file);
  }
 });
-test('verified Oct 29 revision dates for updated dental patient guides reach published sitemap',()=>{
+test('verified source-backed revision dates for updated dental patient guides reach published sitemap',()=>{
  const source=readFileSync('sitemap.xml','utf8');
  const published=readFileSync(path.join(output,'sitemap.xml'),'utf8');
- // These patient guides were substantively updated on 2026-10-29.
- // Do not rewrite unrelated timestamps merely because a build was run.
+ // Only wisdom-tooth was substantively revised again on 2026-11-01.
+ // Preserve the actual October 29 dates for the other patient guides.
  const revised=[
   'pediatric-dentistry','pediatric-orthodontics',
   'dental-insurance-faq','tmj-care','wisdom-tooth',
@@ -669,8 +669,9 @@ test('verified Oct 29 revision dates for updated dental patient guides reach pub
   for(const [kind,xml] of [['source',source],['published',published]]){
    const blocks=entries(xml).filter(body=>body.includes('<loc>'+origin+'/'+(kind==='source'?page:slug)+'</loc>'));
    assert.equal(blocks.length,1,kind+' must list exactly one '+slug+' URL');
-   assert.equal(blocks[0].match(/<lastmod>([^<]+)<\/lastmod>/)?.[1],'2026-10-29',
-    kind+' lastmod must match the actual substantive October 29 page revision: '+slug);
+   const expectedDate=slug==='wisdom-tooth'?'2026-11-01':'2026-10-29';
+   assert.equal(blocks[0].match(/<lastmod>([^<]+)<\/lastmod>/)?.[1],expectedDate,
+    kind+' lastmod must match the actual source-backed page revision: '+slug);
   }
  }
  assert.ok(published.includes('https://ejoeundental.com/'),
