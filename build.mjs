@@ -3349,7 +3349,7 @@ function brandPublicPages(dir){
  let clinicSchemaCount=0;
  const homepage=page.replace(marker,buttons).replace(heroMarker,heroButton)
   .replace(finishMarker,finishButton)
-  .replace(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/g,(markup,json)=>{
+  .replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,(markup,json)=>{
    let entity;
    try{entity=JSON.parse(json);}catch{return markup;}
    if(entity['@type']!=='Dentist'||entity.name!=='이조은치과')return markup;
