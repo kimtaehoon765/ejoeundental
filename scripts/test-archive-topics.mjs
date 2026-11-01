@@ -164,11 +164,11 @@ test('deep linked category stays accessible, including after a search',()=>{
  assert.equal(site.groups[1].summary.focused,true);
 });
 
-test('production build keeps all 509 links, fresh script and mobile-friendly reset control',()=>{
+test('production build keeps all 537 links, fresh script and mobile-friendly reset control',()=>{
  const html=readFileSync('dist/clinical-archive.html','utf8');
  const css=html;
  const matches=[...html.matchAll(/<li><a href="https:\/\/blog\.naver\.com\/[a-zA-Z0-9_-]+\/[0-9]+" target="_blank" rel="noopener noreferrer">/g)];
- assert.equal(matches.length,509);
+ assert.equal(matches.length,537);
  for(const id of ["224351181693","224350565399","224349488410","224348923668","224347627046","224346767351","224345605594","224344449540","224343576204","224342362813","224340539370","224339649746","224338216768","224336919095","224336313791","224335801481","224334694345","224333455599","224332017324","224331110284","224329576885","224329145895","224328506244","224327443401","224326276050","224325023545","224323897424","224322516968","224322081993","224320994972","224320266015","224317876370","224316966811","224315798257","224315011800","224314366210","224313019345","224311977947","224311067641","224309977228","224308488636","224307323645","224306244253","224305030119","224304247968","224303231242","224298846717","224297070925","224292617811","224291112270","224288489890","224287365726","224286252895","224284648154","224284054623","223517564607","223516136069","223515214832","223514920490","223514001922","223513923975","223511239719","223510937991","223510841022","223510589800","223509416446","223508191462","223507562346"]){
   assert.ok(html.includes('https://blog.naver.com/kook765/'+id), 'New owner Naver article not found: '+id);
  }
@@ -205,7 +205,7 @@ test('published review education post uses the owner screenshot summary with ver
  assert.ok(sitemap.includes('<loc>'+canonical+'</loc>'),'publish to sitemap for indexing');
  assert.ok(entries.some(post=>post.slug===slug));
  assert.ok(search.some(post=>post.url==='/stories/'+slug+'/'));
- assert.equal([...home.matchAll(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)].length,509,'all 509 blog posts must remain intact');
+ assert.equal([...home.matchAll(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)].length,537,'all 537 blog posts must remain intact');
 });
 
 test('second owner-supplied review article covers clinical decision criteria without duplicating the prior post',()=>{
@@ -227,7 +227,7 @@ test('second owner-supplied review article covers clinical decision criteria wit
  assert.ok(sitemap.includes('<loc>'+canonical+'</loc>'));
  assert.ok(posts.some(p=>p.slug===slug));
  assert.ok(search.some(p=>p.url==='/stories/'+slug+'/'));
- assert.equal([...homepage.matchAll(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)].length,509);
+ assert.equal([...homepage.matchAll(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)].length,537);
 });
 
 
@@ -259,12 +259,12 @@ test('homepage topic shortcuts open real original-blog archive categories in one
   'desktop links remain keyboard and touch accessible');
  assert.match(css,/@media\(max-width:600px\)\{#stories \.owner-blog-topic-jumps/,
   'mobile shortcuts have a compact two-column layout');
- assert.equal([...home.matchAll(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)].length,509,
-  'navigation improvement must not drop any of the original 509 Naver blog links');
+ assert.equal([...home.matchAll(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)].length,537,
+  'navigation improvement must not drop any of the original 537 Naver blog links');
 });
 
 
-test('homepage query pre-filters the 509 originals without another search step',()=>{
+test('homepage query pre-filters the 537 originals without another search step',()=>{
  const site=setup({search:'?q='+encodeURIComponent('재신경치료'),hash:'#archive-blog-posts'});
  assert.equal(site.input.value,'재신경치료');
  assert.match(site.status.textContent,/관련 주제의 원장 글 15편을 표시합니다/,
@@ -288,7 +288,7 @@ test('home search form uses GET and lands at the real indexed public archive',()
  assert.match(home,/<form class="owner-blog-direct-search" action="\/clinical-archive\.html#archive-blog-posts" method="get"/);
  assert.match(home,/<input id="home-owner-post-search" name="q" type="search" maxlength="100"[^>]*required/);
  assert.ok(archive.includes('id="archive-blog-posts"'));
- assert.equal((home.match(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)||[]).length,509);
+ assert.equal((home.match(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)||[]).length,537);
  assert.match(script,/new URLSearchParams\(window\.location\.search \|\| ''\)\.get\('q'\)/);
 });
 
@@ -324,7 +324,7 @@ test('switching from a search URL to an original topic cleans stale query metada
  assert.equal(site.groups[0].hidden,false);
 });
 
-test('native 509-article reading routes expose all five authentic source groups',()=>{
+test('native 537-article reading routes expose all five authentic source groups',()=>{
  const built=readFileSync('dist/clinical-archive.html','utf8');
  const source=readFileSync('clinical-archive.html','utf8');
  const style=readFileSync('dist/assets/editorial-gallery.css','utf8');
@@ -344,6 +344,6 @@ test('native 509-article reading routes expose all five authentic source groups'
  assert.ok(style.includes('grid-template-columns:repeat(5,minmax(0,1fr))'));
  assert.ok(style.includes('@media(max-width:750px)'));
  assert.ok(source.includes('editorial-gallery.css?v=20261031-archive-reader-routes03'));
- assert.equal((built.match(/href="https:\/\/(?:m\.)?blog\.naver\.com\/[a-z0-9]+\/[0-9]+"/g)||[]).length,509,
-  'the archive must retain 509 original blog article URLs');
+ assert.equal((built.match(/href="https:\/\/(?:m\.)?blog\.naver\.com\/[a-z0-9]+\/[0-9]+"/g)||[]).length,537,
+  'the archive must retain 537 original blog article URLs');
 });
