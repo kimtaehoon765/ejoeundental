@@ -2169,3 +2169,49 @@ test('mobile search entry keeps native GET, clear labels and larger tap controls
  assert.ok(css.includes('#home-symptom-query:target'));
  assert.ok(source.includes('<!-- BUILD_NAVER_BOOKING_MOBILE -->'));
 });
+
+
+test('tapping mobile search focuses the existing input without auto-focusing on load',()=>{
+ const source=read('index.html');
+ const inline=source.match(/<script>\s*\/\* Mobile reading:([\s\S]*?)<\/script>/)?.[1]||'';
+ assert.ok(inline.includes('searchShortcut.addEventListener(\'click\',function()'));
+ assert.ok(inline.includes("input.focus({preventScroll:true})"));
+ const form=source.slice(source.indexOf('<form class="symptom-quick-search"'),source.indexOf('</form>',source.indexOf('<form class="symptom-quick-search"'))+7);
+ assert.ok(form.includes('action="/search.html" method="get"'));
+ assert.ok(form.includes('name="q" type="search"'));
+ let taps=0,focused=0,focusOptions;
+ const link={
+  addEventListener(type,listener){
+   assert.equal(type,'click');
+   taps++;
+   this.click=listener;
+  }
+ };
+ const input={focus(options){focused++;focusOptions=options;}};
+ const root={classList:{contains(){return false},toggle(){}}};
+ const doc={
+  documentElement:root,
+  querySelector(selector){
+   assert.equal(selector,'header .mobile-quick a[href="#home-symptom-query"]');
+   return link;
+  },
+  getElementById(id){
+   assert.equal(id,'home-symptom-query');
+   return input;
+  }
+ };
+ const win={
+  innerWidth:390,scrollY:0,
+  addEventListener(){},
+  requestAnimationFrame(fn){fn()}
+ };
+ new Function('document','window','/* Mobile reading:'+inline)(doc,win);
+ assert.equal(taps,1);
+ assert.equal(focused,0,'do not summon mobile keyboard on page load');
+ link.click();
+ assert.equal(focused,1,'tap should focus the native search field');
+ assert.deepEqual(focusOptions,{preventScroll:true});
+ assert.ok(source.includes('<a href="#home-symptom-query"'),
+  'preserve normal anchor navigation without JS');
+ assert.ok(source.includes('<!-- BUILD_NAVER_BOOKING_MOBILE -->'));
+});
