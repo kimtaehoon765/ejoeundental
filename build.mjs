@@ -1553,8 +1553,8 @@ console.log('Local care navigation generated:',localCarePages.length,'treatment 
 // Keep clinical page metadata as the single source of truth. Do not overwrite
 // current physician-reviewed search snippets with stale build-time keyword text.
 const localCareMeta={
- 'gum-treatment.html':{title:'인천 잇몸치료·부평 잇몸치료 | 청천동 이조은치과'},
- 'retreatment.html':{title:'인천 재신경치료·부평 재신경치료 | 신경치료 후 통증 | 이조은치과'},
+ 'gum-treatment.html':{title:'부평 잇몸치료·스케일링 차이 | 청천동 이조은치과'},
+ 'retreatment.html':{title:'부평 재신경치료 | 신경치료 후 통증·자연치아 보존 | 이조은치과'},
  'cervical-abrasion.html':{title:'인천 치경부마모증·시린 이·GI 수복 | 부평구 이조은치과'},
  'insured-care.html':{title:'인천 치과 건강보험 진료·스케일링 | 부평구 이조은치과'}
 };
