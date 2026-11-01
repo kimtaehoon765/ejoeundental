@@ -5,6 +5,10 @@ on:
     paths:
       - '.github/workflows/responsive-hero-assets.yml'
       - 'scripts/generate-responsive-hero.py'
+      - 'scripts/generate-mobile-art-variants.py'
+      - 'assets/ejoeun-original-wisdom-consult-20261029.webp'
+      - 'assets/quiet-window-cat-thumb.webp'
+      - 'assets/cubist-cat-clinic-thumb.webp'
       - 'assets/ejoeun-gallery-cat-dentist-20261029.webp'
   workflow_dispatch:
 permissions:
@@ -30,18 +34,20 @@ jobs:
           set -euo pipefail
           git hash-object assets/ejoeun-gallery-cat-dentist-20261029.webp > /tmp/original-art-sha
           python scripts/generate-responsive-hero.py
+          python scripts/generate-mobile-art-variants.py
           test "$(git hash-object assets/ejoeun-gallery-cat-dentist-20261029.webp)" = "$(cat /tmp/original-art-sha)"
           test -s assets/ejoeun-gallery-cat-dentist-20261029-480.webp
           test -s assets/ejoeun-gallery-cat-dentist-20261029-720.webp
+          for art in assets/ejoeun-gallery-cat-dentist-20261029-640.webp assets/ejoeun-original-wisdom-consult-20261029-720.webp assets/quiet-window-cat-thumb-320.webp assets/cubist-cat-clinic-thumb-320.webp; do test -s "$art"; done
       - name: Commit only newly resized variants
         run: |
           set -euo pipefail
-          git add assets/ejoeun-gallery-cat-dentist-20261029-480.webp assets/ejoeun-gallery-cat-dentist-20261029-720.webp
+          git add assets/ejoeun-gallery-cat-dentist-20261029-480.webp assets/ejoeun-gallery-cat-dentist-20261029-720.webp assets/ejoeun-gallery-cat-dentist-20261029-640.webp assets/ejoeun-original-wisdom-consult-20261029-720.webp assets/quiet-window-cat-thumb-320.webp assets/cubist-cat-clinic-thumb-320.webp
           if git diff --cached --quiet; then
             echo "Existing responsive copies already match the approved original."
           else
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -m "Publish original approved doctor-cat art at 480w and 720w for mobile"
+            git commit -m "Generate approved clinic art in responsive WebP sizes without changing originals"
             git push origin HEAD:main
           fi
