@@ -255,7 +255,7 @@ body.home-page #main-content > :is(
   #philosophy,#focus-care,#home-representative-guides,
   #symptoms,#care,#health-info,#stories,#faq
 ) {
-  padding-block:clamp(58px,6.7vw,94px);
+  padding-block:clamp(50px,5.8vw,78px);
 }
 body.home-page #main-content > :is(
   #home-representative-guides,#symptoms,#care,#health-info,#stories,#faq
@@ -420,7 +420,7 @@ body.home-page #main-content :is(
   body.home-page #main-content > :is(
     #philosophy,#focus-care,#home-representative-guides,
     #symptoms,#care,#health-info,#stories,#faq
-  ) { padding-block:clamp(48px,12vw,62px); }
+  ) { padding-block:clamp(36px,9vw,50px); }
   body.home-page #main-content > :is(
     #home-representative-guides,#symptoms,#care,#health-info,#stories,#faq
   ) > .wrap > h2,
@@ -2936,4 +2936,51 @@ body.home-page #main-content > #gallery .gallery-new-arrivals {
   body.home-page #main-content > #care > .wrap > .grid > .care-primary-card > p:last-child {
     border-top-color:CanvasText;
   }
+}
+
+
+/* 2026-11-01 | A shorter homepage reading journey without hidden content.
+   Less whitespace between exhibitions and clinical chapters preserves
+   every artwork, searchable paragraph, clinical card and live anchor. */
+@media (min-width:601px) {
+  body.home-page #main-content > .curated-threshold {
+    margin-block:clamp(15px,2.1vw,28px);
+  }
+  body.home-page #main-content > .atelier-collection-peek {
+    margin-block:clamp(12px,1.7vw,21px);
+  }
+}
+@media (max-width:600px) {
+  body.home-page #main-content > .curated-threshold {
+    margin-block:12px;
+    padding-block:17px 21px;
+  }
+  body.home-page #main-content > .curated-threshold .curated-threshold__intro {
+    margin-bottom:12px;
+  }
+  body.home-page #main-content > .atelier-collection-peek {
+    margin-block:10px 13px;
+    padding-block:16px 18px;
+  }
+  body.home-page #main-content > .atelier-collection-peek .atelier-collection-peek__layout {
+    gap:10px;
+  }
+  body.home-page #main-content > .symptom-navigator {
+    margin-block:12px 17px;
+    padding-block:19px 22px;
+  }
+  body.home-page #main-content > #care .care-directory {
+    margin-block:17px 19px;
+  }
+  body.home-page #main-content > #care .care-directory__secondary {
+    gap:7px;
+  }
+  body.home-page #main-content > #care .care-directory__secondary > a {
+    min-height:44px;
+    padding:9px 8px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  body.home-page #main-content > :is(.curated-threshold,.atelier-collection-peek)
+  :is(a,img) {transition:none;}
 }
