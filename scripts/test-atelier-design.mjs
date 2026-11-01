@@ -6,13 +6,15 @@ const home=read('index.html');
 const atelier=read('assets/atelier-home-2026.css');
 const museum=read('assets/museum-home-v2.css');
 
+const compactDeliveredCss=css=>css.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'');
+
 test('Atelier premium stylesheet loaded AFTER the existing museum/mobile safety layer',()=>{
  const styles=[...home.matchAll(/<link[^>]+rel="stylesheet" href="([^"]+)"/g)].map(x=>x[1]);
  const exhibitionHref=styles.find(s=>/\/assets\/exhibition-foundation-[0-9a-f]{12}\.css$/.test(s));
  assert.ok(exhibitionHref,'immutable three-layer exhibition CSS bundle must be linked');
  const exhibition=read(exhibitionHref.slice(1));
  const exhibitionLayers=['assets/atelier-home-2026.css','assets/curatorial-home.css','assets/gallery-edition-polish.css'];
- const exhibitPositions=exhibitionLayers.map(file=>exhibition.indexOf(read(file).trimEnd()));
+ const exhibitPositions=exhibitionLayers.map(file=>exhibition.indexOf(compactDeliveredCss(read(file).trimEnd())));
  assert.ok(exhibitPositions.every(n=>n>=0)&&exhibitPositions.every((n,i)=>i===0||n>exhibitPositions[i-1]),
   'Atelier, curatorial and finishing CSS must retain original source order');
  const a=styles.indexOf(exhibitionHref);
@@ -22,7 +24,7 @@ test('Atelier premium stylesheet loaded AFTER the existing museum/mobile safety 
  assert.ok(bundled,'the immutable gallery foundation must be linked');
  const foundation=read(bundled.slice(1));
  const sourceOrder=['assets/gallery-upgrade.css','assets/gallery-finish.css','assets/museum-home-v2.css']
-  .map(file=>foundation.indexOf(read(file).trimEnd()));
+  .map(file=>foundation.indexOf(compactDeliveredCss(read(file).trimEnd())));
  assert.ok(sourceOrder.every(n=>n>=0)&&sourceOrder.every((n,i)=>i===0||n>sourceOrder[i-1]),
   'gallery original rules must be preserved in their cascade order');
  const m=styles.indexOf(bundled);
