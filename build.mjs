@@ -1000,6 +1000,32 @@ for(const rel of ['index.html','assets/home-enhancements.css','assets/gallery-up
 }
 console.log('Original Monet garden asset fingerprinted in HTML and CSS:',impressionistSvgVersion);
 
+// Reduce the transfer size of the two large, frequently revised visual
+// stylesheets without touching their editable sources or changing CSS tokens.
+// Only indentation, trailing whitespace, and empty lines are removed. Keep
+// line breaks between selectors/declarations and reject escaped newlines,
+// where leading whitespace might be significant.
+{
+ const homeVisualCss=['home-art-direction-20261030.css','atelier-refinement-20261030.css'];
+ let bytesSaved=0;
+ for(const name of homeVisualCss){
+  const filename=path.join(out,'assets',name);
+  if(!fs.existsSync(filename))throw new Error('Homepage visual CSS missing: '+name);
+  const original=fs.readFileSync(filename,'utf8');
+  if(/\\\r?\n/.test(original))
+   throw new Error('Cannot safely normalize escaped CSS newline: '+name);
+  const optimized=original.replace(/[ \t]+$/gm,'')
+   .replace(/^[ \t]+/gm,'')
+   .replace(/(?:\r?\n){2,}/g,'\n');
+  if(optimized.length>=original.length)
+   throw new Error('Expected CSS delivery size reduction: '+name);
+  bytesSaved+=Buffer.byteLength(original,'utf8')-Buffer.byteLength(optimized,'utf8');
+  fs.writeFileSync(filename,optimized,'utf8');
+ }
+ console.log('Homepage visual CSS whitespace trimmed (source unchanged):',
+  bytesSaved,'bytes across',homeVisualCss.length,'stylesheets');
+}
+
 // Fingerprint every first-party stylesheet in built HTML, including the homepage,
 // health hubs, mobile navigation, search and clinical topic CSS. A CSS update should
 // not require a hand-edited ?v= string or leave phones using an old cached style.
