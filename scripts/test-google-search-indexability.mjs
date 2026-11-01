@@ -831,3 +831,43 @@ test('crown denture and implant bite adjustment remains in the prosthetic subjec
  assert.ok(article.includes('<link rel="canonical" href="'+origin+'/stories/'+slug+'/">'),
   'Existing permanent article URL must not change on recategorization');
 });
+
+
+test('BlogPosting metadata citations exactly match visible source links and clinical categories',()=>{
+ const articleSlugs=[
+  '2026-11-01-cheongcheon-oral-herpes-cold-sores-guide',
+  '2026-11-01-cheongcheon-chlorhexidine-listerine-mouthrinse-guide',
+  '2026-11-01-cheongcheon-jaw-osteomyelitis-dental-infection',
+  '2026-11-01-cheongcheon-crown-denture-implant-bite-adjustment',
+  '2026-11-01-cheongcheon-wisdom-tooth-implant-nerve-numbness'
+ ];
+ for(const slug of articleSlugs){
+  const src=JSON.parse(readFileSync('content/posts/'+slug+'.json','utf8'));
+  const html=readFileSync(path.join(output,'stories',slug,'index.html'),'utf8');
+  const graphs=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(match=>JSON.parse(match[1]));
+  const article=graphs.find(data=>data['@type']==='BlogPosting');
+  assert.ok(article,'Missing structured article metadata for '+slug);
+  assert.ok(Array.isArray(article.citation),'Missing structured citations for '+slug);
+  assert.equal(article.citation.length,src.references.length);
+  assert.ok(article.articleSection,'Visible category should have matching schema section: '+slug);
+  assert.ok(html.includes('치과 이야기 · '+article.articleSection+' →'),
+    'Schema article section must match visible reader category: '+slug);
+  for(const ref of src.references){
+   const structured=article.citation.find(x=>x.url===ref.url);
+   assert.equal(structured?.['@type'],'CreativeWork');
+   assert.equal(structured.name,ref.label);
+   assert.ok(html.includes('href="'+ref.url+'" target="_blank" rel="noopener noreferrer"'),
+     'Only publicly visible reference links can appear as structured citations: '+slug);
+  }
+ }
+ const regular='2026-10-25-bupyeong-retreatment-vs-extraction-tooth-prognosis';
+ const html=readFileSync(path.join(output,'stories',regular,'index.html'),'utf8');
+ const article=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1])).find(g=>g['@type']==='BlogPosting');
+ assert.ok(article,'Ordinary clinical guide should retain BlogPosting schema');
+ assert.ok(!Object.hasOwn(article,'citation'),
+   'Do not fabricate references on articles without actual verified citations');
+ assert.ok(article.articleSection,'Every post needs a visible matching topic');
+ assert.ok(html.includes('치과 이야기 · '+article.articleSection+' →'));
+});
