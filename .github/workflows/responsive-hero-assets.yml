@@ -9,6 +9,8 @@ on:
       - 'assets/ejoeun-original-wisdom-consult-20261029.webp'
       - 'assets/quiet-window-cat-thumb.webp'
       - 'assets/cubist-cat-clinic-thumb.webp'
+      - 'assets/lakeside-flower-clinic-thumb.webp'
+      - 'assets/starry-night-clinic-thumb.webp'
       - 'assets/ejoeun-gallery-cat-dentist-20261029.webp'
   workflow_dispatch:
 permissions:
@@ -38,11 +40,11 @@ jobs:
           test "$(git hash-object assets/ejoeun-gallery-cat-dentist-20261029.webp)" = "$(cat /tmp/original-art-sha)"
           test -s assets/ejoeun-gallery-cat-dentist-20261029-480.webp
           test -s assets/ejoeun-gallery-cat-dentist-20261029-720.webp
-          for art in assets/ejoeun-gallery-cat-dentist-20261029-640.webp assets/ejoeun-original-wisdom-consult-20261029-720.webp assets/quiet-window-cat-thumb-320.webp assets/cubist-cat-clinic-thumb-320.webp; do test -s "$art"; done
+          for art in assets/ejoeun-gallery-cat-dentist-20261029-640.webp assets/ejoeun-original-wisdom-consult-20261029-720.webp assets/quiet-window-cat-thumb-320.webp assets/cubist-cat-clinic-thumb-320.webp assets/lakeside-flower-clinic-thumb-360.webp assets/starry-night-clinic-thumb-360.webp; do test -s "$art"; done
       - name: Commit only newly resized variants
         run: |
           set -euo pipefail
-          git add assets/ejoeun-gallery-cat-dentist-20261029-480.webp assets/ejoeun-gallery-cat-dentist-20261029-720.webp assets/ejoeun-gallery-cat-dentist-20261029-640.webp assets/ejoeun-original-wisdom-consult-20261029-720.webp assets/quiet-window-cat-thumb-320.webp assets/cubist-cat-clinic-thumb-320.webp
+          git add assets/ejoeun-gallery-cat-dentist-20261029-480.webp assets/ejoeun-gallery-cat-dentist-20261029-720.webp assets/ejoeun-gallery-cat-dentist-20261029-640.webp assets/ejoeun-original-wisdom-consult-20261029-720.webp assets/quiet-window-cat-thumb-320.webp assets/cubist-cat-clinic-thumb-320.webp assets/lakeside-flower-clinic-thumb-360.webp assets/starry-night-clinic-thumb-360.webp
           if git diff --cached --quiet; then
             echo "Existing responsive copies already match the approved original."
           else
