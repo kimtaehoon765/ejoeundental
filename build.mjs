@@ -3639,6 +3639,15 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
  console.log('Homepage build fingerprint:',source,commit.slice(0,12));
 }
 
+// Remove documentation-only, full-line CSS comments from deployed bundles.
+// Author-maintained source CSS remains untouched for future design edits.
+function stripBundleDocumentation(css,label){
+ const all=[...css.matchAll(/\/\*[\s\S]*?\*\//g)].length;
+ const standalone=[...css.matchAll(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm)].length;
+ if(all!==standalone)throw new Error('Unsafe inline CSS comment in '+label);
+ return css.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'');
+}
+
 // Homepage critical CSS consolidation · preserve original cascade order.
 // These three consecutive first-screen CSS files share the /assets/ base path.
 // Concatenate in document order rather than minifying or rewriting selectors:
@@ -3656,7 +3665,9 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
    throw new Error('Home critical CSS unexpectedly imports a new stylesheet: '+name);
   return css.trimEnd();
  });
- const merged=parts.join('\n\n/* Original stylesheet boundary — cascade order retained. */\n\n')+'\n';
+ const documented=parts.join('\n\n/* Original stylesheet boundary — cascade order retained. */\n\n')+'\n';
+ const merged=stripBundleDocumentation(documented,'home critical');
+ if(merged.length>=documented.length)throw new Error('Home critical CSS documentation was not reduced');
  const fingerprint=createHash('sha256').update(merged).digest('hex').slice(0,12);
  const bundledName='home-critical-'+fingerprint+'.css';
  fs.writeFileSync(path.join(out,'assets',bundledName),merged,'utf8');
@@ -3712,7 +3723,9 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
   }
   return css.trimEnd();
  });
- const merged=parts.join(boundary)+'\n';
+ const documented=parts.join(boundary)+'\n';
+ const merged=stripBundleDocumentation(documented,'gallery foundation');
+ if(merged.length>=documented.length)throw new Error('Gallery foundation CSS documentation was not reduced');
  const digest=createHash('sha256').update(merged).digest('hex').slice(0,12);
  const bundleName='gallery-foundation-'+digest+'.css';
  fs.writeFileSync(path.join(out,'assets',bundleName),merged,'utf8');
@@ -3764,7 +3777,9 @@ console.log('Real 32px brand ICO and SVG shared across',brandedDocumentCount,'HT
   }
   return text.trimEnd();
  });
- const combined=css.join(boundary)+'\n';
+ const documented=css.join(boundary)+'\n';
+ const combined=stripBundleDocumentation(documented,'exhibition foundation');
+ if(combined.length>=documented.length)throw new Error('Exhibition foundation CSS documentation was not reduced');
  const hash=createHash('sha256').update(combined).digest('hex').slice(0,12);
  const bundled='exhibition-foundation-'+hash+'.css';
  fs.writeFileSync(path.join(out,'assets',bundled),combined,'utf8');
