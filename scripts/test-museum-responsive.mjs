@@ -4,6 +4,7 @@ import {readFileSync, existsSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 
 const read=(path)=>readFileSync('dist/'+path,'utf8');
+const stripBundleDocumentation=css=>css.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'');
 const home=read('index.html');
 const museum=read('assets/museum-home-v2.css');
 // Content-hashed gallery foundation and independent newer patient styles.
@@ -12,7 +13,8 @@ const linkedVersionedStyle=(markup,name)=>
 const galleryFoundation=()=>{
  const names=['gallery-upgrade.css','gallery-finish.css','museum-home-v2.css'];
  const boundary='\n\n/* Ejoeun museum gallery foundation: original CSS file boundary. */\n\n';
- const expected=names.map(name=>read('assets/'+name).trimEnd()).join(boundary)+'\n';
+ const documented=names.map(name=>read('assets/'+name).trimEnd()).join(boundary)+'\n';
+ const expected=stripBundleDocumentation(documented);
  const hash=createHash('sha256').update(expected).digest('hex').slice(0,12);
  const url='/assets/gallery-foundation-'+hash+'.css';
  assert.ok(home.includes('href="'+url+'"'),'immutable museum CSS linked');
@@ -24,7 +26,8 @@ const galleryFoundation=()=>{
 const exhibitionFoundation=()=>{
  const names=['atelier-home-2026.css','curatorial-home.css','gallery-edition-polish.css'];
  const boundary='\n\n/* Ejoeun curated exhibition CSS source boundary. */\n\n';
- const expected=names.map(name=>read('assets/'+name).trimEnd()).join(boundary)+'\n';
+ const documented=names.map(name=>read('assets/'+name).trimEnd()).join(boundary)+'\n';
+ const expected=stripBundleDocumentation(documented);
  const hash=createHash('sha256').update(expected).digest('hex').slice(0,12);
  const href='/assets/exhibition-foundation-'+hash+'.css';
  assert.ok(home.includes('href="'+href+'"'),'immutable exhibition CSS is linked');
@@ -149,9 +152,9 @@ test('homepage critical CSS retains its cascade while reducing three requests to
  const originals=['style.css','home-enhancements.css','address-copy.css'];
  const boundaries=[];
  for(const file of originals){
-  const original=read('assets/'+file).trimEnd();
+  const original=stripBundleDocumentation(read('assets/'+file).trimEnd());
   const at=stylesheet.indexOf(original);
-  assert.ok(at>=0,'bundle must contain unchanged stylesheet '+file);
+  assert.ok(at>=0,'bundle must contain all non-comment source CSS '+file);
   boundaries.push(at);
   assert.equal(stylesheet.indexOf(original,at+1),-1,
    'do not duplicate original stylesheet '+file);
