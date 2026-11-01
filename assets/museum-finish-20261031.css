@@ -2686,3 +2686,29 @@ body.home-page #main-content > :is(#philosophy,#home-representative-guides,#heal
     box-shadow:none;
   }
 }
+
+
+/* 2026-11-01 | Mobile appointment dock must remain usable when the visitor
+   explicitly opens the optional music menu. The reopen control already sits
+   above the dock; the expanded panel needs the same clearance. */
+@media (max-width:600px) {
+  body.home-page .piano-player {
+    bottom:calc(100px + env(safe-area-inset-bottom, 0px));
+    right:10px;
+    max-width:min(340px, calc(100vw - 20px));
+    max-height:min(54dvh, 430px);
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    box-shadow:0 12px 30px rgba(22,52,35,.18);
+  }
+  body.home-page .piano-player .pop-menu[open] {
+    max-height:min(29dvh, 240px);
+    overflow-y:auto;
+  }
+}
+@media (max-width:360px) {
+  body.home-page .piano-player {
+    right:6px;
+    max-width:calc(100vw - 12px);
+  }
+}
