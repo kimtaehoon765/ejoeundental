@@ -168,6 +168,11 @@ const urls = [
     .map(slug=>({label:'모바일 환자 안전정보 버튼: '+slug,url:origin+'/'+slug+'.html'})),
   { label: 'AI 의료진 출처 페이지', url: origin + '/doctor.html' },
   { label: 'AI 검색봇 접근 모의 검사', url: origin + '/gum-treatment.html', userAgent: 'OAI-SearchBot/1.0' },
+  // Additional factual sources for assistants answering clinic identity,
+  // alternating opening hours and retreatment patient questions.
+  { label: 'AI 검색봇 중요정보 의료진', url: origin + '/doctor.html', userAgent: 'OAI-SearchBot/1.0' },
+  { label: 'AI 검색봇 중요정보 진료시간', url: origin + '/visit-guide.html', userAgent: 'OAI-SearchBot/1.0' },
+  { label: 'AI 검색봇 중요정보 재신경치료 FAQ', url: origin + '/root-canal-retreatment-faq.html', userAgent: 'OAI-SearchBot/1.0' },
   // User-Agent-only smoke tests: confirm main treatment pages remain readable
   // to Naver Yeti without implying actual crawler access or search indexing.
   { label: '네이버 Yeti 잇몸치료 모의 검사', url: origin + '/gum-treatment.html', userAgent: 'Mozilla/5.0 (compatible; Yeti/1.1; +https://naver.me/spd)' },
@@ -1236,6 +1241,37 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       add('AI 의료진 실명·자격·출처 실사이트 확인',
         published?'실사이트 반영 확인':'배포·캐시 확인 필요',
         'HTTP '+response.status+' · 공개 경로 '+livePath+' · ProfilePage 연결 '+(published?'일치':'미확인'));
+    } else if (label.startsWith('AI 검색봇 중요정보 ')) {
+      // HTTP User-Agent simulation only. This does not prove a real OpenAI
+      // IP can traverse Cloudflare or that any AI search result will cite us.
+      const sources={
+        'AI 검색봇 중요정보 의료진':{
+          slug:'doctor',
+          facts:['김태훈','고려대학교 의학박사(치과학 전공)','통합치의학과 전문의','"@type":"ProfilePage"']
+        },
+        'AI 검색봇 중요정보 진료시간':{
+          slug:'visit-guide',
+          facts:['금요일: 격주 09:30~13:00 또는 09:30~18:30',
+            '토요일: 격주 09:30~13:00 / 격주 휴진','세월천로 34']
+        },
+        'AI 검색봇 중요정보 재신경치료 FAQ':{
+          slug:'root-canal-retreatment-faq',
+          facts:['재신경치료를 하면 반드시 성공하나요?','"@type":"FAQPage"']
+        }
+      };
+      const target=sources[label];
+      const headerEnd=body.indexOf('</head>');
+      const head=headerEnd>=0?body.slice(0,headerEnd):body;
+      const ready=response.status===200&&
+        new URL(response.url).pathname==='/'+target.slug&&
+        !/noindex|none/i.test(String(response.headers.get('x-robots-tag')||''))&&
+        !/<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex/i.test(head)&&
+        body.includes('<link rel="canonical" href="'+origin+'/'+target.slug+'">')&&
+        target.facts.every(fact=>body.includes(fact));
+      add(label,ready?'공개 정보 확인':'공개 정보 확인 필요',
+        'HTTP '+response.status+' · 대표주소·의료진/진료시간/환자질문 '+
+        (ready?'일치':'불일치')+
+        ' · User-Agent 모의 응답이며 실제 AI 수집·인용 여부는 확인 불가');
     } else if (label === 'AI 검색봇 접근 모의 검사') {
       // User-Agent simulation does not verify OpenAI IP access, AI indexing
       // or whether an AI engine will cite/recommend this site.
