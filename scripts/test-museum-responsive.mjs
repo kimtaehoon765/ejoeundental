@@ -2030,3 +2030,17 @@ test('previsit selection tally stays local and the existing clinic safety advice
  assert.ok(previsit.includes('booking.naver.com/booking/13/bizes/1162931'));
  assert.ok(history.includes('id="visit-checklist"'),'printable health-history form preserved');
 });
+
+
+test('mobile optional music stays above booking actions and FAQ deep links reveal answers',()=>{
+ const finish=read('assets/museum-finish-20261031.css');
+ const faqLinkScript=read('assets/faq-deeplink.js');
+ assert.match(finish,/body\\.home-page \\.piano-player\\s*\\{\\s*bottom:calc\\(100px/);
+ assert.ok(finish.includes('max-height:min(54dvh, 430px)'),
+   'expanded music panel is scrollable instead of covering the full phone');
+ assert.ok(home.includes('src="/assets/faq-deeplink.js" defer'),
+   'home loads the small optional FAQ enhancement without changing native details');
+ assert.ok(faqLinkScript.includes("window.addEventListener('hashchange',openHashQuestion)"));
+ assert.ok(faqLinkScript.includes('if(question)question.open=true'),
+   'a question reached by direct link or quick navigation opens visibly');
+});
