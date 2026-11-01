@@ -1905,7 +1905,7 @@ test('mobile homepage keeps original portrait without costly Korean webfont subs
  assert.equal(allFontLinks.length,1,
   'only lightweight Latin CSS may be discoverable as a stylesheet in the mobile HTML parser');
  const latin=allFontLinks.find(link=>link.includes('family=DM+Sans'));
- assert.ok(latin?.includes('media="print" onload="this.media=\\'all\\'"'),
+ assert.ok(latin?.includes('media="print" onload="this.media=\'all\'"'),
   'optional Latin typography should not block first paint');
  assert.ok(!latin.includes('Noto+Serif+KR'),
   'do not mix expensive Korean subsets into the mobile font request');
