@@ -14,6 +14,8 @@ SPECS = (
     ("ejoeun-original-wisdom-consult-20261029.webp", 720, "ejoeun-original-wisdom-consult-20261029-720.webp"),
     ("quiet-window-cat-thumb.webp", 320, "quiet-window-cat-thumb-320.webp"),
     ("cubist-cat-clinic-thumb.webp", 320, "cubist-cat-clinic-thumb-320.webp"),
+    ("lakeside-flower-clinic-thumb.webp", 360, "lakeside-flower-clinic-thumb-360.webp"),
+    ("starry-night-clinic-thumb.webp", 360, "starry-night-clinic-thumb-360.webp"),
 )
 
 for source_name, target_width, output_name in SPECS:
