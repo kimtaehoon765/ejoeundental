@@ -203,7 +203,12 @@ test('real clinic safety and appointment searches retrieve standalone pages',asy
  }
  const {results}=await search('혈액희석제',[...curated,...additional]);
  const target=walk(results,x=>x.className==='result').find(x=>x.href==='/blood-thinners-dental.html');
- assert.equal(target?.children[0]?.dataset?.category,'medical','medication advice needs a medical information label');
+ const kind=walk(target,node=>node.className==='result-kind')[0];
+ assert.equal(kind?.dataset?.category,'medical',
+  'medication advice needs a medical information label even inside a label group');
+ const focus=walk(target,node=>node.className==='result-focus');
+ assert.equal(focus.length,0,
+  'medication advice must not be mislabeled as covered dental insurance');
 });
 
 
