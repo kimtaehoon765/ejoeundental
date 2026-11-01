@@ -3532,6 +3532,28 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  }
 }
 
+// Large, offscreen homepage chapters may skip mobile layout/paint, but must
+// stay in the initial crawlable HTML with native links and full clinical text.
+{
+ const home=readFileSync(join(root,'index.html'),'utf8');
+ const visual=readFileSync(join(root,'assets/atelier-refinement-20261030.css'),'utf8');
+ const source=readFileSync('assets/atelier-refinement-20261030.css','utf8');
+ const hasContainment=target=>visual.includes(
+  'body.home-page #main-content > #'+target+' {') &&
+  source.includes('body.home-page #main-content > #'+target+' {');
+ if(!visual.includes('@supports (content-visibility: auto)') ||
+    !visual.includes('contain-intrinsic-size: auto 2200px;') ||
+    !visual.includes('contain-intrinsic-size: auto 2900px;') ||
+    !hasContainment('care')||!hasContainment('stories') ||
+    !home.includes('id="care"')||!home.includes('id="stories"')||
+    !home.includes('class="owner-stories-more"')||
+    !home.includes('id="home-owner-post-search"')) {
+  errors.push('모바일 화면 밖 콘텐츠 최적화: 진료 본문·블로그 검색·목록 보존 검사 오류');
+ } else {
+  console.log('Mobile below-fold rendering containment keeps HTML journal and care links intact');
+ }
+}
+
 // Report every audit error, including the checks above this final line.
 console.log('HTML:', html.length, '| 오류:', errors.length, '| 경고:', warnings.length);
 for (const e of errors) console.error('ERROR', e);
