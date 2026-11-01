@@ -141,6 +141,14 @@ if(!existsSync(challengePath)||readFileSync(challengePath,'utf8')!==expectedChal
 const paths = new Set(files.map(f => '/' + f.slice(root.length + 1).replaceAll('\\', '/')));
 // Validate the built, content-hashed CSS URL instead of yesterday's manually
 // chosen cache label. This catches stale links while allowing any CSS to change.
+// Delivery bundles omit only standalone documentation comments; source remains intact.
+function compactDeliveredCss(css){
+ const all=[...css.matchAll(/\/\*[\s\S]*?\*\//g)].length;
+ const standalone=[...css.matchAll(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm)].length;
+ if(all!==standalone)throw new Error('Unsafe inline comment in CSS audit');
+ return css.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'');
+}
+
 function hasFreshCss(html,basename){
  const file=join(root,'assets',basename+'.css');
  if(!existsSync(file))return false;
@@ -155,7 +163,7 @@ function hasFreshCss(html,basename){
    return readFileSync(filepath,'utf8').trimEnd();
   });
   if(sources.some(source=>source===null))return false;
-  const merged=sources.join('\n\n/* Original stylesheet boundary — cascade order retained. */\n\n')+'\n';
+  const merged=compactDeliveredCss(sources.join('\n\n/* Original stylesheet boundary — cascade order retained. */\n\n')+'\n');
   const expected=createHash('sha256').update(merged).digest('hex').slice(0,12);
   const bundled='home-critical-'+expected+'.css';
   return existsSync(join(root,'assets',bundled))&&
@@ -833,7 +841,7 @@ for (const file of html) {
  if(!bundle||!existsSync(join(root,'assets','home-critical-'+bundle[1]+'.css'))||
     !existsSync(originalEnhancements)||
     !readFileSync(join(root,'assets','home-critical-'+bundle[1]+'.css'),'utf8')
-      .includes(readFileSync(originalEnhancements,'utf8').trimEnd())){
+      .includes(compactDeliveredCss(readFileSync(originalEnhancements,'utf8').trimEnd()))){
   errors.push('홈페이지 공통 개선 스타일의 초기 통합 파일 누락 또는 내용 불일치');
  }
 }
@@ -3453,7 +3461,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   return readFileSync(filename,'utf8').trimEnd();
  });
  if(raw.every(v=>v!==null)){
-  const expected=raw.join(boundary)+'\n';
+  const expected=compactDeliveredCss(raw.join(boundary)+'\n');
   const hash=createHash('sha256').update(expected).digest('hex').slice(0,12);
   const name='gallery-foundation-'+hash+'.css';
   const link='<link rel="stylesheet" href="/assets/'+name+'">';
@@ -3491,7 +3499,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   return readFileSync(p,'utf8').trimEnd();
  });
  if(sources.every(s=>s!==null)){
-  const expected=sources.join(boundary)+'\n';
+  const expected=compactDeliveredCss(sources.join(boundary)+'\n');
   const hash=createHash('sha256').update(expected).digest('hex').slice(0,12);
   const bundled='exhibition-foundation-'+hash+'.css';
   const path=join(root,'assets',bundled);
