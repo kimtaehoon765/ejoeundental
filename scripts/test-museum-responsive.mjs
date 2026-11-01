@@ -2245,3 +2245,41 @@ test('mobile search results precede the long topic routes and retain medical con
   'mobile search field and submit button retain large touch targets');
  assert.ok(page.includes('/assets/search.js?v='));
 });
+
+
+test('search results distinguish clinical guides without implying insurance coverage',()=>{
+ const script=read('assets/search.js');
+ const css=read('assets/search-page.css');
+ const start=script.indexOf('const searchCareFocus=p=>');
+ const end=script.indexOf('let fullVisibleCount=',start);
+ assert.ok(start>0&&end>start,'clinical focus classifier must precede results rendering');
+ const classify=new Function(script.slice(start,end)+'return searchCareFocus;')();
+ for(const [url,id] of [
+  ['/gum-treatment.html','gum'],['/scaling.html','gum'],
+  ['/health/periodontal-pocket.html','gum'],
+  ['/retreatment.html','root'],['/root-canal-health.html','root'],
+  ['/health/root-canal-retreatment.html','root'],
+  ['/insured-care.html','insurance'],['/health/insurance-periodontal.html','insurance'],
+  ['/health/insurance-root-canal.html','insurance']
+ ])assert.equal(classify({url})?.id,id,'accurate clinical label: '+url);
+ for(const url of ['/visit-guide.html','/medical-history.html','/dental-equipment.html',
+  '/health/cavity-size.html','/stories/01/'])
+  assert.equal(classify({url}),null,'non-clinical / unrelated result has no focus label: '+url);
+ for(const url of ['/gum-treatment.html','/retreatment.html'])
+  assert.notEqual(classify({url})?.id,'insurance',
+   'do not suggest that an ordinary treatment page guarantees health-insurance coverage');
+ assert.ok(script.includes("labels.className='result-labels'"));
+ assert.ok(script.includes("tag.className='result-focus'"));
+ assert.ok(script.includes("tag.textContent=focus.label"),
+  'labels use safe text rather than innerHTML');
+ assert.ok(script.includes('a.append(labels,h,desc,url);'));
+ assert.ok(script.includes('const searchCategory=p=>')&&
+  script.includes("const showResults=type=>")&&script.includes("showResults('all')"),
+  'existing type filters, ranking, and pagination preserved');
+ assert.ok(css.includes('2026-11-01 | Clinical focus labels'));
+ for(const id of ['gum','root','insurance'])
+  assert.ok(css.includes('.result-focus[data-focus="'+id+'"]')||
+   id==='gum'&&css.includes('.result-focus {'),
+   'clearly styled clinical label: '+id);
+ assert.ok(css.includes('@media(forced-colors:active)'));
+});
