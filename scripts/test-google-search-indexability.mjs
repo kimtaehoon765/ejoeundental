@@ -914,3 +914,44 @@ test('Naver Yeti crawl readiness and full-text RSS remain available on productio
  assert.ok(probe.includes("User-Agent 응답 테스트이며 네이버 실제 수집·색인·순위는 확인하지 않음"),
   'Bot simulation must not be confused with real Naver indexing');
 });
+
+
+test('Naver primary clinic titles and descriptions remain unique, precise and consistent',()=>{
+ const cases=[
+  {
+   page:'gum-treatment.html',
+   title:'부평 잇몸치료·스케일링 차이 | 청천동 이조은치과',
+   description:'인천 부평구 청천동 이조은치과. 원장이 직접 치주낭과 잇몸 아래 치석 상태를 검사해 스케일링으로 충분한지, 추가 잇몸치료가 필요한지 설명합니다. 건강보험 적용과 치료 후 관리 안내.',
+   canonical:origin+'/gum-treatment'
+  },
+  {
+   page:'retreatment.html',
+   title:'부평 재신경치료 | 신경치료 후 통증·자연치아 보존 | 이조은치과',
+   description:'인천 부평구 청천동 이조은치과 재신경치료 안내. 신경치료한 치아의 통증이나 뿌리 끝 염증이 있다면 원장이 근관 상태·치아 균열·기존 크라운을 검사해 자연치아 보존 가능성과 재치료의 한계를 설명합니다.',
+   canonical:origin+'/retreatment'
+  }
+ ];
+ const titles=new Set(),descriptions=new Set();
+ for(const item of cases){
+  const html=readFileSync(path.join(output,item.page),'utf8');
+  const metaTitle=html.match(/<title>([^<]+)<\/title>/)?.[1];
+  const metaDescription=html.match(/<meta name="description" content="([^"]+)"/)?.[1];
+  assert.equal(metaTitle,item.title,item.page+' should use a specific natural title');
+  assert.equal(metaDescription,item.description,item.page+' should have a patient-specific summary');
+  assert.ok(!titles.has(metaTitle)&&!descriptions.has(metaDescription),
+   'Main clinic pages must not share titles or meta descriptions');
+  titles.add(metaTitle);descriptions.add(metaDescription);
+  assert.ok(html.includes('<meta property="og:title" content="'+metaTitle+'">'));
+  assert.ok(html.includes('<meta property="og:description" content="'+metaDescription+'">'));
+  const graphs=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+    .map(m=>JSON.parse(m[1]));
+  const pageGraph=graphs.find(x=>x['@type']==='MedicalWebPage');
+  assert.equal(pageGraph?.name,metaTitle,'Schema name must agree with actual page title');
+  assert.equal(pageGraph?.description,metaDescription,'Schema summary must agree with visible metadata');
+  assert.ok(html.includes('<link rel="canonical" href="'+item.canonical+'">'),
+   'Retain the original production canonical URL');
+  assert.equal((html.match(/<h1\b/g)||[]).length,1,'Naver should see one clear H1');
+  assert.ok(!/noindex/i.test(html.slice(0,html.indexOf('</head>'))),
+    'Do not hide the clinic care pages from Naver');
+ }
+});
