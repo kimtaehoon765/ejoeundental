@@ -3343,7 +3343,27 @@ function brandPublicPages(dir){
  const finishMarker='<!-- BUILD_NAVER_BOOKING_FINISH -->';
  if(page.split(finishMarker).length!==2)throw new Error('Expected exactly one end-of-page direct booking placeholder');
  const finishButton='<a class="home-finish-booking" href="'+safeUrl+'" target="_blank" rel="noopener noreferrer" aria-label="'+safe(action.aria)+'">'+safe(action.label)+'</a>';
- const homepage=page.replace(marker,buttons).replace(heroMarker,heroButton).replace(finishMarker,finishButton);
+ // Keep the Dentist entity's public appointment link synchronized with the
+ // same owner-confirmed Naver destination used by visible booking buttons.
+ // No ReserveAction is emitted when configuration falls back to Naver search.
+ let clinicSchemaCount=0;
+ const homepage=page.replace(marker,buttons).replace(heroMarker,heroButton)
+  .replace(finishMarker,finishButton)
+  .replace(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/g,(markup,json)=>{
+   let entity;
+   try{entity=JSON.parse(json);}catch{return markup;}
+   if(entity['@type']!=='Dentist'||entity.name!=='이조은치과')return markup;
+   clinicSchemaCount++;
+   if(action.direct){
+    entity.potentialAction={
+     '@type':'ReserveAction',name:'이조은치과 공식 네이버 예약',target:action.url
+    };
+   }else{
+    delete entity.potentialAction;
+   }
+   return '<script type="application/ld+json">'+JSON.stringify(entity).replace(/</g,'\\\\u003c')+'</script>';
+  });
+ if(clinicSchemaCount!==1)throw new Error('Exactly one clinic schema is needed for verified reservation source');
  fs.writeFileSync(homepageFile,homepage);
  const visitFile=path.join(out,'visit-guide.html');
  const visitHtml=fs.readFileSync(visitFile,'utf8');
