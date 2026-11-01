@@ -2063,3 +2063,23 @@ test('portrait-led first screen stays simple without removing search or contact 
  assert.ok(hero.includes('class="hero-editorial-detail"') && hero.includes('class="hero-care-summary"'));
  assert.ok(source.includes('id="location"') && source.includes('id="symptom-navigator-title"'));
 });
+
+
+test('2026-11-01 care gallery spacing keeps all five priority cards and paintings',()=>{
+ const css=read('assets/museum-finish-20261031.css');
+ const source=readFileSync('index.html','utf8');
+ const care=source.slice(source.indexOf('<section class="section" id="care">'),source.indexOf('<section class="section dark" id="doctor">'));
+ const gallery=source.slice(source.indexOf('id="gallery"'),source.indexOf('id="health-info"'));
+ const picture=source.slice(source.indexOf('<section class="care-picture-notes"'),source.indexOf('id="home-representative-guides"'));
+ assert.ok(css.includes('2026-11-01 | Care cards and art-gallery reading rhythm'));
+ assert.ok(css.includes('body.home-page #main-content > #care > .wrap > .grid > .care-primary-card'));
+ assert.ok(css.includes('body.home-page #main-content > #gallery .gallery-exhibition-index'));
+ assert.ok(css.includes('body.home-page #main-content > .care-picture-notes .care-picture-notes__grid'));
+ assert.equal((care.match(/class="card care-primary-card"/g)||[]).length,4);
+ assert.ok(care.includes('class="card care-preservation-feature"'));
+ assert.equal((picture.match(/class="care-picture-notes__card"/g)||[]).length,3);
+ assert.equal((gallery.match(/class="gallery-exhibition-index__room"/g)||[]).length,3);
+ assert.ok(care.includes('<details class="care-more-details">'));
+ assert.ok(css.includes('Retain the existing horizontal, swipeable three-picture patient gallery'));
+ assert.ok(source.includes('<!-- BUILD_NAVER_BOOKING_MOBILE -->'));
+});
