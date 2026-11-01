@@ -109,11 +109,11 @@ const searchCategory=p=>{const medicalGuide=/^\/(?:health\/)?(?:medical-history|
    from a result title. Insurance never implies that another treatment is covered. */
 const searchCareFocus=p=>{
  const path=String(p.url||'');
- if(/^\\/(?:insured-care|dental-insurance-faq)\\.html$/.test(path)||/^\\/health\\/insurance-[a-z0-9-]+\\.html$/.test(path))
+ if(/^\/(?:insured-care|dental-insurance-faq)\.html$/.test(path)||/^\/health\/insurance-[a-z0-9-]+\.html$/.test(path))
   return {id:'insurance',label:'건강보험 안내'};
- if(/^\\/(?:gum-treatment|gum-treatment-faq|scaling)\\.html$/.test(path)||/^\\/health\\/(?:periodontal-|gum-|scaling-|root-planing-|curette-|swollen-gums)/.test(path))
+ if(/^\/(?:gum-treatment|gum-treatment-faq|scaling)\.html$/.test(path)||/^\/health\/(?:periodontal-|gum-|scaling-|root-planing-|curette-|swollen-gums)/.test(path))
   return {id:'gum',label:'잇몸·치주치료'};
- if(/^\\/(?:retreatment|root-canal-health|root-canal-retreatment-faq)\\.html$/.test(path)||/^\\/health\\/(?:root-canal-|retreatment-|endodontic-)/.test(path))
+ if(/^\/(?:retreatment|root-canal-health|root-canal-retreatment-faq)\.html$/.test(path)||/^\/health\/(?:root-canal-|retreatment-|endodontic-)/.test(path))
   return {id:'root',label:'신경·재신경치료'};
  return null;
 };
