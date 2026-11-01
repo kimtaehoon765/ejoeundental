@@ -2107,8 +2107,12 @@ test('2026-11-01 compact homepage layout preserves all sections and SEO entry po
    'older original Naver articles remain available in a native disclosure');
  assert.ok(source.includes('<!-- BUILD_NAVER_BOOKING_MOBILE -->'),
    'mobile booking and phone dock remains intact');
- assert.ok(!css.slice(css.indexOf('2026-11-01 | A shorter homepage reading journey'))
-   .includes('display:none'),'the new reading-density rules cannot hide medical content');
+ const readingRules=css.slice(
+   css.indexOf('2026-11-01 | A shorter homepage reading journey'),
+   css.indexOf('2026-11-01 | Compact mobile header')
+ );
+ assert.ok(readingRules&&!readingRules.includes('display:none'),
+   'only the reading-density section must not hide medical content');
 });
 
 
@@ -2121,9 +2125,11 @@ test('compact phone header routes to symptoms without duplicating dock telephone
  assert.ok(css.includes('html.home-scrolled body.home-page header .nav .mobile-quick a.mobile-call {\n    display:none;'));
  assert.ok(header.includes('href="#symptom-navigator-title"')&&header.includes('href="#home-symptom-query"'));
  assert.ok(header.includes('class="stories-mobile-link"')&&header.includes('class="mobile-call"'));
- assert.ok(source.includes('<!-- BUILD_NAVER_BOOKING_MOBILE -->'));
+ assert.ok(source.includes('class="mobile-booking-actions"')&&
+   source.includes('class="mobile-booking-naver"'),
+   'built mobile telephone, booking and visit dock must be rendered');
  assert.ok(source.includes('href="tel:0325132875"')&&
-   source.includes('<!-- BUILD_NAVER_BOOKING_HERO -->'));
+   source.includes('class="btn hero-booking"'));
  assert.ok(source.includes('id="symptom-navigator-title"')&&
    source.includes('id="home-symptom-query"'));
  assert.ok(css.includes('@media (max-width:600px)'));
@@ -2146,7 +2152,9 @@ test('only below-fold paintings are low-priority while director portrait loads e
     'art retains alt text and asynchronous decoding: '+name);
  }
  assert.equal((source.match(/<link rel="preload" as="image"/g)||[]).length,1);
- assert.ok(source.includes('<!-- BUILD_NAVER_BOOKING_MOBILE -->'));
+ assert.ok(source.includes('class="mobile-booking-actions"')&&
+   source.includes('class="mobile-booking-naver"'),
+   'built mobile telephone, booking and visit dock must be rendered');
 });
 
 
@@ -2167,7 +2175,9 @@ test('mobile search entry keeps native GET, clear labels and larger tap controls
  assert.match(css,/#home-symptom-query\s*\{[\s\S]*?min-height:54px;[\s\S]*?font-size:16px;/);
  assert.ok(css.includes('.symptom-quick-search:focus-within'));
  assert.ok(css.includes('#home-symptom-query:target'));
- assert.ok(source.includes('<!-- BUILD_NAVER_BOOKING_MOBILE -->'));
+ assert.ok(source.includes('class="mobile-booking-actions"')&&
+   source.includes('class="mobile-booking-naver"'),
+   'built mobile telephone, booking and visit dock must be rendered');
 });
 
 
@@ -2213,7 +2223,9 @@ test('tapping mobile search focuses the existing input without auto-focusing on 
  assert.deepEqual(focusOptions,{preventScroll:true});
  assert.ok(source.includes('<a href="#home-symptom-query"'),
   'preserve normal anchor navigation without JS');
- assert.ok(source.includes('<!-- BUILD_NAVER_BOOKING_MOBILE -->'));
+ assert.ok(source.includes('class="mobile-booking-actions"')&&
+   source.includes('class="mobile-booking-naver"'),
+   'built mobile telephone, booking and visit dock must be rendered');
 });
 
 
