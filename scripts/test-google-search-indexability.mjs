@@ -813,3 +813,21 @@ test('externally verifiable medical references are linked on the five screenshot
    "Keep the actual Google canonical when linking references: "+slug);
  }
 });
+
+
+test('crown denture and implant bite adjustment remains in the prosthetic subject group',()=>{
+ const slug='2026-11-01-cheongcheon-crown-denture-implant-bite-adjustment';
+ const directory=readFileSync(path.join(output,'stories.html'),'utf8');
+ const groupStart='<section class="story-topic" id="topic-prosthetic"';
+ const start=directory.indexOf(groupStart);
+ assert.ok(start>=0,'Prosthetic directory section must exist');
+ const next=directory.indexOf('<section class="story-topic"',start+groupStart.length);
+ const part=directory.slice(start,next<0?undefined:next);
+ assert.ok(part.includes('href="/stories/'+slug+'/"'),
+  'Occlusal adjustment guide belongs in the prosthetic, not cavity, directory');
+ const article=readFileSync(path.join(output,'stories',slug,'index.html'),'utf8');
+ assert.ok(article.includes('href="/stories.html#topic-prosthetic"'),
+  'Guide must link back to the correct treatment subject');
+ assert.ok(article.includes('<link rel="canonical" href="'+origin+'/stories/'+slug+'/">'),
+  'Existing permanent article URL must not change on recategorization');
+});
