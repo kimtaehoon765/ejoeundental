@@ -6422,3 +6422,22 @@ body.home-page #main-content > .hero.wrap .hero-visit-note {
     outline-color:Highlight;
   }
 }
+
+/* Mobile rendering budget — preserve all source HTML, gallery artwork, links,
+   headings and native disclosure accessibility. These two independently
+   laid-out sections occur well below the opening hero and symptom navigator.
+   Browsers supporting content-visibility can defer their costly descendants
+   until the user approaches. The auto fallback size helps prevent a zero-height
+   section or large jumps before its actual size is measured. */
+@supports (content-visibility: auto) {
+  @media (max-width: 700px) {
+    body.home-page #main-content > #care {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 2200px;
+    }
+    body.home-page #main-content > #stories {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 2900px;
+    }
+  }
+}
