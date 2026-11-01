@@ -392,7 +392,9 @@ const storyTitleIntent=title=>{
 // A specific lead treatment (gum, root canal, cavity, etc.) takes priority.
 const storyPreservationIntent=title=>!storyTitleIntent(title)&&
  /자연치아|치아[ 를]*살리|치아[의 ]*보존|발치[ 하기]*전|발치와 임플란트/.test(String(title||''));
-const relatedStoryTopic=title=>storyTitleIntent(title)||
+const relatedStoryTopic=title=>
+ // Bite-adjustment articles concern fitting prosthetics rather than tooth decay.
+ (/교합\s*조정/.test(String(title||''))?'prosthetic':'')||storyTitleIntent(title)||
  (storyPreservationIntent(title)?'preserve':'')||
  relatedStoryCategories.find(([,pattern])=>pattern.test(String(title||'')))?.[0]||'other';
 const storyDirectoryTopic=title=>{
@@ -433,6 +435,7 @@ const storyClinicalConcepts=[
  ['crown',/크라운|보철물/],
  ['rootlesion',/치근단|뿌리\s*끝|검은\s*그림자/],
  ['denturefit',/헐거운|헐거워|틀니\s*통증|틀니\s*조정/],
+ ['bite',/교합\s*조정|맞물림|높게\s*느껴|씹(?:을|기)\s*때\s*(?:아프|불편)/],
  ['partialdenture',/부분틀니/],
  ['implant',/임플란트/],
  ['bonegraft',/뼈이식|상악동/],
@@ -594,7 +597,8 @@ const articleTopicNavigation=careLinks.length?'<aside class="notice" aria-label=
 const ownConcepts=new Set(storyClinicalConcepts.filter(([,re])=>
  re.test(String(post.title||'')+' '+String(post.summary||''))).map(([key])=>key));
 const sameTopicStories=relatedStoryCatalog.filter(item=>
- item.slug!==slug&&item.topic===currentStoryTopic);
+ item.slug!==slug&&(item.topic===currentStoryTopic||
+  (currentStoryTopic==='prosthetic'&&['implant','denture'].includes(item.topic))));
 const relatedPool=sameTopicStories.length?sameTopicStories:
  relatedStoryCatalog.filter(item=>item.slug!==slug);
 const scoreRelatedStory=item=>{
@@ -605,8 +609,14 @@ const scoreRelatedStory=item=>{
  }
  return score;
 };
-const suggestedStories=relatedPool.slice().sort((a,b)=>
- scoreRelatedStory(b)-scoreRelatedStory(a)||b.index-a.index).slice(0,3);
+// Show up to three genuinely overlapping clinical questions. If none shares
+// an identifiable symptom or treatment concept, keep only one topic link
+// rather than padding the section with three unrelated recent posts.
+const rankedRelated=relatedPool.slice().sort((a,b)=>
+ scoreRelatedStory(b)-scoreRelatedStory(a)||b.index-a.index);
+const matchingRelated=rankedRelated.filter(item=>scoreRelatedStory(item)>0);
+const suggestedStories=(matchingRelated.length?matchingRelated:rankedRelated).slice(0,
+ matchingRelated.length?3:1);
 const storyRelated=suggestedStories.length?
  '<aside class="story-related" aria-labelledby="related-story-title">'+
  '<h2 id="related-story-title">'+
