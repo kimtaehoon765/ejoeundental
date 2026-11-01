@@ -99,3 +99,28 @@
 - 도메인·DNS·Netlify 삭제, 유료 플랜 결제는 이 체크리스트로 실행하지 않습니다.
 
 공식 참고: [네이버 사이트맵 제출 안내](https://help.naver.com/service/30010/contents/17705) · [Google 주소 변경 도구의 적용 제외 사례](https://support.google.com/webmasters/answer/9370220) · [Cloudflare www 리디렉션](https://developers.cloudflare.com/rules/url-forwarding/examples/redirect-www-to-root/).
+
+
+## 8. 2026-11-01 구글 검색 강화: 내부 연결과 색인 우선순위
+
+**직접 적용된 변경:** 기존 Google 소유권 확인 태그 및 canonical/robots/sitemap과 이미 확인된 네이버 플레이스의 홈페이지 링크는 유지한다. 2026-11-01 `gum-treatment.html`, `wisdom-tooth.html`, `denture.html`, `implant.html`, `additional-health.html`의 진료 설명 문맥에 환자용 글 12개 링크를 추가했다. 진료 안내를 읽던 사용자가 관련 의료 정보까지 자연스럽게 이동할 수 있게 한 변경이다. 해당 링크는 모두 실제 발행된 `/stories/<slug>/`로 연결된다.
+
+**Google Search Console 최근 확인 기록:** 2026-10-26 원장 제공 화면에서는 소유권 확인과 `https://ejoeundental.com/sitemap.xml` 제출 성공(당시 발견된 페이지 180개), 정식 홈페이지의 Google 색인 등록이 확인되었다. 과거 수치로 현재 총 색인 수를 추측하지 않는다. 사이트맵의 발견 수와 실제 색인 수, 검색 순위는 서로 다르다.
+
+**URL 검사 우선 대상(정식 표준 주소만):**
+
+1. `https://ejoeundental.com/` — 상호·주소·의료진 확인 및 브랜드 검색
+2. `https://ejoeundental.com/gum-treatment` — 부평·청천동 잇몸치료 핵심 서비스
+3. `https://ejoeundental.com/retreatment` — 재신경치료 핵심 서비스
+4. `https://ejoeundental.com/wisdom-tooth` — 사랑니 상담
+5. `https://ejoeundental.com/doctor` — 의료진 자격·진료 철학
+6. `https://ejoeundental.com/stories/2026-11-01-cheongcheon-chlorhexidine-listerine-mouthrinse-guide/` — 신규 독립 환자 교육 글
+
+**공개/색인 확인 절차:**
+
+- GitHub 코드 갱신과 Actions 빌드 통과는 실제 Cloudflare Pages 배포 성공을 보증하지 않는다. `Public website build and quality verification`의 정식 도메인 실측과 Cloudflare 배포 상태를 별도로 확인한다.
+- URL 검사 화면에서 'URL이 Google에 등록되어 있음', Google 선택 표준 URL과 수집 가능 여부를 확인한다. 동일한 사이트맵 제출을 반복하거나 유사 지역 키워드 페이지를 양산하지 않는다.
+- 실적 메뉴의 쿼리·페이지별 클릭수, 노출수, CTR, 평균 게재순위를 검색 의도별로 주기 비교한다. 클릭·색인·순위의 상승은 실제 검색 데이터로만 판단한다.
+- 자동화된 소스 검사의 성공은 구글 순위의 증거가 아니며, 개별 색인 요청을 대량으로 반복하지 않는다.
+
+**공식 권장 참고:** [Google SEO 기본 가이드](https://developers.google.com/search/docs/fundamentals/seo-starter-guide?hl=ko) · [LocalBusiness 구조화된 데이터](https://developers.google.com/search/docs/appearance/structured-data/local-business?hl=ko).
