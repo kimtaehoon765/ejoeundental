@@ -6,6 +6,15 @@ on:
     paths:
       - '.github/workflows/mobile-performance.yml'
       - 'index.html'
+      - 'gallery.html'
+      - 'build.mjs'
+      - 'assets/ejoeun-gallery-cat-dentist-20261029*.webp'
+      - 'assets/ejoeun-original-wisdom-consult-20261029*.webp'
+      - 'assets/quiet-window-cat-thumb*.webp'
+      - 'assets/cubist-cat-clinic-thumb*.webp'
+      - 'assets/home-art-direction-20261030.css'
+      - 'assets/atelier-refinement-20261030.css'
+      - 'assets/clinic-gallery.css'
 permissions:
   contents: read
 jobs:
@@ -91,6 +100,18 @@ jobs:
              .slice(0,4)
              .map(a=>({name:a.title,savingsMs:Math.round(a.details.overallSavingsMs)}));
             row.opportunities=opportunities;
+            const oversizedImages=report.audits?.['uses-responsive-images']?.details?.items||[];
+            row.imageOpportunities=oversizedImages
+              .filter(i=>Number.isFinite(i.wastedBytes))
+              .sort((a,b)=>b.wastedBytes-a.wastedBytes)
+              .slice(0,3)
+              .map(i=>({url:i.url||'',wastedKB:Math.round(i.wastedBytes/1024)}));
+            const unusedCss=report.audits?.['unused-css-rules']?.details?.items||[];
+            row.cssOpportunities=unusedCss
+              .filter(i=>Number.isFinite(i.wastedBytes))
+              .sort((a,b)=>b.wastedBytes-a.wastedBytes)
+              .slice(0,4)
+              .map(i=>({url:i.url||'',wastedKB:Math.round(i.wastedBytes/1024)}));
             rows.push(row);
           }
           const metricColumn=k=>rows.map(r=>r[k]??'–');
@@ -108,6 +129,12 @@ jobs:
             '### 관찰된 개선 기회',
             ...rows.flatMap(r=>[
               '- '+r.label+': '+((r.opportunities||[]).map(o=>o.name+' (예상 '+o.savingsMs+' ms)').join(', ')||'자동 추정 항목 없음')
+            ]),
+            '',
+            '### 진단된 실제 파일 (실측 당시 공개 버전)',
+            ...rows.flatMap(r=>[
+              '- '+r.label+' · 불필요한 CSS: '+((r.cssOpportunities||[]).map(x=>x.url.split('/').pop()+' ('+x.wastedKB+' KiB)').join(', ')||'없음'),
+              '- '+r.label+' · 과도한 이미지: '+((r.imageOpportunities||[]).map(x=>x.url.split('/').pop()+' ('+x.wastedKB+' KiB)').join(', ')||'없음')
             ]),
             ''
           ];
