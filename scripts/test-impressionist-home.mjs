@@ -22,6 +22,7 @@ test('the mobile homepage presents the original portrait after key actions and k
   'The visible original doctor-cat portrait should load early on both phones and desktop');
  const responsiveBase='/assets/ejoeun-gallery-cat-dentist-20261029';
  const responsiveSet=responsiveBase+'-480.webp 480w, '+
+  responsiveBase+'-640.webp 640w, '+
   responsiveBase+'-720.webp 720w, '+responsiveBase+'.webp 1200w';
  const sizes='(max-width: 600px) calc(100vw - 72px), (max-width: 960px) 48vw, 550px';
  const preloads=[...home.matchAll(/<link rel="preload" as="image"[^>]*>/g)].map(m=>m[0]);
@@ -35,7 +36,7 @@ test('the mobile homepage presents the original portrait after key actions and k
  assert.ok(artImg.includes('srcset="'+responsiveSet+'"')&&
   artImg.includes('sizes="'+sizes+'"'),
   'portrait and preload must choose the same original-art resolution');
- for(const width of [480,720]){
+ for(const width of [480,640,720]){
   const bytes=readFileSync('dist/assets/ejoeun-gallery-cat-dentist-20261029-'+width+'.webp');
   assert.ok(bytes.length>12000&&bytes.subarray(0,4).toString('ascii')==='RIFF'&&
    bytes.subarray(8,12).toString('ascii')==='WEBP',
