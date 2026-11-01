@@ -188,3 +188,43 @@ body.home-page #main-content > #location #weekly-hours .alternating-hours-card >
     font-size:14px;
   }
 }
+
+
+/* 2026-11-01 | Visible clinic journal navigation and first-screen visit facts. */
+body.home-page .hero-local-intro .hero-visit-facts {
+  display:block;
+  margin:7px 0 4px;
+  padding-left:11px;
+  border-left:3px solid #b99a62;
+  color:#264e3d;
+  font-size:.93em;
+  font-weight:650;
+  line-height:1.65;
+  overflow-wrap:break-word;
+}
+@media (min-width:801px) {
+  body.home-page header .navlinks a.stories-nav-link {
+    font-weight:800;
+    color:#194633;
+    text-decoration:underline;
+    text-decoration-color:#ab8b53;
+    text-decoration-thickness:2px;
+    text-underline-offset:5px;
+  }
+  body.home-page header .navlinks a.stories-nav-link:is(:hover,:focus-visible) {
+    color:#103b29;
+    text-decoration-color:currentColor;
+  }
+}
+@media (max-width:600px) {
+  body.home-page .hero-local-intro .hero-visit-facts {
+    font-size:.91em;
+    margin-top:6px;
+  }
+}
+@media (forced-colors:active) {
+  body.home-page .hero-local-intro .hero-visit-facts {
+    color:CanvasText;
+    border-color:CanvasText;
+  }
+}
