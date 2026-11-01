@@ -67,7 +67,7 @@ test('gallery night and lakeside art use smaller 360w variants with approved ori
   const original='/assets/'+stem+'-thumb.webp';
   const small='/assets/'+stem+'-thumb-360.webp';
   for(const [page,html] of [['home',home],['gallery',gallery]]){
-   const picture=[...html.matchAll(/<img\\b[^>]*>/g)].map(m=>m[0])
+   const picture=[...html.matchAll(/<img\b[^>]*>/g)].map(m=>m[0])
      .find(tag=>tag.includes('src="'+original+'"'))||'';
    assert.ok(picture.includes('srcset="')&&picture.includes(small+' 360w')&&
      picture.includes(original+' 680w'),
