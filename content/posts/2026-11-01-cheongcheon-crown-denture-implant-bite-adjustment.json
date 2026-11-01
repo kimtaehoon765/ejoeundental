@@ -7,5 +7,15 @@
   "source_note": "screenshots_summary: 2026-11-01 원장이 제공한 네이버 블로그 본문 캡처를 바탕으로 새로 구성한 환자 교육 콘텐츠. 원문 URL 미확인.",
   "related_source_titles": [
     "원장직접 보철물의 높이 조정 틀니 높이 조정 청천동치과 산곡동치과"
+  ],
+  "references": [
+    {
+      "label": "NHS: 틀니 착용 후 맞지 않거나 아플 때 진료 안내",
+      "url": "https://www.nhs.uk/tests-and-treatments/dentures/"
+    },
+    {
+      "label": "리즈 NHS: 틀니 압박 부위와 조정 안내",
+      "url": "https://www.leedsth.nhs.uk/patients/resources/complete-dentures/"
+    }
   ]
 }
