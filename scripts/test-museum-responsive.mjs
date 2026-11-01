@@ -2083,3 +2083,30 @@ test('2026-11-01 care gallery spacing keeps all five priority cards and painting
  assert.ok(css.includes('Retain the existing horizontal, swipeable three-picture patient gallery'));
  assert.ok(source.includes('<!-- BUILD_NAVER_BOOKING_MOBILE -->'));
 });
+
+
+test('2026-11-01 compact homepage layout preserves all sections and SEO entry points',()=>{
+ const source=readFileSync('index.html','utf8');
+ const css=read('assets/museum-finish-20261031.css');
+ assert.ok(css.includes('2026-11-01 | A shorter homepage reading journey'));
+ assert.ok(css.includes('padding-block:clamp(50px,5.8vw,78px);'));
+ assert.ok(css.includes('padding-block:clamp(36px,9vw,50px);'));
+ for(const id of ['philosophy','focus-care','home-representative-guides','symptoms','care',
+   'doctor','gallery','health-info','stories','faq','location']){
+  assert.ok(source.includes('id="'+id+'"'),'keep indexable homepage section: '+id);
+ }
+ for(const src of ['ejoeun-gallery-cat-dentist-20261029.webp',
+   'gallery-starry-clinic.svg','gallery-golden-garden.svg',
+   'watercolor-care-gum-20261029.webp','watercolor-care-abrasion-20261029.webp',
+   'watercolor-care-insurance-20261029.webp']){
+  assert.ok(source.includes(src),'original illustration retained: '+src);
+ }
+ assert.ok(source.includes('class="care-directory__more" open'),
+   'the entire twelve-treatment quick directory is accessible by default');
+ assert.ok(source.includes('class="owner-stories-more"'),
+   'older original Naver articles remain available in a native disclosure');
+ assert.ok(source.includes('<!-- BUILD_NAVER_BOOKING_MOBILE -->'),
+   'mobile booking and phone dock remains intact');
+ assert.ok(!css.slice(css.indexOf('2026-11-01 | A shorter homepage reading journey'))
+   .includes('display:none'),'the new reading-density rules cannot hide medical content');
+});
