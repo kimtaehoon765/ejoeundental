@@ -3361,7 +3361,7 @@ function brandPublicPages(dir){
    }else{
     delete entity.potentialAction;
    }
-   return '<script type="application/ld+json">'+JSON.stringify(entity).replace(/</g,'\\\\u003c')+'</script>';
+   return '<script type="application/ld+json">'+JSON.stringify(entity).replace(/</g,'\\u003c')+'</script>';
   });
  if(clinicSchemaCount!==1)throw new Error('Exactly one clinic schema is needed for verified reservation source');
  fs.writeFileSync(homepageFile,homepage);
