@@ -1079,6 +1079,19 @@ for (const slug of ['gum-treatment-faq','root-canal-retreatment-faq','dental-ins
  const transformed=html.replace(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,(tag,json)=>{
   const data=JSON.parse(json);
   if(data['@type']!=='FAQPage')throw new Error('Expected FAQPage JSON-LD: '+slug);
+  // Preview uses .html routes, while production publishes clean canonical routes.
+  // The canonical URL and each Question anchor must describe the same document.
+  const sourceBase='https://ejoeundental.com/'+slug;
+  if(data.url===sourceBase){
+   data.url=sourceBase+'.html';
+   if(data['@id']===sourceBase+'#webpage')data['@id']=sourceBase+'.html#webpage';
+   for(const question of data.mainEntity||[]){
+    for(const field of ['@id','url']){
+     if(typeof question[field]==='string'&&question[field].startsWith(sourceBase+'#faq-question-'))
+      question[field]=sourceBase+'.html'+question[field].slice(sourceBase.length);
+    }
+   }
+  }
   const updated=JSON.stringify(data).replace(/https:\/\/ejoeundental\.com\//g,'https://ejoeundental.pages.dev/');
   return '<script type="application/ld+json">'+updated+'</script>';
  });
