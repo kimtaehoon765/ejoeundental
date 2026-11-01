@@ -1317,6 +1317,16 @@ body.home-page .hero-stories-shortcut a:focus-visible{
   window.addEventListener('resize',scheduleAdjust,{passive:true});
   window.addEventListener('pageshow',scheduleAdjust);
   adjust();
+
+  /* Search is a native anchor and GET form. On a deliberate tap, also move
+     keyboard focus into the field. No forced keyboard on page load or hashes. */
+  var searchShortcut=document.querySelector('header .mobile-quick a[href="#home-symptom-query"]');
+  if(searchShortcut){
+    searchShortcut.addEventListener('click',function(){
+      var input=document.getElementById('home-symptom-query');
+      if(input)input.focus({preventScroll:true});
+    });
+  }
 })();
 </script>
 </body>
