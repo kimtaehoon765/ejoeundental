@@ -2215,3 +2215,33 @@ test('tapping mobile search focuses the existing input without auto-focusing on 
   'preserve normal anchor navigation without JS');
  assert.ok(source.includes('<!-- BUILD_NAVER_BOOKING_MOBILE -->'));
 });
+
+
+test('mobile search results precede the long topic routes and retain medical context',()=>{
+ const page=read('search.html');
+ const css=read('assets/search-page.css');
+ const start=page.indexOf('<main id="main-content"');
+ const search=page.indexOf('<div class="search-primary"',start);
+ const results=page.indexOf('<section id="results"',search);
+ const routes=page.indexOf('<nav class="search-reading-routes"',start);
+ const help=page.indexOf('이 검색은 이조은치과 홈페이지에 마련된 자료',start);
+ const topics=page.indexOf('<nav class="search-topic-index"',start);
+ assert.ok(start>=0&&start<search&&search<results&&results<routes&&routes<help&&help<topics,
+  'search and results come before four routes and the long SEO reference guide');
+ const route=page.slice(routes,page.indexOf('</nav>',routes));
+ assert.equal((route.match(/<a /g)||[]).length,4,'keep all four routes');
+ for(const href of ['href="#q"','href="#search-topic-guide"','href="#symptom-search"',
+  'href="/stories.html#story-directory"'])assert.ok(route.includes(href));
+ assert.ok(page.includes('<form class="search-form" role="search" action="/search.html" method="get"'));
+ assert.ok(page.includes('id="q" name="q" type="search"'));
+ assert.ok(page.includes('id="status" role="status" aria-live="polite"'));
+ assert.ok(page.includes('id="results" aria-label="홈페이지 검색 결과"'));
+ assert.ok(page.includes('<meta name="robots" content="noindex,follow"'));
+ assert.ok(page.includes('rel="canonical" href="https://ejoeundental.com/search.html"'));
+ assert.ok(page.includes('지역별 검색어·복용약·기타 검색 예시 40개 펼쳐보기'));
+ assert.ok(css.includes('2026-11-01 | Search first, references second'));
+ assert.match(css,/body\.search-gallery \.search-primary \.search-form input \{[\s\S]*?font-size:16px;/);
+ assert.ok(css.includes('flex-direction:column;')&&css.includes('min-height:54px;'),
+  'mobile search field and submit button retain large touch targets');
+ assert.ok(page.includes('/assets/search.js?v='));
+});
