@@ -2489,3 +2489,200 @@ body.home-page #main-content>#care .care-directory :is(a,summary):focus-visible{
     box-shadow:none;
   }
 }
+
+
+/* 2026-11-01 | Editorial clarity: restrained premium finishing, not another gallery layer.
+   Refine the existing portrait, care paths and exhibition without hiding text,
+   changing original artwork, moving links or disturbing booking and SEO. */
+body.home-page #main-content > .hero.wrap {
+  row-gap: clamp(19px,2.5vw,32px);
+  column-gap: clamp(26px,3.3vw,50px);
+  padding-block: clamp(27px,3.7vw,54px);
+  border-color: #dfd8cb;
+  border-top: 2px solid #a9926d;
+  background: linear-gradient(125deg,#fffefb 0%,#fbfaf5 54%,#f4f6ef 100%);
+  box-shadow: 0 13px 38px rgba(26,50,36,.055);
+}
+body.home-page #main-content > .hero.wrap > div:first-child {
+  align-self:center;
+  min-width:0;
+}
+body.home-page #main-content > .hero.wrap #headline {
+  max-width:19ch;
+  font-size:clamp(32px,3.55vw,51px);
+  line-height:1.37;
+  letter-spacing:-.055em;
+  color:#183b2c;
+  text-wrap:balance;
+}
+body.home-page #main-content > .hero.wrap .hero-doctor-credentials {
+  border-color:#e4dfd2;
+  border-left:2px solid #a78a58;
+  background:rgba(255,254,249,.92);
+  box-shadow:none;
+}
+body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+  justify-self:center;
+  max-width:560px;
+  border-color:#c3b293;
+  background:#efe8da;
+  box-shadow:0 15px 31px rgba(28,53,36,.105);
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque {
+  background:#fffdf9;
+  border-top-color:#d8cdbb;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque > small {
+  letter-spacing:.12em;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque > strong {
+  font-size:clamp(16px,1.45vw,20px);
+  font-weight:650;
+}
+body.home-page #main-content > .hero.wrap .hero-actions > a {
+  border-radius:5px;
+  box-shadow:none;
+}
+body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-call,.hero-booking) {
+  min-height:54px;
+  box-shadow:0 4px 12px rgba(31,54,40,.07);
+}
+body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-hours,.hero-symptoms,.hero-map) {
+  border-color:#deded2;
+  background:rgba(255,254,250,.88);
+  color:#355846;
+  box-shadow:none;
+}
+body.home-page #main-content > .hero.wrap .hero-local-intro,
+body.home-page #main-content > .hero.wrap .hero-visit-note {
+  color:#526657;
+  line-height:1.72;
+}
+body.home-page #main-content > .hero.wrap > .hero-editorial-detail {
+  gap:clamp(12px,1.7vw,22px);
+  border-top:1px solid #ded6c7;
+  padding-top:clamp(18px,2.4vw,30px);
+}
+body.home-page #main-content > .hero.wrap > .hero-editorial-detail > :is(.hero-editorial-choices,.hero-editorial-story) {
+  border:1px solid #e1dbcf;
+  border-top:2px solid #aa9470;
+  border-radius:3px;
+  background:#fffefa;
+  box-shadow:none;
+}
+body.home-page #main-content > .hero.wrap > .hero-editorial-detail > .hero-editorial-story {
+  border-top-color:#90a58f;
+}
+body.home-page #main-content > .hero.wrap .hero-care-summary > a {
+  border-color:#e1dfd5;
+  border-radius:3px;
+  background:#fbfbf6;
+  box-shadow:none;
+}
+body.home-page #main-content > .hero.wrap .hero-care-card__copy > strong {
+  letter-spacing:-.035em;
+  line-height:1.47;
+}
+body.home-page #main-content > .hero.wrap .hero-more-care > summary {
+  min-height:48px;
+}
+body.home-page #main-content > .curated-threshold {
+  border-color:#e0d7c8;
+  background:linear-gradient(125deg,#f7f5ee,#fffefa 72%);
+  box-shadow:0 8px 24px rgba(29,52,37,.04);
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__piece {
+  border-color:#e3dbcf;
+  background:#fffefa;
+  box-shadow:0 3px 13px rgba(29,52,37,.04);
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__frame {
+  background:#ede8de;
+  border-color:#d5c8af;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__caption {
+  background:#fffefa;
+}
+body.home-page #main-content > :is(#philosophy,#home-representative-guides,#health-info) .grid > .card {
+  border-color:#e5e0d5;
+  box-shadow:0 5px 18px rgba(30,54,38,.035);
+}
+@media (hover:hover) and (pointer:fine) {
+  body.home-page #main-content > .hero.wrap .hero-care-summary > a:hover,
+  body.home-page #main-content > .curated-threshold .curated-threshold__piece:hover {
+    border-color:#ab9878;
+    box-shadow:0 9px 23px rgba(31,54,39,.07);
+  }
+}
+@media (max-width:760px) {
+  body.home-page #main-content > .hero.wrap {
+    padding-block:clamp(22px,4vw,32px);
+    gap:clamp(13px,3vw,19px);
+    box-shadow:0 6px 19px rgba(27,51,39,.045);
+  }
+  body.home-page #main-content > .hero.wrap #headline {
+    max-width:100%;
+    font-size:clamp(29px,6.1vw,39px);
+    line-height:1.42;
+  }
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    width:min(100%,370px);
+    max-width:370px;
+    margin:8px auto 12px;
+    box-shadow:0 9px 21px rgba(30,52,39,.09);
+  }
+  body.home-page #main-content > .hero.wrap > .hero-editorial-detail {
+    padding-top:16px;
+  }
+  body.home-page #main-content > :is(#philosophy,#home-representative-guides,#health-info) .grid > .card {
+    box-shadow:none;
+  }
+}
+@media (max-width:600px) {
+  body.home-page #main-content > .hero.wrap {
+    padding-inline:clamp(16px,4vw,22px);
+  }
+  body.home-page #main-content > .hero.wrap #headline {
+    font-size:clamp(28px,7vw,35px);
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions {
+    gap:7px;
+    margin-block:13px 8px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-call,.hero-booking) {
+    min-height:54px;
+    padding-inline:8px;
+    box-shadow:none;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-hours,.hero-symptoms,.hero-map) {
+    min-height:43px;
+  }
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    width:min(100%,345px);
+    max-width:345px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-artwork__plaque {
+    padding:10px 9px 8px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-care-summary > a {
+    min-height:70px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  body.home-page #main-content > .hero.wrap .hero-actions > a,
+  body.home-page #main-content > .hero.wrap .hero-care-summary > a {
+    transition:none;
+  }
+}
+@media (forced-colors:active) {
+  body.home-page #main-content > .hero.wrap,
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork,
+  body.home-page #main-content > .hero.wrap > .hero-editorial-detail > :is(.hero-editorial-choices,.hero-editorial-story),
+  body.home-page #main-content > .curated-threshold,
+  body.home-page #main-content > .curated-threshold .curated-threshold__piece {
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
