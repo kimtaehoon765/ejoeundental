@@ -703,8 +703,8 @@ test('final responsive layer places phone and Naver booking above secondary guid
  assert.ok(styles.indexOf(finalStyle)>styles.indexOf(galleryFoundation()),
   'mobile exhibition rules must override earlier museum layers');
  const exhibition=read(finalStyle.slice(1));
- assert.ok(exhibition.indexOf(read('assets/curatorial-home.css').trimEnd())>
-  exhibition.indexOf(read('assets/atelier-home-2026.css').trimEnd()),
+ assert.ok(exhibition.indexOf(stripBundleDocumentation(read('assets/curatorial-home.css').trimEnd()))>
+  exhibition.indexOf(stripBundleDocumentation(read('assets/atelier-home-2026.css').trimEnd())),
   'original responsive layout follows original editorial rules in bundled CSS');
  const hero=home.match(/<div class="hero-actions">([\s\S]*?)<\/div>/)?.[1]||'';
  const booking=hero.match(/<a\b[^>]*class="btn hero-booking"[^>]*>/)?.[0]||'';
