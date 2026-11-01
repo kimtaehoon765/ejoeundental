@@ -366,6 +366,7 @@ const relatedStoryCategories=[
   ['denture',/틀니|의치/],
   ['wisdom',/사랑니|지혈제|드라이소켓/],
   ['cavity',/충치|치경부|마모증|수복|레진|글라스아이오노머|지르코니아|크라운|시린|치아파절|치아가 부러|부러진|깨진/],
+  ['pediatric',/영구치|유치|어린이\s*치과|소아치과|치아\s*맹출|맹출\s*순서/],
   ['oral',/입술포진|단순포진|헤르페스|골수염|구강청결제|헥사메딘|리스테린|구강점막질환|구내염|구강건조증|구강작열감증후군|입냄새|구취/],
   ['systemic',/감염성\s*심내막염|당뇨병|쇼그렌증후군|전신질환/],
   ['safety',/수면치료|진정치료|마취|위험|환자 안전/],
@@ -379,6 +380,7 @@ const storyTitleIntent=title=>{
  const first=String(title||'').split(/[｜|:：]/u)[0];
  const intents=[
   ['systemic',/감염성\s*심내막염|당뇨병|쇼그렌증후군|전신질환/],
+  ['pediatric',/영구치|유치|어린이\s*치과|소아치과|치아\s*맹출|맹출\s*순서/],
   ['oral',/입술포진|단순포진|헤르페스|악골\s*골수염|턱뼈\s*골수염|구강청결제|헥사메딘|리스테린|구강점막질환|구내염|구강건조증|구강작열감증후군|입냄새|구취/],
   ['root',/재신경치료|신경치료|근관치료/],
   ['gum',/잇몸치료|치주치료|스케일링|치주염/],
@@ -406,12 +408,12 @@ const storyDirectoryTopic=title=>{
  const intent=storyTitleIntent(title);
  return (storyPreservationIntent(title)?'preserve':'')||
   ({implant:'prosthetic',denture:'prosthetic',root:'root',gum:'gum',
-   wisdom:'wisdom',cavity:'cavity',oral:'oral',systemic:'systemic'})[intent]||'';
+   wisdom:'wisdom',cavity:'cavity',oral:'oral',systemic:'systemic',pediatric:'pediatric'})[intent]||'';
 };
 const storyDirectoryLabels={
  gum:'잇몸치료·스케일링',root:'신경치료·재신경치료',
  cavity:'충치·시린 이·수복치료',preserve:'자연치아 보존·발치 전 확인',prosthetic:'틀니·임플란트',
- wisdom:'사랑니 발치·지혈',oral:'구강질환·구강관리',systemic:'전신질환과 치과치료',choice:'치과 선택·건강보험·진료 원칙',
+ wisdom:'사랑니 발치·지혈',oral:'구강질환·구강관리',systemic:'전신질환과 치과치료',pediatric:'어린이치과·영구치 발육',choice:'치과 선택·건강보험·진료 원칙',
  other:'그 밖의 진료 이야기'
 };
 // A few distinctive clinical concepts are better similarity cues than repeating
@@ -816,6 +818,7 @@ console.log('Homepage journal entries rendered without browser fetch:',posts.len
   {id:'wisdom',name:'사랑니 발치·지혈',match:/사랑니|지혈제|드라이소켓/},
   {id:'oral',name:'구강질환·구강관리',match:/입술포진|단순포진|헤르페스|골수염|구강청결제|헥사메딘|리스테린|구강점막질환|구내염|구강건조증|구강작열감증후군|입냄새|구취/},
   {id:'systemic',name:'전신질환과 치과치료',match:/감염성\s*심내막염|당뇨병|쇼그렌증후군|전신질환/},
+  {id:'pediatric',name:'어린이치과·영구치 발육',match:/영구치|유치|어린이\s*치과|소아치과|치아\s*맹출|맹출\s*순서/},
   {id:'choice',name:'치과 선택·건강보험·진료 원칙',match:/치과 선택|잘하는 치과|치과를|진료비|비용|광고|리뷰|과잉진료|양심|보험|진료 원칙|치과 찾|치과 고르|할인/},
   {id:'other',name:'그 밖의 진료 이야기',match:null}
  ];
