@@ -168,6 +168,10 @@ const urls = [
     .map(slug=>({label:'모바일 환자 안전정보 버튼: '+slug,url:origin+'/'+slug+'.html'})),
   { label: 'AI 의료진 출처 페이지', url: origin + '/doctor.html' },
   { label: 'AI 검색봇 접근 모의 검사', url: origin + '/gum-treatment.html', userAgent: 'OAI-SearchBot/1.0' },
+  // User-Agent-only smoke tests: confirm main treatment pages remain readable
+  // to Naver Yeti without implying actual crawler access or search indexing.
+  { label: '네이버 Yeti 잇몸치료 모의 검사', url: origin + '/gum-treatment.html', userAgent: 'Mozilla/5.0 (compatible; Yeti/1.1; +https://naver.me/spd)' },
+  { label: '네이버 Yeti 재신경치료 모의 검사', url: origin + '/retreatment.html', userAgent: 'Mozilla/5.0 (compatible; Yeti/1.1; +https://naver.me/spd)' },
   { label: '네이버 최신글 RSS', url: origin + '/rss.xml' },
   { label: '홈페이지 치과 이야기 전체 글', url: origin + '/stories.html' },
   { label: '자연치아 보존 진료 안내', url: origin + '/tooth-preservation.html' },
@@ -1243,6 +1247,22 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
         simulated?'본문·접속 확인':'접근·배포 확인 필요',
         'HTTP '+response.status+' · 치료 질문·의료진 링크 '+(simulated?'게시됨':'미확인')+
         ' · 모의 검사로 실제 AI 색인·인용 여부는 확인할 수 없음');
+    } else if (label.startsWith('네이버 Yeti ')&&label.endsWith('모의 검사')) {
+      const isGum=label.includes('잇몸치료');
+      const slug=isGum?'gum-treatment':'retreatment';
+      const topic=isGum?'인천 잇몸치료':'재신경치료';
+      const robotsTag=String(response.headers.get('x-robots-tag')||'');
+      const naverReady=response.status===200&&
+        new URL(response.url).pathname==='/'+slug&&
+        !/noindex|none/i.test(robotsTag)&&
+        !/<meta\\s+name=["'](?:robots|naverbot)["']\\s+content=["'][^"']*noindex/i.test(body)&&
+        body.includes('<link rel="canonical" href="'+origin+'/'+slug+'">')&&
+        body.includes('<meta name="description" content="')&&
+        body.includes('<h1')&&body.includes(topic);
+      add(label,naverReady?'정상':'검사 필요',
+        'HTTP '+response.status+' · 최종 URL '+response.url+
+        ' · 제목·설명·본문·정식 대표주소 '+(naverReady?'확인':'미확인')+
+        ' · User-Agent 응답 테스트이며 네이버 실제 수집·색인·순위는 확인하지 않음');
     } else if (label === '네이버 최신글 RSS') {
       const itemLinks=[...body.matchAll(/<item>[\s\S]*?<link>([^<]+)<\/link>[\s\S]*?<\/item>/g)]
        .map(m=>m[1]);
