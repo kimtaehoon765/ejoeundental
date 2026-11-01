@@ -875,3 +875,42 @@ test('BlogPosting metadata citations exactly match visible source links and clin
  assert.ok(article.articleSection,'Every post needs a visible matching topic');
  assert.ok(html.includes('치과 이야기 · '+article.articleSection+' →'));
 });
+
+
+test('Naver Yeti crawl readiness and full-text RSS remain available on production',()=>{
+ const robots=readFileSync(path.join(output,'robots.txt'),'utf8');
+ assert.match(robots,/User-agent:\s*\*\s*\nAllow:\s*\/\s*\n/);
+ assert.ok(!/User-agent:\s*Yeti[\s\S]*?Disallow:\s*\/\s*(?:\n|$)/i.test(robots),
+  'Naver Yeti must not be explicitly disallowed');
+ assert.match(robots,/Sitemap:\s*https:\/\/ejoeundental\.com\/sitemap\.xml/);
+ const feed=readFileSync(path.join(output,'rss.xml'),'utf8');
+ assert.ok(feed.startsWith('<?xml version="1.0" encoding="UTF-8"?>'));
+ assert.ok(feed.includes('<rss version="2.0"><channel>'));
+ const items=[...feed.matchAll(/<item>([\s\S]*?)<\/item>/g)].map(m=>m[1]);
+ assert.equal(items.length,20,'Naver feed must publish the latest 20 substantial guides');
+ const links=items.map(item=>item.match(/<link>([^<]+)<\/link>/)?.[1]||'');
+ assert.equal(new Set(links).size,20,'No duplicated Naver RSS URLs');
+ for(let i=0;i<items.length;i++){
+  assert.match(links[i],/^https:\/\/ejoeundental\.com\/stories\/[a-z0-9-]+\/$/);
+  assert.match(items[i],/<title>[^<]{12,}<\/title>/);
+  const body=items[i].match(/<description>([\s\S]*?)<\/description>/)?.[1]||'';
+  assert.ok(body.length>=90,'Naver feed cannot contain an empty or tiny excerpt: '+links[i]);
+  assert.ok(!items[i].includes('ejoeundental.pages.dev'),'No preview origin in Naver feed');
+ }
+ for(const page of ['index.html','stories.html']){
+  const html=readFileSync(path.join(output,page),'utf8');
+  assert.ok(html.includes('<link rel="alternate" type="application/rss+xml" title="이조은치과 치과 이야기 RSS" href="'+origin+'/rss.xml">'),
+   page+' must expose the genuine clinic RSS feed');
+ }
+ for(const slug of ['gum-treatment','retreatment']){
+  const html=readFileSync(path.join(output,slug+'.html'),'utf8');
+  assert.ok(html.includes('<link rel="canonical" href="'+origin+'/'+slug+'">'));
+  assert.ok(html.includes('<meta name="description" content="'));
+  assert.ok(html.includes('<h1'),'Naver bot should receive server-rendered treatment text');
+ }
+ const probe=readFileSync('scripts/live-domain-check.mjs','utf8');
+ assert.ok(probe.includes("label: '네이버 Yeti 잇몸치료 모의 검사'"));
+ assert.ok(probe.includes("label: '네이버 Yeti 재신경치료 모의 검사'"));
+ assert.ok(probe.includes("User-Agent 응답 테스트이며 네이버 실제 수집·색인·순위는 확인하지 않음"),
+  'Bot simulation must not be confused with real Naver indexing');
+});
