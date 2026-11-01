@@ -181,9 +181,10 @@ test('homepage links to four clinically distinct original patient education arti
   'homepage cannot promise all patients will have the same clinical outcome');
  // Production bundles the original first-screen styles into an immutable
  // content-hashed CSS asset rather than serving the old individual link.
- const merged=['style.css','home-enhancements.css','address-copy.css']
+ const documented=['style.css','home-enhancements.css','address-copy.css']
   .map(name=>readFileSync('dist/assets/'+name,'utf8').trimEnd())
   .join('\n\n/* Original stylesheet boundary — cascade order retained. */\n\n')+'\n';
+ const merged=documented.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'');
  const bundleHash=createHash('sha256').update(merged).digest('hex').slice(0,12);
  const bundle='/assets/home-critical-'+bundleHash+'.css';
  assert.ok(home.includes('href="'+bundle+'"'),
