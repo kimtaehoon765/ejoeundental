@@ -2128,3 +2128,23 @@ test('compact phone header routes to symptoms without duplicating dock telephone
    source.includes('id="home-symptom-query"'));
  assert.ok(css.includes('@media (max-width:600px)'));
 });
+
+
+test('only below-fold paintings are low-priority while director portrait loads early',()=>{
+ const source=read('index.html');
+ const hero=source.match(/<img\b[^>]*src="\/assets\/ejoeun-gallery-cat-dentist-20261029\.webp"[^>]*>/)?.[0]||'';
+ assert.ok(hero.includes('loading="eager"')&&hero.includes('fetchpriority="high"'));
+ for(const name of [
+  'gallery-starry-clinic.svg','quiet-window-cat-thumb.webp','cubist-cat-clinic-thumb.webp',
+  'lakeside-flower-clinic-thumb.webp','gallery-golden-garden.svg'
+ ]){
+  const regex=new RegExp('<img\\s+src="/assets/'+name.replace(/\./g,'\\.')+'"[^>]*>');
+  const tag=source.match(regex)?.[0]||'';
+  assert.ok(tag.includes('loading="lazy"')&&tag.includes('fetchpriority="low"'),
+    'only offscreen art is explicitly deprioritized: '+name);
+  assert.ok(tag.includes('decoding="async"')&&tag.includes('alt="'),
+    'art retains alt text and asynchronous decoding: '+name);
+ }
+ assert.equal((source.match(/<link rel="preload" as="image"/g)||[]).length,1);
+ assert.ok(source.includes('<!-- BUILD_NAVER_BOOKING_MOBILE -->'));
+});
