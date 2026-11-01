@@ -1034,3 +1034,39 @@ test('AI-visible clinic appointment action matches the real owner-approved Naver
  assert.equal(clinic.telephone,'+82-32-513-2875');
  assert.equal(clinic.address?.streetAddress,'세월천로 34 대우프라자 305호');
 });
+
+
+test('AI patient FAQ question URLs point to actual published answer anchors',()=>{
+ const cases=[
+  ['gum-treatment-faq.html',9],
+  ['root-canal-retreatment-faq.html',10]
+ ];
+ for(const [filename,count] of cases){
+  const slug=filename.replace(/\.html$/,'');
+  const html=readFileSync(path.join(output,filename),'utf8');
+  const source=readFileSync(filename,'utf8');
+  const graphFrom=txt=>[...txt.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(m=>JSON.parse(m[1])).find(x=>x['@type']==='FAQPage');
+  const graph=graphFrom(html),original=graphFrom(source);
+  const base=origin+'/'+slug;
+  assert.ok(graph,'FAQPage structured data missing for '+filename);
+  assert.equal(graph.url,base,'Published FAQ should use the clean canonical URL');
+  assert.equal(graph['@id'],base+'#webpage');
+  assert.equal(graph.mainEntity.length,count,'Keep the full clinical Q&A set');
+  assert.equal(graph.publisher?.['@id'],origin+'/#clinic',
+   'Keep the treating clinic publisher identity');
+  for(const [i,q] of graph.mainEntity.entries()){
+   const answerUrl=base+'#faq-question-'+(i+1);
+   assert.equal(q['@id'],answerUrl,'Each clinical answer needs a stable citation anchor');
+   assert.equal(q.url,answerUrl);
+   assert.equal((html.match(new RegExp('id="faq-question-'+(i+1)+'"','g'))||[]).length,1,
+    'Published question URL must point to exactly one visible anchor');
+   assert.equal(q.name,original.mainEntity[i].name,
+    'Adding source links must not silently change a clinical question');
+   assert.deepEqual(q.acceptedAnswer,original.mainEntity[i].acceptedAnswer,
+    'Adding source links must not silently change a clinical answer');
+  }
+  assert.ok(html.includes('<link rel="canonical" href="'+base+'">'),
+   'Published HTML canonical must agree with referenced question URLs');
+ }
+});
