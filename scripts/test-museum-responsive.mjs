@@ -1902,18 +1902,24 @@ test('mobile homepage keeps original portrait without costly Korean webfont subs
  const head=home.slice(0,home.indexOf('</head>'));
  const activeHead=head.replace(/<noscript>[\s\S]*?<\/noscript>/g,'');
  const allFontLinks=[...activeHead.matchAll(/<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com\/css2\?[^"]+"[^>]*>/g)].map(m=>m[0]);
- assert.equal(allFontLinks.length,2,
-  'ship only the lightweight Latin family and a desktop-only Korean serif');
+ assert.equal(allFontLinks.length,1,
+  'only lightweight Latin CSS may be discoverable as a stylesheet in the mobile HTML parser');
  const latin=allFontLinks.find(link=>link.includes('family=DM+Sans'));
- const korean=allFontLinks.find(link=>link.includes('family=Noto+Serif+KR'));
- assert.ok(latin?.includes('media="print" onload="this.media=\'all\'"'),
+ assert.ok(latin?.includes('media="print" onload="this.media=\\'all\\'"'),
   'optional Latin typography should not block first paint');
  assert.ok(!latin.includes('Noto+Serif+KR'),
-  'do not mix the expensive Korean subsets into the mobile font request');
- assert.ok(korean?.includes('media="(min-width: 801px)"'),
-  'only desktop viewports should activate the original Korean serif');
- assert.ok(korean.includes('display=optional'),
-  'desktop serif font must still use optional font display');
+  'do not mix expensive Korean subsets into the mobile font request');
+ assert.ok(!allFontLinks.some(link=>link.includes('Noto+Serif+KR')),
+  'desktop Korean serif must not be a discoverable stylesheet on mobile');
+ assert.ok(activeHead.includes("window.matchMedia('(min-width: 801px)')")&&
+   activeHead.includes('desktopSerifMedia.matches')&&
+   activeHead.includes("serifLink.rel='stylesheet'")&&
+   activeHead.includes("serifLink.media='(min-width: 801px)'"),
+  'Korean desktop serif must load only after matching the desktop viewport');
+ assert.ok(activeHead.includes('Noto+Serif+KR:wght@500;600;700&display=optional'),
+  'preserve original Korean desktop font family, weights, and optional display');
+ assert.ok(head.includes('Noto+Serif+KR:wght@500;600;700&amp;display=optional" media="(min-width: 801px)"></noscript>'),
+  'desktop serif remains available when scripts are disabled');
  const fallback=head.match(/<noscript><link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com\/css2\?[^"]+"><\/noscript>/g)||[];
  assert.equal(fallback.length,1,'no-script mobile fallback should use one Latin family');
  assert.ok(fallback[0].includes('family=DM+Sans')&&!fallback[0].includes('Noto+Serif+KR'));
