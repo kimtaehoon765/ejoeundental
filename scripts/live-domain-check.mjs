@@ -670,16 +670,21 @@ await Promise.all(urls.map(async ({label,url,userAgent}) => {
       // The periodontal guide now shares its own clinically relevant
       // watercolor; the journal and directions retain the doctor-cat art.
       const isGum=label==='잇몸치료 상세 페이지';
+      const isStories=label==='홈페이지 치과 이야기 전체 글';
+      // The journal uses the owner-approved dentist/cat gallery portrait,
+      // not the older visitor-guide thumbnail. Check what patients share.
       const expectedImage=origin+(isGum?
-       '/assets/watercolor-care-gum-20261029.webp':
+       '/assets/watercolor-care-gum-20261029.webp':isStories?
+       '/assets/ejoeun-gallery-cat-dentist-20261029.webp':
        '/assets/ejoeundental-hero-cat.webp');
       const imageFields=[
        ['property','og:image',expectedImage],
        ['property','og:image:type','image/webp'],
-       ['property','og:image:width',isGum?'960':'650'],
-       ['property','og:image:height',isGum?'640':'543'],
+       ['property','og:image:width',isGum?'960':isStories?'1200':'650'],
+       ['property','og:image:height',isGum?'640':isStories?'800':'543'],
        ['property','og:image:alt',isGum?
-        '노란 손잡이 큐렛을 그린 이조은치과 잇몸치료 수채화':
+        '노란 손잡이 큐렛을 그린 이조은치과 잇몸치료 수채화':isStories?
+        '이조은치과 김태훈 원장 캐리커처와 복슬복슬한 하얀 고양이가 함께 있는 창작 회화':
         '이조은치과의 하얀 고양이와 치과의사 일러스트'],
        ['name','twitter:image',expectedImage]
       ];
