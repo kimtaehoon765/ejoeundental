@@ -366,6 +366,7 @@ const relatedStoryCategories=[
   ['denture',/틀니|의치/],
   ['wisdom',/사랑니|지혈제|드라이소켓/],
   ['cavity',/충치|치경부|마모증|수복|레진|글라스아이오노머|지르코니아|크라운|시린|치아파절|치아가 부러|부러진|깨진/],
+  ['oral',/입술포진|단순포진|헤르페스|골수염|구강청결제|헥사메딘|리스테린|구강점막질환/],
   ['safety',/수면치료|진정치료|마취|위험|환자 안전/],
   ['choice',/리뷰|과잉진료|진료비|가격|비용|광고|할인|양심|보험|선결제|치과 선택|치과 찾|저렴/]
 ];
@@ -376,6 +377,7 @@ const relatedStoryCategories=[
 const storyTitleIntent=title=>{
  const first=String(title||'').split(/[｜|:：]/u)[0];
  const intents=[
+  ['oral',/입술포진|단순포진|헤르페스|악골\s*골수염|턱뼈\s*골수염|구강청결제|헥사메딘|리스테린|구강점막질환/],
   ['root',/재신경치료|신경치료|근관치료/],
   ['gum',/잇몸치료|치주치료|스케일링|치주염/],
   ['implant',/임플란트/],
@@ -397,12 +399,12 @@ const storyDirectoryTopic=title=>{
  const intent=storyTitleIntent(title);
  return (storyPreservationIntent(title)?'preserve':'')||
   ({implant:'prosthetic',denture:'prosthetic',root:'root',gum:'gum',
-   wisdom:'wisdom',cavity:'cavity'})[intent]||'';
+   wisdom:'wisdom',cavity:'cavity',oral:'oral'})[intent]||'';
 };
 const storyDirectoryLabels={
  gum:'잇몸치료·스케일링',root:'신경치료·재신경치료',
  cavity:'충치·시린 이·수복치료',preserve:'자연치아 보존·발치 전 확인',prosthetic:'틀니·임플란트',
- wisdom:'사랑니 발치·지혈',choice:'치과 선택·건강보험·진료 원칙',
+ wisdom:'사랑니 발치·지혈',oral:'구강질환·구강관리',choice:'치과 선택·건강보험·진료 원칙',
  other:'그 밖의 진료 이야기'
 };
 // A few distinctive clinical concepts are better similarity cues than repeating
@@ -770,6 +772,7 @@ console.log('Homepage journal entries rendered without browser fetch:',posts.len
   {id:'preserve',name:'자연치아 보존·발치 전 확인',match:/자연치아|치아를 살리|치아 보존|발치 전/},
   {id:'prosthetic',name:'틀니·임플란트',match:/틀니|임플란트|뼈이식|인공치아/},
   {id:'wisdom',name:'사랑니 발치·지혈',match:/사랑니|지혈제|드라이소켓/},
+  {id:'oral',name:'구강질환·구강관리',match:/입술포진|단순포진|헤르페스|골수염|구강청결제|헥사메딘|리스테린|구강점막질환/},
   {id:'choice',name:'치과 선택·건강보험·진료 원칙',match:/치과 선택|잘하는 치과|치과를|진료비|비용|광고|리뷰|과잉진료|양심|보험|진료 원칙|치과 찾|치과 고르|할인/},
   {id:'other',name:'그 밖의 진료 이야기',match:null}
  ];
