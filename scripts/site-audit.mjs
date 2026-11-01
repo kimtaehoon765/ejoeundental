@@ -996,6 +996,41 @@ else {
   if(!existsSync(searchCss)||!readFileSync(searchCss,'utf8').includes('.search-category-filter[aria-pressed="true"]'))
    errors.push('검색 결과 선택된 유형 표시 스타일 누락');
 
+  // Check the public search-result labels against actual canonical guide URLs.
+  // Insurance labels belong to insurance explanation pages only; a generic
+  // periodontal / root-canal guide cannot be presented as covered care.
+  {
+   const from=script.indexOf('const searchCareFocus=p=>');
+   const to=script.indexOf('let fullVisibleCount=',from);
+   if(from<0||to<=from)errors.push('검색 결과 진료별 분류 함수 누락');
+   else {
+    try {
+     const classify=new Function(script.slice(from,to)+'return searchCareFocus;')();
+     for(const [url,type] of [
+      ['/gum-treatment.html','gum'],['/scaling.html','gum'],
+      ['/retreatment.html','root'],['/root-canal-health.html','root'],
+      ['/insured-care.html','insurance'],
+      ['/health/insurance-root-canal.html','insurance'],
+      ['/health/insurance-periodontal.html','insurance'],
+      ['/medical-history.html',null],['/health/cavity-size.html',null]
+     ]){
+      if((classify({url})?.id||null)!==type)
+       errors.push('치과 검색 결과 유형·보험 오분류: '+url);
+     }
+    } catch(e) {
+     errors.push('치과 검색 결과 진료별 분류 실행 오류: '+e.message);
+    }
+   }
+   if(!script.includes("labels.className='result-labels'")||
+      !script.includes("tag.className='result-focus'")||
+      !script.includes("tag.textContent=focus.label")||
+      !script.includes('a.append(labels,h,desc,url);'))
+    errors.push('검색 결과 진료별 라벨 표시 연결 누락');
+   if(!existsSync(searchCss)||
+      !readFileSync(searchCss,'utf8').includes('.result-focus[data-focus="insurance"]'))
+    errors.push('검색 결과 보험 안내 라벨 가독성 스타일 누락');
+  }
+
   // 일반 검색과 전문가용 참고자료의 경계를 분명히 표시하고, 장비 문의에
   // 실패한 환자용 검색 목록 대신 관련 실무 가이드 바로가기를 제공한다.
   for(const term of ['search-expert-direct-links','search-expert-direct-actions',
