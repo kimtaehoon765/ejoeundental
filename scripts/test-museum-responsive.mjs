@@ -750,6 +750,28 @@ test('mobile hero artwork preload prioritizes the visible doctor-cat portrait',(
 });
 
 
+test('unique homepage paintings and clinical plates retain image count and editorial labels',()=>{
+ const source=readFileSync('index.html','utf8');
+ const original=[...source.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)].map(x=>x[1]);
+ const rendered=[...home.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)].map(x=>x[1]);
+ assert.ok(original.length>=35,'keep the original visual richness of the homepage');
+ assert.equal(original.length,new Set(original).size,
+  'do not reuse a single image in several homepage galleries');
+ assert.deepEqual(rendered,original,
+  'build retains every original patient diagram and art image without changing order');
+ for(const name of ['clinical-implant-section-20261102.svg','clinical-cavity-sequence-20261102.svg']){
+  assert.ok(source.includes('src="/assets/'+name+'"'), 'keep original diagram image: '+name);
+  assert.ok(source.includes('href="/assets/'+name+'" target="_blank" rel="noopener noreferrer"'),
+   'each diagram needs its full-size reading link');
+ }
+ assert.equal((source.match(/class="clinical-edition-label"/g)||[]).length,2,
+  'only the two explanatory clinical atlas cards have educational micro-labels');
+ const css=read('assets/home-finishing-'+
+  (home.match(/\/assets\/home-finishing-([0-9a-f]{12})\.css/)||[])[1]+'.css');
+ assert.ok(css.includes('.clinical-edition-label'),
+  'bundled CSS must style the medical explanatory labels');
+});
+
 test('compact first-screen mobile header preserves four reading shortcuts and fixed reservations',()=>{
  const css=read('assets/home-visit-faq-salon-20261031.css');
  const head=read('index.html').match(/<div class="mobile-quick">([\s\S]*?)<\/div>/)?.[1]||'';
@@ -1895,7 +1917,8 @@ test('focused care desk makes five genuine wayfinding links easy to read',()=>{
   '@media(max-width:1000px)','@media(max-width:700px)',
   '@media(max-width:365px)','@media(forced-colors:active)'
  ])assert.ok(css.includes(rule),'missing responsive focus-care museum desk: '+rule);
- assert.equal((home.match(/<img\b/g)||[]).length,36,
+ assert.equal((home.match(/<img\b/g)||[]).length,
+  (readFileSync('index.html','utf8').match(/<img\b/g)||[]).length,
   'do not add or remove illustrations while refining patient links');
  assert.ok(home.includes('class="mobile-booking-actions"') &&
   home.includes('class="btn hero-booking"'),'mobile booking functions preserved');
@@ -1998,7 +2021,8 @@ test('eight care gallery keeps all twelve services and original artwork',()=>{
  const last=styles.findIndex(x=>x.startsWith('/assets/atelier-refinement-20261030.css?v='));
  const old=styles.findIndex(x=>x.startsWith('/assets/home-art-direction-20261030.css?v='));
  assert.ok(last>old&&old>=0,'latest art-room layer loads after prior visual treatment');
- assert.equal((home.match(/<img\b/g)||[]).length,36,'existing homepage artwork set is unchanged');
+ assert.equal((home.match(/<img\b/g)||[]).length,
+  (readFileSync('index.html','utf8').match(/<img\b/g)||[]).length,'existing homepage artwork set is unchanged');
  assert.ok(home.includes('class="mobile-booking-actions"')&&home.includes('class="btn hero-booking"'),
   'phone and booking shortcuts must remain available');
 });
