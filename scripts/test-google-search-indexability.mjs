@@ -347,7 +347,7 @@ test('Google Image discovery lists real first-party illustrations only on their 
  assert.equal(medical?.url,rootCanal);
  assert.equal(medical?.primaryImageOfPage?.width,519);
  assert.equal(medical?.primaryImageOfPage?.height,327);
- assert.ok(siteMap.includes('<loc>'+rootCanal+'</loc><lastmod>2026-10-30</lastmod>'),
+ assert.ok(siteMap.includes('<loc>'+rootCanal+'</loc><lastmod>2026-11-02</lastmod>'),
   'Google must see the genuine treatment-page update date');
 });
 
@@ -627,8 +627,9 @@ test('core dental service guides declare real clinic publisher and accountable t
   '.clinical-editorial-source p a:focus-visible','@media (max-width:600px)']){
   assert.ok(stylesheet.includes(token),'visible verified medical responsibility needs styled disclosure: '+token);
  }
- for(const [file,label,revision] of [['gum-treatment.html','잇몸치료 안내','2026-11-01'],
-  ['retreatment.html','재신경치료 안내','2026-10-30']]){
+ // Keep the clinical copy review dates; the sitemap has newer visual page revisions.
+ for(const [file,label,revision,sitemapDate] of [['gum-treatment.html','잇몸치료 안내','2026-11-01','2026-11-02'],
+  ['retreatment.html','재신경치료 안내','2026-10-30','2026-11-02']]){
   const source=readFileSync(file,'utf8');
   const html=readFileSync(path.join(output,file),'utf8');
   const medical=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
@@ -651,15 +652,15 @@ test('core dental service guides declare real clinic publisher and accountable t
   assert.ok(source.includes('class="clinical-editorial-source"'),
    'never rely on an unreviewable build-only attribution');
   const slug=file.slice(0,-5);
-  const expected='<loc>'+origin+'/'+slug+'</loc><lastmod>'+revision+'</lastmod>';
+  const expected='<loc>'+origin+'/'+slug+'</loc><lastmod>'+sitemapDate+'</lastmod>';
   assert.ok(sitemap.includes(expected),'published Google sitemap should reflect actual page revision: '+file);
  }
 });
 test('verified source-backed revision dates for updated dental patient guides reach published sitemap',()=>{
  const source=readFileSync('sitemap.xml','utf8');
  const published=readFileSync(path.join(output,'sitemap.xml'),'utf8');
- // Only wisdom-tooth was substantively revised again on 2026-11-01.
- // Preserve the actual October 29 dates for the other patient guides.
+ // November 2 source page updates were verified against GitHub commit history.
+ // Pages without new revisions retain their original October lastmod dates.
  const revised=[
   'pediatric-dentistry','pediatric-orthodontics',
   'dental-insurance-faq','tmj-care','wisdom-tooth',
@@ -673,7 +674,11 @@ test('verified source-backed revision dates for updated dental patient guides re
   for(const [kind,xml] of [['source',source],['published',published]]){
    const blocks=entries(xml).filter(body=>body.includes('<loc>'+origin+'/'+(kind==='source'?page:slug)+'</loc>'));
    assert.equal(blocks.length,1,kind+' must list exactly one '+slug+' URL');
-   const expectedDate=slug==='wisdom-tooth'?'2026-11-01':'2026-10-29';
+   const updatedOnNovemberSecond=new Set([
+    'pediatric-dentistry','pediatric-orthodontics','wisdom-tooth',
+    'root-canal-retreatment-faq','insured-care','gum-treatment-faq'
+   ]);
+   const expectedDate=updatedOnNovemberSecond.has(slug)?'2026-11-02':'2026-10-29';
    assert.equal(blocks[0].match(/<lastmod>([^<]+)<\/lastmod>/)?.[1],expectedDate,
     kind+' lastmod must match the actual source-backed page revision: '+slug);
   }
