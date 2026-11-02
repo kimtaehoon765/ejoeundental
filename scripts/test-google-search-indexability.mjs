@@ -266,8 +266,18 @@ test('Google Image discovery lists real first-party illustrations only on their 
  const rootCanal=origin+'/retreatment';
  const implant=origin+'/implant';
  const denture=origin+'/denture';
- assert.deepEqual(imageEntries.map(x=>x.page).sort(),[home,rootCanal,implant,denture,origin+'/gallery.html'].sort(),
-  'only pages with visible authentic clinic-owned art should claim Google image results');
+ const patientIllustrations=[
+  ['doctor','ejoeun-doctor-since2003-garden-20261029.svg'],
+  ['tooth-preservation','ejoeun-preservation-atelier-20261029.svg'],
+  ['gum-treatment','watercolor-care-gum-20261029.webp'],
+  ['root-canal-health','ejoeun-watercolor-infection-20261029.webp'],
+  ['pediatric-dentistry','ejoeun-original-pediatric-20261029.webp'],
+  ['cavity-treatment','ejoeun-watercolor-cavity-20261029.webp']
+ ];
+ const expectedImagePages=[home,rootCanal,implant,denture,origin+'/gallery.html',
+  ...patientIllustrations.map(([slug])=>origin+'/'+slug)];
+ assert.deepEqual(imageEntries.map(x=>x.page).sort(),expectedImagePages.sort(),
+  'only real first-party images visibly on published patient pages belong in image sitemap');
  for(const {page,images,declared} of imageEntries){
   assert.equal(images.length,declared,'all image sitemap entries must use the current supported image:loc tag');
   assert.equal(new Set(images).size,images.length,'do not repeat identical artwork');
@@ -285,6 +295,18 @@ test('Google Image discovery lists real first-party illustrations only on their 
    assert.ok(tag,'image must actually be displayed on its Google landing page: '+url);
    assert.match(tag,/alt="[^"]{15,}"/,'visible artwork needs genuinely descriptive text: '+url);
   }
+ }
+ for(const [slug,image] of patientIllustrations){
+  const page=origin+'/'+slug;
+  const imageUrl=origin+'/assets/'+image;
+  const item=imageEntries.find(x=>x.page===page);
+  assert.deepEqual(item?.images,[imageUrl],
+   slug+' should list its genuine displayed original painting exactly once');
+  const html=readFileSync(pageFor('/'+slug),'utf8');
+  const img=[...html.matchAll(/<img\\b[^>]*>/g)].map(x=>x[0])
+   .find(tag=>tag.includes('src="/assets/'+image+'"'));
+  assert.ok(img&&img.includes('alt="')&&img.includes('loading='),
+   slug+' original image must be visibly displayed and accessible');
  }
  const galleryEntry=imageEntries.find(x=>x.page===origin+'/gallery.html');
  const allGalleryImages=["gallery-starry-clinic.svg","impressionist-water-garden.svg","gallery-golden-garden.svg","ejoeundental-hero-cat.webp","cubist-cat-clinic-thumb.webp","lakeside-flower-clinic-thumb.webp","starry-night-clinic-thumb.webp","quiet-window-cat-thumb.webp","street-art-tooth-heart-thumb.webp","ejoeun-gallery-cat-dentist-20261029.webp","watercolor-care-gum-20261029.webp","watercolor-care-abrasion-20261029.webp","watercolor-care-insurance-20261029.webp","ejoeun-safety-reading-room-20261029.svg","ejoeun-heart-care-stainedglass-20261029.svg","ejoeun-kidney-care-riverside-20261029.svg","ejoeun-liver-care-stilllife-20261029.svg","ejoeun-oncology-garden-collage-20261029.svg","ejoeun-medication-faq-paper-garden-20261029.svg","ejoeun-systemic-faq-stained-windows-20261029.svg","ejoeun-pediatric-three-paths-20261029.svg","ejoeun-child-orthodontic-growth-art-20261029.svg","ejoeun-insurance-questions-library-20261029.svg"];
