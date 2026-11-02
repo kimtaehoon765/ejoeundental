@@ -750,6 +750,27 @@ test('mobile hero artwork preload prioritizes the visible doctor-cat portrait',(
 });
 
 
+test('compact first-screen mobile header preserves four reading shortcuts and fixed reservations',()=>{
+ const css=read('assets/home-visit-faq-salon-20261031.css');
+ const head=read('index.html').match(/<div class="mobile-quick">([\\s\\S]*?)<\\/div>/)?.[1]||'';
+ assert.ok(css.includes('2026-11-03 | Compact first-screen mobile navigation with preserved booking dock.'),
+  'responsive layer must describe its approved four-column compact navigation');
+ assert.ok(css.includes('html:not(.home-scrolled) body.home-page header .nav .mobile-quick {')&&
+  css.includes('grid-template-columns:repeat(4,minmax(0,1fr))'),
+  'first-screen header must show four comfortably sized navigation shortcuts');
+ assert.ok(css.includes('html:not(.home-scrolled) body.home-page header .nav .mobile-quick > a.mobile-call {')&&
+  css.includes('display:none;'),
+  'the duplicated header phone can be hidden only before scrolling');
+ for(const link of ['#symptom-navigator-title','#home-symptom-query','/stories.html','#location','tel:0325132875']){
+  assert.ok(head.includes('href="'+link+'"'),'keep the original five accessible HTML routes: '+link);
+ }
+ assert.ok(home.includes('class="mobile-booking-actions"')&&
+  home.includes('class="mobile-booking-call"')&&
+  home.includes('class="mobile-booking-naver"')&&
+  home.includes('class="mobile-booking-visit"'),
+  'telephone, booking and directions remain always available in the mobile dock');
+});
+
 test('mobile quick navigation remains readable without removing booking or story actions',()=>{
  const atelier=read('assets/atelier-home-2026.css');
  const nav=home.match(/<div class="mobile-quick">([\s\S]*?)<\/div>/)?.[1]||'';
