@@ -2236,6 +2236,18 @@ test('2026-11-01 compact homepage layout preserves all sections and SEO entry po
   cervicalCss.includes('.care-feature-art__image > figcaption > a') &&
   cervicalCss.includes('min-height:46px'),
   'sensitivity guide needs a visible touch-sized image enlargement control');
+ const cavityMarkup=read('cavity-treatment.html');
+ assert.ok(cavityMarkup.includes('class="ejoeun-topic-art__visual clinical-atlas-scroll"') &&
+  cavityMarkup.includes('tabindex="0"') &&
+  cavityMarkup.includes('class="clinical-atlas-swipe-hint"') &&
+  cavityMarkup.includes('v=20261102-cavity-swipe05'),
+  'cavity clinical atlas must support zoom and keyboard scroll on small screens');
+ assert.ok(implantCss.includes('secondary-cavity .ejoeun-topic-art__visual.clinical-atlas-scroll') &&
+  implantCss.includes('width:780px') &&
+  implantCss.includes('overflow-x:auto') &&
+  implantCss.includes('overscroll-behavior-inline:contain') &&
+  implantCss.includes('@media(max-width:600px)'),
+  'cavity triptych must not shrink to unreadable text on mobile');
  assert.ok(source.includes('class="care-directory__more" open'),
    'the entire twelve-treatment quick directory is accessible by default');
  assert.ok(source.includes('class="owner-stories-more"'),
