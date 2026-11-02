@@ -228,3 +228,135 @@ body.home-page .hero-local-intro .hero-visit-facts {
     border-color:CanvasText;
   }
 }
+
+/* 2026-11-02 | Quiet gallery editorial refinement
+   Visual refinement only. Preserve all existing clinical text, SEO links,
+   paintings, doctor details, phone and booking functions. */
+body.home-page #main-content > .hero.wrap {
+  position:relative;
+  background:
+    radial-gradient(ellipse at 91% 6%,rgba(185,163,119,.10),transparent 45%),
+    linear-gradient(125deg,#fffefa 0%,#faf8f1 55%,#f1f6ef 100%);
+  border:1px solid #ded5c4;
+  box-shadow:0 18px 52px rgba(28,56,39,.065);
+}
+body.home-page #main-content > .hero.wrap::before {
+  content:"";
+  position:absolute;
+  top:0;left:clamp(18px,3vw,42px);
+  width:clamp(90px,12vw,158px);height:3px;
+  background:linear-gradient(90deg,#9b8255,#d5c6a7);
+  border-radius:0 0 2px 2px;
+  pointer-events:none;
+}
+body.home-page #main-content > .hero.wrap #headline {
+  max-width:17em;
+  color:#193d2d;
+  letter-spacing:-.057em;
+  line-height:1.43;
+  text-wrap:balance;
+}
+body.home-page #main-content > .hero.wrap .hero-doctor-credentials {
+  border-left:3px solid #ab8e5a;
+  background:rgba(255,254,248,.92);
+}
+body.home-page #main-content > .hero.wrap .hero-actions > a {
+  min-height:45px;
+  align-content:center;
+  border-radius:6px;
+  font-weight:750;
+  text-decoration:none;
+}
+body.home-page #main-content > .hero.wrap .hero-actions > a:is(:focus-visible) {
+  outline:3px solid #aa8855;
+  outline-offset:3px;
+}
+body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+  padding:10px;
+  border:1px solid #b9a47f;
+  background:linear-gradient(140deg,#eee7d8,#d9cbb2);
+  border-radius:3px;
+  box-shadow:0 12px 33px rgba(39,50,36,.12);
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque {
+  background:#fffefa;
+  border-top:1px solid #c7b694;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque > strong {
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.035em;
+}
+body.home-page #main-content > :is(#philosophy,#home-representative-guides,#symptoms,#care,#health-info,#stories,#faq,#location) .eyebrow {
+  color:#89704a;
+  letter-spacing:.17em;
+  font-weight:800;
+}
+body.home-page #main-content > :is(#philosophy,#home-representative-guides,#symptoms,#care,#health-info,#stories,#faq,#location) h2 {
+  letter-spacing:-.053em;
+  text-wrap:balance;
+}
+body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a,
+body.home-page #main-content > #stories .journal-salon-new__grid > a {
+  border:1px solid #ded5c4;
+  background:#fffefa;
+  box-shadow:0 5px 20px rgba(28,53,38,.04);
+  transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease;
+}
+body.home-page #main-content > #health-info .health-topic-card {
+  border:1px solid #dfd6c6;
+  background:#fffefa;
+  box-shadow:0 6px 19px rgba(28,53,38,.045);
+}
+body.home-page #main-content > #health-info .health-topic-card :is(h3,a) {
+  text-decoration-thickness:1px;
+  text-underline-offset:4px;
+}
+@media (hover:hover) and (pointer:fine) {
+  body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a:hover,
+  body.home-page #main-content > #stories .journal-salon-new__grid > a:hover {
+    border-color:#b7a078;
+    box-shadow:0 10px 27px rgba(28,53,38,.085);
+    transform:translateY(-2px);
+  }
+}
+body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a:focus-visible,
+body.home-page #main-content > #stories .journal-salon-new__grid > a:focus-visible,
+body.home-page #main-content > #health-info .health-topic-card a:focus-visible {
+  outline:3px solid #a78a5b;
+  outline-offset:3px;
+}
+@media (max-width:600px) {
+  body.home-page #main-content > .hero.wrap {
+    box-shadow:0 8px 24px rgba(28,53,38,.035);
+  }
+  body.home-page #main-content > .hero.wrap::before {
+    left:22px;width:88px;
+  }
+  body.home-page #main-content > .hero.wrap #headline {
+    max-width:none;
+    line-height:1.42;
+    letter-spacing:-.05em;
+  }
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    padding:7px;
+    box-shadow:0 9px 22px rgba(39,50,36,.09);
+  }
+  body.home-page #main-content > #health-info .health-topic-card,
+  body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a {
+    box-shadow:none;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a,
+  body.home-page #main-content > #stories .journal-salon-new__grid > a {
+    transition:none;transform:none;
+  }
+}
+@media (forced-colors:active) {
+  body.home-page #main-content > .hero.wrap,
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork,
+  body.home-page #main-content > #health-info .health-topic-card {
+    border-color:CanvasText;background:Canvas;box-shadow:none;
+  }
+  body.home-page #main-content > .hero.wrap::before { display:none; }
+}
