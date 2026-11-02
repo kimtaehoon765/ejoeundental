@@ -934,3 +934,51 @@ body.home-page #main-content > #care .care-more-details .care-mini-gallery > fig
     border-color:CanvasText;
   }
 }
+
+
+/* 2026-11-03 | Visible clinic journal shortcut in mobile navigation. */
+/* Four generous quick destinations at the top; the long-form journal has a
+   distinct, understated museum-label treatment without hiding other links. */
+@media(max-width:600px) {
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick > a.stories-mobile-link {
+    display:flex;
+    box-sizing:border-box;
+    min-width:0;
+    min-height:50px;
+    align-items:center;
+    justify-content:center;
+    padding:7px 5px;
+    border:1px solid #afc0b5;
+    border-bottom:3px solid #af9364;
+    border-radius:5px;
+    background:#eff3ec;
+    color:#214936;
+    font-weight:800;
+    font-size:clamp(11px,3.2vw,13px);
+    line-height:1.34;
+    text-align:center;
+    text-decoration:none;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+  html.home-scrolled body.home-page header .nav .mobile-quick > a.stories-mobile-link {
+    box-sizing:border-box;
+    min-height:49px;
+    border:1px solid #afc0b5;
+    border-bottom:2px solid #af9364;
+    background:#eff3ec;
+    color:#214936;
+    font-weight:800;
+  }
+  body.home-page header .nav .mobile-quick > a.stories-mobile-link:focus-visible {
+    outline:3px solid #9b783e;
+    outline-offset:3px;
+  }
+}
+@media(forced-colors:active) and (max-width:600px) {
+  body.home-page header .nav .mobile-quick > a.stories-mobile-link {
+    border-color:ButtonText;
+    color:ButtonText;
+    background:ButtonFace;
+  }
+}
