@@ -1079,3 +1079,159 @@ body.care-gallery.care-gallery-secondary.secondary-denture .denture-types-sectio
     break-inside:avoid;
   }
 }
+
+/* 2026-11-02 | Implant four-part reading and wisdom-tooth decision chapters
+ * Original surgeon/clinical explanations, diagnostic cautions, images and URLs
+ * stay intact. These rules only frame existing sections for faster reading. */
+body.care-gallery.care-gallery-secondary.secondary-implant .implant-core-decisions{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:stretch;
+  gap:clamp(11px,1.6vw,19px);
+  margin:clamp(25px,3vw,35px) 0 clamp(24px,3vw,32px);
+}
+body.care-gallery.care-gallery-secondary.secondary-implant .implant-core-decision{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  min-width:0;
+  margin:0;
+  padding:clamp(20px,2.7vw,32px);
+  border:1px solid #d8d0bf;
+  border-top:4px solid #8ca990;
+  border-radius:4px 14px 4px 14px;
+  background:linear-gradient(143deg,#fffefa,#f4f8f0);
+  box-shadow:0 8px 23px rgba(33,54,40,.04);
+}
+body.care-gallery.care-gallery-secondary.secondary-implant .implant-core-decision:nth-child(even){
+  border-top-color:#b49a75;
+  background:linear-gradient(143deg,#fffefa,#f8f4ec);
+}
+body.care-gallery.care-gallery-secondary.secondary-implant .implant-core-number{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  box-sizing:border-box;
+  min-width:39px;
+  min-height:33px;
+  margin:0 0 14px;
+  padding:4px 9px;
+  border:1px solid #c4b69a;
+  border-radius:3px 8px 3px 8px;
+  background:#f8f0df;
+  color:#6e5633;
+  font:800 13px/1.5 system-ui,"Apple SD Gothic Neo",sans-serif;
+  font-variant-numeric:tabular-nums;
+}
+body.care-gallery.care-gallery-secondary.secondary-implant .implant-core-decision>h2{
+  margin:0 0 13px;
+  color:#244b37;
+  font:700 clamp(20px,2vw,25px)/1.54 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.04em;
+  word-break:keep-all;
+  text-wrap:balance;
+}
+body.care-gallery.care-gallery-secondary.secondary-implant .implant-core-decision>p{
+  margin:0;
+  color:#445d4c;
+  font-size:clamp(15px,1.35vw,17px);
+  line-height:1.92;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.care-gallery.care-gallery-secondary.secondary-implant .implant-core-decision .care-gallery-toc-anchor{
+  scroll-margin-top:100px;
+}
+body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-reading-chapter{
+  box-sizing:border-box;
+  margin-block:clamp(15px,2vw,22px);
+  padding:0;
+  border:0;
+  background:transparent;
+}
+body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-reading-chapter>.wrap{
+  box-sizing:border-box;
+  position:relative;
+  max-width:1040px;
+  padding:clamp(20px,2.8vw,35px);
+  border:1px solid #dcd3c4;
+  border-top:4px solid #a99a78;
+  border-radius:4px 14px 4px 14px;
+  background:linear-gradient(145deg,#fffefa,#f8f6ef);
+  box-shadow:0 9px 24px rgba(33,54,40,.04);
+}
+body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-reading-chapter:nth-of-type(even)>.wrap{
+  border-top-color:#91a893;
+  background:linear-gradient(145deg,#fffefa,#f4f8f0);
+}
+body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-reading-chapter>.wrap::before{
+  content:attr(data-chapter);
+  display:none;
+}
+body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-reading-chapter::before{
+  content:attr(data-chapter);
+  display:block;
+  box-sizing:border-box;
+  position:relative;
+  max-width:1040px;
+  margin:0 auto -2px;
+  padding:9px clamp(20px,2.8vw,35px) 0;
+  color:#786343;
+  font:800 11px/1.5 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.06em;
+}
+body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-reading-chapter .wrap>h2{
+  margin:0 0 12px;
+  color:#254a36;
+  font:700 clamp(22px,2.45vw,29px)/1.52 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.045em;
+  text-wrap:balance;
+  word-break:keep-all;
+}
+body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-reading-chapter .wrap>p{
+  margin:0;
+  color:#445d4a;
+  font-size:clamp(15px,1.4vw,17px);
+  line-height:1.95;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+@media(max-width:720px){
+  body.care-gallery.care-gallery-secondary.secondary-implant .implant-core-decisions{
+    grid-template-columns:minmax(0,1fr);
+    gap:10px;
+  }
+  body.care-gallery.care-gallery-secondary.secondary-implant .implant-core-decision{
+    padding:20px 17px;
+    box-shadow:none;
+  }
+  body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-reading-chapter>.wrap{
+    padding:22px 17px;
+    box-shadow:none;
+  }
+  body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-reading-chapter::before{
+    padding-inline:17px;
+  }
+}
+@media(forced-colors:active){
+  body.care-gallery.care-gallery-secondary.secondary-implant .implant-core-decision,
+  body.care-gallery.care-gallery-secondary.secondary-implant .implant-core-number,
+  body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-reading-chapter>.wrap{
+    border-color:CanvasText;
+    color:CanvasText;
+    background:Canvas;
+    box-shadow:none;
+  }
+  body.care-gallery.care-gallery-secondary.secondary-implant .implant-core-decision :is(h2,p),
+  body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-reading-chapter :is(h2,p){
+    color:CanvasText;
+  }
+}
+@media print{
+  body.care-gallery.care-gallery-secondary.secondary-implant .implant-core-decision,
+  body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-reading-chapter>.wrap{
+    box-shadow:none;
+    break-inside:avoid;
+  }
+}
