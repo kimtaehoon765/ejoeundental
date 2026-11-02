@@ -276,7 +276,7 @@ test('implant and denture consultation exhibits show original art before navigat
  }
  const cases=[
   {file:'implant.html',slug:'implant',body:'secondary-implant',
-   topic:'ejoeun-watercolor-implant-20261029.webp',cards:'implant-patient-grid',
+   topic:'clinical-implant-section-20261102.svg',cards:'implant-patient-grid',
    links:4,section:'implant-patient-decisions-heading'},
   {file:'denture.html',slug:'denture',body:'secondary-denture',
    topic:'ejoeun-watercolor-denture-20261029.webp',cards:'denture-question-grid',
@@ -324,7 +324,7 @@ test('wisdom tooth and cavity exhibits retain distinct original paintings and pa
    image:'ejoeun-original-wisdom-consult-20261029.webp',
    grid:'wisdom-patient-grid',card:'article',count:2},
   {file:'cavity-treatment.html',body:'secondary-cavity',
-   image:'ejoeun-watercolor-cavity-20261029.webp',
+   image:'clinical-cavity-sequence-20261102.svg',
    grid:'cavity-patient-grid',card:'a',count:5}
  ];
  for(const c of treatments){
@@ -2204,8 +2204,8 @@ test('2026-11-01 compact homepage layout preserves all sections and SEO entry po
    'clinical-implant-section-20261102.svg','clinical-cavity-sequence-20261102.svg']){
   assert.ok(source.includes(src),'homepage illustration available: '+src);
  }
- // The three original gallery watercolor artworks remain intact. The new
- // homepage-only clinical diagrams must not overwrite the exhibition assets.
+ // The original watercolor gallery remains intact while the corresponding
+ // treatment pages and homepage use independently titled clinical diagrams.
  assert.ok(read('gallery.html').includes('watercolor-care-abrasion-20261029.webp'),
    'the gallery retains the original abrasion watercolor');
  for(const name of ['clinical-cervical-abrasion-20261102.svg',
@@ -2214,6 +2214,14 @@ test('2026-11-01 compact homepage layout preserves all sections and SEO entry po
   assert.ok(art.startsWith('<svg')&&art.includes('viewBox="0 0 1200 800"')&&
    art.includes('<title')&&art.includes('<desc')&&art.includes('</svg>'),
    'clinical diagrams must be standalone, accessible SVG art: '+name);
+ }
+ for(const [page,name] of [
+  ['cervical-abrasion.html','clinical-cervical-abrasion-20261102.svg'],
+  ['implant.html','clinical-implant-section-20261102.svg'],
+  ['cavity-treatment.html','clinical-cavity-sequence-20261102.svg']
+ ]){
+  assert.ok(read(page).includes('src="/assets/'+name+'"'),
+   'patient guide uses its dedicated anatomy diagram: '+page);
  }
  assert.ok(source.includes('class="care-directory__more" open'),
    'the entire twelve-treatment quick directory is accessible by default');
