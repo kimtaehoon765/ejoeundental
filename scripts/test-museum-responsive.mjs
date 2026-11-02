@@ -185,7 +185,7 @@ test('mobile header scroll work is frame-batched and primary patient actions sta
  assert.ok(home.includes('href="tel:0325132875"')&&
   home.includes('class="mobile-booking-actions"'),
   'the original clinic phone and fixed mobile patient routes remain');
- assert.ok(home.includes('loading="eager" fetchpriority="high" decoding="async"'),
+ assert.ok(home.includes('loading="eager" fetchpriority="high" decoding="sync"'),
   'portrait first-paint loading remains prioritized');
  assert.ok(home.includes('name="google-site-verification"')&&
   home.includes('rel="canonical" href="https://ejoeundental.com/"'),
@@ -1983,7 +1983,7 @@ test('mobile homepage keeps original portrait without costly Korean webfont subs
  assert.ok(fallback[0].includes('family=DM+Sans')&&!fallback[0].includes('Noto+Serif+KR'));
  const portrait=home.match(/<img\b[^>]*ejoeun-gallery-cat-dentist-20261029\.webp[^>]*>/)?.[0]||'';
  assert.ok(portrait.includes('srcset=')&&portrait.includes('sizes=')&&
-  portrait.includes('loading="eager" fetchpriority="high" decoding="async"'),
+  portrait.includes('loading="eager" fetchpriority="high" decoding="sync"'),
   'retain the approved responsive high-priority doctor-and-cat portrait');
  const preload=head.match(/<link rel="preload" as="image"[^>]*>/)?.[0]||'';
  assert.ok(preload.includes('imagesrcset=')&&preload.includes('imagesizes='),

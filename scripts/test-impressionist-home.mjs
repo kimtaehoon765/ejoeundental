@@ -18,7 +18,7 @@ test('the mobile homepage presents the original portrait after key actions and k
  assert.ok(h1>=0&&degree>h1&&specialist>degree&&preview>specialist&&intro>preview);
  assert.match(hero,/href="tel:0325132875"/);
  assert.match(hero,/class="art hero-artwork"/);
- assert.ok(hero.includes('loading="eager" fetchpriority="high" decoding="async"'),
+ assert.ok(hero.includes('loading="eager" fetchpriority="high" decoding="sync"'),
   'The visible original doctor-cat portrait should load early on both phones and desktop');
  const responsiveBase='/assets/ejoeun-gallery-cat-dentist-20261029';
  const responsiveSet=responsiveBase+'-480.webp 480w, '+

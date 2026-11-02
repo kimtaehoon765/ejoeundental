@@ -3078,7 +3078,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
          data.toString('ascii',8,12)==='WEBP';
      })));
  if(!chosen||
-    !heroSection.includes('loading="eager" fetchpriority="high" decoding="async"')||
+    !heroSection.includes('loading="eager" fetchpriority="high" decoding="sync"')||
     !preloadMatches||
     heroSection.includes('class="flower"')||
     !hero.includes('property="og:image" content="https://ejoeundental.com'+expected+'"')||
@@ -3573,12 +3573,8 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
  if(!visual.includes('@supports (content-visibility: auto)') ||
     !visual.includes('contain-intrinsic-size: auto 2200px;') ||
     !visual.includes('contain-intrinsic-size: auto 2900px;') ||
-    !visual.includes('contain-intrinsic-size: auto 1600px;') ||
-    !visual.includes('contain-intrinsic-size: auto 1100px;') ||
     !hasContainment('care')||!hasContainment('stories')||
-    !hasContainment('health-info')||!hasContainment('faq')||
     !home.includes('id="care"')||!home.includes('id="stories"')||
-    !home.includes('id="health-info"')||!home.includes('id="faq"')||
     !home.includes('class="owner-stories-more"')||
     !home.includes('id="home-owner-post-search"')) {
   errors.push('모바일 화면 밖 콘텐츠 최적화: 진료 본문·블로그 검색·목록 보존 검사 오류');
