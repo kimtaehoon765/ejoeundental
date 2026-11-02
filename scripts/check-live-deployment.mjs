@@ -177,22 +177,30 @@ async function main(){
       '이번 빌드 '+(expectedUrl||'없음')+' / 실사이트 '+(liveHref?'동일':'다름 또는 없음'));
     if(expectedUrl)await checkAsset(label,'assets/'+expectedUrl.split('/').pop().split('?')[0],expectedUrl);
   }
-  // The current source page also has a standalone quiet-museum finish.
-  // The FAQ bundle is added by the build: three exact 3-to-1 groupings save
-  // six requests, from 13 potentially separate styles to 7 public CSS links.
-  const cssHrefs=html=>[...html.matchAll(/<link rel="stylesheet" href="(\/assets\/[^"]+)"/g)]
+  // CSS bundling now keeps an additional deferred FAQ/visit stylesheet,
+  // its noscript fallback and a separately cached FAQ link stylesheet.
+  // Compare the exact ordered build links against the public Cloudflare HTML,
+  // while retaining the expected bundle/fallback structure as a guard.
+  const cssHrefs=html=>[...html.matchAll(/<link rel="stylesheet" href="(\\/assets\\/[^"]+)"/g)]
     .map(match=>match[1]);
   const builtCss=cssHrefs(builtHome),liveCss=cssHrefs(liveHome);
-  const preserved=['/assets/home-critical-','/assets/gallery-foundation-',
+  const expectedOrder=['/assets/home-critical-','/assets/gallery-foundation-',
     '/assets/exhibition-foundation-','/assets/home-art-direction-20261030.css',
-    '/assets/atelier-refinement-20261030.css',
-    '/assets/home-finishing-','/assets/faq-deep-links.css'];
+    '/assets/atelier-refinement-20261030.css','/assets/home-finishing-',
+    '/assets/home-faq-visit-','/assets/home-faq-visit-',
+    '/assets/faq-deep-links.css'];
+  const orderOk=builtCss.length===expectedOrder.length&&
+    expectedOrder.every((prefix,i)=>builtCss[i]?.startsWith(prefix));
+  const fallbackOk=builtCss[6]===builtCss[7]&&
+    builtHome.includes('<noscript><link rel="stylesheet" href="'+builtCss[7]+'"></noscript>')&&
+    liveHome.includes('<noscript><link rel="stylesheet" href="'+liveCss[7]+'"></noscript>')&&
+    builtHome.includes('href="'+builtCss[6]+'" media="print" onload=')&&
+    liveHome.includes('href="'+liveCss[6]+'" media="print" onload=');
   verdict('메인 CSS 요청 절감·파일 순서 검증',
-    builtCss.length===7&&liveCss.length===7&&
-    builtCss.every((href,i)=>href===liveCss[i])&&
-    preserved.every((prefix,i)=>builtCss[i].startsWith(prefix)),
+    orderOk&&fallbackOk&&builtCss.length===liveCss.length&&
+    builtCss.every((href,i)=>href===liveCss[i]),
     '공개 '+liveCss.length+'개 / 이번 빌드 '+builtCss.length+
-    '개 · 동일한 원본 CSS 순서와 개별 미술관 마감 스타일 유지');
+    '개 · 통합 CSS·지연 FAQ 스타일·noscript·원본 순서 확인');
 
   const storyImage=og(builtStories,'og:image');
   const liveStoryImage=og(pages['/stories']||'','og:image');
