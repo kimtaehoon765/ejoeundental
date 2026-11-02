@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img" aria-labelledby="ttl dsc">
+<title id="ttl">충치치료의 세 단계: 확인, 충치 제거, 수복</title>
+<desc id="dsc">교합면 충치가 있는 대구치를 확인한 뒤 필요한 부분의 우식을 제거하고 치아색 재료로 수복하는 개념을 단계별로 나타낸 의료 교육용 모식도. 실제 치료 깊이와 수복재료는 진찰 결과에 따라 다릅니다.</desc>
+<defs>
+<linearGradient id="background" x2=".8" y2="1"><stop stop-color="#fafbfb"/><stop offset="1" stop-color="#eaf1f1"/></linearGradient>
+<linearGradient id="enamel" x1=".1" y1="0" x2=".85" y2="1"><stop stop-color="#fffef9"/><stop offset=".52" stop-color="#f7f2e8"/><stop offset="1" stop-color="#d6dfe1"/></linearGradient>
+<radialGradient id="depression"><stop stop-color="#e9dbc2"/><stop offset=".75" stop-color="#f4e8d2"/><stop offset="1" stop-color="#f8f6ed"/></radialGradient>
+<linearGradient id="dentine" x1="0" x2=".8" y2="1"><stop stop-color="#e5b779"/><stop offset="1" stop-color="#f3ddac"/></linearGradient>
+<linearGradient id="instrument" x1="0" x2="1"><stop stop-color="#678890"/><stop offset=".45" stop-color="#f1f6f5"/><stop offset="1" stop-color="#77929c"/></linearGradient>
+<filter id="shadow"><feDropShadow dx="0" dy="11" stdDeviation="12" flood-color="#415f62" flood-opacity=".12"/></filter>
+<g id="top-tooth">
+<path d="M140 22C95-10 50 4 30 53C-2 101 16 164 50 199C62 248 112 277 153 250C199 277 255 250 267 202C302 151 290 99 265 62C251 18 198-9 160 25C151 33 147 33 140 22Z" fill="url(#enamel)" stroke="#b4bfbc" stroke-width="3"/>
+<path d="M72 76Q105 50 142 88Q177 46 227 87Q242 133 218 173Q181 202 148 174Q112 208 75 174Q53 128 72 76Z" fill="url(#depression)" stroke="#d2c7b3" stroke-width="2.5"/>
+<path d="M73 76Q106 112 144 136Q184 120 226 85M144 136L148 180M78 174Q114 159 144 136Q180 154 219 174" stroke="#c0ab8c" stroke-width="7" opacity=".46" fill="none" stroke-linecap="round"/>
+<path d="M74 73Q99 61 115 68M211 67Q229 68 237 87M68 193Q90 234 126 237M192 242Q226 226 241 193" stroke="#fff" stroke-width="9" fill="none" opacity=".65" stroke-linecap="round"/>
+</g>
+</defs>
+<rect width="1200" height="800" fill="url(#background)"/>
+<rect x="28" y="28" width="1144" height="744" rx="24" fill="#fff" opacity=".81" stroke="#d6e2e1" stroke-width="2"/>
+<text x="56" y="74" font-family="sans-serif" font-size="27" font-weight="700" fill="#264c4d">이조은치과</text>
+<text x="1135" y="72" text-anchor="end" font-family="sans-serif" font-size="14" letter-spacing="2.2" fill="#84989a">CLINICAL ATLAS 02</text>
+<path d="M56 101H1144" stroke="#d8e3e2"/>
+<text x="56" y="152" fill="#213e40" font-family="sans-serif" font-size="31" font-weight="700">충치치료는 어떻게 진행할까요?</text>
+<text x="56" y="184" fill="#6d8282" font-family="sans-serif" font-size="18">교합면 충치가 있는 경우의 한 가지 예시입니다.</text>
+<g font-family="sans-serif">
+<rect x="52" y="218" width="347" height="464" rx="20" fill="#f5f8f7" stroke="#d5e0de" stroke-width="2"/>
+<rect x="427" y="218" width="347" height="464" rx="20" fill="#f5f8f7" stroke="#d5e0de" stroke-width="2"/>
+<rect x="802" y="218" width="347" height="464" rx="20" fill="#f5f8f7" stroke="#d5e0de" stroke-width="2"/>
+<rect x="74" y="242" width="54" height="32" rx="16" fill="#315e5e"/><text x="101" y="264" font-size="16" fill="#fff" font-weight="700" text-anchor="middle">01</text>
+<rect x="449" y="242" width="54" height="32" rx="16" fill="#315e5e"/><text x="476" y="264" font-size="16" fill="#fff" font-weight="700" text-anchor="middle">02</text>
+<rect x="824" y="242" width="54" height="32" rx="16" fill="#315e5e"/><text x="851" y="264" font-size="16" fill="#fff" font-weight="700" text-anchor="middle">03</text>
+<text x="80" y="316" font-size="24" font-weight="700" fill="#234647">충치 확인</text>
+<text x="455" y="316" font-size="24" font-weight="700" fill="#234647">필요한 우식 제거</text>
+<text x="830" y="316" font-size="24" font-weight="700" fill="#234647">치아색 재료로 수복</text>
+<g filter="url(#shadow)" transform="translate(82 353) scale(.92)"><use href="#top-tooth"/></g>
+<path d="M233 472Q206 450 197 474Q179 479 190 504Q222 528 248 495Q258 474 233 472Z" fill="#704b31" stroke="#9d704e" stroke-width="3"/>
+<path d="M207 473L226 496M234 486L207 505" stroke="#3f3028" stroke-width="4" opacity=".8"/>
+<g filter="url(#shadow)" transform="translate(457 353) scale(.92)"><use href="#top-tooth"/></g>
+<path d="M592 467Q609 451 631 467L651 487Q644 515 620 521Q597 515 586 492Z" fill="url(#dentine)" stroke="#aa784c" stroke-width="3"/>
+<path d="M642 485Q690 456 716 396" stroke="url(#instrument)" stroke-width="13" fill="none" stroke-linecap="round"/>
+<path d="M710 406L739 361" stroke="#65858d" stroke-width="17" stroke-linecap="round"/>
+<path d="M637 489Q643 483 652 482" fill="none" stroke="#667e7f" stroke-width="6"/>
+<circle cx="642" cy="486" r="7" fill="#b28c5f"/>
+<g filter="url(#shadow)" transform="translate(832 353) scale(.92)"><use href="#top-tooth"/></g>
+<path d="M967 467Q984 451 1006 467L1026 487Q1019 515 995 521Q972 515 961 492Z" fill="#fcfcf8" stroke="#d3d7cb" stroke-width="4"/>
+<path d="M981 479Q999 467 1010 490" stroke="#fff" stroke-width="8" opacity=".94" fill="none"/>
+<path d="M399 452H426" stroke="#9db6b5" stroke-width="4"/>
+<path d="M417 444L427 452L417 460" fill="none" stroke="#9db6b5" stroke-width="4"/>
+<path d="M774 452H801" stroke="#9db6b5" stroke-width="4"/>
+<path d="M792 444L802 452L792 460" fill="none" stroke="#9db6b5" stroke-width="4"/>
+<path d="M74 607H375M449 607H750M824 607H1125" stroke="#d7e3e0"/>
+<text x="77" y="640" fill="#587170" font-size="16">검사로 깊이와 범위를 확인</text>
+<text x="452" y="640" fill="#587170" font-size="16">보존 가능한 치질은 최대한 유지</text>
+<text x="827" y="640" fill="#587170" font-size="16">재료와 범위는 진찰 후 결정</text>
+<text x="58" y="736" font-size="15" fill="#708885">※ 교육용 모식도 · 모든 충치가 같은 과정으로 치료되는 것은 아니며, 초기 충치는 경과관찰이 가능할 수도 있습니다.</text>
+</g>
+</svg>
