@@ -850,3 +850,26 @@ body.home-page #main-content > #care .care-more-details .care-mini-gallery > fig
     box-shadow:none;
   }
 }
+
+
+/* 2026-11-03 | Editorial reading widths for image-rich patient sections. */
+@media (min-width:900px) {
+  body.home-page #main-content > #philosophy .philosophy-editorial__copy > p.lead { max-width:53ch; }
+  body.home-page #main-content > #focus-care .focus-care-lead-copy > p { max-width:64ch; }
+  body.home-page #main-content > #home-representative-guides .home-representative-guides > p { max-width:70ch; }
+  body.home-page #main-content > :is(#symptoms,#care,#health-info) > .wrap > p { max-width:75ch; }
+  body.home-page #main-content > .care-picture-notes .care-picture-notes__heading > p:not(.care-picture-notes__eyebrow) { max-width:58ch; }
+}
+body.home-page #main-content > #home-representative-guides .home-representative-guides > p,
+body.home-page #main-content > :is(#symptoms,#care,#health-info) > .wrap > p,
+body.home-page #main-content > .care-picture-notes .care-picture-notes__heading > p:not(.care-picture-notes__eyebrow) {
+  text-wrap:pretty;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+}
+@media (max-width:600px) {
+  body.home-page #main-content > :is(#symptoms,#care,#health-info) > .wrap > p,
+  body.home-page #main-content > #home-representative-guides .home-representative-guides > p {
+    line-height:1.86;
+  }
+}
