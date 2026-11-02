@@ -76,6 +76,28 @@ async function main(){
     /^[0-9a-f]{40}$/.test(commit)&&meta(liveHome,'ejoeundental-build-commit')===commit,
     '공개 '+(meta(liveHome,'ejoeundental-build-commit')||'없음')+
       ' / GitHub 빌드 '+(commit||'없음'));
+  // A retired, public noindex draft must never leave patients reading stale
+  // retreatment advice. Cloudflare Pages must redirect both historical routes,
+  // while leaving the canonical clinical route itself untouched.
+  const legacyDraftRoutes=['/retreatment_updated.html','/retreatment_updated'];
+  const oldRouteStatuses=await Promise.all(legacyDraftRoutes.map(async oldPath=>{
+    try{
+      const response=await fetch(origin+oldPath,{
+        redirect:'manual',signal:AbortSignal.timeout(15000),
+        headers:{'User-Agent':'EjoeunDentalReadOnlyHealthCheck/2.0',
+          'Cache-Control':'no-cache'}
+      });
+      const location=response.headers.get('location')||'';
+      return {oldPath,status:response.status,
+        destination:location?new URL(location,origin).href:''};
+    }catch(error){return {oldPath,status:0,destination:'',
+      error:String(error.cause?.code||error.message||error)};}
+  }));
+  verdict('기존 재신경치료 중복 주소 301 정식 페이지 이동',
+    oldRouteStatuses.every(x=>x.status===301&&
+      x.destination===origin+'/retreatment'),
+    oldRouteStatuses.map(x=>x.oldPath+' HTTP '+x.status+
+      ' → '+(x.destination||x.error||'Location 없음')).join(' · '));
   // Verify the real patient search page after Cloudflare finishes deploying.
   // The previous build checks ran before Cloudflare's deployment completion,
   // so source CI success was sometimes mistaken for live search availability.
