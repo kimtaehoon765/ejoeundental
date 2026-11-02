@@ -1165,3 +1165,74 @@ body.care-gallery.care-cervical-abrasion .cervical-choice-links a:focus-visible 
     break-inside:avoid;
   }
 }
+
+
+/* 2026-11-02 | Cervical clinical atlas mobile enlargement.
+   The anatomy illustration remains fully visible and original paintings stay
+   in the separate exhibition; this applies only to the sensitivity guide. */
+body.care-gallery.care-cervical-abrasion .care-feature-art__image {
+  border-color:#a9c4be;
+  background:#e5efed;
+  box-shadow:0 12px 29px rgba(30,70,66,.075);
+}
+body.care-gallery.care-cervical-abrasion .care-feature-art__image > img {
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  aspect-ratio:3 / 2;
+  object-fit:contain;
+  background:#f7faf9;
+  border-color:#b8d0ca;
+}
+body.care-gallery.care-cervical-abrasion .care-feature-art__image > figcaption > a {
+  box-sizing:border-box;
+  display:flex;
+  width:fit-content;
+  max-width:100%;
+  min-height:46px;
+  align-items:center;
+  justify-content:center;
+  margin:12px auto 1px;
+  padding:9px 16px;
+  border:1px solid #90b7ac;
+  border-radius:5px;
+  background:#eef7f3;
+  color:#164e42;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:750;
+  line-height:1.6;
+  text-align:center;
+  overflow-wrap:break-word;
+  word-break:keep-all;
+}
+body.care-gallery.care-cervical-abrasion .care-feature-art__image > figcaption > a:hover {
+  background:#dfefe9;
+  border-color:#4e8678;
+}
+body.care-gallery.care-cervical-abrasion .care-feature-art__image > figcaption > a:focus-visible {
+  outline:3px solid #956f38;
+  outline-offset:3px;
+}
+@media(max-width:600px) {
+  body.care-gallery.care-cervical-abrasion .care-feature-art__image {
+    box-shadow:none;
+  }
+  body.care-gallery.care-cervical-abrasion .care-feature-art__image > figcaption > a {
+    width:100%;
+    min-height:48px;
+    margin-top:14px;
+  }
+}
+@media(forced-colors:active) {
+  body.care-gallery.care-cervical-abrasion .care-feature-art__image,
+  body.care-gallery.care-cervical-abrasion .care-feature-art__image > img,
+  body.care-gallery.care-cervical-abrasion .care-feature-art__image > figcaption > a {
+    background:Canvas;
+    border-color:CanvasText;
+    color:CanvasText;
+    box-shadow:none;
+    outline-color:CanvasText;
+  }
+}
