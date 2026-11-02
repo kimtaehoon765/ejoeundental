@@ -130,9 +130,9 @@ async function main(){
   // and live Cloudflare HTML. Keep checking all original byte-identical assets.
   // Do not hardcode the obsolete 480/720-only srcset: 640w was added later.
   const portraitBase='/assets/ejoeun-gallery-cat-dentist-20261029';
-  const attr=(tag,key)=>tag.match(new RegExp('(?:^|\\\\s)'+key+'="([^"]+)"'))?.[1]||'';
+  const attr=(tag,key)=>tag.match(new RegExp('(?:^|\\s)'+key+'="([^"]+)"'))?.[1]||'';
   const tagFor=(html,element,matching)=>[...html.matchAll(
-    new RegExp('<'+element+'\\\\b[^>]*>','g'))].map(m=>m[0]).find(matching)||'';
+    new RegExp('<'+element+'\\b[^>]*>','g'))].map(m=>m[0]).find(matching)||'';
   const portraitImage=html=>tagFor(html,'img',tag=>attr(tag,'src')===portraitBase+'.webp');
   const portraitPreload=html=>tagFor(html,'link',tag=>
     attr(tag,'rel')==='preload'&&attr(tag,'as')==='image'&&
