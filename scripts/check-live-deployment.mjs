@@ -181,7 +181,7 @@ async function main(){
   // its noscript fallback and a separately cached FAQ link stylesheet.
   // Compare the exact ordered build links against the public Cloudflare HTML,
   // while retaining the expected bundle/fallback structure as a guard.
-  const cssHrefs=html=>[...html.matchAll(/<link rel="stylesheet" href="(\\/assets\\/[^"]+)"/g)]
+  const cssHrefs=html=>[...html.matchAll(/<link rel="stylesheet" href="(\/assets\/[^"]+)"/g)]
     .map(match=>match[1]);
   const builtCss=cssHrefs(builtHome),liveCss=cssHrefs(liveHome);
   const expectedOrder=['/assets/home-critical-','/assets/gallery-foundation-',
