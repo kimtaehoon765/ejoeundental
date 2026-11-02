@@ -34,6 +34,9 @@ function pagesAt(dir,acc=[]){
  return acc;
 }
 const incoming=new Map([...intended.keys()].map(r=>[r,new Set()]));
+// A URL only counts as discovered through an indexable, public sitemap page.
+// An admin/noindex/search-result page must never provide the only incoming link.
+const publicHtmlRoutes=new Set();
 let checked=0,htmlCount=0;
 for(const file of pagesAt(dist)){
  const html=readFileSync(file,'utf8');
@@ -42,6 +45,14 @@ for(const file of pagesAt(dist)){
  const canonical=html.match(/<link\b[^>]*rel=["']canonical["'][^>]*href=["']([^"']+)["']/i)?.[1]||current;
  const self=route(canonical);
  if(!self)continue;
+ const head=html.split('</head>')[0];
+ const noindex=[...head.matchAll(/<meta\b[^>]*>/gi)].some(match=>{
+  const tag=match[0];
+  return /\bname\s*=\s*["']robots["']/i.test(tag)&&
+   /\bcontent\s*=\s*["'][^"']*\bnoindex\b/i.test(tag);
+ });
+ if(!intended.has(self)||noindex)continue;
+ publicHtmlRoutes.add(self);
  // Links rendered only through scripts cannot be relied upon for discovery.
  // Likewise, do not count anchors hidden inside HTML comments.
  const document=html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,'')
@@ -54,6 +65,14 @@ for(const file of pagesAt(dist)){
   checked++;
  }
  htmlCount++;
+}
+const missingPublicHtml=[...intended].filter(([r])=>!publicHtmlRoutes.has(r))
+ .map(([,url])=>url);
+if(missingPublicHtml.length){
+ console.error('Sitemap entries lacking an indexable public HTML page:',
+  missingPublicHtml.length);
+ for(const url of missingPublicHtml.slice(0,35))console.error(' - '+url);
+ process.exitCode=1;
 }
 const orphan=[...incoming].filter(([,sources])=>sources.size===0)
  .map(([r])=>intended.get(r)).sort();
