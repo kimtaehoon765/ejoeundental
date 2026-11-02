@@ -572,7 +572,7 @@ body.doctor-gallery .doctor-portrait-study figcaption a:focus-visible {
     box-shadow:none;
   }
 }
-@media(print) {
+@media print {
   body.doctor-gallery #doctor-profile-main > .doctor-principles-panel > .doctor-portrait-study {
     box-shadow:none;
     break-inside:avoid;
