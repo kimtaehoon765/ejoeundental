@@ -594,9 +594,17 @@ test('seven revised dental articles have truthful Google dates and two crawlable
   assert.ok(html.includes('"dateModified":"'+source.updated+'"'),
    slug+' structured-data modification date mismatch');
  }
- for(const route of ['/','/stories.html']){
-  assert.ok(sitemap.includes('<loc>'+origin+route+'</loc><lastmod>'+(route==='/'?'2026-10-30':'2026-10-29')+'</lastmod>'),
-   route+' lastmod should record the current substantive navigation change');
+ // These are independently verified last substantive CONTENT changes, not
+ // incidental CSS rebuild dates. Keep revisions separate from daily deploys.
+ const verifiedEditorialDates=new Map([
+  ['/','2026-11-01'],                 // 28 verified owner articles added to homepage
+  ['/stories.html','2026-10-31'],     // published story reading routes added
+  ['/clinical-archive.html','2026-11-01'], // Naver article archive expanded to 537
+  ['/gallery.html','2026-10-31']      // 10 original patient-art exhibits added
+ ]);
+ for(const [route,date] of verifiedEditorialDates){
+  assert.ok(sitemap.includes('<loc>'+origin+route+'</loc><lastmod>'+date+'</lastmod>'),
+   route+' sitemap lastmod must reflect verified patient-facing content revision');
  }
  assert.ok(!directory.includes('<!-- BUILD_STORY_DIRECTORY -->'),
   'Google must receive server-rendered article links, not a template placeholder');
