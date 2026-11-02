@@ -235,7 +235,7 @@ async function main(){
       attr(currentFigure,'loading')==='eager'&&
       attr(currentFigure,'fetchpriority')==='high'&&
       attr(currentFigure,'decoding')==='async'&&
-      /width="\\d+" height="\\d+"/.test(currentFigure)&&
+      /width="\d+" height="\d+"/.test(currentFigure)&&
       Boolean(attr(currentFigure,'alt'));
     const preloadOk=attr(currentPreload,'type')===type&&
       attr(currentPreload,'fetchpriority')==='high'&&responsiveAligned;
