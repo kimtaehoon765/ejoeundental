@@ -772,6 +772,23 @@ test('unique homepage paintings and clinical plates retain image count and edito
   'bundled CSS must style the medical explanatory labels');
 });
 
+test('clinic journal remains visibly distinct within the compact mobile menu',()=>{
+ const css=read('assets/home-visit-faq-salon-20261031.css');
+ const nav=readFileSync('index.html','utf8')
+  .match(/<div class="mobile-quick">([\s\S]*?)<\/div>/)?.[1]||'';
+ assert.ok(nav.includes('class="stories-mobile-link"')&&
+  nav.includes('href="/stories.html"'),
+  'the original clinic journal destination remains explicit');
+ assert.ok(css.includes('2026-11-03 | Visible clinic journal shortcut in mobile navigation.')&&
+  css.includes('html:not(.home-scrolled) body.home-page header .nav .mobile-quick > a.stories-mobile-link')&&
+  css.includes('html.home-scrolled body.home-page header .nav .mobile-quick > a.stories-mobile-link'),
+  'journal styling remains distinct before and after scrolling');
+ assert.ok(css.includes('min-height:50px')&&
+  css.includes('border-bottom:3px solid #af9364')&&
+  css.includes('body.home-page header .nav .mobile-quick > a.stories-mobile-link:focus-visible'),
+  'journal shortcut remains thumb-sized, distinguishable, and keyboard-accessible');
+});
+
 test('compact first-screen mobile header preserves four reading shortcuts and fixed reservations',()=>{
  const css=read('assets/home-visit-faq-salon-20261031.css');
  const head=read('index.html').match(/<div class="mobile-quick">([\s\S]*?)<\/div>/)?.[1]||'';
