@@ -523,8 +523,11 @@ const additionalSourceBlogs=[...new Set(
  .map(canonicalNaverSource).filter(Boolean)
  .map(key=>'https://blog.naver.com/'+key)
 )].filter(url=>url!==safeSourceBlog).slice(0,3);
-if(safeSourceBlog)articleSchema.isBasedOn=additionalSourceBlogs.length?
- [safeSourceBlog,...additionalSourceBlogs]:safeSourceBlog;
+const unverifiedSourceBlogs=new Set((Array.isArray(post.unverified_source_urls)?post.unverified_source_urls:[])
+ .map(canonicalNaverSource).filter(Boolean).map(key=>'https://blog.naver.com/'+key));
+const verifiedAdditionalSourceBlogs=additionalSourceBlogs.filter(url=>!unverifiedSourceBlogs.has(url));
+if(safeSourceBlog)articleSchema.isBasedOn=verifiedAdditionalSourceBlogs.length?
+ [safeSourceBlog,...verifiedAdditionalSourceBlogs]:safeSourceBlog;
 const breadcrumbSchema={'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'홈',item:'https://ejoeundental.pages.dev/'},{'@type':'ListItem',position:2,name:'치과 이야기',item:'https://ejoeundental.pages.dev/stories.html'},{'@type':'ListItem',position:3,name:String(post.title),item:articleUrl}]};
 const breadcrumbJson=JSON.stringify(breadcrumbSchema).replace(/</g,'\\u003c');
 // Optional, verifiable external patient-information sources. Never render raw
@@ -536,7 +539,7 @@ const articleReferences=Array.isArray(post.references)?
   try{
    const u=new URL(ref.url);
    return u.protocol==='https:'&&u.username===''&&u.password===''&&
-    ['nhs.uk','cdc.gov','ada.org','pubmed.ncbi.nlm.nih.gov'].some(host=>
+    ['nhs.uk','cdc.gov','ada.org','pubmed.ncbi.nlm.nih.gov','mayoclinic.org','myoms.org','aapd.org'].some(host=>
       u.hostname===host||u.hostname.endsWith('.'+host));
   }catch{return false;}
  }).slice(0,5):[];
@@ -561,7 +564,7 @@ const articleSourceNote=safeSourceBlog?
    :'이 글은 원장이 작성한 네이버 블로그 글을 환자 교육용으로 요약·재구성했습니다. ')+
  '<a href="'+escaped(safeSourceBlog)+'" target="_blank" rel="noopener noreferrer">원문 보기 ↗</a>'+
  additionalSourceBlogs.map((url,index)=>' · <a href="'+escaped(url)+
- '" target="_blank" rel="noopener noreferrer">함께 반영한 원문 '+(index+2)+' 보기 ↗</a>').join('')+
+ '" target="_blank" rel="noopener noreferrer">'+(unverifiedSourceBlogs.has(url)?'관련 블로그 글(제공 사진과 주소의 대응 미확인)':'함께 반영한 원문 '+(index+2))+' 보기 ↗</a>').join('')+
  '</p></aside>':
  String(post.source_note||'').startsWith('screenshots_summary')?
  '<aside class="notice" aria-label="건강정보 자료 출처와 편집 방식"><strong>건강정보 자료 출처</strong><p>이 글은 이조은치과 원장이 제공한 네이버 블로그 본문 화면을 바탕으로 홈페이지 환자 교육용으로 재구성했습니다. 원문 주소가 확인되지 않아 임의의 링크를 표시하지 않았습니다. 내용은 일반적인 건강정보이며 진찰·검사에 따른 개별 진단이나 처방을 대신하지 않습니다.</p></aside>':'';
