@@ -361,3 +361,162 @@ body.care-gallery.care-tooth-preservation .preserve-symptom-item>a:focus-visible
     box-shadow:none;
   }
 }
+
+/* 2026-11-02 | Natural tooth preservation treatment choices and visit questions
+   Clinical copy, sources, original illustration and structured metadata stay unchanged. */
+body.care-gallery.care-tooth-preservation #preserve-options>.preserve-method-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:stretch;
+  gap:clamp(11px,1.5vw,18px);
+  margin:clamp(20px,2.8vw,30px) 0 8px;
+}
+body.care-gallery.care-tooth-preservation #preserve-options .preserve-method-card{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  min-width:0;
+  padding:clamp(19px,2.4vw,28px);
+  border:1px solid #dcd2c0;
+  border-top:4px solid #8eaa93;
+  border-radius:4px 14px 4px 14px;
+  background:linear-gradient(145deg,#fffefa,#f5f8f2);
+  box-shadow:0 8px 22px rgba(33,56,43,.04);
+}
+body.care-gallery.care-tooth-preservation #preserve-options .preserve-method-card:nth-child(even){
+  border-top-color:#b49c75;
+  background:linear-gradient(145deg,#fffefa,#faf6ee);
+}
+body.care-gallery.care-tooth-preservation #preserve-options .preserve-method-card:last-child{
+  grid-column:1/-1;
+}
+body.care-gallery.care-tooth-preservation #preserve-options .preserve-method-index{
+  display:inline-flex;
+  align-items:center;
+  min-height:30px;
+  margin:0 0 14px;
+  padding:5px 11px;
+  border:1px solid #c9b99b;
+  border-radius:3px 8px 3px 8px;
+  background:#f8f1e2;
+  color:#6b5638;
+  font:800 11px/1.6 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.055em;
+  font-variant-numeric:tabular-nums;
+}
+body.care-gallery.care-tooth-preservation #preserve-options .preserve-method-card>h3{
+  margin:0 0 12px;
+  color:#234a36;
+  font:700 clamp(18px,1.7vw,21px)/1.6 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.04em;
+  word-break:keep-all;
+  text-wrap:balance;
+}
+body.care-gallery.care-tooth-preservation #preserve-options .preserve-method-card>p{
+  margin:0;
+  color:#46604f;
+  font-size:clamp(15px,1.25vw,16px);
+  line-height:1.91;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.care-gallery.care-tooth-preservation #preserve-options .preserve-method-card>p a{
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+  color:#286345;
+  font-weight:750;
+  text-underline-offset:4px;
+}
+body.care-gallery.care-tooth-preservation #preserve-steps>ul{
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:10px;
+  margin:21px 0;
+  padding:0;
+  list-style:none;
+  counter-reset:preserve-question;
+}
+body.care-gallery.care-tooth-preservation #preserve-steps>ul>li{
+  counter-increment:preserve-question;
+  position:relative;
+  box-sizing:border-box;
+  min-width:0;
+  min-height:68px;
+  margin:0;
+  padding:18px 18px 18px 67px;
+  border:1px solid #d9d4c3;
+  border-left:3px solid #9bae99;
+  border-radius:4px 12px 4px 12px;
+  background:#fffefa;
+  color:#475d4c;
+  font-size:clamp(15px,1.25vw,16px);
+  line-height:1.9;
+  word-break:keep-all;
+}
+body.care-gallery.care-tooth-preservation #preserve-steps>ul>li::before{
+  content:counter(preserve-question, decimal-leading-zero);
+  position:absolute;
+  top:17px;
+  left:16px;
+  display:grid;
+  place-items:center;
+  box-sizing:border-box;
+  width:37px;
+  height:37px;
+  border-radius:50%;
+  border:1px solid #bdad8b;
+  background:#edf3e8;
+  color:#385f45;
+  font:800 13px/1 system-ui,sans-serif;
+}
+body.care-gallery.care-tooth-preservation #preserve-steps>ul>li>strong{
+  color:#264b39;
+  font-weight:800;
+}
+@media(max-width:700px){
+  body.care-gallery.care-tooth-preservation #preserve-options>.preserve-method-grid{
+    grid-template-columns:minmax(0,1fr);
+    gap:10px;
+  }
+  body.care-gallery.care-tooth-preservation #preserve-options .preserve-method-card,
+  body.care-gallery.care-tooth-preservation #preserve-options .preserve-method-card:last-child{
+    grid-column:auto;
+    padding:19px 16px;
+    box-shadow:none;
+  }
+  body.care-gallery.care-tooth-preservation #preserve-steps>ul>li{
+    padding:14px 14px 14px 61px;
+    font-size:15px;
+  }
+  body.care-gallery.care-tooth-preservation #preserve-steps>ul>li::before{
+    top:15px;
+    left:13px;
+    width:34px;
+    height:34px;
+  }
+}
+@media(forced-colors:active){
+  body.care-gallery.care-tooth-preservation #preserve-options .preserve-method-card,
+  body.care-gallery.care-tooth-preservation #preserve-options .preserve-method-index,
+  body.care-gallery.care-tooth-preservation #preserve-steps>ul>li,
+  body.care-gallery.care-tooth-preservation #preserve-steps>ul>li::before{
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+  body.care-gallery.care-tooth-preservation #preserve-options .preserve-method-card :is(h3,p,a),
+  body.care-gallery.care-tooth-preservation #preserve-steps>ul>li>strong{
+    color:CanvasText;
+  }
+}
+@media print{
+  body.care-gallery.care-tooth-preservation #preserve-options .preserve-method-card,
+  body.care-gallery.care-tooth-preservation #preserve-steps>ul>li{
+    box-shadow:none;
+    break-inside:avoid;
+  }
+}
