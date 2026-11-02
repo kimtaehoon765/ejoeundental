@@ -5,6 +5,11 @@ import {createHash} from 'node:crypto';
 
 const read=(path)=>readFileSync('dist/'+path,'utf8');
 const stripBundleDocumentation=css=>css.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'');
+const compactCriticalCss=css=>{
+ assert.ok(!/\\\r?\n/.test(css),'escaped newlines must not be compacted');
+ return css.replace(/[ \t]+$/gm,'').replace(/^[ \t]+/gm,'')
+  .replace(/(?:\r?\n){2,}/g,'\n');
+};
 const home=read('index.html');
 const museum=read('assets/museum-home-v2.css');
 // Content-hashed gallery foundation and independent newer patient styles.
@@ -150,9 +155,13 @@ test('homepage critical CSS retains its cascade while reducing three requests to
  assert.ok(cssHref,'fingerprinted first-screen CSS bundle is linked');
  const stylesheet=read(cssHref.slice(1));
  const originals=['style.css','home-enhancements.css','address-copy.css'];
+ const unoptimized=originals.map(name=>stripBundleDocumentation(read('assets/'+name).trimEnd()))
+  .join('\n\n')+'\n';
+ assert.ok(Buffer.byteLength(stylesheet)<Buffer.byteLength(unoptimized),
+  'critical CSS compaction must reduce payload without removing clinical styles');
  const boundaries=[];
  for(const file of originals){
-  const original=stripBundleDocumentation(read('assets/'+file).trimEnd());
+  const original=compactCriticalCss(stripBundleDocumentation(read('assets/'+file).trimEnd()));
   const at=stylesheet.indexOf(original);
   assert.ok(at>=0,'bundle must contain all non-comment source CSS '+file);
   boundaries.push(at);

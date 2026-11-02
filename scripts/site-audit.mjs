@@ -148,6 +148,11 @@ function compactDeliveredCss(css){
  if(all!==standalone)throw new Error('Unsafe inline comment in CSS audit');
  return css.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'');
 }
+function compactCriticalCss(css){
+ if(/\\\r?\n/.test(css))throw new Error('Unsafe escaped CSS newline in critical CSS audit');
+ return css.replace(/[ \t]+$/gm,'').replace(/^[ \t]+/gm,'')
+  .replace(/(?:\r?\n){2,}/g,'\n');
+}
 
 function hasFreshCss(html,basename){
  const file=join(root,'assets',basename+'.css');
@@ -163,7 +168,7 @@ function hasFreshCss(html,basename){
    return readFileSync(filepath,'utf8').trimEnd();
   });
   if(sources.some(source=>source===null))return false;
-  const merged=compactDeliveredCss(sources.join('\n\n/* Original stylesheet boundary — cascade order retained. */\n\n')+'\n');
+  const merged=compactCriticalCss(compactDeliveredCss(sources.join('\n\n/* Original stylesheet boundary — cascade order retained. */\n\n')+'\n'));
   const expected=createHash('sha256').update(merged).digest('hex').slice(0,12);
   const bundled='home-critical-'+expected+'.css';
   return existsSync(join(root,'assets',bundled))&&
@@ -841,7 +846,7 @@ for (const file of html) {
  if(!bundle||!existsSync(join(root,'assets','home-critical-'+bundle[1]+'.css'))||
     !existsSync(originalEnhancements)||
     !readFileSync(join(root,'assets','home-critical-'+bundle[1]+'.css'),'utf8')
-      .includes(compactDeliveredCss(readFileSync(originalEnhancements,'utf8').trimEnd()))){
+      .includes(compactCriticalCss(compactDeliveredCss(readFileSync(originalEnhancements,'utf8').trimEnd())))){
   errors.push('홈페이지 공통 개선 스타일의 초기 통합 파일 누락 또는 내용 불일치');
  }
 }
@@ -2788,15 +2793,17 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
    if(byPath(route).length!==1||!byPath(route)[0].headers.get('Cache-Control')?.includes('must-revalidate'))
     errors.push('Cloudflare Pages 검색/진료 자료 갱신 헤더 누락: '+route);
   }
-  if(rules.length!==11)errors.push('Cloudflare Pages 예상 응답 헤더 규칙 수 불일치: '+rules.length);
+  if(rules.length!==13)errors.push('Cloudflare Pages 예상 응답 헤더 규칙 수 불일치: '+rules.length);
   // Only the homepage's immutable, content-addressed first-screen CSS is
   // advertised through 103 Early Hints. Do not preload the 1200px hero
   // fallback instead of its responsive mobile image variants.
   const markup=readFileSync(join(root,'index.html'),'utf8');
-  const immutableStyles=[...markup.matchAll(/<link rel="stylesheet" href="(\/assets\/home-(?:critical|finishing)-[0-9a-f]{12}\.css)">/g)]
+  const immutableStyles=[...markup.matchAll(/<link rel="stylesheet" href="(\/assets\/(?:home-(?:critical|finishing)|gallery-foundation|exhibition-foundation)-[0-9a-f]{12}\.css)">/g)]
    .map(match=>match[1]);
-  if(immutableStyles.length!==2||new Set(immutableStyles).size!==2)
-   errors.push('홈페이지 해시 기반 CSS 캐시 대상이 정확히 2개가 아닙니다');
+  const expectedPrefixes=['home-critical-','gallery-foundation-','exhibition-foundation-','home-finishing-'];
+  if(immutableStyles.length!==4||new Set(immutableStyles).size!==4||
+     expectedPrefixes.some(prefix=>immutableStyles.filter(x=>x.startsWith('/assets/'+prefix)).length!==1))
+   errors.push('홈페이지 해시 기반 CSS 캐시 대상이 정확히 4개가 아닙니다');
   for(const cssHref of immutableStyles){
    const cache=byPath(cssHref);
    if(cache.length!==1||

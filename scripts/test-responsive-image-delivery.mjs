@@ -99,10 +99,14 @@ test('homepage and gallery never fetch desktop-only Noto Serif CSS on phone view
 
 test('Cloudflare caches only the generated fingerprinted homepage CSS for repeat visits',()=>{
  const headers=dist('_headers');
- const matches=[...home.matchAll(/<link rel="stylesheet" href="(\/assets\/home-(?:critical|finishing)-[0-9a-f]{12}\.css)">/g)]
+ const matches=[...home.matchAll(/<link rel="stylesheet" href="(\/assets\/(?:home-(?:critical|finishing)|gallery-foundation|exhibition-foundation)-[0-9a-f]{12}\.css)">/g)]
   .map(match=>match[1]);
- assert.equal(matches.length,2,'critical and finishing bundles must have unique content hashes');
- assert.equal(new Set(matches).size,2,'fingerprinted CSS paths must be distinct');
+ assert.equal(matches.length,4,'all four generated homepage CSS bundles must have content hashes');
+ assert.equal(new Set(matches).size,4,'fingerprinted CSS paths must be distinct');
+ for(const prefix of ['home-critical-','gallery-foundation-','exhibition-foundation-','home-finishing-']){
+  assert.equal(matches.filter(x=>x.startsWith('/assets/'+prefix)).length,1,
+   'one immutable CSS bundle for '+prefix);
+ }
  for(const cssHref of matches){
   assert.ok(headers.includes('\n'+cssHref+'\n  Cache-Control: public, max-age=31536000, immutable'),
    'fingerprinted asset should receive a path-specific immutable cache policy: '+cssHref);

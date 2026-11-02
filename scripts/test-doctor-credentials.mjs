@@ -34,7 +34,8 @@ test('homepage introduces doctor credentials prominently and preserves direct di
  const documented=['style.css','home-enhancements.css','address-copy.css']
   .map(name=>read('assets/'+name).trimEnd())
   .join('\n\n/* Original stylesheet boundary — cascade order retained. */\n\n')+'\n';
- const combined=documented.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'');
+ const combined=documented.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'')
+  .replace(/[ \t]+$/gm,'').replace(/^[ \t]+/gm,'').replace(/(?:\r?\n){2,}/g,'\n');
  const hash=createHash('sha256').update(combined).digest('hex').slice(0,12);
  const bundled='/assets/home-critical-'+hash+'.css';
  assert.ok(html.includes('href="'+bundled+'"'),
