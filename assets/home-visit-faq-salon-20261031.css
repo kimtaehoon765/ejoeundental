@@ -904,3 +904,33 @@ body.home-page #main-content > .care-picture-notes .care-picture-notes__heading 
     border-color:ButtonText;
   }
 }
+
+
+/* 2026-11-03 | Distinct clinical atlas editorial labels. */
+body.home-page #main-content > #care .care-more-details .care-mini-gallery > figcaption > .clinical-edition-label {
+  display:block;
+  width:fit-content;
+  max-width:100%;
+  margin:0 0 10px;
+  padding:3px 0 6px;
+  border-bottom:1px solid #9bbdb4;
+  color:#3c7365;
+  font-family:system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.1em;
+  line-height:1.6;
+  word-break:normal;
+}
+@media (max-width:600px) {
+  body.home-page #main-content > #care .care-more-details .care-mini-gallery > figcaption > .clinical-edition-label {
+    font-size:11px;
+    margin-bottom:9px;
+  }
+}
+@media (forced-colors:active) {
+  body.home-page #main-content > #care .care-more-details .care-mini-gallery > figcaption > .clinical-edition-label {
+    color:CanvasText;
+    border-color:CanvasText;
+  }
+}
