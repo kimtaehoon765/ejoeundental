@@ -3906,6 +3906,21 @@ function stripBundleDocumentation(css,label){
   throw new Error('Cannot set Early Hints: homepage header rule ambiguous');
  const updated=original.replace(homepageCacheRule,
   match=>match+'\n  Link: <'+href+'>; rel=preload; as=style');
- fs.writeFileSync(headerFile,updated,'utf8');
- console.log('Cloudflare Pages homepage CSS Early Hints:',href);
+ // Only the build-generated, content-addressed CSS can be cached for a year.
+ // Other /assets/* files keep their short TTL so CMS edits are seen promptly.
+ // Exact-path rules override the generic asset header on Cloudflare Pages.
+ const immutableCss=[...homepage.matchAll(/<link rel="stylesheet" href="(\\/assets\\/home-(?:critical|finishing)-[0-9a-f]{12}\\.css)">/g)]
+  .map(match=>match[1]);
+ if(immutableCss.length!==2||new Set(immutableCss).size!==2||
+    !immutableCss.includes(href))
+  throw new Error('Cannot set long-term cache: missing unique fingerprinted home CSS');
+ for(const cssHref of immutableCss){
+  if(!fs.existsSync(path.join(out,cssHref.slice(1))))
+   throw new Error('Cannot cache missing fingerprinted CSS: '+cssHref);
+ }
+ const immutableRules=immutableCss.map(cssHref=>
+  '\n'+cssHref+'\n  Cache-Control: public, max-age=31536000, immutable').join('\n');
+ fs.writeFileSync(headerFile,updated+'\n'+immutableRules+'\n','utf8');
+ console.log('Cloudflare Pages homepage CSS Early Hints:',href,
+  '/ immutable cache assets:',immutableCss.join(', '));
 }
