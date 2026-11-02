@@ -112,6 +112,23 @@ jobs:
              .slice(0,4)
              .map(a=>({name:a.title,savingsMs:Math.round(a.details.overallSavingsMs)}));
             row.opportunities=opportunities;
+            // The performance score alone cannot identify the actual LCP bottleneck.
+            // Expose the real rendered LCP node, phase timings and upstream TTFB.
+            // Be defensive across Lighthouse releases (not every insight exists).
+            const lcpNode=report.audits?.['largest-contentful-paint-element']?.details?.items?.[0]?.node||
+             report.audits?.['lcp-breakdown-insight']?.details?.items?.[0]?.node||null;
+            row.lcpElement=(lcpNode?.snippet||lcpNode?.nodeLabel||lcpNode?.selector||'not exposed').slice(0,250);
+            row.lcpElementUrl=lcpNode?.path||null;
+            row.ttfb=metric('server-response-time','ms');
+            const lcpInsights=report.audits?.['lcp-breakdown-insight'];
+            row.lcpBreakdown=(lcpInsights?.details?.items||[])
+             .slice(0,8).map(item=>({
+               phase:item.phase||item.label||item.type||'unknown',
+               durationMs:Math.round(item.duration||item.timing||item.value||0)
+             }));
+            const lcpOld=report.audits?.['largest-contentful-paint-element']?.details?.items||[];
+            row.lcpLegacyPhases=lcpOld.filter(item=>item && item.phase).slice(0,8)
+             .map(item=>({phase:item.phase,durationMs:Math.round(item.timing||0)}));
             const oversizedImages=report.audits?.['uses-responsive-images']?.details?.items||[];
             row.imageOpportunities=oversizedImages
               .filter(i=>Number.isFinite(i.wastedBytes))
@@ -141,6 +158,13 @@ jobs:
             '### 관찰된 개선 기회',
             ...rows.flatMap(r=>[
               '- '+r.label+': '+((r.opportunities||[]).map(o=>o.name+' (예상 '+o.savingsMs+' ms)').join(', ')||'자동 추정 항목 없음')
+            ]),
+            '',
+            '### LCP 원인 진단 (실측 당시 공개 버전)',
+            ...rows.flatMap(r=>[
+              '- '+r.label+' · LCP 요소: '+(r.lcpElement||'확인 불가')+
+                ' / 서버 응답: '+(r.ttfb||'–')+
+                ' / 시간 구성: '+JSON.stringify(r.lcpBreakdown?.length?r.lcpBreakdown:r.lcpLegacyPhases||[])
             ]),
             '',
             '### 진단된 실제 파일 (실측 당시 공개 버전)',
