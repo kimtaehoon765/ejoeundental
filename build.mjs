@@ -3856,11 +3856,10 @@ function compactCriticalCss(css){
   'newer art layers cached independently:',2,'bundle:',bundled);
 }
 
-// Home finishing CSS bundle: preserve the three late layers without rewriting rules.
-// The two museum finishing layers and FAQ/visit salon styles are adjacent in
-// homepage HTML. Keep their exact cascade and originals in dist for audits,
-// while sending one fingerprinted stylesheet instead of three blocking requests.
-// In particular, do not merge the earlier art-direction or medical CSS layers.
+// Home finishing CSS: keep first-screen clinic-navigation and hero facts
+// render-blocking; load only the far-below-the-fold FAQ and arrival guide
+// asynchronously. Their authoring stylesheet has an explicit boundary and
+// these offscreen rules apply exclusively to #faq and #location.
 {
  const homepage=path.join(out,'index.html');
  const originals=['quiet-museum-finish-20261031.css','museum-finish-20261031.css','home-visit-faq-salon-20261031.css'];
@@ -3878,10 +3877,6 @@ function compactCriticalCss(css){
   }
   return css.trimEnd();
  });
- // The source is intentionally documented. Only the deployed bundle omits
- // full-line documentation comments (all comments in these three files).
- // Throw rather than risk deleting inline tokens, selector separators,
- // conditional hacks, or CSS data needed for rendering.
  const stripStandaloneComments=(name,css)=>{
   const every=[...css.matchAll(/\/\*[\s\S]*?\*\//g)];
   const fullLine=[...css.matchAll(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm)];
@@ -3889,28 +3884,62 @@ function compactCriticalCss(css){
    throw new Error('Unsafe inline CSS comment in home finishing style: '+name);
   return css.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'').trimEnd();
  };
- const combined=parts.map((css,i)=>stripStandaloneComments(originals[i],css))
-  .join('\n\n')+'\n';
- const unoptimized=parts.join(boundary)+'\n';
- if(combined.length>=unoptimized.length)
-  throw new Error('Home finishing optimization did not reduce stylesheet bytes');
- const hash=createHash('sha256').update(combined).digest('hex').slice(0,12);
- const bundled='home-finishing-'+hash+'.css';
- fs.writeFileSync(path.join(out,'assets',bundled),combined,'utf8');
+ const salon=parts[2];
+ const marker='/* 2026-11-01 | Visible clinic journal navigation and first-screen visit facts. */';
+ if(salon.split(marker).length!==2)
+  throw new Error('FAQ/visit CSS lost its verified offscreen/first-screen boundary');
+ const position=salon.indexOf(marker);
+ const offscreenSource=salon.slice(0,position);
+ const firstScreenSource=salon.slice(position);
+ const plainOffscreen=stripStandaloneComments(originals[2],offscreenSource);
+ const plainFirstScreen=stripStandaloneComments(originals[2],firstScreenSource);
+ // Reject an unintended first-screen selector in the delayed portion. A
+ // misplaced hero or header rule would make the above-the-fold UI jump.
+ const offscreenSelectors=[...plainOffscreen.matchAll(/([^{};]+)\{/g)]
+  .map(match=>match[1].trim()).filter(selector=>selector&&!selector.startsWith('@'));
+ if(offscreenSelectors.length<20||
+    offscreenSelectors.some(selector=>selector.split(',').some(part=>
+     !/body\.home-page\s+#main-content\s*>\s*#(?:faq|location)\b/.test(part))))
+  throw new Error('Deferred FAQ/visit CSS escaped its below-fold sections');
+ if(!plainFirstScreen.includes('.hero-local-intro .hero-visit-facts')||
+    !plainFirstScreen.includes('header .navlinks a.stories-nav-link')||
+    plainOffscreen.includes('.hero-local-intro')||plainOffscreen.includes('header .navlinks'))
+  throw new Error('Clinic hero or journal navigation CSS was separated unsafely');
+ const combined=[
+  stripStandaloneComments(originals[0],parts[0]),
+  stripStandaloneComments(originals[1],parts[1]),
+  plainFirstScreen
+ ].join('\n\n')+'\n';
+ const offscreen=plainOffscreen+'\n';
+ if(offscreen.length<4000||offscreen.length>8000||
+    combined.length>=parts.join(boundary).length)
+  throw new Error('Unexpected FAQ split size or unchanged finishing payload');
+ const finishHash=createHash('sha256').update(combined).digest('hex').slice(0,12);
+ const finishAsset='home-finishing-'+finishHash+'.css';
+ const offscreenHash=createHash('sha256').update(offscreen).digest('hex').slice(0,12);
+ const offscreenAsset='home-faq-visit-'+offscreenHash+'.css';
+ fs.writeFileSync(path.join(out,'assets',finishAsset),combined,'utf8');
+ fs.writeFileSync(path.join(out,'assets',offscreenAsset),offscreen,'utf8');
  let html=fs.readFileSync(homepage,'utf8');
  const group=/<link rel="stylesheet" href="\/assets\/quiet-museum-finish-20261031\.css(?:\?[^"]*)?">\s*<link rel="stylesheet" href="\/assets\/museum-finish-20261031\.css(?:\?[^"]*)?">\s*<link rel="stylesheet" href="\/assets\/home-visit-faq-salon-20261031\.css(?:\?[^"]*)?">/g;
  if([...html.matchAll(group)].length!==1)
   throw new Error('Expected exactly one ordered home finishing CSS trio');
- const before=(html.match(/<link rel="stylesheet" href="\/assets\//g)||[]).length;
- const link='<link rel="stylesheet" href="/assets/'+bundled+'">';
- html=html.replace(group,link);
- const after=(html.match(/<link rel="stylesheet" href="\/assets\//g)||[]).length;
+ const before=(html.replace(/<noscript>[\s\S]*?<\/noscript>/g,'')
+  .match(/<link rel="stylesheet" href="\/assets\//g)||[]).length;
+ const finishLink='<link rel="stylesheet" href="/assets/'+finishAsset+'">';
+ const deferredLink='<link rel="stylesheet" href="/assets/'+offscreenAsset+'" media="print" onload="this.media=\'all\'">';
+ const noScript='<noscript><link rel="stylesheet" href="/assets/'+offscreenAsset+'"></noscript>';
+ html=html.replace(group,finishLink+'\n'+deferredLink+'\n'+noScript);
+ const visible=html.replace(/<noscript>[\s\S]*?<\/noscript>/g,'');
+ const after=(visible.match(/<link rel="stylesheet" href="\/assets\//g)||[]).length;
  const earlier=html.indexOf('href="/assets/atelier-refinement-20261030.css');
- const placement=html.indexOf(link);
- if(earlier<0||placement<=earlier||after!==before-2)
-  throw new Error('Home finishing CSS merging changed link order or count');
+ const placement=html.indexOf(finishLink);
+ if(earlier<0||placement<=earlier||after!==before-1||
+    visible.indexOf(deferredLink)<visible.indexOf(finishLink))
+  throw new Error('Deferred finishing CSS changed link order/count: '+JSON.stringify({earlier,placement,before,after,deferred:visible.indexOf(deferredLink),finish:visible.indexOf(finishLink)}));
  fs.writeFileSync(homepage,html,'utf8');
- console.log('Homepage finishing CSS requests: 3 -> 1; documented CSS comments removed from delivery:', unoptimized.length-combined.length,'characters; source rules and order retained:',bundled);
+ console.log('Homepage FAQ/visit CSS deferred:',offscreenAsset,
+  offscreen.length,'bytes; first-screen hero + journal CSS stays blocking in:',finishAsset);
 }
 
 // Advertise the exact first-screen CSS bundle to Cloudflare Pages Early Hints.
@@ -3936,13 +3965,16 @@ function compactCriticalCss(css){
  // Only build-generated, content-addressed CSS can be cached for a year.
  // Other /assets/* files keep their short TTL so CMS edits are seen promptly.
  // Exact-path rules override the generic asset header on Cloudflare Pages.
- const immutableCss=[...homepage.matchAll(/<link rel="stylesheet" href="(\/assets\/(?:home-(?:critical|finishing)|gallery-foundation|exhibition-foundation)-[0-9a-f]{12}\.css)">/g)]
+ const standardCss=[...homepage.matchAll(/<link rel="stylesheet" href="(\/assets\/(?:home-(?:critical|finishing)|gallery-foundation|exhibition-foundation)-[0-9a-f]{12}\.css)">/g)]
   .map(match=>match[1]);
- const prefixes=['home-critical-','gallery-foundation-','exhibition-foundation-','home-finishing-'];
- if(immutableCss.length!==4||new Set(immutableCss).size!==4||
+ const deferredCss=[...homepage.matchAll(/<link rel="stylesheet" href="(\/assets\/home-faq-visit-[0-9a-f]{12}\.css)" media="print" onload="this\.media='all'">/g)]
+  .map(match=>match[1]);
+ const immutableCss=[...standardCss,...deferredCss];
+ const prefixes=['home-critical-','gallery-foundation-','exhibition-foundation-','home-finishing-','home-faq-visit-'];
+ if(immutableCss.length!==5||new Set(immutableCss).size!==5||
     !immutableCss.includes(href)||
     prefixes.some(prefix=>immutableCss.filter(x=>x.startsWith('/assets/'+prefix)).length!==1))
-  throw new Error('Cannot set long-term cache: missing unique fingerprinted home CSS');
+  throw new Error('Cannot set long-term cache: missing unique fingerprinted home or offscreen CSS');
  for(const cssHref of immutableCss){
   if(!fs.existsSync(path.join(out,cssHref.slice(1))))
    throw new Error('Cannot cache missing fingerprinted CSS: '+cssHref);

@@ -2793,17 +2793,22 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
    if(byPath(route).length!==1||!byPath(route)[0].headers.get('Cache-Control')?.includes('must-revalidate'))
     errors.push('Cloudflare Pages 검색/진료 자료 갱신 헤더 누락: '+route);
   }
-  if(rules.length!==13)errors.push('Cloudflare Pages 예상 응답 헤더 규칙 수 불일치: '+rules.length);
-  // Only the homepage's immutable, content-addressed first-screen CSS is
-  // advertised through 103 Early Hints. Do not preload the 1200px hero
-  // fallback instead of its responsive mobile image variants.
+  if(rules.length!==14)errors.push('Cloudflare Pages 예상 응답 헤더 규칙 수 불일치: '+rules.length);
+  // Early Hints are exclusively for the blocking first-screen stylesheet.
+  // The location/FAQ styles have a separate immutable but nonblocking asset.
   const markup=readFileSync(join(root,'index.html'),'utf8');
-  const immutableStyles=[...markup.matchAll(/<link rel="stylesheet" href="(\/assets\/(?:home-(?:critical|finishing)|gallery-foundation|exhibition-foundation)-[0-9a-f]{12}\.css)">/g)]
+  const standardStyles=[...markup.matchAll(/<link rel="stylesheet" href="(\/assets\/(?:home-(?:critical|finishing)|gallery-foundation|exhibition-foundation)-[0-9a-f]{12}\.css)">/g)]
    .map(match=>match[1]);
-  const expectedPrefixes=['home-critical-','gallery-foundation-','exhibition-foundation-','home-finishing-'];
-  if(immutableStyles.length!==4||new Set(immutableStyles).size!==4||
+  const deferredStyles=[...markup.matchAll(/<link rel="stylesheet" href="(\/assets\/home-faq-visit-[0-9a-f]{12}\.css)" media="print" onload="this\.media='all'">/g)]
+   .map(match=>match[1]);
+  const immutableStyles=[...standardStyles,...deferredStyles];
+  const expectedPrefixes=['home-critical-','gallery-foundation-','exhibition-foundation-','home-finishing-','home-faq-visit-'];
+  if(immutableStyles.length!==5||new Set(immutableStyles).size!==5||
      expectedPrefixes.some(prefix=>immutableStyles.filter(x=>x.startsWith('/assets/'+prefix)).length!==1))
-   errors.push('홈페이지 해시 기반 CSS 캐시 대상이 정확히 4개가 아닙니다');
+   errors.push('홈페이지 해시 기반 CSS 캐시 대상이 정확히 5개가 아닙니다');
+  const deferredHref=deferredStyles[0];
+  if(deferredStyles.length!==1||!markup.includes('<noscript><link rel="stylesheet" href="'+deferredHref+'"></noscript>'))
+   errors.push('FAQ·진료시간 지연 CSS의 JavaScript 미사용 대체 링크 누락');
   for(const cssHref of immutableStyles){
    const cache=byPath(cssHref);
    if(cache.length!==1||
