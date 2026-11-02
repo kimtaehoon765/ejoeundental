@@ -603,8 +603,14 @@ test('seven revised dental articles have truthful Google dates and two crawlable
   ['/gallery.html','2026-10-31']      // 10 original patient-art exhibits added
  ]);
  for(const [route,date] of verifiedEditorialDates){
-  assert.ok(sitemap.includes('<loc>'+origin+route+'</loc><lastmod>'+date+'</lastmod>'),
-   route+' sitemap lastmod must reflect verified patient-facing content revision');
+  // Cloudflare serves some guides under an extensionless final canonical.
+  // Verify the actual production HTML rather than assuming the source .html URL.
+  const published=readFileSync(pageFor(route),'utf8');
+  const canonical=published.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1]||'';
+  assert.ok(canonical.startsWith(origin+'/'),
+   route+' must publish one official production canonical');
+  assert.ok(sitemap.includes('<loc>'+canonical+'</loc><lastmod>'+date+'</lastmod>'),
+   route+' sitemap lastmod and final canonical must match verified content');
  }
  assert.ok(!directory.includes('<!-- BUILD_STORY_DIRECTORY -->'),
   'Google must receive server-rendered article links, not a template placeholder');
