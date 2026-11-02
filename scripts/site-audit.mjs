@@ -2788,11 +2788,22 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
    if(byPath(route).length!==1||!byPath(route)[0].headers.get('Cache-Control')?.includes('must-revalidate'))
     errors.push('Cloudflare Pages 검색/진료 자료 갱신 헤더 누락: '+route);
   }
-  if(rules.length!==9)errors.push('Cloudflare Pages 예상 응답 헤더 규칙 수 불일치: '+rules.length);
+  if(rules.length!==11)errors.push('Cloudflare Pages 예상 응답 헤더 규칙 수 불일치: '+rules.length);
   // Only the homepage's immutable, content-addressed first-screen CSS is
   // advertised through 103 Early Hints. Do not preload the 1200px hero
   // fallback instead of its responsive mobile image variants.
   const markup=readFileSync(join(root,'index.html'),'utf8');
+  const immutableStyles=[...markup.matchAll(/<link rel="stylesheet" href="(\/assets\/home-(?:critical|finishing)-[0-9a-f]{12}\.css)">/g)]
+   .map(match=>match[1]);
+  if(immutableStyles.length!==2||new Set(immutableStyles).size!==2)
+   errors.push('홈페이지 해시 기반 CSS 캐시 대상이 정확히 2개가 아닙니다');
+  for(const cssHref of immutableStyles){
+   const cache=byPath(cssHref);
+   if(cache.length!==1||
+      cache[0].headers.get('Cache-Control')!=='public, max-age=31536000, immutable'||
+      !existsSync(join(root,cssHref.slice(1))))
+    errors.push('Cloudflare Pages 해시 기반 CSS 장기 캐시 규칙 오류: '+cssHref);
+  }
   const criticalStyles=[...markup.matchAll(/<link rel="stylesheet" href="(\/assets\/home-critical-[0-9a-f]{12}\.css)">/g)];
   const criticalHref=criticalStyles[0]?.[1];
   const earlyHint=byPath('/')[0]?.headers.get('Link');
