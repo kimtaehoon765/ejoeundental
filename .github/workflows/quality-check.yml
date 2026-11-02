@@ -66,6 +66,8 @@ jobs:
         run: node --test scripts/test-google-search-indexability.mjs
       - name: Check every published internal page and resource link
         run: node scripts/check-internal-links.mjs
+      - name: Ensure every public sitemap page has a crawlable internal link
+        run: node scripts/check-search-discovery.mjs
       - name: Regression-test CSS assets and internal heading anchors
         run: node --test scripts/test-internal-link-audit.mjs
       - name: Verify museum/mobile art, booking buttons and responsive layout
