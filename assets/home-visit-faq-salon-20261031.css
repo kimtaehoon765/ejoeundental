@@ -553,3 +553,98 @@ body.home-page #main-content > #stories .journal-salon-new__grid > a > strong {
     outline-color:CanvasText;
   }
 }
+
+
+/* 2026-11-02 | Journal botanical painting cover.
+   Give the reading room one existing, previously unused homepage painting.
+   The original signed SVG is uncropped. Text, links and SEO copy remain in HTML. */
+body.home-page #main-content > #stories .journal-gallery-cover__poster {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-items:stretch;
+  gap:0;
+  min-height:0;
+  padding:clamp(7px,.8vw,11px);
+  border:1px solid #b9a479;
+  border-radius:3px;
+  background:#eee6d6;
+  box-shadow:inset 0 0 0 1px #fefaf0;
+  text-align:left;
+}
+body.home-page #main-content > #stories .journal-gallery-cover__poster::before,
+body.home-page #main-content > #stories .journal-gallery-cover__poster::after {
+  content:none;
+  display:none;
+}
+body.home-page #main-content > #stories .journal-gallery-cover__poster > img {
+  box-sizing:border-box;
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:none;
+  aspect-ratio:5 / 3;
+  object-fit:contain;
+  object-position:center;
+  border:1px solid #d9c6a3;
+  border-radius:2px 2px 0 0;
+  background:#f6f0e2;
+}
+body.home-page #main-content > #stories .journal-gallery-cover__poster > :is(small,strong,span) {
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  margin:0;
+  padding-inline:clamp(15px,2vw,23px);
+  background:#214536;
+  text-align:left;
+}
+body.home-page #main-content > #stories .journal-gallery-cover__poster > small {
+  padding-top:clamp(13px,1.5vw,19px);
+  padding-bottom:4px;
+  color:#e8d5aa;
+  font:750 10px/1.6 system-ui,sans-serif;
+  letter-spacing:.1em;
+}
+body.home-page #main-content > #stories .journal-gallery-cover__poster > strong {
+  padding-top:1px;
+  padding-bottom:5px;
+  color:#fffdf4;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-size:clamp(20px,2.1vw,27px);
+  font-weight:700;
+  line-height:1.55;
+  letter-spacing:-.055em;
+  word-break:keep-all;
+}
+body.home-page #main-content > #stories .journal-gallery-cover__poster > span {
+  padding-top:5px;
+  padding-bottom:clamp(13px,1.7vw,19px);
+  color:#e3d6b9;
+  font:700 10px/1.6 system-ui,sans-serif;
+  letter-spacing:.12em;
+}
+@media(max-width:700px) {
+  body.home-page #main-content > #stories .journal-gallery-cover__poster {
+    min-height:0;
+    padding:7px;
+  }
+  body.home-page #main-content > #stories .journal-gallery-cover__poster > strong {
+    font-size:clamp(19px,5vw,23px);
+    line-height:1.5;
+  }
+  body.home-page #main-content > #stories .journal-gallery-cover__poster > :is(small,strong,span) {
+    padding-inline:15px;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > #stories .journal-gallery-cover__poster,
+  body.home-page #main-content > #stories .journal-gallery-cover__poster > img,
+  body.home-page #main-content > #stories .journal-gallery-cover__poster > :is(small,strong,span) {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
