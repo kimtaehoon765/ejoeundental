@@ -942,3 +942,140 @@ body.care-gallery.care-gallery-secondary.secondary-scaling .scaling-patient-read
     box-shadow:none;
   }
 }
+
+/* 2026-11-02 | Cavity care stages and denture choice comparison
+   Clinical body copy and watercolors are unchanged. Cavity's existing three
+   decisions receive a quiet numbered frame, while the two denture types are
+   readable side-by-side and naturally stack on mobile. */
+body.care-gallery.care-gallery-secondary.secondary-cavity .care-gallery-article-shell > section.cavity-decision-stage{
+  position:relative;
+  box-sizing:border-box;
+  min-width:0;
+  margin:clamp(14px,2.1vw,22px) 0;
+  padding:clamp(20px,3vw,35px);
+  border:1px solid #d9d2c2;
+  border-top:3px solid #91a896;
+  border-radius:4px 15px 4px 15px;
+  background:linear-gradient(141deg,#fffefa,#f5f8f1);
+  box-shadow:0 8px 24px rgba(33,56,43,.045);
+}
+body.care-gallery.care-gallery-secondary.secondary-cavity .care-gallery-article-shell > section.cavity-decision-stage:nth-of-type(even){
+  border-top-color:#ae9874;
+  background:linear-gradient(141deg,#fffefa,#faf7ef);
+}
+body.care-gallery.care-gallery-secondary.secondary-cavity .care-gallery-article-shell > section.cavity-decision-stage::before{
+  content:"CARE DECISION  " attr(data-stage);
+  display:inline-flex;
+  align-items:center;
+  min-height:28px;
+  box-sizing:border-box;
+  margin:0 0 10px;
+  padding:4px 10px;
+  border:1px solid #c6b798;
+  border-radius:3px 8px 3px 8px;
+  color:#6d5a3b;
+  background:#f7f0e1;
+  font:800 11px/1.4 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.08em;
+}
+body.care-gallery.care-gallery-secondary.secondary-cavity .care-gallery-article-shell > section.cavity-decision-stage > h2{
+  margin:0 0 14px;
+  max-width:42ch;
+  color:#254a36;
+  font:700 clamp(22px,2.45vw,29px)/1.5 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.04em;
+  word-break:keep-all;
+  text-wrap:balance;
+}
+body.care-gallery.care-gallery-secondary.secondary-cavity .care-gallery-article-shell > section.cavity-decision-stage > p{
+  max-width:77ch;
+  color:#435b4b;
+  font-size:clamp(15px,1.38vw,17px);
+  line-height:1.94;
+  word-break:keep-all;
+}
+body.care-gallery.care-gallery-secondary.secondary-denture .care-gallery-article-shell > section.denture-types-section{
+  box-sizing:border-box;
+  border-top:3px solid #b29a75;
+  border-radius:4px 15px 4px 15px;
+  background:linear-gradient(135deg,#fffefa,#faf7ee);
+}
+body.care-gallery.care-gallery-secondary.secondary-denture .denture-type-comparison{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(11px,2vw,22px);
+  align-items:stretch;
+  margin:clamp(18px,2.5vw,28px) 0 13px;
+}
+body.care-gallery.care-gallery-secondary.secondary-denture .denture-type-card{
+  box-sizing:border-box;
+  min-width:0;
+  margin:0;
+  padding:clamp(20px,2.6vw,29px);
+  border:1px solid #d9cfbd;
+  border-top:4px solid #8ea88d;
+  border-radius:4px 13px 4px 13px;
+  background:#f7faf5;
+  box-shadow:0 8px 21px rgba(33,55,41,.04);
+}
+body.care-gallery.care-gallery-secondary.secondary-denture .denture-type-card:nth-child(2){
+  border-top-color:#b49a76;
+  background:#fbf8f1;
+}
+body.care-gallery.care-gallery-secondary.secondary-denture .denture-type-card > p{
+  margin:0;
+  color:#415b4c;
+  font-size:clamp(15px,1.45vw,17px);
+  line-height:1.92;
+  word-break:keep-all;
+}
+body.care-gallery.care-gallery-secondary.secondary-denture .denture-type-card > p > strong{
+  display:block;
+  margin:0 0 11px;
+  color:#254b38;
+  font:700 clamp(20px,2.1vw,24px)/1.5 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.04em;
+}
+body.care-gallery.care-gallery-secondary.secondary-denture .denture-types-section > p.denture-type-note{
+  box-sizing:border-box;
+  margin:13px 0 0;
+  padding:14px 17px;
+  border-left:3px solid #ab9977;
+  background:#f6f3eb;
+  color:#495e4b;
+  font-size:clamp(15px,1.4vw,16px);
+  line-height:1.8;
+  word-break:keep-all;
+}
+@media(max-width:720px){
+  body.care-gallery.care-gallery-secondary.secondary-denture .denture-type-comparison{
+    grid-template-columns:minmax(0,1fr);
+    gap:10px;
+  }
+  body.care-gallery.care-gallery-secondary.secondary-denture .denture-type-card{
+    padding:18px 17px;
+    box-shadow:none;
+  }
+  body.care-gallery.care-gallery-secondary.secondary-cavity .care-gallery-article-shell > section.cavity-decision-stage{
+    padding:21px 18px;
+    box-shadow:none;
+  }
+}
+@media(forced-colors:active){
+  body.care-gallery.care-gallery-secondary.secondary-cavity .care-gallery-article-shell > section.cavity-decision-stage,
+  body.care-gallery.care-gallery-secondary.secondary-denture .care-gallery-article-shell > section.denture-types-section,
+  body.care-gallery.care-gallery-secondary.secondary-denture .denture-type-card,
+  body.care-gallery.care-gallery-secondary.secondary-denture .denture-types-section > p.denture-type-note{
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+}
+@media print{
+  body.care-gallery.care-gallery-secondary.secondary-cavity .care-gallery-article-shell > section.cavity-decision-stage,
+  body.care-gallery.care-gallery-secondary.secondary-denture .denture-type-card{
+    box-shadow:none;
+    break-inside:avoid;
+  }
+}
