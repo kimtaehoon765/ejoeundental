@@ -3909,7 +3909,7 @@ function stripBundleDocumentation(css,label){
  // Only the build-generated, content-addressed CSS can be cached for a year.
  // Other /assets/* files keep their short TTL so CMS edits are seen promptly.
  // Exact-path rules override the generic asset header on Cloudflare Pages.
- const immutableCss=[...homepage.matchAll(/<link rel="stylesheet" href="(\\/assets\\/home-(?:critical|finishing)-[0-9a-f]{12}\\.css)">/g)]
+ const immutableCss=[...homepage.matchAll(/<link rel="stylesheet" href="(\/assets\/home-(?:critical|finishing)-[0-9a-f]{12}\.css)">/g)]
   .map(match=>match[1]);
  if(immutableCss.length!==2||new Set(immutableCss).size!==2||
     !immutableCss.includes(href))
