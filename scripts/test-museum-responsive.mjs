@@ -43,6 +43,35 @@ const exhibitionFoundation=()=>{
 };
 
 
+test('large homepage gallery layers deliver only live CSS with comments removed',()=>{
+ const layers=['home-art-direction-20261030.css','atelier-refinement-20261030.css'];
+ const linked=[...home.matchAll(/<link rel="stylesheet" href="(\/assets\/[^"]+)"/g)]
+  .map(match=>match[1]);
+ let saved=0;
+ for(const name of layers){
+  const source=readFileSync('assets/'+name,'utf8');
+  assert.ok(!/\\\r?\n/.test(source),'no CSS escaped newline may be normalized: '+name);
+  const normalized=source.replace(/[ \t]+$/gm,'').replace(/^[ \t]+/gm,'')
+   .replace(/(?:\r?\n){2,}/g,'\n');
+  const every=[...normalized.matchAll(/\/\*[\s\S]*?\*\//g)].length;
+  const standalone=[...normalized.matchAll(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm)].length;
+  assert.equal(every,standalone,'all removed CSS comments must stand alone: '+name);
+  const delivered=normalized.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'')
+   .replace(/(?:\r?\n){2,}/g,'\n');
+  assert.equal(read('assets/'+name),delivered,
+   'every non-documentation visual CSS token and cascade remains unchanged: '+name);
+  assert.equal((read('assets/'+name).match(/\/\*/g)||[]).length,0,
+   'no standalone documentation is sent to patients: '+name);
+  const digest=createHash('sha256').update(delivered).digest('hex').slice(0,12);
+  assert.ok(linked.includes('/assets/'+name+'?v='+digest),
+   'the browser must request the current compacted asset: '+name);
+  saved+=Buffer.byteLength(normalized)-Buffer.byteLength(delivered);
+ }
+ assert.ok(saved>15000,'two museum visual layers should save meaningful uncompressed delivery bytes');
+ assert.ok(home.includes('class="mobile-booking-actions"')&&home.includes('href="tel:0325132875"'),
+  'patient booking and telephone actions must remain available');
+});
+
 test('patient health-library search desks remain accessible and link to one verified search route',()=>{
  const css=read('assets/health-library-gallery.css');
  assert.ok(css.includes('2026-10-31 | Search desk for four patient reading rooms'));
