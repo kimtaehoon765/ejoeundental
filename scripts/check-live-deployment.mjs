@@ -208,8 +208,9 @@ async function main(){
     storyImage===liveStoryImage&&
     storyImage.endsWith('/assets/ejoeun-gallery-cat-dentist-20261029.webp'),
     '공개 '+(liveStoryImage||'없음')+' / 이번 빌드 '+(storyImage||'없음'));
-  // First-viewport artwork: one preload and one high-priority native image,
-  // with original dimensions and descriptive alt text kept intact.
+  // First-viewport artwork: compare the real picture and its complete preload
+  // against the deployed release. Galleries can use responsive imagesrcset;
+  // the clinician's SVG remains a single lightweight original.
   const firstArt=[
     ['의료진 소개','/doctor',builtDoctor,'ejoeun-doctor-since2003-garden-20261029.svg','image/svg+xml'],
     ['갤러리','/gallery',builtGallery,'ejoeun-original-wisdom-consult-20261029.webp','image/webp']
@@ -217,20 +218,32 @@ async function main(){
   for(const [label,route,expected,filename,type] of firstArt){
     const actual=pages[route]||'';
     const rel='/assets/'+filename;
-    const preload='<link rel="preload" as="image" type="'+type+
-      '" fetchpriority="high" href="'+rel+'">';
-    const figure=(html)=>[...html.matchAll(/<img\b[^>]*>/g)].find(x=>x[0].includes('src="'+rel+'"'))?.[0]||'';
+    const figure=html=>tagFor(html,'img',tag=>attr(tag,'src')===rel);
+    const preload=html=>tagFor(html,'link',tag=>
+      attr(tag,'rel')==='preload'&&attr(tag,'href')===rel&&attr(tag,'as')==='image');
     const currentFigure=figure(actual),builtFigure=figure(expected);
-    const imageOk=currentFigure===builtFigure&&
-      currentFigure.includes('loading="eager"')&&
-      currentFigure.includes('fetchpriority="high"')&&
-      currentFigure.includes('decoding="async"')&&
-      /width="\d+" height="\d+"/.test(currentFigure)&&
-      currentFigure.includes('alt="');
+    const currentPreload=preload(actual),builtPreload=preload(expected);
+    const sourceSet=attr(builtFigure,'srcset'),sourceSizes=attr(builtFigure,'sizes');
+    const responsiveAligned=sourceSet?Boolean(sourceSizes)&&
+      attr(builtPreload,'imagesrcset')===sourceSet&&
+      attr(builtPreload,'imagesizes')===sourceSizes&&
+      attr(currentPreload,'imagesrcset')===sourceSet&&
+      attr(currentPreload,'imagesizes')===sourceSizes:
+      !attr(builtPreload,'imagesrcset')&&!attr(currentPreload,'imagesrcset');
+    const imageOk=Boolean(currentFigure&&currentPreload)&&
+      currentFigure===builtFigure&&currentPreload===builtPreload&&
+      attr(currentFigure,'loading')==='eager'&&
+      attr(currentFigure,'fetchpriority')==='high'&&
+      attr(currentFigure,'decoding')==='async'&&
+      /width="\\d+" height="\\d+"/.test(currentFigure)&&
+      Boolean(attr(currentFigure,'alt'));
+    const preloadOk=attr(currentPreload,'type')===type&&
+      attr(currentPreload,'fetchpriority')==='high'&&responsiveAligned;
     verdict(label+' 첫 그림 우선 로딩·미리 불러오기',
-      imageOk&&actual.includes(preload)&&expected.includes(preload),
-      imageOk?'원본 그림·가로세로 크기 유지 / 고우선순위 그림·preload 동기화':
-      '이미지 로딩 힌트 또는 원본 그림 불일치');
+      imageOk&&preloadOk,
+      imageOk&&preloadOk?
+        '고우선순위 원본·가로세로·preload·모바일 srcset 실제 배포 일치':
+        '그림 원본·로딩 우선순위 또는 반응형 preload 불일치');
   }
   await checkAsset('의료진 소개 첫 그림 원본',
     'assets/ejoeun-doctor-since2003-garden-20261029.svg',
