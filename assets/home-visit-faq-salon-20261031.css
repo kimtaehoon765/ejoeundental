@@ -780,3 +780,73 @@ body.home-page #main-content > #philosophy .grid > .card a:focus-visible {
     color:CanvasText;
   }
 }
+
+
+/* 2026-11-03 | Patient atlas: legible plates and enlargement links. */
+/* Distinguish precise medical explanation plates from the warm paintings.
+   Preserve the image aspect ratio, existing navigation and gallery artwork. */
+body.home-page #main-content > .care-picture-notes a[href="/cervical-abrasion.html"] .care-picture-notes__frame {
+  background:#e8f0ee;
+  border-color:#c4d5d0;
+}
+body.home-page #main-content > .care-picture-notes a[href="/cervical-abrasion.html"] .care-picture-notes__frame > img {
+  background:#f5f9f8;
+  border-color:#c9d8d4;
+}
+body.home-page #main-content > #care .care-more-details .care-mini-gallery > img[src^="/assets/clinical-"] {
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  aspect-ratio:3 / 2;
+  max-height:none;
+  object-fit:contain;
+  background:#f2f7f5;
+  border:1px solid #bed1cd;
+}
+body.home-page #main-content > #care .care-more-details .care-mini-gallery > figcaption > a {
+  display:flex;
+  box-sizing:border-box;
+  width:fit-content;
+  max-width:100%;
+  min-height:44px;
+  align-items:center;
+  justify-content:center;
+  margin:12px 0 0;
+  padding:9px 15px;
+  border:1px solid #8fb2a9;
+  border-radius:5px;
+  background:#edf6f2;
+  color:#1c5548;
+  font-size:13px;
+  font-weight:750;
+  line-height:1.6;
+  text-decoration:none;
+  text-align:center;
+  word-break:keep-all;
+}
+body.home-page #main-content > #care .care-more-details .care-mini-gallery > figcaption > a:hover {
+  background:#dcebe5;
+  border-color:#527f73;
+}
+body.home-page #main-content > #care .care-more-details .care-mini-gallery > figcaption > a:focus-visible {
+  outline:3px solid #916b31;
+  outline-offset:3px;
+}
+@media(max-width:600px) {
+  body.home-page #main-content > #care .care-more-details .care-mini-gallery > figcaption > a {
+    width:100%;
+    min-height:48px;
+    font-size:14px;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > #care .care-more-details .care-mini-gallery > figcaption > a,
+  body.home-page #main-content > #care .care-more-details .care-mini-gallery > img[src^="/assets/clinical-"],
+  body.home-page #main-content > .care-picture-notes a[href="/cervical-abrasion.html"] .care-picture-notes__frame {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
