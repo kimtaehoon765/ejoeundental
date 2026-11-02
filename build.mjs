@@ -3822,8 +3822,17 @@ function compactCriticalCss(css){
   return text.trimEnd();
  });
  const documented=css.join(boundary)+'\n';
- const combined=stripBundleDocumentation(documented,'exhibition foundation');
- if(combined.length>=documented.length)throw new Error('Exhibition foundation CSS documentation was not reduced');
+ const withoutDocumentation=stripBundleDocumentation(documented,'exhibition foundation');
+ // Delivery-only whitespace compaction. All original selectors, declarations,
+ // URL references, cascade layers, gallery imagery and readable source files
+ // are preserved. CSS line continuation would make trimming unsafe.
+ if(/\\\r?\n/.test(withoutDocumentation))
+  throw new Error('Cannot compact an escaped CSS newline in curated exhibition styles');
+ const combined=withoutDocumentation.replace(/[ \t]+$/gm,'')
+  .replace(/^[ \t]+/gm,'')
+  .replace(/(?:\r?\n){2,}/g,'\n');
+ if(combined.length>=withoutDocumentation.length)
+  throw new Error('Exhibition foundation CSS formatting was not reduced');
  const hash=createHash('sha256').update(combined).digest('hex').slice(0,12);
  const bundled='exhibition-foundation-'+hash+'.css';
  fs.writeFileSync(path.join(out,'assets',bundled),combined,'utf8');
@@ -3843,7 +3852,7 @@ function compactCriticalCss(css){
     newCount!==oldCount-2)
   throw new Error('Exhibition bundling disturbed existing CSS cascade or link count');
  fs.writeFileSync(homepage,html,'utf8');
- console.log('Homepage stable exhibition CSS requests: 3 -> 1;',
+ console.log('Homepage stable exhibition CSS requests: 3 -> 1; formatting savings:',Buffer.byteLength(withoutDocumentation)-Buffer.byteLength(combined),'bytes;',
   'newer art layers cached independently:',2,'bundle:',bundled);
 }
 
