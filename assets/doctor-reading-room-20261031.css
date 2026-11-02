@@ -455,3 +455,126 @@ body.doctor-gallery #doctor-profile-main :is(.doctor-quick-answers a,.card a):fo
     box-shadow:none;
   }
 }
+
+/* 2026-11-02 | Dentist-and-cat portrait reading panel
+   Original portrait sits beside the existing clinical explanation on wide
+   screens and follows it in the natural reading order on small screens. */
+body.doctor-gallery #doctor-profile-main > section.card.doctor-principles-panel {
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(230px,.76fr);
+  column-gap:clamp(18px,3vw,36px);
+  align-items:start;
+  border-top-color:#a99067;
+}
+body.doctor-gallery #doctor-profile-main > .doctor-principles-panel > :is(h2,p) {
+  grid-column:1;
+  min-width:0;
+}
+body.doctor-gallery #doctor-profile-main > .doctor-principles-panel > h2 {
+  margin-bottom:17px;
+}
+body.doctor-gallery #doctor-profile-main > .doctor-principles-panel > p {
+  margin-top:0;
+  margin-bottom:14px;
+  font-size:clamp(15px,1.35vw,16px);
+  line-height:1.9;
+  color:#405b49;
+}
+body.doctor-gallery #doctor-profile-main > .doctor-principles-panel > .doctor-portrait-study {
+  grid-column:2;
+  grid-row:1 / span 3;
+  align-self:center;
+  min-width:0;
+  margin:0;
+  padding:8px;
+  border:1px solid #cab89a;
+  border-radius:3px 12px 3px 12px;
+  background:#ebe2d1;
+  box-shadow:0 8px 24px rgba(26,49,35,.07);
+}
+body.doctor-gallery .doctor-portrait-study__frame {
+  padding:5px;
+  border:1px solid #c3ac84;
+  background:#faf4ea;
+}
+body.doctor-gallery .doctor-portrait-study__frame img {
+  display:block;
+  width:100%;
+  max-width:100%;
+  height:auto;
+  aspect-ratio:3/2;
+  object-fit:contain;
+  object-position:center;
+}
+body.doctor-gallery .doctor-portrait-study figcaption {
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:5px;
+  padding:14px 12px 11px;
+  background:#fffdf7;
+  border-top:1px solid #d4c5aa;
+  word-break:keep-all;
+}
+body.doctor-gallery .doctor-portrait-study figcaption small {
+  color:#866d43;
+  font:800 10px/1.5 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.1em;
+}
+body.doctor-gallery .doctor-portrait-study figcaption strong {
+  color:#204732;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  font-weight:700;
+  font-size:clamp(16px,1.65vw,20px);
+  line-height:1.5;
+  letter-spacing:-.035em;
+}
+body.doctor-gallery .doctor-portrait-study figcaption span {
+  color:#5b665c;
+  font-size:12px;
+  line-height:1.65;
+}
+body.doctor-gallery .doctor-portrait-study figcaption a {
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+  color:#255a40;
+  font-size:13px;
+  font-weight:800;
+  text-underline-offset:4px;
+}
+body.doctor-gallery .doctor-portrait-study figcaption a:focus-visible {
+  outline:3px solid #aa854c;
+  outline-offset:3px;
+}
+@media(max-width:740px) {
+  body.doctor-gallery #doctor-profile-main > section.card.doctor-principles-panel {
+    display:block;
+  }
+  body.doctor-gallery #doctor-profile-main > .doctor-principles-panel > .doctor-portrait-study {
+    box-sizing:border-box;
+    width:min(100%,430px);
+    margin:18px auto 2px;
+    padding:7px;
+    box-shadow:none;
+  }
+  body.doctor-gallery .doctor-portrait-study figcaption {
+    padding:12px 12px 9px;
+  }
+}
+@media(forced-colors:active) {
+  body.doctor-gallery #doctor-profile-main > .doctor-principles-panel > .doctor-portrait-study,
+  body.doctor-gallery .doctor-portrait-study__frame,
+  body.doctor-gallery .doctor-portrait-study figcaption {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
+@media(print) {
+  body.doctor-gallery #doctor-profile-main > .doctor-principles-panel > .doctor-portrait-study {
+    box-shadow:none;
+    break-inside:avoid;
+  }
+}
