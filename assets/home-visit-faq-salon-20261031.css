@@ -873,3 +873,34 @@ body.home-page #main-content > .care-picture-notes .care-picture-notes__heading 
     line-height:1.86;
   }
 }
+
+
+/* 2026-11-03 | Compact first-screen mobile navigation with preserved booking dock. */
+/* The phone and booking actions already live in the fixed three-action dock.
+   Use four wider header shortcuts before scroll; preserve all five HTML
+   routes and the compact scrolled-header rules without affecting desktop. */
+@media (max-width:600px) {
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick {
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:clamp(5px,1.5vw,9px);
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick > a.mobile-call {
+    display:none;
+  }
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick > a {
+    min-width:0;
+    min-height:48px;
+    padding:8px 4px;
+    font-size:clamp(11px,3.2vw,13px);
+    line-height:1.4;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+}
+@media (forced-colors:active) and (max-width:600px) {
+  html:not(.home-scrolled) body.home-page header .nav .mobile-quick > a {
+    background:ButtonFace;
+    color:ButtonText;
+    border-color:ButtonText;
+  }
+}
