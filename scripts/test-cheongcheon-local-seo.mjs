@@ -345,3 +345,24 @@ test('sitemap uses verified care-hub and insurance FAQ revision dates rather tha
   !sitemap.includes('<loc>https://ejoeundental.com/health/insurance-cavity</loc><lastmod>2026-10-29</lastmod>'),
   'do not pretend an unrelated health guide was updated on October 29');
 });
+
+test('Cloudflare Pages permanently redirects only obsolete retreatment draft URLs',()=>{
+ const source=readFileSync('_redirects','utf8');
+ const deployed=readFileSync('dist/_redirects','utf8');
+ assert.equal(deployed,source,'Cloudflare deploy output must include the real redirect file');
+ const rules=source.split(/\r?\n/).map(x=>x.trim())
+  .filter(x=>x&&!x.startsWith('#'));
+ assert.deepEqual(rules,[
+  '/retreatment_updated.html /retreatment 301',
+  '/retreatment_updated /retreatment 301'
+ ],'retire only the two old duplicate URLs, never the current treatment route');
+ assert.ok(!sitemap.includes('<loc>https://ejoeundental.com/retreatment_updated'),
+  'deprecated guidance must stay outside public search index');
+ const oldDraft=readFileSync('retreatment_updated.html','utf8');
+ assert.ok(oldDraft.includes('name="robots" content="noindex,follow"')&&
+  oldDraft.includes('rel="canonical" href="https://ejoeundental.com/retreatment.html"'),
+  'source of redirected legacy draft must remain explicitly nonindexable');
+ const current=readFileSync('dist/retreatment.html','utf8');
+ assert.ok(current.includes('<h1')&&current.includes('rel="canonical" href="https://ejoeundental.com/retreatment"'),
+  'the new permanent target must retain the published patient-facing canonical');
+});
