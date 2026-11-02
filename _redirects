@@ -1,0 +1,4 @@
+# Cloudflare Pages only: retire the old, noindex retreatment draft.
+# Do not redirect the published /retreatment patient education page.
+/retreatment_updated.html /retreatment 301
+/retreatment_updated /retreatment 301
