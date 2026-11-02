@@ -750,6 +750,33 @@ test('mobile hero artwork preload prioritizes the visible doctor-cat portrait',(
 });
 
 
+test('all visible homepage artwork is shipped with accessible and stable image dimensions',()=>{
+ const source=readFileSync('index.html','utf8');
+ const original=[...source.matchAll(/<img\b[^>]*>/g)].map(m=>m[0]);
+ const delivered=[...home.matchAll(/<img\b[^>]*>/g)].map(m=>m[0]);
+ assert.equal(delivered.length,original.length,
+  'build must not silently remove or duplicate images');
+ const paths=[];
+ for(const [i,tag] of delivered.entries()){
+  const src=tag.match(/\bsrc="(\/assets\/[^"]+)"/)?.[1];
+  assert.ok(src,'homepage artwork must have a local assets path: image '+i);
+  assert.ok(/\balt="[^"]*"/.test(tag),'every artwork needs an explicit alt attribute: '+src);
+  assert.ok(/\bwidth="[0-9]+"/.test(tag)&&/\bheight="[0-9]+"/.test(tag),
+   'art dimensions must be known before layout: '+src);
+  assert.ok(existsSync('dist'+src),'image must exist in the published output: '+src);
+  paths.push(src);
+ }
+ assert.equal(new Set(paths).size,paths.length,
+  'each homepage painting or clinical diagram must be a separate artwork');
+ const portrait=delivered.find(tag=>tag.includes('/assets/ejoeun-gallery-cat-dentist-20261029.webp'));
+ assert.ok(portrait&&portrait.includes('loading="eager"')&&portrait.includes('fetchpriority="high"'),
+  'keep the approved doctor-and-cat painting prioritized in the first viewport');
+ for(const tag of delivered){
+  if(tag!==portrait)assert.ok(tag.includes('loading="lazy"'),
+   'below-the-fold art should remain lazy-loaded');
+ }
+});
+
 test('unique homepage paintings and clinical plates retain image count and editorial labels',()=>{
  const source=readFileSync('index.html','utf8');
  const original=[...source.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)].map(x=>x[1]);
