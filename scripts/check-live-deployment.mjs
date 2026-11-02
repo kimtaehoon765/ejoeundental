@@ -126,21 +126,36 @@ async function main(){
     liveHome.includes('fetchpriority="high"')&&
     builtHome.includes('src="/assets/ejoeun-gallery-cat-dentist-20261029.webp"'),
     '승인된 첫 화면 그림·우선 로딩');
-  // Two byte-verified responsive copies keep the original portrait
-  // untouched; srcset must also be supplied on the preloaded first-fold image.
+  // Match the current responsive hero image AND preload across source build
+  // and live Cloudflare HTML. Keep checking all original byte-identical assets.
+  // Do not hardcode the obsolete 480/720-only srcset: 640w was added later.
   const portraitBase='/assets/ejoeun-gallery-cat-dentist-20261029';
-  const responsiveSet=portraitBase+'-480.webp 480w, '+
-    portraitBase+'-720.webp 720w, '+portraitBase+'.webp 1200w';
-  const mobileSizes='(max-width: 600px) calc(100vw - 72px), '+
-    '(max-width: 960px) 48vw, 550px';
-  const responsiveMarkers=[
-    'srcset="'+responsiveSet+'" sizes="'+mobileSizes+'"',
-    'imagesrcset="'+responsiveSet+'" imagesizes="'+mobileSizes+'"'
-  ];
+  const attr=(tag,key)=>tag.match(new RegExp('(?:^|\\\\s)'+key+'="([^"]+)"'))?.[1]||'';
+  const tagFor=(html,element,matching)=>[...html.matchAll(
+    new RegExp('<'+element+'\\\\b[^>]*>','g'))].map(m=>m[0]).find(matching)||'';
+  const portraitImage=html=>tagFor(html,'img',tag=>attr(tag,'src')===portraitBase+'.webp');
+  const portraitPreload=html=>tagFor(html,'link',tag=>
+    attr(tag,'rel')==='preload'&&attr(tag,'as')==='image'&&
+    attr(tag,'href')===portraitBase+'.webp');
+  const builtPortrait=portraitImage(builtHome),livePortrait=portraitImage(liveHome);
+  const builtPortraitPreload=portraitPreload(builtHome);
+  const livePortraitPreload=portraitPreload(liveHome);
+  const srcset=attr(builtPortrait,'srcset'),sizes=attr(builtPortrait,'sizes');
+  const widths=[480,640,720,1200];
+  const correctWidths=widths.every(width=>srcset.includes(
+    (width===1200?portraitBase:portraitBase+'-'+width)+'.webp '+width+'w'));
+  const preloadMatches=Boolean(srcset&&sizes)&&
+    attr(builtPortraitPreload,'imagesrcset')===srcset&&
+    attr(builtPortraitPreload,'imagesizes')===sizes&&
+    attr(livePortraitPreload,'imagesrcset')===srcset&&
+    attr(livePortraitPreload,'imagesizes')===sizes;
   verdict('모바일 원장·고양이 원본 축소본 선택·미리 불러오기',
-    responsiveMarkers.every(marker=>builtHome.includes(marker)&&liveHome.includes(marker)),
-    '480w·720w 원본 축소본과 1200w 보존 작품, 동일한 preload');
-  for(const width of [480,720]){
+    correctWidths&&preloadMatches&&builtPortrait===livePortrait&&
+    builtPortraitPreload===livePortraitPreload&&
+    attr(livePortrait,'loading')==='eager'&&attr(livePortrait,'fetchpriority')==='high'&&
+    attr(livePortraitPreload,'fetchpriority')==='high',
+    '480w·640w·720w·1200w 실제 srcset / preload 동일 / Cloudflare 원본 검증');
+  for(const width of [480,640,720]){
     const relative='assets/ejoeun-gallery-cat-dentist-20261029-'+width+'.webp';
     await checkAsset('원본 작품 '+width+'px 모바일 축소본',relative,'/'+relative);
   }
