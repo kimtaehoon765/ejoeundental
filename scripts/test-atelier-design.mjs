@@ -7,6 +7,8 @@ const atelier=read('assets/atelier-home-2026.css');
 const museum=read('assets/museum-home-v2.css');
 
 const compactDeliveredCss=css=>css.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'');
+const compactExhibitionCss=css=>compactDeliveredCss(css).replace(/[ \t]+$/gm,'')
+ .replace(/^[ \t]+/gm,'').replace(/(?:\r?\n){2,}/g,'\n');
 
 test('Atelier premium stylesheet loaded AFTER the existing museum/mobile safety layer',()=>{
  const styles=[...home.matchAll(/<link[^>]+rel="stylesheet" href="([^"]+)"/g)].map(x=>x[1]);
@@ -14,7 +16,7 @@ test('Atelier premium stylesheet loaded AFTER the existing museum/mobile safety 
  assert.ok(exhibitionHref,'immutable three-layer exhibition CSS bundle must be linked');
  const exhibition=read(exhibitionHref.slice(1));
  const exhibitionLayers=['assets/atelier-home-2026.css','assets/curatorial-home.css','assets/gallery-edition-polish.css'];
- const exhibitPositions=exhibitionLayers.map(file=>exhibition.indexOf(compactDeliveredCss(read(file).trimEnd())));
+ const exhibitPositions=exhibitionLayers.map(file=>exhibition.indexOf(compactExhibitionCss(read(file).trimEnd())));
  assert.ok(exhibitPositions.every(n=>n>=0)&&exhibitPositions.every((n,i)=>i===0||n>exhibitPositions[i-1]),
   'Atelier, curatorial and finishing CSS must retain original source order');
  const a=styles.indexOf(exhibitionHref);
