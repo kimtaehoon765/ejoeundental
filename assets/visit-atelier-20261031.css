@@ -591,3 +591,122 @@ body.visit-gallery .visit-cycle__contact:focus-visible{
     box-shadow:none;
   }
 }
+
+/* 2026-11-02 | Visit-at-a-glance gallery information strip
+   Accessible first-screen facts. The full schedule and alternating-week
+   explanation remain in the original sections below. */
+body.visit-gallery header > .visit-at-glance {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  width:100%;
+  max-width:790px;
+  margin:clamp(18px,2.5vw,27px) 0 15px;
+  padding:0;
+  list-style:none;
+}
+body.visit-gallery header > .visit-at-glance > li {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-items:flex-start;
+  gap:5px;
+  min-width:0;
+  margin:0;
+  padding:clamp(14px,1.65vw,20px);
+  border:1px solid #d7cfba;
+  border-top:3px solid #b29a70;
+  border-radius:4px 12px 4px 12px;
+  background:rgba(255,254,250,.94);
+  box-shadow:0 4px 16px rgba(29,56,39,.04);
+}
+body.visit-gallery header > .visit-at-glance > li:nth-child(2) {
+  border-top-color:#86a48c;
+}
+body.visit-gallery header > .visit-at-glance > li:nth-child(3) {
+  border-top-color:#9d9c81;
+}
+body.visit-gallery header > .visit-at-glance > li > small {
+  display:block;
+  color:#7d6847;
+  font:800 10px/1.5 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.08em;
+  word-break:keep-all;
+}
+body.visit-gallery header > .visit-at-glance > li > strong {
+  display:block;
+  color:#234a36;
+  font:800 clamp(16px,1.72vw,20px)/1.48 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.045em;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+  font-variant-numeric:tabular-nums;
+}
+body.visit-gallery header > .visit-at-glance > li > span {
+  display:block;
+  color:#516655;
+  font-size:clamp(12px,1.15vw,14px);
+  line-height:1.67;
+  word-break:keep-all;
+}
+body.visit-gallery header > .visit-at-glance + .visit-quick-actions {
+  margin-top:13px;
+}
+@media(max-width:700px) {
+  body.visit-gallery header > .visit-at-glance {
+    gap:8px;
+  }
+  body.visit-gallery header > .visit-at-glance > li {
+    padding:13px 11px;
+  }
+}
+@media(max-width:520px) {
+  body.visit-gallery header > .visit-at-glance {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    margin:16px 0 13px;
+  }
+  body.visit-gallery header > .visit-at-glance > li {
+    padding:12px 10px;
+    gap:3px;
+    box-shadow:none;
+  }
+  body.visit-gallery header > .visit-at-glance > li:first-child {
+    grid-column:1/-1;
+  }
+  body.visit-gallery header > .visit-at-glance > li > small {
+    font-size:10px;
+  }
+  body.visit-gallery header > .visit-at-glance > li > strong {
+    font-size:clamp(15px,4.25vw,18px);
+  }
+  body.visit-gallery header > .visit-at-glance > li > span {
+    font-size:12px;
+  }
+}
+@media(max-width:360px) {
+  body.visit-gallery header > .visit-at-glance {
+    grid-template-columns:minmax(0,1fr);
+    gap:6px;
+  }
+  body.visit-gallery header > .visit-at-glance > li:first-child {
+    grid-column:auto;
+  }
+}
+@media(forced-colors:active) {
+  body.visit-gallery header > .visit-at-glance > li {
+    color:CanvasText;
+    border-color:CanvasText;
+    background:Canvas;
+    box-shadow:none;
+  }
+  body.visit-gallery header > .visit-at-glance > li :is(small,strong,span) {
+    color:CanvasText;
+  }
+}
+@media print {
+  body.visit-gallery header > .visit-at-glance > li {
+    box-shadow:none;
+  }
+}
