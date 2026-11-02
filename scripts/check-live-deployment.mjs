@@ -57,6 +57,32 @@ async function main(){
     ['갤러리','/gallery',builtGallery],['통합 검색','/search',builtSearch],
     ['의료진 소개','/doctor',builtDoctor],
     ['자연치아 보존','/tooth-preservation',builtPreservation]];
+  // Cloudflare Pages publishes after the GitHub push; a healthy build may
+  // briefly serve the preceding commit. Retry only the deployment marker,
+  // using no-cache read-only homepage requests, before auditing 46 assets.
+  // Keep this bounded: it does not deploy, mutate DNS or mask a stale release.
+  const maxReleaseProbes=7;
+  const releaseProbeGapMs=8000;
+  let releaseProbes=0,releaseSeen='없음',releaseStatus=0;
+  if(/^[0-9a-f]{40}$/.test(commit)){
+    for(let attempt=1;attempt<=maxReleaseProbes;attempt++){
+      releaseProbes=attempt;
+      try{
+        const response=await get('/');
+        releaseStatus=response.status;
+        releaseSeen=meta(response.bytes.toString('utf8'),'ejoeundental-build-commit')||'없음';
+        if(response.status===200&&releaseSeen===commit)break;
+      }catch(error){
+        releaseSeen='접속 실패: '+String(error.cause?.code||error.message||error);
+      }
+      if(attempt<maxReleaseProbes){
+        await new Promise(resolve=>setTimeout(resolve,releaseProbeGapMs));
+      }
+    }
+  }
+  console.log('[LIVE RELEASE] Cloudflare 커밋 배포 대기 확인:',
+    releaseProbes+'/'+maxReleaseProbes,'회 · HTTP',releaseStatus,
+    '· 공개',releaseSeen,'· 빌드',commit);
   const pages={};
   await Promise.all(routes.map(async([label,path,expected])=>{
     try{
