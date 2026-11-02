@@ -53,6 +53,34 @@ test('rejects missing CSS @import from a nested stylesheet path', () => {
  assert.match(outcome.stderr, /\/themes\/not-published\.css/);
 });
 
+test('checks all first-party responsive image and preload candidates, not just fallback src', () => {
+ const html = '<!doctype html><main id="start">'+
+  '<link rel="preload" as="image" imagesrcset="/assets/painting.svg 480w, /assets/icon.svg 720w">'+
+  '<picture><source srcset="./assets/icon.svg 1x, /assets/painting.svg 2x">'+
+  '<img src="/assets/painting.svg" srcset="/assets/icon.svg 480w, https://ejoeundental.com/assets/painting.svg?v=1 1200w" alt="Test artwork"></picture>'+
+  '</main>';
+ const outcome=runFixture('body{color:black}',html);
+ assert.equal(outcome.status,0,outcome.stderr);
+ assert.match(outcome.stdout,/Internal link audit passed/);
+});
+
+test('rejects missing mobile-only srcset image even when full-size fallback exists', () => {
+ const html='<!doctype html><img src="/assets/painting.svg" srcset="/assets/missing-mobile.webp 480w, /assets/painting.svg 1200w" alt="Artwork">';
+ const outcome=runFixture('body{color:black}',html);
+ assert.notEqual(outcome.status,0);
+ assert.match(outcome.stderr,/Missing responsive image or preload candidate/);
+ assert.match(outcome.stderr,/missing-mobile\.webp/);
+});
+
+test('rejects missing image preload variant when the picture fallback is valid', () => {
+ const html='<!doctype html><link rel="preload" as="image" imagesrcset="/assets/missing-preload.webp 480w, /assets/painting.svg 1200w">'+
+  '<img src="/assets/painting.svg" alt="Artwork">';
+ const outcome=runFixture('body{color:black}',html);
+ assert.notEqual(outcome.status,0);
+ assert.match(outcome.stderr,/Missing responsive image or preload candidate/);
+ assert.match(outcome.stderr,/missing-preload\.webp/);
+});
+
 test('still validates same-page heading links as before', () => {
  const outcome = runFixture('body{color:black}', '<!doctype html><main id="start"><a href="#missing-heading">target</a></main>');
  assert.notEqual(outcome.status, 0);
