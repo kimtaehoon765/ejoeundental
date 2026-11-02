@@ -2220,9 +2220,22 @@ test('2026-11-01 compact homepage layout preserves all sections and SEO entry po
   ['implant.html','clinical-implant-section-20261102.svg'],
   ['cavity-treatment.html','clinical-cavity-sequence-20261102.svg']
  ]){
-  assert.ok(read(page).includes('src="/assets/'+name+'"'),
+  const guide=read(page);
+  assert.ok(guide.includes('src="/assets/'+name+'"'),
    'patient guide uses its dedicated anatomy diagram: '+page);
+  assert.ok(guide.includes('href="/assets/'+name+'" target="_blank" rel="noopener noreferrer"'),
+   'mobile readers can open a full-size, safe clinical diagram: '+page);
  }
+ const implantCss=read('assets/secondary-salon-finish-20261031.css');
+ const cervicalCss=read('assets/care-exhibition-finish-20261031.css');
+ assert.ok(implantCss.includes('2026-11-02 | Clinical atlas presentation and full-size art link.') &&
+  implantCss.includes('.ejoeun-topic-art__caption > span > a') &&
+  implantCss.includes('min-height:46px'),
+  'implant and cavity guides need visible touch-sized image enlargement controls');
+ assert.ok(cervicalCss.includes('2026-11-02 | Cervical clinical atlas mobile enlargement.') &&
+  cervicalCss.includes('.care-feature-art__image > figcaption > a') &&
+  cervicalCss.includes('min-height:46px'),
+  'sensitivity guide needs a visible touch-sized image enlargement control');
  assert.ok(source.includes('class="care-directory__more" open'),
    'the entire twelve-treatment quick directory is accessible by default');
  assert.ok(source.includes('class="owner-stories-more"'),
