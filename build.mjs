@@ -3674,6 +3674,15 @@ function stripBundleDocumentation(css,label){
  return css.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'');
 }
 
+// Omit formatting-only indentation from the deployed first-screen CSS.
+// Newlines between rules/selectors remain, so descendant combinators and
+// clinical/mobile styling behave exactly as in the author-maintained files.
+function compactCriticalCss(css){
+ if(/\\\r?\n/.test(css))throw new Error('Unsafe escaped CSS newline in homepage critical bundle');
+ return css.replace(/[ \t]+$/gm,'').replace(/^[ \t]+/gm,'')
+  .replace(/(?:\r?\n){2,}/g,'\n');
+}
+
 // Homepage critical CSS consolidation · preserve original cascade order.
 // These three consecutive first-screen CSS files share the /assets/ base path.
 // Concatenate in document order rather than minifying or rewriting selectors:
@@ -3692,7 +3701,7 @@ function stripBundleDocumentation(css,label){
   return css.trimEnd();
  });
  const documented=parts.join('\n\n/* Original stylesheet boundary — cascade order retained. */\n\n')+'\n';
- const merged=stripBundleDocumentation(documented,'home critical');
+ const merged=compactCriticalCss(stripBundleDocumentation(documented,'home critical'));
  if(merged.length>=documented.length)throw new Error('Home critical CSS documentation was not reduced');
  const fingerprint=createHash('sha256').update(merged).digest('hex').slice(0,12);
  const bundledName='home-critical-'+fingerprint+'.css';
@@ -3906,13 +3915,15 @@ function stripBundleDocumentation(css,label){
   throw new Error('Cannot set Early Hints: homepage header rule ambiguous');
  const updated=original.replace(homepageCacheRule,
   match=>match+'\n  Link: <'+href+'>; rel=preload; as=style');
- // Only the build-generated, content-addressed CSS can be cached for a year.
+ // Only build-generated, content-addressed CSS can be cached for a year.
  // Other /assets/* files keep their short TTL so CMS edits are seen promptly.
  // Exact-path rules override the generic asset header on Cloudflare Pages.
- const immutableCss=[...homepage.matchAll(/<link rel="stylesheet" href="(\/assets\/home-(?:critical|finishing)-[0-9a-f]{12}\.css)">/g)]
+ const immutableCss=[...homepage.matchAll(/<link rel="stylesheet" href="(\/assets\/(?:home-(?:critical|finishing)|gallery-foundation|exhibition-foundation)-[0-9a-f]{12}\.css)">/g)]
   .map(match=>match[1]);
- if(immutableCss.length!==2||new Set(immutableCss).size!==2||
-    !immutableCss.includes(href))
+ const prefixes=['home-critical-','gallery-foundation-','exhibition-foundation-','home-finishing-'];
+ if(immutableCss.length!==4||new Set(immutableCss).size!==4||
+    !immutableCss.includes(href)||
+    prefixes.some(prefix=>immutableCss.filter(x=>x.startsWith('/assets/'+prefix)).length!==1))
   throw new Error('Cannot set long-term cache: missing unique fingerprinted home CSS');
  for(const cssHref of immutableCss){
   if(!fs.existsSync(path.join(out,cssHref.slice(1))))
