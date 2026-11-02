@@ -303,7 +303,7 @@ test('Google Image discovery lists real first-party illustrations only on their 
   assert.deepEqual(item?.images,[imageUrl],
    slug+' should list its genuine displayed original painting exactly once');
   const html=readFileSync(pageFor('/'+slug),'utf8');
-  const img=[...html.matchAll(/<img\\b[^>]*>/g)].map(x=>x[0])
+  const img=[...html.matchAll(/<img\b[^>]*>/g)].map(x=>x[0])
    .find(tag=>tag.includes('src="/assets/'+image+'"'));
   assert.ok(img&&img.includes('alt="')&&img.includes('loading='),
    slug+' original image must be visibly displayed and accessible');
