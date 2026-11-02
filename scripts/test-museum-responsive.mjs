@@ -154,11 +154,11 @@ test('homepage critical CSS retains its cascade while reducing three requests to
  const cssHref=home.match(/href="(\/assets\/home-critical-([0-9a-f]{12})\.css)"/)?.[1];
  assert.ok(cssHref,'fingerprinted first-screen CSS bundle is linked');
  const stylesheet=read(cssHref.slice(1));
+ const originals=['style.css','home-enhancements.css','address-copy.css'];
  const unoptimized=originals.map(name=>stripBundleDocumentation(read('assets/'+name).trimEnd()))
   .join('\n\n')+'\n';
  assert.ok(Buffer.byteLength(stylesheet)<Buffer.byteLength(unoptimized),
   'critical CSS compaction must reduce payload without removing clinical styles');
- const originals=['style.css','home-enhancements.css','address-copy.css'];
  const boundaries=[];
  for(const file of originals){
   const original=compactCriticalCss(stripBundleDocumentation(read('assets/'+file).trimEnd()));
