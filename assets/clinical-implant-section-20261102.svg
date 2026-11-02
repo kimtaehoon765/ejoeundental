@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img" aria-labelledby="ttl dsc">
+<title id="ttl">임플란트의 구성: 크라운, 지대주, 고정체와 치조골</title>
+<desc id="dsc">임플란트 보철의 크라운, 지대주, 뼈 안에 식립하는 고정체, 잇몸과 치조골의 상대적인 위치를 구분한 교육용 의료 모식도. 실제 시술 위치와 구조는 환자마다 다릅니다.</desc>
+<defs>
+<linearGradient id="bg" x2=".9" y2="1"><stop stop-color="#f8fafa"/><stop offset="1" stop-color="#e9f0f1"/></linearGradient>
+<linearGradient id="crown" x1="0" x2=".82" y2="1"><stop stop-color="#fffdfa"/><stop offset=".51" stop-color="#f0eee7"/><stop offset="1" stop-color="#ced9db"/></linearGradient>
+<linearGradient id="metal" x1="0" x2="1"><stop stop-color="#5f7b82"/><stop offset=".22" stop-color="#d9e4e4"/><stop offset=".48" stop-color="#f4faf8"/><stop offset=".7" stop-color="#a8bdc0"/><stop offset="1" stop-color="#59777d"/></linearGradient>
+<linearGradient id="gingiva" x1="0" x2="0" y2="1"><stop stop-color="#df969e"/><stop offset=".56" stop-color="#ebadb2"/><stop offset="1" stop-color="#f0c6ca"/></linearGradient>
+<pattern id="trab" patternUnits="userSpaceOnUse" width="46" height="41"><rect width="46" height="41" fill="#efe2ca"/><path d="M8 9Q24 3 31 14L29 28Q13 38 6 22Z" fill="#f9f0df" stroke="#d3b78d" stroke-width="4"/><path d="M37 6L41 17M35 31L45 36" stroke="#d3b78d" stroke-width="4" opacity=".8"/></pattern>
+<filter id="shadow"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#4a686a" flood-opacity=".16"/></filter>
+</defs>
+<rect width="1200" height="800" fill="url(#bg)"/><rect x="28" y="28" width="1144" height="744" rx="24" fill="#fff" opacity=".85" stroke="#d5e1df" stroke-width="2"/>
+<text x="56" y="75" fill="#254e50" font-size="27" font-weight="700" font-family="sans-serif">이조은치과</text><text x="1136" y="74" fill="#82999a" text-anchor="end" letter-spacing="2" font-size="14" font-family="sans-serif">CLINICAL ATLAS 03</text>
+<path d="M56 101H1144" stroke="#d7e3e1"/>
+<text x="57" y="153" fill="#243d40" font-size="31" font-weight="700" font-family="sans-serif">임플란트는 어떤 구조일까요?</text>
+<text x="57" y="184" fill="#718685" font-size="18" font-family="sans-serif">보철 치아와 치조골 안의 고정체를 구분해 보세요.</text>
+<rect x="58" y="216" width="720" height="505" rx="22" fill="#f6faf9" stroke="#d5e1df" stroke-width="2"/>
+<!-- Bone cross-section and gum are drawn behind the prosthetic restoration. -->
+<path d="M92 515Q224 454 359 496Q451 508 520 495Q622 465 687 497Q744 517 760 524V694H92Z" fill="url(#trab)" stroke="#d8c3a6" stroke-width="3"/>
+<path d="M93 500Q226 439 362 481Q455 492 524 477Q616 453 695 484L760 501L759 533Q686 516 622 505Q535 499 515 506Q449 515 360 515Q223 475 94 536Z" fill="url(#gingiva)" stroke="#c37d88" stroke-width="3"/>
+<!-- Implant fixture is completely contained within alveolar bone below the abutment. -->
+<g filter="url(#shadow)">
+<path d="M428 469L430 638Q449 675 472 683Q498 676 517 639L520 469Z" fill="url(#metal)" stroke="#647e83" stroke-width="4"/>
+<path d="M428 500L414 505L414 520L431 528L430 545L412 552L412 568L431 575L432 589L416 597L416 613L439 624L442 649" fill="none" stroke="#6c8185" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M520 500L535 505L535 520L517 528L520 545L536 552L536 568L518 575L518 589L533 597L533 613L511 624L509 649" fill="none" stroke="#6c8185" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M421 505H528M418 552H532M422 597H526" stroke="#bdc9ca" stroke-width="3" opacity=".65"/>
+<!-- Abutment and neck -->
+<path d="M446 341L432 471Q471 488 516 471L503 341Z" fill="url(#metal)" stroke="#587780" stroke-width="3"/>
+<path d="M432 465Q474 477 518 465V483Q468 498 429 483Z" fill="#b5c4c6" stroke="#6c878d" stroke-width="2"/>
+<!-- Anatomical crown, enlarged for readability -->
+<path d="M435 250C404 215 366 230 355 262C331 311 352 354 384 386Q409 411 450 403Q480 400 504 405Q552 407 570 373Q610 319 576 265Q560 227 525 245Q491 263 474 246Q454 229 435 250Z" fill="url(#crown)" stroke="#9caeaf" stroke-width="4"/>
+<path d="M381 273Q404 257 423 277M523 278Q553 258 568 282" stroke="#fff" stroke-width="9" stroke-linecap="round" fill="none" opacity=".78"/>
+<path d="M401 386Q474 411 546 387" stroke="#c9d0ca" stroke-width="4" fill="none"/>
+</g>
+<!-- Clear guide rules and clinically meaningful annotation. -->
+<g font-family="sans-serif">
+<path d="M578 305H803" stroke="#74929a" stroke-width="2.5"/><circle cx="578" cy="305" r="5" fill="#3d8190"/><text x="827" y="297" fill="#2a4b50" font-size="24" font-weight="700">크라운</text><text x="827" y="327" fill="#597575" font-size="16">눈에 보이는 보철 치아</text>
+<path d="M518 435H803" stroke="#74929a" stroke-width="2.5"/><circle cx="518" cy="435" r="5" fill="#3d8190"/><text x="827" y="426" fill="#2a4b50" font-size="24" font-weight="700">지대주</text><text x="827" y="455" fill="#597575" font-size="16">크라운과 고정체를 연결</text>
+<path d="M536 565H803" stroke="#74929a" stroke-width="2.5"/><circle cx="536" cy="565" r="5" fill="#3d8190"/><text x="827" y="557" fill="#2a4b50" font-size="24" font-weight="700">임플란트 고정체</text><text x="827" y="586" fill="#597575" font-size="16">치조골 안에 식립하는 부분</text>
+<circle cx="711" cy="649" r="6" fill="#bd9f7b"/><path d="M711 649H803" stroke="#bd9f7b" stroke-width="2.5"/><text x="827" y="640" fill="#2a4b50" font-size="23" font-weight="700">치조골</text><text x="827" y="668" fill="#597575" font-size="16">고정체를 지지하는 뼈</text>
+<text x="57" y="748" fill="#708985" font-size="15">※ 교육용 모식도 · 실제 뼈 높이, 보철 형태와 수술 계획은 진찰·검사 결과에 따라 달라집니다.</text>
+</g>
+</svg>
