@@ -1235,3 +1235,160 @@ body.care-gallery.care-gallery-secondary.secondary-wisdom .wisdom-reading-chapte
     break-inside:avoid;
   }
 }
+
+/* 2026-11-02 | First pediatric visit and removable orthodontic scope
+   Scoped to two pediatric reading rooms. Keep the clinical explanations,
+   reference drawings, booking links and existing responsive layouts intact. */
+body.care-gallery.care-gallery-secondary.pediatric-pathways-gallery .care-gallery-article-shell>section.pediatric-first-visit-feature{
+  box-sizing:border-box;
+  position:relative;
+  min-width:0;
+  margin:clamp(25px,3.7vw,42px) 0 clamp(23px,3vw,34px);
+  padding:clamp(21px,2.8vw,33px);
+  border:1px solid #d3cfbc;
+  border-top:4px solid #91ac92;
+  border-radius:4px 15px 4px 15px;
+  background:linear-gradient(137deg,#fffefa 0%,#f3f8ef 100%);
+  box-shadow:0 11px 27px rgba(29,57,39,.045);
+}
+body.care-gallery.care-gallery-secondary.pediatric-pathways-gallery .pediatric-first-visit-feature::before{
+  content:"FIRST DENTAL VISIT · 첫 검진";
+  display:block;
+  margin:0 0 13px;
+  color:#677e60;
+  font:800 11px/1.65 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.09em;
+  word-break:keep-all;
+}
+body.care-gallery.care-gallery-secondary.pediatric-pathways-gallery .pediatric-first-visit-feature>h2{
+  margin:0 0 12px;
+  padding:0;
+  border:0;
+  color:#244c38;
+  font:700 clamp(22px,2.45vw,29px)/1.5 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.042em;
+  text-wrap:balance;
+  word-break:keep-all;
+  scroll-margin-top:105px;
+}
+body.care-gallery.care-gallery-secondary.pediatric-pathways-gallery .pediatric-first-visit-feature>p{
+  max-width:76ch;
+  margin:0;
+  color:#405d4a;
+  font-size:clamp(15px,1.4vw,17px);
+  line-height:1.94;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.care-gallery.care-gallery-secondary.pediatric-pathways-gallery .care-gallery-article-shell>h2#pediatric-trauma{
+  margin-top:clamp(30px,4vw,43px);
+  padding:15px 20px 10px;
+  border:1px solid #decfaf;
+  border-left:4px solid #af8858;
+  border-bottom:0;
+  border-radius:4px 12px 0 0;
+  background:#fff8ea;
+  color:#574a32;
+}
+body.care-gallery.care-gallery-secondary.pediatric-pathways-gallery .care-gallery-article-shell>h2#pediatric-trauma+p{
+  box-sizing:border-box;
+  margin:0 0 20px;
+  padding:4px 20px 19px;
+  border:1px solid #decfaf;
+  border-left:4px solid #af8858;
+  border-top:0;
+  border-radius:0 0 4px 12px;
+  background:#fff8ea;
+  color:#524d40;
+  line-height:1.95;
+  word-break:keep-all;
+}
+body.care-gallery.care-gallery-secondary.pediatric-ortho-decisions .child-ortho-scope>.ortho-removable-choice-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(11px,1.5vw,19px);
+  margin:clamp(18px,2.5vw,26px) 0 18px;
+}
+body.care-gallery.care-gallery-secondary.pediatric-ortho-decisions .ortho-removable-choice{
+  box-sizing:border-box;
+  min-width:0;
+  margin:0;
+  padding:clamp(18px,2.3vw,28px);
+  border:1px solid #d4d6cb;
+  border-top:4px solid #88a69a;
+  border-radius:4px 13px 4px 13px;
+  background:linear-gradient(145deg,#fffefa,#f0f7f3);
+  box-shadow:0 6px 18px rgba(29,57,48,.038);
+}
+body.care-gallery.care-gallery-secondary.pediatric-ortho-decisions .ortho-removable-choice:nth-child(2){
+  border-top-color:#b19b7a;
+  background:linear-gradient(145deg,#fffefa,#faf7f0);
+}
+body.care-gallery.care-gallery-secondary.pediatric-ortho-decisions .ortho-removable-choice__label{
+  display:block;
+  margin-bottom:12px;
+  color:#537668;
+  font:800 11px/1.55 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.045em;
+  word-break:keep-all;
+}
+body.care-gallery.care-gallery-secondary.pediatric-ortho-decisions .ortho-removable-choice>h3{
+  margin:0 0 11px;
+  color:#275045;
+  font:700 clamp(18px,1.7vw,22px)/1.5 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.035em;
+  text-wrap:balance;
+  word-break:keep-all;
+}
+body.care-gallery.care-gallery-secondary.pediatric-ortho-decisions .ortho-removable-choice>p{
+  margin:0;
+  color:#455e52;
+  font-size:clamp(15px,1.22vw,16px);
+  line-height:1.92;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.care-gallery.care-gallery-secondary.pediatric-ortho-decisions .child-ortho-scope>p:last-child>a{
+  display:inline-flex;
+  align-items:center;
+  min-height:46px;
+  font-weight:750;
+  color:#245e4e;
+  text-underline-offset:4px;
+}
+@media(max-width:720px){
+  body.care-gallery.care-gallery-secondary.pediatric-ortho-decisions .child-ortho-scope>.ortho-removable-choice-grid{
+    grid-template-columns:minmax(0,1fr);
+    gap:10px;
+  }
+  body.care-gallery.care-gallery-secondary.pediatric-ortho-decisions .ortho-removable-choice{
+    padding:18px 16px;
+    box-shadow:none;
+  }
+  body.care-gallery.care-gallery-secondary.pediatric-pathways-gallery .care-gallery-article-shell>section.pediatric-first-visit-feature{
+    padding:21px 17px;
+    box-shadow:none;
+  }
+  body.care-gallery.care-gallery-secondary.pediatric-pathways-gallery .care-gallery-article-shell>h2#pediatric-trauma{
+    padding:15px 15px 9px;
+  }
+  body.care-gallery.care-gallery-secondary.pediatric-pathways-gallery .care-gallery-article-shell>h2#pediatric-trauma+p{
+    padding:4px 15px 16px;
+  }
+}
+@media(forced-colors:active){
+  body.care-gallery.care-gallery-secondary.pediatric-pathways-gallery :is(.pediatric-first-visit-feature,#pediatric-trauma,#pediatric-trauma+p),
+  body.care-gallery.care-gallery-secondary.pediatric-ortho-decisions .ortho-removable-choice{
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+}
+@media print {
+  body.care-gallery.care-gallery-secondary.pediatric-pathways-gallery .pediatric-first-visit-feature,
+  body.care-gallery.care-gallery-secondary.pediatric-ortho-decisions .ortho-removable-choice{
+    box-shadow:none;
+    break-inside:avoid;
+  }
+}
