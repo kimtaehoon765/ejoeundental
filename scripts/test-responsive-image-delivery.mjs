@@ -95,3 +95,20 @@ test('homepage and gallery never fetch desktop-only Noto Serif CSS on phone view
    'desktop font still has a no-JavaScript fallback');
  }
 });
+
+
+test('Cloudflare caches only the generated fingerprinted homepage CSS for repeat visits',()=>{
+ const headers=dist('_headers');
+ const matches=[...home.matchAll(/<link rel="stylesheet" href="(\/assets\/home-(?:critical|finishing)-[0-9a-f]{12}\.css)">/g)]
+  .map(match=>match[1]);
+ assert.equal(matches.length,2,'critical and finishing bundles must have unique content hashes');
+ assert.equal(new Set(matches).size,2,'fingerprinted CSS paths must be distinct');
+ for(const cssHref of matches){
+  assert.ok(headers.includes('\n'+cssHref+'\n  Cache-Control: public, max-age=31536000, immutable'),
+   'fingerprinted asset should receive a path-specific immutable cache policy: '+cssHref);
+ }
+ assert.ok(headers.includes('/assets/*\n  Cache-Control: public, max-age=3600, must-revalidate'),
+  'unversioned gallery artwork, shared CSS, and editable assets retain short revalidation');
+ assert.ok(headers.includes('/\n  Cache-Control: public, max-age=0, must-revalidate'),
+  'homepage HTML must continue revalidating so search and clinic information stays fresh');
+});
