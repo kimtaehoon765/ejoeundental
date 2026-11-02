@@ -62,6 +62,37 @@ for (const file of pages) {
   // and email links are outside the offline audit; same-page anchors are checked.
   const tags = html.match(/<(?:a|area|img|script|link|source)\b[^>]*>/gi) || [];
   for (const tag of tags) {
+    // A missing responsive source can make artwork disappear only on phones,
+    // even though the fallback img src and desktop HTML pass this audit.
+    // Also check imagesrcset on preload links (Cloudflare Pages first paint).
+    if (/^<(?:img|source|link)\b/i.test(tag)) {
+      for (const match of tag.matchAll(/\b(?:srcset|imagesrcset)\s*=\s*(["'])(.*?)\1/gi)) {
+        for (const candidate of match[2].split(',')) {
+          const raw = candidate.trim().split(/\s+/)[0]?.replace(/&amp;/g, '&') || '';
+          if (!raw || raw.startsWith('//') ||
+              /^(?:data:|blob:|javascript:)/i.test(raw)) continue;
+          let destination;
+          try {
+            destination = new URL(raw, 'https://ejoeundental.com' + from);
+          } catch {
+            failures.set(from + ' -> ' + raw, 'Invalid responsive image URL');
+            continue;
+          }
+          if (destination.origin !== 'https://ejoeundental.com') continue;
+          let pathname;
+          try {
+            pathname = decodeURIComponent(destination.pathname);
+          } catch {
+            failures.set(from + ' -> ' + raw, 'Invalid responsive image URL escaping');
+            continue;
+          }
+          checked++;
+          if (!resolveBuiltDestination(pathname)) {
+            failures.set(from + ' -> ' + raw, 'Missing responsive image or preload candidate');
+          }
+        }
+      }
+    }
     const attr = tag.match(/\b(?:href|src)\s*=\s*(["'])(.*?)\1/i);
     if (!attr) continue;
     const raw = attr[2].trim().replace(/&amp;/g, '&');
