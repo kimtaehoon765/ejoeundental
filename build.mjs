@@ -3936,7 +3936,7 @@ function compactCriticalCss(css){
  const placement=html.indexOf(finishLink);
  if(earlier<0||placement<=earlier||after!==before-1||
     visible.indexOf(deferredLink)<placement)
-  throw new Error('Deferred finishing CSS changed link order or count');
+  throw new Error('Deferred finishing CSS changed link order/count: '+JSON.stringify({earlier,placement,before,after,deferred:visible.indexOf(deferredLink),finish:visible.indexOf(finishLink)}));
  fs.writeFileSync(homepage,html,'utf8');
  console.log('Homepage FAQ/visit CSS deferred:',offscreenAsset,
   offscreen.length,'bytes; first-screen hero + journal CSS stays blocking in:',finishAsset);
