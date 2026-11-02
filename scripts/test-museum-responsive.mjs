@@ -2199,9 +2199,21 @@ test('2026-11-01 compact homepage layout preserves all sections and SEO entry po
  }
  for(const src of ['ejoeun-gallery-cat-dentist-20261029.webp',
    'gallery-starry-clinic.svg','gallery-golden-garden.svg',
-   'watercolor-care-gum-20261029.webp','watercolor-care-abrasion-20261029.webp',
-   'watercolor-care-insurance-20261029.webp']){
-  assert.ok(source.includes(src),'original illustration retained: '+src);
+   'watercolor-care-gum-20261029.webp','clinical-cervical-abrasion-20261102.svg',
+   'watercolor-care-insurance-20261029.webp',
+   'clinical-implant-section-20261102.svg','clinical-cavity-sequence-20261102.svg']){
+  assert.ok(source.includes(src),'homepage illustration available: '+src);
+ }
+ // The three original gallery watercolor artworks remain intact. The new
+ // homepage-only clinical diagrams must not overwrite the exhibition assets.
+ assert.ok(read('gallery.html').includes('watercolor-care-abrasion-20261029.webp'),
+   'the gallery retains the original abrasion watercolor');
+ for(const name of ['clinical-cervical-abrasion-20261102.svg',
+  'clinical-implant-section-20261102.svg','clinical-cavity-sequence-20261102.svg']){
+  const art=read('assets/'+name);
+  assert.ok(art.startsWith('<svg')&&art.includes('viewBox="0 0 1200 800"')&&
+   art.includes('<title')&&art.includes('<desc')&&art.includes('</svg>'),
+   'clinical diagrams must be standalone, accessible SVG art: '+name);
  }
  assert.ok(source.includes('class="care-directory__more" open'),
    'the entire twelve-treatment quick directory is accessible by default');
