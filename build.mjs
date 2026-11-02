@@ -1014,15 +1014,24 @@ console.log('Original Monet garden asset fingerprinted in HTML and CSS:',impress
   const original=fs.readFileSync(filename,'utf8');
   if(/\\\r?\n/.test(original))
    throw new Error('Cannot safely normalize escaped CSS newline: '+name);
-  const optimized=original.replace(/[ \t]+$/gm,'')
+  // These two long art-direction files contain documentation comments only
+  // on their own lines. Strip those from the deployed copy, never the source.
+  // Keep every CSS declaration, selector, media query and cascade boundary.
+  const normalized=original.replace(/[ \t]+$/gm,'')
    .replace(/^[ \t]+/gm,'')
    .replace(/(?:\r?\n){2,}/g,'\n');
-  if(optimized.length>=original.length)
-   throw new Error('Expected CSS delivery size reduction: '+name);
+  const comments=[...normalized.matchAll(/\/\*[\s\S]*?\*\//g)].length;
+  const standalone=[...normalized.matchAll(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm)].length;
+  if(comments!==standalone)
+   throw new Error('Unsafe inline CSS comment in home visual layer: '+name);
+  const optimized=normalized.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'')
+   .replace(/(?:\r?\n){2,}/g,'\n');
+  if(standalone<1||optimized.length>=normalized.length)
+   throw new Error('Expected safe documentation stripping in home visual CSS: '+name);
   bytesSaved+=Buffer.byteLength(original,'utf8')-Buffer.byteLength(optimized,'utf8');
   fs.writeFileSync(filename,optimized,'utf8');
  }
- console.log('Homepage visual CSS whitespace trimmed (source unchanged):',
+ console.log('Homepage visual CSS whitespace and standalone documentation trimmed (source unchanged):',
   bytesSaved,'bytes across',homeVisualCss.length,'stylesheets');
 }
 

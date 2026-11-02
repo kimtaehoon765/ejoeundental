@@ -4,6 +4,14 @@ import {readFileSync, existsSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 
 const read=(path)=>readFileSync('dist/'+path,'utf8');
+// Annotation checks need the author's CSS comments, which are intentionally
+// absent in the deployed copies. The equivalence test below separately
+// verifies that every actual CSS token is delivered unchanged.
+const readAnnotatedHomeVisualCss=path=>{
+ const source=readFileSync(path,'utf8');
+ return source.replace(/[ \t]+$/gm,'').replace(/^[ \t]+/gm,'')
+  .replace(/(?:\r?\n){2,}/g,'\n');
+};
 const stripBundleDocumentation=css=>css.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'');
 const compactCriticalCss=css=>{
  assert.ok(!/\\\r?\n/.test(css),'escaped newlines must not be compacted');
@@ -42,6 +50,35 @@ const exhibitionFoundation=()=>{
  return href;
 };
 
+
+test('large homepage gallery layers deliver only live CSS with comments removed',()=>{
+ const layers=['home-art-direction-20261030.css','atelier-refinement-20261030.css'];
+ const linked=[...home.matchAll(/<link rel="stylesheet" href="(\/assets\/[^"]+)"/g)]
+  .map(match=>match[1]);
+ let saved=0;
+ for(const name of layers){
+  const source=readFileSync('assets/'+name,'utf8');
+  assert.ok(!/\\\r?\n/.test(source),'no CSS escaped newline may be normalized: '+name);
+  const normalized=source.replace(/[ \t]+$/gm,'').replace(/^[ \t]+/gm,'')
+   .replace(/(?:\r?\n){2,}/g,'\n');
+  const every=[...normalized.matchAll(/\/\*[\s\S]*?\*\//g)].length;
+  const standalone=[...normalized.matchAll(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm)].length;
+  assert.equal(every,standalone,'all removed CSS comments must stand alone: '+name);
+  const delivered=normalized.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'')
+   .replace(/(?:\r?\n){2,}/g,'\n');
+  assert.equal(read('assets/'+name),delivered,
+   'every non-documentation visual CSS token and cascade remains unchanged: '+name);
+  assert.equal((read('assets/'+name).match(/\/\*/g)||[]).length,0,
+   'no standalone documentation is sent to patients: '+name);
+  const digest=createHash('sha256').update(delivered).digest('hex').slice(0,12);
+  assert.ok(linked.includes('/assets/'+name+'?v='+digest),
+   'the browser must request the current compacted asset: '+name);
+  saved+=Buffer.byteLength(normalized)-Buffer.byteLength(delivered);
+ }
+ assert.ok(saved>15000,'two museum visual layers should save meaningful uncompressed delivery bytes');
+ assert.ok(home.includes('class="mobile-booking-actions"')&&home.includes('href="tel:0325132875"'),
+  'patient booking and telephone actions must remain available');
+});
 
 test('patient health-library search desks remain accessible and link to one verified search route',()=>{
  const css=read('assets/health-library-gallery.css');
@@ -121,7 +158,7 @@ test('search results preserve patient-facing categories and show a safe query ba
 test('mobile header scroll work is frame-batched and primary patient actions stay native',()=>{
  const source=readFileSync('index.html','utf8');
  const home=read('index.html');
- const css=read('assets/atelier-refinement-20261030.css');
+ const css=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
  assert.ok(source.includes("window.requestAnimationFrame(adjust)"),
   'mobile scroll header should update at most once per display frame');
  assert.ok(source.includes("if(pending)return;")&&
@@ -422,7 +459,7 @@ test('visit preparation presents four original clinical steps and three journal 
  const questions=[...journal.matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)];
  assert.deepEqual(questions.map(m=>m[1]),['/stories/01/','/stories/02/','/stories/03/'],
   'retain the original three prominent patient questions');
- const css=read('assets/atelier-refinement-20261030.css');
+ const css=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
  for(const token of [
   'Visit journey & doctor', '.visit-care-steps > .visit-care-step',
   '.visit-care-step__number','grid-template-columns:repeat(2,minmax(0,1fr))',
@@ -476,7 +513,7 @@ test('premium gallery foyer shows 23 unique works through three real exhibition 
  assert.ok(html.includes('class="journal-gallery-cover__poster"') &&
   !html.includes('class="journal-gallery-cover__poster"><img'),
   'journal cover should be a typographic book cover without repeating a painting');
- const preservationCss=read('assets/atelier-refinement-20261030.css');
+ const preservationCss=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
  for(const token of ['An original landscape beside the tooth-preservation manifesto',
   'Doctor\u0027s journal: a quiet book-cover edition','@media(min-width:821px)',
   '.care-preservation-art','.journal-gallery-cover__poster::before']){
@@ -485,7 +522,7 @@ test('premium gallery foyer shows 23 unique works through three real exhibition 
  assert.ok(html.includes('health-topic-painting--panorama'),
   'new sensitivity and insurance paintings keep accessible patient-facing captions');
  assert.ok(html.includes('class="mobile-booking-actions"'),'mobile booking stays available');
- const css=read('assets/atelier-refinement-20261030.css');
+ const css=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
  for(const token of ['Three-room museum foyer · original collection 23',
   '.gallery-exhibition-colophon__count','.gallery-exhibition-index__room',
   'grid-template-columns:repeat(3,minmax(0,1fr))',
@@ -527,7 +564,7 @@ test('four visit facts include true weekday hours and link to complete alternati
  assert.ok(quick.includes('방문 전 전화 확인'),'do not assert an alternating Friday or Saturday open-now schedule');
  assert.ok(quick.includes('3시간 무료'),'parking benefits must be preserved');
  assert.ok(section.includes('금요일 오후 진료와 토요일 진료는 같은 주에 운영하지 않습니다.'));
- const css=read('assets/atelier-refinement-20261030.css');
+ const css=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
  for(const text of ['Visit at a glance · four verifiable facts','grid-template-columns:repeat(2,minmax(0,1fr))',
   '.visit-quick-facts__weekday b','#location #hours-details','@media(max-width:640px)']){
   assert.ok(css.includes(text),'missing responsive visitor detail: '+text);
@@ -1155,7 +1192,7 @@ test('first-screen clinical guide cards show readable care titles and supporting
  }
  assert.equal((nav.match(/<details class="hero-more-care">/g)||[]).length,1,
    'the eight extra treatment links must remain expandable and crawlable');
- const css=read('assets/atelier-refinement-20261030.css');
+ const css=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
  for(const token of [
   'First-screen care collection: readable catalogue labels',
   '.hero-care-card__copy > strong',
@@ -1189,7 +1226,7 @@ test('six symptom guides appear before search without hiding care or previsit sa
  assert.ok(section.includes('action="/search.html" method="get" role="search"'));
  assert.ok(section.includes('복용 중인 약이나 전신질환'));
  assert.ok(section.includes('임의로 중단하지 말고'));
- const css=read('assets/atelier-refinement-20261030.css');
+ const css=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
  for(const fragment of [
   'Symptom-first reading room',
   '.symptom-catalog-eyebrow',
@@ -1428,7 +1465,7 @@ test('visit-guide address parking atlas keeps map and transit actions usable',()
 
 test('last home stylesheet prevents implicit phone-grid columns under 480px',()=>{
  const page=read('index.html');
- const finalCss=read('assets/home-art-direction-20261030.css');
+ const finalCss=readAnnotatedHomeVisualCss('assets/home-art-direction-20261030.css');
  const pos=finalCss.lastIndexOf('Mobile hero action-grid alignment');
  assert.ok(pos>0,'the final art-direction layer must normalize the mobile hero');
  const grid=finalCss.slice(pos);
@@ -1460,7 +1497,7 @@ test('last home stylesheet prevents implicit phone-grid columns under 480px',()=
 
 
 test('mobile search keyboard can hide dock without removing call, booking or directions',()=>{
- const finalCss=read('assets/home-art-direction-20261030.css');
+ const finalCss=readAnnotatedHomeVisualCss('assets/home-art-direction-20261030.css');
  const start=finalCss.lastIndexOf('Keep the actual page search fields unobstructed');
  assert.ok(start>0,'the latest art layer should reserve keyboard-friendly search behavior');
  const snippet=finalCss.slice(start);
@@ -1557,7 +1594,7 @@ test('director museum profile keeps verified credentials and readable care links
  assert.equal((doctor.match(/class="doctor-care-trails"/g)||[]).length,1);
  assert.ok(doctor.includes('<p class="doctor-profile-link"><a href="/doctor.html">'),
   'profile link is semantic and styled with the stylesheet instead of brittle inline colors');
- const css=read('assets/atelier-refinement-20261030.css');
+ const css=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
  for(const token of [
   "Director's room: museum-profile finishing",
   '#doctor .doctor-care-trails>a::before',
@@ -1598,7 +1635,7 @@ test('museum FAQ and visit desk keep accessible clinical answers and verified sc
  for(const id of ['address','parking-details','hours-details','weekly-hours']) {
   assert.ok(location.includes('id="'+id+'"'),'clinic navigation anchor missing: '+id);
  }
- const css=read('assets/atelier-refinement-20261030.css');
+ const css=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
  for(const token of [
   'Museum reading room: FAQ answers and visit desk',
   '#faq .faq-list>details[open]',
@@ -1643,7 +1680,7 @@ test('museum symptom gallery keeps seven truthful guides and mobile choices',()=
   '/health/tooth-crack.html','/health/scaling-vs-periodontal.html','/insured-care.html']){
    assert.ok(section.includes('href="'+page+'"'),'important original guide retained: '+page);
  }
- const css=read('assets/atelier-refinement-20261030.css');
+ const css=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
  for(const marker of [
   'Seven patient-question exhibition cards',
   '#symptoms .symptom-jump-links',
@@ -1699,7 +1736,7 @@ test('gallery exit presents four genuine care guides and prominent Naver booking
   'closing primary CTA must open the confirmed Naver booking page');
  for(const href of ['/visit-guide.html','#focus-care','#main-content'])
   assert.ok(final.includes('href="'+href+'"'),'closing wayfinding link removed: '+href);
- const css=read('assets/atelier-refinement-20261030.css');
+ const css=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
  for(const token of [
   'Museum exit: care guides, archive and next step',
   '.home-care-paths>.home-care-paths__grid',
@@ -1744,7 +1781,7 @@ test('opening gallery hero keeps doctor-cat full portrait and validated primary 
  for(const dest of ['class="btn hero-hours"','class="btn hero-symptoms"','class="btn hero-map"']){
    assert.ok(actions.includes(dest),'keep the clinical direction control '+dest);
  }
- const css=read('assets/atelier-refinement-20261030.css');
+ const css=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
  for(const rule of [
    'Opening portrait: faithful 3-to-2 canvas and gallery masthead',
    '.hero.wrap>.art.hero-artwork>img',
@@ -1790,7 +1827,7 @@ test('focused care desk makes five genuine wayfinding links easy to read',()=>{
   'the unique full-ratio original doctor-care artwork stays untouched');
  assert.ok(focus.includes('치과의사가 직접 잇몸을 살핍니다.')&&
   focus.includes('원장이 직접 검진·진단'),'core medical philosophy is preserved');
- const css=read('assets/atelier-refinement-20261030.css');
+ const css=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
  for(const rule of [
   'Focus-care patient information desk',
   '#focus-care .focus-care-lead-copy>h2',
@@ -1839,7 +1876,7 @@ test('patient-question salon preserves four original article links and unique pa
  const images=[...home.matchAll(/<img\b[^>]*src="([^"]+)"/g)].map(x=>x[1]);
  assert.equal(images.length,36,'all existing original homepage images remain');
  assert.equal(new Set(images).size,36,'homepage never repeats its original art');
- const css=read('assets/atelier-refinement-20261030.css');
+ const css=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
  for(const rule of [
   'Four patient questions in the illustrated reading salon',
   'counter-reset:patient-question',
@@ -1889,7 +1926,7 @@ test('eight care gallery keeps all twelve services and original artwork',()=>{
  }
  assert.ok(section.includes('진료 가능 범위와 치료 방법은 개별 검사 결과에 따라 달라질 수 있습니다.'),
   'patient-facing clinical limitations must remain visible');
- const css=read('assets/atelier-refinement-20261030.css');
+ const css=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
  for(const rule of [
   'Eight-care gallery entrance and reading plates',
   '#care .care-more-details>summary',
@@ -1984,9 +2021,9 @@ test('homepage finishing CSS is one exact order-preserving fingerprinted file',(
 });
 
 test('identical homepage CSS declarations are not repeated in a matching scope',()=>{
- const atelier=read('assets/atelier-refinement-20261030.css');
+ const atelier=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
  const museum=read('assets/museum-finish-20261031.css');
- const director=read('assets/home-art-direction-20261030.css');
+ const director=readAnnotatedHomeVisualCss('assets/home-art-direction-20261030.css');
  const plaque=/body\.home-page #main-content > \.hero\.wrap \.hero-artwork__plaque\s*\{\s*padding:10px 10px 8px;\s*\}/g;
  const doctor=/body\.home-page #main-content > #doctor \.doctor-profile-link > a\s*\{\s*text-underline-offset:5px;\s*\}/g;
  assert.equal([...atelier.matchAll(plaque)].length,1,
