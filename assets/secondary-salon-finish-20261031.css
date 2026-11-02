@@ -1392,3 +1392,74 @@ body.care-gallery.care-gallery-secondary.pediatric-ortho-decisions .child-ortho-
     break-inside:avoid;
   }
 }
+
+
+/* 2026-11-02 | Clinical atlas presentation and full-size art link.
+   Scope only the implant and cavity patient guides; keep existing cards and
+   original watercolor galleries untouched. */
+body.care-gallery.care-gallery-secondary:is(.secondary-implant,.secondary-cavity) .ejoeun-topic-art__visual {
+  border-color:#f1f7f5;
+  outline-color:#b8ceca;
+  background:#eef4f3;
+  box-shadow:0 12px 28px rgba(30,70,66,.075);
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-implant,.secondary-cavity) .ejoeun-topic-art__visual > img {
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:3 / 2;
+  object-fit:contain;
+  background:#f5f9f8;
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-implant,.secondary-cavity) .ejoeun-topic-art__caption > span > a {
+  box-sizing:border-box;
+  display:flex;
+  width:fit-content;
+  max-width:100%;
+  min-height:46px;
+  align-items:center;
+  justify-content:center;
+  margin:13px 0 2px;
+  padding:9px 16px;
+  border:1px solid #93b5ad;
+  border-radius:5px;
+  background:#f0f7f4;
+  color:#164d43;
+  font-size:14px;
+  font-weight:750;
+  line-height:1.6;
+  text-decoration:none;
+  text-align:center;
+  overflow-wrap:break-word;
+  word-break:keep-all;
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-implant,.secondary-cavity) .ejoeun-topic-art__caption > span > a:hover {
+  background:#e1f0eb;
+  border-color:#4e8477;
+}
+body.care-gallery.care-gallery-secondary:is(.secondary-implant,.secondary-cavity) .ejoeun-topic-art__caption > span > a:focus-visible {
+  outline:3px solid #926d36;
+  outline-offset:3px;
+}
+@media(max-width:600px) {
+  body.care-gallery.care-gallery-secondary:is(.secondary-implant,.secondary-cavity) .ejoeun-topic-art__caption > span > a {
+    width:100%;
+    margin-top:14px;
+    min-height:48px;
+  }
+  body.care-gallery.care-gallery-secondary:is(.secondary-implant,.secondary-cavity) .ejoeun-topic-art__visual {
+    border-width:5px;
+    box-shadow:none;
+  }
+}
+@media(forced-colors:active) {
+  body.care-gallery.care-gallery-secondary:is(.secondary-implant,.secondary-cavity) .ejoeun-topic-art__visual,
+  body.care-gallery.care-gallery-secondary:is(.secondary-implant,.secondary-cavity) .ejoeun-topic-art__visual > img,
+  body.care-gallery.care-gallery-secondary:is(.secondary-implant,.secondary-cavity) .ejoeun-topic-art__caption > span > a {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    outline-color:CanvasText;
+    box-shadow:none;
+  }
+}
