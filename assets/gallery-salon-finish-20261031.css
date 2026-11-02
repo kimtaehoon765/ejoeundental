@@ -1123,3 +1123,88 @@
     box-shadow:none;
   }
 }
+
+
+/* 2026-11-02 | Selected-artwork salon wayfinding.
+   A light gallery-wall highlight when a visitor uses a work or room link.
+   No duplicate art, change to gallery lightbox behavior, or hidden content. */
+#paintings .gallery-piece[id],
+.gallery-patient-studies__piece[id],
+#education.gallery-education,
+#paintings.gallery-section,
+#patient-studies.gallery-patient-studies {
+  scroll-margin-top:clamp(96px,10vw,118px);
+}
+#paintings .gallery-piece:target,
+.gallery-patient-studies__piece:target {
+  border-color:#9c8459;
+  background:#fffefa;
+  box-shadow:0 0 0 3px rgba(174,142,82,.19),0 16px 32px rgba(30,54,39,.085);
+}
+#paintings .gallery-piece:target .gallery-index,
+.gallery-patient-studies__piece:target .gallery-patient-studies__index {
+  color:#1f573e;
+  text-decoration:underline;
+  text-decoration-color:#af925d;
+  text-underline-offset:5px;
+  text-decoration-thickness:2px;
+}
+.gallery-exhibition-index>a {
+  text-decoration:none;
+  text-underline-offset:5px;
+}
+.gallery-exhibition-index>a:focus-visible,
+#paintings .gallery-piece .gallery-links :is(a,button):focus-visible,
+.gallery-patient-studies__actions :is(a,button):focus-visible {
+  outline:3px solid #956e31;
+  outline-offset:3px;
+}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  .gallery-exhibition-index>a,
+  #paintings .gallery-piece,
+  .gallery-patient-studies__piece {
+    transition:border-color .18s ease,background-color .18s ease,box-shadow .18s ease;
+  }
+  .gallery-exhibition-index>a:hover {
+    background:#f5f4eb;
+  }
+}
+@media(max-width:650px) {
+  #paintings .gallery-piece[id],
+  .gallery-patient-studies__piece[id],
+  #education.gallery-education,
+  #paintings.gallery-section,
+  #patient-studies.gallery-patient-studies {
+    scroll-margin-top:104px;
+  }
+  #paintings .gallery-piece:target,
+  .gallery-patient-studies__piece:target {
+    box-shadow:0 0 0 2px rgba(160,130,75,.22);
+  }
+  .gallery-exhibition-index>a {
+    min-height:48px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .gallery-exhibition-index>a,
+  #paintings .gallery-piece,
+  .gallery-patient-studies__piece {
+    transition:none;
+  }
+}
+@media(forced-colors:active) {
+  #paintings .gallery-piece:target,
+  .gallery-patient-studies__piece:target {
+    border-color:Highlight;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+    outline:2px solid Highlight;
+    outline-offset:2px;
+  }
+  #paintings .gallery-piece:target .gallery-index,
+  .gallery-patient-studies__piece:target .gallery-patient-studies__index {
+    color:CanvasText;
+    text-decoration-color:Highlight;
+  }
+}
