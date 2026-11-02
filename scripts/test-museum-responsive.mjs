@@ -1990,43 +1990,55 @@ test('mobile homepage keeps original portrait without costly Korean webfont subs
   'portrait preload should select the same responsive image');
 });
 
-test('homepage finishing CSS is one exact order-preserving fingerprinted file',()=>{
+test('FAQ and clinic hours styling loads offscreen without blocking hero or journal navigation',()=>{
  const names=['quiet-museum-finish-20261031.css','museum-finish-20261031.css','home-visit-faq-salon-20261031.css'];
- const documented=names.map(name=>read('assets/'+name).trimEnd());
- const countComments=css=>(css.match(/\/\*[\s\S]*?\*\//g)||[]).length;
- const countFullLineComments=css=>(css.match(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm)||[]).length;
- const compact=css=>css.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'').trimEnd();
- for(const css of documented){
-  assert.equal(countComments(css),countFullLineComments(css),
-   'build must only strip stand-alone CSS documentation, never inline CSS tokens');
- }
- const expected=documented.map(compact).join('\n\n')+'\n';
- const unoptimized=documented.join('\n\n/* Ejoeun home finishing source boundary — cascade retained. */\n\n')+'\n';
- assert.ok(expected.length<unoptimized.length,'optimized bundle must save transferred bytes');
- assert.ok(!expected.includes('/*'),'no redundant CSS documentation is shipped');
- const hash=createHash('sha256').update(expected).digest('hex').slice(0,12);
- const bundle='/assets/home-finishing-'+hash+'.css';
- assert.ok(home.includes('href="'+bundle+'"'),'fingerprinted homepage finishing bundle is linked');
- assert.equal(read(bundle.slice(1)),expected,
-  'build delivery must preserve all non-comment CSS bytes and exact cascade order');
+ const originals=names.map(name=>read('assets/'+name).trimEnd());
+ const compact=css=>{
+  assert.equal((css.match(/\/\*[\s\S]*?\*\//g)||[]).length,
+   (css.match(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm)||[]).length,
+   'only source documentation may be removed from deployed CSS');
+  return css.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'').trimEnd();
+ };
+ const marker='/* 2026-11-01 | Visible clinic journal navigation and first-screen visit facts. */';
+ const salon=originals[2],split=salon.indexOf(marker);
+ assert.ok(split>4000 && salon.split(marker).length===2,'FAQ CSS split point remains unambiguous');
+ const offscreen=compact(salon.slice(0,split))+'\n';
+ const critical=compact(salon.slice(split));
+ const finish=[compact(originals[0]),compact(originals[1]),critical].join('\n\n')+'\n';
+ const hash=css=>createHash('sha256').update(css).digest('hex').slice(0,12);
+ const finishPath='/assets/home-finishing-'+hash(finish)+'.css';
+ const deferredPath='/assets/home-faq-visit-'+hash(offscreen)+'.css';
+ assert.equal(read(finishPath.slice(1)),finish,'hero and journal CSS must remain render-blocking');
+ assert.equal(read(deferredPath.slice(1)),offscreen,'FAQ/location CSS is byte-for-byte preserved');
+ assert.ok(!finish.includes('body.home-page #main-content > #faq .faq-quick-links'),
+  'FAQ layout must not remain in the blocking finish bundle');
+ assert.ok(finish.includes('.hero-local-intro .hero-visit-facts') &&
+  finish.includes('header .navlinks a.stories-nav-link'),
+  'visible opening actions and journal navigation must not flash unstyled');
+ assert.ok(offscreen.includes('body.home-page #main-content > #faq .faq-quick-links') &&
+  offscreen.includes('body.home-page #main-content > #location'),
+  'FAQ question anchors and alternating clinic hours must remain styled');
+ const offscreenSelectors=[...offscreen.matchAll(/([^{};]+)\{/g)]
+  .map(match=>match[1].trim()).filter(x=>x&&!x.startsWith('@'));
+ assert.ok(offscreenSelectors.length>=20&&offscreenSelectors.every(selector=>
+  selector.split(',').every(part=>/body\.home-page\s+#main-content\s*>\s*#(?:faq|location)\b/.test(part))),
+ 'deferred CSS must target only offscreen sections');
+ assert.ok(home.includes('<link rel="stylesheet" href="'+finishPath+'">'),
+  'home finishing rules load synchronously');
+ const lazy='<link rel="stylesheet" href="'+deferredPath+'" media="print" onload="this.media=\'all\'">';
+ assert.ok(home.includes(lazy),'deferred FAQ styling should not block the first screen');
+ assert.ok(home.includes('<noscript><link rel="stylesheet" href="'+deferredPath+'"></noscript>'),
+  'when JavaScript is disabled the whole FAQ/visiting guide must still render normally');
+ const visualStyles=[...home.matchAll(/<link rel="stylesheet" href="(\/assets\/[^"]+)"/g)]
+  .map(m=>m[1]);
+ const idx=visualStyles.findIndex(h=>h.startsWith('/assets/atelier-refinement-20261030.css?v='));
+ assert.ok(idx>=0&&visualStyles[idx+1]===finishPath&&visualStyles[idx+2]===deferredPath,
+  'the first-screen and offscreen CSS must stay in correct cascade order');
  assert.ok(!names.some(name=>home.includes('href="/assets/'+name)),
-  'the three original finishing styles must no longer trigger individual HTTP requests');
- const cssLinks=[...home.matchAll(/<link rel="stylesheet" href="(\/assets\/[^"]+)"/g)].map(m=>m[1]);
- assert.ok(cssLinks.includes(bundle),'build must render exactly one finishing stylesheet');
- const prior=cssLinks.findIndex(item=>item.startsWith('/assets/atelier-refinement-20261030.css?v='));
- assert.ok(prior>=0&&cssLinks.indexOf(bundle)===prior+1,
-  'finish styles must apply in the original order, immediately after the existing atelier layer');
- const originalDocs=documented.join(' ');
- assert.ok(originalDocs.includes('Clear anchor offsets for sticky clinic navigation'),
-  'original layer still documents mobile anchor behavior');
- assert.ok(originalDocs.includes('Care cards and doctor credentials: final reading hierarchy'),
-  'original layer still documents priority care and doctor credentials');
- assert.ok(originalDocs.includes('FAQ & visit salon'),
-  'the original clinic schedule and FAQ styles must remain in the bundle');
- assert.ok(expected.includes('body.home-page #main-content > #faq .faq-quick-links'),
-  'the seven build-generated FAQ question links must retain their presentation');
- assert.ok(expected.includes('body.home-page #main-content > #location'),
-  'the patient visiting-hour layout must retain its source order');
+  'original unversioned styles must not cause redundant requests');
+ assert.ok(originals.join(' ').includes('Clear anchor offsets for sticky clinic navigation')&&
+  originals.join(' ').includes('FAQ & visit salon'),
+  'editable source documentation is retained');
 });
 
 test('identical homepage CSS declarations are not repeated in a matching scope',()=>{
