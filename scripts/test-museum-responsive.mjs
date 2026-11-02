@@ -752,7 +752,7 @@ test('mobile hero artwork preload prioritizes the visible doctor-cat portrait',(
 
 test('compact first-screen mobile header preserves four reading shortcuts and fixed reservations',()=>{
  const css=read('assets/home-visit-faq-salon-20261031.css');
- const head=read('index.html').match(/<div class="mobile-quick">([\\s\\S]*?)<\\/div>/)?.[1]||'';
+ const head=read('index.html').match(/<div class="mobile-quick">([\s\S]*?)<\/div>/)?.[1]||'';
  assert.ok(css.includes('2026-11-03 | Compact first-screen mobile navigation with preserved booking dock.'),
   'responsive layer must describe its approved four-column compact navigation');
  assert.ok(css.includes('html:not(.home-scrolled) body.home-page header .nav .mobile-quick {')&&
