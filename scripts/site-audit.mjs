@@ -3078,7 +3078,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
          data.toString('ascii',8,12)==='WEBP';
      })));
  if(!chosen||
-    !heroSection.includes('loading="eager" fetchpriority="high" decoding="async"')||
+    !heroSection.includes('loading="eager" fetchpriority="high" decoding="sync"')||
     !preloadMatches||
     heroSection.includes('class="flower"')||
     !hero.includes('property="og:image" content="https://ejoeundental.com'+expected+'"')||
