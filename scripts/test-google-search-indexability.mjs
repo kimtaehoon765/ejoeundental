@@ -272,7 +272,13 @@ test('Google Image discovery lists real first-party illustrations only on their 
   ['gum-treatment','watercolor-care-gum-20261029.webp'],
   ['root-canal-health','ejoeun-watercolor-infection-20261029.webp'],
   ['pediatric-dentistry','ejoeun-original-pediatric-20261029.webp'],
-  ['cavity-treatment','ejoeun-watercolor-cavity-20261029.webp']
+  ['cavity-treatment','ejoeun-watercolor-cavity-20261029.webp'],
+  ['scaling','ejoeun-scaling-stilllife-20261029.svg'],
+  ['cervical-abrasion','watercolor-care-abrasion-20261029.webp'],
+  ['insured-care','watercolor-care-insurance-20261029.webp'],
+  ['wisdom-tooth','ejoeun-original-wisdom-consult-20261029.webp'],
+  ['tmj-care','ejoeun-tmj-rest-portrait-20261029.svg'],
+  ['pediatric-orthodontics','ejoeun-child-orthodontic-growth-art-20261029.svg']
  ];
  const expectedImagePages=[home,rootCanal,implant,denture,origin+'/gallery.html',
   ...patientIllustrations.map(([slug])=>origin+'/'+slug)];
