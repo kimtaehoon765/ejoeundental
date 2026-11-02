@@ -2248,6 +2248,19 @@ test('2026-11-01 compact homepage layout preserves all sections and SEO entry po
   implantCss.includes('overscroll-behavior-inline:contain') &&
   implantCss.includes('@media(max-width:600px)'),
   'cavity triptych must not shrink to unreadable text on mobile');
+ assert.match(cavityMarkup,
+  /<\/div>\s*<figcaption class="ejoeun-topic-art__caption">\s*<p class="clinical-atlas-swipe-hint">/,
+  'cavity swipe hint belongs to the figure caption, not a third desktop grid column');
+ for(const name of ['clinical-implant-section-20261102.svg',
+  'clinical-cavity-sequence-20261102.svg']){
+  assert.ok(source.includes('href="/assets/'+name+'" target="_blank" rel="noopener noreferrer"'),
+   'homepage patient atlas is also readable at full size: '+name);
+ }
+ const homeAtlasCss=read('assets/home-visit-faq-salon-20261031.css');
+ assert.ok(homeAtlasCss.includes('2026-11-03 | Patient atlas: legible plates and enlargement links.') &&
+  homeAtlasCss.includes('.care-mini-gallery > figcaption > a') &&
+  homeAtlasCss.includes('min-height:48px'),
+  'original paintings and scientific drawings keep distinct, touch-readable presentation');
  assert.ok(source.includes('class="care-directory__more" open'),
    'the entire twelve-treatment quick directory is accessible by default');
  assert.ok(source.includes('class="owner-stories-more"'),
