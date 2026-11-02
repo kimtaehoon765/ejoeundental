@@ -648,3 +648,135 @@ body.home-page #main-content > #stories .journal-gallery-cover__poster > span {
     box-shadow:none;
   }
 }
+
+
+/* 2026-11-02 | Care galleries and philosophy reading rhythm. */
+/* Museum-inspired consistency for clinical information; no medical copy,
+   booking route, original artwork, navigation or schema is changed. */
+body.home-page #main-content > #philosophy .grid,
+body.home-page #main-content > #care > .wrap > .grid {
+  align-items:stretch;
+  gap:clamp(13px,1.9vw,24px);
+}
+body.home-page #main-content > #philosophy .grid > .card {
+  box-sizing:border-box;
+  min-width:0;
+  padding:clamp(22px,2.45vw,32px);
+  border:1px solid #d8cdb8;
+  border-top:3px solid #b39a70;
+  border-radius:3px 12px 3px 12px;
+  background:linear-gradient(147deg,#fffdf8,#f8f6f0);
+  box-shadow:0 10px 26px rgba(27,52,38,.055);
+  text-align:left;
+}
+body.home-page #main-content > #philosophy .grid > .card:nth-child(2) {
+  border-top-color:#8aa18d;
+  background:linear-gradient(147deg,#fffefa,#f4f8f2);
+}
+body.home-page #main-content > #philosophy .grid > .card .num {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  box-sizing:border-box;
+  width:39px;
+  height:39px;
+  margin:0 0 17px;
+  border:1px solid #c9b48d;
+  border-radius:50%;
+  background:#f7f0e2;
+  color:#6d5636;
+  font:750 12px/1 system-ui,sans-serif;
+  letter-spacing:.05em;
+}
+body.home-page #main-content > #philosophy .grid > .card:nth-child(2) .num {
+  border-color:#b7cbb8;
+  background:#eaf0e7;
+  color:#34583e;
+}
+body.home-page #main-content > #philosophy .grid > .card h3 {
+  margin:0 0 13px;
+  color:#234936;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  line-height:1.53;
+  letter-spacing:-.04em;
+  text-wrap:balance;
+}
+body.home-page #main-content > #philosophy .grid > .card p,
+body.home-page #main-content > #care > .wrap > .grid > .care-primary-card > p {
+  color:#435b4c;
+  font-size:clamp(14px,1.12vw,15px);
+  line-height:1.86;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+}
+body.home-page #main-content > #care > .wrap > .grid > .care-primary-card {
+  border:1px solid #dbd1be;
+  border-top:3px solid #9daf93;
+  border-radius:3px 12px 3px 12px;
+  background:linear-gradient(150deg,#fffefa,#f7f8f2);
+  box-shadow:0 10px 26px rgba(27,52,38,.05);
+}
+body.home-page #main-content > #care > .wrap > .grid > .care-primary-card:nth-child(odd) {
+  border-top-color:#b99c6d;
+  background:linear-gradient(150deg,#fffefa,#faf7f0);
+}
+body.home-page #main-content > #care > .wrap > .grid > .care-primary-card > h3 {
+  margin-bottom:12px;
+  color:#234936;
+  font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;
+  line-height:1.5;
+  text-wrap:balance;
+}
+body.home-page #main-content > #care > .wrap > .grid > .care-primary-card > p:last-child {
+  margin-top:auto;
+  padding-top:16px;
+  border-top:1px solid #ddd7c8;
+}
+body.home-page #main-content > #care > .wrap > .grid > .care-primary-card > p:last-child a,
+body.home-page #main-content > #philosophy .grid > .card p a {
+  color:#265b42;
+  text-decoration:underline;
+  text-decoration-color:#a6b8a7;
+  text-underline-offset:4px;
+  text-decoration-thickness:1px;
+}
+body.home-page #main-content > #care > .wrap > .grid > .care-primary-card a:focus-visible,
+body.home-page #main-content > #philosophy .grid > .card a:focus-visible {
+  outline:3px solid #a6844c;
+  outline-offset:3px;
+}
+@media(max-width:700px) {
+  body.home-page #main-content > #philosophy .grid > .card,
+  body.home-page #main-content > #care > .wrap > .grid > .care-primary-card {
+    padding:20px 18px 23px;
+    box-shadow:none;
+  }
+  body.home-page #main-content > #philosophy .grid > .card .num {
+    width:36px;
+    height:36px;
+    margin-bottom:12px;
+  }
+  body.home-page #main-content > #philosophy .grid > .card p,
+  body.home-page #main-content > #care > .wrap > .grid > .care-primary-card > p {
+    font-size:14px;
+    line-height:1.86;
+  }
+  body.home-page #main-content > #care > .wrap > .grid > .care-primary-card > p:last-child {
+    margin-top:13px;
+    padding-top:13px;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > #philosophy .grid > .card,
+  body.home-page #main-content > #philosophy .grid > .card .num,
+  body.home-page #main-content > #care > .wrap > .grid > .care-primary-card {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.home-page #main-content > #philosophy .grid > .card :is(h3,p,a),
+  body.home-page #main-content > #care > .wrap > .grid > .care-primary-card :is(h3,p,a) {
+    color:CanvasText;
+  }
+}
