@@ -20,6 +20,32 @@ const compactCriticalCss=css=>{
 };
 const home=read('index.html');
 const museum=read('assets/museum-home-v2.css');
+
+test('clinic structured data stays valid in HEAD while gallery CSS is discoverable early',()=>{
+ const head=home.slice(0,home.indexOf('</head>'));
+ const scripts=[...head.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+ assert.equal(scripts.length,4,'keep all four verified schema blocks within HEAD');
+ const types=scripts.map(s=>JSON.parse(s[1])['@type']);
+ assert.deepEqual(types,['ItemList','WebSite','Dentist','FAQPage'],
+  'structured data semantic type and original ordering must not change');
+ const renderedCss=[...head.matchAll(/<link rel="stylesheet" href="(\/assets\/[^"]+)"/g)]
+  .map(m=>({pos:m.index,url:m[1]}));
+ const blockingLast=renderedCss.find(r=>r.url.startsWith('/assets/home-finishing-'));
+ const galleryFirst=renderedCss.find(r=>r.url.startsWith('/assets/gallery-foundation-'));
+ assert.ok(blockingLast&&galleryFirst,'both gallery and final CSS bundles remain linked');
+ assert.ok(galleryFirst.pos<scripts[0].index&&blockingLast.pos<scripts[0].index,
+  'CSS files must be discovered before the non-rendering JSON-LD scripts');
+ assert.ok(scripts[0].index-galleryFirst.pos>250,
+  'search schemas remain within head and after stylesheets');
+ assert.ok(head.includes('<meta name="google-site-verification"')&&
+  head.includes('<meta name="naver-site-verification"')&&
+  head.includes('rel="canonical" href="https://ejoeundental.com/"'),
+  'moving non-rendering metadata must not drop search verification');
+ assert.ok(home.includes('class="art hero-artwork"')&&
+  home.includes('class="mobile-booking-actions"'),
+  'original portrait and booking dock remain present');
+});
+
 // Content-hashed gallery foundation and independent newer patient styles.
 const linkedVersionedStyle=(markup,name)=>
  markup.includes('/assets/'+name+'?v=')&&existsSync('dist/assets/'+name);
