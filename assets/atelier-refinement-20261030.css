@@ -6439,5 +6439,16 @@ body.home-page #main-content > .hero.wrap .hero-visit-note {
       content-visibility: auto;
       contain-intrinsic-size: auto 2900px;
     }
+    /* More long-form medical information and accordions well beyond the
+       opening painting can skip descendant layout while offscreen. The
+       complete source HTML and accessible anchors always remain present. */
+    body.home-page #main-content > #health-info {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 1600px;
+    }
+    body.home-page #main-content > #faq {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 1100px;
+    }
   }
 }
