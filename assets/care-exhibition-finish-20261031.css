@@ -780,3 +780,232 @@ body.care-gallery:is(.care-cervical-abrasion,.care-insured-care) :is(#cervical-s
     color:CanvasText;
   }
 }
+
+/* 2026-11-02 | Scannable periodontal comparison and retreatment stage gallery
+   One compact comparison and four un-cropped procedural illustrations.
+   Source medical text, alt labels, patient links and page metadata unchanged. */
+body.care-gallery.care-gum-treatment .gum-comparison-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:stretch;
+  gap:clamp(12px,2vw,21px);
+  margin:clamp(22px,3vw,32px) 0 19px;
+}
+body.care-gallery.care-gum-treatment .gum-comparison-grid > .gum-box {
+  box-sizing:border-box;
+  min-width:0;
+  margin:0;
+  padding:clamp(20px,2.6vw,29px);
+  border:1px solid #d9cfbc;
+  border-top:4px solid #9bad94;
+  border-radius:4px 15px 4px 15px;
+  background:linear-gradient(155deg,#fffefa,#f5f7f0);
+  box-shadow:0 10px 26px rgba(30,54,40,.045);
+}
+body.care-gallery.care-gum-treatment .gum-comparison-grid > .gum-box:nth-child(2) {
+  border-top-color:#ae9166;
+  background:linear-gradient(155deg,#fffdf8,#f8f4ea);
+}
+body.care-gallery.care-gum-treatment .gum-comparison-grid > .gum-box > h3 {
+  margin:0 0 13px;
+  color:#224b38;
+  font:700 clamp(19px,2vw,23px)/1.5 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.04em;
+}
+body.care-gallery.care-gum-treatment .gum-comparison-grid > .gum-box > p {
+  margin:0;
+  color:#405c4b;
+  font-size:clamp(15px,1.45vw,17px);
+  line-height:1.95;
+  word-break:keep-all;
+}
+body.care-gallery.care-retreatment .block .steps {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  align-items:stretch;
+  gap:clamp(11px,1.4vw,17px);
+  margin-block:clamp(22px,3vw,32px) clamp(25px,3vw,35px);
+}
+body.care-gallery.care-retreatment .block .steps > .step {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:0;
+  min-width:0;
+  height:100%;
+  padding:16px 13px 20px;
+  border:1px solid #d9d1c0;
+  border-top:3px solid #b3986d;
+  border-radius:4px 14px 4px 14px;
+  background:linear-gradient(158deg,#fffefa,#f8f7f1);
+  box-shadow:0 7px 20px rgba(32,53,40,.045);
+  overflow:hidden;
+}
+body.care-gallery.care-retreatment .block .steps > .step:nth-child(even) {
+  border-top-color:#8ba791;
+  background:linear-gradient(158deg,#fffefa,#f3f8f2);
+}
+body.care-gallery.care-retreatment .block .steps > .step > .num {
+  display:grid;
+  place-items:center;
+  flex:0 0 auto;
+  width:35px;
+  height:35px;
+  margin:0 0 10px 4px;
+  border:1px solid #b5a17a;
+  border-radius:50%;
+  color:#fffefa;
+  background:#355d46;
+  font-size:15px;
+  font-weight:800;
+  line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+body.care-gallery.care-retreatment .block .steps > .step > img {
+  box-sizing:border-box;
+  display:block;
+  width:min(100%,170px);
+  height:auto;
+  max-height:none;
+  aspect-ratio:125/124;
+  margin:0 auto 13px;
+  padding:7px;
+  border:1px solid #e1d7c3;
+  border-radius:3px;
+  object-fit:contain;
+  object-position:center;
+  background:#faf6ed;
+}
+body.care-gallery.care-retreatment .block .steps > .step > h3 {
+  margin:0 5px 9px;
+  color:#244b38;
+  font:700 clamp(16px,1.42vw,18px)/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.035em;
+  word-break:keep-all;
+}
+body.care-gallery.care-retreatment .block .steps > .step > p {
+  margin:0 5px;
+  color:#506453;
+  font-size:clamp(14px,1.12vw,15px);
+  line-height:1.85;
+  word-break:keep-all;
+}
+body.care-gallery.care-retreatment .block .columns > .panel {
+  min-width:0;
+  padding:clamp(23px,3vw,35px);
+  border:1px solid #d6d3c2;
+  border-top:4px solid #88aa90;
+  border-radius:4px 15px 4px 15px;
+  background:linear-gradient(155deg,#fffefa,#f3f8f1);
+  box-shadow:0 7px 25px rgba(30,54,40,.04);
+}
+body.care-gallery.care-retreatment .block .columns > .panel:nth-child(2) {
+  border-top-color:#b79c73;
+  background:linear-gradient(155deg,#fffefa,#faf6ef);
+}
+body.care-gallery.care-retreatment .block .columns > .panel > h2 {
+  font-size:clamp(21px,2.3vw,27px);
+  line-height:1.48;
+  letter-spacing:-.04em;
+}
+body.care-gallery.care-retreatment .block .columns > .panel > ul > li {
+  color:#425b49;
+  font-size:clamp(15px,1.24vw,16px);
+  line-height:1.82;
+  word-break:keep-all;
+}
+@media(max-width:930px) {
+  body.care-gallery.care-retreatment .block .steps {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media(max-width:700px) {
+  body.care-gallery.care-gum-treatment .gum-comparison-grid {
+    grid-template-columns:minmax(0,1fr);
+    gap:11px;
+  }
+  body.care-gallery.care-gum-treatment .gum-comparison-grid > .gum-box {
+    padding:20px 18px;
+    box-shadow:none;
+  }
+  body.care-gallery.care-retreatment .block .columns > .panel {
+    padding:22px 19px;
+    box-shadow:none;
+  }
+}
+@media(max-width:520px) {
+  body.care-gallery.care-retreatment .block .steps {
+    grid-template-columns:minmax(0,1fr);
+    gap:10px;
+  }
+  body.care-gallery.care-retreatment .block .steps > .step {
+    display:grid;
+    grid-template-columns:106px minmax(0,1fr);
+    grid-template-rows:auto 1fr;
+    gap:6px 13px;
+    align-items:start;
+    min-height:151px;
+    padding:13px 13px 15px;
+    box-shadow:none;
+  }
+  body.care-gallery.care-retreatment .block .steps > .step > .num {
+    grid-column:1;
+    grid-row:1;
+    width:30px;
+    height:30px;
+    margin:0;
+    font-size:13px;
+  }
+  body.care-gallery.care-retreatment .block .steps > .step > img {
+    grid-column:1;
+    grid-row:2;
+    width:100%;
+    max-width:106px;
+    height:auto;
+    max-height:none;
+    margin:0;
+    padding:4px;
+  }
+  body.care-gallery.care-retreatment .block .steps > .step > h3 {
+    grid-column:2;
+    grid-row:1;
+    align-self:center;
+    margin:0;
+    font-size:17px;
+  }
+  body.care-gallery.care-retreatment .block .steps > .step > p {
+    grid-column:2;
+    grid-row:2;
+    margin:0;
+    font-size:15px;
+  }
+}
+@media(max-width:360px){
+  body.care-gallery.care-retreatment .block .steps > .step {
+    grid-template-columns:89px minmax(0,1fr);
+    gap:6px 10px;
+    padding:11px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.care-gallery.care-retreatment .block .steps > .step {
+    transition:none;
+  }
+}
+@media(forced-colors:active) {
+  body.care-gallery.care-gum-treatment .gum-comparison-grid > .gum-box,
+  body.care-gallery.care-retreatment .block .steps > .step,
+  body.care-gallery.care-retreatment .block .steps > .step > img,
+  body.care-gallery.care-retreatment .block .columns > .panel {
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+  body.care-gallery.care-retreatment .block .steps > .step > .num {
+    color:CanvasText;
+    border-color:CanvasText;
+    background:Canvas;
+  }
+}
