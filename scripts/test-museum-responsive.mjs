@@ -40,7 +40,13 @@ const exhibitionFoundation=()=>{
  const names=['atelier-home-2026.css','curatorial-home.css','gallery-edition-polish.css'];
  const boundary='\n\n/* Ejoeun curated exhibition CSS source boundary. */\n\n';
  const documented=names.map(name=>read('assets/'+name).trimEnd()).join(boundary)+'\n';
- const expected=stripBundleDocumentation(documented);
+ const withoutDocumentation=stripBundleDocumentation(documented);
+ assert.ok(!/\\\r?\n/.test(withoutDocumentation),
+  'source CSS must not contain escaped newlines before compaction');
+ const expected=withoutDocumentation.replace(/[ \t]+$/gm,'').replace(/^[ \t]+/gm,'')
+  .replace(/(?:\r?\n){2,}/g,'\n');
+ assert.ok(Buffer.byteLength(withoutDocumentation)-Buffer.byteLength(expected)>9000,
+  'gallery foundation formatting must save at least 9KB without changing CSS rules');
  const hash=createHash('sha256').update(expected).digest('hex').slice(0,12);
  const href='/assets/exhibition-foundation-'+hash+'.css';
  assert.ok(home.includes('href="'+href+'"'),'immutable exhibition CSS is linked');
