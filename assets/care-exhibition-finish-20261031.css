@@ -1009,3 +1009,159 @@ body.care-gallery.care-retreatment .block .columns > .panel > ul > li {
     background:Canvas;
   }
 }
+
+/* 2026-11-02 | Insurance decisions and cervical restoration reading cards
+   Three insurance checks and two clinical choice panels use original patient
+   education paragraphs. Artwork, booking and article metadata are untouched. */
+body.care-gallery.care-insured-care #insurance-decision-guide .insurance-decision-steps,
+body.care-gallery.care-cervical-abrasion #cervical-care-decisions + .cervical-choice-panels {
+  display:grid;
+  gap:clamp(11px,1.5vw,18px);
+  margin:clamp(21px,2.6vw,29px) 0 18px;
+}
+body.care-gallery.care-insured-care #insurance-decision-guide .insurance-decision-steps {
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+body.care-gallery.care-cervical-abrasion .cervical-choice-panels {
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+body.care-gallery.care-insured-care #insurance-decision-guide .insurance-decision-steps > article,
+body.care-gallery.care-cervical-abrasion .cervical-choice-panels > article {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  min-width:0;
+  margin:0;
+  padding:clamp(19px,2.2vw,27px);
+  border:1px solid #d9d0bd;
+  border-top:4px solid #a8946d;
+  border-radius:4px 14px 4px 14px;
+  background:linear-gradient(148deg,#fffefa,#f9f6ef);
+  box-shadow:0 9px 26px rgba(31,56,40,.048);
+}
+body.care-gallery.care-insured-care #insurance-decision-guide .insurance-decision-steps > article:nth-child(2),
+body.care-gallery.care-cervical-abrasion .cervical-choice-panels > article:nth-child(2) {
+  border-top-color:#93a797;
+  background:linear-gradient(148deg,#fffefa,#f4f8f1);
+}
+body.care-gallery.care-insured-care #insurance-decision-guide .insurance-decision-steps > article:nth-child(3) {
+  border-top-color:#899cab;
+}
+body.care-gallery.care-insured-care .insurance-decision-number,
+body.care-gallery.care-cervical-abrasion .cervical-choice-number {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:32px;
+  margin-bottom:14px;
+  padding:5px 11px;
+  border:1px solid #bba985;
+  border-radius:3px 9px 3px 9px;
+  color:#6b5432;
+  background:#f8f1e2;
+  font:800 12px/1.55 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.035em;
+  word-break:keep-all;
+}
+body.care-gallery.care-cervical-abrasion .cervical-choice-number {
+  background:#f1f5eb;
+  border-color:#b3c6ac;
+  color:#315b43;
+}
+body.care-gallery.care-insured-care .insurance-decision-steps h3,
+body.care-gallery.care-cervical-abrasion .cervical-choice-panels h3 {
+  margin:0 0 12px;
+  color:#224733;
+  font:700 clamp(18px,1.72vw,21px)/1.55 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.035em;
+  word-break:keep-all;
+  text-wrap:balance;
+}
+body.care-gallery.care-insured-care .insurance-decision-steps p,
+body.care-gallery.care-cervical-abrasion .cervical-choice-panels p {
+  margin:0;
+  color:#445d4c;
+  font-size:clamp(15px,1.18vw,16px);
+  line-height:1.9;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+body.care-gallery.care-insured-care .insurance-decision-links,
+body.care-gallery.care-cervical-abrasion .cervical-choice-links {
+  margin:15px 0 4px;
+  padding:14px 17px;
+  border-left:3px solid var(--exhibit-accent);
+  background:#f5f7f0;
+  color:#415b49;
+  font-size:15px;
+  line-height:1.9;
+  word-break:keep-all;
+}
+body.care-gallery.care-insured-care .insurance-decision-links a,
+body.care-gallery.care-cervical-abrasion .cervical-choice-links a {
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+  font-weight:750;
+  color:#245a40;
+  text-underline-offset:4px;
+}
+body.care-gallery.care-insured-care .insurance-decision-links a:focus-visible,
+body.care-gallery.care-cervical-abrasion .cervical-choice-links a:focus-visible {
+  outline:3px solid #a88752;
+  outline-offset:3px;
+}
+@media(max-width:920px) {
+  body.care-gallery.care-insured-care #insurance-decision-guide .insurance-decision-steps {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  body.care-gallery.care-insured-care #insurance-decision-guide .insurance-decision-steps > article:last-child {
+    grid-column:1/-1;
+  }
+}
+@media(max-width:650px) {
+  body.care-gallery.care-insured-care #insurance-decision-guide .insurance-decision-steps,
+  body.care-gallery.care-cervical-abrasion .cervical-choice-panels {
+    grid-template-columns:minmax(0,1fr);
+    gap:10px;
+    margin-block:18px 15px;
+  }
+  body.care-gallery.care-insured-care #insurance-decision-guide .insurance-decision-steps > article,
+  body.care-gallery.care-cervical-abrasion .cervical-choice-panels > article {
+    grid-column:auto;
+    padding:19px 17px;
+    box-shadow:none;
+  }
+  body.care-gallery.care-insured-care .insurance-decision-steps h3,
+  body.care-gallery.care-cervical-abrasion .cervical-choice-panels h3 {
+    font-size:19px;
+  }
+  body.care-gallery.care-insured-care .insurance-decision-links,
+  body.care-gallery.care-cervical-abrasion .cervical-choice-links {
+    padding:11px 13px;
+    font-size:14px;
+  }
+}
+@media(forced-colors:active) {
+  body.care-gallery.care-insured-care .insurance-decision-steps > article,
+  body.care-gallery.care-cervical-abrasion .cervical-choice-panels > article,
+  body.care-gallery.care-insured-care .insurance-decision-links,
+  body.care-gallery.care-cervical-abrasion .cervical-choice-links,
+  body.care-gallery :is(.insurance-decision-number,.cervical-choice-number) {
+    border-color:CanvasText;
+    color:CanvasText;
+    background:Canvas;
+    box-shadow:none;
+  }
+  body.care-gallery :is(.insurance-decision-steps,.cervical-choice-panels) :is(h3,p) {
+    color:CanvasText;
+  }
+}
+@media print {
+  body.care-gallery.care-insured-care .insurance-decision-steps > article,
+  body.care-gallery.care-cervical-abrasion .cervical-choice-panels > article {
+    box-shadow:none;
+    break-inside:avoid;
+  }
+}
