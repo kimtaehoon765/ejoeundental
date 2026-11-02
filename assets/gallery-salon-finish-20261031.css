@@ -1043,3 +1043,83 @@
     color:CanvasText;
   }
 }
+
+/* 2026-11-02 | Gallery mobile-first viewing refinement
+   Bring art closer to the first mobile viewport without hiding any of the
+   23 exhibits or changing image, zoom, booking, or patient-education links. */
+@media (max-width:650px) {
+  .gallery-hero {
+    gap:14px;
+    margin-bottom:clamp(26px,7vw,38px);
+  }
+  .gallery-hero .gallery-hero-content {
+    padding:21px 17px 20px;
+  }
+  .gallery-hero .gallery-hero-content > h1 {
+    font-size:clamp(29px,7.5vw,36px);
+    line-height:1.38;
+    margin-block:10px 12px;
+    text-wrap:balance;
+  }
+  .gallery-hero .gallery-hero-content > p:not(.gallery-kicker) {
+    font-size:14px;
+    line-height:1.78;
+  }
+  .gallery-hero .gallery-hero-content > .gallery-hero-actions {
+    gap:7px;
+    margin-top:17px;
+  }
+  .gallery-hero .gallery-hero-content > .gallery-hero-actions > a {
+    min-height:67px;
+    gap:2px;
+    padding:9px 11px;
+    border-left-width:3px;
+    border-radius:4px 9px 4px 9px;
+    font-size:12px;
+    line-height:1.46;
+    box-shadow:none;
+  }
+  .gallery-hero .gallery-hero-content > .gallery-hero-actions > a::before {
+    font-size:9px;
+    line-height:1.35;
+    letter-spacing:.075em;
+  }
+  .gallery-hero .gallery-hero-image {
+    padding:7px;
+    box-shadow:0 10px 24px rgba(29,55,40,.07);
+  }
+  .gallery-exhibition-index > a {
+    scroll-margin-top:92px;
+  }
+  #paintings .gallery-piece,
+  #education .gallery-watercolor-card,
+  .gallery-patient-studies__piece {
+    scroll-margin-top:94px;
+  }
+}
+@media (max-width:390px) {
+  .gallery-hero .gallery-hero-content > .gallery-hero-actions {
+    grid-template-columns:minmax(0,1fr);
+    gap:6px;
+  }
+  .gallery-hero .gallery-hero-content > .gallery-hero-actions > a {
+    min-height:56px;
+    padding:8px 12px;
+  }
+}
+@media (hover:hover) and (pointer:fine) {
+  .gallery-hero .gallery-hero-content > .gallery-hero-actions > a:hover {
+    border-color:#a88e60;
+    box-shadow:0 6px 15px rgba(29,55,40,.06);
+  }
+}
+@media (forced-colors:active) {
+  .gallery-hero .gallery-hero-content,
+  .gallery-hero .gallery-hero-image,
+  .gallery-hero .gallery-hero-content > .gallery-hero-actions > a {
+    border-color:CanvasText;
+    background:Canvas;
+    color:CanvasText;
+    box-shadow:none;
+  }
+}
