@@ -3530,7 +3530,13 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   return readFileSync(p,'utf8').trimEnd();
  });
  if(sources.every(s=>s!==null)){
-  const expected=compactDeliveredCss(sources.join(boundary)+'\n');
+  const raw=compactDeliveredCss(sources.join(boundary)+'\n');
+  if(/\\\r?\n/.test(raw))
+   errors.push('전시 CSS 묶음: 이스케이프 개행으로 인한 압축 안전성 오류');
+  const expected=raw.replace(/[ \t]+$/gm,'').replace(/^[ \t]+/gm,'')
+   .replace(/(?:\r?\n){2,}/g,'\n');
+  if(Buffer.byteLength(raw)-Buffer.byteLength(expected)<9000)
+   errors.push('전시 CSS 묶음: 안전한 공백 축소량 부족');
   const hash=createHash('sha256').update(expected).digest('hex').slice(0,12);
   const bundled='exhibition-foundation-'+hash+'.css';
   const path=join(root,'assets',bundled);
