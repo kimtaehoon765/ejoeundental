@@ -3924,7 +3924,8 @@ function compactCriticalCss(css){
  const group=/<link rel="stylesheet" href="\/assets\/quiet-museum-finish-20261031\.css(?:\?[^"]*)?">\s*<link rel="stylesheet" href="\/assets\/museum-finish-20261031\.css(?:\?[^"]*)?">\s*<link rel="stylesheet" href="\/assets\/home-visit-faq-salon-20261031\.css(?:\?[^"]*)?">/g;
  if([...html.matchAll(group)].length!==1)
   throw new Error('Expected exactly one ordered home finishing CSS trio');
- const before=(html.match(/<link rel="stylesheet" href="\/assets\//g)||[]).length;
+ const before=(html.replace(/<noscript>[\s\S]*?<\/noscript>/g,'')
+  .match(/<link rel="stylesheet" href="\/assets\//g)||[]).length;
  const finishLink='<link rel="stylesheet" href="/assets/'+finishAsset+'">';
  const deferredLink='<link rel="stylesheet" href="/assets/'+offscreenAsset+'" media="print" onload="this.media=\'all\'">';
  const noScript='<noscript><link rel="stylesheet" href="/assets/'+offscreenAsset+'"></noscript>';
