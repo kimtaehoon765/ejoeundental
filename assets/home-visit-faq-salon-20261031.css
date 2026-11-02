@@ -360,3 +360,196 @@ body.home-page #main-content > #health-info .health-topic-card a:focus-visible {
   }
   body.home-page #main-content > .hero.wrap::before { display:none; }
 }
+
+
+/* 2026-11-02 | Curated gallery rhythm and hero refinement.
+   Visual-only finishing layer: preserve the original doctor-and-cat portrait,
+   every picture, health information, original links, and native mobile booking.
+   This is intentionally after the verified first-screen split marker. */
+body.home-page {
+  --gallery-paper:#fffdf7;
+  --gallery-forest:#244535;
+  --gallery-brass:#a18b65;
+  --gallery-hairline:#e4dac9;
+}
+body.home-page > header .nav .logo {
+  color:#1b4635;
+  text-decoration:none;
+  text-shadow:0 1px 0 rgba(255,255,255,.6);
+}
+body.home-page #main-content > .hero.wrap #headline {
+  color:#193e2e;
+  font-weight:650;
+  line-height:1.42;
+  letter-spacing:-.062em;
+  text-wrap:balance;
+}
+body.home-page #main-content > .hero.wrap .kicker {
+  color:#876d46;
+  line-height:1.5;
+}
+body.home-page #main-content > .hero.wrap .hero-local-intro {
+  color:#435d4e;
+  line-height:1.82;
+  text-wrap:pretty;
+}
+body.home-page #main-content > .hero.wrap .hero-local-intro a {
+  text-decoration:underline;
+  text-decoration-color:#b7a37f;
+  text-underline-offset:4px;
+}
+body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+  outline:1px solid rgba(169,148,108,.46);
+  outline-offset:5px;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque strong {
+  color:#274735;
+  text-wrap:balance;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque > a {
+  display:inline-block;
+  min-height:40px;
+  align-content:center;
+  text-underline-offset:4px;
+}
+body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-call,.hero-booking) {
+  font-weight:800;
+  letter-spacing:-.02em;
+}
+body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-hours,.hero-symptoms,.hero-map) {
+  font-weight:650;
+}
+body.home-page #main-content > .hero.wrap .hero-care-summary > a {
+  border-left:3px solid #d7d1bc;
+  background:linear-gradient(100deg,#fdfcf8,#f6f8f3);
+}
+body.home-page #main-content > .hero.wrap .hero-care-summary > a:focus-visible,
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque > a:focus-visible,
+body.home-page #main-content > .curated-threshold .curated-threshold__piece:focus-visible {
+  outline:3px solid #95733b;
+  outline-offset:4px;
+}
+body.home-page #main-content > .curated-threshold {
+  background:linear-gradient(130deg,#f6f2e9 0%,#fffdf8 64%,#f1f4ec 100%);
+  border-color:#d9cdb7;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__intro h2 {
+  color:#1e4734;
+  line-height:1.45;
+  text-wrap:balance;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__piece {
+  background:var(--gallery-paper);
+  border:1px solid var(--gallery-hairline);
+  box-shadow:0 8px 22px rgba(43,61,39,.06);
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__caption {
+  border-top:1px solid #ddd2bf;
+  background:#fffdf8;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__caption strong {
+  color:#264b38;
+  line-height:1.5;
+}
+body.home-page #main-content > .care-picture-notes .care-picture-notes__card {
+  border-color:#ded5c6;
+  background:#fffefa;
+  box-shadow:0 8px 22px rgba(34,58,41,.055);
+}
+body.home-page #main-content > #gallery .gallery-exhibition-index__room {
+  border-color:#d8cdb7;
+  background:linear-gradient(165deg,#fffdf8,#f6f4ed);
+}
+body.home-page #main-content > #gallery .gallery-exhibition-index__room strong {
+  color:#214a35;
+  letter-spacing:-.045em;
+  text-wrap:balance;
+}
+body.home-page #main-content > #gallery .gallery-exhibition-index__number {
+  color:#866f47;
+  letter-spacing:.105em;
+}
+body.home-page #main-content > #stories .journal-salon-new__grid > a > strong {
+  line-height:1.54;
+  text-wrap:pretty;
+}
+@media (min-width:1000px) {
+  body.home-page #main-content > .hero.wrap {
+    column-gap:clamp(36px,5vw,72px);
+    padding-top:clamp(58px,6vw,78px);
+    padding-bottom:clamp(56px,6vw,80px);
+  }
+  body.home-page #main-content > .hero.wrap #headline {
+    font-size:clamp(39px,3.8vw,51px);
+    margin-top:23px;
+    margin-bottom:21px;
+  }
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    box-shadow:0 22px 46px rgba(35,49,36,.14);
+  }
+  body.home-page #main-content > .curated-threshold .curated-threshold__piece:nth-child(2) {
+    translate:0 11px;
+  }
+  body.home-page #main-content > .curated-threshold .curated-threshold__piece:nth-child(3) {
+    translate:0 5px;
+  }
+}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  body.home-page #main-content > .curated-threshold .curated-threshold__piece,
+  body.home-page #main-content > #gallery .gallery-exhibition-index__room {
+    transition:border-color .18s ease,box-shadow .18s ease,background-color .18s ease;
+  }
+  body.home-page #main-content > .curated-threshold .curated-threshold__piece:hover,
+  body.home-page #main-content > #gallery .gallery-exhibition-index__room:hover {
+    border-color:#ac9876;
+    box-shadow:0 13px 27px rgba(34,55,40,.105);
+  }
+}
+@media (max-width:760px) {
+  body.home-page #main-content > .hero.wrap {
+    padding-bottom:clamp(22px,4.5vw,36px);
+  }
+  body.home-page #main-content > .hero.wrap #headline {
+    font-size:clamp(28px,6.5vw,40px);
+    line-height:1.4;
+    max-width:none;
+  }
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    max-width:min(100%,370px);
+    outline-offset:3px;
+  }
+  body.home-page #main-content > .curated-threshold .curated-threshold__piece {
+    box-shadow:none;
+  }
+  body.home-page #main-content > .care-picture-notes .care-picture-notes__card {
+    box-shadow:none;
+  }
+}
+@media (max-width:380px) {
+  body.home-page #main-content > .hero.wrap #headline {
+    font-size:clamp(27px,7vw,31px);
+  }
+  body.home-page #main-content > .hero.wrap .hero-artwork__plaque > a {
+    min-height:44px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  body.home-page #main-content > .curated-threshold .curated-threshold__piece,
+  body.home-page #main-content > #gallery .gallery-exhibition-index__room {
+    transition:none;
+  }
+}
+@media (forced-colors:active) {
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork,
+  body.home-page #main-content > .curated-threshold,
+  body.home-page #main-content > .curated-threshold .curated-threshold__piece,
+  body.home-page #main-content > .care-picture-notes .care-picture-notes__card,
+  body.home-page #main-content > #gallery .gallery-exhibition-index__room,
+  body.home-page #main-content > .hero.wrap .hero-care-summary > a {
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+    box-shadow:none;
+    outline-color:CanvasText;
+  }
+}
