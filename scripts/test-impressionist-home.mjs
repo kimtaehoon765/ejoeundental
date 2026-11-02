@@ -53,7 +53,8 @@ test('original gallery and responsive accent are local, cached, and accessible',
  const sources=['style.css','home-enhancements.css','address-copy.css']
   .map(name=>readFileSync('dist/assets/'+name,'utf8').trimEnd());
  const documented=sources.join('\n\n/* Original stylesheet boundary — cascade order retained. */\n\n')+'\n';
- const merged=documented.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'');
+ const merged=documented.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'')
+  .replace(/[ \t]+$/gm,'').replace(/^[ \t]+/gm,'').replace(/(?:\r?\n){2,}/g,'\n');
  const expected=createHash('sha256').update(merged).digest('hex').slice(0,12);
  const asset='/assets/home-critical-'+expected+'.css';
  assert.ok(home.includes('href="'+asset+'"'),'Home critical CSS must be fingerprinted after consolidation');
