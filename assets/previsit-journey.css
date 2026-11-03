@@ -463,3 +463,160 @@ body.medical-history-gallery main>.printable-checklist button {
     box-shadow:none;
   }
 }
+
+
+/* 2026-11-03 | Prepared patient route: one refined reading rhythm.
+   Visual only: all previsit checkboxes, local-only progress behavior,
+   medication warnings, printer behavior and original artwork remain. */
+:is(body.previsit-prepared,body.medical-history-gallery,body.safety-reading-room) .previsit-journey {
+  border:1px solid #ded8ca;
+  border-top:3px solid #a99978;
+  border-radius:9px;
+  padding:clamp(16px,2.2vw,23px);
+  margin-block:clamp(16px,2.6vw,26px);
+  background:#fffefa;
+  box-shadow:none;
+  color:#214937;
+}
+:is(body.previsit-prepared,body.medical-history-gallery,body.safety-reading-room) .previsit-journey>strong {
+  color:#1d4735;
+  font-size:clamp(19px,2.1vw,23px);
+  line-height:1.49;
+}
+:is(body.previsit-prepared,body.medical-history-gallery,body.safety-reading-room) .previsit-journey>p {
+  color:#526959;
+  margin-bottom:13px;
+  line-height:1.72;
+}
+:is(body.previsit-prepared,body.medical-history-gallery,body.safety-reading-room) .previsit-journey__items {
+  gap:8px;
+}
+:is(body.previsit-prepared,body.medical-history-gallery,body.safety-reading-room) .previsit-journey__items>a {
+  min-height:50px;
+  gap:10px;
+  padding:10px 12px;
+  border:1px solid #deded3;
+  border-radius:7px;
+  background:#fafbf7;
+  color:#2a503d;
+  line-height:1.55;
+}
+:is(body.previsit-prepared,body.medical-history-gallery,body.safety-reading-room) .previsit-journey__items>a[aria-current="page"] {
+  border:1px solid #a3b7a2;
+  border-left:4px solid #638d72;
+  background:#edf4e9;
+  color:#214c36;
+}
+body.previsit-prepared main>section#previsit-info {
+  border:1px solid #ded8ca;
+  border-top:3px solid #93ae96;
+  border-radius:9px;
+  background:#fffefa;
+  box-shadow:none;
+}
+body.previsit-prepared main>section#previsit-info>h2 {
+  color:#214a36;
+}
+body.previsit-prepared main>section#previsit-info label {
+  gap:9px;
+  min-height:54px;
+  padding:11px 10px;
+  line-height:1.69;
+  border-radius:7px;
+}
+body.previsit-prepared main>section#previsit-info label:has(input:checked) {
+  border-color:#bfd3bb;
+  background:#f0f7ed;
+}
+body.previsit-prepared main>section#previsit-info input[type="checkbox"] {
+  accent-color:#235e41;
+}
+body.previsit-prepared main>section#previsit-info>.previsit-progress {
+  border:1px solid #d8dfd1;
+  border-radius:8px;
+  background:#f6faf3;
+  box-shadow:none;
+}
+body.medical-history-gallery .health-history-outline {
+  border:1px solid #ded8ca;
+  border-left:3px solid #95a996;
+  border-radius:9px;
+  background:#f7faf5;
+}
+body.medical-history-gallery .health-history-outline__items>a {
+  min-height:47px;
+  border:1px solid #deded3;
+  border-radius:7px;
+  background:#fffefa;
+  line-height:1.5;
+}
+body.medical-history-gallery main>section.card:not(.printable-checklist) {
+  border:1px solid #ded8ca;
+  border-top:3px solid #a4b39b;
+  border-radius:9px;
+  background:#fffefa;
+  box-shadow:none;
+}
+body.medical-history-gallery main>section.card:not(.printable-checklist)>h2 {
+  color:#214936;
+}
+body.medical-history-gallery #history-questions h3 {
+  border-left-color:#a89168;
+  border-radius:0 7px 7px 0;
+  background:#f8f8f2;
+  padding:10px 13px;
+}
+@media(max-width:620px) {
+  :is(body.previsit-prepared,body.medical-history-gallery,body.safety-reading-room) .previsit-journey {
+    margin-block:16px 20px;
+    padding:16px 12px;
+  }
+  :is(body.previsit-prepared,body.medical-history-gallery,body.safety-reading-room) .previsit-journey>strong {
+    font-size:19px;
+  }
+  :is(body.previsit-prepared,body.medical-history-gallery,body.safety-reading-room) .previsit-journey__items {
+    grid-template-columns:minmax(0,1fr);
+    gap:7px;
+  }
+  :is(body.previsit-prepared,body.medical-history-gallery,body.safety-reading-room) .previsit-journey__items>a {
+    min-height:47px;
+    padding:9px 10px;
+    font-size:13px;
+  }
+  body.previsit-prepared main>section#previsit-info {
+    padding:18px 13px;
+    border-radius:8px;
+  }
+  body.previsit-prepared main>section#previsit-info label {
+    min-height:51px;
+    gap:8px;
+    padding:11px 7px;
+    font-size:15px;
+    line-height:1.63;
+  }
+  body.medical-history-gallery .health-history-outline {
+    padding:16px 12px;
+  }
+  body.medical-history-gallery .health-history-outline__items {
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+@media print {
+  body.previsit-prepared main>section#previsit-info {
+    border:0!important;
+    background:#fff!important;
+    padding:0!important;
+    box-shadow:none!important;
+  }
+}
+@media(forced-colors:active) {
+  :is(body.previsit-prepared,body.medical-history-gallery,body.safety-reading-room) .previsit-journey,
+  :is(body.previsit-prepared,body.medical-history-gallery,body.safety-reading-room) .previsit-journey__items>a,
+  body.previsit-prepared main>section#previsit-info,
+  body.medical-history-gallery .health-history-outline {
+    border-color:CanvasText;
+    color:CanvasText;
+    background:Canvas;
+    box-shadow:none;
+  }
+}
