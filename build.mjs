@@ -4021,7 +4021,7 @@ function compactCriticalCss(css){
   .map(match=>match[1]);
  const immutableCss=[...standardCss,...deferredCss];
  const prefixes=['home-critical-','gallery-foundation-','exhibition-foundation-','home-finishing-','home-visual-','home-faq-visit-'];
- if(immutableCss.length!==6||new Set(immutableCss).size!==5||
+ if(immutableCss.length!==6||new Set(immutableCss).size!==6||
     !immutableCss.includes(href)||
     prefixes.some(prefix=>immutableCss.filter(x=>x.startsWith('/assets/'+prefix)).length!==1))
   throw new Error('Cannot set long-term cache: missing unique fingerprinted home or offscreen CSS');
