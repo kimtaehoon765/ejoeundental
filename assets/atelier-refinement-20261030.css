@@ -6424,20 +6424,34 @@ body.home-page #main-content > .hero.wrap .hero-visit-note {
 }
 
 /* Mobile rendering budget — preserve all source HTML, gallery artwork, links,
-   headings and native disclosure accessibility. These two independently
-   laid-out sections occur well below the opening hero and symptom navigator.
-   Browsers supporting content-visibility can defer their costly descendants
-   until the user approaches. The auto fallback size helps prevent a zero-height
-   section or large jumps before its actual size is measured. */
+   headings and native disclosure accessibility. The clinical care, gallery,
+   health library, journal and FAQ are independently laid-out sections, well
+   below the opening hero and first symptom navigator on phones. Browsers that
+   support content-visibility can defer their offscreen layout/paint until the
+   visitor approaches, while normal rendering remains the fallback. Each auto
+   intrinsic-size supplies a stable provisional scroll height; real measured
+   sizes are reused on subsequent visits to the section. */
 @supports (content-visibility: auto) {
   @media (max-width: 700px) {
     body.home-page #main-content > #care {
       content-visibility: auto;
       contain-intrinsic-size: auto 2200px;
     }
+    body.home-page #main-content > #gallery {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 1000px;
+    }
+    body.home-page #main-content > #health-info {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 1100px;
+    }
     body.home-page #main-content > #stories {
       content-visibility: auto;
       contain-intrinsic-size: auto 2900px;
+    }
+    body.home-page #main-content > #faq {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 900px;
     }
   }
 }

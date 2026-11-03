@@ -2393,6 +2393,27 @@ test('compact phone header routes to symptoms without duplicating dock telephone
 });
 
 
+test('offscreen museum galleries remain crawlable while mobile rendering skips distant sections',()=>{
+ const css=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
+ const source=readFileSync('index.html','utf8');
+ assert.ok(css.includes('@supports (content-visibility: auto)')&&css.includes('@media (max-width: 700px)'),
+  'offscreen containment only applies to supporting mobile browsers');
+ for(const [name,size] of [
+  ['care',2200],['gallery',1000],['health-info',1100],['stories',2900],['faq',900]
+ ]){
+  assert.ok(css.includes('body.home-page #main-content > #'+name+' {\ncontent-visibility: auto;\ncontain-intrinsic-size: auto '+size+'px;'),
+   'offscreen section must have contained rendering and a provisional scroll height: '+name);
+  assert.ok(source.includes('id="'+name+'"'),
+   'original indexable section still exists in the HTML: '+name);
+ }
+ assert.ok(!css.includes('body.home-page #main-content > .hero.wrap {\ncontent-visibility'),
+  'the above-fold portrait and clinic promise must never be deferred');
+ assert.ok(!css.includes('body.home-page #main-content > #location {\ncontent-visibility'),
+  'visit details must remain available without content containment');
+ assert.ok(home.includes('class="mobile-booking-actions"')&&home.includes('href="tel:0325132875"'));
+ assert.ok(home.includes('rel="canonical" href="https://ejoeundental.com/"'));
+});
+
 test('only below-fold paintings are low-priority while director portrait loads early',()=>{
  const source=read('index.html');
  const hero=source.match(/<img\b[^>]*src="\/assets\/ejoeun-gallery-cat-dentist-20261029\.webp"[^>]*>/)?.[0]||'';
