@@ -14,6 +14,7 @@ on:
       - 'assets/cubist-cat-clinic-thumb*.webp'
       - 'assets/home-art-direction-20261030.css'
       - 'assets/atelier-refinement-20261030.css'
+      - 'assets/home-design-unification-20261103.css'
       - 'assets/clinic-gallery.css'
       - 'assets/style.css'
       - 'assets/home-enhancements.css'
