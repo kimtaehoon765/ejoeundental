@@ -2414,6 +2414,32 @@ test('offscreen museum galleries remain crawlable while mobile rendering skips d
  assert.ok(home.includes('rel="canonical" href="https://ejoeundental.com/"'));
 });
 
+test('museum editorial hierarchy keeps the original clinic art, indexable answers and booking hierarchy',()=>{
+ const source=readFileSync('assets/home-visit-faq-salon-20261031.css','utf8');
+ assert.ok(source.includes('2026-11-03 | Museum editorial hierarchy'),
+  'original gallery palette has one final, scoped editorial pass');
+ for(const token of [
+  'body.home-page #main-content > .hero.wrap #headline',
+  'body.home-page #main-content > .hero.wrap .hero-artwork__plaque',
+  'body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a',
+  'body.home-page #main-content > #gallery .gallery-exhibition-index__room',
+  '@media(max-width:600px)','@media(forced-colors:active)'
+ ]) assert.ok(source.includes(token),'polish must preserve semantic editorial hierarchy: '+token);
+ const homeSource=readFileSync('index.html','utf8');
+ assert.ok(homeSource.includes('id="headline"')&&
+  homeSource.includes('ejoeun-gallery-cat-dentist-20261029.webp'),
+  'keep original doctor/cat painting and patient-first heading');
+ assert.ok(home.includes('class="mobile-booking-actions"')&&
+  home.includes('href="tel:0325132875"')&&
+  home.includes('booking.naver.com/booking/13/bizes/1162931'),
+  'primary contact and Naver booking remain visible and native');
+ assert.ok(homeSource.includes('id="stories"')&&
+  homeSource.includes('id="health-info"')&&
+  homeSource.includes('id="gallery"'),
+  'all crawlable health articles and picture galleries remain in place');
+ assert.ok(home.includes('rel="canonical" href="https://ejoeundental.com/"'));
+});
+
 test('only below-fold paintings are low-priority while director portrait loads early',()=>{
  const source=read('index.html');
  const hero=source.match(/<img\b[^>]*src="\/assets\/ejoeun-gallery-cat-dentist-20261029\.webp"[^>]*>/)?.[0]||'';
