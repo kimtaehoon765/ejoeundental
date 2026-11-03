@@ -1583,6 +1583,8 @@ for (const name of ['gum-treatment.html','retreatment.html','cervical-abrasion.h
    ? '/assets/retreatment/illustration-02-bacteria-gutta-percha-20261029.webp'
    : key==='reason2'
     ? '/assets/retreatment/illustration-03-crown-microleakage-orange-20261103.webp'
+     : key==='reason3'
+    ? '/assets/retreatment/illustration-04-secondary-caries-apical-20261103.webp'
     : '/assets/retreatment/illustration-'+String(i+1).padStart(2,'0')+'.webp';
   const expected=override||source;
   if(images[i]?.[1]!==expected)errors.push('재신경치료 이미지 빌드·CMS 설정 불일치: '+key);

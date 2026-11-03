@@ -1163,7 +1163,7 @@ test('approved gutta-percha bacteria image replaces only the first retreatment c
  assert.deepEqual(images,[
   '/assets/retreatment/illustration-02-bacteria-gutta-percha-20261029.webp',
   '/assets/retreatment/illustration-03-crown-microleakage-orange-20261103.webp',
-  '/assets/retreatment/illustration-04.webp',
+  '/assets/retreatment/illustration-04-secondary-caries-apical-20261103.webp',
   '/assets/retreatment/illustration-05.webp'
  ],'the first and second cause paintings must be owner-approved');
  assert.ok(section.includes('거타퍼차 사이에 남아 있는 세균과 뿌리 끝 염증'));
@@ -1190,7 +1190,7 @@ test('owner-selected crown-margin microleakage painting replaces only the second
  assert.deepEqual(cards.map(x=>x[1]),[
   '/assets/retreatment/illustration-02-bacteria-gutta-percha-20261029.webp',
   '/assets/retreatment/illustration-03-crown-microleakage-orange-20261103.webp',
-  '/assets/retreatment/illustration-04.webp',
+  '/assets/retreatment/illustration-04-secondary-caries-apical-20261103.webp',
   '/assets/retreatment/illustration-05.webp'
  ]);
  assert.deepEqual(cards.map(x=>x[2]),[

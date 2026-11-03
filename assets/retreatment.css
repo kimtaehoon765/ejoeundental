@@ -63,3 +63,6 @@ nav[aria-label="이조은치과 주요 진료 안내"] a:focus-visible{outline:3
 
 /* User-approved crown margin leakage with root tip inflammation: keep entire illustrated caption visible. */
 .cards .card img.microleakage-illustration{aspect-ratio:1446/1087;object-fit:contain;background:#fff}
+
+/* Illustration accepted by the clinic: preserve all secondary caries and apical lesion labels. */
+.cards .card img.secondary-caries-illustration{aspect-ratio:4/3;object-fit:contain;background:#fff}
