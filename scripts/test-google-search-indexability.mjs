@@ -324,23 +324,19 @@ test('Google Image discovery lists real first-party illustrations only on their 
  for(const kind of ['implant','denture']){
   const page=origin+'/'+kind;
   const entry=imageEntries.find(x=>x.page===page);
-  const expected=kind==='implant'
-   ?{file:'clinical-implant-section-20261102.svg',width:1200,height:800,caption:'교육용 모식도입니다'}
-   :{file:'ejoeun-watercolor-denture-20261029.webp',width:960,height:640,caption:'창작 수채화입니다'};
-  const image=origin+'/assets/'+expected.file;
-  assert.deepEqual(entry?.images,[image],kind+' sitemap image must match the visible clinical guide');
+  const image=origin+'/assets/clinical-share/'+kind+'.png';
+  assert.deepEqual(entry?.images,[image],kind+' image must be in the canonical page sitemap entry');
   const html=readFileSync(path.join(output,kind+'.html'),'utf8');
-  const img=[...html.matchAll(/<img\\b[^>]*>/g)]
-   .map(m=>m[0]).find(tag=>tag.includes('src="/assets/'+expected.file+'"'));
-  assert.ok(img&&img.includes('loading="lazy"'),kind+' real page illustration must be shown without blocking the page');
-  assert.match(img,/alt="[^"]{24,}"/,kind+' illustration needs meaningful alt text');
-  assert.ok(html.includes(expected.caption),kind+' page must explain the illustration is educational');
+  const img=html.match(new RegExp('<img\\b[^>]*src="/assets/clinical-share/'+kind+'\\.png"[^>]*>'))?.[0]||'';
+  assert.ok(img&&img.includes('loading="lazy"'),kind+' original schematic should be visible without prioritizing the download');
+  assert.match(img,/alt="[^"]{24,}"/,kind+' schematic alt text should accurately describe it');
+  assert.ok(html.includes('개념 삽화입니다'),kind+' picture requires a clear conceptual illustration disclaimer');
   const schemas=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
    .map(m=>JSON.parse(m[1]));
   const pageSchema=schemas.find(x=>x['@type']==='MedicalWebPage');
   assert.equal(pageSchema?.primaryImageOfPage?.url,image);
-  assert.equal(pageSchema?.primaryImageOfPage?.width,expected.width);
-  assert.equal(pageSchema?.primaryImageOfPage?.height,expected.height);
+  assert.equal(pageSchema?.primaryImageOfPage?.width,1200);
+  assert.equal(pageSchema?.primaryImageOfPage?.height,630);
  }
  const clinicalSteps=[
   ['06','기존 충전재 제거','기존 근관 충전재를 제거하는 재신경치료 첫 번째 단계 설명 그림'],
