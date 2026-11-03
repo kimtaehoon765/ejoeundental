@@ -215,7 +215,8 @@ async function main(){
     ['갤러리 기본 통합 CSS','gallery-foundation-[0-9a-f]{12}\\.css'],
     ['전시관 3종 통합 CSS','exhibition-foundation-[0-9a-f]{12}\\.css'],
     ['최근 화면 개선 CSS','atelier-refinement-20261030\\.css'],
-    ['미술관 마감 통합 CSS','home-finishing-[0-9a-f]{12}\\.css']
+    ['미술관 마감 통합 CSS','home-finishing-[0-9a-f]{12}\\.css'],
+    ['통일된 첫 화면 디자인 CSS','home-design-unification-20261103\\.css']
   ];
   for(const [label,pattern] of cssNames){
     const match=builtHome.match(new RegExp('href="(\\/assets\\/'+pattern+'(?:\\?[^"]*)?)"'));
@@ -236,6 +237,7 @@ async function main(){
     '/assets/exhibition-foundation-','/assets/home-art-direction-20261030.css',
     '/assets/atelier-refinement-20261030.css','/assets/home-finishing-',
     '/assets/home-faq-visit-','/assets/home-faq-visit-',
+    '/assets/home-design-unification-20261103.css',
     '/assets/faq-deep-links.css'];
   const orderOk=builtCss.length===expectedOrder.length&&
     expectedOrder.every((prefix,i)=>builtCss[i]?.startsWith(prefix));
