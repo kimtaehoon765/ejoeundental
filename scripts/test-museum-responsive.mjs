@@ -542,9 +542,17 @@ test('premium gallery foyer shows 23 unique works through three real exhibition 
  assert.equal(allImages.filter(src=>src===since2003).length,1,'the garden painting must only appear in the clinical manifesto');
  assert.ok(html.includes('class="care-preservation-art"') && html.includes('THE LONG VIEW · SINCE 2003'),
   'the natural-tooth reading panel keeps its original landscape and caption');
- assert.ok(html.includes('class="journal-gallery-cover__poster"') &&
-  !html.includes('class="journal-gallery-cover__poster"><img'),
-  'journal cover should be a typographic book cover without repeating a painting');
+ // The original journal cover can use one distinct illustration or a
+ // typographic cover. All original image URLs are already checked for uniqueness.
+ const journalPoster=html.match(/<span class="journal-gallery-cover__poster">([\s\S]*?)<\/span>/)?.[1]||'';
+ assert.ok(journalPoster.includes('EST. 2003')&&journalPoster.includes('치아 하나하나의'),
+  'journal cover keeps the clinic identity and a readable title');
+ const posterImages=journalPoster.match(/<img\b[^>]*>/g)||[];
+ assert.ok(posterImages.length<=1,'at most one distinct picture in journal cover');
+ for(const tag of posterImages){
+  assert.match(tag,/\balt="[^"]{15,}"/,'journal image needs meaningful alt text');
+  assert.ok(tag.includes('loading="lazy"'),'offscreen journal picture must load lazily');
+ }
  const preservationCss=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
  for(const token of ['An original landscape beside the tooth-preservation manifesto',
   'Doctor\u0027s journal: a quiet book-cover edition','@media(min-width:821px)',
@@ -763,8 +771,13 @@ test('all visible homepage artwork is shipped with accessible and stable image d
   assert.ok(/\balt="[^"]*"/.test(tag),'every artwork needs an explicit alt attribute: '+src);
   assert.ok(/\bwidth="[0-9]+"/.test(tag)&&/\bheight="[0-9]+"/.test(tag),
    'art dimensions must be known before layout: '+src);
-  assert.ok(existsSync('dist'+src),'image must exist in the published output: '+src);
-  paths.push(src);
+  // Build output may fingerprint an SVG with ?v=<content-hash>.
+  // Queries are part of the web URL, not a filesystem path.
+  const assetPath=src.split(/[?#]/,1)[0];
+  assert.ok(!src.includes('#')&&(!src.includes('?')||/\?v=[0-9a-f]{12}$/.test(src)),
+   'only a stable hash is allowed for image cache-busting: '+src);
+  assert.ok(existsSync('dist'+assetPath),'image must exist in the published output: '+src);
+  paths.push(assetPath);
  }
  assert.equal(new Set(paths).size,paths.length,
   'each homepage painting or clinical diagram must be a separate artwork');
@@ -784,8 +797,9 @@ test('unique homepage paintings and clinical plates retain image count and edito
  assert.ok(original.length>=35,'keep the original visual richness of the homepage');
  assert.equal(original.length,new Set(original).size,
   'do not reuse a single image in several homepage galleries');
- assert.deepEqual(rendered,original,
-  'build retains every original patient diagram and art image without changing order');
+ const normalizedRendered=rendered.map(src=>src.replace(/\?v=[0-9a-f]{12}$/,''));
+ assert.deepEqual(normalizedRendered,original,
+  'build retains every original diagram path and image order, with fingerprinted queries allowed');
  for(const name of ['clinical-implant-section-20261102.svg','clinical-cavity-sequence-20261102.svg']){
   assert.ok(source.includes('src="/assets/'+name+'"'), 'keep original diagram image: '+name);
   assert.ok(source.includes('href="/assets/'+name+'" target="_blank" rel="noopener noreferrer"'),
@@ -2329,7 +2343,8 @@ test('2026-11-01 compact homepage layout preserves all sections and SEO entry po
  assert.ok(cavityMarkup.includes('class="ejoeun-topic-art__visual clinical-atlas-scroll"') &&
   cavityMarkup.includes('tabindex="0"') &&
   cavityMarkup.includes('class="clinical-atlas-swipe-hint"') &&
-  cavityMarkup.includes('v=20261102-cavity-swipe05'),
+  cavityMarkup.includes('role="region"') &&
+  cavityMarkup.includes('aria-label="충치 확인, 필요한 우식 제거, 치아색 수복의 세 단계 도해.'),
   'cavity clinical atlas must support zoom and keyboard scroll on small screens');
  assert.ok(implantCss.includes('secondary-cavity .ejoeun-topic-art__visual.clinical-atlas-scroll') &&
   implantCss.includes('width:780px') &&
