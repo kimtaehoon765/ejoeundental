@@ -341,8 +341,9 @@ test('Google Image discovery lists real first-party illustrations only on their 
  const clinicalSteps=[
   ['06','기존 충전재 제거','치아 내부의 기존 주황색 거타퍼차를 근관 안쪽의 기구로 제거하는 모습과 오른쪽 뿌리 끝에 남은 염증 병소를 보여주는 재신경치료 첫 단계 치아 단면 그림','/assets/retreatment/illustration-06-guttapercha-apical-20261103.webp'],
   ['07','근관 세척·소독','기존 거타퍼차를 제거한 신경치료 치아의 양쪽 근관에 주사기형 세척 기구를 통해 소독액을 공급하고 오른쪽 치근단 병소가 남은 상태를 보여주는 그림','/assets/retreatment/illustration-07-both-canals-irrigation-20261103.webp'],
-  ['08','근관 형태 정리','근관 상태를 확인하고 충전할 수 있도록 형태를 정리하는 재신경치료 그림'],
-  ['09','새로운 근관 충전','근관을 새로 충전해 밀폐하고 최종 치아 수복을 계획하는 재신경치료 그림']
+  ['08','근관 형태 정리','기존 거타퍼차를 제거한 뒤 확대된 접근 와동을 통해 굵은 나선형 근관 파일로 왼쪽 근관 형태를 정리하는 모습과 오른쪽 치근단 염증 병소를 보여주는 그림','/assets/retreatment/illustration-08-root-canal-shaping-20261103.webp'],
+  ['09','새로운 근관 충전','주황색 거타퍼차로 양쪽 근관을 충전한 대구치와 오른쪽 뿌리 끝에 아직 남아 있는 염증 병소','/assets/retreatment/illustration-09-refilled-lesion-20261103.webp'],
+  ['11','치근단 염증의 치유','양쪽 근관에 거타퍼차가 충전된 같은 대구치에서 시간이 지나 오른쪽 치근단 염증이 치유된 예시 단면 그림','/assets/retreatment/illustration-11-healed-apical-20261103.webp']
  ];
  const illustrationHtml=readFileSync(path.join(output,'retreatment.html'),'utf8');
  for(const [number,heading,alt,overridePath] of clinicalSteps){
@@ -355,14 +356,14 @@ test('Google Image discovery lists real first-party illustrations only on their 
    'Google Image and screen readers should distinguish clinical steps, not generic numbers: '+number);
  }
  const processPage=readFileSync(path.join(output,'health/root-canal-retreatment-process.html'),'utf8');
- assert.match(processPage,/<a href="\/retreatment\.html#retreatment-procedure">그림으로 보는 재신경치료 4단계:/,
+ assert.match(processPage,/<a href="\/retreatment\.html#retreatment-procedure">그림으로 보는 재신경치료 5단계:/,
   'clinical explanation should link directly to the illustrated treatment steps');
  assert.match(processPage,/단계와 방문 횟수는 실제 치아 상태에 따라 달라집니다/,
   'educational diagram must not imply every patient undergoes the same exact procedure');
  assert.match(illustrationHtml,/<h2 id="retreatment-procedure">재신경치료는 어떻게 진행될까요\?<\/h2>/,
   'the illustration deep link must land on the actual patient-facing heading');
  assert.ok(siteMap.includes(
-  '<loc>'+origin+'/health/root-canal-retreatment-process</loc><lastmod>2026-10-28</lastmod>'),
+  '<loc>'+origin+'/health/root-canal-retreatment-process</loc><lastmod>2026-11-03</lastmod>'),
   'Google sitemap date must reflect the real education-page edit');
  const primary=origin+'/assets/retreatment/illustration-01.webp';
  assert.ok(rootEntry.images.includes(primary));
