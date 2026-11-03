@@ -421,3 +421,250 @@ body.home-page #main-content .symptom-navigator-grid > a {
     border-color: ButtonText;
   }
 }
+
+/* 2026-11-03 evening | Editorial clarity and mobile art curation */
+/* Keep the existing text, links, image sources and SEO markup unchanged.
+   This is a presentation-only refinement of the homepage. */
+body.home-page #main-content {
+  --gallery-hairline:#dcd7cc;
+  --gallery-canvas:#fffefa;
+  --gallery-deep:#1c4736;
+}
+body.home-page #main-content :is(.section,.symptom-navigator,.curated-threshold) :is(h2,h3) {
+  word-break:keep-all;
+  overflow-wrap:break-word;
+}
+body.home-page #main-content .section > .wrap > .eyebrow {
+  color:#8c7147;
+  font-size:12px;
+  font-weight:750;
+  letter-spacing:.14em;
+}
+body.home-page #main-content .section > .wrap > h2 {
+  max-width:25ch;
+  margin-bottom:clamp(16px,2.2vw,26px);
+  font-size:clamp(27px,3.05vw,42px);
+  line-height:1.34;
+}
+body.home-page #main-content .section > .wrap > h2 + p {
+  max-width:72ch;
+  color:#4c6658;
+  line-height:1.87;
+}
+body.home-page #main-content > .hero.wrap {
+  border-color:#dcd1bc;
+  background:linear-gradient(128deg,#fffefa 0%,#fcf8f0 57%,#f0f5ef 100%);
+}
+body.home-page #main-content > .hero.wrap #headline {
+  text-wrap:pretty;
+}
+body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-call,.hero-booking) {
+  box-shadow:0 3px 10px rgba(25,61,45,.09);
+}
+body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+  border-color:#bdae90;
+  background:#e8dfd0;
+  box-shadow:0 19px 42px rgba(40,49,35,.11);
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque {
+  border-top:1px solid #ddd1bb;
+}
+body.home-page #main-content > .hero.wrap .hero-editorial-story {
+  border-left:3px solid #b19a6a;
+  background:#f9f6ed;
+}
+body.home-page #main-content > .hero.wrap .hero-care-summary > a {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  min-height:82px;
+  padding:16px 18px;
+  border-left:3px solid #89a493;
+  border-radius:8px;
+}
+body.home-page #main-content > .hero.wrap .hero-care-summary > a .hero-care-card__arrow {
+  flex:0 0 auto;
+  color:#8b774e;
+}
+/* Four clinical entry points become a clearly designed treatment directory. */
+body.home-page #main-content > #care .care-directory__primary {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+}
+body.home-page #main-content > #care .care-directory__primary > a {
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  min-width:0;
+  min-height:136px;
+  padding:21px 19px;
+  border:1px solid #d8dfd4;
+  border-top:3px solid #7c9e8a;
+  border-radius:10px;
+  background:linear-gradient(155deg,#fffefa,#f2f7f0);
+  box-shadow:0 5px 15px rgba(30,60,40,.035);
+}
+body.home-page #main-content > #care .care-directory__primary > a > small {
+  color:#667866;
+  font-size:10px;
+  line-height:1.5;
+  letter-spacing:.09em;
+}
+body.home-page #main-content > #care .care-directory__primary > a > strong {
+  color:#214b39;
+  font-size:clamp(17px,1.45vw,21px);
+  line-height:1.45;
+  word-break:keep-all;
+}
+body.home-page #main-content > #care .care-directory__primary > a:nth-child(even) {
+  border-top-color:#b9a175;
+  background:linear-gradient(155deg,#fffefa,#faf5e9);
+}
+body.home-page #main-content > #philosophy .grid > .card,
+body.home-page #main-content > #care .grid > .card,
+body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card {
+  border:1px solid var(--gallery-hairline);
+  border-radius:12px;
+  background:var(--gallery-canvas);
+  box-shadow:0 8px 24px rgba(32,49,35,.04);
+}
+body.home-page #main-content > #philosophy .grid > .card > h3,
+body.home-page #main-content > #care .grid > .card > h3,
+body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card > h3 {
+  color:#234d3b;
+  font-size:clamp(19px,1.75vw,24px);
+  line-height:1.45;
+  letter-spacing:-.035em;
+}
+body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card {
+  padding:clamp(18px,2.15vw,27px);
+}
+body.home-page #main-content > #health-info .health-topic-painting {
+  border:1px solid #dfd9c9;
+  border-radius:9px;
+  background:#f8f4ec;
+  overflow:hidden;
+}
+body.home-page #main-content > #health-info .health-topic-painting > img {
+  display:block;
+  max-width:100%;
+  object-fit:contain;
+}
+body.home-page #main-content > #health-info .health-topic-painting__caption {
+  background:#fffdfa;
+  color:#345447;
+}
+/* An art exhibition should feel like a gallery, not three unrelated thumbnails. */
+body.home-page #main-content > .curated-threshold .curated-threshold__piece {
+  min-width:0;
+  text-decoration:none;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__frame {
+  display:block;
+  overflow:hidden;
+  border:7px solid #e9e1d0;
+  outline:1px solid #b9aa8e;
+  outline-offset:-1px;
+  background:#f6f1e6;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__frame > img {
+  display:block;
+  max-width:100%;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__caption > strong {
+  color:#284c3b;
+  line-height:1.5;
+}
+body.home-page #main-content :is(.hero-care-summary>a,.curated-threshold__piece,.care-directory__primary>a) {
+  -webkit-tap-highlight-color:rgba(56,110,76,.12);
+}
+@media (hover:hover) and (pointer:fine) {
+  body.home-page #main-content > #care .care-directory__primary > a:hover {
+    border-color:#8bab96;
+    box-shadow:0 9px 23px rgba(29,63,41,.10);
+  }
+  body.home-page #main-content > .curated-threshold .curated-threshold__piece:hover .curated-threshold__frame {
+    outline-color:#917645;
+  }
+}
+@media (max-width:1000px) {
+  body.home-page #main-content > #care .care-directory__primary {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media (max-width:600px) {
+  body.home-page #main-content .section > .wrap > h2 {
+    max-width:100%;
+    font-size:clamp(26px,7vw,32px);
+  }
+  body.home-page #main-content > .hero.wrap {
+    border-radius:11px;
+    padding:19px 16px 23px;
+  }
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+    max-width:420px;
+    width:100%;
+    padding:5px;
+    margin-block:5px 8px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-care-summary > a {
+    min-height:62px;
+    padding:12px 13px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-editorial-story {
+    padding:17px 14px;
+  }
+  body.home-page #main-content > .curated-threshold .curated-threshold__works {
+    display:grid;
+    grid-auto-flow:column;
+    grid-auto-columns:minmax(175px,70vw);
+    grid-template-columns:none;
+    gap:16px;
+    max-width:100%;
+    overflow-x:auto;
+    overscroll-behavior-inline:contain;
+    scroll-snap-type:x proximity;
+    padding:5px 4px 18px;
+    scrollbar-width:thin;
+  }
+  body.home-page #main-content > .curated-threshold .curated-threshold__piece {
+    scroll-snap-align:start;
+  }
+  body.home-page #main-content > #care .care-directory__primary > a {
+    min-height:104px;
+    padding:16px 13px;
+    gap:10px;
+  }
+  body.home-page #main-content > #care .care-directory__primary > a > strong {
+    font-size:17px;
+  }
+  body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card {
+    padding:21px 17px;
+  }
+}
+@media (max-width:380px) {
+  body.home-page #main-content > #care .care-directory__primary {
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  body.home-page #main-content > .curated-threshold .curated-threshold__works {
+    scroll-behavior:auto;
+  }
+}
+@media (forced-colors:active) {
+  body.home-page #main-content > #care .care-directory__primary > a,
+  body.home-page #main-content > .curated-threshold .curated-threshold__frame {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    outline-color:CanvasText;
+    box-shadow:none;
+  }
+}
