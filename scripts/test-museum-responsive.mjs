@@ -1077,7 +1077,7 @@ test('museum journal and visit guide preserve original blogs, clinic hours, maps
  const journal=home.match(/<section class="section light" id="stories">[\s\S]*?<\/section>/)?.[0]||'';
  const visit=home.match(/<section class="section" id="location">[\s\S]*?<\/section>/)?.[0]||'';
  assert.ok(journal&&visit,'both journal and visiting sections must exist');
- for(const fact of ['네이버 블로그 글 642편','원장 블로그에서 다시 읽는 치과 이야기 7편',
+ for(const fact of ['네이버 블로그 글 647편','원장 블로그에서 다시 읽는 치과 이야기 7편',
    'BUILD_HOME_STORY_COUNT','BUILD_PUBLIC_STORIES','원장이 전하는 치과 이야기']){
   if(fact.startsWith('BUILD_'))continue;
   assert.ok(journal.includes(fact),'do not remove journal content: '+fact);
@@ -1667,7 +1667,7 @@ test('mobile search keyboard can hide dock without removing call, booking or dir
  assert.ok(originalDock.includes('href="https://booking.naver.com/booking/13/bizes/1162931"'));
  assert.ok(originalDock.includes('href="/visit-guide.html"'));
  assert.ok(home.includes('role="search" aria-label="치과 증상과 진료정보 검색"'));
- assert.ok(home.includes('role="search" aria-label="원장 네이버 블로그 글 642편 원문 제목 검색"'));
+ assert.ok(home.includes('role="search" aria-label="원장 네이버 블로그 글 647편 원문 제목 검색"'));
 });
 
 

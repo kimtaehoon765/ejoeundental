@@ -9,11 +9,11 @@ const journal=home.match(/<section class="section light" id="stories">([\s\S]*?)
 const gallery=home.match(/<section class="section light gallery-home-preview"([\s\S]*?)<\/section>/)?.[1] || '';
 const ownerLinks=[...journal.matchAll(/href="(https:\/\/blog\.naver\.com\/[a-zA-Z0-9_-]+\/[0-9]+)"/g)].map(m=>m[1]);
 
-test('Homepage keeps its original 642 blog URLs crawlable after compact curation',()=>{
+test('Homepage keeps its original 647 blog URLs crawlable after compact curation',()=>{
   assert.ok(journal.includes('class="journal-deep-library"'), 'reading-room details must be present');
   assert.ok(journal.includes('class="journal-salon-new__grid"'), 'four highlighted clinical topics remain visible');
-  assert.equal(ownerLinks.length,642,'all original blog links remain in HTML');
-  assert.equal(new Set(ownerLinks).size,642,'no duplicate blog URLs');
+  assert.equal(ownerLinks.length,647,'all original blog links remain in HTML');
+  assert.equal(new Set(ownerLinks).size,647,'no duplicate blog URLs');
   for(const link of ownerLinks) assert.ok(archive.includes(link),'original article missing from grouped archive: '+link);
   assert.ok(journal.includes('href="/clinical-archive.html#archive-blog-posts"'));
   assert.ok(journal.includes('href="/stories.html"'));
