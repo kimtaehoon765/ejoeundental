@@ -2401,14 +2401,14 @@ test('offscreen museum galleries remain crawlable while mobile rendering skips d
  for(const [name,size] of [
   ['care',2200],['gallery',1000],['health-info',1100],['stories',2900],['faq',900]
  ]){
-  assert.ok(css.includes('body.home-page #main-content > #'+name+' {\\ncontent-visibility: auto;\\ncontain-intrinsic-size: auto '+size+'px;'),
+  assert.ok(css.includes('body.home-page #main-content > #'+name+' {\ncontent-visibility: auto;\ncontain-intrinsic-size: auto '+size+'px;'),
    'offscreen section must have contained rendering and a provisional scroll height: '+name);
   assert.ok(source.includes('id="'+name+'"'),
    'original indexable section still exists in the HTML: '+name);
  }
- assert.ok(!css.includes('body.home-page #main-content > .hero.wrap {\\ncontent-visibility'),
+ assert.ok(!css.includes('body.home-page #main-content > .hero.wrap {\ncontent-visibility'),
   'the above-fold portrait and clinic promise must never be deferred');
- assert.ok(!css.includes('body.home-page #main-content > #location {\\ncontent-visibility'),
+ assert.ok(!css.includes('body.home-page #main-content > #location {\ncontent-visibility'),
   'visit details must remain available without content containment');
  assert.ok(home.includes('class="mobile-booking-actions"')&&home.includes('href="tel:0325132875"'));
  assert.ok(home.includes('rel="canonical" href="https://ejoeundental.com/"'));
