@@ -1164,7 +1164,7 @@ test('approved gutta-percha bacteria image replaces only the first retreatment c
   '/assets/retreatment/illustration-02-bacteria-gutta-percha-20261029.webp',
   '/assets/retreatment/illustration-03-crown-microleakage-orange-20261103.webp',
   '/assets/retreatment/illustration-04-secondary-caries-apical-20261103.webp',
-  '/assets/retreatment/illustration-05.webp'
+  '/assets/retreatment/illustration-05-apical-persistence-20261103.webp'
  ],'the first and second cause paintings must be owner-approved');
  assert.ok(section.includes('거타퍼차 사이에 남아 있는 세균과 뿌리 끝 염증'));
  assert.ok(section.includes('<h3>남아 있는 세균</h3>'));
@@ -1191,7 +1191,7 @@ test('owner-selected crown-margin microleakage painting replaces only the second
   '/assets/retreatment/illustration-02-bacteria-gutta-percha-20261029.webp',
   '/assets/retreatment/illustration-03-crown-microleakage-orange-20261103.webp',
   '/assets/retreatment/illustration-04-secondary-caries-apical-20261103.webp',
-  '/assets/retreatment/illustration-05.webp'
+  '/assets/retreatment/illustration-05-apical-persistence-20261103.webp'
  ]);
  assert.deepEqual(cards.map(x=>x[2]),[
   '남아 있는 세균','보철물 주변의 미세 누출','새로운 충치','뿌리 끝 염증의 지속'

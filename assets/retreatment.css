@@ -66,3 +66,6 @@ nav[aria-label="이조은치과 주요 진료 안내"] a:focus-visible{outline:3
 
 /* Illustration accepted by the clinic: preserve all secondary caries and apical lesion labels. */
 .cards .card img.secondary-caries-illustration{aspect-ratio:4/3;object-fit:contain;background:#fff}
+
+/* Clinic-approved persistent apical lesion illustration: never crop the crown, obturation or lesion. */
+.cards .card img.apical-persistence-illustration{aspect-ratio:1050/1149;object-fit:contain;background:#fff}
