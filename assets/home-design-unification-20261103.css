@@ -846,3 +846,85 @@ body.home-page #main-content > #faq .faq-list > details > summary {
     box-shadow:none;
   }
 }
+
+/* 2026-11-03 | Mobile hero action alignment and first-screen polish */
+/* Resolve legacy six-track and two-track declarations into two explicit,
+   stable rows of buttons; preserve the links, labels and booking markup. */
+@media(max-width:600px) {
+  body.home-page #main-content > .hero.wrap .hero-actions {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-auto-columns:auto;
+    gap:8px;
+    width:100%;
+    margin-block:12px 10px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-call,.hero-booking,.hero-hours,.hero-symptoms) {
+    box-sizing:border-box;
+    min-width:0;
+    width:100%;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    padding:10px 7px;
+    text-align:center;
+    white-space:normal;
+    line-height:1.4;
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > .hero-call {
+    grid-column:1;
+    grid-row:1;
+    min-height:54px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > .hero-booking {
+    grid-column:2;
+    grid-row:1;
+    min-height:54px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > .hero-hours {
+    grid-column:1;
+    grid-row:2;
+    min-height:45px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > .hero-symptoms {
+    grid-column:2;
+    grid-row:2;
+    min-height:45px;
+  }
+  /* Map remains available in location details and header navigation. */
+  body.home-page #main-content > .hero.wrap .hero-actions > .hero-map {
+    display:none;
+  }
+  body.home-page #main-content > .hero.wrap .hero-local-intro {
+    margin-top:9px;
+    font-size:13px;
+    line-height:1.7;
+    word-break:keep-all;
+  }
+  body.home-page #main-content > .hero.wrap .hero-local-intro > a {
+    display:inline-block;
+    padding-block:6px;
+    min-height:36px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-artwork__plaque {
+    padding:10px 9px 8px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-artwork__plaque > a {
+    display:inline-block;
+    padding-block:7px;
+  }
+}
+@media(max-width:420px) {
+  /* The accessible tel link still contains its full number in aria-label. */
+  body.home-page #main-content > .hero.wrap .hero-actions .hero-phone {
+    display:none;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > .hero.wrap .hero-actions > a {
+    border-color:ButtonText;
+  }
+}
