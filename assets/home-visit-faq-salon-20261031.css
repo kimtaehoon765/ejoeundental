@@ -982,3 +982,140 @@ body.home-page #main-content > #care .care-more-details .care-mini-gallery > fig
     background:ButtonFace;
   }
 }
+
+/* 2026-11-03 | Museum editorial hierarchy, not another marketing landing page.
+   One quiet visual language for the existing portrait, clinical navigation,
+   questions and original painting rooms. Keep every real link, medical paragraph,
+   art image, phone and Naver booking action in the document. */
+body.home-page #main-content > .hero.wrap {
+  border-radius:clamp(8px,1.2vw,14px);
+  background:linear-gradient(115deg,#fffefa 0%,#faf9f4 55%,#f3f5ee 100%);
+  border-color:#ded6c7;
+  box-shadow:0 15px 46px rgba(32,52,37,.075);
+}
+body.home-page #main-content > .hero.wrap .kicker {
+  color:#806944;
+  letter-spacing:.145em;
+  font-weight:780;
+}
+body.home-page #main-content > .hero.wrap #headline {
+  color:#173c2d;
+  letter-spacing:-.056em;
+  line-height:1.34;
+  text-wrap:balance;
+}
+body.home-page #main-content > .hero.wrap .hero-doctor-credentials {
+  border-radius:3px 8px 8px 3px;
+  border-left:3px solid #a48a5e;
+  background:#fffefa;
+  box-shadow:none;
+}
+body.home-page #main-content > .hero.wrap .hero-local-intro {
+  color:#425c4b;
+  line-height:1.84;
+}
+body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-call,.hero-booking) {
+  border-radius:6px;
+  font-weight:800;
+  box-shadow:0 7px 15px rgba(31,54,41,.09);
+}
+body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-hours,.hero-symptoms,.hero-map) {
+  border-radius:6px;
+  border-color:#d9ded3;
+  background:#fbfcf8;
+  color:#345743;
+  font-weight:650;
+  box-shadow:none;
+}
+body.home-page #main-content > .hero.wrap > .art.hero-artwork {
+  border-radius:4px;
+  background:#f8f4e9;
+  border-color:#c2b18e;
+  box-shadow:0 15px 38px rgba(31,52,38,.12);
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque {
+  background:#fffefa;
+  border-top-color:#d6c7ab;
+}
+body.home-page #main-content > .hero.wrap .hero-artwork__plaque > strong {
+  color:#234532;
+  letter-spacing:-.035em;
+}
+body.home-page #main-content > .hero.wrap > .hero-editorial-detail > :is(.hero-editorial-choices,.hero-editorial-story) {
+  background:#fffefa;
+  border-color:#e1dacb;
+  border-radius:5px 12px 5px 12px;
+  box-shadow:0 5px 15px rgba(40,58,42,.035);
+}
+/* Consistent headline rhythm across the original healthcare and gallery rooms. */
+body.home-page #main-content > :is(#focus-care,#home-representative-guides,#gallery,#health-info,#stories) h2,
+body.home-page #main-content > .care-picture-notes h2 {
+  color:#234633;
+  letter-spacing:-.043em;
+  line-height:1.37;
+  text-wrap:balance;
+}
+body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a,
+body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card,
+body.home-page #main-content > .care-picture-notes .care-picture-notes__card,
+body.home-page #main-content > #gallery .gallery-exhibition-index__room {
+  border-radius:7px;
+  border-color:#ded7ca;
+  background:#fffefa;
+  box-shadow:0 6px 20px rgba(36,54,39,.05);
+}
+body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a > strong,
+body.home-page #main-content > #gallery .gallery-exhibition-index__room > strong {
+  color:#214735;
+  letter-spacing:-.025em;
+}
+@media(min-width:821px) {
+  body.home-page #main-content > .hero.wrap {
+    column-gap:clamp(22px,3.3vw,52px);
+    padding:clamp(28px,3.7vw,56px);
+  }
+  body.home-page #main-content > .hero.wrap #headline {
+    font-size:clamp(34px,3.5vw,54px);
+  }
+  body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a {
+    padding:clamp(17px,1.6vw,24px);
+  }
+}
+@media(max-width:600px) {
+  body.home-page #main-content > .hero.wrap {
+    border-radius:9px;
+    box-shadow:none;
+  }
+  body.home-page #main-content > .hero.wrap #headline {
+    font-size:clamp(29px,7.25vw,38px);
+    line-height:1.38;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > :is(.hero-call,.hero-booking) {
+    min-height:58px;
+    box-shadow:none;
+  }
+  body.home-page #main-content > .hero.wrap .hero-doctor-credentials {
+    line-height:1.68;
+  }
+  body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a,
+  body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card,
+  body.home-page #main-content > .care-picture-notes .care-picture-notes__card {
+    box-shadow:none;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.home-page #main-content > .hero.wrap .hero-actions > a {
+    transition:none;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > .hero.wrap,
+  body.home-page #main-content > .hero.wrap .hero-doctor-credentials,
+  body.home-page #main-content > .hero.wrap > .art.hero-artwork,
+  body.home-page #main-content > #health-info .health-topic-grid > .health-topic-card {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
