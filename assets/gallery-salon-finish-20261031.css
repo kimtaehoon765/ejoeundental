@@ -1208,3 +1208,208 @@
     text-decoration-color:Highlight;
   }
 }
+
+/* 2026-11-03 | Quiet exhibition wall, aligned with the clinic homepage.
+   Preserve all 23 paintings, existing image sizing and zoom/original links.
+   Compact hero wayfinding so artwork appears sooner on small screens. */
+:root {
+  --gallery-refine-ink: #204838;
+  --gallery-refine-edge: #ded8ca;
+  --gallery-refine-paper: #fffefa;
+}
+.gallery-header {
+  background: rgba(255,254,249,.97);
+  border-bottom: 1px solid var(--gallery-refine-edge);
+  box-shadow: 0 3px 17px rgba(27,51,35,.035);
+}
+.gallery-header .gallery-logo {
+  color: var(--gallery-refine-ink);
+}
+.gallery-header .header-call {
+  border-radius: 8px;
+  background: #204938;
+}
+.gallery-hero {
+  gap: clamp(14px,2.4vw,26px);
+  margin-bottom: clamp(28px,4vw,45px);
+}
+.gallery-hero .gallery-hero-content {
+  border: 1px solid #d8d0bd;
+  border-top: 3px solid #aa926b;
+  border-radius: 10px;
+  background: linear-gradient(135deg,#fffefa,#f4f5ed);
+  box-shadow: 0 7px 24px rgba(32,54,41,.04);
+}
+.gallery-hero .gallery-hero-content > h1 {
+  color: var(--gallery-refine-ink);
+  font-size: clamp(31px,3.5vw,48px);
+  line-height: 1.39;
+}
+.gallery-hero .gallery-hero-content > p:not(.gallery-kicker) {
+  color: #465d4e;
+  line-height: 1.85;
+}
+.gallery-hero .gallery-hero-content > .gallery-hero-actions {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 7px;
+  margin-top: 18px;
+  width: 100%;
+}
+.gallery-hero .gallery-hero-content > .gallery-hero-actions > a {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 63px;
+  justify-content: center;
+  gap: 2px;
+  padding: 10px 12px;
+  border: 1px solid #d6d0c0;
+  border-left: 3px solid #9aab95;
+  border-radius: 7px;
+  background: #fffefa;
+  box-shadow: none;
+  color: #264b3a;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.45;
+  text-align: left;
+}
+.gallery-hero .gallery-hero-content > .gallery-hero-actions > a:first-child {
+  background: #204938;
+  border-color: #204938;
+  color: white;
+}
+.gallery-hero .gallery-hero-content > .gallery-hero-actions > a::before {
+  line-height: 1.2;
+  font-size: 10px;
+  letter-spacing: .06em;
+}
+.gallery-hero .gallery-hero-image {
+  border: 1px solid #cebea3;
+  border-radius: 9px;
+  background: #f2eadb;
+  box-shadow: 0 10px 28px rgba(26,49,35,.065);
+}
+.gallery-hero .gallery-hero-image > img {
+  object-fit: contain;
+}
+.gallery-exhibition-index {
+  border-color: #ded5c5;
+  border-radius: 9px;
+  box-shadow: none;
+}
+.gallery-exhibition-index > a {
+  color: #274d39;
+  background: var(--gallery-refine-paper);
+}
+.gallery-section-intro h2,
+.gallery-patient-studies__intro h2 {
+  color: var(--gallery-refine-ink);
+  line-height: 1.44;
+}
+#paintings .gallery-art-grid {
+  gap: clamp(17px,2.35vw,28px);
+}
+#paintings .gallery-piece,
+#education .gallery-note--watercolor,
+.gallery-patient-studies__piece {
+  border: 1px solid var(--gallery-refine-edge);
+  border-top: 3px solid #ad976f;
+  border-radius: 9px;
+  background: var(--gallery-refine-paper);
+  box-shadow: 0 6px 20px rgba(29,52,38,.035);
+}
+#paintings .gallery-piece:nth-child(even),
+#education .gallery-watercolor-card:nth-child(2) .gallery-note--watercolor,
+.gallery-patient-studies__piece:nth-child(even) {
+  border-top-color: #92a795;
+}
+#paintings .gallery-piece .gallery-art-frame {
+  background: #f1eadd;
+  padding: clamp(8px,1.1vw,13px);
+}
+#paintings .gallery-piece .gallery-art-frame > img {
+  object-fit: contain;
+}
+#paintings .gallery-piece figcaption,
+.gallery-patient-studies__piece figcaption {
+  background: #fffefa;
+}
+#paintings .gallery-piece figcaption > p,
+.gallery-patient-studies__piece p {
+  color: #4c6353;
+}
+@media(max-width:650px) {
+  .gallery-header .gallery-header-inner {
+    padding-block: 10px;
+  }
+  .gallery-hero {
+    gap: 12px;
+    margin-top: 12px;
+    margin-bottom: 24px;
+  }
+  .gallery-hero .gallery-hero-content {
+    padding: 21px 16px;
+    border-radius: 9px;
+    box-shadow: none;
+  }
+  .gallery-hero .gallery-hero-content > h1 {
+    font-size: clamp(29px,7.4vw,36px);
+    line-height: 1.38;
+    margin-block: 9px 11px;
+  }
+  .gallery-hero .gallery-hero-content > p:not(.gallery-kicker) {
+    line-height: 1.74;
+  }
+  .gallery-hero .gallery-hero-content > .gallery-hero-actions {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 7px;
+    margin-top: 14px;
+  }
+  .gallery-hero .gallery-hero-content > .gallery-hero-actions > a {
+    min-width: 0;
+    min-height: 61px;
+    padding: 8px 9px;
+    font-size: 12px;
+    border-radius: 7px;
+    line-height: 1.4;
+    word-break: keep-all;
+  }
+  .gallery-hero .gallery-hero-content > .gallery-hero-actions > a::before {
+    font-size: 9px;
+  }
+  .gallery-hero .gallery-hero-image {
+    padding: 7px;
+    border-radius: 8px;
+    box-shadow: none;
+  }
+  #paintings .gallery-piece,
+  #education .gallery-note--watercolor,
+  .gallery-patient-studies__piece {
+    border-radius: 8px;
+    box-shadow: none;
+  }
+}
+@media(max-width:350px) {
+  .gallery-hero .gallery-hero-content > .gallery-hero-actions {
+    grid-template-columns: minmax(0,1fr);
+  }
+  .gallery-hero .gallery-hero-content > .gallery-hero-actions > a {
+    min-height: 47px;
+  }
+}
+@media(forced-colors:active) {
+  .gallery-hero .gallery-hero-content,
+  .gallery-hero .gallery-hero-image,
+  .gallery-hero .gallery-hero-content > .gallery-hero-actions > a,
+  #paintings .gallery-piece,
+  #education .gallery-note--watercolor,
+  .gallery-patient-studies__piece {
+    color: CanvasText;
+    background: Canvas;
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+}
