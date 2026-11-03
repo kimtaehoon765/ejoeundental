@@ -340,7 +340,7 @@ test('Google Image discovery lists real first-party illustrations only on their 
  }
  const clinicalSteps=[
   ['06','기존 충전재 제거','치아 내부의 기존 주황색 거타퍼차를 근관 안쪽의 기구로 제거하는 모습과 오른쪽 뿌리 끝에 남은 염증 병소를 보여주는 재신경치료 첫 단계 치아 단면 그림','/assets/retreatment/illustration-06-guttapercha-apical-20261103.webp'],
-  ['07','근관 세척·소독','치아 근관 내부를 다시 탐색하고 세척·소독하는 재신경치료 과정 그림'],
+  ['07','근관 세척·소독','기존 거타퍼차를 제거한 신경치료 치아의 양쪽 근관에 주사기형 세척 기구를 통해 소독액을 공급하고 오른쪽 치근단 병소가 남은 상태를 보여주는 그림','/assets/retreatment/illustration-07-both-canals-irrigation-20261103.webp'],
   ['08','근관 형태 정리','근관 상태를 확인하고 충전할 수 있도록 형태를 정리하는 재신경치료 그림'],
   ['09','새로운 근관 충전','근관을 새로 충전해 밀폐하고 최종 치아 수복을 계획하는 재신경치료 그림']
  ];
