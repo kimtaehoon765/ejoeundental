@@ -335,3 +335,111 @@ body.home-page #main-content > #gallery .gallery-exhibition-lead h2 {
     color:CanvasText;
   }
 }
+
+/* 2026-11-03 | SEO-safe curation.
+   Keep every original clinical paragraph and all 537 crawlable blog anchors.
+   The homepage previews selected stories; readers expand the complete library. */
+body.home-page #main-content > #stories .journal-curation-note {
+  max-width:76ch;
+  margin:18px 0 14px;
+  color:#455d4b;
+  font-size:clamp(14px,1.15vw,16px);
+  line-height:1.85;
+}
+body.home-page #main-content > #stories .journal-deep-library,
+body.home-page #main-content > #gallery .gallery-more-room {
+  margin:20px 0 32px;
+  border:1px solid #d7cab1;
+  border-radius:12px;
+  background:#fffdf8;
+  box-shadow:0 9px 24px rgba(38,55,39,.045);
+  overflow:clip;
+}
+body.home-page #main-content > #stories .journal-deep-library > summary,
+body.home-page #main-content > #gallery .gallery-more-room > summary {
+  list-style:none;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px 18px;
+  min-height:76px;
+  padding:17px clamp(16px,2.6vw,28px);
+  cursor:pointer;
+  color:#244b37;
+  background:linear-gradient(115deg,#fffdf7,#f4f3e9);
+}
+body.home-page #main-content > #stories .journal-deep-library > summary::-webkit-details-marker,
+body.home-page #main-content > #gallery .gallery-more-room > summary::-webkit-details-marker {display:none}
+body.home-page #main-content > #stories .journal-deep-library > summary .journal-deep-library__eyebrow {
+  flex-basis:100%;
+  color:#866d46;
+  font-size:11px;
+  font-weight:780;
+  letter-spacing:.115em;
+}
+body.home-page #main-content > #stories .journal-deep-library > summary .journal-deep-library__title,
+body.home-page #main-content > #gallery .gallery-more-room > summary strong {
+  font-weight:760;
+  font-size:clamp(16px,1.6vw,20px);
+  letter-spacing:-.04em;
+  line-height:1.5;
+}
+body.home-page #main-content > #stories .journal-deep-library > summary .journal-deep-library__meta {
+  margin-inline-start:auto;
+  color:#5e6957;
+  font-size:12px;
+}
+body.home-page #main-content > #stories .journal-deep-library > summary .journal-deep-library__more,
+body.home-page #main-content > #gallery .gallery-more-room > summary > span:last-child {
+  margin-inline-start:auto;
+  font-size:24px;
+  line-height:1;
+  color:#866d46;
+}
+body.home-page #main-content > #stories .journal-deep-library[open] > summary .journal-deep-library__more,
+body.home-page #main-content > #gallery .gallery-more-room[open] > summary > span:last-child {
+  transform:rotate(45deg);
+}
+body.home-page #main-content > #stories .journal-deep-library > summary:focus-visible,
+body.home-page #main-content > #gallery .gallery-more-room > summary:focus-visible {
+  outline:3px solid #a88a58;
+  outline-offset:-4px;
+}
+body.home-page #main-content > #stories .journal-deep-library__content {
+  border-top:1px solid #e7dfd0;
+  padding:clamp(14px,2.1vw,27px);
+}
+body.home-page #main-content > #stories .journal-deep-library__content > :first-child {margin-top:0}
+body.home-page #main-content > #gallery .gallery-more-room > summary > span:first-child {
+  color:#866d46;
+  letter-spacing:.12em;
+  font-size:11px;
+  font-weight:750;
+}
+body.home-page #main-content > #gallery .gallery-more-room > .gallery-new-arrivals {
+  margin:0;
+  padding:16px clamp(12px,2vw,24px) 24px;
+  border-top:1px solid #e7dfd0;
+  box-shadow:none;
+}
+@media(max-width:650px){
+  body.home-page #main-content > #stories .journal-deep-library,
+  body.home-page #main-content > #gallery .gallery-more-room {
+    margin:17px 0 25px;
+    border-radius:9px;
+  }
+  body.home-page #main-content > #stories .journal-deep-library > summary,
+  body.home-page #main-content > #gallery .gallery-more-room > summary {min-height:73px;padding:16px 14px}
+  body.home-page #main-content > #stories .journal-deep-library > summary .journal-deep-library__meta {
+    flex-basis:calc(100% - 40px);
+    margin:0;
+  }
+  body.home-page #main-content > #stories .journal-deep-library > summary .journal-deep-library__more {margin-left:auto}
+  body.home-page #main-content > #stories .journal-deep-library__content {padding:13px 10px}
+}
+@media(forced-colors:active){
+  body.home-page #main-content > #stories .journal-deep-library,
+  body.home-page #main-content > #gallery .gallery-more-room,
+  body.home-page #main-content > #stories .journal-deep-library > summary,
+  body.home-page #main-content > #gallery .gallery-more-room > summary {background:Canvas;color:CanvasText;border-color:CanvasText}
+}
