@@ -2626,3 +2626,20 @@ test('retreatment cause card paintings use one fixed-height frame without label 
  assert.ok(stylesheet.includes('@media(max-width:600px)'), 'mobile card image frames stay consistent');
  assert.ok(readFileSync('retreatment.html','utf8').includes('retreatment-cards-02'), 'the source page should request refreshed CSS (build output may fingerprint stylesheets)');
 });
+
+test('approved first retreatment step removes existing orange gutta-percha and shows an apical lesion',()=>{
+ const page=readFileSync('retreatment.html','utf8');
+ const section=page.match(/<h2 id="retreatment-procedure">[\s\S]*?<div class="steps">([\s\S]*?)<\/div>/)?.[1]||'';
+ const images=[...section.matchAll(/<img\b[^>]*src="([^"]+)"[^>]*>/g)].map(x=>x[1]);
+ assert.deepEqual(images,[
+  '/assets/retreatment/illustration-06-guttapercha-apical-20261103.webp',
+  '/assets/retreatment/illustration-07.webp',
+  '/assets/retreatment/illustration-08.webp',
+  '/assets/retreatment/illustration-09.webp'
+ ],'only the first process illustration should change');
+ assert.ok(section.includes('뿌리 끝에 남은 염증 병소'));
+ const art=readFileSync('dist/assets/retreatment/illustration-06-guttapercha-apical-20261103.webp');
+ assert.ok(art.length>20000,'the approved illustration must be present in the build');
+ assert.equal(art.subarray(0,4).toString(),'RIFF');
+ assert.equal(art.subarray(8,12).toString(),'WEBP');
+});
