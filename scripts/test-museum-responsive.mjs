@@ -1910,7 +1910,7 @@ test('opening gallery hero keeps doctor-cat full portrait and validated primary 
  assert.ok(hero,'opening hero remains available to readers and crawlers');
  assert.ok(hero.includes('id="headline"')&&hero.includes('자연치아를 먼저 생각합니다.'),
   'retain the clinic tooth-preservation headline');
- for(const fact of ['SINCE 2003','고려대학교 의학박사(치과학 전공)',
+ for(const fact of ['2003년부터 한자리에서','고려대학교 의학박사(치과학 전공)',
    '통합치의학과 전문의','청천동치과 이조은치과']){
    assert.ok(hero.includes(fact),'missing factual clinic introduction: '+fact);
  }
