@@ -375,7 +375,7 @@ test('Google image sitemap lists exactly the 23 images actually exhibited in the
  const expected=images.map(s=>'https://ejoeundental.com'+s);
  assert.deepEqual(links(source),expected);
  assert.deepEqual(links(xml),expected);
- assert.equal((xml.match(/<image:image>/g)||[]).length,49,'26 authentic clinic care images + 23 gallery works');
+ assert.equal((xml.match(/<image:image>/g)||[]).length,50,'27 authentic clinic care images + 23 gallery works');
  const objects=[...html.matchAll(/<script type="application\/ld\+json">(\{[^\n]*"@type":"CollectionPage"[^\n]*\})<\/script>/g)];
  assert.equal(objects.length,1);
  const schema=JSON.parse(objects[0][1]);

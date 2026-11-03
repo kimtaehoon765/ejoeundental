@@ -320,7 +320,7 @@ test('Google Image discovery lists real first-party illustrations only on their 
   'all 23 displayed original artworks must be discoverable from the gallery sitemap entry');
  assert.equal(imageEntries.find(x=>x.page===home).images.length,2);
  const rootEntry=imageEntries.find(x=>x.page===rootCanal);
- assert.equal(rootEntry.images.length,10);
+ assert.equal(rootEntry.images.length,11);
  for(const kind of ['implant','denture']){
   const page=origin+'/'+kind;
   const entry=imageEntries.find(x=>x.page===page);
