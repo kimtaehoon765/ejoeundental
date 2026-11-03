@@ -11,6 +11,8 @@ on:
       - 'noncovered-fees.html'
       - 'clinical-archive.html'
       - 'visit-guide.html'
+      - 'doctor.html'
+      - 'gallery.html'
       - '*-faq.html'
       - 'gum-treatment.html'
       - 'cavity-treatment.html'
