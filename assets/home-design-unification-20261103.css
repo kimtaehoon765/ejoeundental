@@ -944,3 +944,78 @@ body.home-page #main-content > .hero.wrap .kicker {
     line-height: 1.4;
   }
 }
+
+
+/* 2026-11-04 | Clear first-screen visiting information.
+   Keep established location keywords, accurate alternating schedule and main CTAs. */
+body.home-page #main-content > .hero.wrap .hero-local-intro {
+  display: block;
+  padding: 15px 17px;
+  border: 1px solid #dedfd2;
+  border-left: 3px solid #91a58c;
+  border-radius: 0 9px 9px 0;
+  background: rgba(249,250,244,.9);
+  color: #435a4b;
+  font-size: 13px;
+  line-height: 1.85;
+}
+body.home-page #main-content > .hero.wrap .hero-local-intro > strong {
+  color: #214736;
+}
+body.home-page #main-content > .hero.wrap .hero-visit-facts {
+  display: block;
+  margin-top: 7px;
+  color: #52675a;
+  font-weight: 600;
+  word-break: keep-all;
+}
+body.home-page #main-content > .hero.wrap .hero-reception-hours {
+  display: inline-block;
+  margin-top: 8px;
+  margin-right: 9px;
+  padding: 4px 10px;
+  border: 1px solid #d6dfd2;
+  border-radius: 5px;
+  background: #eef3ea;
+  color: #325443;
+  font-weight: 750;
+  font-size: 12px;
+  line-height: 1.7;
+  word-break: keep-all;
+}
+body.home-page #main-content > .hero.wrap .hero-local-intro > a {
+  display: inline-block;
+  padding-block: 7px;
+  color: #1b503a;
+  font-weight: 750;
+  text-underline-offset: 3px;
+}
+@media(max-width:600px) {
+  body.home-page #main-content > .hero.wrap .hero-local-intro {
+    padding: 12px 13px;
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 1.75;
+  }
+  body.home-page #main-content > .hero.wrap .hero-visit-facts {
+    margin-top: 6px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-reception-hours {
+    font-size: 12px;
+    margin-right: 0;
+  }
+  body.home-page #main-content > .hero.wrap .hero-local-intro > a {
+    display: block;
+    width: fit-content;
+    min-height: 36px;
+    box-sizing: border-box;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > .hero.wrap .hero-local-intro,
+  body.home-page #main-content > .hero.wrap .hero-reception-hours {
+    border-color: CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+}
