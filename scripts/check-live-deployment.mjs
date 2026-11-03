@@ -118,12 +118,16 @@ async function main(){
     liveSafetyHub=delivered.bytes.toString('utf8');
     const expectedMain=visibleMedicalMain(expected);
     const deliveredMain=visibleMedicalMain(delivered.bytes);
+    const canonicalOf=html=>html.match(/<link rel="canonical" href="([^"]+)"/)?.[1]||'';
+    const builtCanonical=canonicalOf(expected.toString('utf8'));
+    const liveCanonical=canonicalOf(liveSafetyHub);
     verdict('전신질환 통합 환자안내 실사이트',
       delivered.status===200&&Boolean(expectedMain)&&
       digest(deliveredMain)===digest(expectedMain)&&
-      liveSafetyHub.includes('<link rel="canonical" href="'+origin+safetyHubPath+'">'),
+      Boolean(builtCanonical)&&builtCanonical===liveCanonical,
       'HTTP '+delivered.status+' · 본문 공개 '+digest(deliveredMain)+
-      ' / 이번 빌드 '+digest(expectedMain));
+      ' / 이번 빌드 '+digest(expectedMain)+
+      ' · 대표주소 '+(liveCanonical||'없음'));
   }catch(e){
     verdict('전신질환 통합 환자안내 실사이트',false,
       '연결 실패: '+String(e.cause?.code||e.message||e));
