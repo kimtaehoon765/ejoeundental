@@ -2809,19 +2809,19 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
    if(byPath(route).length!==1||!byPath(route)[0].headers.get('Cache-Control')?.includes('must-revalidate'))
     errors.push('Cloudflare Pages 검색/진료 자료 갱신 헤더 누락: '+route);
   }
-  if(rules.length!==14)errors.push('Cloudflare Pages 예상 응답 헤더 규칙 수 불일치: '+rules.length);
+  if(rules.length!==15)errors.push('Cloudflare Pages 예상 응답 헤더 규칙 수 불일치: '+rules.length);
   // Early Hints are exclusively for the blocking first-screen stylesheet.
   // The location/FAQ styles have a separate immutable but nonblocking asset.
   const markup=readFileSync(join(root,'index.html'),'utf8');
-  const standardStyles=[...markup.matchAll(/<link rel="stylesheet" href="(\/assets\/(?:home-(?:critical|finishing)|gallery-foundation|exhibition-foundation)-[0-9a-f]{12}\.css)">/g)]
+  const standardStyles=[...markup.matchAll(/<link rel="stylesheet" href="(\/assets\/(?:home-(?:critical|finishing|visual)|gallery-foundation|exhibition-foundation)-[0-9a-f]{12}\.css)">/g)]
    .map(match=>match[1]);
   const deferredStyles=[...markup.matchAll(/<link rel="stylesheet" href="(\/assets\/home-faq-visit-[0-9a-f]{12}\.css)" media="print" onload="this\.media='all'">/g)]
    .map(match=>match[1]);
   const immutableStyles=[...standardStyles,...deferredStyles];
-  const expectedPrefixes=['home-critical-','gallery-foundation-','exhibition-foundation-','home-finishing-','home-faq-visit-'];
-  if(immutableStyles.length!==5||new Set(immutableStyles).size!==5||
+  const expectedPrefixes=['home-critical-','gallery-foundation-','exhibition-foundation-','home-finishing-','home-visual-','home-faq-visit-'];
+  if(immutableStyles.length!==6||new Set(immutableStyles).size!==5||
      expectedPrefixes.some(prefix=>immutableStyles.filter(x=>x.startsWith('/assets/'+prefix)).length!==1))
-   errors.push('홈페이지 해시 기반 CSS 캐시 대상이 정확히 5개가 아닙니다');
+   errors.push('홈페이지 해시 기반 CSS 캐시 대상이 정확히 6개가 아닙니다');
   const deferredHref=deferredStyles[0];
   if(deferredStyles.length!==1||!markup.includes('<noscript><link rel="stylesheet" href="'+deferredHref+'"></noscript>'))
    errors.push('FAQ·진료시간 지연 CSS의 JavaScript 미사용 대체 링크 누락');
@@ -3522,8 +3522,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   const oldNames=names.some(n=>page.includes('href="/assets/'+n));
   const newer=[
    '/assets/exhibition-foundation-',
-   '/assets/home-art-direction-20261030.css',
-   '/assets/atelier-refinement-20261030.css'
+   '/assets/home-visual-'
   ];
   const positions=newer.map(n=>page.indexOf('href="'+n));
   if(!existsSync(bundle)||
@@ -3566,14 +3565,45 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
   const originalLinked=names.some(name=>homepage.includes('href="/assets/'+name));
   const previous=homepage.indexOf('href="/assets/gallery-foundation-');
   const bundledAt=homepage.indexOf('href="'+href+'"');
-  const direction=homepage.indexOf('href="/assets/home-art-direction-20261030.css');
-  const refinement=homepage.indexOf('href="/assets/atelier-refinement-20261030.css');
+  const visual=homepage.indexOf('href="/assets/home-visual-');
   if(!existsSync(path)||readFileSync(path,'utf8')!==expected||
     originalLinked||homepage.split('href="'+href+'"').length!==2||
-    !(previous>=0&&previous<bundledAt&&bundledAt<direction&&direction<refinement)){
+    !(previous>=0&&previous<bundledAt&&bundledAt<visual)){
    errors.push('전시 CSS 3종 묶음: 원본 무결성 또는 적용 순서 불일치');
   }else{
    console.log('Homepage exhibition CSS audit: 3 -> 1 immutable links; original rules retained');
+  }
+ }
+}
+
+// Validate the two visual styles are delivered as a single, content-hashed
+// stylesheet, in their original cascade order and between exhibition/finishing.
+// The deployed originals stay available for independent source checks.
+{
+ const homepage=readFileSync(join(root,'index.html'),'utf8');
+ const sources=['home-art-direction-20261030.css','atelier-refinement-20261030.css'];
+ const parts=sources.map(name=>{
+  const file=join(root,'assets',name);
+  if(!existsSync(file)){errors.push('중점 디자인 CSS 원본 누락: '+name);return null;}
+  return readFileSync(file,'utf8').trimEnd();
+ });
+ if(parts.every(part=>part!==null)){
+  const expected=parts.join('\n\n')+'\n';
+  const hash=createHash('sha256').update(expected).digest('hex').slice(0,12);
+  const name='home-visual-'+hash+'.css';
+  const bundlePath=join(root,'assets',name);
+  const link='<link rel="stylesheet" href="/assets/'+name+'">';
+  const previous=homepage.indexOf('href="/assets/exhibition-foundation-');
+  const position=homepage.indexOf(link);
+  const next=homepage.indexOf('href="/assets/home-finishing-');
+  const final=homepage.indexOf('href="/assets/home-design-unification-20261103.css');
+  if(!existsSync(bundlePath)||readFileSync(bundlePath,'utf8')!==expected||
+     homepage.split(link).length!==2||
+     sources.some(source=>homepage.includes('href="/assets/'+source))||
+     !(previous>=0&&previous<position&&position<next&&next<final)){
+   errors.push('중점 디자인 CSS 2종 통합: 해시·원본·스타일 적용 순서 불일치');
+  }else{
+   console.log('Home visual CSS audit: 2 -> 1 immutable requests, original order preserved');
   }
  }
 }
