@@ -543,8 +543,8 @@ test('premium gallery foyer shows 23 unique works through three real exhibition 
  assert.ok(html.includes('class="care-preservation-art"') && html.includes('THE LONG VIEW · SINCE 2003'),
   'the natural-tooth reading panel keeps its original landscape and caption');
  assert.ok(html.includes('class="journal-gallery-cover__poster"') &&
-  !html.includes('class="journal-gallery-cover__poster"><img'),
-  'journal cover should be a typographic book cover without repeating a painting');
+  html.includes('class="journal-gallery-cover__poster"><img src="/assets/ejoeun-liver-care-stilllife-20261029.svg"'),
+  'journal cover keeps a unique painted book cover and working reading room entry');
  const preservationCss=readAnnotatedHomeVisualCss('assets/atelier-refinement-20261030.css');
  for(const token of ['An original landscape beside the tooth-preservation manifesto',
   'Doctor\u0027s journal: a quiet book-cover edition','@media(min-width:821px)',
@@ -763,8 +763,11 @@ test('all visible homepage artwork is shipped with accessible and stable image d
   assert.ok(/\balt="[^"]*"/.test(tag),'every artwork needs an explicit alt attribute: '+src);
   assert.ok(/\bwidth="[0-9]+"/.test(tag)&&/\bheight="[0-9]+"/.test(tag),
    'art dimensions must be known before layout: '+src);
-  assert.ok(existsSync('dist'+src),'image must exist in the published output: '+src);
-  paths.push(src);
+  const assetPath=src.split(/[?#]/)[0];
+  if(src!==assetPath) assert.match(src,/^\/assets\/impressionist-water-garden\.svg\?v=[0-9a-f]{12}$/,
+   'only the water-garden painting may have a build fingerprint');
+  assert.ok(existsSync('dist'+assetPath),'image must exist in the published output: '+src);
+  paths.push(assetPath);
  }
  assert.equal(new Set(paths).size,paths.length,
   'each homepage painting or clinical diagram must be a separate artwork');
@@ -784,8 +787,10 @@ test('unique homepage paintings and clinical plates retain image count and edito
  assert.ok(original.length>=35,'keep the original visual richness of the homepage');
  assert.equal(original.length,new Set(original).size,
   'do not reuse a single image in several homepage galleries');
- assert.deepEqual(rendered,original,
-  'build retains every original patient diagram and art image without changing order');
+ assert.deepEqual(rendered.map(src=>src.split(/[?#]/)[0]),original,
+  'build preserves every source image and order after removing cache-only version tokens');
+ assert.ok(rendered.some(src=>/^\/assets\/impressionist-water-garden\.svg\?v=[0-9a-f]{12}$/.test(src)),
+  'the garden artwork receives a stable build fingerprint');
  for(const name of ['clinical-implant-section-20261102.svg','clinical-cavity-sequence-20261102.svg']){
   assert.ok(source.includes('src="/assets/'+name+'"'), 'keep original diagram image: '+name);
   assert.ok(source.includes('href="/assets/'+name+'" target="_blank" rel="noopener noreferrer"'),
@@ -2329,7 +2334,7 @@ test('2026-11-01 compact homepage layout preserves all sections and SEO entry po
  assert.ok(cavityMarkup.includes('class="ejoeun-topic-art__visual clinical-atlas-scroll"') &&
   cavityMarkup.includes('tabindex="0"') &&
   cavityMarkup.includes('class="clinical-atlas-swipe-hint"') &&
-  cavityMarkup.includes('v=20261102-cavity-swipe05'),
+  /href="\/assets\/secondary-salon-finish-20261031\.css\?v=[^"]+"/.test(cavityMarkup),
   'cavity clinical atlas must support zoom and keyboard scroll on small screens');
  assert.ok(implantCss.includes('secondary-cavity .ejoeun-topic-art__visual.clinical-atlas-scroll') &&
   implantCss.includes('width:780px') &&
