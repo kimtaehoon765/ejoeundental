@@ -343,7 +343,7 @@ test('native 537-article reading routes expose all five authentic source groups'
   'new catalog must carry its visual layout into the build');
  assert.ok(style.includes('grid-template-columns:repeat(5,minmax(0,1fr))'));
  assert.ok(style.includes('@media(max-width:750px)'));
- assert.ok(source.includes('editorial-gallery.css?v=20261031-archive-reader-routes03'));
+ assert.match(source,/href="\/assets\/editorial-gallery\.css\?v=[a-zA-Z0-9_-]+"/,\n  'archive must reference the built editorial stylesheet with a cache version');
  assert.equal((built.match(/href="https:\/\/(?:m\.)?blog\.naver\.com\/[a-z0-9]+\/[0-9]+"/g)||[]).length,537,
   'the archive must retain 537 original blog article URLs');
 });
