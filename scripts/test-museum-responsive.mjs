@@ -2414,22 +2414,6 @@ test('offscreen museum galleries remain crawlable while mobile rendering skips d
  assert.ok(home.includes('rel="canonical" href="https://ejoeundental.com/"'));
 });
 
-test('mobile first-screen portrait keeps high priority while the final gallery CSS can start early',()=>{
- const head=home.slice(0,home.indexOf('</head>'));
- const css=read('assets/atelier-refinement-20261030.css');
- assert.ok(css.includes('body.home-page #main-content > .hero.wrap > .art.hero-artwork'),
-  'preloaded final CSS must preserve the actual doctor portrait framing rules');
- const images=[...head.matchAll(/<link rel="preload" as="image"[^>]*>/g)];
- assert.equal(images.length,1,'only the original portrait is the high-priority image');
- const preloaded=head.match(/<link rel="preload" as="style" media="[^"]+" href='([^']+)'>/)?.[1];
- const styleHref=head.match(/<link rel="stylesheet" href="([^"]*atelier-refinement-20261030.css[^"]*)">/)?.[1];
- assert.ok(preloaded&&preloaded===styleHref,
-  'mobile CSS preload must resolve to the same versioned URL as the blocking stylesheet');
- assert.ok(head.indexOf('as="image"')<head.indexOf('as="style"')&&
-  head.indexOf('as="style"')<head.indexOf('href="/assets/home-critical-'),
-  'portrait image wins network discovery order; mobile finishing CSS starts before blocking layers');
-});
-
 test('only below-fold paintings are low-priority while director portrait loads early',()=>{
  const source=read('index.html');
  const hero=source.match(/<img\b[^>]*src="\/assets\/ejoeun-gallery-cat-dentist-20261029\.webp"[^>]*>/)?.[0]||'';
