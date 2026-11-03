@@ -820,7 +820,7 @@ console.log('Homepage journal entries rendered without browser fetch:',posts.len
 
 // Build a separate clinic-story directory from the same verified published CMS
 // posts used by /stories/{slug}/. All titles are visible in static HTML without JS.
-// This intentionally keeps 537 external original Naver blog links as a separate
+// This intentionally keeps 590 external original Naver blog links as a separate
 // archive, so the count of homepage articles is not confused with those links.
 {
  const groups=[
@@ -1280,8 +1280,8 @@ const ownerBlogItems=[...ownerStoriesSection.matchAll(/<div class="card owner-st
   url,
   title:label.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").trim()
  }));
-if(ownerBlogItems.length!==537||new Set(ownerBlogItems.map(item=>item.url)).size!==537){
- throw new Error('The clinical archive must mirror exactly 537 original owner blog links');
+if(ownerBlogItems.length!==590||new Set(ownerBlogItems.map(item=>item.url)).size!==590){
+ throw new Error('The clinical archive must mirror exactly 590 original owner blog links');
 }
 const clinicalArchiveGroups=[
  {id:'gum',name:'잇몸치료·스케일링',url:'/gum-health.html',label:'잇몸 건강정보 10편 더 읽기',
@@ -1289,15 +1289,17 @@ const clinicalArchiveGroups=[
  {id:'root',name:'신경치료·재신경치료',url:'/root-canal-health.html',label:'신경치료 건강정보 10편 더 읽기',
   test:title=>/신경치료|재신경치료|근관치료/.test(title)},
  {id:'ethics',name:'치과 선택과 진료 원칙',url:'/#philosophy',label:'이조은치과 진료 원칙 보기',
-  test:title=>/리뷰|양심|과잉진료|많은 치료|비보험|좋은치과|좋은 치과|가격이 싼|치과를 선택|치과마다 치료비|자연치아를 살리는 치과|물티슈/.test(title)},
+  test:title=>/보험사기|치과고르는|치과잘고르는|의식하진정|수면마취|치과마케팅|리뷰|양심|과잉진료|많은 치료|비보험|좋은치과|좋은 치과|가격이 싼|치과를 선택|치과마다 치료비|자연치아를 살리는 치과|물티슈/.test(title)},
  {id:'med',name:'치과 약물·전신질환',url:'/medical-history.html',label:'치과치료 전 복용약·전신질환 안내 읽기',
-  test:title=>/항히스타민|스테로이드|cox-|프로스타글란딘|NSAID|항혈소판|헤파린|와파린|INR|항응고|DOAC|NOAC|심내막염|당뇨|당화혈색소/i.test(title)},
+  test:title=>/항생제|항진균|독시사이클린|테트라사이클린|아목시실린|카바페넴|세팔로스포린|반코마이신|테이코플라닌|아미노글리코사이드|이미페넴|메로페넴|페니실린|설파제|설파닐아마이드|알보칠|탄툼|트라마돌|울트라셋|아스피린|진통제|비브리오|패혈증|감기약|목감기|인후염|코르티솔|에피네프린|노르에피네프린|스트레스 호르몬|미생물|CRE|CPE|doxycycline|tetracycline|amoxicillin|carbapenem|cephalosporin|aminoglycoside|vancomycin|스테로이드|cox-|프로스타글란딘|NSAID|항혈소판|헤파린|와파린|INR|항응고|DOAC|NOAC|심내막염|당뇨|당화혈색소/i.test(title)},
  {id:'other',name:'충치·시린 이·기타',url:'/additional-health.html',label:'충치·자연치아 건강정보 더 읽기',
   test:()=>true}
 ];
 for(const group of clinicalArchiveGroups)group.items=[];
 for(const item of ownerBlogItems){
  const category=clinicalArchiveGroups.find(group=>group.id==='root'&&group.test(item.title))||
+  clinicalArchiveGroups.find(group=>group.id==='med'&&group.test(item.title))||
+  clinicalArchiveGroups.find(group=>group.id==='ethics'&&group.test(item.title))||
   clinicalArchiveGroups.find(group=>group.test(item.title));
  category.items.push(item);
 }
@@ -1341,7 +1343,7 @@ fs.writeFileSync(archiveCatalogFile,archiveCatalogHtml);
 console.log('Owner blog archive search asset fingerprinted:',archiveSearchHash);
 // Use the SAME classified owner blog articles as the archive summary. Both
 // treatment-page counts previously lagged far behind the actual archive
-// (62/33 in the buttons versus 131/46 in the 537-link collection).
+// (62/33 in the buttons versus 131/46 in the 590-link collection).
 // Render from this single source rather than making the clinician edit counts.
 for(const [id,filename,marker] of [
  ['gum','gum-treatment.html','<!-- BUILD_OWNER_GUM_COUNT -->'],
@@ -3323,7 +3325,7 @@ console.log('Clinical education sharing metadata aligned:',clinicalSharingCount,
    '<ul class="patient-story-links-topical">'+suggestions.join('')+'</ul>'+
    '<div class="patient-story-links-row">'+
    '<a href="/stories.html">📖 홈페이지 치과 이야기 전체 보기</a>'+
-   '<a href="/clinical-archive.html#archive-blog-posts">네이버 블로그 원문 537편 보기 →</a>'+
+   '<a href="/clinical-archive.html#archive-blog-posts">네이버 블로그 원문 590편 보기 →</a>'+
    '</div></nav>';
  }
  let linked=0;
