@@ -97,6 +97,62 @@ async function main(){
       verdict(label+' 공개 페이지',false,'연결 실패: '+String(e.cause?.code||e.message||e));
     }
   }));
+  // Patient-education reconstruction (November 2026): verify the actual
+  // Cloudflare HTML, not just GitHub file presence or sitemap entries.
+  const newMedicalRoutes=[
+    ['고혈압','/hypertension-dental-care.html'],
+    ['천식·알레르기','/asthma-allergy-dental-care.html'],
+    ['류마티스·스테로이드','/steroid-rheumatic-dental-care.html'],
+    ['뇌전증·실신','/epilepsy-syncope-dental-care.html']
+  ];
+  const safetyHubPath='/medical-safety-guide.html';
+  let liveSafetyHub='';
+  try{
+    const expected=local(safetyHubPath.slice(1));
+    const delivered=await get(safetyHubPath);
+    liveSafetyHub=delivered.bytes.toString('utf8');
+    verdict('전신질환 통합 환자안내 실사이트',
+      delivered.status===200&&digest(delivered.bytes)===digest(expected),
+      'HTTP '+delivered.status+' · 공개 '+digest(delivered.bytes)+
+      ' / 이번 빌드 '+digest(expected));
+  }catch(e){
+    verdict('전신질환 통합 환자안내 실사이트',false,
+      '연결 실패: '+String(e.cause?.code||e.message||e));
+  }
+  verdict('전신질환 안내 4개 새 주제 링크·표시',
+    newMedicalRoutes.every(([,url])=>
+      liveSafetyHub.includes('href="'+url+'"')&&
+      local(safetyHubPath.slice(1)).toString('utf8').includes('href="'+url+'"')),
+    '고혈압·천식/알레르기·스테로이드·뇌전증 안내');
+  for(const [name,route] of newMedicalRoutes){
+    try{
+      const expected=local(route.slice(1));
+      const actual=await get(route);
+      const html=actual.bytes.toString('utf8');
+      const canonical=origin+route;
+      verdict('새 환자안내 공개: '+name,
+        actual.status===200&&digest(actual.bytes)===digest(expected)&&
+        html.includes('<link rel="canonical" href="'+canonical+'">')&&
+        !/<meta name="robots" content="[^"]*noindex/i.test(html),
+        'HTTP '+actual.status+' · 공개 '+digest(actual.bytes)+
+        ' / 이번 빌드 '+digest(expected));
+    }catch(e){
+      verdict('새 환자안내 공개: '+name,false,
+        '연결 실패: '+String(e.cause?.code||e.message||e));
+    }
+  }
+  const threePatientPaintings=[
+    ['혈액희석제 원본 그림','ejoeun-antithrombotic-balance-stilllife-20261029.svg'],
+    ['골다공증약 원본 그림','ejoeun-osteoporosis-medication-clock-study-20261029.svg'],
+    ['당뇨병 원본 그림','ejoeun-diabetes-oral-health-garden-20261029.svg']
+  ];
+  verdict('환자안내 그림 3점 페이지 연결',
+    threePatientPaintings.every(([,file])=>
+      liveSafetyHub.includes('src="/assets/'+file+'"')),
+    '복제 사진 대신 치과 자체 원본 회화와 환자 안내 연결');
+  for(const [name,file] of threePatientPaintings){
+    await checkAsset(name,'assets/'+file,'/assets/'+file);
+  }
   const liveHome=pages['/']||'';
   verdict('Cloudflare 실제 배포 커밋',
     /^[0-9a-f]{40}$/.test(commit)&&meta(liveHome,'ejoeundental-build-commit')===commit,
