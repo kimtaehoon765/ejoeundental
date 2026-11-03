@@ -668,3 +668,181 @@ body.home-page #main-content :is(.hero-care-summary>a,.curated-threshold__piece,
     box-shadow:none;
   }
 }
+
+/* 2026-11-03 | Second pass: compact clinical navigation and consistent art sizing */
+/* Distinct real paintings remain in the existing illustration sections.
+   The treatment shortcuts themselves are simple, legible clinical signposts. */
+body.home-page #main-content > #focus-care .focus-care-shortcuts {
+  counter-reset:care-entry;
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  align-items:stretch;
+  gap:10px;
+  margin-block:22px 18px;
+}
+body.home-page #main-content > #focus-care .focus-care-shortcuts > a,
+body.home-page #main-content > #focus-care .focus-care-shortcuts > a:nth-child(-n+2) {
+  counter-increment:care-entry;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-start;
+  min-width:0;
+  min-height:145px;
+  gap:8px;
+  padding:17px 15px 16px;
+  border:1px solid #dcd8ca;
+  border-top:3px solid #769d88;
+  border-radius:9px;
+  background:#fffefa;
+  box-shadow:0 5px 15px rgba(23,58,39,.035);
+  transform:none;
+}
+body.home-page #main-content > #focus-care .focus-care-shortcuts > a:nth-child(even) {
+  border-top-color:#bba477;
+  background:#fbf8f0;
+}
+body.home-page #main-content > #focus-care .focus-care-shortcuts > a::before,
+body.home-page #main-content > #focus-care .focus-care-shortcuts > a:nth-child(-n+2)::before {
+  content:counter(care-entry, decimal-leading-zero);
+  box-sizing:border-box;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:35px;
+  height:35px;
+  margin:0 0 3px;
+  border:1px solid #d4dfd0;
+  outline:0;
+  border-radius:50%;
+  background:#edf4e9;
+  background-image:none;
+  box-shadow:none;
+  color:#42664e;
+  font:750 12px/1 system-ui,sans-serif;
+  letter-spacing:0;
+}
+body.home-page #main-content > #focus-care .focus-care-shortcuts > a:nth-child(even)::before {
+  border-color:#e1d5bd;
+  background:#f4ecd8;
+  background-image:none;
+  color:#806942;
+}
+body.home-page #main-content > #focus-care .focus-care-shortcuts > a > strong {
+  margin:0;
+  color:#204938;
+  font-size:clamp(16px,1.45vw,19px);
+  line-height:1.45;
+  letter-spacing:-.04em;
+}
+body.home-page #main-content > #focus-care .focus-care-shortcuts > a > span {
+  color:#4e685a;
+  font-size:13px;
+  line-height:1.55;
+}
+/* Equal art canvases without cutting off any clinical diagram or label. */
+body.home-page #main-content > .care-picture-notes .care-picture-notes__frame {
+  display:block;
+  border:1px solid #ded8c9;
+  border-radius:8px;
+  background:#f8f5ef;
+  overflow:hidden;
+}
+body.home-page #main-content > .care-picture-notes .care-picture-notes__frame > img,
+body.home-page #main-content > #health-info .health-topic-painting > img {
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  height:auto;
+  aspect-ratio:3 / 2;
+  object-fit:contain;
+  background:#faf7f0;
+}
+body.home-page #main-content > .care-picture-notes .care-picture-notes__card {
+  border-radius:10px;
+  background:#fffefa;
+  box-shadow:0 5px 17px rgba(26,50,36,.045);
+}
+body.home-page #main-content > .care-picture-notes .care-picture-notes__caption {
+  border-top:1px solid #e7e0d2;
+}
+body.home-page #main-content > .care-picture-notes .care-picture-notes__caption > strong {
+  font-size:clamp(18px,1.65vw,22px);
+  color:#244b39;
+  word-break:keep-all;
+}
+body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a {
+  min-width:0;
+  padding:clamp(17px,2vw,24px);
+  border:1px solid #ded9cb;
+  border-radius:9px;
+  background:#fffefa;
+  box-shadow:0 4px 14px rgba(25,50,35,.035);
+}
+body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a > strong {
+  color:#234b39;
+  line-height:1.5;
+  word-break:keep-all;
+}
+body.home-page #main-content > #faq .faq-list > details {
+  border-radius:9px;
+  box-shadow:none;
+}
+body.home-page #main-content > #faq .faq-list > details > summary {
+  padding-block:14px;
+  min-height:48px;
+  word-break:keep-all;
+}
+@media(max-width:1080px) {
+  body.home-page #main-content > #focus-care .focus-care-shortcuts {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+@media(max-width:700px) {
+  body.home-page #main-content > #focus-care .focus-care-shortcuts {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:9px;
+    margin-block:17px 14px;
+  }
+  body.home-page #main-content > #focus-care .focus-care-shortcuts > a,
+  body.home-page #main-content > #focus-care .focus-care-shortcuts > a:nth-child(-n+2) {
+    min-height:120px;
+    padding:14px 12px 13px;
+    gap:7px;
+  }
+  body.home-page #main-content > #focus-care .focus-care-shortcuts > a::before,
+  body.home-page #main-content > #focus-care .focus-care-shortcuts > a:nth-child(-n+2)::before {
+    width:30px;
+    height:30px;
+    font-size:11px;
+  }
+  body.home-page #main-content > #focus-care .focus-care-shortcuts > a > strong {
+    font-size:16px;
+  }
+  body.home-page #main-content > #focus-care .focus-care-shortcuts > a > span {
+    font-size:12px;
+  }
+  body.home-page #main-content > .care-picture-notes .care-picture-notes__caption > strong {
+    font-size:18px;
+  }
+}
+@media(max-width:380px) {
+  body.home-page #main-content > #focus-care .focus-care-shortcuts {
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.home-page #main-content > #focus-care .focus-care-shortcuts > a,
+  body.home-page #main-content > #focus-care .focus-care-shortcuts > a:nth-child(-n+2) {
+    min-height:94px;
+  }
+}
+@media(forced-colors:active) {
+  body.home-page #main-content > #focus-care .focus-care-shortcuts > a,
+  body.home-page #main-content > #focus-care .focus-care-shortcuts > a::before,
+  body.home-page #main-content > .care-picture-notes .care-picture-notes__card,
+  body.home-page #main-content > #home-representative-guides .home-representative-guide-grid > a {
+    border-color:CanvasText;
+    color:CanvasText;
+    background:Canvas;
+    box-shadow:none;
+  }
+}
