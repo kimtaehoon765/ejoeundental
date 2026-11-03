@@ -62,7 +62,24 @@ const galleryFoundation=()=>{
 };
 
 
-const exhibitionFoundation=()=>{
+// The formerly separate homepage visual styles now ship as one asset.
+ // Verify the delivered CSS contains both original files in cascade order.
+ const homeVisualBundle=()=>{
+ const names=['home-art-direction-20261030.css','atelier-refinement-20261030.css'];
+ const sections=names.map(name=>read('assets/'+name).trimEnd());
+ const expected=sections.join('\n\n')+'\n';
+ const hash=createHash('sha256').update(expected).digest('hex').slice(0,12);
+ const href='/assets/home-visual-'+hash+'.css';
+ assert.ok(home.includes('<link rel="stylesheet" href="'+href+'">'),
+ 'content-hashed visual bundle must be linked in the homepage');
+ assert.equal(read(href.slice(1)),expected,
+ 'visual styles must retain every declaration in original cascade order');
+ assert.ok(!names.some(name=>home.includes('href="/assets/'+name)),
+ 'combined visual CSS must not also load its individual sources');
+ return href;
+ };
+ 
+ const exhibitionFoundation=()=>{
  const names=['atelier-home-2026.css','curatorial-home.css','gallery-edition-polish.css'];
  const boundary='\n\n/* Ejoeun curated exhibition CSS source boundary. */\n\n';
  const documented=names.map(name=>read('assets/'+name).trimEnd()).join(boundary)+'\n';
@@ -103,11 +120,11 @@ test('large homepage gallery layers deliver only live CSS with comments removed'
    'every visual CSS token and cascade remains unchanged after whitespace-only delivery compression: '+name);
   assert.equal((read('assets/'+name).match(/\/\*/g)||[]).length,0,
    'no standalone documentation is sent to patients: '+name);
-  const digest=createHash('sha256').update(delivered).digest('hex').slice(0,12);
-  assert.ok(linked.includes('/assets/'+name+'?v='+digest),
-   'the browser must request the current compacted asset: '+name);
+  assert.ok(!linked.some(href=>href.startsWith('/assets/'+name+'.css')),
+ 'the browser must request the combined CSS instead of its old source link: '+name);
   saved+=Buffer.byteLength(normalized)-Buffer.byteLength(delivered);
  }
+ assert.ok(linked.includes(homeVisualBundle()),'the browser must request the exact hashed, combined visual CSS');
  assert.ok(saved>20000,'two museum visual layers should save meaningful uncompressed delivery bytes');
  assert.ok(!/\};?\n/.test(read('assets/atelier-refinement-20261030.css')),
   'the large art-direction stylesheet must not ship unnecessary newlines after blocks');
@@ -209,8 +226,8 @@ test('mobile header scroll work is frame-batched and primary patient actions sta
  assert.ok(css.includes('.mobile-booking-actions>a:active')&&
   css.includes('body.home-page header .mobile-quick>a:active'),
   'mobile booking dock and header shortcuts keep clear touch feedback');
- assert.ok(linkedVersionedStyle(home,'atelier-refinement-20261030.css'),
-  'homepage invalidates cached touch feedback styles');
+ assert.ok(homeVisualBundle(),
+ 'homepage invalidates cached touch feedback styles via the combined CSS');
  assert.ok(home.includes('href="tel:0325132875"')&&
   home.includes('class="mobile-booking-actions"'),
   'the original clinic phone and fixed mobile patient routes remain');
@@ -247,8 +264,7 @@ test('homepage critical CSS retains its cascade while reducing three requests to
  assert.ok(!home.includes('href="/assets/address-copy.css'),
   'avoid the redundant render-blocking address CSS request');
  const foundation=galleryFoundation();
- const later=[exhibitionFoundation(),
-  '/assets/home-art-direction-20261030.css','/assets/atelier-refinement-20261030.css'];
+ const later=[exhibitionFoundation(),homeVisualBundle()];
  const positions=[home.indexOf('href="'+foundation+'"'),
   ...later.map(href=>home.indexOf('href="'+href))];
  assert.ok(positions.every(n=>n>=0),'all existing museum styles must still load');
@@ -1737,11 +1753,11 @@ test('director museum profile keeps verified credentials and readable care links
   '@media(forced-colors:active)'
  ])assert.ok(css.includes(token),'missing responsive, accessible doctor-gallery treatment: '+token);
  const doctorCssLinks=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
- const doctorCss=doctorCssLinks.find(x=>x.startsWith('/assets/atelier-refinement-20261030.css?v='));
- assert.ok(doctorCss && doctorCss.split('?v=')[1],
-  'the final doctor refinement stylesheet must be linked with a cache-busting version');
- assert.ok(doctorCssLinks.indexOf(doctorCss)>doctorCssLinks.findIndex(x=>x.includes('/assets/home-art-direction-20261030.css')),
-  'the new doctor style must load after the earlier art-direction layer');
+ const doctorCss=homeVisualBundle();
+ assert.ok(doctorCssLinks.includes(doctorCss),
+ 'the doctor refinements must ship in the content-hashed visual stylesheet');
+ assert.ok(doctorCssLinks.indexOf(doctorCss)>doctorCssLinks.indexOf(exhibitionFoundation()),
+ 'visual refinements must follow the original exhibition CSS foundation');
  assert.ok(home.includes('class="mobile-booking-actions"')&&home.includes('class="btn hero-booking"'),
   'working Naver reservation controls remain');
 });
@@ -1780,8 +1796,8 @@ test('museum FAQ and visit desk keep accessible clinical answers and verified sc
   assert.ok(css.includes(token),'missing final accessible FAQ/visit styling: '+token);
  }
  const links=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
- const final=links.findIndex(href=>href.startsWith('/assets/atelier-refinement-20261030.css?v='));
- const predecessor=links.findIndex(href=>href.startsWith('/assets/home-art-direction-20261030.css?v='));
+ const final=links.indexOf(homeVisualBundle());
+ const predecessor=links.indexOf(exhibitionFoundation());
  assert.ok(final>predecessor && predecessor>=0,
   'FAQ and visit finishing styles should load last with a cache-busting query');
  assert.ok(home.includes('class="mobile-booking-actions"'),
@@ -1821,8 +1837,8 @@ test('museum symptom gallery keeps seven truthful guides and mobile choices',()=
   '@media(max-width:360px)','@media(forced-colors:active)'
  ])assert.ok(css.includes(marker),'missing accessible symptom-gallery refinement: '+marker);
  const styles=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
- const final=styles.findIndex(x=>x.startsWith('/assets/atelier-refinement-20261030.css?v='));
- const previous=styles.findIndex(x=>x.startsWith('/assets/home-art-direction-20261030.css?v='));
+ const final=styles.indexOf(homeVisualBundle());
+ const previous=styles.indexOf(exhibitionFoundation());
  assert.ok(final>previous&&previous>=0,'final symptom styles must load after earlier art direction');
  assert.ok(home.includes('class="mobile-booking-actions"'),'Naver reservation and phone dock remain built');
 });
@@ -1881,7 +1897,7 @@ test('gallery exit presents four genuine care guides and prominent Naver booking
   assert.ok(css.includes(token),'missing final responsive museum exit style: '+token);
  }
  const styles=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
- const after=styles.findIndex(x=>x.startsWith('/assets/atelier-refinement-20261030.css?v='));
+ const after=styles.indexOf(homeVisualBundle());
  const before=styles.indexOf(exhibitionFoundation());
  assert.ok(after>before && before>=0,'closing gallery finishes after old design layers');
  assert.ok(home.includes('class="mobile-booking-actions"') &&
@@ -1927,8 +1943,8 @@ test('opening gallery hero keeps doctor-cat full portrait and validated primary 
  assert.equal(imgs.length,(readFileSync('index.html','utf8').match(/<img\b/g)||[]).length,'retain all current homepage illustrations');
  assert.equal(new Set(imgs).size,imgs.length,'do not reuse any painting on the same homepage');
  const styles=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m=>m[1]);
- const final=styles.findIndex(s=>s.startsWith('/assets/atelier-refinement-20261030.css?v='));
- const earlier=styles.findIndex(s=>s.startsWith('/assets/home-art-direction-20261030.css?v='));
+ const final=styles.indexOf(homeVisualBundle());
+ const earlier=styles.indexOf(exhibitionFoundation());
  assert.ok(final>earlier && earlier>=0,'latest portrait finish loads after older responsive layout');
  assert.ok(home.includes('class="mobile-booking-actions"'),'working phone-side booking dock remains');
 });
@@ -1975,8 +1991,8 @@ test('focused care desk makes five genuine wayfinding links easy to read',()=>{
  assert.ok(home.includes('class="mobile-booking-actions"') &&
   home.includes('class="btn hero-booking"'),'mobile booking functions preserved');
  const cssUrls=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(x=>x[1]);
- const last=cssUrls.findIndex(x=>x.startsWith('/assets/atelier-refinement-20261030.css?v='));
- const earlier=cssUrls.findIndex(x=>x.startsWith('/assets/home-art-direction-20261030.css?v='));
+ const last=cssUrls.indexOf(homeVisualBundle());
+ const earlier=cssUrls.indexOf(exhibitionFoundation());
  assert.ok(last>earlier && earlier>=0,'updated information desk stylesheet loads last');
 });
 
@@ -2022,8 +2038,8 @@ test('patient-question salon preserves four original article links and unique pa
   '@media(forced-colors:active)'
  ])assert.ok(css.includes(rule),'missing mobile-friendly museum reading room: '+rule);
  const styles=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(x=>x[1]);
- const last=styles.findIndex(x=>x.startsWith('/assets/atelier-refinement-20261030.css?v='));
- const before=styles.findIndex(x=>x.startsWith('/assets/home-art-direction-20261030.css?v='));
+ const last=styles.indexOf(homeVisualBundle());
+ const before=styles.indexOf(exhibitionFoundation());
  assert.ok(last>before&&before>=0,'refined reading room must load after the earlier designs');
  assert.ok(home.includes('class="mobile-booking-actions"'),'mobile phone and appointment stay accessible');
 });
@@ -2070,8 +2086,8 @@ test('eight care gallery keeps all twelve services and original artwork',()=>{
   '@media(prefers-reduced-motion:reduce)','@media(forced-colors:active)'
  ])assert.ok(css.includes(rule),'missing readable accessible secondary specialty catalogue: '+rule);
  const styles=[...home.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(x=>x[1]);
- const last=styles.findIndex(x=>x.startsWith('/assets/atelier-refinement-20261030.css?v='));
- const old=styles.findIndex(x=>x.startsWith('/assets/home-art-direction-20261030.css?v='));
+ const last=styles.indexOf(homeVisualBundle());
+ const old=styles.indexOf(exhibitionFoundation());
  assert.ok(last>old&&old>=0,'latest art-room layer loads after prior visual treatment');
  assert.equal((home.match(/<img\b/g)||[]).length,
   (readFileSync('index.html','utf8').match(/<img\b/g)||[]).length,'existing homepage artwork set is unchanged');
@@ -2154,7 +2170,7 @@ test('FAQ and clinic hours styling loads offscreen without blocking hero or jour
   'when JavaScript is disabled the whole FAQ/visiting guide must still render normally');
  const visualStyles=[...home.matchAll(/<link rel="stylesheet" href="(\/assets\/[^"]+)"/g)]
   .map(m=>m[1]);
- const idx=visualStyles.findIndex(h=>h.startsWith('/assets/atelier-refinement-20261030.css?v='));
+ const idx=visualStyles.indexOf(homeVisualBundle());
  assert.ok(idx>=0&&visualStyles[idx+1]===finishPath&&visualStyles[idx+2]===deferredPath,
   'the first-screen and offscreen CSS must stay in correct cascade order');
  assert.ok(!names.some(name=>home.includes('href="/assets/'+name)),
@@ -2182,8 +2198,8 @@ test('identical homepage CSS declarations are not repeated in a matching scope',
  const original=readFileSync('index.html','utf8');
  assert.ok(original.includes('atelier-refinement-20261030.css?v=20261031-safe-dedup25'),
   'original homepage source must invalidate the pre-final browser CSS cache');
- assert.ok(linkedVersionedStyle(home,'atelier-refinement-20261030.css'),
-  'built homepage must still load the actual pre-final stylesheet');
+ assert.ok(homeVisualBundle(),
+ 'built homepage must preserve pre-final styles in the verified combined CSS');
 
  assert.ok(original.includes('museum-finish-20261031.css?v=20261101-editorial-clarity1'),
   'portrait entrance styling must carry a fresh browser CSS version');
