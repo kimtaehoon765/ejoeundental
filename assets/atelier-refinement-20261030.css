@@ -6455,3 +6455,42 @@ body.home-page #main-content > .hero.wrap .hero-visit-note {
     }
   }
 }
+
+
+/* 2026-11-04 | Defer deeper noncritical clinic chapters on small screens.
+   No sections, original artwork, clinical prose, links, or SEO markup are
+   removed.  Keep opening hero, nearby gallery, symptom finder, navigation
+   and fixed contact / booking controls fully rendered at initial load.
+   Intrinsic sizes act only as provisional heights until measured. */
+@supports (content-visibility: auto) {
+  @media (max-width: 700px) {
+    body.home-page #main-content > #philosophy {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 1350px;
+    }
+    body.home-page #main-content > #focus-care {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 1550px;
+    }
+    body.home-page #main-content > #home-representative-guides {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 1150px;
+    }
+    body.home-page #main-content > #symptoms {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 1550px;
+    }
+    body.home-page #main-content > #when-to-call {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 1050px;
+    }
+    body.home-page #main-content > #care-after-treatment {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 1150px;
+    }
+    body.home-page #main-content > #local-care {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 1000px;
+    }
+  }
+}
