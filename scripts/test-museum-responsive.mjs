@@ -2421,7 +2421,7 @@ test('mobile first-screen portrait keeps high priority while the final gallery C
   'preloaded final CSS must preserve the actual doctor portrait framing rules');
  const images=[...head.matchAll(/<link rel="preload" as="image"[^>]*>/g)];
  assert.equal(images.length,1,'only the original portrait is the high-priority image');
- const preloaded=head.match(/<link rel="preload" as="style" media="[^"]+" href="([^"]+)">/)?.[1];
+ const preloaded=head.match(/<link rel="preload" as="style" media="[^"]+" href='([^']+)'>/)?.[1];
  const styleHref=head.match(/<link rel="stylesheet" href="([^"]*atelier-refinement-20261030.css[^"]*)">/)?.[1];
  assert.ok(preloaded&&preloaded===styleHref,
   'mobile CSS preload must resolve to the same versioned URL as the blocking stylesheet');
