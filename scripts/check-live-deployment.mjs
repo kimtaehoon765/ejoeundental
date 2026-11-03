@@ -100,7 +100,7 @@ async function main(){
   // Verify visible medical content (not CDN-specific head/formatting injections).
   const visibleMedicalMain=bytes=>{
     const html=Buffer.isBuffer(bytes)?bytes.toString('utf8'):String(bytes);
-    return html.match(/<main\\b[^>]*>[\\s\\S]*?<\\/main>/i)?.[0]||'';
+    return html.match(/<main\b[^>]*>[\s\S]*?<\/main>/i)?.[0]||'';
   };
   // Patient-education reconstruction (November 2026): verify the actual
   // Cloudflare HTML, not just GitHub file presence or sitemap entries.
