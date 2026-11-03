@@ -701,12 +701,12 @@ test('core dental service guides declare real clinic publisher and accountable t
 test('verified source-backed revision dates for updated dental patient guides reach published sitemap',()=>{
  const source=readFileSync('sitemap.xml','utf8');
  const published=readFileSync(path.join(output,'sitemap.xml'),'utf8');
- // November 2 source page updates were verified against GitHub commit history.
- // Pages without new revisions retain their original October lastmod dates.
+ // November 2 revisions and November 3 new medical-guide links are
+ // source-backed changes. Older guides retain their October lastmod dates.
  const revised=[
   'pediatric-dentistry','pediatric-orthodontics',
   'dental-insurance-faq','tmj-care','wisdom-tooth',
-  'medical-safety-guide','medication-dental-faq','systemic-disease-dental-faq',
+  'medical-safety-guide','medical-history','medication-dental-faq','systemic-disease-dental-faq',
   'root-canal-retreatment-faq','insured-care','gum-treatment-faq'
  ];
  const entries=xml=>[...xml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(m=>m[1]);
@@ -720,7 +720,10 @@ test('verified source-backed revision dates for updated dental patient guides re
     'pediatric-dentistry','pediatric-orthodontics','wisdom-tooth',
     'root-canal-retreatment-faq','insured-care','gum-treatment-faq'
    ]);
-   const expectedDate=updatedOnNovemberSecond.has(slug)?'2026-11-02':'2026-10-29';
+   const updatedOnNovemberThird=new Set(['medical-history',
+    'medication-dental-faq','systemic-disease-dental-faq']);
+   const expectedDate=updatedOnNovemberThird.has(slug)?'2026-11-03':
+     updatedOnNovemberSecond.has(slug)?'2026-11-02':'2026-10-29';
    assert.equal(blocks[0].match(/<lastmod>([^<]+)<\/lastmod>/)?.[1],expectedDate,
     kind+' lastmod must match the actual source-backed page revision: '+slug);
   }
