@@ -128,7 +128,7 @@ test('six illustrated patient education cards retain all topics and links',()=>{
 });
 
 
-test('letterpress original-blog shortcuts keep 647 indexed originals and mobile readability',()=>{
+test('letterpress original-blog shortcuts keep 697 indexed originals and mobile readability',()=>{
  const stories=home.match(/<section class="section light" id="stories">([\s\S]*?)<\/section>/)?.[1]||'';
  const nav=stories.match(/<nav class="owner-blog-topic-jumps" aria-label="[^"]+">([\s\S]*?)<\/nav>/)?.[1]||'';
  const links=[...nav.matchAll(/<a href="\/clinical-archive\.html#(archive-group-[a-z]+)">([\s\S]*?)<\/a>/g)];
@@ -144,7 +144,7 @@ test('letterpress original-blog shortcuts keep 647 indexed originals and mobile 
   assert.ok(m[2].includes('<span class="owner-blog-topic-label"><strong>'));
   assert.ok(m[2].includes('<small>'),'each category should have a meaningful description');
  }
- assert.equal((stories.match(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)||[]).length,647);
+ assert.equal((stories.match(/<div class="card owner-story-card"><h3><a href="https:\/\/blog\.naver\.com\//g)||[]).length,697);
  assert.match(atelier,/Atelier edition XIII · Illustrated story navigation/);
  assert.match(atelier,/grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
  assert.match(atelier,/@media\(max-width:460px\)\{/);
