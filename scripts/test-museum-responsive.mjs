@@ -2615,3 +2615,14 @@ test('search styles and script links match the actual production content hashes'
  assert.ok(html.includes('id="status" role="status"'));
  assert.ok(html.includes('id="results" aria-label="홈페이지 검색 결과"'));
 });
+
+test('retreatment cause card paintings use one fixed-height frame without label cropping',()=>{
+ const page=read('retreatment.html');
+ const section=page.match(/<h2>신경치료 후 다시 아픈 이유<\/h2>[\s\S]*?<div class="cards">([\s\S]*?)<\/div>/)?.[1]||'';
+ assert.equal((section.match(/<article class="card"><img /g)||[]).length,4);
+ const stylesheet=read('assets/care-exhibition-finish-20261031.css');
+ assert.ok(stylesheet.includes('Retreatment cause cards: uniform illustrated image frames'));
+ assert.match(stylesheet,/body\.care-gallery\.care-retreatment \.block \.cards > \.card > img\{[\s\S]*?height:200px;[\s\S]*?object-fit:contain;/);
+ assert.ok(stylesheet.includes('@media(max-width:600px)'), 'mobile card image frames stay consistent');
+ assert.ok(page.includes('retreatment-cards-02'), 'page should request updated CSS instead of cached styling');
+});
