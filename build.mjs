@@ -3948,6 +3948,50 @@ function compactCriticalCss(css){
   offscreen.length,'bytes; first-screen hero + journal CSS stays blocking in:',finishAsset);
 }
 
+// Combine the two largest consecutive visual layers after their safe build-time
+// documentation compaction. Keep the editable CSS sources and all their rules;
+// joining in source order reduces one additional blocking homepage request.
+// Both files and their generated bundle live under /assets.
+{
+ const homepage=path.join(out,'index.html');
+ const names=['home-art-direction-20261030.css','atelier-refinement-20261030.css'];
+ const parts=names.map(name=>{
+  const file=path.join(out,'assets',name);
+  if(!fs.existsSync(file))throw new Error('Home visual CSS source missing: '+name);
+  const css=fs.readFileSync(file,'utf8');
+  if(/@(?:import|charset|namespace)\b/i.test(css))
+   throw new Error('Home visual CSS contains an unsafe import or directive: '+name);
+  for(const match of css.matchAll(/url\(\s*['"]?([^)'"]+)/g)){
+   const ref=match[1].trim();
+   if(!ref.startsWith('/')&&!ref.startsWith('data:'))
+    throw new Error('Home visual CSS has a relative asset URL: '+name+' '+ref);
+  }
+  return css.trimEnd();
+ });
+ const combined=parts.join('\n\n')+'\n';
+ const hash=createHash('sha256').update(combined).digest('hex').slice(0,12);
+ const asset='home-visual-'+hash+'.css';
+ fs.writeFileSync(path.join(out,'assets',asset),combined,'utf8');
+ let html=fs.readFileSync(homepage,'utf8');
+ const group=/<link rel="stylesheet" href="\/assets\/home-art-direction-20261030\.css(?:\?[^"]*)?">\s*<link rel="stylesheet" href="\/assets\/atelier-refinement-20261030\.css(?:\?[^"]*)?">/g;
+ if([...html.matchAll(group)].length!==1)
+  throw new Error('Expected two adjacent visual CSS links exactly once');
+ const previous=html.indexOf('href="/assets/exhibition-foundation-');
+ const following=html.indexOf('href="/assets/home-finishing-');
+ const final=html.indexOf('href="/assets/home-design-unification-20261103.css');
+ const before=(html.match(/<link rel="stylesheet" href="\/assets\//g)||[]).length;
+ const link='<link rel="stylesheet" href="/assets/'+asset+'">';
+ html=html.replace(group,link);
+ const at=html.indexOf(link);
+ const after=(html.match(/<link rel="stylesheet" href="\/assets\//g)||[]).length;
+ if(!(previous>=0&&previous<at&&at<following&&following<final)||
+    after!==before-1||html.includes('href="/assets/'+names[0])||
+    html.includes('href="/assets/'+names[1]))
+  throw new Error('Home visual bundle changed CSS order or unexpected links');
+ fs.writeFileSync(homepage,html,'utf8');
+ console.log('Homepage visual CSS requests: 2 -> 1, preserving original rule order:',asset);
+}
+
 // Advertise the exact first-screen CSS bundle to Cloudflare Pages Early Hints.
 // The generated CSS filename changes with source content; deriving the header
 // during each build avoids stale preloads and duplicate downloads. Never add
@@ -3971,13 +4015,13 @@ function compactCriticalCss(css){
  // Only build-generated, content-addressed CSS can be cached for a year.
  // Other /assets/* files keep their short TTL so CMS edits are seen promptly.
  // Exact-path rules override the generic asset header on Cloudflare Pages.
- const standardCss=[...homepage.matchAll(/<link rel="stylesheet" href="(\/assets\/(?:home-(?:critical|finishing)|gallery-foundation|exhibition-foundation)-[0-9a-f]{12}\.css)">/g)]
+ const standardCss=[...homepage.matchAll(/<link rel="stylesheet" href="(\/assets\/(?:home-(?:critical|finishing|visual)|gallery-foundation|exhibition-foundation)-[0-9a-f]{12}\.css)">/g)]
   .map(match=>match[1]);
  const deferredCss=[...homepage.matchAll(/<link rel="stylesheet" href="(\/assets\/home-faq-visit-[0-9a-f]{12}\.css)" media="print" onload="this\.media='all'">/g)]
   .map(match=>match[1]);
  const immutableCss=[...standardCss,...deferredCss];
- const prefixes=['home-critical-','gallery-foundation-','exhibition-foundation-','home-finishing-','home-faq-visit-'];
- if(immutableCss.length!==5||new Set(immutableCss).size!==5||
+ const prefixes=['home-critical-','gallery-foundation-','exhibition-foundation-','home-finishing-','home-visual-','home-faq-visit-'];
+ if(immutableCss.length!==6||new Set(immutableCss).size!==5||
     !immutableCss.includes(href)||
     prefixes.some(prefix=>immutableCss.filter(x=>x.startsWith('/assets/'+prefix)).length!==1))
   throw new Error('Cannot set long-term cache: missing unique fingerprinted home or offscreen CSS');
