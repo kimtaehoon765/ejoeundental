@@ -1416,3 +1416,27 @@ body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasi
     box-shadow: none;
   }
 }
+
+/* Retreatment cause cards: uniform illustrated image frames without cropping clinical labels (2026-11-03). */
+body.care-gallery.care-retreatment .block .cards > .card > img{
+  display:block;
+  width:100%;
+  height:200px;
+  min-height:200px;
+  aspect-ratio:auto;
+  object-fit:contain;
+  object-position:center;
+  background:#fffefa;
+}
+@media(max-width:940px){
+  body.care-gallery.care-retreatment .block .cards > .card > img{
+    height:224px;
+    min-height:224px;
+  }
+}
+@media(max-width:600px){
+  body.care-gallery.care-retreatment .block .cards > .card > img{
+    height:clamp(225px,62vw,285px);
+    min-height:clamp(225px,62vw,285px);
+  }
+}
