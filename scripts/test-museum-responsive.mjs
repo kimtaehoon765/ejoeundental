@@ -2624,5 +2624,5 @@ test('retreatment cause card paintings use one fixed-height frame without label 
  assert.ok(stylesheet.includes('Retreatment cause cards: uniform illustrated image frames'));
  assert.match(stylesheet,/body\.care-gallery\.care-retreatment \.block \.cards > \.card > img\{[\s\S]*?height:200px;[\s\S]*?object-fit:contain;/);
  assert.ok(stylesheet.includes('@media(max-width:600px)'), 'mobile card image frames stay consistent');
- assert.ok(page.includes('retreatment-cards-02'), 'page should request updated CSS instead of cached styling');
+ assert.ok(readFileSync('retreatment.html','utf8').includes('retreatment-cards-02'), 'the source page should request refreshed CSS (build output may fingerprint stylesheets)');
 });
