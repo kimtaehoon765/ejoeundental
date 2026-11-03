@@ -144,7 +144,14 @@ test('homepage watercolor shelf swipe instruction is accurate and cache-busted',
  assert.ok(home.includes('id="care-picture-swipe-hint"'));
  assert.ok(home.includes('aria-describedby="care-picture-swipe-hint"'));
  assert.ok(home.includes('그림을 옆으로 밀어 세 가지 진료 안내를 차례로 확인하세요.'));
- assert.ok(home.includes(hashedCssUrl('atelier-refinement-20261030')));
+ const sources=['home-art-direction-20261030.css','atelier-refinement-20261030.css'];
+ const expected=sources.map(name=>read('assets/'+name).trimEnd()).join('\n\n')+'\n';
+ const hash=createHash('sha256').update(expected).digest('hex').slice(0,12);
+ const bundled='/assets/home-visual-'+hash+'.css';
+ assert.ok(home.includes('<link rel="stylesheet" href="'+bundled+'">'),
+  'current carousel styles must use the content-hashed visual bundle');
+ assert.equal(read(bundled.slice(1)),expected,
+  'the responsive gallery CSS must remain unchanged inside the bundle');
 });
 test('visitors can move from exhibition one to two to three without returning to top',()=>{
  const html=read('gallery.html');
