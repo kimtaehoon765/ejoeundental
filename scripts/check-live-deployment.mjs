@@ -97,6 +97,11 @@ async function main(){
       verdict(label+' 공개 페이지',false,'연결 실패: '+String(e.cause?.code||e.message||e));
     }
   }));
+  // Verify visible medical content (not CDN-specific head/formatting injections).
+  const visibleMedicalMain=bytes=>{
+    const html=Buffer.isBuffer(bytes)?bytes.toString('utf8'):String(bytes);
+    return html.match(/<main\\b[^>]*>[\\s\\S]*?<\\/main>/i)?.[0]||'';
+  };
   // Patient-education reconstruction (November 2026): verify the actual
   // Cloudflare HTML, not just GitHub file presence or sitemap entries.
   const newMedicalRoutes=[
@@ -111,10 +116,14 @@ async function main(){
     const expected=local(safetyHubPath.slice(1));
     const delivered=await get(safetyHubPath);
     liveSafetyHub=delivered.bytes.toString('utf8');
+    const expectedMain=visibleMedicalMain(expected);
+    const deliveredMain=visibleMedicalMain(delivered.bytes);
     verdict('전신질환 통합 환자안내 실사이트',
-      delivered.status===200&&digest(delivered.bytes)===digest(expected),
-      'HTTP '+delivered.status+' · 공개 '+digest(delivered.bytes)+
-      ' / 이번 빌드 '+digest(expected));
+      delivered.status===200&&Boolean(expectedMain)&&
+      digest(deliveredMain)===digest(expectedMain)&&
+      liveSafetyHub.includes('<link rel="canonical" href="'+origin+safetyHubPath+'">'),
+      'HTTP '+delivered.status+' · 본문 공개 '+digest(deliveredMain)+
+      ' / 이번 빌드 '+digest(expectedMain));
   }catch(e){
     verdict('전신질환 통합 환자안내 실사이트',false,
       '연결 실패: '+String(e.cause?.code||e.message||e));
@@ -130,12 +139,15 @@ async function main(){
       const actual=await get(route);
       const html=actual.bytes.toString('utf8');
       const canonical=origin+route;
+      const expectedMain=visibleMedicalMain(expected);
+      const deliveredMain=visibleMedicalMain(actual.bytes);
       verdict('새 환자안내 공개: '+name,
-        actual.status===200&&digest(actual.bytes)===digest(expected)&&
+        actual.status===200&&Boolean(expectedMain)&&
+        digest(deliveredMain)===digest(expectedMain)&&
         html.includes('<link rel="canonical" href="'+canonical+'">')&&
         !/<meta name="robots" content="[^"]*noindex/i.test(html),
-        'HTTP '+actual.status+' · 공개 '+digest(actual.bytes)+
-        ' / 이번 빌드 '+digest(expected));
+        'HTTP '+actual.status+' · 본문 공개 '+digest(deliveredMain)+
+        ' / 이번 빌드 '+digest(expectedMain));
     }catch(e){
       verdict('새 환자안내 공개: '+name,false,
         '연결 실패: '+String(e.cause?.code||e.message||e));
