@@ -286,7 +286,7 @@ async function main(){
     ['첫 화면 통합 CSS','home-critical-[0-9a-f]{12}\\.css'],
     ['갤러리 기본 통합 CSS','gallery-foundation-[0-9a-f]{12}\\.css'],
     ['전시관 3종 통합 CSS','exhibition-foundation-[0-9a-f]{12}\\.css'],
-    ['최근 화면 개선 CSS','atelier-refinement-20261030\\.css'],
+    ['최근 화면 개선 통합 CSS','home-visual-[0-9a-f]{12}\\.css'],
     ['미술관 마감 통합 CSS','home-finishing-[0-9a-f]{12}\\.css'],
     ['통일된 첫 화면 디자인 CSS','home-design-unification-20261103\\.css']
   ];
@@ -306,18 +306,17 @@ async function main(){
     .map(match=>match[1]);
   const builtCss=cssHrefs(builtHome),liveCss=cssHrefs(liveHome);
   const expectedOrder=['/assets/home-critical-','/assets/gallery-foundation-',
-    '/assets/exhibition-foundation-','/assets/home-art-direction-20261030.css',
-    '/assets/atelier-refinement-20261030.css','/assets/home-finishing-',
-    '/assets/home-faq-visit-','/assets/home-faq-visit-',
-    '/assets/home-design-unification-20261103.css',
+    '/assets/exhibition-foundation-','/assets/home-visual-',
+    '/assets/home-finishing-','/assets/home-faq-visit-',
+    '/assets/home-faq-visit-','/assets/home-design-unification-20261103.css',
     '/assets/faq-deep-links.css'];
   const orderOk=builtCss.length===expectedOrder.length&&
     expectedOrder.every((prefix,i)=>builtCss[i]?.startsWith(prefix));
-  const fallbackOk=builtCss[6]===builtCss[7]&&
-    builtHome.includes('<noscript><link rel="stylesheet" href="'+builtCss[7]+'"></noscript>')&&
-    liveHome.includes('<noscript><link rel="stylesheet" href="'+liveCss[7]+'"></noscript>')&&
-    builtHome.includes('href="'+builtCss[6]+'" media="print" onload=')&&
-    liveHome.includes('href="'+liveCss[6]+'" media="print" onload=');
+  const fallbackOk=builtCss[5]===builtCss[6]&&
+    builtHome.includes('<noscript><link rel="stylesheet" href="'+builtCss[6]+'"></noscript>')&&
+    liveHome.includes('<noscript><link rel="stylesheet" href="'+liveCss[6]+'"></noscript>')&&
+    builtHome.includes('href="'+builtCss[5]+'" media="print" onload=')&&
+    liveHome.includes('href="'+liveCss[5]+'" media="print" onload=');
   verdict('메인 CSS 요청 절감·파일 순서 검증',
     orderOk&&fallbackOk&&builtCss.length===liveCss.length&&
     builtCss.every((href,i)=>href===liveCss[i]),
