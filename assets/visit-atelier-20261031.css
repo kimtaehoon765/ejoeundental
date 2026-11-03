@@ -710,3 +710,194 @@ body.visit-gallery header > .visit-at-glance + .visit-quick-actions {
     box-shadow:none;
   }
 }
+
+
+/* 2026-11-03 | Visit page: streamlined arrival hierarchy.
+   No change to the alternating Friday/Saturday schedule or geographic data.
+   The telephone, official reservation and route links remain interactive. */
+body.visit-gallery {
+  --arrival-paper:#fffefa;
+  --arrival-ink:#1d4936;
+  --arrival-edge:#ded9cb;
+}
+body.visit-gallery header {
+  border:1px solid var(--arrival-edge);
+  border-top:3px solid #a58e68;
+  border-radius:10px;
+  background:linear-gradient(137deg,#fffefa,#f4f6ef);
+  box-shadow:0 9px 27px rgba(30,53,39,.045);
+}
+body.visit-gallery header h1 {
+  color:var(--arrival-ink);
+  max-width:25ch;
+  font-size:clamp(29px,3.8vw,39px);
+  line-height:1.4;
+  margin:0 0 13px;
+}
+body.visit-gallery header>p:not(.visit-atelier-eyebrow) {
+  color:#415d4a;
+  line-height:1.8;
+}
+body.visit-gallery header>.visit-at-glance {
+  margin:17px 0 12px;
+  gap:8px;
+  max-width:none;
+}
+body.visit-gallery header>.visit-at-glance>li {
+  border:1px solid var(--arrival-edge);
+  border-top:3px solid #ad9872;
+  border-radius:7px;
+  background:var(--arrival-paper);
+  padding:14px 13px;
+  box-shadow:none;
+}
+body.visit-gallery header>.visit-at-glance>li:nth-child(2) {
+  border-top-color:#86a38b;
+}
+body.visit-gallery header>.visit-at-glance>li:nth-child(3) {
+  border-top-color:#92a2a0;
+}
+body.visit-gallery header>.visit-at-glance>li>strong {
+  color:var(--arrival-ink);
+  font-size:clamp(16px,1.6vw,19px);
+}
+body.visit-gallery header>.visit-at-glance+.visit-quick-actions {
+  margin-top:12px;
+}
+body.visit-gallery .visit-quick-actions {
+  max-width:none;
+  gap:8px;
+}
+body.visit-gallery .visit-quick-actions>a {
+  min-height:49px;
+  border-radius:7px;
+  padding:11px 12px;
+  background:#fffefa;
+  border-color:#d5d8cc;
+  box-shadow:none;
+  text-align:center;
+  color:#28543e;
+}
+body.visit-gallery .visit-quick-actions>.quick-call {
+  background:#1d4a38;
+  border-color:#1d4a38;
+  color:#fff;
+}
+body.visit-gallery .visit-jump {
+  gap:8px;
+  margin:12px 0 19px;
+}
+body.visit-gallery .visit-jump>a {
+  min-height:49px;
+  padding:10px 12px;
+  border:1px solid #ded8ca;
+  border-bottom:2px solid #aa986f;
+  border-radius:7px;
+  background:#fffefa;
+  box-shadow:none;
+  line-height:1.55;
+}
+body.visit-gallery main>section.card {
+  border:1px solid var(--arrival-edge);
+  border-radius:9px;
+  background:#fffefa;
+  box-shadow:none;
+}
+body.visit-gallery main>section.card h2 {
+  color:var(--arrival-ink);
+  line-height:1.48;
+}
+body.visit-gallery .visit-arrival-panel>div,
+body.visit-gallery .visit-cycle__card {
+  border-radius:8px;
+  box-shadow:none;
+}
+body.visit-gallery .visit-arrival-actions>a {
+  min-height:49px;
+  border-radius:7px;
+}
+@media(max-width:600px) {
+  body.visit-gallery header {
+    margin-top:10px;
+    margin-bottom:12px;
+    padding:21px 16px 19px;
+    border-radius:8px;
+    box-shadow:none;
+  }
+  body.visit-gallery header h1 {
+    font-size:clamp(27px,7vw,33px);
+    line-height:1.38;
+    margin-bottom:11px;
+  }
+  body.visit-gallery header>p:not(.visit-atelier-eyebrow) {
+    font-size:14px;
+    line-height:1.73;
+  }
+  body.visit-gallery header>.visit-at-glance {
+    gap:7px;
+    margin:14px 0 10px;
+  }
+  body.visit-gallery header>.visit-at-glance>li {
+    padding:11px 9px;
+    gap:3px;
+  }
+  body.visit-gallery header>.visit-at-glance>li>strong {
+    font-size:clamp(15px,4vw,17px);
+  }
+  body.visit-gallery .visit-quick-actions {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+  }
+  body.visit-gallery .visit-quick-actions>a {
+    min-width:0;
+    min-height:48px;
+    width:100%;
+    padding:10px 8px;
+    font-size:clamp(12px,3.2vw,13px);
+    line-height:1.45;
+    word-break:keep-all;
+  }
+  body.visit-gallery .visit-jump {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+    margin:12px 0 16px;
+  }
+  body.visit-gallery .visit-jump>a {
+    width:100%;
+    min-width:0;
+    min-height:49px;
+    padding:9px 8px;
+    font-size:13px;
+    line-height:1.5;
+    word-break:keep-all;
+  }
+  body.visit-gallery main>section.card {
+    padding:20px 16px;
+    margin:12px 0;
+    border-radius:8px;
+  }
+}
+@media(max-width:350px) {
+  body.visit-gallery .visit-quick-actions {
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.visit-gallery .visit-jump {
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.visit-gallery header>.visit-at-glance {
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.visit-gallery header>.visit-at-glance>li:first-child {
+    grid-column:auto;
+  }
+}
+@media(forced-colors:active) {
+  body.visit-gallery :is(header,header>.visit-at-glance>li,.visit-jump>a,main>section.card) {
+    border-color:CanvasText;
+    color:CanvasText;
+    background:Canvas;
+    box-shadow:none;
+  }
+}
