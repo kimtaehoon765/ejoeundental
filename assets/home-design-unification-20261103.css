@@ -329,3 +329,95 @@ body.home-page #main-content .symptom-navigator-grid > a {
     box-shadow: none;
   }
 }
+
+/* Second pass: compact, consistent navigation on smaller devices. Keep all
+   five quick links and the full navigation rail reachable by touch/keyboard. */
+@media (max-width: 600px) {
+  body.home-page > header .nav {
+    padding: 11px 15px 10px;
+    gap: 8px;
+  }
+  body.home-page > header .logo {
+    font-size: 22px;
+    line-height: 1.45;
+  }
+  body.home-page > header .nav .mobile-quick {
+    gap: 5px;
+    padding-block: 5px 4px;
+    border-top: 1px solid #eee9de;
+  }
+  body.home-page > header .nav .mobile-quick > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 45px;
+    padding: 6px 2px;
+    border: 1px solid #e8e4d8;
+    border-radius: 7px;
+    background: #faf9f5;
+    color: #365546;
+    box-shadow: none;
+    font-size: clamp(10px,2.7vw,12px);
+    font-weight: 700;
+    line-height: 1.25;
+    word-break: keep-all;
+  }
+  body.home-page > header .nav .mobile-quick > a.mobile-call {
+    background: #1d4a38;
+    border-color: #1d4a38;
+    color: #fff;
+  }
+  body.home-page > header .navlinks {
+    gap: 10px;
+    border-top: 1px solid #eee9de;
+    padding-block: 6px 2px;
+    scroll-padding-inline: 5px;
+    -webkit-overflow-scrolling: touch;
+  }
+  body.home-page > header .navlinks > a {
+    flex: 0 0 auto;
+    min-height: 37px;
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 3px;
+    font-size: 12px;
+    line-height: 1.45;
+    white-space: nowrap;
+  }
+  body.home-page #main-content > .hero.wrap .hero-care-summary > a {
+    border-radius: 8px;
+    min-height: 58px;
+    padding: 11px 14px;
+    background: #fffefa;
+  }
+  body.home-page #main-content > .hero.wrap .hero-care-summary > a .hero-care-card__copy > span {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  body.home-page #main-content .symptom-navigator-grid > a {
+    min-height: 60px;
+    background: #fffefa;
+  }
+  body.home-page #main-content > .museum-route .museum-route__links > a {
+    border-color: #e1ddcf;
+  }
+}
+@media (max-width: 370px) {
+  body.home-page > header .nav .mobile-quick > a {
+    padding-inline: 1px;
+    font-size: 10px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-actions > a {
+    padding-inline: 6px;
+  }
+}
+/* Preserve native high contrast and user motion preferences. */
+@media (forced-colors: active) {
+  body.home-page > header .nav .mobile-quick > a,
+  body.home-page > header .navlinks > a {
+    color: ButtonText;
+    background: ButtonFace;
+    border-color: ButtonText;
+  }
+}
