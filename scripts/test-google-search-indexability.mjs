@@ -1089,7 +1089,7 @@ test('AI-visible clinic appointment action matches the real owner-approved Naver
 
 test('AI patient FAQ question URLs point to actual published answer anchors',()=>{
  const cases=[
-  ['gum-treatment-faq.html',9],
+  ['gum-treatment-faq.html',11],
   ['root-canal-retreatment-faq.html',10]
  ];
  for(const [filename,count] of cases){
