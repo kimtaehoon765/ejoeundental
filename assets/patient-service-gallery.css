@@ -1038,3 +1038,199 @@ body.search-gallery :is(.search-topic-index__grid>a,.search-topic-index__symptom
     color:CanvasText;
   }
 }
+
+
+/* 2026-11-03 | Search room exhibition hierarchy.
+   Visual treatment only; search logic, accessibility labels, anchors,
+   indexing metadata, patient caveats and result order remain untouched. */
+body.search-gallery {
+  --search-room-ink:#1f4736;
+  --search-room-line:#ded9cd;
+  --search-room-paper:#fffefa;
+}
+body.search-gallery .search-wrap {
+  padding-top:clamp(25px,3.4vw,43px);
+}
+body.search-gallery .search-wrap>h1 {
+  color:var(--search-room-ink);
+  font-size:clamp(30px,3.65vw,42px);
+  letter-spacing:-.055em;
+  line-height:1.4;
+  margin-bottom:12px;
+}
+body.search-gallery .search-wrap>p {
+  color:#465f4e;
+  line-height:1.77;
+}
+body.search-gallery .search-primary {
+  border:1px solid var(--search-room-line);
+  border-top:3px solid #a99671;
+  border-radius:9px;
+  background:linear-gradient(135deg,#fffefa,#f4f8f2);
+  box-shadow:0 7px 20px rgba(31,53,39,.038);
+  margin:16px 0 19px;
+  padding:clamp(18px,2.4vw,25px);
+}
+body.search-gallery .search-form {
+  gap:9px;
+  margin:10px 0 15px;
+}
+body.search-gallery .search-form .search-label {
+  color:var(--search-room-ink);
+}
+body.search-gallery .search-form input {
+  min-height:51px;
+  border:1px solid #a5bbae;
+  border-radius:7px;
+  background:#fffefa;
+  color:var(--search-room-ink);
+  font-size:16px;
+}
+body.search-gallery .search-form button {
+  min-height:51px;
+  border-radius:7px;
+  background:#1e4c39;
+  color:#fff;
+}
+body.search-gallery .search-primary #results .result {
+  border:1px solid var(--search-room-line);
+  border-radius:8px;
+  background:#fffefa;
+  box-shadow:none;
+  padding:clamp(14px,2vw,20px);
+}
+body.search-gallery .search-reading-routes {
+  gap:8px;
+  margin:17px 0 18px;
+}
+body.search-gallery .search-reading-routes>a {
+  min-height:83px;
+  gap:5px;
+  padding:13px;
+  border:1px solid var(--search-room-line);
+  border-top:3px solid #ab9874;
+  border-radius:8px;
+  background:var(--search-room-paper);
+  box-shadow:none;
+}
+body.search-gallery .search-reading-routes>a>strong {
+  color:var(--search-room-ink);
+  line-height:1.45;
+}
+body.search-gallery .search-topic-index,
+body.search-gallery .symptom-search {
+  border:1px solid var(--search-room-line);
+  border-top:3px solid #9dac92;
+  border-radius:9px;
+  background:#fffefa;
+  box-shadow:none;
+}
+body.search-gallery .search-topic-index {
+  padding:clamp(17px,2.4vw,24px);
+  margin:18px 0 21px;
+}
+body.search-gallery .search-topic-index__grid {
+  gap:9px;
+}
+body.search-gallery .search-topic-index__grid>a {
+  min-height:104px;
+  gap:5px;
+  padding:14px 12px;
+  border:1px solid #deded0;
+  border-top:3px solid #9caf99;
+  border-radius:8px;
+  background:#fffefa;
+  box-shadow:none;
+}
+body.search-gallery .search-topic-index__grid>a strong {
+  color:var(--search-room-ink);
+}
+body.search-gallery .symptom-links>a {
+  min-height:49px;
+  border-radius:7px;
+}
+@media(max-width:600px) {
+  body.search-gallery .search-wrap {
+    padding-top:22px;
+  }
+  body.search-gallery .search-wrap>h1 {
+    font-size:clamp(28px,7.2vw,34px);
+    margin-bottom:10px;
+  }
+  body.search-gallery .search-primary {
+    margin:13px 0 17px;
+    padding:16px 13px;
+    border-radius:8px;
+    box-shadow:none;
+  }
+  body.search-gallery .search-form {
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+  }
+  body.search-gallery .search-form .search-label {
+    flex:0 0 100%;
+  }
+  body.search-gallery .search-form input {
+    flex:1 1 calc(100% - 93px);
+    width:auto;
+    min-width:0;
+    min-height:51px;
+    padding:10px 12px;
+    font-size:16px;
+  }
+  body.search-gallery .search-form button {
+    flex:0 0 77px;
+    min-width:77px;
+    padding:10px 8px;
+  }
+  body.search-gallery .search-reading-routes {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+    margin:14px 0 17px;
+  }
+  body.search-gallery .search-reading-routes>a {
+    min-height:70px;
+    padding:10px 11px;
+    gap:3px;
+  }
+  body.search-gallery .search-reading-routes>a>small {
+    font-size:9px;
+    letter-spacing:.015em;
+  }
+  body.search-gallery .search-reading-routes>a>strong {
+    font-size:14px;
+  }
+  body.search-gallery .search-topic-index {
+    padding:16px 12px;
+    border-radius:8px;
+  }
+  body.search-gallery .search-topic-index__grid {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+  }
+  body.search-gallery .search-topic-index__grid>a {
+    min-height:93px;
+    padding:11px 9px;
+  }
+}
+@media(max-width:350px) {
+  body.search-gallery .search-reading-routes,
+  body.search-gallery .search-topic-index__grid {
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.search-gallery .search-reading-routes>a,
+  body.search-gallery .search-topic-index__grid>a {
+    min-height:62px;
+  }
+}
+@media(forced-colors:active) {
+  body.search-gallery :is(.search-primary,.search-reading-routes>a,.search-topic-index,.search-topic-index__grid>a,.symptom-search) {
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
