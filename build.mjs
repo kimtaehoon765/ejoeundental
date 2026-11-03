@@ -21,7 +21,7 @@ const retreatmentImageKeys=['hero','reason1','reason2','reason3','reason4','step
 let retreatmentMarkup=fs.readFileSync(retreatmentPath,'utf8');
 // Accept the owner-approved updated bacteria illustration without changing the
 // other nine image slots or their build-time CMS override mapping.
-const existingIllustrations=[...retreatmentMarkup.matchAll(/<img\b[^>]*\bsrc="(\/assets\/retreatment\/illustration-\d{2}(?:-bacteria-gutta-percha-20261029|-crown-microleakage-20261029|-crown-microleakage-orange-20261103|-secondary-caries-apical-20261103|-apical-persistence-20261103|-guttapercha-apical-20261103|-both-canals-irrigation-20261103)?\.webp)"[^>]*>/g)];
+const existingIllustrations=[...retreatmentMarkup.matchAll(/<img\b[^>]*\bsrc="(\/assets\/retreatment\/illustration-\d{2}(?:-bacteria-gutta-percha-20261029|-crown-microleakage-20261029|-crown-microleakage-orange-20261103|-secondary-caries-apical-20261103|-apical-persistence-20261103|-guttapercha-apical-20261103|-both-canals-irrigation-20261103|-root-canal-shaping-20261103)?\.webp)"[^>]*>/g)];
 if(existingIllustrations.length!==retreatmentImageKeys.length)throw new Error('Retreatment illustration count changed: '+existingIllustrations.length);
 let appliedIllustrations=0;
 for(let i=0;i<retreatmentImageKeys.length;i++){

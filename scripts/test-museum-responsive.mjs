@@ -2634,9 +2634,9 @@ test('approved first retreatment step removes existing orange gutta-percha and s
  assert.deepEqual(images,[
   '/assets/retreatment/illustration-06-guttapercha-apical-20261103.webp',
   '/assets/retreatment/illustration-07-both-canals-irrigation-20261103.webp',
-  '/assets/retreatment/illustration-08.webp',
+  '/assets/retreatment/illustration-08-root-canal-shaping-20261103.webp',
   '/assets/retreatment/illustration-09.webp'
- ],'only the first two process illustrations should change');
+ ],'the first three process illustrations should match clinic approval');
  assert.ok(section.includes('뿌리 끝에 남은 염증 병소'));
  const art=readFileSync('dist/assets/retreatment/illustration-06-guttapercha-apical-20261103.webp');
  assert.ok(art.length>20000,'the approved illustration must be present in the build');
@@ -2651,6 +2651,17 @@ test('approved second retreatment step irrigates both root canals',()=>{
  assert.ok(page.includes('양쪽 근관에 주사기형 세척 기구'));
  const art=readFileSync('dist/assets/retreatment/illustration-07-both-canals-irrigation-20261103.webp');
  assert.ok(art.length>25000,'the owner-approved irrigation image must ship in the site');
+ assert.equal(art.subarray(0,4).toString(),'RIFF');
+ assert.equal(art.subarray(8,12).toString(),'WEBP');
+});
+
+
+test('approved third retreatment step uses a real clinic-approved shaping file illustration',()=>{
+ const page=readFileSync('retreatment.html','utf8');
+ assert.ok(page.includes('src="/assets/retreatment/illustration-08-root-canal-shaping-20261103.webp"'));
+ assert.ok(page.includes('확대된 접근 와동을 통해 굵은 나선형 근관 파일'));
+ const art=readFileSync('dist/assets/retreatment/illustration-08-root-canal-shaping-20261103.webp');
+ assert.ok(art.length>25000,'approved third illustration must ship as WebP');
  assert.equal(art.subarray(0,4).toString(),'RIFF');
  assert.equal(art.subarray(8,12).toString(),'WEBP');
 });
