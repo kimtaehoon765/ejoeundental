@@ -2819,7 +2819,7 @@ if (!existsSync(join(root, 'robots.txt'))) warnings.push('robots.txt 누락');
    .map(match=>match[1]);
   const immutableStyles=[...standardStyles,...deferredStyles];
   const expectedPrefixes=['home-critical-','gallery-foundation-','exhibition-foundation-','home-finishing-','home-visual-','home-faq-visit-'];
-  if(immutableStyles.length!==6||new Set(immutableStyles).size!==5||
+  if(immutableStyles.length!==6||new Set(immutableStyles).size!==6||
      expectedPrefixes.some(prefix=>immutableStyles.filter(x=>x.startsWith('/assets/'+prefix)).length!==1))
    errors.push('홈페이지 해시 기반 CSS 캐시 대상이 정확히 6개가 아닙니다');
   const deferredHref=deferredStyles[0];
