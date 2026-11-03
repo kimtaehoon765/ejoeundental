@@ -1162,10 +1162,10 @@ test('approved gutta-percha bacteria image replaces only the first retreatment c
  const images=[...section.matchAll(/<img[^>]*src="([^"]+)"[^>]*>/g)].map(x=>x[1]);
  assert.deepEqual(images,[
   '/assets/retreatment/illustration-02-bacteria-gutta-percha-20261029.webp',
-  '/assets/retreatment/illustration-03-crown-microleakage-20261029.webp',
+  '/assets/retreatment/illustration-03-crown-microleakage-orange-20261103.webp',
   '/assets/retreatment/illustration-04.webp',
   '/assets/retreatment/illustration-05.webp'
- ],'only the retained-bacteria art may change');
+ ],'the first and second cause paintings must be owner-approved');
  assert.ok(section.includes('거타퍼차 사이에 남아 있는 세균과 뿌리 끝 염증'));
  assert.ok(section.includes('<h3>남아 있는 세균</h3>'));
  const art=readFileSync('dist/assets/retreatment/illustration-02-bacteria-gutta-percha-20261029.webp');
@@ -1189,16 +1189,16 @@ test('owner-selected crown-margin microleakage painting replaces only the second
  assert.equal(cards.length,4,'four cause cards must remain');
  assert.deepEqual(cards.map(x=>x[1]),[
   '/assets/retreatment/illustration-02-bacteria-gutta-percha-20261029.webp',
-  '/assets/retreatment/illustration-03-crown-microleakage-20261029.webp',
+  '/assets/retreatment/illustration-03-crown-microleakage-orange-20261103.webp',
   '/assets/retreatment/illustration-04.webp',
   '/assets/retreatment/illustration-05.webp'
  ]);
  assert.deepEqual(cards.map(x=>x[2]),[
   '남아 있는 세균','보철물 주변의 미세 누출','새로운 충치','뿌리 끝 염증의 지속'
  ]);
- assert.ok(causes.includes('크라운 경계의 틈으로 세균이 들어가고 치근단 염증'));
- const art=readFileSync('dist/assets/retreatment/illustration-03-crown-microleakage-20261029.webp');
- assert.ok(art.length>=4000,'actual new dental illustration must ship as WebP');
+ assert.ok(causes.includes('크라운과 치아 사이의 틈으로 세균이 침투'));
+ const art=readFileSync('dist/assets/retreatment/illustration-03-crown-microleakage-orange-20261103.webp');
+ assert.ok(art.length>=100000,'owner-approved microleakage illustration must ship as WebP');
  assert.equal(art.subarray(0,4).toString(),'RIFF');
  assert.equal(art.subarray(8,12).toString(),'WEBP');
  const css=read('assets/retreatment.css');
