@@ -1589,6 +1589,8 @@ for (const name of ['gum-treatment.html','retreatment.html','cervical-abrasion.h
     ? '/assets/retreatment/illustration-05-apical-persistence-20261103.webp'
     : key==='step1'
     ? '/assets/retreatment/illustration-06-guttapercha-apical-20261103.webp'
+    : key==='step2'
+    ? '/assets/retreatment/illustration-07-both-canals-irrigation-20261103.webp'
     : '/assets/retreatment/illustration-'+String(i+1).padStart(2,'0')+'.webp';
   const expected=override||source;
   if(images[i]?.[1]!==expected)errors.push('재신경치료 이미지 빌드·CMS 설정 불일치: '+key);
