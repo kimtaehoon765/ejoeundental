@@ -1119,3 +1119,219 @@ body.archive-gallery :is(.archive-reader-routes,.archive-original-topics__links)
     color:CanvasText;
   }
 }
+
+
+/* 2026-11-03 | Archival reading room refinement.
+   Original Naver sources, all 537 indexed titles, search inputs and the
+   open/closed state of disclosure groups remain completely unchanged. */
+body.archive-gallery {
+  --archive-ink:#1e4735;
+  --archive-edge:#ded9cd;
+  --archive-paper:#fffefa;
+}
+body.archive-gallery main>h1 {
+  color:var(--archive-ink);
+  font-size:clamp(31px,4.25vw,46px);
+  line-height:1.41;
+  letter-spacing:-.055em;
+}
+body.archive-gallery main>.intro {
+  color:#465f4e;
+  line-height:1.83;
+}
+body.archive-gallery main>.intro:first-of-type {
+  border:1px solid var(--archive-edge)!important;
+  border-left:3px solid #a2b496!important;
+  border-radius:8px!important;
+  background:#f7faf4!important;
+  padding:15px 17px!important;
+}
+body.archive-gallery .archive-reader-routes {
+  gap:9px;
+  margin:17px 0 22px;
+}
+body.archive-gallery .archive-reader-routes>a {
+  min-height:112px;
+  gap:4px;
+  padding:15px 14px;
+  border:1px solid var(--archive-edge);
+  border-top:3px solid #aa946b;
+  border-radius:8px;
+  background:var(--archive-paper);
+  box-shadow:none;
+}
+body.archive-gallery .archive-reader-routes>a>strong {
+  color:var(--archive-ink);
+  font-size:clamp(16px,1.5vw,19px);
+  line-height:1.46;
+}
+body.archive-gallery .archive-reader-routes>a>span {
+  line-height:1.54;
+}
+body.archive-gallery .archive-jump {
+  gap:7px;
+  margin:18px 0 24px;
+}
+body.archive-gallery .archive-jump>a {
+  min-height:44px;
+  padding:8px 12px;
+  border:1px solid var(--archive-edge);
+  border-radius:7px;
+  background:var(--archive-paper);
+  font-size:13px;
+}
+body.archive-gallery .card {
+  border:1px solid var(--archive-edge);
+  border-top:3px solid #a1b198;
+  border-radius:9px;
+  background:var(--archive-paper);
+  box-shadow:none;
+}
+body.archive-gallery .archive-feature-grid {
+  gap:11px;
+}
+body.archive-gallery .archive-feature-grid>.archive-feature-topic {
+  border:1px solid var(--archive-edge);
+  border-top:3px solid #a99067;
+  border-radius:8px;
+  background:var(--archive-paper);
+  box-shadow:none;
+}
+body.archive-gallery .archive-feature-grid>.archive-feature-topic:nth-child(even) {
+  border-top-color:#8fa994;
+}
+body.archive-gallery .archive-feature-topic__visual>img {
+  object-fit:contain;
+}
+body.archive-gallery .archive-original-topics {
+  padding:clamp(16px,2vw,23px);
+  border:1px solid var(--archive-edge);
+  border-top:3px solid #aa926c;
+  border-radius:8px;
+  background:#fdfcf8;
+  box-shadow:none;
+}
+body.archive-gallery .archive-original-topics__links {
+  gap:8px;
+}
+body.archive-gallery .archive-original-topics__links>a {
+  min-height:78px;
+  padding:12px 11px;
+  gap:4px;
+  border:1px solid var(--archive-edge);
+  border-left:3px solid #ae9670;
+  border-radius:7px;
+  background:#fffefa;
+}
+body.archive-gallery .archive-search {
+  border:1px solid #d5ddcf;
+  border-top:3px solid #8eaa95;
+  border-radius:8px;
+  background:#f7faf4;
+  box-shadow:none;
+}
+body.archive-gallery .archive-search input[type="search"] {
+  min-height:50px;
+  border-radius:7px;
+}
+body.archive-gallery .archive-blog-collections {
+  gap:10px;
+}
+body.archive-gallery .archive-blog-group {
+  border:1px solid var(--archive-edge);
+  border-radius:8px;
+  background:var(--archive-paper);
+  box-shadow:none;
+}
+body.archive-gallery .archive-blog-group>summary {
+  min-height:58px;
+  padding:14px 15px;
+  color:var(--archive-ink);
+}
+body.archive-gallery .archive-blog-group[open]>summary {
+  background:#f4f7ee;
+}
+body.archive-gallery .archive-blog-group .archive-blog-count {
+  background:#e7eee4;
+  color:#30553c;
+}
+@media(max-width:750px) {
+  body.archive-gallery .archive-reader-routes {
+    grid-template-columns:minmax(0,1fr);
+    gap:7px;
+    margin:14px 0 20px;
+  }
+  body.archive-gallery .archive-reader-routes>a {
+    min-height:76px;
+    padding:12px 13px;
+  }
+  body.archive-gallery .archive-jump {
+    gap:7px;
+  }
+  body.archive-gallery .archive-jump>a {
+    min-height:45px;
+  }
+}
+@media(max-width:600px) {
+  body.archive-gallery main>h1 {
+    font-size:clamp(29px,7vw,36px);
+  }
+  body.archive-gallery .archive-feature-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:9px;
+  }
+  body.archive-gallery .archive-feature-grid>.archive-feature-topic {
+    min-width:0;
+    border-radius:8px;
+  }
+  body.archive-gallery .archive-feature-topic__visual {
+    aspect-ratio:3/2;
+  }
+  body.archive-gallery .archive-feature-topic__body {
+    padding:13px 11px;
+  }
+  body.archive-gallery .archive-feature-topic__body h3 {
+    font-size:clamp(16px,4.35vw,19px);
+    line-height:1.48;
+  }
+  body.archive-gallery .archive-feature-topic__body p,
+  body.archive-gallery .archive-feature-topic__body a {
+    font-size:13px;
+    line-height:1.63;
+  }
+  body.archive-gallery .archive-original-topics {
+    padding:15px 12px;
+  }
+  body.archive-gallery .archive-original-topics__links {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+  }
+  body.archive-gallery .archive-original-topics__links>a {
+    min-height:68px;
+    padding:9px 10px;
+  }
+  body.archive-gallery .archive-blog-collections {
+    grid-template-columns:minmax(0,1fr);
+    gap:8px;
+  }
+  body.archive-gallery .archive-blog-group>summary {
+    min-height:54px;
+    padding:13px 12px;
+  }
+}
+@media(max-width:375px) {
+  body.archive-gallery .archive-feature-grid {
+    grid-template-columns:minmax(0,1fr);
+  }
+  body.archive-gallery .archive-original-topics__links {
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+@media(forced-colors:active) {
+  body.archive-gallery :is(.archive-reader-routes>a,.archive-original-topics,.archive-original-topics__links>a,.archive-blog-group,.archive-search,.archive-feature-grid>.archive-feature-topic) {
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+}
