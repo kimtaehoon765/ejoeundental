@@ -1005,9 +1005,9 @@ console.log('Original Monet garden asset fingerprinted in HTML and CSS:',impress
 
 // Reduce the transfer size of the two large, frequently revised visual
 // stylesheets without touching their editable sources or changing CSS tokens.
-// Only indentation, trailing whitespace, and empty lines are removed. Keep
-// line breaks between selectors/declarations and reject escaped newlines,
-// where leading whitespace might be significant.
+// Remove documentation and whitespace after CSS block/declaration delimiters.
+// Keep potentially meaningful whitespace inside values, selectors, strings,
+// custom properties and URLs, and reject escaped newlines.
 {
  const homeVisualCss=['home-art-direction-20261030.css','atelier-refinement-20261030.css'];
  let bytesSaved=0;
@@ -1028,7 +1028,10 @@ console.log('Original Monet garden asset fingerprinted in HTML and CSS:',impress
   if(comments!==standalone)
    throw new Error('Unsafe inline CSS comment in home visual layer: '+name);
   const optimized=normalized.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'')
-   .replace(/(?:\r?\n){2,}/g,'\n');
+   .replace(/(?:\r?\n){2,}/g,'\n')
+   // A declaration/block delimiter ends the CSS token. Its following
+   // line break adds bytes without separating two CSS tokens.
+   .replace(/([;{}])\n/g,'$1');
   if(standalone<1||optimized.length>=normalized.length)
    throw new Error('Expected safe documentation stripping in home visual CSS: '+name);
   bytesSaved+=Buffer.byteLength(original,'utf8')-Buffer.byteLength(optimized,'utf8');
