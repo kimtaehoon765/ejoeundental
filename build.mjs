@@ -17,11 +17,11 @@ cp('visit-guide.html','visit-guide.html');cp('medical-safety-guide.html','medica
 const retreatmentPath=path.join(out,'retreatment.html');
 const retreatmentImageConfig=JSON.parse(fs.readFileSync(path.join(root,'assets/retreatment-images.json'),'utf8'));
 if(!retreatmentImageConfig||typeof retreatmentImageConfig!=='object'||Array.isArray(retreatmentImageConfig))throw new Error('Invalid CMS retreatment image mapping');
-const retreatmentImageKeys=['hero','reason1','reason2','reason3','reason4','step1','step2','step3','step4','closing'];
+const retreatmentImageKeys=['hero','reason1','reason2','reason3','reason4','step1','step2','step3','step4','step5','closing'];
 let retreatmentMarkup=fs.readFileSync(retreatmentPath,'utf8');
 // Accept the owner-approved updated bacteria illustration without changing the
 // other nine image slots or their build-time CMS override mapping.
-const existingIllustrations=[...retreatmentMarkup.matchAll(/<img\b[^>]*\bsrc="(\/assets\/retreatment\/illustration-\d{2}(?:-bacteria-gutta-percha-20261029|-crown-microleakage-20261029|-crown-microleakage-orange-20261103|-secondary-caries-apical-20261103|-apical-persistence-20261103|-guttapercha-apical-20261103|-both-canals-irrigation-20261103|-root-canal-shaping-20261103)?\.webp)"[^>]*>/g)];
+const existingIllustrations=[...retreatmentMarkup.matchAll(/<img\b[^>]*\bsrc="(\/assets\/retreatment\/illustration-\d{2}(?:-bacteria-gutta-percha-20261029|-crown-microleakage-20261029|-crown-microleakage-orange-20261103|-secondary-caries-apical-20261103|-apical-persistence-20261103|-guttapercha-apical-20261103|-both-canals-irrigation-20261103|-root-canal-shaping-20261103|-refilled-lesion-20261103|-healed-apical-20261103)?\.webp)"[^>]*>/g)];
 if(existingIllustrations.length!==retreatmentImageKeys.length)throw new Error('Retreatment illustration count changed: '+existingIllustrations.length);
 let appliedIllustrations=0;
 for(let i=0;i<retreatmentImageKeys.length;i++){

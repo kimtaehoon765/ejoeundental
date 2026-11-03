@@ -2635,8 +2635,9 @@ test('approved first retreatment step removes existing orange gutta-percha and s
   '/assets/retreatment/illustration-06-guttapercha-apical-20261103.webp',
   '/assets/retreatment/illustration-07-both-canals-irrigation-20261103.webp',
   '/assets/retreatment/illustration-08-root-canal-shaping-20261103.webp',
-  '/assets/retreatment/illustration-09.webp'
- ],'the first three process illustrations should match clinic approval');
+  '/assets/retreatment/illustration-09-refilled-lesion-20261103.webp',
+  '/assets/retreatment/illustration-11-healed-apical-20261103.webp'
+ ],'the five process illustrations should match clinic approval');
  assert.ok(section.includes('뿌리 끝에 남은 염증 병소'));
  const art=readFileSync('dist/assets/retreatment/illustration-06-guttapercha-apical-20261103.webp');
  assert.ok(art.length>20000,'the approved illustration must be present in the build');
@@ -2664,4 +2665,24 @@ test('approved third retreatment step uses a real clinic-approved shaping file i
  assert.ok(art.length>25000,'approved third illustration must ship as WebP');
  assert.equal(art.subarray(0,4).toString(),'RIFF');
  assert.equal(art.subarray(8,12).toString(),'WEBP');
+});
+
+
+test('fourth and fifth retreatment stages show refilling and a possible healing outcome',()=>{
+ const page=readFileSync('retreatment.html','utf8');
+ const steps=page.match(/<h2 id="retreatment-procedure">[\s\S]*?<div class="steps">([\s\S]*?)<\/div>/)?.[1]||'';
+ assert.equal((steps.match(/<article class="step">/g)||[]).length,5);
+ for(const [image,heading] of [
+  ['illustration-09-refilled-lesion-20261103.webp','새로운 근관 충전'],
+  ['illustration-11-healed-apical-20261103.webp','치근단 염증의 치유']
+ ]){
+  assert.ok(steps.includes(image));assert.ok(steps.includes('<h3>'+heading+'</h3>'));
+  const art=readFileSync('dist/assets/retreatment/'+image);
+  assert.ok(art.length>6000,'approved medical illustration included: '+image);
+  assert.equal(art.subarray(0,4).toString(),'RIFF');
+  assert.equal(art.subarray(8,12).toString(),'WEBP');
+ }
+ assert.ok(page.includes('모든 치아에서 치유가 보장되는 것은 아니며'));
+ const css=read('assets/care-exhibition-finish-20261031.css');
+ assert.ok(css.includes('grid-template-columns:repeat(5,minmax(0,1fr))'));
 });

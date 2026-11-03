@@ -48,6 +48,10 @@ content:
         label: "치료 과정 4"
         type: image
         required: false
+      - name: step5
+        label: "치료 과정 5 · 치근단 치유"
+        type: image
+        required: false
       - name: closing
         label: "하단 고양이와 자연치아"
         type: image

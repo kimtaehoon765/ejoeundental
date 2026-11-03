@@ -1569,9 +1569,9 @@ for (const name of ['gum-treatment.html','retreatment.html','cervical-abrasion.h
 {
  const html=readFileSync(join(root,'retreatment.html'),'utf8');
  const config=JSON.parse(readFileSync(resolve('assets','retreatment-images.json'),'utf8'));
- const keys=['hero','reason1','reason2','reason3','reason4','step1','step2','step3','step4','closing'];
+ const keys=['hero','reason1','reason2','reason3','reason4','step1','step2','step3','step4','step5','closing'];
  const images=[...html.matchAll(/<img\b[^>]*\bsrc="([^"]+)"[^>]*>/g)];
- if(images.length!==keys.length)errors.push('재신경치료 일러스트 10개 구조 누락');
+ if(images.length!==keys.length)errors.push('재신경치료 일러스트 11개 구조 누락');
  if(html.includes('retreatment-image-manager.js')||html.includes('retreatment-images.json')){
   errors.push('재신경치료 이미지의 불필요한 방문 시점 요청이 재추가됨');
  }
@@ -1593,6 +1593,12 @@ for (const name of ['gum-treatment.html','retreatment.html','cervical-abrasion.h
     ? '/assets/retreatment/illustration-07-both-canals-irrigation-20261103.webp'
     : key==='step3'
     ? '/assets/retreatment/illustration-08-root-canal-shaping-20261103.webp'
+    : key==='step4'
+    ? '/assets/retreatment/illustration-09-refilled-lesion-20261103.webp'
+    : key==='step5'
+    ? '/assets/retreatment/illustration-11-healed-apical-20261103.webp'
+    : key==='closing'
+    ? '/assets/retreatment/illustration-10.webp'
     : '/assets/retreatment/illustration-'+String(i+1).padStart(2,'0')+'.webp';
   const expected=override||source;
   if(images[i]?.[1]!==expected)errors.push('재신경치료 이미지 빌드·CMS 설정 불일치: '+key);
