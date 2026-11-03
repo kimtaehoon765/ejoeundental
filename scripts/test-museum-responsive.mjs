@@ -97,9 +97,10 @@ test('large homepage gallery layers deliver only live CSS with comments removed'
   const standalone=[...normalized.matchAll(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm)].length;
   assert.equal(every,standalone,'all removed CSS comments must stand alone: '+name);
   const delivered=normalized.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'')
-   .replace(/(?:\r?\n){2,}/g,'\n');
+   .replace(/(?:\r?\n){2,}/g,'\n')
+   .replace(/([;{}])\n/g,'$1');
   assert.equal(read('assets/'+name),delivered,
-   'every non-documentation visual CSS token and cascade remains unchanged: '+name);
+   'every visual CSS token and cascade remains unchanged after whitespace-only delivery compression: '+name);
   assert.equal((read('assets/'+name).match(/\/\*/g)||[]).length,0,
    'no standalone documentation is sent to patients: '+name);
   const digest=createHash('sha256').update(delivered).digest('hex').slice(0,12);
@@ -107,7 +108,9 @@ test('large homepage gallery layers deliver only live CSS with comments removed'
    'the browser must request the current compacted asset: '+name);
   saved+=Buffer.byteLength(normalized)-Buffer.byteLength(delivered);
  }
- assert.ok(saved>15000,'two museum visual layers should save meaningful uncompressed delivery bytes');
+ assert.ok(saved>20000,'two museum visual layers should save meaningful uncompressed delivery bytes');
+ assert.ok(!/\};?\n/.test(read('assets/atelier-refinement-20261030.css')),
+  'the large art-direction stylesheet must not ship unnecessary newlines after blocks');
  assert.ok(home.includes('class="mobile-booking-actions"')&&home.includes('href="tel:0325132875"'),
   'patient booking and telephone actions must remain available');
 });
