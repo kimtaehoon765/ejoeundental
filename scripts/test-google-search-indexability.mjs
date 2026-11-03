@@ -339,14 +339,14 @@ test('Google Image discovery lists real first-party illustrations only on their 
   assert.equal(pageSchema?.primaryImageOfPage?.height,630);
  }
  const clinicalSteps=[
-  ['06','기존 충전재 제거','기존 근관 충전재를 제거하는 재신경치료 첫 번째 단계 설명 그림'],
+  ['06','기존 충전재 제거','치아 내부의 기존 주황색 거타퍼차를 근관 안쪽의 기구로 제거하는 모습과 오른쪽 뿌리 끝에 남은 염증 병소를 보여주는 재신경치료 첫 단계 치아 단면 그림','/assets/retreatment/illustration-06-guttapercha-apical-20261103.webp'],
   ['07','근관 세척·소독','치아 근관 내부를 다시 탐색하고 세척·소독하는 재신경치료 과정 그림'],
   ['08','근관 형태 정리','근관 상태를 확인하고 충전할 수 있도록 형태를 정리하는 재신경치료 그림'],
   ['09','새로운 근관 충전','근관을 새로 충전해 밀폐하고 최종 치아 수복을 계획하는 재신경치료 그림']
  ];
  const illustrationHtml=readFileSync(path.join(output,'retreatment.html'),'utf8');
- for(const [number,heading,alt] of clinicalSteps){
-  const imagePath='/assets/retreatment/illustration-'+number+'.webp';
+ for(const [number,heading,alt,overridePath] of clinicalSteps){
+  const imagePath=overridePath||'/assets/retreatment/illustration-'+number+'.webp';
   const markup=illustrationHtml.match(
    new RegExp('<img\\b[^>]*src="'+imagePath.replace(/\//g,'\\/')+'"[^>]*>\\s*<h3>([^<]+)<\\/h3>'));
   assert.ok(markup,'process step image needs a truthful adjacent description: '+number);
