@@ -274,6 +274,36 @@ test('46 original clinical articles keep numbered chapter navigation and stable 
  }
 });
 
+test('gallery watercolor labels connect three unique paintings to original patient guides',()=>{
+ const source=readFileSync('gallery.html','utf8');
+ const gallery=read('gallery.html');
+ const css=read('assets/gallery-salon-finish-20261031.css');
+ const cssSource=readFileSync('assets/gallery-salon-finish-20261031.css','utf8');
+ const watercolors=gallery.slice(gallery.indexOf('id="education"'),gallery.indexOf('id="patient-studies"'));
+ const urls=['/health/gum-bleeding.html','/health/insurance-cervical.html','/health/insurance-scaling.html'];
+ assert.ok(source.includes('gallery-salon-finish-20261031.css?v=20261104-watercolor-notes01'),
+  'updated original gallery source must refresh the CSS cache key');
+ assert.ok(gallery.includes('/assets/gallery-salon-finish-20261031.css'),
+  'the built gallery must keep its readable watercolor stylesheet');
+ assert.equal((watercolors.match(/class="gallery-watercolor-reading"/g)||[]).length,3,
+  'one contextual original patient article for each existing clinical watercolor');
+ for(const url of urls){
+  assert.equal(watercolors.split('href="'+url+'"').length-1,1,
+   'each question should link to a unique already published medical article: '+url);
+  assert.ok(existsSync('dist'+url),'the linked patient guide must really exist: '+url);
+ }
+ assert.equal((watercolors.match(/class="gallery-watercolor-card"/g)||[]).length,3);
+ assert.equal((watercolors.match(/class="gallery-zoom"/g)||[]).length,3,
+  'all original artwork zoom actions are preserved');
+ assert.ok(cssSource.includes('Watercolor notes to original patient writing | 2026-11-04')&&
+  css.includes('.gallery-watercolor-card>.gallery-watercolor-reading>a')&&
+  cssSource.includes('@media(forced-colors:active)'),
+  'the related medical reading labels must be responsive and high contrast');
+ assert.ok(gallery.includes('class="gallery-mobile-dock"')&&
+  gallery.includes('rel="canonical" href="https://ejoeundental.com/gallery.html"'),
+  'booking and search signals must remain unchanged');
+});
+
 test('clinic structured data stays valid in HEAD while gallery CSS is discoverable early',()=>{
  const head=home.slice(0,home.indexOf('</head>'));
  const scripts=[...head.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
