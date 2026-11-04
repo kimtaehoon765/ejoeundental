@@ -1365,3 +1365,98 @@ body.home-page #main-content > #faq .faq-list > details[open] > summary {
     color: CanvasText;
   }
 }
+/* 2026-11-05 | Patient search reading desk
+   Make the existing native symptom search a clearly recognizable wayfinding
+   station while retaining every label, GET link, clinical paragraph and CTA. */
+body.home-page #main-content > .symptom-navigator .symptom-quick-search {
+  position: relative;
+  box-sizing: border-box;
+  padding: clamp(20px,2.7vw,30px);
+  border: 1px solid #cad8c9;
+  border-top: 3px solid #9e875f;
+  border-radius: 12px;
+  background: linear-gradient(145deg,#fffef9 0%,#f1f6f0 100%);
+  box-shadow: 0 10px 28px rgba(34,60,41,.055);
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-search > label {
+  color: #244735;
+  font-size: clamp(17px,1.55vw,21px);
+  font-weight: 750;
+  line-height: 1.5;
+  letter-spacing: -.03em;
+  word-break: keep-all;
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-search-row {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  gap: 10px;
+  align-items: stretch;
+  margin-top: 13px;
+}
+body.home-page #main-content > .symptom-navigator #home-symptom-query {
+  border: 1px solid #afc1ae;
+  border-radius: 7px;
+  background: #fff;
+  color: #213c2e;
+  box-shadow: inset 0 1px 3px rgba(30,56,42,.03);
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-search-row > button {
+  min-height: 52px;
+  padding: 12px 19px;
+  border: 1px solid #214d39;
+  border-radius: 7px;
+  background: #214d39;
+  color: #fffef7;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-topics {
+  row-gap: 8px;
+}
+body.home-page #main-content > .symptom-navigator .symptom-quick-topics > a {
+  border: 1px solid #cbd8c7;
+  border-radius: 7px;
+  background: #fffefa;
+  color: #315941;
+  text-decoration: none;
+}
+@media (hover:hover) and (pointer:fine) {
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search-row > button:hover {
+    background: #173e2f;
+    border-color: #173e2f;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-quick-topics > a:hover {
+    background: #edf4ea;
+    border-color: #9ebba4;
+  }
+}
+@media (max-width:600px) {
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search {
+    padding: 19px 15px;
+    border-radius: 10px;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search-row {
+    grid-template-columns: minmax(0,1fr);
+    gap: 9px;
+  }
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search-row > button,
+  body.home-page #main-content > .symptom-navigator #home-symptom-query {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    min-height: 54px;
+    font-size: 16px;
+  }
+}
+@media (forced-colors:active) {
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search,
+  body.home-page #main-content > .symptom-navigator #home-symptom-query,
+  body.home-page #main-content > .symptom-navigator .symptom-quick-search-row > button,
+  body.home-page #main-content > .symptom-navigator .symptom-quick-topics > a {
+    border-color: CanvasText;
+    background: Canvas;
+    color: CanvasText;
+    box-shadow: none;
+  }
+}
