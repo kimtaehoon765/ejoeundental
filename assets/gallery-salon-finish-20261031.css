@@ -1413,3 +1413,77 @@
     box-shadow: none;
   }
 }
+
+
+/* Watercolor notes to original patient writing | 2026-11-04
+   Each existing original painting keeps its full dimensions, zoom and main
+   treatment link. This new restrained label leads to deeper patient reading. */
+#education .gallery-watercolor-card>.gallery-watercolor-reading {
+  box-sizing:border-box;
+  margin:12px 0 0;
+  padding:14px 16px;
+  border:1px solid #d9dfd1;
+  border-left:3px solid #8fa892;
+  border-radius:5px 9px 5px 9px;
+  background:#f8faf5;
+  color:#325641;
+  line-height:1.6;
+  word-break:keep-all;
+}
+#education .gallery-watercolor-card>.gallery-watercolor-reading>span {
+  display:block;
+  margin-bottom:4px;
+  color:#7b694d;
+  font:800 11px/1.45 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.07em;
+}
+#education .gallery-watercolor-card>.gallery-watercolor-reading>a {
+  box-sizing:border-box;
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+  color:#255840;
+  font-size:clamp(14px,1.18vw,15px);
+  font-weight:800;
+  line-height:1.65;
+  text-decoration:underline;
+  text-decoration-color:#b6cbb6;
+  text-underline-offset:4px;
+  overflow-wrap:anywhere;
+}
+#education .gallery-watercolor-card>.gallery-watercolor-reading>a:focus-visible {
+  outline:3px solid #9d7942;
+  outline-offset:3px;
+}
+@media(hover:hover) and (pointer:fine) {
+  #education .gallery-watercolor-card>.gallery-watercolor-reading>a:hover{
+    color:#1b6c42;
+    text-decoration-color:currentColor;
+  }
+}
+@media(max-width:650px) {
+  #education .gallery-watercolor-card>.gallery-watercolor-reading{
+    margin-top:9px;
+    padding:11px 13px;
+  }
+  #education .gallery-watercolor-card>.gallery-watercolor-reading>a{
+    min-height:48px;
+    font-size:14px;
+  }
+}
+@media(forced-colors:active){
+  #education .gallery-watercolor-card>.gallery-watercolor-reading {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+  }
+  #education .gallery-watercolor-card>.gallery-watercolor-reading>a {
+    color:LinkText;
+  }
+}
+@media print {
+  #education .gallery-watercolor-card>.gallery-watercolor-reading {
+    background:none;
+    box-shadow:none;
+  }
+}
