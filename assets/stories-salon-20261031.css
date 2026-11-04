@@ -966,3 +966,117 @@ body.stories-gallery .directory-summary .directory-search {
     box-shadow:none;
   }
 }
+
+
+/* Clinical archive catalog polish | 2026-11-04
+   Stronger informational typography without removing or hiding any of the
+   server-rendered patient articles or the searchable category index. */
+body.stories-gallery #story-directory > .story-topic {
+  scroll-margin-top: 95px;
+}
+body.stories-gallery #story-directory .story-topic-heading {
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-block: 0 14px;
+  border-bottom: 1px solid #cfd7c9;
+}
+body.stories-gallery #story-directory .story-topic-heading h2 {
+  color: #234535;
+  font-size: clamp(23px, 2.7vw, 33px);
+  line-height: 1.4;
+  letter-spacing: -.05em;
+  text-wrap: balance;
+}
+body.stories-gallery #story-directory .story-topic-heading > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  min-height: 32px;
+  padding-inline: 10px;
+  border: 1px solid #d7dbc9;
+  border-radius: 18px;
+  background: #fffefa;
+  color: #49634f;
+  font-size: 12px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+body.stories-gallery #story-directory .story-card {
+  gap: 12px;
+  border-color: #dedcd0;
+  border-top-color: #849f88;
+  background: linear-gradient(155deg, #fffefa 0%, #fdfdf9 100%);
+  box-shadow: 0 8px 22px rgba(32, 55, 37, .045);
+  transition: border-color .18s ease, box-shadow .18s ease, background-color .18s ease;
+}
+body.stories-gallery #story-directory .story-card time {
+  color: #806c4c;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .055em;
+}
+body.stories-gallery #story-directory .story-card h3 {
+  color: #1d4733;
+  font-size: clamp(19px, 1.8vw, 22px);
+  font-weight: 750;
+  line-height: 1.48;
+  letter-spacing: -.045em;
+  text-wrap: pretty;
+}
+body.stories-gallery #story-directory .story-card > p {
+  max-width: 56ch;
+  margin-block: 0 6px;
+  color: #54675a;
+  font-size: clamp(14px, 1.16vw, 15px);
+  line-height: 1.85;
+  word-break: keep-all;
+}
+body.stories-gallery #story-directory .story-card > .read {
+  color: #275c41;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -.015em;
+}
+body.stories-gallery #story-directory .story-card:focus-visible {
+  outline: 3px solid #987a44;
+  outline-offset: 4px;
+}
+@media (hover: hover) and (pointer: fine) {
+  body.stories-gallery #story-directory .story-card:hover {
+    border-color: #91a48e;
+    box-shadow: 0 14px 30px rgba(32, 55, 37, .08);
+  }
+}
+@media (max-width: 640px) {
+  body.stories-gallery #story-directory .story-topic-heading h2 {
+    font-size: clamp(21px, 5.4vw, 27px);
+  }
+  body.stories-gallery #story-directory .story-card {
+    padding: 19px 17px;
+    gap: 9px;
+  }
+  body.stories-gallery #story-directory .story-card h3 {
+    font-size: 18px;
+    line-height: 1.52;
+  }
+  body.stories-gallery #story-directory .story-card > p {
+    font-size: 14px;
+    line-height: 1.78;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.stories-gallery #story-directory .story-card {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  body.stories-gallery #story-directory .story-card,
+  body.stories-gallery #story-directory .story-topic-heading > span {
+    background: Canvas;
+    border-color: CanvasText;
+    color: CanvasText;
+    box-shadow: none;
+  }
+}
