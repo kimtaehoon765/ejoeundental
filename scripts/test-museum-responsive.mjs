@@ -336,6 +336,37 @@ test('search gallery bridges clinical topic cards into three original ten-articl
   'original privacy-safe searching, discovery and indexing rules must remain');
 });
 
+test('medical safety exhibition keeps its medication warning and authentic patient reading links',()=>{
+ const html=read('medical-safety-guide.html');
+ const authored=readFileSync('medical-safety-guide.html','utf8');
+ const css=read('assets/ejoeun-safety-reading-room.css');
+ const cssSource=readFileSync('assets/ejoeun-safety-reading-room.css','utf8');
+ assert.ok(authored.includes('ejoeun-safety-reading-room.css?v=20261104-medication-catalogue01'),
+  'medical safety authoring HTML must request refreshed topic-card CSS');
+ assert.ok(html.includes('/assets/ejoeun-safety-reading-room.css'),
+  'built medical safety page should keep its CSS when fingerprinted');
+ assert.ok(cssSource.includes('Patient medication safety catalogue | 2026-11-04')&&
+  css.includes('counter(patient-safety-topic,decimal-leading-zero)')&&
+  css.includes('#safety-medication-notice')&&
+  cssSource.includes('@media(forced-colors:active)'),
+  'numbered medical topics and prominent medication cautions must remain accessible');
+ const topics=html.match(/<div class="grid">([\s\S]*?)<\/div><section class="chairside-quick"/)?.[1]||'';
+ assert.ok((topics.match(/<a class="card"/g)||[]).length>=12,
+  'the original range of medical condition articles must remain listed');
+ for(const url of ['/blood-thinners-dental.html','/osteoporosis-medication-dental.html',
+   '/diabetes-dental-care.html','/heart-disease-dental-care.html',
+   '/previsit-checklist.html','/medical-history.html','/doctor.html']){
+  assert.ok(html.includes('href="'+url+'"'),'medical safety must keep an actual clinical help route: '+url);
+ }
+ assert.ok(html.includes('id="safety-medication-notice"')&&
+  html.includes('임의로 중단하지 마세요')&&
+  html.includes('class="reading-art"'),
+  'original drug safety warning and original art must remain visible');
+ assert.ok(html.includes('rel="canonical" href="https://ejoeundental.com/medical-safety-guide.html"')&&
+  html.includes('application/ld+json'),
+  'clinical page canonical and structured metadata must be preserved');
+});
+
 test('clinic structured data stays valid in HEAD while gallery CSS is discoverable early',()=>{
  const head=home.slice(0,home.indexOf('</head>'));
  const scripts=[...head.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
