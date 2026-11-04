@@ -741,3 +741,107 @@ body.doctor-gallery #doctor-profile-main .doctor-quick-answers>dd {
     box-shadow: none;
   }
 }
+
+
+/* Doctor clinical reading gallery | 2026-11-04
+   Give verified treatment philosophy and original patient questions
+   a museum-catalog rhythm without changing credentials or authored text. */
+body.doctor-gallery #doctor-profile-main > .doctor-reading-index > strong {
+  max-width: 35ch;
+  color: #254a37;
+  font-size: clamp(19px, 1.95vw, 23px);
+  line-height: 1.48;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+body.doctor-gallery #doctor-profile-main > section.card > h2,
+body.doctor-gallery #doctor-profile-main > .cols > section.card > h2 {
+  color: #224634;
+  font-size: clamp(22px, 2.25vw, 30px);
+  line-height: 1.45;
+  letter-spacing: -.045em;
+  word-break: keep-all;
+  text-wrap: balance;
+}
+body.doctor-gallery #doctor-profile-main > section.card > p,
+body.doctor-gallery #doctor-profile-main > .cols > section.card > p {
+  color: #435d4b;
+  font-size: clamp(15px, 1.23vw, 17px);
+  line-height: 1.9;
+  word-break: keep-all;
+}
+body.doctor-gallery #doctor-profile-main :is(#doctor-common-questions,#clinical-decision-answers)
+.doctor-quick-answers {
+  counter-reset: doctor-question;
+  display: block;
+  margin-top: 22px;
+}
+body.doctor-gallery #doctor-profile-main :is(#doctor-common-questions,#clinical-decision-answers)
+.doctor-quick-answers > dt {
+  counter-increment: doctor-question;
+  margin: 19px 0 0;
+  padding: 15px 17px 8px;
+  border: 1px solid #d9decf;
+  border-bottom: 0;
+  border-left: 3px solid #a4a17f;
+  border-radius: 8px 8px 0 0;
+  background: #fafbf7;
+  color: #244c36;
+  font-size: clamp(16px, 1.35vw, 18px);
+  line-height: 1.65;
+  word-break: keep-all;
+}
+body.doctor-gallery #doctor-profile-main :is(#doctor-common-questions,#clinical-decision-answers)
+.doctor-quick-answers > dt::before {
+  content: "Q" counter(doctor-question, decimal-leading-zero);
+  display: block;
+  margin-bottom: 6px;
+  color: #8c744f;
+  font: 800 11px/1.4 system-ui, sans-serif;
+  letter-spacing: .11em;
+}
+body.doctor-gallery #doctor-profile-main :is(#doctor-common-questions,#clinical-decision-answers)
+.doctor-quick-answers > dd {
+  margin: 0 0 8px;
+  padding: 0 17px 17px;
+  border: 1px solid #d9decf;
+  border-top: 0;
+  border-left: 3px solid #a4a17f;
+  border-radius: 0 0 8px 8px;
+  background: #fafbf7;
+  color: #4d6252;
+  font-size: clamp(15px, 1.22vw, 16px);
+  line-height: 1.9;
+  word-break: keep-all;
+}
+body.doctor-gallery #doctor-profile-main :is(#doctor-common-questions,#clinical-decision-answers)
+.doctor-quick-answers > dd > a {
+  color: #235c42;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+@media (max-width: 740px) {
+  body.doctor-gallery #doctor-profile-main > section.card > h2,
+  body.doctor-gallery #doctor-profile-main > .cols > section.card > h2 {
+    font-size: clamp(22px, 5.5vw, 27px);
+  }
+  body.doctor-gallery #doctor-profile-main :is(#doctor-common-questions,#clinical-decision-answers)
+  .doctor-quick-answers > dt {
+    margin-top: 13px;
+    padding: 13px 13px 7px;
+    font-size: 16px;
+  }
+  body.doctor-gallery #doctor-profile-main :is(#doctor-common-questions,#clinical-decision-answers)
+  .doctor-quick-answers > dd {
+    padding: 0 13px 15px;
+    font-size: 15px;
+  }
+}
+@media (forced-colors: active) {
+  body.doctor-gallery #doctor-profile-main :is(#doctor-common-questions,#clinical-decision-answers)
+  .doctor-quick-answers > :is(dt,dd) {
+    background: Canvas;
+    border-color: CanvasText;
+    color: CanvasText;
+  }
+}
