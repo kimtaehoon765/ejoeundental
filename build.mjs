@@ -3994,6 +3994,35 @@ function compactCriticalCss(css){
  console.log('Homepage visual CSS requests: 2 -> 1, preserving original rule order:',asset);
 }
 
+// Home finishing visual design remains an editable annotated source file.
+// Deliver a compact copy while keeping all selectors, declarations, inline
+// comments and stylesheet ordering unchanged. Fingerprint the public URL so
+// old Cloudflare/browser caches cannot show stale designs after deployment.
+{
+ const basename='home-design-unification-20261103.css';
+ const cssFile=path.join(out,'assets',basename);
+ const authored=fs.readFileSync(cssFile,'utf8');
+ if(/\\\r?\n/.test(authored))
+  throw new Error('Unsafe escaped CSS line continuation in final home styling');
+ const compact=authored
+  .replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'')
+  .replace(/[ \t]+$/gm,'').replace(/^[ \t]+/gm,'')
+  .replace(/(?:\r?\n){2,}/g,'\n')
+  .replace(/([;{}])\n/g,'$1');
+ const reduction=Buffer.byteLength(authored,'utf8')-Buffer.byteLength(compact,'utf8');
+ if(reduction<4000)throw new Error('Unexpectedly small safe home design CSS compaction');
+ fs.writeFileSync(cssFile,compact,'utf8');
+ const digest=createHash('sha256').update(compact).digest('hex').slice(0,12);
+ const homepage=path.join(out,'index.html');
+ let html=fs.readFileSync(homepage,'utf8');
+ const link=/<link rel="stylesheet" href="\/assets\/home-design-unification-20261103\.css\?v=[^"]+">/g;
+ if([...html.matchAll(link)].length!==1)
+  throw new Error('Home finishing design stylesheet must occur exactly once');
+ html=html.replace(link,'<link rel="stylesheet" href="/assets/'+basename+'?v='+digest+'">');
+ fs.writeFileSync(homepage,html,'utf8');
+ console.log('Final home design CSS compacted:',reduction,'bytes; version:',digest);
+}
+
 // Advertise the exact first-screen CSS bundle to Cloudflare Pages Early Hints.
 // The generated CSS filename changes with source content; deriving the header
 // during each build avoids stale preloads and duplicate downloads. Never add
