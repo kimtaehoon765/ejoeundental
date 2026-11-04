@@ -1447,3 +1447,123 @@ body.care-gallery.care-retreatment .block .cards > .card > img{
 }
 
 body.care-gallery.care-retreatment .retreatment-healing-note{margin:0 0 20px;line-height:1.7;font-size:13px;color:#516552}
+
+
+/* Clinical guide reading finish | 2026-11-04
+   Improve the presentation of existing patient education across periodontal,
+   retreatment, cervical abrasion, and insured dental care. Keep all source
+   writing, clinical diagrams, canonical URLs and booking links unchanged. */
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+:where(.gum-section,.block,.section,.care-extra) > :is(.wrap,.care-inner) > h2 {
+  max-width: 29ch;
+  color: #224a38;
+  font-size: clamp(25px, 2.75vw, 36px);
+  line-height: 1.42;
+  letter-spacing: -.045em;
+  word-break: keep-all;
+  text-wrap: balance;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+:where(.gum-section,.block,.section,.care-extra) > :is(.wrap,.care-inner) > p {
+  max-width: 78ch;
+  color: #425c4b;
+  font-size: clamp(15px, 1.24vw, 17px);
+  line-height: 1.94;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment)
+.clinical-answer-strip .clinical-answer-lead {
+  max-width: 78ch;
+  font-size: clamp(15px, 1.35vw, 17px);
+  line-height: 1.9;
+  color: #435e4c;
+  word-break: keep-all;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+#patient-next-steps {
+  border-block: 1px solid #d4dfd2;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+#patient-next-steps > div > h2 {
+  max-width: 25ch;
+  color: #254937;
+  font-size: clamp(24px, 2.65vw, 33px);
+  line-height: 1.43;
+  letter-spacing: -.04em;
+  text-wrap: balance;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+#patient-next-steps > div > p {
+  max-width: 75ch;
+  color: #506554;
+  font-size: 15px;
+  line-height: 1.82;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+#patient-next-steps > div > div > a {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 48px;
+  padding: 11px 13px;
+  border: 1px solid #cedbcd;
+  border-left: 3px solid #8eab90;
+  border-radius: 5px 10px 5px 10px;
+  background: #fffefa;
+  color: #28583e;
+  font-weight: 750;
+  line-height: 1.6;
+  text-decoration: none;
+  word-break: keep-all;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+#patient-next-steps > div > div > a:focus-visible {
+  outline: 3px solid #9a793e;
+  outline-offset: 3px;
+}
+@media (hover:hover) and (pointer:fine) {
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+  #patient-next-steps > div > div > a:hover {
+    border-color: #8aab92;
+    background: #f8fbf5;
+  }
+}
+@media (max-width:600px) {
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+  :where(.gum-section,.block,.section,.care-extra) > :is(.wrap,.care-inner) > h2 {
+    max-width: 100%;
+    font-size: clamp(23px, 6vw, 29px);
+    line-height: 1.48;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+  :where(.gum-section,.block,.section,.care-extra) > :is(.wrap,.care-inner) > p {
+    font-size: 16px;
+    line-height: 1.86;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+  #patient-next-steps > div > div > a {
+    min-height: 50px;
+    padding: 12px;
+  }
+  /* Phone and Naver appointment already live in the fixed mobile dock.
+     Avoid duplicate first-screen actions, while retaining desktop CTAs. */
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+  .treatment-hero-actions > :is(.treatment-hero-call,.care-gallery-booking) {
+    display: none;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+  .treatment-hero-actions > .treatment-hero-location {
+    grid-column: 1 / -1;
+    min-height: 48px;
+  }
+}
+@media (forced-colors:active) {
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+  #patient-next-steps > div > div > a {
+    color: LinkText;
+    border-color: CanvasText;
+    background: Canvas;
+  }
+}
