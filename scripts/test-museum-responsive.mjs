@@ -172,6 +172,43 @@ test('clinical treatment guides keep searchable text and a single mobile contact
  }
 });
 
+test('doctor philosophy and alternating visit schedule retain verifiable page facts after editorial restyle',()=>{
+ const doctorSource=readFileSync('doctor.html','utf8');
+ const visitSource=readFileSync('visit-guide.html','utf8');
+ const doctor=read('doctor.html');
+ const visit=read('visit-guide.html');
+ const doctorCss=read('assets/doctor-reading-room-20261031.css');
+ const visitCss=read('assets/visit-atelier-20261031.css');
+ assert.ok(doctorSource.includes('doctor-reading-room-20261031.css?v=20261104-editorial-qa'),
+  'doctor source must request refreshed editorial Q&A CSS');
+ assert.ok(visitSource.includes('visit-atelier-20261031.css?v=20261104-hours-clarity'),
+  'visit source must request refreshed schedule CSS');
+ assert.ok(doctor.includes('doctor-reading-room-20261031.css')&&
+  visit.includes('visit-atelier-20261031.css'),
+  'published pages must keep their respective editorial stylesheets');
+ for(const marker of ['id="doctor-common-questions"','id="clinical-decision-answers"',
+  'class="doctor-quick-answers"','2003년부터','href="/gum-treatment.html"',
+  'href="/retreatment.html"']){
+  assert.ok(doctor.includes(marker),'verify original doctor education: '+marker);
+ }
+ for(const marker of ['id="visit-hours"','class="visit-cycle__grid"',
+  'visit-cycle__card--closed','격주','3시간 무료','032-513-2875',
+  'id="visit-clinic-address"']){
+  assert.ok(visit.includes(marker),'verify original hours/location facts: '+marker);
+ }
+ assert.ok(doctorCss.includes('Doctor clinical reading gallery | 2026-11-04')&&
+  doctorCss.includes('counter(doctor-question, decimal-leading-zero)')&&
+  doctorCss.includes('forced-colors: active'),
+  'clinician questions remain numbered and accessible');
+ assert.ok(visitCss.includes('Visit schedule and directions reading gallery | 2026-11-04')&&
+  visitCss.includes('main > section.visit-hours-card > ul > li')&&
+  visitCss.includes('max-width: 600px')&&
+  visitCss.includes('forced-colors: active'),
+  'clinic hours must remain readable on mobile and high-contrast displays');
+ assert.ok(doctor.includes('rel="canonical"')&&visit.includes('rel="canonical"'),
+  'both patient-facing pages must retain search canonical metadata');
+});
+
 test('clinic structured data stays valid in HEAD while gallery CSS is discoverable early',()=>{
  const head=home.slice(0,home.indexOf('</head>'));
  const scripts=[...head.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
