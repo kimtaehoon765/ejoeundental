@@ -94,6 +94,29 @@ test('contextual clinical article links reach the matching patient health collec
   'medical information and clinician attribution must be discoverable');
 });
 
+test('Google sitemap reflects real clinical journal and homepage updates',()=>{
+ const map=read('sitemap.xml');
+ const journal=read('stories.html');
+ const homePage=read('index.html');
+ for(const [name,href] of [['homepage','https://ejoeundental.pages.dev/'],
+  ['clinical journal','https://ejoeundental.pages.dev/stories.html']]){
+  const parts=map.split('<loc>'+href+'</loc>');
+  assert.equal(parts.length,2,'sitemap has exactly one '+name+' canonical URL');
+  assert.match(parts[1].split('</url>')[0],/<lastmod>2026-11-04<\/lastmod>/,
+   'sitemap modification date must reflect the verified Nov 4 content or link update: '+name);
+ }
+ const title=journal.match(/<title>([^<]+)<\/title>/)?.[1];
+ const ogTitle=journal.match(/<meta property="og:title" content="([^"]+)"/)?.[1];
+ assert.ok(title&&title===ogTitle,
+  'Google and social search titles should describe the same clinical journal page');
+ assert.ok(journal.includes('name="robots" content="index,follow,max-image-preview:large"'),
+  'original patient artwork may be used as a large image preview');
+ assert.ok(homePage.includes('href="/stories.html"')&&
+  journal.includes('href="/gum-health.html"')&&
+  journal.includes('href="/root-canal-health.html"'),
+  'indexable journal and specialist education links remain in the HTML');
+});
+
 test('clinic structured data stays valid in HEAD while gallery CSS is discoverable early',()=>{
  const head=home.slice(0,home.indexOf('</head>'));
  const scripts=[...head.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
