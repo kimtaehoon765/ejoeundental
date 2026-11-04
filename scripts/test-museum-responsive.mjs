@@ -242,6 +242,35 @@ test('patient atlas keeps ten original health chapters and four responsive readi
  }
 });
 
+test('46 original clinical articles keep numbered chapter navigation and stable search links',()=>{
+ const fsCss=readFileSync('assets/health-article-atelier-20261031.css','utf8');
+ const compiled=read('assets/health-article-atelier-20261031.css');
+ assert.ok(fsCss.includes('Clinical chapter wayfinding | 2026-11-04')&&
+  fsCss.includes('counter(clinical-chapter, decimal-leading-zero)')&&
+  fsCss.includes('> h2[id]:target')&&
+  fsCss.includes('forced-colors: active')&&fsCss.includes('@media print'),
+  'health articles need clear numbered questions, chosen section and accessible reader views');
+ assert.ok(compiled.includes('counter(clinical-chapter, decimal-leading-zero)'),
+  'actual production CSS must include new chapter navigation');
+ const pages=['health/gum-bleeding.html','health/root-canal-pain.html',
+  'health/insurance-scaling.html','health/root-canal-why.html'];
+ for(const name of pages){
+  const article=read(name);
+  assert.ok(article.includes('/assets/health-article-atelier-20261031.css?v=20261104-chapter-wayfinding01'),
+   'refreshed gallery CSS must be linked to the generated medical page: '+name);
+  assert.ok(article.includes('class="article-toc"')&&article.includes('id="article-main"'),
+   'original individual page and table of contents remain crawlable: '+name);
+  assert.ok(article.includes('rel="canonical"')&&article.includes('application/ld+json'),
+   'search canonical and medical schema remain available: '+name);
+  const toc=article.match(/<nav class="article-toc"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+  const anchors=[...toc.matchAll(/href="#([^"]+)"/g)].map(m=>m[1]);
+  assert.ok(anchors.length>=3,'health article chapter list still has entries: '+name);
+  for(const id of anchors){
+   assert.ok(article.includes('id="'+id+'"'),'health article menu must reach '+id+' in '+name);
+  }
+ }
+});
+
 test('clinic structured data stays valid in HEAD while gallery CSS is discoverable early',()=>{
  const head=home.slice(0,home.indexOf('</head>'));
  const scripts=[...head.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
