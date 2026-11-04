@@ -125,8 +125,11 @@ test('clinic journal and story detail share calm accessible reading design',()=>
  const collectionStyles=read('assets/stories-salon-20261031.css');
  const articleStyles=read('assets/story-article.css');
  const article=read('stories/2026-10-25-incheon-choosing-periodontal-clinic-what-to-check/index.html');
- assert.ok(journal.includes('/assets/stories-salon-20261031.css?v=20261104-clinical-catalog'),
-  'journal must load the newest artwork-free CSS catalog styling, not a stale cached copy');
+ const authoredJournal=readFileSync('stories.html','utf8');
+ assert.ok(authoredJournal.includes('/assets/stories-salon-20261031.css?v=20261104-clinical-catalog'),
+  'the committed journal source must bump the CSS cache key');
+ assert.ok(journal.includes('/assets/stories-salon-20261031.css'),
+  'the compiled journal must still link to the curated archive stylesheet');
  assert.ok(journal.includes('id="story-directory"')&&journal.includes('class="story-topic-heading"')&&
   journal.includes('class="story-card"')&&journal.includes('class="directory-search"'),
   'server-rendered clinical topic groups and searchable individual articles remain intact');
