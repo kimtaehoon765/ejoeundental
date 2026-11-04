@@ -21,6 +21,24 @@ const compactCriticalCss=css=>{
 const home=read('index.html');
 const museum=read('assets/museum-home-v2.css');
 
+test('final home design CSS preserves cascade while removing delivery-only whitespace',()=>{
+ const name='assets/home-design-unification-20261103.css';
+ const source=readFileSync(name,'utf8');
+ assert.ok(!/\\\r?\n/.test(source),'no CSS escaped line continuation may be compacted');
+ const expected=source.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*(?:\r?\n|$)/gm,'')
+  .replace(/[ \t]+$/gm,'').replace(/^[ \t]+/gm,'')
+  .replace(/(?:\r?\n){2,}/g,'\n').replace(/([;{}])\n/g,'$1');
+ const published=read(name);
+ assert.equal(published,expected,'compiled design must preserve all live declarations in cascade order');
+ assert.ok(Buffer.byteLength(source)-Buffer.byteLength(published)>4000,
+  'final clinic visual styling should save at least 4KB of delivery bytes');
+ const digest=createHash('sha256').update(expected).digest('hex').slice(0,12);
+ assert.ok(home.includes('<link rel="stylesheet" href="/'+name+'?v='+digest+'">'),
+  'rendered homepage must use immutable content-derived CSS cache key');
+ assert.ok(home.includes('class="mobile-booking-actions"')&&home.includes('id="headline"'),
+  'mobile booking and primary clinical H1 remain available');
+});
+
 test('clinic structured data stays valid in HEAD while gallery CSS is discoverable early',()=>{
  const head=home.slice(0,home.indexOf('</head>'));
  const scripts=[...head.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
