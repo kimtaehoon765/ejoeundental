@@ -332,7 +332,7 @@ test('root canal regional search descriptions stay natural and retreatment FAQ l
 
 test('sitemap uses verified care-hub and insurance FAQ revision dates rather than blanket timestamps',()=>{
  const edited={
-  'gum-health':'2026-10-27',
+  'gum-health':'2026-11-04',
   'insurance-health':'2026-10-27',
   'additional-health':'2026-11-01',
   'dental-insurance-faq':'2026-10-29'
