@@ -39,6 +39,20 @@ test('final home design CSS preserves cascade while removing delivery-only white
   'mobile booking and primary clinical H1 remain available');
 });
 
+test('mobile contact actions appear once in fixed dock, not twice in hero',()=>{
+ const style=readFileSync('assets/home-design-unification-20261103.css','utf8');
+ const mobile=style.match(/\/\* Mobile: keep exactly one visible phone and Naver booking action[\s\S]*?@media \(max-width: 600px\) \{([\s\S]*?)\n\}/)?.[1]||'';
+ assert.ok(mobile.includes('> :is(.hero-call,.hero-booking) {\n    display: none;'),
+  'both duplicate hero contact links are hidden on mobile');
+ assert.ok(mobile.includes('.hero-hours {\n    grid-column: 1;\n    grid-row: 1;')&&
+  mobile.includes('.hero-symptoms {\n    grid-column: 2;\n    grid-row: 1;'),
+  'the two remaining hero actions share the first row without a blank row');
+ assert.ok(home.includes('class="mobile-booking-actions"')&&
+  home.includes('class="mobile-booking-naver"')&&
+  home.includes('class="mobile-booking-call"'),
+  'sticky phone and Naver appointment controls remain in the built page');
+});
+
 test('clinic structured data stays valid in HEAD while gallery CSS is discoverable early',()=>{
  const head=home.slice(0,home.indexOf('</head>'));
  const scripts=[...head.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
