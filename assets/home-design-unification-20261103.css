@@ -1198,3 +1198,57 @@ body.home-page #main-content > .symptom-navigator
     box-shadow: none;
   }
 }
+
+/* Gallery light-panel contrast repair | 2026-11-04 */
+/* The gallery panel changed from dark green to ivory; restore all foreground
+   colors together rather than leaving cream-on-ivory copy or a pale CTA. */
+body.home-page #main-content > .curated-threshold {
+  color: #204835;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__eyebrow {
+  color: #6c5430;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__eyebrow::before {
+  background: #93764b;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__intro > p:not(.curated-threshold__eyebrow) {
+  color: #405548;
+  font-size: clamp(14px, 1.14vw, 16px);
+  line-height: 1.8;
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__all,
+body.home-page #main-content > .curated-threshold .curated-threshold__all:visited {
+  color: #fffdf5;
+  background: #20503e;
+  border: 1px solid #20503e;
+  border-radius: 7px;
+  min-height: 48px;
+  padding: 11px 18px;
+  font-size: clamp(14px, 1.14vw, 16px);
+  font-weight: 750;
+  text-decoration: none;
+  box-shadow: 0 3px 9px rgba(26, 60, 42, .12);
+}
+@media (hover: hover) and (pointer: fine) {
+  body.home-page #main-content > .curated-threshold .curated-threshold__all:hover {
+    color: #fffdf5;
+    background: #163d30;
+    border-color: #163d30;
+  }
+}
+body.home-page #main-content > .curated-threshold .curated-threshold__all:focus-visible {
+  outline: 3px solid #9b7438;
+  outline-offset: 3px;
+}
+@media (forced-colors: active) {
+  body.home-page #main-content > .curated-threshold .curated-threshold__eyebrow,
+  body.home-page #main-content > .curated-threshold .curated-threshold__intro > p:not(.curated-threshold__eyebrow),
+  body.home-page #main-content > .curated-threshold .curated-threshold__all {
+    color: CanvasText;
+  }
+  body.home-page #main-content > .curated-threshold .curated-threshold__all {
+    border-color: CanvasText;
+    background: Canvas;
+    box-shadow: none;
+  }
+}
