@@ -53,6 +53,27 @@ test('mobile contact actions appear once in fixed dock, not twice in hero',()=>{
   'sticky phone and Naver appointment controls remain in the built page');
 });
 
+test('patient education gallery gives native questions readable editorial hierarchy',()=>{
+ const authored=readFileSync('assets/home-design-unification-20261103.css','utf8');
+ const questionArea=home.match(/<section class="section light" id="home-representative-guides"[\s\S]*?<\/section>/)?.[0]||'';
+ const symptomArea=home.match(/<section class="symptom-navigator wrap"[\s\S]*?<\/section>/)?.[0]||'';
+ assert.equal((questionArea.match(/href="\/stories\//g)||[]).length,4,
+  'four original patient question article links must remain in the homepage');
+ assert.equal((symptomArea.match(/class="symptom-navigator-grid"/g)||[]).length,1,
+  'the original symptom information navigator must remain available');
+ assert.ok(authored.includes('Clinical reading gallery | 2026-11-04')&&
+  authored.includes('counter(clinical-question, decimal-leading-zero)')&&
+  authored.includes('.symptom-navigator-grid > a > strong')&&
+  authored.includes('.health-topic-grid > .health-topic-card > p'),
+  'patient question, symptom, and clinical explanation hierarchy must have editorial styling');
+ assert.ok(authored.includes('@media (max-width: 600px)')&&
+  authored.includes('prefers-reduced-motion: reduce')&&
+  authored.includes('forced-colors: active'),
+  'reading design must remain responsive and accessible');
+ assert.ok(home.includes('class="mobile-booking-actions"'),
+  'the existing fixed phone and booking dock must be retained');
+});
+
 test('clinic structured data stays valid in HEAD while gallery CSS is discoverable early',()=>{
  const head=home.slice(0,home.indexOf('</head>'));
  const scripts=[...head.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
