@@ -598,8 +598,8 @@ test('seven revised dental articles have truthful Google dates and two crawlable
  // These are independently verified last substantive CONTENT changes, not
  // incidental CSS rebuild dates. Keep revisions separate from daily deploys.
  const verifiedEditorialDates=new Map([
-  ['/','2026-11-01'],                 // 28 verified owner articles added to homepage
-  ['/stories.html','2026-10-31'],     // published story reading routes added
+  ['/','2026-11-04'],                 // opening visit info and clinical navigation updated
+  ['/stories.html','2026-11-04'],     // patient-library links and journal search signals updated
   ['/clinical-archive.html','2026-11-01'], // Naver article archive expanded to 537
   ['/gallery.html','2026-10-31']      // 10 original patient-art exhibits added
  ]);
