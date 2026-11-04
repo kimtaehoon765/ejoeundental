@@ -74,6 +74,26 @@ test('patient education gallery gives native questions readable editorial hierar
   'the existing fixed phone and booking dock must be retained');
 });
 
+test('contextual clinical article links reach the matching patient health collections',()=>{
+ const gum=read('stories/2026-10-25-incheon-choosing-periodontal-clinic-what-to-check/index.html');
+ const root=read('stories/2026-10-25-bupyeong-root-canal-after-treatment-pain/index.html');
+ const journal=read('stories.html');
+ const style=read('assets/story-related.css');
+ assert.ok(gum.includes('class="story-library-path"')&&
+  gum.includes('href="/gum-health.html"'),
+  'gum clinical article must link to the matching deeper health library');
+ assert.ok(root.includes('class="story-library-path"')&&
+  root.includes('href="/root-canal-health.html"'),
+  'root canal clinical article must link to the matching deeper health library');
+ assert.ok(journal.includes('href="/gum-health.html"')&&
+  journal.includes('href="/root-canal-health.html"'),
+  'journal directory must expose crawlable topic collection links');
+ assert.ok(style.includes('.story-library-path a:focus-visible'),
+  'contextual links must remain keyboard discoverable');
+ assert.ok(gum.includes('href="/doctor.html"')&&root.includes('href="/doctor.html"'),
+  'medical information and clinician attribution must be discoverable');
+});
+
 test('clinic structured data stays valid in HEAD while gallery CSS is discoverable early',()=>{
  const head=home.slice(0,home.indexOf('</head>'));
  const scripts=[...head.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
