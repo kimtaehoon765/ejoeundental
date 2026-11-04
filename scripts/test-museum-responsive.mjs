@@ -362,9 +362,10 @@ test('medical safety exhibition keeps its medication warning and authentic patie
   html.includes('임의로 중단하지 마세요')&&
   html.includes('class="reading-art"'),
   'original drug safety warning and original art must remain visible');
- assert.ok(html.includes('rel="canonical" href="https://ejoeundental.com/medical-safety-guide.html"')&&
-  html.includes('application/ld+json'),
-  'clinical page canonical and structured metadata must be preserved');
+ assert.ok(authored.includes('rel="canonical" href="https://ejoeundental.com/medical-safety-guide.html"'),
+  'authored medical safety guide must retain the verified production canonical');
+ assert.ok(html.includes('rel="canonical"')&&html.includes('application/ld+json'),
+  'the generated medical safety guide must keep canonical and structured data for the chosen deploy origin');
 });
 
 test('clinic structured data stays valid in HEAD while gallery CSS is discoverable early',()=>{
