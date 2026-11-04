@@ -98,8 +98,11 @@ test('Google sitemap reflects real clinical journal and homepage updates',()=>{
  const map=read('sitemap.xml');
  const journal=read('stories.html');
  const homePage=read('index.html');
- for(const [name,href] of [['homepage','https://ejoeundental.pages.dev/'],
-  ['clinical journal','https://ejoeundental.pages.dev/stories.html']]){
+ const homeCanonical=homePage.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+ const journalCanonical=journal.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+ assert.ok(homeCanonical&&journalCanonical,'both pages have a canonical URL');
+ for(const [name,href] of [['homepage',homeCanonical],
+  ['clinical journal',journalCanonical]]){
   const parts=map.split('<loc>'+href+'</loc>');
   assert.equal(parts.length,2,'sitemap has exactly one '+name+' canonical URL');
   assert.match(parts[1].split('</url>')[0],/<lastmod>2026-11-04<\/lastmod>/,
