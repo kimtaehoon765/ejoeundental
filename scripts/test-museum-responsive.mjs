@@ -209,6 +209,39 @@ test('doctor philosophy and alternating visit schedule retain verifiable page fa
   'both patient-facing pages must retain search canonical metadata');
 });
 
+test('patient atlas keeps ten original health chapters and four responsive reading rooms',()=>{
+ const css=readFileSync('assets/health-library-gallery.css','utf8');
+ assert.ok(css.includes('Clinical patient library atlas | 2026-11-04')&&
+  css.includes('main.article .health-essay-index__list > a')&&
+  css.includes('main.article > section:not([class]) > h2 > a'),
+  'original questions, chapter index and internal article links must have readable gallery styles');
+ assert.ok(css.includes('@media (max-width: 760px)')&&
+  css.includes('@media (forced-colors: active)')&&
+  css.includes('@media print'),
+  'reading styles must remain mobile, high-contrast and print friendly');
+ const pages=['gum-health.html','root-canal-health.html','insurance-health.html','additional-health.html'];
+ for(const file of pages){
+  const source=readFileSync(file,'utf8');
+  const page=read(file);
+  assert.ok(source.includes('/assets/health-library-gallery.css?v=20261104-patient-atlas01'),
+   'refresh the authored patient library stylesheet on '+file);
+  assert.ok(page.includes('/assets/health-library-gallery.css')&&
+   page.includes('class="health-library-find"')&&page.includes('class="health-reading-rooms"'),
+   'keep the search desk and topic reading routes on '+file);
+  assert.ok(page.includes('rel="canonical"')&&page.includes('href="/doctor.html"')&&
+   page.includes('tel:0325132875'),
+   'preserve canonical, medical author and real telephone on '+file);
+ }
+ for(const file of pages.slice(0,3)){
+  const page=read(file);
+  const index=page.match(/<nav class="health-essay-index"[^>]*>([\s\S]*?)<\/nav>/)?.[1]||'';
+  assert.equal((index.match(/href="#/g)||[]).length,10,
+   'all ten directly readable source chapters must remain accessible in '+file);
+  for(const [,anchor] of index.matchAll(/href="#([^"]+)"/g))
+   assert.ok(page.includes('id="'+anchor+'"'),'on-page contents must reach a real chapter in '+file+': '+anchor);
+ }
+});
+
 test('clinic structured data stays valid in HEAD while gallery CSS is discoverable early',()=>{
  const head=home.slice(0,home.indexOf('</head>'));
  const scripts=[...head.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
