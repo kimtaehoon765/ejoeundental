@@ -106,7 +106,7 @@ cp('tmj-care.html','tmj-care.html');cp('wisdom-tooth.html','wisdom-tooth.html');
   // A single exhibition-style reading layer for the 46 detailed health
   // articles. Keep the four topic hubs unchanged and preserve all source HTML.
   if(relative.startsWith('health/')){
-   const styleLink='<link rel="stylesheet" href="/assets/health-article-atelier-20261031.css?v=20261031-patient-reading01">';
+   const styleLink='<link rel="stylesheet" href="/assets/health-article-atelier-20261031.css?v=20261104-chapter-wayfinding01">';
    if(html.includes(styleLink))throw new Error('Duplicate health article atelier style: '+relative);
    html=html.replace('</head>',styleLink+'</head>');
   }
