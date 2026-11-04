@@ -901,3 +901,131 @@ body.visit-gallery .visit-arrival-actions>a {
     box-shadow:none;
   }
 }
+
+
+/* Visit schedule and directions reading gallery | 2026-11-04
+   Prioritize accurate alternating Fridays/Saturdays, real address, and parking.
+   A presentation-only pass: no hours, date promises, links or contact data change. */
+body.visit-gallery main > section.visit-hours-card > h2,
+body.visit-gallery main > section.visit-parking-card > h2,
+body.visit-gallery main > section.visit-transit-card > h2,
+body.visit-gallery main > section.visit-preparation-card > h2 {
+  max-width: 27ch;
+  color: #244b37;
+  font-size: clamp(23px, 2.4vw, 31px);
+  line-height: 1.45;
+  letter-spacing: -.04em;
+  word-break: keep-all;
+  text-wrap: balance;
+}
+body.visit-gallery main > section.visit-hours-card > ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 9px;
+  margin: 20px 0 26px;
+  padding: 0;
+  list-style: none;
+}
+body.visit-gallery main > section.visit-hours-card > ul > li {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 13px 14px;
+  border: 1px solid #dedfd3;
+  border-left: 3px solid #9ba88d;
+  border-radius: 5px 9px 5px 9px;
+  background: #fffefa;
+  color: #34533f;
+  font-size: clamp(14px, 1.2vw, 16px);
+  font-weight: 650;
+  line-height: 1.7;
+  word-break: keep-all;
+}
+body.visit-gallery main > section.visit-hours-card .visit-cycle > h3 {
+  max-width: 32ch;
+  color: #254936;
+  font-size: clamp(19px, 1.95vw, 24px);
+  line-height: 1.5;
+  letter-spacing: -.03em;
+  text-wrap: balance;
+}
+body.visit-gallery main > section.visit-hours-card .visit-cycle__card {
+  border-color: #d4dccf;
+  border-top-color: #86a48a;
+  background: #fdfefa;
+  box-shadow: 0 5px 16px rgba(28,55,37,.04);
+}
+body.visit-gallery main > section.visit-hours-card .visit-cycle__card--closed {
+  border-top-color: #a69475;
+  background: #f9f6ef;
+}
+body.visit-gallery main > section.visit-hours-card .visit-cycle__card > strong {
+  display: block;
+  margin-bottom: 10px;
+  font-size: clamp(16px, 1.55vw, 19px);
+  line-height: 1.5;
+  word-break: keep-all;
+}
+body.visit-gallery main > section.visit-hours-card .visit-cycle__card > span {
+  padding-block: 5px;
+  border-bottom: 1px solid #e7e7dc;
+  color: #425d4a;
+  line-height: 1.65;
+}
+body.visit-gallery main > section.visit-hours-card .visit-cycle__card > span:last-child {
+  border-bottom: 0;
+}
+body.visit-gallery main > section.visit-hours-card .visit-cycle__caution {
+  padding: 15px 17px;
+  border: 1px solid #e0d5bb;
+  border-radius: 7px;
+  background: #fffaf0;
+  color: #685337;
+  font-size: 14px;
+  line-height: 1.83;
+  word-break: keep-all;
+}
+body.visit-gallery main > section.visit-parking-card .visit-arrival-panel > div {
+  box-shadow: 0 5px 17px rgba(28,55,37,.045);
+}
+body.visit-gallery main > section.visit-parking-card #visit-clinic-address {
+  color: #1e4934;
+  font-size: clamp(18px, 2.05vw, 24px);
+  line-height: 1.65;
+  letter-spacing: -.03em;
+  word-break: keep-all;
+}
+body.visit-gallery main > section.clinic-local-questions dl dt {
+  color: #274c38;
+  font-size: clamp(16px, 1.45vw, 19px);
+  font-weight: 780;
+  line-height: 1.7;
+  word-break: keep-all;
+}
+body.visit-gallery main > section.clinic-local-questions dl dd {
+  color: #475f4d;
+  font-size: clamp(14px, 1.15vw, 16px);
+  line-height: 1.9;
+  word-break: keep-all;
+}
+@media (max-width: 600px) {
+  body.visit-gallery main > section.visit-hours-card > ul {
+    grid-template-columns: minmax(0,1fr);
+    gap: 7px;
+    margin: 16px 0 22px;
+  }
+  body.visit-gallery main > section.visit-hours-card > ul > li {
+    padding: 11px 13px;
+    font-size: 15px;
+  }
+  body.visit-gallery main > section.visit-hours-card .visit-cycle__caution {
+    padding: 13px 12px;
+  }
+}
+@media (forced-colors: active) {
+  body.visit-gallery main > section.visit-hours-card > ul > li,
+  body.visit-gallery main > section.visit-hours-card .visit-cycle__caution {
+    background: Canvas;
+    border-color: CanvasText;
+    color: CanvasText;
+  }
+}
