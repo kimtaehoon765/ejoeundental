@@ -694,3 +694,119 @@ body.search-gallery .search-result-list .result-focus[data-focus="insurance"] {
     border-color:CanvasText;
   }
 }
+
+
+/* Patient reading-room bridges | 2026-11-04
+   Genuine original health libraries sit beside the existing treatment search.
+   Navigation only; the local search index, privacy note and result ordering stay
+   unchanged. No location-keyword duplication. */
+body.search-gallery .search-topic-library {
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:minmax(0,.9fr) minmax(0,1.55fr);
+  gap:clamp(14px,2.2vw,25px);
+  margin:clamp(19px,2.65vw,30px) 0 12px;
+  padding:clamp(17px,2.3vw,25px);
+  border:1px solid #d9d9c9;
+  border-top:3px solid #a88f65;
+  border-radius:5px 14px 5px 14px;
+  background:linear-gradient(128deg,#fbf9f2,#f4f8f1);
+}
+body.search-gallery .search-topic-library__intro {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  justify-content:center;
+  min-width:0;
+}
+body.search-gallery .search-topic-library__intro>small {
+  color:#856d47;
+  font:800 10px/1.55 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.105em;
+}
+body.search-gallery .search-topic-library__intro>strong {
+  color:#224b35;
+  font:700 clamp(19px,2.05vw,24px)/1.5 "Noto Serif KR","Apple SD Gothic Neo",serif;
+  letter-spacing:-.04em;
+  word-break:keep-all;
+  text-wrap:balance;
+}
+body.search-gallery .search-topic-library__intro>span {
+  color:#556c58;
+  font-size:14px;
+  line-height:1.82;
+  word-break:keep-all;
+}
+body.search-gallery .search-topic-library__links {
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:8px;
+  min-width:0;
+}
+body.search-gallery .search-topic-library__links>a {
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:3px;
+  min-width:0;
+  min-height:69px;
+  padding:10px 15px;
+  border:1px solid #d8e0d1;
+  border-left:3px solid #89a58c;
+  border-radius:5px 9px 5px 9px;
+  background:#fffefa;
+  text-decoration:none;
+  transition:border-color .18s ease,background-color .18s ease;
+}
+body.search-gallery .search-topic-library__links>a:nth-child(2) {
+  border-left-color:#a99975;
+}
+body.search-gallery .search-topic-library__links>a>span {
+  color:#8a7150;
+  font:800 11px/1.4 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.055em;
+}
+body.search-gallery .search-topic-library__links>a>strong {
+  color:#21513a;
+  font-size:clamp(14px,1.3vw,16px);
+  line-height:1.65;
+  font-weight:750;
+  word-break:keep-all;
+}
+body.search-gallery .search-topic-library__links>a:focus-visible {
+  outline:3px solid #a27e47;
+  outline-offset:3px;
+}
+@media (hover:hover) and (pointer:fine) {
+  body.search-gallery .search-topic-library__links>a:hover {
+    background:#f1f7ee;
+    border-color:#8ba890;
+  }
+}
+@media (max-width:720px) {
+  body.search-gallery .search-topic-library {
+    grid-template-columns:minmax(0,1fr);
+    gap:13px;
+    padding:17px 14px;
+  }
+  body.search-gallery .search-topic-library__links>a {
+    min-height:62px;
+    padding:9px 12px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  body.search-gallery .search-topic-library__links>a {transition:none}
+}
+@media (forced-colors:active) {
+  body.search-gallery .search-topic-library,
+  body.search-gallery .search-topic-library__links>a {
+    color:CanvasText;
+    background:Canvas;
+    border-color:CanvasText;
+  }
+  body.search-gallery .search-topic-library__links>a :is(strong,span),
+  body.search-gallery .search-topic-library__intro :is(small,strong,span) {
+    color:CanvasText;
+  }
+}
