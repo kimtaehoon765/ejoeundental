@@ -252,12 +252,15 @@ test('46 original clinical articles keep numbered chapter navigation and stable 
   'health articles need clear numbered questions, chosen section and accessible reader views');
  assert.ok(compiled.includes('counter(clinical-chapter, decimal-leading-zero)'),
   'actual production CSS must include new chapter navigation');
+ const buildSource=readFileSync('build.mjs','utf8');
+ assert.ok(buildSource.includes('health-article-atelier-20261031.css?v=20261104-chapter-wayfinding01'),
+  'all health articles need the new authored stylesheet cache key');
  const pages=['health/gum-bleeding.html','health/root-canal-pain.html',
   'health/insurance-scaling.html','health/root-canal-why.html'];
  for(const name of pages){
   const article=read(name);
-  assert.ok(article.includes('/assets/health-article-atelier-20261031.css?v=20261104-chapter-wayfinding01'),
-   'refreshed gallery CSS must be linked to the generated medical page: '+name);
+  assert.ok(article.includes('/assets/health-article-atelier-20261031.css'),
+   'the built medical page must link the verified CSS, even when its cache key is fingerprinted: '+name);
   assert.ok(article.includes('class="article-toc"')&&article.includes('id="article-main"'),
    'original individual page and table of contents remain crawlable: '+name);
   assert.ok(article.includes('rel="canonical"')&&article.includes('application/ld+json'),
