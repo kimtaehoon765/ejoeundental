@@ -120,6 +120,31 @@ test('Google sitemap reflects real clinical journal and homepage updates',()=>{
   'indexable journal and specialist education links remain in the HTML');
 });
 
+test('clinic journal and story detail share calm accessible reading design',()=>{
+ const journal=read('stories.html');
+ const collectionStyles=read('assets/stories-salon-20261031.css');
+ const articleStyles=read('assets/story-article.css');
+ const article=read('stories/2026-10-25-incheon-choosing-periodontal-clinic-what-to-check/index.html');
+ assert.ok(journal.includes('/assets/stories-salon-20261031.css?v=20261104-clinical-catalog'),
+  'journal must load the newest artwork-free CSS catalog styling, not a stale cached copy');
+ assert.ok(journal.includes('id="story-directory"')&&journal.includes('class="story-topic-heading"')&&
+  journal.includes('class="story-card"')&&journal.includes('class="directory-search"'),
+  'server-rendered clinical topic groups and searchable individual articles remain intact');
+ assert.ok(collectionStyles.includes('Clinical archive catalog polish | 2026-11-04')&&
+  collectionStyles.includes('#story-directory .story-card h3')&&
+  collectionStyles.includes('prefers-reduced-motion: reduce')&&
+  collectionStyles.includes('forced-colors: active'),
+  'journal should have descriptive, responsive and accessible article hierarchy');
+ assert.ok(articleStyles.includes('Clinical journal reading finish | 2026-11-04')&&
+  articleStyles.includes('.story-prose > h2')&&
+  articleStyles.includes('@media print'),
+  'clinical long-form writing must have readable section hierarchy on screen and paper');
+ assert.ok(article.includes('class="story-prose"')&&
+  article.includes('href="/stories.html"')&&
+  article.includes('class="story-mobile-booking"'),
+  'original article text, navigation and mobile booking must remain available');
+});
+
 test('clinic structured data stays valid in HEAD while gallery CSS is discoverable early',()=>{
  const head=home.slice(0,home.indexOf('</head>'));
  const scripts=[...head.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
