@@ -234,3 +234,143 @@ body.safety-reading-room .reading-caution h2 {
     box-shadow:none;
   }
 }
+
+
+/* Patient medication safety catalogue | 2026-11-04
+   Navigation and safety emphasis for the existing authored clinical advice.
+   Do not change drug cautions, art proportions or treatment recommendations. */
+body.safety-reading-room main > .grid {
+  counter-reset: patient-safety-topic;
+}
+body.safety-reading-room main > .grid > a.card {
+  position:relative;
+  gap:9px;
+  align-items:flex-start;
+  scroll-margin-top:95px;
+  border-color:#d8dfd2;
+  border-top-color:#8fab92;
+  border-radius:5px 13px 5px 13px;
+  background:#fffefa;
+  box-shadow:0 7px 21px rgba(28,58,39,.04);
+  word-break:keep-all;
+}
+body.safety-reading-room main > .grid > a.card::before {
+  counter-increment:patient-safety-topic;
+  content:"PATIENT NOTE " counter(patient-safety-topic,decimal-leading-zero);
+  display:block;
+  margin-bottom:3px;
+  color:#876f4f;
+  font:800 10px/1.5 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing:.085em;
+}
+body.safety-reading-room main > .grid > a.card > h2 {
+  max-width:100%;
+  color:#234b38;
+  font-size:clamp(18px,1.7vw,21px);
+  line-height:1.52;
+  letter-spacing:-.035em;
+  text-wrap:balance;
+}
+body.safety-reading-room main > .grid > a.card > p {
+  color:#4b6151;
+  font-size:clamp(14px,1.16vw,15px);
+  line-height:1.82;
+  word-break:keep-all;
+}
+body.safety-reading-room main > .grid > a.card[data-kind="highlights"] {
+  background:#f9faf5;
+  border-top-color:#ad9673;
+}
+body.safety-reading-room main > .reading-title {
+  max-width:33ch;
+  border-bottom:1px solid #d8dfd3;
+  padding-bottom:12px;
+  color:#214837;
+  letter-spacing:-.045em;
+  text-wrap:balance;
+}
+body.safety-reading-room main > .notice {
+  border:1px solid #e2cfaa;
+  border-left:5px solid #a78546;
+  border-radius:5px 12px 5px 12px;
+  background:linear-gradient(105deg,#fff5e7,#fffdf7);
+  color:#674c27;
+  font-size:clamp(15px,1.26vw,17px);
+  line-height:1.87;
+  word-break:keep-all;
+}
+body.safety-reading-room main > .notice strong {
+  font-weight:800;
+  color:#644624;
+}
+body.safety-reading-room main > #safety-medication-notice {
+  scroll-margin-top:90px;
+  border:1px solid #dccda9;
+  border-left:5px solid #aa8747;
+  background:linear-gradient(115deg,#fff7e9,#fffef8);
+  border-radius:5px 12px 5px 12px;
+}
+body.safety-reading-room main > #safety-medication-notice > h2 {
+  color:#674b29;
+  font-size:clamp(22px,2.35vw,28px);
+  line-height:1.5;
+  letter-spacing:-.045em;
+}
+body.safety-reading-room main > #safety-medication-notice > p {
+  max-width:75ch;
+  color:#5b503a;
+  font-size:clamp(15px,1.27vw,17px);
+  line-height:1.9;
+}
+body.safety-reading-room main > #safety-medication-notice a {
+  min-height:48px;
+  font-weight:800;
+  color:#315d43;
+}
+@media(max-width:620px){
+  body.safety-reading-room main > .grid > a.card {
+    gap:6px;
+    padding:16px 15px;
+  }
+  body.safety-reading-room main > .grid > a.card::before {
+    font-size:10px;
+  }
+  body.safety-reading-room main > .grid > a.card > h2 {
+    font-size:19px;
+    line-height:1.55;
+  }
+  body.safety-reading-room main > .grid > a.card > p {
+    font-size:15px;
+    line-height:1.82;
+  }
+  body.safety-reading-room main > .notice {
+    padding:15px 14px;
+  }
+  body.safety-reading-room main > #safety-medication-notice {
+    padding:17px 15px;
+  }
+}
+@media(forced-colors:active) {
+  body.safety-reading-room main > .grid > a.card,
+  body.safety-reading-room main > .notice,
+  body.safety-reading-room main > #safety-medication-notice {
+    background:Canvas;
+    color:CanvasText;
+    border-color:CanvasText;
+    box-shadow:none;
+  }
+  body.safety-reading-room main > .grid > a.card :is(h2,p),
+  body.safety-reading-room main > .notice strong,
+  body.safety-reading-room main > #safety-medication-notice :is(h2,p) {
+    color:CanvasText;
+  }
+}
+@media print {
+  body.safety-reading-room main > .grid > a.card,
+  body.safety-reading-room main > .notice,
+  body.safety-reading-room main > #safety-medication-notice {
+    background:none;
+    box-shadow:none;
+    break-inside:avoid;
+  }
+}
