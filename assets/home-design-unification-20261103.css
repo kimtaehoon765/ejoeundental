@@ -1542,3 +1542,64 @@ body.home-page #main-content > .hero.wrap .hero-care-summary > a .hero-care-card
     border-color: CanvasText;
   }
 }
+/* 2026-11-05 | Mobile painting rail guidance on ivory and forest
+   The two native swipeable art rails now explain themselves on narrow screens.
+   Never modify the original image ratios, links or the fixed booking dock. */
+@media (max-width: 600px) {
+  body.home-page #main-content > .curated-threshold .curated-threshold__swipe-hint {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 12px 0 2px;
+    padding: 10px 13px;
+    border: 1px solid #d4d9c9;
+    border-left: 3px solid #a89066;
+    border-radius: 7px;
+    background: #f2f5ed;
+    color: #294d3a;
+    font-size: 13px;
+    font-weight: 750;
+    line-height: 1.55;
+    word-break: keep-all;
+  }
+  body.home-page #main-content > .curated-threshold .curated-threshold__swipe-hint > span {
+    flex: none;
+    color: #846a43;
+    font-size: 19px;
+  }
+  body.home-page .atelier-collection-peek__intro .atelier-collection-peek__swipe-hint {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 12px;
+    padding: 10px 12px;
+    max-width: 38ch;
+    border-left: 3px solid #d5b57e;
+    border-radius: 0 6px 6px 0;
+    background: rgba(255,253,247,.12);
+    color: #fff6e5;
+    font-size: 13px;
+    font-weight: 750;
+    line-height: 1.6;
+    word-break: keep-all;
+  }
+  body.home-page .atelier-collection-peek__intro .atelier-collection-peek__swipe-hint > span {
+    flex: none;
+    color: #f4d39e;
+    font-size: 19px;
+  }
+}
+@media (forced-colors:active) and (max-width:600px) {
+  body.home-page #main-content > .curated-threshold .curated-threshold__swipe-hint,
+  body.home-page .atelier-collection-peek__intro .atelier-collection-peek__swipe-hint {
+    border-color: CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+  body.home-page #main-content > .curated-threshold .curated-threshold__swipe-hint > span,
+  body.home-page .atelier-collection-peek__intro .atelier-collection-peek__swipe-hint > span {
+    color: CanvasText;
+  }
+}
