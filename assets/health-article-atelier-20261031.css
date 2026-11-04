@@ -316,3 +316,75 @@ body>main.article#article-main>.bottom small{
   body>main.article#article-main>.article-toc{display:none}
   body>main.article#article-main .note{break-inside:avoid}
 }
+
+
+/* Clinical chapter wayfinding | 2026-11-04.
+   Number the existing in-page questions without duplicating their text,
+   and visually locate the chapter the visitor intentionally chose. */
+body > main.article#article-main > .article-toc > ul {
+  counter-reset: clinical-chapter;
+}
+body > main.article#article-main > .article-toc li > a::before {
+  counter-increment: clinical-chapter;
+  content: counter(clinical-chapter, decimal-leading-zero);
+  display: inline-flex;
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border: 1px solid #d6c6a7;
+  border-radius: 50%;
+  background: #faf3e6;
+  color: #7c6745;
+  font: 750 11px/1 system-ui,"Apple SD Gothic Neo",sans-serif;
+  letter-spacing: .01em;
+}
+body > main.article#article-main > h2[id]:target {
+  padding: 13px 15px 14px;
+  border-left: 4px solid #9b8153;
+  border-bottom-color: #d7d6c9;
+  border-radius: 0 8px 8px 0;
+  background: linear-gradient(100deg,#f1f6ed,#fffefa);
+  color: #1e4633;
+}
+body > main.article#article-main > .article-toc a:focus-visible,
+body > main.article#article-main > h2[id] a:focus-visible {
+  outline: 3px solid #9c793d;
+  outline-offset: 4px;
+}
+body > main.article#article-main > .note li a {
+  display: inline-block;
+  padding-block: 7px;
+  min-height: 40px;
+  box-sizing: border-box;
+  line-height: 1.6;
+}
+@media (max-width: 600px) {
+  body > main.article#article-main > .article-toc li > a::before {
+    width: 29px;
+    height: 29px;
+    flex-basis: 29px;
+  }
+  body > main.article#article-main > h2[id]:target {
+    padding: 12px 12px 13px;
+  }
+  body > main.article#article-main > .note li a {
+    min-height: 44px;
+  }
+}
+@media (forced-colors: active) {
+  body > main.article#article-main > .article-toc li > a::before,
+  body > main.article#article-main > h2[id]:target {
+    border-color: CanvasText;
+    color: CanvasText;
+    background: Canvas;
+  }
+}
+@media print {
+  body > main.article#article-main > .article-toc li > a::before,
+  body > main.article#article-main > h2[id]:target {
+    background: none;
+  }
+}
