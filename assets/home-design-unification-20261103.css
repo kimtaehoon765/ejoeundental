@@ -1039,3 +1039,162 @@ body.home-page #main-content > .hero.wrap .hero-local-intro > a {
     min-height: 48px;
   }
 }
+
+
+/* Clinical reading gallery | 2026-11-04
+   Editorial treatment for native, indexable patient education links.
+   Keep the existing medical writing, original paintings, and desktop/mobile
+   booking behavior unchanged. Small details should support reading. */
+body.home-page #main-content > #home-representative-guides
+.home-representative-guides > h2 {
+  max-width: 26ch;
+  color: #244b3b;
+  font-size: clamp(24px, 2.65vw, 37px);
+  line-height: 1.38;
+  letter-spacing: -.045em;
+  word-break: keep-all;
+  text-wrap: balance;
+}
+body.home-page #main-content > #home-representative-guides
+.home-representative-guides > p {
+  max-width: 72ch;
+  color: #536459;
+  line-height: 1.9;
+  word-break: keep-all;
+}
+body.home-page #main-content > #home-representative-guides
+.home-representative-guide-grid {
+  counter-reset: clinical-question;
+  gap: clamp(12px, 1.7vw, 20px);
+}
+body.home-page #main-content > #home-representative-guides
+.home-representative-guide-grid > a {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  min-width: 0;
+  padding: clamp(19px, 2.2vw, 28px);
+  border: 1px solid #dedbcf;
+  border-top: 3px solid #a99772;
+  border-radius: 9px;
+  background: #fffefa;
+  box-shadow: 0 7px 22px rgba(28, 59, 42, .045);
+  text-decoration: none;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+body.home-page #main-content > #home-representative-guides
+.home-representative-guide-grid > a::before {
+  counter-increment: clinical-question;
+  content: "QUESTION " counter(clinical-question, decimal-leading-zero);
+  display: block;
+  color: #856e4d;
+  font: 700 10px/1.4 "DM Sans", sans-serif;
+  letter-spacing: .13em;
+}
+body.home-page #main-content > #home-representative-guides
+.home-representative-guide-grid > a > strong {
+  color: #204835;
+  font-size: clamp(17px, 1.55vw, 21px);
+  line-height: 1.46;
+  letter-spacing: -.03em;
+  word-break: keep-all;
+}
+body.home-page #main-content > #home-representative-guides
+.home-representative-guide-grid > a > span {
+  color: #536b5b;
+  font-size: 14px;
+  line-height: 1.7;
+  word-break: keep-all;
+}
+body.home-page #main-content > .symptom-navigator
+.symptom-navigator-grid > a {
+  box-sizing: border-box;
+  padding: clamp(17px, 1.85vw, 24px);
+  border: 1px solid #dce2d7;
+  border-top: 2px solid #91a790;
+  border-radius: 8px;
+  background: #fcfdf9;
+  box-shadow: 0 4px 15px rgba(32, 59, 40, .035);
+  text-decoration: none;
+  transition: border-color .18s ease, background-color .18s ease;
+}
+body.home-page #main-content > .symptom-navigator
+.symptom-navigator-grid > a > strong {
+  color: #234936;
+  font-size: clamp(16px, 1.45vw, 19px);
+  font-weight: 750;
+  line-height: 1.55;
+  letter-spacing: -.025em;
+  word-break: keep-all;
+}
+body.home-page #main-content > .symptom-navigator
+.symptom-navigator-grid > a > span {
+  color: #597063;
+  font-size: 13px;
+  line-height: 1.65;
+  word-break: keep-all;
+}
+body.home-page #main-content > #health-info
+.health-topic-grid > .health-topic-card > p {
+  color: #4d6154;
+  font-size: clamp(14px, 1.14vw, 16px);
+  line-height: 1.85;
+  word-break: keep-all;
+}
+body.home-page #main-content > #health-info
+.health-topic-grid > .health-topic-card .health-topic-actions a {
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+@media (hover: hover) and (pointer: fine) {
+  body.home-page #main-content > #home-representative-guides
+  .home-representative-guide-grid > a:hover {
+    border-color: #aa9b7c;
+    box-shadow: 0 12px 24px rgba(28, 59, 42, .08);
+  }
+  body.home-page #main-content > .symptom-navigator
+  .symptom-navigator-grid > a:hover {
+    border-color: #8fa58d;
+    background: #f3f7ef;
+  }
+}
+body.home-page #main-content > #home-representative-guides
+.home-representative-guide-grid > a:focus-visible,
+body.home-page #main-content > .symptom-navigator
+.symptom-navigator-grid > a:focus-visible {
+  outline: 3px solid #997844;
+  outline-offset: 4px;
+}
+@media (max-width: 600px) {
+  body.home-page #main-content > #home-representative-guides
+  .home-representative-guide-grid > a {
+    padding: 19px;
+    gap: 8px;
+  }
+  body.home-page #main-content > .symptom-navigator
+  .symptom-navigator-grid > a {
+    padding: 17px 15px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.home-page #main-content > #home-representative-guides
+  .home-representative-guide-grid > a,
+  body.home-page #main-content > .symptom-navigator
+  .symptom-navigator-grid > a {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  body.home-page #main-content > #home-representative-guides
+  .home-representative-guide-grid > a,
+  body.home-page #main-content > .symptom-navigator
+  .symptom-navigator-grid > a {
+    border-color: CanvasText;
+    background: Canvas;
+    color: CanvasText;
+    box-shadow: none;
+  }
+}
