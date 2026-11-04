@@ -2791,7 +2791,7 @@ test('retreatment cause card paintings use one fixed-height frame without label 
  assert.ok(stylesheet.includes('Retreatment cause cards: uniform illustrated image frames'));
  assert.match(stylesheet,/body\.care-gallery\.care-retreatment \.block \.cards > \.card > img\{[\s\S]*?height:200px;[\s\S]*?object-fit:contain;/);
  assert.ok(stylesheet.includes('@media(max-width:600px)'), 'mobile card image frames stay consistent');
- assert.ok(readFileSync('retreatment.html','utf8').includes('retreatment-steps5-01'), 'the source page should request refreshed CSS (build output may fingerprint stylesheets)');
+ assert.ok(readFileSync('retreatment.html','utf8').includes('care-exhibition-finish-20261031.css?v=20261104-clinical-reading-01'), 'the source page should request refreshed CSS (build output may fingerprint stylesheets)');
 });
 
 test('approved first retreatment step removes existing orange gutta-percha and shows an apical lesion',()=>{
