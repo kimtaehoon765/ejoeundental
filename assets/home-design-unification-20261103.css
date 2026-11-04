@@ -1460,3 +1460,85 @@ body.home-page #main-content > .symptom-navigator .symptom-quick-topics > a {
     box-shadow: none;
   }
 }
+/* 2026-11-05 | First-screen treatment catalogue layout repair
+   Restore the three-part catalog layout (number, clinical copy, arrow) lost
+   to a later flex rule. Preserve original HTML, all links and SEO terms. */
+body.home-page #main-content > .hero.wrap .hero-care-summary {
+  counter-reset: clinical-catalogue;
+}
+body.home-page #main-content > .hero.wrap .hero-care-summary > a {
+  counter-increment: clinical-catalogue;
+  display: grid;
+  grid-template-columns: 32px minmax(0,1fr) 20px;
+  align-items: center;
+  column-gap: 13px;
+  min-width: 0;
+  min-height: 90px;
+  padding: 15px 16px;
+  border-left: 3px solid #8aa08b;
+  border-radius: 8px;
+  background: #fffefa;
+}
+body.home-page #main-content > .hero.wrap .hero-care-summary > a:nth-child(even) {
+  border-left-color: #b49a6d;
+  background: #fbfaf5;
+}
+body.home-page #main-content > .hero.wrap .hero-care-summary > a::before {
+  content: counter(clinical-catalogue, decimal-leading-zero);
+  grid-column: 1;
+  grid-row: 1;
+  display: block;
+  align-self: center;
+  width: 32px;
+  margin: 0;
+  padding: 0 6px 0 0;
+  border-right: 1px solid #d7c6a6;
+  color: #8c6b42;
+  font: 750 12px/1.5 "DM Sans",system-ui,sans-serif;
+  letter-spacing: .025em;
+}
+body.home-page #main-content > .hero.wrap .hero-care-summary > a .hero-care-card__copy {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+}
+body.home-page #main-content > .hero.wrap .hero-care-summary > a .hero-care-card__arrow {
+  grid-column: 3;
+  grid-row: 1;
+  align-self: center;
+  justify-self: end;
+  margin: 0;
+  color: #846d49;
+}
+@media (max-width: 600px) {
+  body.home-page #main-content > .hero.wrap .hero-care-summary > a {
+    grid-template-columns: 26px minmax(0,1fr) 15px;
+    column-gap: 9px;
+    min-height: 78px;
+    padding: 13px 12px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-care-summary > a::before {
+    width: 26px;
+    padding-right: 4px;
+    font-size: 11px;
+  }
+  body.home-page #main-content > .hero.wrap .hero-care-summary > a .hero-care-card__copy > strong {
+    font-size: clamp(15px,3.7vw,17px);
+    line-height: 1.47;
+  }
+  body.home-page #main-content > .hero.wrap .hero-care-summary > a .hero-care-card__copy > span {
+    font-size: 12px;
+    line-height: 1.55;
+  }
+}
+@media (forced-colors: active) {
+  body.home-page #main-content > .hero.wrap .hero-care-summary > a {
+    border-color: CanvasText;
+    background: Canvas;
+  }
+  body.home-page #main-content > .hero.wrap .hero-care-summary > a::before,
+  body.home-page #main-content > .hero.wrap .hero-care-summary > a .hero-care-card__arrow {
+    color: CanvasText;
+    border-color: CanvasText;
+  }
+}
