@@ -164,6 +164,23 @@ test('Google crawl discovery, verification and article authorship remain consist
 });
 
 
+test('dentist-reviewed November oral-care additions remain visible and indexed',()=>{
+ const sitemap=readFileSync(path.join(output,'sitemap.xml'),'utf8');
+ const pages=[
+  ['gum-health','매일 양치하는데 왜 치석이 생기고 잇몸에서 피가 날까요?','치아 사이에는 하루 한 번 치실'],
+  ['scaling','스케일링할 때 가글마취를 꼭 해야 하나요?','기구 출력과 압력, 진행 속도'],
+  ['root-canal-health','치아가 아픈데 충치 때문일까요, 잇몸 때문일까요?','사랑니 주변 염증'],
+  ['doctor','치과를 선택할 때 무엇을 확인하면 좋을까요?','진료의 연속성']
+ ];
+ for(const [slug,question,clinicalDetail] of pages){
+  const html=readFileSync(path.join(output,slug+'.html'),'utf8');
+  assert.ok(html.includes(question),slug+' needs original patient-facing answer');
+  assert.ok(html.includes(clinicalDetail),slug+' should retain a specific clinical explanation');
+  assert.ok(sitemap.includes('<loc>'+origin+'/'+slug+'</loc><lastmod>2026-11-04</lastmod>'),
+   slug+' sitemap should reflect actual new November 4 copy');
+ }
+});
+
 test('Google search users can follow gum bumps and post-treatment infection to a helpful clinical answer',()=>{
  const sitemap=readFileSync(path.join(output,'sitemap.xml'),'utf8');
  for(const slug of ['gum-health','root-canal-health','health/gum-pus']){
