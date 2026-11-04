@@ -148,6 +148,30 @@ test('clinic journal and story detail share calm accessible reading design',()=>
   'original article text, navigation and mobile booking must remain available');
 });
 
+test('clinical treatment guides keep searchable text and a single mobile contact dock',()=>{
+ const sheets=readFileSync('assets/care-exhibition-finish-20261031.css','utf8');
+ assert.ok(sheets.includes('Clinical guide reading finish | 2026-11-04')&&
+  sheets.includes('#patient-next-steps > div > div > a')&&
+  sheets.includes('.clinical-answer-strip .clinical-answer-lead'),
+  'care articles must retain clinical reading and patient learning routes');
+ assert.ok(sheets.includes('.treatment-hero-actions > :is(.treatment-hero-call,.care-gallery-booking) {\n    display: none;'),
+  'mobile hero must not duplicate the existing fixed phone and booking buttons');
+ const pages=['gum-treatment.html','retreatment.html','cervical-abrasion.html','insured-care.html'];
+ for(const page of pages){
+  const source=readFileSync(page,'utf8');
+  const built=read(page);
+  assert.ok(source.includes('care-exhibition-finish-20261031.css?v=20261104-clinical-reading-01'),
+   'authoring stylesheet version must be updated for '+page);
+  assert.ok(built.includes('care-exhibition-finish-20261031.css'),
+   'deployed patient guide must link its finishing design on '+page);
+  for(const marker of ['class="treatment-hero-actions"','class="care-gallery-bottom-actions"','href="tel:0325132875"','booking.naver.com/booking/13/bizes/1162931']){
+   assert.ok(built.includes(marker),'patient contact actions must remain in '+page+': '+marker);
+  }
+  assert.ok(built.includes('rel="canonical"')&&built.includes('application/ld+json'),
+   'original clinical SEO signals must remain in '+page);
+ }
+});
+
 test('clinic structured data stays valid in HEAD while gallery CSS is discoverable early',()=>{
  const head=home.slice(0,home.indexOf('</head>'));
  const scripts=[...head.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
