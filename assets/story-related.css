@@ -7,3 +7,37 @@
 .story-related a:hover{color:#174631}
 .story-related a:focus-visible{outline:3px solid #9f814a;outline-offset:3px;border-radius:4px}
 @media(max-width:600px){.story-related{padding:15px 16px;margin:24px 0 17px}.story-related li{line-height:1.6}.story-related a{font-size:14px;min-height:48px}}
+
+
+/* Contextual path from an individual clinical article to deeper, existing
+   patient education. Linked topic varies with the article; never insert
+   generic location keyword blocks or duplicate the clinical text. */
+.story-library-path{
+  margin:23px 0;
+  padding:17px 20px;
+  border-left:3px solid #92ab94;
+  border-radius:0 10px 10px 0;
+  background:#f5f8f2;
+  color:#284c39;
+  font-size:14px;
+  line-height:1.8;
+  word-break:keep-all;
+}
+.story-library-path > strong{display:block;font-size:16px;color:#234735}
+.story-library-path > p{margin:6px 0 0}
+.story-library-path a{
+  display:inline-block;
+  padding:5px 2px;
+  min-height:40px;
+  color:#265d44;
+  font-weight:700;
+  text-underline-offset:3px;
+}
+.story-library-path a:focus-visible{outline:3px solid #9f814a;outline-offset:3px}
+@media(max-width:600px){
+ .story-library-path{padding:14px 15px;margin:20px 0}
+ .story-library-path a{min-height:44px}
+}
+@media(forced-colors:active){
+ .story-library-path{background:Canvas;color:CanvasText;border-color:CanvasText}
+}
