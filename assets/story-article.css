@@ -94,3 +94,128 @@
  .story-mobile-actions{display:none!important}
  body.owner-story-page{padding-bottom:0!important}
 }
+
+
+/* Clinical journal reading finish | 2026-11-04
+   A restrained editorial hierarchy for original long-form patient writing.
+   All text, article structure, published dates and links stay untouched. */
+body.owner-story-page #main-content > article.article {
+  max-width: 940px;
+}
+body.owner-story-page #main-content > article.article > .eyebrow {
+  display: inline-block;
+  margin-block: 18px 9px;
+  padding: 6px 0;
+  border-bottom: 1px solid #b6a07c;
+  color: #80663f;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+body.owner-story-page #main-content > article.article > h1 {
+  max-width: 24ch;
+  margin-block: 10px 19px;
+  color: #203f32;
+  font-size: clamp(30px, 4.1vw, 46px);
+  line-height: 1.38;
+  letter-spacing: -.048em;
+  word-break: keep-all;
+  text-wrap: balance;
+}
+body.owner-story-page #main-content > article.article > .story-category {
+  margin: 0 0 18px;
+  color: #42634f;
+  font-size: 13px;
+}
+body.owner-story-page #main-content > article.article > .story-category a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 6px 12px;
+  border: 1px solid #d6dfd1;
+  border-radius: 6px;
+  background: #f4f7f0;
+  text-decoration: none;
+}
+body.owner-story-page #main-content .story-prose {
+  max-width: 75ch;
+  margin-block: 31px 34px;
+  color: #2b4839;
+  font-size: clamp(16px, 1.24vw, 17px);
+  line-height: 1.96;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+body.owner-story-page #main-content .story-prose > p {
+  margin-bottom: 1.4em;
+  line-height: 1.96;
+}
+body.owner-story-page #main-content .story-prose > h2 {
+  margin: clamp(36px, 4.5vw, 54px) 0 18px;
+  padding: 12px 15px 13px;
+  border: 0;
+  border-left: 3px solid #9caa8d;
+  border-bottom: 1px solid #e2e4d8;
+  border-radius: 0 5px 5px 0;
+  background: linear-gradient(90deg, #f2f5ee, #fffefa);
+  color: #1e4634;
+  font-size: clamp(20px, 2.12vw, 25px);
+  line-height: 1.5;
+  letter-spacing: -.035em;
+  text-wrap: pretty;
+}
+body.owner-story-page #main-content .story-prose > h2:first-child {
+  margin-top: 18px;
+}
+body.owner-story-page #main-content .story-toc {
+  max-width: 75ch;
+  border-color: #d6dccd;
+  background: #fafbf6;
+}
+body.owner-story-page #main-content .story-toc summary {
+  color: #28503d;
+}
+body.owner-story-page #main-content .story-toc[open] nav {
+  gap: 9px;
+}
+body.owner-story-page #main-content .story-library-path {
+  max-width: 75ch;
+}
+@media (max-width: 600px) {
+  body.owner-story-page #main-content > article.article > h1 {
+    max-width: 100%;
+    font-size: clamp(28px, 7.3vw, 36px);
+    line-height: 1.43;
+  }
+  body.owner-story-page #main-content .story-prose {
+    max-width: 100%;
+    margin-block: 23px 26px;
+    font-size: 16px;
+    line-height: 1.89;
+  }
+  body.owner-story-page #main-content .story-prose > p {
+    margin-bottom: 1.25em;
+    line-height: 1.89;
+  }
+  body.owner-story-page #main-content .story-prose > h2 {
+    margin-top: 34px;
+    padding: 12px 11px;
+    font-size: 20px;
+    line-height: 1.52;
+  }
+}
+@media (forced-colors: active) {
+  body.owner-story-page #main-content .story-prose > h2,
+  body.owner-story-page #main-content > article.article > .story-category a {
+    border-color: CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+}
+@media print {
+  body.owner-story-page #main-content .story-prose > h2 {
+    background: none;
+    border-color: #444;
+    break-after: avoid;
+  }
+}
