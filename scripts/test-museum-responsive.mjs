@@ -304,6 +304,38 @@ test('gallery watercolor labels connect three unique paintings to original patie
   'booking and search signals must remain unchanged');
 });
 
+test('search gallery bridges clinical topic cards into three original ten-article libraries',()=>{
+ const source=readFileSync('search.html','utf8');
+ const page=read('search.html');
+ const sourceCss=readFileSync('assets/search-page.css','utf8');
+ const css=read('assets/search-page.css');
+ assert.ok(source.includes('/assets/search-page.css?v=20261104-reading-room01'),
+  'the versioned search styles must be refreshed in the authored HTML');
+ assert.ok(page.includes('/assets/search-page.css'),
+  'the generated search page must load the custom search design');
+ assert.ok(sourceCss.includes('Patient reading-room bridges | 2026-11-04')&&
+  css.includes('.search-topic-library__links>a')&&
+  sourceCss.includes('@media (max-width:720px)')&&
+  sourceCss.includes('@media (forced-colors:active)'),
+  'the original medical reading-room navigation must be responsive and accessible');
+ const start=page.indexOf('class="search-topic-library"');
+ const end=page.indexOf('class="search-topic-index__symptoms"',start);
+ assert.ok(start>0&&end>start,
+  'medical reading rooms should follow treatment information cards and precede symptom browsing');
+ const room=page.slice(start,end);
+ const urls=['/gum-health.html','/root-canal-health.html','/insurance-health.html'];
+ for(const url of urls){
+  assert.equal(room.split('href="'+url+'"').length-1,1,
+   'show one real patient-library link for '+url);
+  assert.ok(existsSync('dist'+url),'the patient library must exist in the static output: '+url);
+ }
+ assert.equal((room.match(/class="search-topic-library__links"/g)||[]).length,1);
+ assert.ok(page.includes('name="robots" content="noindex,follow"')&&
+  page.includes('class="search-form"')&&page.includes('id="results"')&&
+  page.includes('href="/stories.html"'),
+  'original privacy-safe searching, discovery and indexing rules must remain');
+});
+
 test('clinic structured data stays valid in HEAD while gallery CSS is discoverable early',()=>{
  const head=home.slice(0,home.indexOf('</head>'));
  const scripts=[...head.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
