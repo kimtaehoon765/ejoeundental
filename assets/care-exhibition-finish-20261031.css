@@ -1567,3 +1567,44 @@ body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasi
     background: Canvas;
   }
 }
+/* 2026-11-05 | Clinical contents navigation landing cues
+   Existing table-of-contents anchors all resolve on the four treatment pages.
+   Offset navigation for the sticky header and quietly mark the destination. */
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+main :is(section,article,h2,h3,details)[id] {
+  scroll-margin-top: clamp(104px,13vh,146px);
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+main :is(h2,h3):target {
+  outline: 2px solid #b59b6b;
+  outline-offset: 7px;
+  border-radius: 3px;
+  background: #fffdf5;
+  color: #244b38;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+main section:target > :is(.wrap,.clinical-answer-inner,.care-inner) > h2:first-of-type {
+  box-shadow: -5px 0 0 #ad9465;
+  padding-left: 13px;
+  color: #254d39;
+}
+@media (max-width:600px) {
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+  main :is(section,article,h2,h3,details)[id] {
+    scroll-margin-top: 112px;
+  }
+}
+@media (forced-colors:active) {
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+  main :is(h2,h3):target {
+    background: Canvas;
+    color: CanvasText;
+    outline-color: Highlight;
+  }
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+  main section:target > :is(.wrap,.clinical-answer-inner,.care-inner) > h2:first-of-type {
+    box-shadow: none;
+    outline: 2px solid Highlight;
+    outline-offset: 5px;
+  }
+}
