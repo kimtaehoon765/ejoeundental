@@ -13,3 +13,14 @@
 .owner-illustrated-care .owner-illustrated-care__links a:focus-visible{outline:3px solid #c18e49;outline-offset:3px}
 .owner-illustrated-care .owner-illustrated-care__links a span{font-size:1.08rem}
 @media(max-width:700px){.owner-illustrated-care{padding-block:30px}.owner-illustrated-care .owner-illustrated-care__art{border-radius:12px}.owner-illustrated-care .owner-illustrated-care__art figcaption{font-size:.77rem;padding:11px 12px}.owner-illustrated-care .owner-illustrated-care__links{grid-template-columns:1fr;gap:8px}.owner-illustrated-care .owner-illustrated-care__links a{min-height:48px;padding:10px 13px}.owner-illustrated-care .owner-illustrated-care__intro{margin-bottom:16px}}
+
+/* Patients can read original clinical explanations here without leaving the homepage. */
+.owner-illustrated-care .owner-illustrated-care__reading{max-width:1200px;margin:30px auto 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
+.owner-illustrated-care .owner-illustrated-care__reading article{margin:0;padding:23px 22px 22px;border:1px solid #cedfd3;border-radius:16px;background:#fffefa;box-shadow:0 6px 22px rgba(31,72,61,.055)}
+.owner-illustrated-care .owner-illustrated-care__reading small{display:block;margin-bottom:12px;font-size:.76rem;line-height:1.5;font-weight:800;letter-spacing:.05em;color:#52776a}
+.owner-illustrated-care .owner-illustrated-care__reading h3{margin:0 0 12px;color:#173f39;font-size:clamp(1.05rem,1.85vw,1.24rem);line-height:1.45;letter-spacing:-.02em}
+.owner-illustrated-care .owner-illustrated-care__reading p{margin:0;font-size:.98rem;line-height:1.85;color:#445e54}
+.owner-illustrated-care .owner-illustrated-care__reading a{display:inline-block;margin-top:15px;color:#1a5c4e;font-weight:800;text-decoration:underline;text-underline-offset:3px}
+.owner-illustrated-care .owner-illustrated-care__reading a:focus-visible{outline:3px solid #b78448;outline-offset:3px}
+.owner-illustrated-care .owner-illustrated-care__disclaimer{max-width:1200px;margin:20px auto 0;text-align:center;font-size:.87rem;line-height:1.75;color:#5f7268}
+@media(max-width:760px){.owner-illustrated-care .owner-illustrated-care__reading{grid-template-columns:1fr;gap:11px;margin-top:20px}.owner-illustrated-care .owner-illustrated-care__reading article{padding:18px 17px}.owner-illustrated-care .owner-illustrated-care__reading h3{font-size:1.08rem}.owner-illustrated-care .owner-illustrated-care__reading p{font-size:.95rem}.owner-illustrated-care .owner-illustrated-care__disclaimer{text-align:left}}
