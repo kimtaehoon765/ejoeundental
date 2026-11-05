@@ -17,7 +17,27 @@
 
 | 접수일(KST) | 원본 자료·주제 | 홈페이지에 직접 반영한 파일/페이지 | 이미지 | 커밋 | 빌드 검사 | 실사이트 확인 | 상태·메모 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| — | 2026-11-06 이후 접수분부터 기록 | — | — | — | — | — | 아직 새로 접수된 자료 없음 |
+| 2026-11-06 | 01. 청천동 앞니 충치·레진치료 (5장) | `cavity-treatment.html#front-resin-shade-20261106` | 원본 미사용, 기존 그림과 함께 설명 | `a2ed0c5` | 통과 | 일치 | 앞니 색조·접착·수복 당일 가능성 재구성 |
+| 2026-11-06 | 02. 부평두산위브 잇몸치료 (5장) | `gum-treatment.html#periodontal-evidence-20261106` | 원본 미사용 | `904ae08` | 통과 | 일치 | 04번과 통합: 치주검사·원장 직접 시술·재평가 |
+| 2026-11-06 | 03. 청천동 어린이 불소도포 (5장) | `pediatric-dentistry.html#pediatric-fluoride-20261106` | 신규 자체 SVG `ejoeun-new-pediatric-fluoride-guide-20261106.svg` | `43a086b` | 통과 | 일치 | 충치 위험별 간격, 제품별 사후관리, 불소치약 |
+| 2026-11-06 | 04. 청천동 잇몸치료·치과의사 직접 진료 (4장) | `gum-treatment.html#periodontal-evidence-20261106` | 원본 미사용 | `904ae08` | 통과 | 일치 | 02번과 통합, 다른 치과의 위법 여부 단정 삭제 |
+| 2026-11-06 | 05. 산곡동 발치 후 임플란트 뼈이식 (4장) | `implant.html#implant-extraction-bone-decision-20261106` | 신규 자체 SVG `ejoeun-implant-bone-planning-garden-20261106.svg` | `9f33cd0` | 통과 | 일치 | 06번과 통합, 발치 뒤 치조골 흡수·잔존골 평가 |
+| 2026-11-06 | 06. 청천동 임플란트 뼈이식 필요성 (4장) | `implant.html#implant-extraction-bone-decision-20261106` | 위 신규 그림과 통합 | `9f33cd0` | 통과 | 일치 | 05번과 통합, 즉시 식립·지연 식립의 개별 적응증 |
+| 2026-11-06 | 07. 산곡동 소아치과 똑똑하게 치료받는 법 (5장) | `pediatric-dentistry.html#pediatric-restorative-selection-20261106`; `pediatric-orthodontics.html#pediatric-ortho-timing-20261106` | 원본 미사용 | `43a086b`, `62bfd9f` | 통과 | 일치 | 08번과 통합, 유치 수복과 교정 시작시기 |
+| 2026-11-06 | 08. 청천동 소아치과 저렴하게 치료받는 법 (5장) | `pediatric-dentistry.html#pediatric-restorative-selection-20261106`; `pediatric-orthodontics.html#pediatric-ortho-timing-20261106` | 원본 미사용 | `43a086b`, `62bfd9f` | 통과 | 일치 | 07번과 통합, GI·레진·금속관 보험 개별 판단 |
+| 2026-11-06 | 09. 산곡동 당뇨 환자 임플란트·무통마취 (5장) | `diabetes-dental-care.html#diabetes-implant-readiness-20261106`; `implant.html#implant-anesthesia-responsibility-20261106` | 원본 미사용 | `c270142`, `9f33cd0` | 통과 | 일치 | 혈당 숫자만으로 수술 가능 여부 단정하지 않음 |
+| 2026-11-06 | 10. 산곡동 임플란트 치과의사 직접 수술·무통마취 (5장) | `implant.html#implant-anesthesia-responsibility-20261106` | 원본 미사용 | `9f33cd0` | 통과 | 일치 | 마취기 역할·직접 마취 설명, 타 치과 추측 삭제 |
+
+## 2026-11-06 배치 검증 결과
+
+- 접수: **블로그 글 10건, 스크린샷 47장**. 같은 글에 속하는 캡처를 하나의 자료 건으로 계산.
+- 실질 본문 반영: **10건 모두 처리**, 기존 진료 페이지 **6개**에 새로운 환자 교육 구역 **8개**. 같은 주제를 다룬 글은 기존 문단으로 통합했으며 10개를 별개의 새 게시글로 발행하지 않음.
+- 창작 삽화: **2개 새 SVG** 제작. 사용자 제공 블로그 사진·그림의 원본 복사 없음.
+- 메인 홈페이지 진입 링크: 어린이 불소도포, 임플란트 뼈이식, 당뇨 수술 준비 등 3개.
+- 실사이트 감사: [GitHub Actions 42055720156](https://github.com/kimtaehoon765/ejoeundental/actions/runs/42055720156), 검사 대상 사이트 빌드 커밋 `b7d9338287578c9664da998d20ea51909d4ca5d7`. **79/79 항목 일치**, 공식 도메인 배포 커밋 일치, 8개 새 본문과 2개 SVG 실파일 확인. 이 결과는 해당 시점의 공개 상태이며 검색 순위·색인 여부와는 별개.
+- 교정한 원문 주장: 발치 뒤 기다리면 뼈가 항상 충분히 생긴다는 단정, 특정 혈당 숫자 하나로 임플란트 수술 가능성 판단, 유치 충치에서 한 재료가 무조건 저렴하다는 표현, 무통마취기의 무통 보장, 다른 치과의 진료 수준·위법성 추측 등을 사용하지 않음.
+- 의학적 검토 참고: [AAPD 소아 수복 진료](https://digitaleditions.walsworth.com/publication/?article_id=5074797&i=857100&view=articleBrowser), [ADA 당뇨와 치과](https://www.ada.org/resources/ada-library/oral-health-topics/diabetes), [2026 ADA 당뇨 진료 가이드](https://doi.org/10.2337/dc26-S004).
+- 미완료: **이번 배치의 내용 반영·실사이트 확인 항목은 없음**. 사진과 같은 픽셀 단위의 화면 시각 평가 및 검색엔진 색인 변화는 별도로 검증하지 않음.
 
 ## 원칙
 
