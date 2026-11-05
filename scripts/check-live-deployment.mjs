@@ -197,6 +197,56 @@ async function main(){
   await checkAsset('새 진료안내 그림 반응형 CSS 원본 일치',
     'assets/ejoeun-care-article-illustrations-20261105.css',
     '/assets/ejoeun-care-article-illustrations-20261105.css');
+  // The ten owner-supplied blog screenshot articles (47 screenshots) were
+  // rewritten into six on-site educational pages. Verify the actual visible
+  // public HTML, not only GitHub source or off-site blog links.
+  const rewrittenBatch=[
+    ['앞니 레진 색조와 범위','cavity-treatment.html','front-resin-shade-20261106'],
+    ['잇몸검사·원장 직접 잇몸치료','gum-treatment.html','periodontal-evidence-20261106'],
+    ['어린이 불소도포','pediatric-dentistry.html','pediatric-fluoride-20261106'],
+    ['어린이 수복 선택','pediatric-dentistry.html','pediatric-restorative-selection-20261106'],
+    ['뼈이식과 식립시기','implant.html','implant-extraction-bone-decision-20261106'],
+    ['임플란트 마취 안내','implant.html','implant-anesthesia-responsibility-20261106'],
+    ['당뇨 임플란트 준비','diabetes-dental-care.html','diabetes-implant-readiness-20261106'],
+    ['어린이 교정 시작시기','pediatric-orthodontics.html','pediatric-ortho-timing-20261106']
+  ];
+  const patientPages=new Map();
+  for(const [name,page,anchor] of rewrittenBatch){
+    try{
+      if(!patientPages.has(page))patientPages.set(page,await get('/'+page));
+      const response=patientPages.get(page);
+      const publicHtml=response.bytes.toString('utf8');
+      const builtHtml=local(page).toString('utf8');
+      const articleMarker='id="'+anchor+'"';
+      verdict('11월 6일 새 환자정보: '+name,
+        response.status===200&&builtHtml.includes(articleMarker)&&
+        publicHtml.includes(articleMarker)&&
+        publicHtml.includes('/assets/ejoeun-content-batch-20261106.css?v='),
+        'HTTP '+response.status+' · 고유 문단 · 새 반응형 CSS 연결');
+    }catch(error){
+      verdict('11월 6일 새 환자정보: '+name,false,
+        '확인 실패: '+String(error.cause?.code||error.message||error));
+    }
+  }
+  const batchArts=[
+    ['어린이 불소도포 새 그림','pediatric-dentistry.html','ejoeun-new-pediatric-fluoride-guide-20261106.svg'],
+    ['뼈이식 상담 새 그림','implant.html','ejoeun-implant-bone-planning-garden-20261106.svg']
+  ];
+  for(const [label,page,art] of batchArts){
+    const image='/assets/'+art;
+    const response=patientPages.get(page);
+    const html=response?.bytes.toString('utf8')||'';
+    verdict(label+' 페이지 연결',response?.status===200&&html.includes('src="'+image+'"'),
+      '블로그 원본 사진 복사 없이 신규 창작 SVG 사용');
+    await checkAsset(label+' 실제 파일 일치','assets/'+art,image);
+  }
+  await checkAsset('11월 6일 진료 안내 CSS 원본 일치',
+    'assets/ejoeun-content-batch-20261106.css','/assets/ejoeun-content-batch-20261106.css');
+  const newHomeLinks=['/pediatric-dentistry.html#pediatric-fluoride-20261106',
+    '/implant.html#implant-extraction-bone-decision-20261106',
+    '/diabetes-dental-care.html#diabetes-implant-readiness-20261106'];
+  verdict('11월 6일 환자정보 메인 진입 동선',newHomeLinks.every(link=>
+    pages['/']?.includes('href="'+link+'"')), '신규 불소·뼈이식·당뇨 안내 3개 연결');
   const liveHome=pages['/']||'';
   verdict('Cloudflare 실제 배포 커밋',
     /^[0-9a-f]{40}$/.test(commit)&&meta(liveHome,'ejoeundental-build-commit')===commit,
