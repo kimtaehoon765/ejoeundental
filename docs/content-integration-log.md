@@ -69,8 +69,10 @@
 | 아세트아미노펜·이부프로펜·덱시부프로펜 | `content/posts/2026-11-06-bupyeong-dental-pain-medicine-acetaminophen-ibuprofen-guide.json` + `medication-dental-faq.html#medicine-pain-relief-guide-20261106` | `ff38d89b`, `af1063e` | 한 글로 통합: 약리 차이·금기·중복 복용·치과 재진 필요 증상 |
 | 세균·바이러스·호르몬 | `content/posts/2026-11-06-cheongcheon-dental-bacteria-virus-plaque-gum-guide.json` + `gum-health.html#gum-bacteria-hormone-20261106` | `84d0e54b`, `b714577` | 한 글로 통합: 치태/치석·치주질환·HSV 및 호르몬과 잇몸 염증 감별 |
 
-- 접수 원문 주제: **5개**. 실제 새 환자교육 글 **2편**, 기존 페이지 보강 **2개**, 대체·연결된 블로그 원문 URL 4개(이부프로펜 원문 주소는 확인 없이 만들어 넣지 않음).
+- 접수 원문 주제: **5개**. 실제 새 환자교육 글 **2편**, 기존 페이지 보강 **2개**, 실제 확인한 원장 블로그 원문 URL 5개 연결(진통제 2개, 세균·바이러스·호르몬 3개).
 - 신규 글은 `published:true` 설정으로 정적 빌드 대상이며, 원문을 복사하지 않고 임상적 유사 질문을 묶었습니다.
+- **원문 출처 연결 보정:** 2026-11-06 07시 이후 메인 원장 블로그 목록에서 이부프로펜·덱시부프로펜 원문 `https://blog.naver.com/radio654/223528636632`을 확인하여 진통제 글의 `additional_source_urls`에 연결(커밋 `4acf7e0`). 세균·바이러스 글에는 기존 확인된 바이러스·호르몬 원문 두 주소를 `additional_source_urls`에 명시(커밋 `1ccb93c`). 출처 URL 확인과 전문 직접 검증은 구분함.
+
 - 검사: HEAD `b71457794c5477e052dfdd70310ee897bc2ec7b4`에서 Cloudflare Pages, production/preview SEO, 정적 빌드·품질검사 모두 성공. 다만 공개 화면에서 새 두 글 URL의 개별 응답을 직접 대조하는 별도 검증은 계속 구분합니다.
 - 참고: [미국치과의사협회 급성 치과 통증 지침](https://www.ada.org/resources/research/science/evidence-based-dental-research/pain-management-guideline/). 복용량 지시나 모든 환자에게 같은 약을 권하는 내용은 넣지 않았습니다.
 
