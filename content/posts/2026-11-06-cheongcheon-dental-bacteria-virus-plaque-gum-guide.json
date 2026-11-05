@@ -18,5 +18,9 @@
     "https://www.efp.org/",
     "https://www.cdc.gov/herpes/about/index.html"
   ],
-  "published": true
+  "published": true,
+  "additional_source_urls": [
+    "https://blog.naver.com/radio654/223517681090",
+    "https://blog.naver.com/radio654/223526470355"
+  ]
 }
