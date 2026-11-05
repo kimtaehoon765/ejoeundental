@@ -352,8 +352,8 @@ async function main(){
     '/assets/exhibition-foundation-','/assets/home-visual-',
     '/assets/home-finishing-','/assets/home-faq-visit-',
     '/assets/home-faq-visit-','/assets/home-design-unification-20261103.css',
-    '/assets/faq-deep-links.css',
-    '/assets/ejoeun-owner-illustrated-care-20261105.css'];
+    '/assets/ejoeun-owner-illustrated-care-20261105.css',
+    '/assets/faq-deep-links.css'];
   const orderOk=builtCss.length===expectedOrder.length&&
     expectedOrder.every((prefix,i)=>builtCss[i]?.startsWith(prefix));
   const fallbackOk=builtCss[5]===builtCss[6]&&
