@@ -1,0 +1,8 @@
+/* Independent original educational art for the November treatment guides. */
+.owner-care-article-figure{max-width:1020px;margin:28px auto 36px;background:#fffcf4;border:1px solid #d9e3d5;border-radius:18px;overflow:hidden;box-shadow:0 12px 32px rgba(26,67,59,.10)}
+.owner-care-article-figure img{display:block;width:100%;height:auto;aspect-ratio:24/13;object-fit:contain;background:#f6f4e7}
+.owner-care-article-figure figcaption{padding:14px 21px 18px;border-top:1px solid #e0e8dd;font-size:15px;line-height:1.75;color:#35584e}
+.owner-care-article-figure figcaption strong{display:block;color:#1d463b;font-size:17px;margin-bottom:3px}
+.owner-care-article-figure figcaption a{font-weight:700;color:#205a4e;text-decoration:underline;text-underline-offset:3px}
+.owner-care-article-figure figcaption a:focus-visible{outline:3px solid #b78448;outline-offset:3px}
+@media(max-width:700px){.owner-care-article-figure{margin:20px auto 26px;border-radius:12px}.owner-care-article-figure figcaption{font-size:14px;padding:12px 14px 15px}.owner-care-article-figure figcaption strong{font-size:15px}}
