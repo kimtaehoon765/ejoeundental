@@ -599,7 +599,8 @@ test('seven revised dental articles have truthful Google dates and two crawlable
  ];
  for(const slug of slugs){
   const source=JSON.parse(readFileSync('content/posts/'+slug+'.json','utf8'));
-  const verifiedRevisionDate=slug==='2026-10-25-cheongcheon-affordable-dental-care-insurance-priorities'?'2026-10-31':'2026-10-29';
+  const verifiedRevisionDate=slug==='2026-10-25-cheongcheon-affordable-dental-care-insurance-priorities'?'2026-10-31':
+   slug==='2026-10-28-sangok-front-tooth-resin-cavity-repair'?'2026-11-05':'2026-10-29';
   assert.equal(source.updated,verifiedRevisionDate,slug+' was not revised on the claimed date');
   const link='href="/stories/'+slug+'/"';
   assert.ok(homeLinks.includes(link),slug+' absent from homepage journal');
