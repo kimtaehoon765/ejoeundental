@@ -1603,3 +1603,15 @@ body.home-page #main-content > .hero.wrap .hero-care-summary > a .hero-care-card
     color: CanvasText;
   }
 }
+/* 2026-11-05 | Single mobile phone entry point
+   The persistent bottom dock already owns the phone/booking actions.
+   The arrival header should navigate information, not repeat phone buttons. */
+@media (max-width:600px) {
+  html:not(.home-scrolled) body.home-page > header .nav .mobile-quick {
+    grid-template-columns: repeat(4,minmax(0,1fr));
+  }
+  body.home-page > header .nav .mobile-quick > a.mobile-call,
+  html.home-scrolled body.home-page > header .nav .mobile-quick > a.mobile-call {
+    display: none;
+  }
+}
