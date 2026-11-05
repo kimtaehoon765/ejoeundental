@@ -169,6 +169,34 @@ async function main(){
   for(const [name,file] of threePatientPaintings){
     await checkAsset(name,'assets/'+file,'/assets/'+file);
   }
+  // The three distinct November treatment illustrations are NOT the older
+  // medication/safety paintings above. Check their public page references and
+  // exact deployed bytes independently, including the shared responsive CSS.
+  const careArt=[
+    ['잇몸치료 새 창작 그림','gum-treatment.html','ejoeun-gum-garden-guide-20261105.svg'],
+    ['스케일링 새 창작 그림','scaling.html','ejoeun-scaling-garden-guide-20261105.svg'],
+    ['충치치료 새 창작 그림','cavity-treatment.html','ejoeun-cavity-garden-guide-20261105.svg']
+  ];
+  for(const [label,page,file] of careArt){
+    const asset='/assets/'+file;
+    try{
+      const livePage=await get('/'+page);
+      const builtPage=local(page).toString('utf8');
+      const publicHtml=livePage.bytes.toString('utf8');
+      verdict(label+' 페이지 연결',
+        livePage.status===200&&builtPage.includes('src="'+asset+'"')&&
+        publicHtml.includes('src="'+asset+'"')&&
+        publicHtml.includes('/assets/ejoeun-care-article-illustrations-20261105.css?v='),
+        '페이지 HTTP '+livePage.status+' · 새 창작 SVG 연결 · 반응형 스타일 연결');
+    }catch(error){
+      verdict(label+' 페이지 연결',false,
+        '접속 실패: '+String(error.cause?.code||error.message||error));
+    }
+    await checkAsset(label+' SVG 원본 일치','assets/'+file,asset);
+  }
+  await checkAsset('새 진료안내 그림 반응형 CSS 원본 일치',
+    'assets/ejoeun-care-article-illustrations-20261105.css',
+    '/assets/ejoeun-care-article-illustrations-20261105.css');
   const liveHome=pages['/']||'';
   verdict('Cloudflare 실제 배포 커밋',
     /^[0-9a-f]{40}$/.test(commit)&&meta(liveHome,'ejoeundental-build-commit')===commit,
@@ -224,6 +252,21 @@ async function main(){
       '이번 빌드 '+(expected||'없음')+' / 실사이트 '+(delivered||'없음'));
     if(expected){
       await checkAsset(label,'assets/'+filename,expected);
+      if(filename==='search.js'){
+        // When the versioned file differs, a second read with a unique cache-key
+        // distinguishes an outdated edge response from a stale build artifact.
+        const expectedHash=digest(local('assets/'+filename));
+        try{
+          const refreshed=await get(expected+'&audit_release='+encodeURIComponent(commit.slice(0,12)));
+          console.log('[LIVE RELEASE] 검색 JS 별도 캐시 키 진단:',
+            'HTTP',refreshed.status,'· 새 요청',digest(refreshed.bytes),
+            '/ 이번 빌드',expectedHash,
+            '· 동일',refreshed.status===200&&digest(refreshed.bytes)===expectedHash);
+        }catch(error){
+          console.log('[LIVE RELEASE] 검색 JS 별도 캐시 키 진단 불가:',
+            String(error.cause?.code||error.message||error));
+        }
+      }
     }
   }
   const dock=html=>html.match(/<nav class="mobile-booking-actions"[^>]*>[\s\S]*?<\/nav>/)?.[0]||'';
@@ -309,7 +352,8 @@ async function main(){
     '/assets/exhibition-foundation-','/assets/home-visual-',
     '/assets/home-finishing-','/assets/home-faq-visit-',
     '/assets/home-faq-visit-','/assets/home-design-unification-20261103.css',
-    '/assets/faq-deep-links.css'];
+    '/assets/faq-deep-links.css',
+    '/assets/ejoeun-owner-illustrated-care-20261105.css'];
   const orderOk=builtCss.length===expectedOrder.length&&
     expectedOrder.every((prefix,i)=>builtCss[i]?.startsWith(prefix));
   const fallbackOk=builtCss[5]===builtCss[6]&&
