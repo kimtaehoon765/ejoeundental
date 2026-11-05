@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+<title id="title">치석 제거와 잇몸 건강</title><desc id="desc">스케일링의 치석 제거 원리와 시림 상담, 추가 잇몸치료 확인을 구분 홈페이지 전용 창작 진료 안내 일러스트. 실제 치아 상태와 치료 방법은 구강검사 결과에 따라 다릅니다.</desc>
+<defs>
+<linearGradient id="sky" x2="1" y2="1"><stop stop-color="#dce7dd"/><stop offset=".55" stop-color="#fff7e8"/><stop offset="1" stop-color="#cfdfd2"/></linearGradient>
+<linearGradient id="cream" x2=".7" y2="1"><stop stop-color="#fffef9"/><stop offset=".66" stop-color="#f8f0dd"/><stop offset="1" stop-color="#ded4bc"/></linearGradient>
+<linearGradient id="gum" x2=".5" y2="1"><stop stop-color="#f3bdaf"/><stop offset="1" stop-color="#cc8d89"/></linearGradient>
+<linearGradient id="metal" x2="1" y2="1"><stop stop-color="#6c8b91"/><stop offset=".5" stop-color="#eff8f9"/><stop offset="1" stop-color="#6e8e95"/></linearGradient>
+<filter id="shade"><feDropShadow dx="0" dy="9" stdDeviation="11" flood-color="#2e6058" flood-opacity=".12"/></filter>
+<pattern id="grain" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M1 6L29 12M7 27L12 1" stroke="#fff" stroke-opacity=".13" stroke-width="2"/></pattern>
+</defs>
+<rect width="1200" height="650" fill="url(#sky)"/><rect width="1200" height="650" fill="url(#grain)"/>
+<ellipse cx="96" cy="114" rx="140" ry="108" fill="#b7d4c4" opacity=".34"/><ellipse cx="1111" cy="110" rx="126" ry="96" fill="#d3c4dc" opacity=".26"/>
+<path d="M0 204Q230 120 439 189T890 175T1200 194V280H0Z" fill="#adcdba" opacity=".33"/>
+<text x="34" y="49" font-family="Noto Sans CJK KR,Malgun Gothic,Apple SD Gothic Neo,sans-serif" font-size="26" font-weight="800" fill="#22574d">이조은치과</text><text x="400" y="97" font-family="Noto Sans CJK KR,Malgun Gothic,Apple SD Gothic Neo,sans-serif" font-size="48" font-weight="850" fill="#224b4c">치석 제거와 잇몸 건강</text>
+<text x="403" y="147" font-family="Noto Sans CJK KR,Malgun Gothic,Apple SD Gothic Neo,sans-serif" font-size="22" font-weight="600" fill="#566b5d">치석을 제거하는 진료 · 시림은 개인별로 확인합니다</text>
+<g transform="translate(162 222) scale(0.95)" aria-hidden="true">
+<path d="M-68 38Q-118-32-81-77L-74-125L-39-98L12-105L44-132L55-83Q114-28 65 48Q-12 101-68 38Z" fill="#fdfbf4" stroke="#dfdbca" stroke-width="4"/>
+<path d="M-69-91L-71-114L-48-91M22-94L42-117L47-83" fill="#f2cfd3"/>
+<ellipse cx="-29" cy="-43" rx="8" ry="10" fill="#788b7d"/><ellipse cx="19" cy="-43" rx="8" ry="10" fill="#788b7d"/>
+<path d="M-12-23L2-23L-5-15Z" fill="#d6a5a5"/><path d="M-5-15Q-17-5-27-16M-5-15Q7-5 18-17" fill="none" stroke="#b0a39d" stroke-width="3"/>
+<path d="M-33-17L-79-26M-33-7L-78-3M26-17L68-25M26-7L64-2" fill="none" stroke="#ddd7c8" stroke-width="3"/>
+<path d="M-43 42Q-3 61 36 38" fill="none" stroke="#eee8db" stroke-width="12" stroke-linecap="round"/>
+</g>
+<path d="M304 205L1180 205" stroke="#d2c29b" stroke-width="3" stroke-dasharray="9 8" opacity=".55"/>
+<g filter="url(#shade)"><rect x="36" y="285" width="553" height="306" rx="26" fill="#fffcf2" stroke="#b6cfd8" stroke-width="3"/><rect x="609" y="285" width="554" height="306" rx="26" fill="#fffcf2" stroke="#c6d6b4" stroke-width="3"/></g>
+<rect x="37" y="289" width="551" height="56" rx="22" fill="#6594b3"/><rect x="610" y="289" width="552" height="56" rx="22" fill="#789f79"/>
+<g font-family="Noto Sans CJK KR,Malgun Gothic,Apple SD Gothic Neo,sans-serif" font-size="29" font-weight="800" fill="#fff"><text x="82" y="328">치석이 쌓인 상태</text><text x="655" y="328">치석 제거와 상태 확인</text></g>
+<g transform="translate(240 464) scale(0.82)" aria-hidden="true">
+<path d="M-66-104C-91-137-120-78-101-23C-88 9-84 46-76 90C-70 123-48 122-43 88L-26 8Q-1-15 12 10L33 88C40 120 64 124 73 90C82 52 84 12 101-25C122-82 90-133 65-107C37-92 21-104 8-113C-12-128-45-94-66-104Z" fill="url(#cream)" stroke="#bdb59e" stroke-width="5"/>
+<path d="M-61-59Q-29-31 0-51Q32-63 65-43" fill="none" stroke="#e6d8bd" stroke-width="9" stroke-linecap="round"/>
+<path d="M-101 3Q-73-10-42 11L-53 30L-94 31Z" fill="#aa804c"/><circle cx="-52" cy="20" r="7" fill="#c49b61"/><circle cx="68" cy="16" r="11" fill="#aa804c"/>
+
+
+</g><path d="M144 469Q229 428 338 466" stroke="#e4a09b" stroke-width="22" fill="none"/>
+<circle cx="308" cy="447" r="7" fill="#af8958"/><circle cx="155" cy="449" r="7" fill="#af8958"/>
+<g transform="translate(818 465) scale(0.82)" aria-hidden="true">
+<path d="M-66-104C-91-137-120-78-101-23C-88 9-84 46-76 90C-70 123-48 122-43 88L-26 8Q-1-15 12 10L33 88C40 120 64 124 73 90C82 52 84 12 101-25C122-82 90-133 65-107C37-92 21-104 8-113C-12-128-45-94-66-104Z" fill="url(#cream)" stroke="#bdb59e" stroke-width="5"/>
+<path d="M-61-59Q-29-31 0-51Q32-63 65-43" fill="none" stroke="#e6d8bd" stroke-width="9" stroke-linecap="round"/>
+
+
+
+</g><path d="M713 464Q812 428 915 464" stroke="#e4a09b" stroke-width="22" fill="none"/>
+<path d="M1004 357Q953 388 918 445L916 474" fill="none" stroke="url(#metal)" stroke-width="18" stroke-linecap="round"/><path d="M1000 355Q960 391 935 431" stroke="#eaf4f2" stroke-width="5" fill="none"/><circle cx="920" cy="475" r="7" fill="#bda16a"/><circle cx="936" cy="484" r="5" fill="#bda16a"/>
+<g font-family="Noto Sans CJK KR,Malgun Gothic,Apple SD Gothic Neo,sans-serif" font-size="22" text-anchor="middle" fill="#34534b"><text x="308" y="558">치석은 칫솔질만으로</text><text x="308" y="586">제거하기 어려울 수 있습니다</text><text x="875" y="558">통증과 시림을 확인하며</text><text x="875" y="586">필요한 치료를 시행합니다</text></g>
+<text x="1165" y="631" text-anchor="end" font-family="Noto Sans CJK KR,Malgun Gothic,Apple SD Gothic Neo,sans-serif" font-size="14" fill="#60786b">개념도 · 스케일링으로 모든 치주질환이 해결되는 것은 아닙니다</text></svg>
