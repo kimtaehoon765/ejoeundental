@@ -689,7 +689,7 @@ test('core dental service guides declare real clinic publisher and accountable t
   assert.ok(stylesheet.includes(token),'visible verified medical responsibility needs styled disclosure: '+token);
  }
  // Keep the clinical copy review dates; the sitemap has newer visual page revisions.
- for(const [file,label,revision,sitemapDate] of [['gum-treatment.html','잇몸치료 안내','2026-11-04','2026-11-04'],
+ for(const [file,label,revision,sitemapDate] of [['gum-treatment.html','잇몸치료 안내','2026-11-05','2026-11-05'],
   ['retreatment.html','재신경치료 안내','2026-10-30','2026-11-02']]){
   const source=readFileSync(file,'utf8');
   const html=readFileSync(path.join(output,file),'utf8');
@@ -708,7 +708,7 @@ test('core dental service guides declare real clinic publisher and accountable t
    'publisher identity must be visible to the reader as well as machines');
   assert.ok(html.includes('<strong>'+label+' 정보 제공: 이조은치과</strong>'));
   assert.ok(html.includes('<a href="/doctor.html">김태훈 원장</a>'));
-  assert.ok(html.includes('<time datetime="'+revision+'">'+(revision==='2026-11-04'?'2026년 11월 4일':'2026년 10월 30일')+'</time>'));
+  assert.ok(html.includes('<time datetime="'+revision+'">'+(revision==='2026-11-05'?'2026년 11월 5일':'2026년 10월 30일')+'</time>'));
   assert.ok(html.includes('실제 진단과 치료 선택은 진찰·검사 결과에 따라 달라집니다'));
   assert.ok(source.includes('class="clinical-editorial-source"'),
    'never rely on an unreviewable build-only attribution');
