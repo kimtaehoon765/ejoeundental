@@ -51,6 +51,10 @@ test('mobile contact actions appear once in fixed dock, not twice in hero',()=>{
   home.includes('class="mobile-booking-naver"')&&
   home.includes('class="mobile-booking-call"'),
   'sticky phone and Naver appointment controls remain in the built page');
+ assert.ok(style.includes('2026-11-05 | Single mobile phone entry point') &&
+  /html:not\(\.home-scrolled\)[^\n]*\.mobile-quick\s*\{\s*grid-template-columns: repeat\(4,minmax\(0,1fr\)\);/.test(style) &&
+  /html\.home-scrolled[^\n]*\.mobile-quick > a\.mobile-call\s*\{\s*display: none;/.test(style),
+  'the four-link arrival header must not duplicate the persistent phone and booking dock');
 });
 
 test('patient education gallery gives native questions readable editorial hierarchy',()=>{
