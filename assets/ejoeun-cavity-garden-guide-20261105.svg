@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+<title id="title">충치치료, 깊이에 따라 다르게</title><desc id="desc">초기 충치 관찰과 필요한 우식 수복 및 레진 마무리를 구분 홈페이지 전용 창작 진료 안내 일러스트. 실제 치아 상태와 치료 방법은 구강검사 결과에 따라 다릅니다.</desc>
+<defs>
+<linearGradient id="sky" x2="1" y2="1"><stop stop-color="#dce7dd"/><stop offset=".55" stop-color="#fff7e8"/><stop offset="1" stop-color="#cfdfd2"/></linearGradient>
+<linearGradient id="cream" x2=".7" y2="1"><stop stop-color="#fffef9"/><stop offset=".66" stop-color="#f8f0dd"/><stop offset="1" stop-color="#ded4bc"/></linearGradient>
+<linearGradient id="gum" x2=".5" y2="1"><stop stop-color="#f3bdaf"/><stop offset="1" stop-color="#cc8d89"/></linearGradient>
+<linearGradient id="metal" x2="1" y2="1"><stop stop-color="#6c8b91"/><stop offset=".5" stop-color="#eff8f9"/><stop offset="1" stop-color="#6e8e95"/></linearGradient>
+<filter id="shade"><feDropShadow dx="0" dy="9" stdDeviation="11" flood-color="#2e6058" flood-opacity=".12"/></filter>
+<pattern id="grain" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M1 6L29 12M7 27L12 1" stroke="#fff" stroke-opacity=".13" stroke-width="2"/></pattern>
+</defs>
+<rect width="1200" height="650" fill="url(#sky)"/><rect width="1200" height="650" fill="url(#grain)"/>
+<ellipse cx="96" cy="114" rx="140" ry="108" fill="#b7d4c4" opacity=".34"/><ellipse cx="1111" cy="110" rx="126" ry="96" fill="#d3c4dc" opacity=".26"/>
+<path d="M0 204Q230 120 439 189T890 175T1200 194V280H0Z" fill="#adcdba" opacity=".33"/>
+<text x="34" y="49" font-family="Noto Sans CJK KR,Malgun Gothic,Apple SD Gothic Neo,sans-serif" font-size="26" font-weight="800" fill="#22574d">이조은치과</text><text x="400" y="97" font-family="Noto Sans CJK KR,Malgun Gothic,Apple SD Gothic Neo,sans-serif" font-size="48" font-weight="850" fill="#224b4c">충치치료, 깊이에 따라 다르게</text>
+<text x="403" y="147" font-family="Noto Sans CJK KR,Malgun Gothic,Apple SD Gothic Neo,sans-serif" font-size="22" font-weight="600" fill="#566b5d">초기 병소는 관찰할 수도 · 필요한 경우 치아색 수복</text>
+<g transform="translate(162 222) scale(0.95)" aria-hidden="true">
+<path d="M-68 38Q-118-32-81-77L-74-125L-39-98L12-105L44-132L55-83Q114-28 65 48Q-12 101-68 38Z" fill="#fdfbf4" stroke="#dfdbca" stroke-width="4"/>
+<path d="M-69-91L-71-114L-48-91M22-94L42-117L47-83" fill="#f2cfd3"/>
+<ellipse cx="-29" cy="-43" rx="8" ry="10" fill="#788b7d"/><ellipse cx="19" cy="-43" rx="8" ry="10" fill="#788b7d"/>
+<path d="M-12-23L2-23L-5-15Z" fill="#d6a5a5"/><path d="M-5-15Q-17-5-27-16M-5-15Q7-5 18-17" fill="none" stroke="#b0a39d" stroke-width="3"/>
+<path d="M-33-17L-79-26M-33-7L-78-3M26-17L68-25M26-7L64-2" fill="none" stroke="#ddd7c8" stroke-width="3"/>
+<path d="M-43 42Q-3 61 36 38" fill="none" stroke="#eee8db" stroke-width="12" stroke-linecap="round"/>
+</g>
+<path d="M304 205L1180 205" stroke="#d2c29b" stroke-width="3" stroke-dasharray="9 8" opacity=".55"/>
+<g filter="url(#shade)"><rect x="30" y="290" width="361" height="310" rx="27" fill="#fffaf3" stroke="#d1bda6" stroke-width="3"/><rect x="419" y="290" width="361" height="310" rx="27" fill="#fffaf3" stroke="#d7ac9d" stroke-width="3"/><rect x="808" y="290" width="361" height="310" rx="27" fill="#fffaf3" stroke="#b1c8b1" stroke-width="3"/></g>
+<rect x="32" y="291" width="358" height="63" rx="20" fill="#a0aa7f"/><rect x="421" y="291" width="357" height="63" rx="20" fill="#c49279"/><rect x="810" y="291" width="357" height="63" rx="20" fill="#76a38c"/>
+<g font-family="Noto Sans CJK KR,Malgun Gothic,Apple SD Gothic Neo,sans-serif" font-size="26" font-weight="800" fill="white"><text x="62" y="331">01 · 검사·관찰</text><text x="457" y="331">02 · 치료 필요 판단</text><text x="858" y="331">03 · 수복·관리</text></g>
+<g transform="translate(204 461) scale(0.7)" aria-hidden="true">
+<path d="M-66-104C-91-137-120-78-101-23C-88 9-84 46-76 90C-70 123-48 122-43 88L-26 8Q-1-15 12 10L33 88C40 120 64 124 73 90C82 52 84 12 101-25C122-82 90-133 65-107C37-92 21-104 8-113C-12-128-45-94-66-104Z" fill="url(#cream)" stroke="#bdb59e" stroke-width="5"/>
+<path d="M-61-59Q-29-31 0-51Q32-63 65-43" fill="none" stroke="#e6d8bd" stroke-width="9" stroke-linecap="round"/>
+
+
+
+</g><ellipse cx="166" cy="392" rx="18" ry="8" fill="#ead8b2" opacity=".9"/><path d="M272 422l12-17 10 12" stroke="#a2b079" stroke-width="5" fill="none"/>
+<g transform="translate(598 461) scale(0.7)" aria-hidden="true">
+<path d="M-66-104C-91-137-120-78-101-23C-88 9-84 46-76 90C-70 123-48 122-43 88L-26 8Q-1-15 12 10L33 88C40 120 64 124 73 90C82 52 84 12 101-25C122-82 90-133 65-107C37-92 21-104 8-113C-12-128-45-94-66-104Z" fill="url(#cream)" stroke="#bdb59e" stroke-width="5"/>
+<path d="M-61-59Q-29-31 0-51Q32-63 65-43" fill="none" stroke="#e6d8bd" stroke-width="9" stroke-linecap="round"/>
+
+<path d="M-53-94Q-25-117-3-100L18-91Q19-65-3-61L-28-70Z" fill="#7e5740"/><path d="M-36-90L-9-82" stroke="#4f342c" stroke-width="10"/>
+
+</g><circle cx="562" cy="395" r="12" fill="#875d40"/><path d="M676 402l30-21" stroke="#ad907b" stroke-width="6" stroke-linecap="round"/>
+<g transform="translate(986 461) scale(0.7)" aria-hidden="true">
+<path d="M-66-104C-91-137-120-78-101-23C-88 9-84 46-76 90C-70 123-48 122-43 88L-26 8Q-1-15 12 10L33 88C40 120 64 124 73 90C82 52 84 12 101-25C122-82 90-133 65-107C37-92 21-104 8-113C-12-128-45-94-66-104Z" fill="url(#cream)" stroke="#bdb59e" stroke-width="5"/>
+<path d="M-61-59Q-29-31 0-51Q32-63 65-43" fill="none" stroke="#e6d8bd" stroke-width="9" stroke-linecap="round"/>
+
+
+<path d="M-50-97Q-22-112-4-100L14-93Q13-75-2-66L-30-77Z" fill="#fbfcf3" stroke="#d2d6c6" stroke-width="3"/>
+</g><path d="M1057 413l17 18 29-33" fill="none" stroke="#7ba18d" stroke-width="8" stroke-linecap="round"/>
+<g font-family="Noto Sans CJK KR,Malgun Gothic,Apple SD Gothic Neo,sans-serif" font-size="20" fill="#40544d" text-anchor="middle"><text x="210" y="556">작은 초기 병소는</text><text x="210" y="584">예방 관리·관찰을 검토</text><text x="598" y="556">수복이 필요한지</text><text x="598" y="584">충치 범위와 상태를 검사</text><text x="986" y="556">레진·GI 등은 상태에 따라</text><text x="986" y="584">선택하고 경과를 확인</text></g>
+<text x="1166" y="631" text-anchor="end" font-family="Noto Sans CJK KR,Malgun Gothic,Apple SD Gothic Neo,sans-serif" font-size="14" fill="#60786b">개념도 · 모든 초기 충치가 수복치료 대상은 아닙니다</text></svg>
