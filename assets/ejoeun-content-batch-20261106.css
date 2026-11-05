@@ -1,0 +1,15 @@
+/* Original clinical education added from a ten-article owner review batch, 2026-11-06. */
+.owner-batch-note{margin:24px auto 30px;padding:clamp(18px,2.5vw,28px);border:1px solid #c9dccc;background:linear-gradient(140deg,#fdfbf4,#eff7ef);border-radius:18px;color:#36584d;max-width:1050px;line-height:1.85}
+.owner-batch-note h2,.owner-batch-note h3{color:#18483c;margin:0 0 13px;line-height:1.4}
+.owner-batch-note p{margin:10px 0 0}
+.owner-batch-note ul{margin:13px 0 0;padding-left:24px}
+.owner-batch-note li{margin:7px 0}
+.owner-batch-note a{color:#155c4c;text-underline-offset:4px;font-weight:700}
+.owner-batch-note a:focus-visible{outline:3px solid #b88943;outline-offset:3px}
+.owner-batch-note figure{margin:18px 0 19px;overflow:hidden;border-radius:15px;border:1px solid #d7ded1;background:#f3f4eb}
+.owner-batch-note figure img{display:block;width:100%;height:auto;aspect-ratio:2/1;object-fit:contain}
+.owner-batch-note figcaption{font-size:.87rem;line-height:1.7;color:#546d62;padding:10px 15px;background:#fffdf8}
+.owner-batch-note .owner-batch-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+.owner-batch-note .owner-batch-steps>div{padding:14px;background:#fffdf9;border:1px solid #d5e0d5;border-radius:10px}
+.owner-batch-note .owner-batch-steps strong{display:block;color:#22574c;margin-bottom:6px}
+@media(max-width:740px){.owner-batch-note{padding:17px 15px;margin:20px auto;border-radius:12px}.owner-batch-note .owner-batch-steps{grid-template-columns:1fr;gap:8px}.owner-batch-note figure{border-radius:9px}}
