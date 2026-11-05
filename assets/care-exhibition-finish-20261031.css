@@ -1608,3 +1608,48 @@ main section:target > :is(.wrap,.clinical-answer-inner,.care-inner) > h2:first-o
     outline-offset: 5px;
   }
 }
+/* 2026-11-05 | Unified patient FAQ reading panels
+   Replace the legacy inline borders on sensitivity/insurance with shared
+   question-and-answer surfaces across all four clinical guides. */
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+#patient-questions details {
+  margin-block: 10px;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+#patient-questions details > summary {
+  cursor: pointer;
+  font-weight: 750;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+#patient-questions details > summary:focus-visible {
+  outline: 3px solid #9e7e45;
+  outline-offset: 3px;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+#patient-questions details[open] > summary {
+  border-bottom: 1px solid #d8e2d6;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+#patient-questions details > p {
+  margin: 0;
+  padding: 14px 17px 19px;
+  color: #405b49;
+  line-height: 1.85;
+}
+body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+#patient-questions details > p + p {
+  padding-top: 0;
+}
+@media (max-width:600px) {
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+  #patient-questions details > p {
+    padding: 13px 15px 17px;
+    font-size: 15px;
+  }
+}
+@media (forced-colors:active) {
+  body.care-gallery:is(.care-gum-treatment,.care-retreatment,.care-cervical-abrasion,.care-insured-care)
+  #patient-questions details[open] > summary {
+    border-color: CanvasText;
+  }
+}
