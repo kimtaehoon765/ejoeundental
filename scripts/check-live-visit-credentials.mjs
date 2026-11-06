@@ -12,7 +12,7 @@ const cases=[
   {name:'2026 신분증·건강보험증 상세 안내',url:'/stories/2026-11-01-original-20240603-hospital-id-verification/',file:'stories/2026-11-01-original-20240603-hospital-id-verification/index.html',
    phrases:['휴대전화로 찍어 둔 신분증 사진도 되나요?','어린이도 매번 신분증이 필요한가요?']},
   {name:'의료진 수료·학위 구분',url:'/doctor.html',file:'doctor.html',
-   phrases:['id="doctor-credentials-meaning"','수료와','/stories/2026-11-01-original-20240604-credentials-degree-completion/']},
+   phrases:['id="doctor-credentials-meaning"','박사과정 수료','/stories/2026-11-01-original-20240604-credentials-degree-completion/']},
   {name:'원장 약력 환자 교육 상세 본문',url:'/stories/2026-11-01-original-20240604-credentials-degree-completion/',file:'stories/2026-11-01-original-20240604-credentials-degree-completion/index.html',
    phrases:['박사과정 수료','전문의 자격은 학위나 연수와 어떻게 다른가요?']}
 ];
