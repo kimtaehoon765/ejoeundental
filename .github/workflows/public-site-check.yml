@@ -82,6 +82,11 @@ jobs:
         run: |
           node --check scripts/check-live-marketing-implant-archive.mjs
           node scripts/check-live-marketing-implant-archive.mjs
+      - name: Verify dry mouth and oral burning education on public pages
+        continue-on-error: true
+        run: |
+          node --check scripts/check-live-oral-symptom-guides.mjs
+          node scripts/check-live-oral-symptom-guides.mjs
       - name: Verify first-visit page is included
         run: |
           test -s dist/previsit-checklist.html
