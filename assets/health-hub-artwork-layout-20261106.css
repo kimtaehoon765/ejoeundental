@@ -1,0 +1,88 @@
+/* Patient education hubs: illustrated reading panels, 2026-11-06.
+   Art is informational context, not proof of a particular treatment or benefit. */
+html.health-library:is(.health-hub-insurance,.health-hub-other) main.article > .eh-museum-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  margin: clamp(20px,3vw,30px) 0;
+  border: 1px solid #d8dfd4;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #f8f7f0;
+  box-shadow: 0 9px 25px rgba(29,63,45,.07);
+}
+html.health-library:is(.health-hub-insurance,.health-hub-other) main.article > .eh-museum-panel img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+  background: #f4f2e8;
+}
+html.health-library:is(.health-hub-insurance,.health-hub-other) main.article > .eh-museum-panel figcaption {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  padding: clamp(16px,2.4vw,25px);
+  border-top: 1px solid #dce4d8;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+html.health-library:is(.health-hub-insurance,.health-hub-other) main.article > .eh-museum-panel figcaption strong {
+  font-size: clamp(17px,1.7vw,21px);
+  line-height: 1.5;
+  text-wrap: balance;
+}
+html.health-library:is(.health-hub-insurance,.health-hub-other) main.article > .eh-museum-panel figcaption span {
+  font-size: clamp(14px,1.2vw,16px);
+  line-height: 1.8;
+}
+html.health-library main.article .health-hub-care-path {
+  padding: 15px 18px;
+  margin: 18px 0 22px;
+  border-left: 3px solid #9bb298;
+  border-radius: 3px 10px 10px 3px;
+  background: #f5f9f3;
+}
+html.health-library main.article .health-hub-care-path p {
+  font-size: clamp(15px,1.3vw,17px);
+  line-height: 1.9;
+  margin: 0;
+  word-break: keep-all;
+}
+html.health-library main.article .health-hub-care-path a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 750;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+@media(min-width: 760px) {
+  html.health-library:is(.health-hub-insurance,.health-hub-other) main.article > .eh-museum-panel {
+    grid-template-columns: minmax(0, 58%) minmax(0, 42%);
+  }
+  html.health-library:is(.health-hub-insurance,.health-hub-other) main.article > .eh-museum-panel img {
+    height: 100%;
+    max-height: 410px;
+  }
+  html.health-library:is(.health-hub-insurance,.health-hub-other) main.article > .eh-museum-panel figcaption {
+    border-top: 0;
+    border-left: 1px solid #dce4d8;
+  }
+}
+@media(max-width: 600px) {
+  html.health-library:is(.health-hub-insurance,.health-hub-other) main.article > .eh-museum-panel { margin: 18px 0 22px; border-radius: 11px; }
+  html.health-library:is(.health-hub-insurance,.health-hub-other) main.article > .eh-museum-panel figcaption { padding: 14px 16px 17px; gap: 5px; }
+  html.health-library main.article .health-hub-care-path { padding: 13px 14px; margin: 13px 0 18px; }
+}
+@media(forced-colors:active) {
+  html.health-library:is(.health-hub-insurance,.health-hub-other) main.article > .eh-museum-panel,
+  html.health-library main.article .health-hub-care-path { background: Canvas; color: CanvasText; border-color: CanvasText; box-shadow: none; }
+}
+@media print {
+  html.health-library:is(.health-hub-insurance,.health-hub-other) main.article > .eh-museum-panel { box-shadow: none; break-inside: avoid; }
+  html.health-library main.article .health-hub-care-path { break-inside: avoid; }
+}
