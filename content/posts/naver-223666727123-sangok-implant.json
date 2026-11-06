@@ -8,7 +8,17 @@
   "published": true,
   "updated": "2026-11-06",
   "references": [
-    "https://academy.iti.org/academy/consensus-database/consensus-statement/-/consensus/placement-of-implants-in-extraction-sockets/1318",
-    "https://www.efp.org/for-patients/dental-implants/peri-implant-disease-prevention/"
+    {
+      "label": "유럽 치주학회 합의: 발치와 관리와 임플란트 식립 시기",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/31215112/"
+    },
+    {
+      "label": "유럽 치주학회 S3 지침: 임플란트 주위질환 예방과 치료",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37271498/"
+    },
+    {
+      "label": "대한치주과학회: 임플란트 주위질환 합의문 (2025)",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40891173/"
+    }
   ]
 }
