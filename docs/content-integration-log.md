@@ -158,6 +158,20 @@
 
 이번 최종 커밋에서 실행된 GitHub 빌드·SEO·Cloudflare Pages 검사 상태와 정식 도메인 직접 화면 검증은 각각 별도 확인해야 함.
 
+
+## 2026-11-06 기존 틀니 원고 회수 — 8차 틀니 조정·수리
+
+기존에 네이버 블로그 주제·링크만 받아 정리된 틀니 자료 중 본문이 짧은 `naver-223663170126-sangok-denture-adjustment.json`을 선택해 **홈페이지에서 읽을 수 있는 환자 설명으로 실제 확장**함.
+
+| 이전 원문·현황 | 실제 변경 파일 및 내용 | 커밋 |
+| --- | --- | --- |
+| 원장 블로그 [산곡동 틀니 조정](https://blog.naver.com/tele654/223663170126); 기존 자체 교육 본문 1,035자 | `content/posts/naver-223663170126-sangok-denture-adjustment.json`을 본문 2,757자로 확장. 틀니 통증·헐거움의 원인, 조정/리라인/수리/재제작 차이, 접착제 한계, 임의 수리 금지, 부드러운 세척·야간 제거·지지치아 관리 및 재진 징후를 환자 질문 순서로 작성 | `31e26ec831e40dbb8d050fbf88cfd8f9ab808a39` |
+| 기존 `denture.html`에서 조정·리라인 구분과 상세 글 연결이 충분하지 않음 | `denture.html#denture-adjustment-vs-reline` 구역 신설. 보존 가능한 틀니의 조정·수리 가능성을 먼저 평가하고 자가 수리 금지 안내와 위 자체 글로 가는 직접 링크 삽입 | `41b99b15844ff206333b016dacac39b2e9d756c7` |
+
+- 환자 교육 근거: [ADA Denture Care and Maintenance](https://www.ada.org/resources/ada-library/oral-health-topics/dentures), [Oral Health Foundation 2026-10 Denture Care Guidelines](https://www.dentalhealth.org/denturecareguidelines). 개인별 틀니 재료·구강 상태에 따른 세척·수면 중 착용 예외 인정.
+- **이번 작업 계수:** 블로그 기반 기존 글 1편 본문 확대, 핵심 진료 HTML 1개 보강, 신규 중복글 0편, 새 이미지 0개. 기존 `denture.html`의 수채화 삽화는 유지해 같은 이미지를 다른 글에 무의미하게 반복하지 않음.
+- 검색 색인과 정식 도메인 배포 검사는 본문 커밋·GitHub 빌드 검사와 별개로 확인한다. 기존 미완료 캡처 전체의 1:1 대조가 끝났다는 의미가 아니므로 기존 미확정 목록 유지.
+
 ## 원칙
 
 1. 받은 자료를 제목·링크 목록에만 쌓아두고 **홈페이지 반영 완료**로 보고하지 않는다. 사용자가 별도로 목록만 원한 경우는 예외로 구분한다.
