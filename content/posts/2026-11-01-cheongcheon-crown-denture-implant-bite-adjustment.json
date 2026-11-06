@@ -9,8 +9,18 @@
     "원장직접 보철물의 높이 조정 틀니 높이 조정 청천동치과 산곡동치과"
   ],
   "references": [
-    "https://pubmed.ncbi.nlm.nih.gov/33783094/",
-    "https://www.nature.com/articles/s41415-023-5574-6"
+    {
+      "label": "NHS: Dentures — patient care and adjustment",
+      "url": "https://www.nhs.uk/tests-and-treatments/dentures/"
+    },
+    {
+      "label": "Leeds Teaching Hospitals NHS Trust: Complete dentures patient guide",
+      "url": "https://www.leedsth.nhs.uk/patients/resources/complete-dentures/"
+    },
+    {
+      "label": "American College of Prosthodontists: Implant occlusion best evidence consensus",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/33783094/"
+    }
   ],
   "updated": "2026-11-06"
 }
