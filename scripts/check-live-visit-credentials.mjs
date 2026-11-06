@@ -24,6 +24,28 @@ const cases=[
     url:'/stories/2026-11-01-original-20240604-credentials-training-course/',
     file:'stories/2026-11-01-original-20240604-credentials-training-course/index.html',
     phrases:['연수를 받은 사실 자체는 의미가 없나요?','치과 소개의 교육 이력을 볼 때 확인할 네 가지']
+  },
+  {name:'재신경치료 페이지 내 한 치아 변색 감별 안내',
+    url:'/retreatment.html',file:'retreatment.html',
+    phrases:['id="retreatment-discoloration-guide"','색의 변화만으로 근관이 다시 감염됐거나 재신경치료가 필요하다고 단정할 수는 없습니다.','/stories/2026-11-01-original-20240608-tooth-discoloration/']
+  },
+  {name:'신경치료 건강정보에서 어두운 치아 검사 안내',
+    url:'/root-canal-health.html',file:'root-canal-health.html',
+    phrases:['id="root-one-dark-tooth"','앞니 한 개만 어둡게 변했다면 신경치료가 필요한가요?','/stories/2026-11-01-original-20240608-tooth-discoloration/']
+  },
+  {name:'충치치료 페이지에서 레진 원장 글 연결',
+    url:'/cavity-treatment.html',file:'cavity-treatment.html',
+    phrases:['id="cavity-resin-original-guide"','레진을 선택하기 전에는 치아 상태를 먼저 구분합니다.','/stories/2026-11-01-cheongcheon-resin-filling-treatment/']
+  },
+  {name:'원장 치아 변색 상세 글',
+    url:'/stories/2026-11-01-original-20240608-tooth-discoloration/',
+    file:'stories/2026-11-01-original-20240608-tooth-discoloration/index.html',
+    phrases:['치아 한 개만 회색이나 갈색으로 변했다면 무엇을 검사하나요?','누런 부분이 충치인지 단순 착색인지 어떻게 구별하나요?']
+  },
+  {name:'원장 레진 수복 상세 글',
+    url:'/stories/2026-11-01-cheongcheon-resin-filling-treatment/',
+    file:'stories/2026-11-01-cheongcheon-resin-filling-treatment/index.html',
+    phrases:['접착과 수분 관리가 중요합니다','작은 충치라고 무조건 바로 치료해야 하나요?']
   }
 ];
 async function fetchLive(url){
