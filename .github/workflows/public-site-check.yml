@@ -77,6 +77,11 @@ jobs:
         run: |
           node --check scripts/check-live-visit-credentials.mjs
           node scripts/check-live-visit-credentials.mjs
+      - name: Verify archived blog and implant guidance on the public site
+        continue-on-error: true
+        run: |
+          node --check scripts/check-live-marketing-implant-archive.mjs
+          node scripts/check-live-marketing-implant-archive.mjs
       - name: Verify first-visit page is included
         run: |
           test -s dist/previsit-checklist.html
