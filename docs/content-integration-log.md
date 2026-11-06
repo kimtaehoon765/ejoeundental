@@ -188,6 +188,22 @@
 
 최신 GitHub 커밋, 자동검사/Cloudflare Pages/운영 사이트 공개 여부, 검색 색인은 **각각 별도 확인**. 남은 과거 원고와 삽화의 1:1 전수 대조는 계속 미완료로 구분.
 
+
+## 2026-11-06 과거 자료 회수 — 10차 산곡동 임플란트·보철 교합
+
+원장이 이전에 제공한 네이버 원문 제목/링크 및 보철 교합 관련 스크린샷을 바탕으로, **새 페이지를 추가하지 않고 기존 자체 글 두 편**을 환자 검사·진단·치료 과정 중심으로 보강했습니다. 환자가 방문하는 주 진료 페이지 2개에도 보강한 글을 연결했습니다.
+
+| 원래 받았던 자료와 상태 | 홈페이지 자체 글 실수정 | 주요 진료 페이지 연결 | 커밋 |
+| --- | --- | --- | --- |
+| [산곡동 임플란트 — 원장 네이버 원문](https://blog.naver.com/tele654/223666727123). 기존 공개 원고 1,118자 | `content/posts/naver-223666727123-sangok-implant.json` 2,741자로 확대. 발치 전 치아 보존, 골량/CT, 선택적 뼈이식, 발치 즉시·치유 후 식립 비교, PFM/지르코니아, 비용 구성, 주위염 관리 및 원장 직접 진료 | `implant.html#implant-owner-education-20261105`에서 '산곡역 임플란트 상담 체크리스트' 직접 링크, 기존 뼈이식/담당자 안내 유지 | `80e0c43916e7c4dfcbf992dd5195e6fc845c5446`, `155686d8ba679c47f8059b9d98e9ee10dcf6a0a4` |
+| 2026-11-01 원장 제공 보철 교합 본문 캡처로 만든 짧은 자체 글 1,047자. 원문 URL은 미확인 | `content/posts/2026-11-01-cheongcheon-crown-denture-implant-bite-adjustment.json` 2,135자로 확대. 크라운 높게 닿음, 임플란트 나사/주위염 감별, 틀니 압박과 국소 조정, 교합 접촉의 불확실성, 자가 삭제 금지 | `implant.html` 치료 후 관리와 `denture.html#denture-adjustment-vs-reline` 양쪽에 본문 링크 연결 | `16ab8c615c6b00885d7e9b4c6fdffe3441f0c802`, `155686d8ba679c47f8059b9d98e9ee10dcf6a0a4`, `d7b5f2d900a07f6e919430d80318122905ba1be9` |
+
+**실계수:** 기존 환자 교육 글 2편 본문 확대 + 임플란트·틀니 HTML 2개 링크/본문 수정. 새 중복 글 없음. 새 이미지 제작·배치 없음(임플란트 진료 페이지에는 이미 고정체 도해와 뼈 평가 창작 삽화 연결 확인). 원문 네이버 글 전문을 다시 열람했다고 주장하지 않음.
+
+진료 내용 참고: [ITI 발치와 식립 의사결정 합의](https://academy.iti.org/academy/consensus-database/consensus-statement/-/consensus/placement-of-implants-in-extraction-sockets/1318), [EFP 임플란트 주위염 예방](https://www.efp.org/for-patients/dental-implants/peri-implant-disease-prevention/), [ACP 보철 교합 근거 합의](https://pubmed.ncbi.nlm.nih.gov/33783094/). 수술·보철 결과를 보장하지 않으며, 골증대술의 필요성과 보철 조정은 환자 진단에 따름.
+
+**계속 미완료:** 과거 11월 4일 전후 사진 묶음 전체의 1:1 완독·반영 대조 및 그림별 배치 여부. 이번 두 원고가 그 특정 사진 묶음에 반드시 들어 있다는 증거는 없어 전체 묶음 완료율로 산입하지 않음. 최신 커밋 기준 CI, Cloudflare Pages, 정식 도메인/검색 색인 검사는 서로 구분.
+
 ## 원칙
 
 1. 받은 자료를 제목·링크 목록에만 쌓아두고 **홈페이지 반영 완료**로 보고하지 않는다. 사용자가 별도로 목록만 원한 경우는 예외로 구분한다.
