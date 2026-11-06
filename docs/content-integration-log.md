@@ -172,6 +172,22 @@
 - **이번 작업 계수:** 블로그 기반 기존 글 1편 본문 확대 및 주제 중복 조정, 핵심 진료 HTML 1개 보강, 신규 중복글 0편, 새 이미지 0개. 기존 `denture.html`의 수채화 삽화는 유지해 같은 이미지를 다른 글에 무의미하게 반복하지 않음.
 - 검색 색인과 정식 도메인 배포 검사는 본문 커밋·GitHub 빌드 검사와 별개로 확인한다. 기존 미완료 캡처 전체의 1:1 대조가 끝났다는 의미가 아니므로 기존 미확정 목록 유지.
 
+
+## 2026-11-06 과거 자료 회수 — 9차 신경치료·잇몸치료 감별과 사랑니 주위염
+
+네이버 원장 블로그 원문 제목·URL만 연결된 뒤 홈페이지에서 설명이 짧게 남았던 두 **기존 발행 글**을 재작성하고, 관련 메인 진료 페이지에서 환자가 직접 발견할 수 있게 본문 연결을 보강했습니다.
+
+| 자료/원문 | 원고 본문 재구성 | 관련 메인 페이지 직접 수정 | 소스 수정 커밋 |
+| --- | --- | --- | --- |
+| [청천동 신경치료·잇몸치료](https://blog.naver.com/tele654/223665531959) | `content/posts/naver-223665531959-cheongcheon-root-canal-gum-care.json`: 치수·치근단 감염과 치주염의 차이, 치수 감각·치주낭·타진·영상 검사, 복합 병소·근관재치료·예후 및 응급 증상. 이전 1,191자 → 2,479자 | `root-canal-health.html#toothache-possible-causes`: 잇몸 고름·치아 통증 감별 글 직접 연결 | `7a2c14aeeeff10d53cf29896ff136b2b506c43ef`, `626e751d4f8cf02d5cbac11cab4a2b9ad48557dd` |
+| [산곡동 사랑니 주변 잇몸 붓기](https://blog.naver.com/tele654/223665456537) | `content/posts/naver-223665456537-sangok-wisdom-tooth-gum.json`: 치관주위염의 국소 관리·항생제 적응증·발치 결정·하치조신경관 평가·응급징후. 이전 1,285자 → 2,189자 | `wisdom-tooth.html#wisdom-patient-paths`: 원래 있던 링크 옆 본문을 실제 치료 선택·응급 증상 중심으로 보강 | `34fdd632276f541a172f2ba18d09549ed2312a12`, `1dd9ba1fa5b32fee903054267c916b26dd72bc2e` |
+
+이번 차수 실제 변경은 **블로그 기반 기존 게시글 2편 실질 보강 + 메인 진료 HTML 2개 설명·내부 연결 수정**. 새 중복 글 없음, 새 그림 제작·배치 없음. 원본 스크린샷을 그대로 재사용하지 않았으며 네이버 원문 전문을 직접 읽었다고 주장하지 않음. 특히 이번 2편은 과거 누락 가능성이 있어 기존 짧은 기사 내용을 개선한 것이며 11월 4일의 특정 9편·31장 전체를 완료한 것으로 계산하지 않음.
+
+의학적 참고: [AAE Endodontic and Periodontic Dilemmas](https://www.aae.org/specialty/endodontic-and-periodontic-dilemmas-bridging-the-diagnostic-divide/), [2023 ESE S3 pulp and apical treatment guideline](https://doi.org/10.1111/iej.13974), [NHS Wisdom Tooth Removal](https://www.nhs.uk/tests-and-treatments/wisdom-tooth-removal/), [HSE Pericoronitis v2.0, 2026 업로드](https://assets.hse.ie/media/documents/Pericoronitis_guideline.pdf). 진단·시술과 약물 사용은 환자별 검사에 따름.
+
+최신 GitHub 커밋, 자동검사/Cloudflare Pages/운영 사이트 공개 여부, 검색 색인은 **각각 별도 확인**. 남은 과거 원고와 삽화의 1:1 전수 대조는 계속 미완료로 구분.
+
 ## 원칙
 
 1. 받은 자료를 제목·링크 목록에만 쌓아두고 **홈페이지 반영 완료**로 보고하지 않는다. 사용자가 별도로 목록만 원한 경우는 예외로 구분한다.
