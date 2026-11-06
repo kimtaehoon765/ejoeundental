@@ -67,6 +67,11 @@ jobs:
         run: |
           node --check scripts/check-live-deployment.mjs
           node scripts/check-live-deployment.mjs
+      - name: Verify the November insurance and health library update on the live site
+        continue-on-error: true
+        run: |
+          node --check scripts/check-live-insurance-pages.mjs
+          node scripts/check-live-insurance-pages.mjs
       - name: Verify first-visit page is included
         run: |
           test -s dist/previsit-checklist.html
