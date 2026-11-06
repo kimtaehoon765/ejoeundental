@@ -165,11 +165,11 @@
 
 | 이전 원문·현황 | 실제 변경 파일 및 내용 | 커밋 |
 | --- | --- | --- |
-| 원장 블로그 [산곡동 틀니 조정](https://blog.naver.com/tele654/223663170126); 기존 자체 교육 본문 1,035자 | `content/posts/naver-223663170126-sangok-denture-adjustment.json`을 본문 2,757자로 확장. 틀니 통증·헐거움의 원인, 조정/리라인/수리/재제작 차이, 접착제 한계, 임의 수리 금지, 부드러운 세척·야간 제거·지지치아 관리 및 재진 징후를 환자 질문 순서로 작성 | `31e26ec831e40dbb8d050fbf88cfd8f9ab808a39` |
+| 원장 블로그 [산곡동 틀니 조정](https://blog.naver.com/tele654/223663170126); 기존 자체 교육 본문 1,035자 | `content/posts/naver-223663170126-sangok-denture-adjustment.json`을 단계별 상담 글로 확장하고 **유사한 종합 틀니 안내 글들과 구별되도록 한쪽 잇몸 압박점·궤양·교합 확인과 국소 조정 과정에 집중하여 재편집**. 접착제 한계·자가 수리 금지·오래 낫지 않는 궤양의 평가를 안내 | `31e26ec831e40dbb8d050fbf88cfd8f9ab808a39`, `d287e57156d4326b1384061c44bfbb7b3f292af2` |
 | 기존 `denture.html`에서 조정·리라인 구분과 상세 글 연결이 충분하지 않음 | `denture.html#denture-adjustment-vs-reline` 구역 신설. 보존 가능한 틀니의 조정·수리 가능성을 먼저 평가하고 자가 수리 금지 안내와 위 자체 글로 가는 직접 링크 삽입 | `41b99b15844ff206333b016dacac39b2e9d756c7` |
 
 - 환자 교육 근거: [ADA Denture Care and Maintenance](https://www.ada.org/resources/ada-library/oral-health-topics/dentures), [Oral Health Foundation 2026-10 Denture Care Guidelines](https://www.dentalhealth.org/denturecareguidelines). 개인별 틀니 재료·구강 상태에 따른 세척·수면 중 착용 예외 인정.
-- **이번 작업 계수:** 블로그 기반 기존 글 1편 본문 확대, 핵심 진료 HTML 1개 보강, 신규 중복글 0편, 새 이미지 0개. 기존 `denture.html`의 수채화 삽화는 유지해 같은 이미지를 다른 글에 무의미하게 반복하지 않음.
+- **이번 작업 계수:** 블로그 기반 기존 글 1편 본문 확대 및 주제 중복 조정, 핵심 진료 HTML 1개 보강, 신규 중복글 0편, 새 이미지 0개. 기존 `denture.html`의 수채화 삽화는 유지해 같은 이미지를 다른 글에 무의미하게 반복하지 않음.
 - 검색 색인과 정식 도메인 배포 검사는 본문 커밋·GitHub 빌드 검사와 별개로 확인한다. 기존 미완료 캡처 전체의 1:1 대조가 끝났다는 의미가 아니므로 기존 미확정 목록 유지.
 
 ## 원칙
