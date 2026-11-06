@@ -11,6 +11,19 @@
 - Cloudflare Pages 배포가 최신 커밋을 반영했는지는 GitHub 코드 변경이나 빌드 성공만으로 증명되지 않음. 배포 확인은 별도로 해야 함.
 - DNS, 네임서버, Cloudflare Pages 프로젝트/도메인 연결을 원장 확인 없이 임의로 변경하지 말 것.
 
+## GitHub → Cloudflare Pages 배포 횟수 절감 규칙 (원장 요청: 2026-11-06)
+
+**불필요한 자동 배포를 만들지 않는다.** Cloudflare Pages는 GitHub의 `main`에 변경이 푸시되면 기본적으로 빌드와 배포를 시작한다. 무료 요금제의 공식 월간 빌드 횟수는 500회(유료 플랜은 별도)이며, 실제 계정 요금제와 이번 달 잔여 횟수는 확인 전까지 추정하지 않는다. 2026-11-06에 발생한 Cloudflare 내부 오류는 사용자의 *Retry deployment*로 해결되었으므로, 횟수 제한 때문이라고 단정하지 않는다.
+
+1. **기본은 자료 묶음당 커밋 1번·배포 1번.** 기존 원장 블로그 내용 확인, 중복 판단, JSON 본문, 관련 진료 HTML, 이미지·스타일(필요한 경우), 작업 기록 및 검증 스크립트 수정까지 가능하면 **배포 전 한 번에 준비**한다. 파일 하나 수정할 때마다 `main`에 커밋·배포하지 않는다.
+2. GitHub 커넥터를 통해 여러 파일을 수정할 때는 **Git 트리 단위 일괄 커밋**(`create_tree` → `create_commit` → `update_ref`, 원래 `main` HEAD 확인 및 `expected_sha` 지정)을 우선한다. 단일 파일을 여러 차례 순차 갱신해야 한다면 미리 최종 내용을 완성한 뒤 커밋한다. 게시글·HTML·검증 스크립트마다 별도 커밋을 만드는 과거 패턴을 반복하지 않는다.
+3. **문서만 바뀌고 공개 사이트 산출물과 무관한 경우**에는 커밋 제목 맨 앞에 `[CF-Pages-Skip]`을 사용해 Cloudflare Pages 빌드를 건너뛴다. 코드·게시글 JSON·실사이트 HTML·CSS·JS·이미지·배포 구성을 바꿀 때에는 해당 표식을 **사용하지 않는다**. 배포되어야 할 변경과 문서 변경이 함께 포함되면 정상 배포한다.
+4. **정기 콘텐츠는 모아서 반영하되, 긴급한 의료 정보 정정·실서비스 장애는 예외로 즉시 배포**할 수 있다. 하루에 여러 차례 작은 수정이 불필요하게 누적되지 않도록 하고, 배포 횟수만 줄이려고 환자에게 필요한 수정이나 검증을 생략하지 않는다.
+5. 변경이 없으면 커밋하지 않는다. 빌드·SEO 검사, Cloudflare Pages 성공, 정식 도메인의 최신 본문 일치를 별도 확인한다. Cloudflare 오류 시 원인도 모른 채 여러 새 커밋을 추가하지 말고 **같은 실패 배포 재시도 또는 로그 확인**을 우선한다.
+6. Cloudflare 대시보드의 Build watch paths로 `docs/*`, `README.md`, `AGENTS.md` 같은 문서 전용 변경을 제외하는 것은 추가 선택지이다. **대시보드 설정은 GitHub 수정만으로 바뀌지 않으며, 사용자가 확인 없이 자동 프로덕션 배포 자체를 꺼서는 안 된다.**
+
+공식 근거: https://developers.cloudflare.com/pages/platform/limits/ · https://developers.cloudflare.com/pages/configuration/git-integration/github-integration/ · https://developers.cloudflare.com/pages/configuration/build-watch-paths/
+
 ## 요청 처리 원칙
 
 1. **기존에 완료한 이전 작업을 처음부터 다시 안내하지 말 것.** 이전 기록과 현재 설정을 먼저 확인.
