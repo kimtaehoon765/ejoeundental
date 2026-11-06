@@ -72,6 +72,11 @@ jobs:
         run: |
           node --check scripts/check-live-insurance-pages.mjs
           node scripts/check-live-insurance-pages.mjs
+      - name: Verify clinic visit and clinician education on public pages
+        continue-on-error: true
+        run: |
+          node --check scripts/check-live-visit-credentials.mjs
+          node scripts/check-live-visit-credentials.mjs
       - name: Verify first-visit page is included
         run: |
           test -s dist/previsit-checklist.html
