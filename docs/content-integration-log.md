@@ -125,6 +125,21 @@
 
 원문 제목·URL은 현재 홈페이지의 697개 원장 블로그 색인에서 확인했으며, 원문 전체 본문을 재차 직접 읽었다고 주장하지 않음. 의학적 판단과 공개 배포는 코드 저장·GitHub 검사·실사이트 접근을 각각 별도 검증한다. **남은 다른 사진/글은 완료 처리하지 않음.** 정식 도메인은 대화의 공개 웹 열람 도구에서 본문 접근 실패였으므로 이 자체를 공개 확인 근거로 쓰지 않음.
 
+
+## 2026-11-06 역사적 자료 회수 — 6차 (시각 보완·충치 직접 진료)
+
+과거 전송 자료 및 저장소 코드에서 누락 가능성이 있었던 두 요소를 실제 공개 페이지와 원장 블로그 기반 자체 글에 반영했습니다.
+
+| 자료·문제 | 원문·기존 자산 | 실제 사이트 변경 | 커밋 |
+| --- | --- | --- | --- |
+| 잇몸 건강정보 페이지에 그림 없이 텍스트만 밀집 | 이미 제작된 `assets/ejoeun-gum-signals-conservatory-20261029.svg` (하얀 고양이·온실·잇몸 출혈·붓기·흔들림, 좌상단 이조은치과) | `gum-health.html`: 1200×760 SVG를 새 캡션·정확한 대체텍스트·모바일 비율과 함께 실제 `img` 요소로 연결. 그림 원본 파일 자체 변경 없음 | `b3e2d09ed3a1c79fbec5288ecafdc7dba0d32742` |
+| 원장 블로그의 청천동 충치 직접 진료 글이 기존 본문 780자로만 요약 | [원문](https://blog.naver.com/tele654/223654890058) · `content/posts/naver-223654890058-cheongcheon-caries-direct-treatment.json` | 원고를 초기 병소 관찰·검은 착색/우식 구분·레진/GI·크라운·인레이·근관치료 선택·보험 기준으로 보강. `cavity-treatment.html` 자연치아 보존 안내에서 해당 글로 내부 링크 추가 | `c628aeabdd1acaaa50ad501b4f473b81c1940063`, `b353d0e91e529c3f5648975c0d3407f92b388e7a` |
+
+- 원문 확보 유형은 기존 네이버 블로그 **링크·제목과 이미 공개된 홈페이지 자체 글**이며, 전송된 원본 전체 사진을 이번 차수에 새로 열람했다고 주장하지 않음.
+- 충치 진단·재료 판단의 임상 근거: [ADA 2023 수복 충치치료 가이드](https://www.ada.org/resources/research/science/evidence-based-dental-research/caries-management-clinical-practice-guidelines/evidence-based-clinical-practice-guideline-on-restorative-treatments-for-caries-lesions) 및 [ADA 충치 관리 지침 모음](https://www.ada.org/resources/research/science/evidence-based-dental-research/caries-management-clinical-practice-guidelines).
+- **처리 계수:** 기존 홈페이지 글 1편 대폭 보강, 주요 진료 HTML 2개 수정(잇몸 건강정보 그림 배치 1개·충치치료 링크 1개), 신규 게시글 중복 발행 0편, 신규 제작 그림 0개, 기존 창작 그림 실제 신규 배치 1개.
+- 검증은 마지막 커밋의 GitHub Actions, Cloudflare Pages, 운영 도메인 확인 결과를 분리해 보고한다. 기존에 접수한 사진 전체와 원문 697개에 대한 전수 대조는 아직 완료된 것이 아니다.
+
 ## 원칙
 
 1. 받은 자료를 제목·링크 목록에만 쌓아두고 **홈페이지 반영 완료**로 보고하지 않는다. 사용자가 별도로 목록만 원한 경우는 예외로 구분한다.
