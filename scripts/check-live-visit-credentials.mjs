@@ -15,6 +15,16 @@ const cases=[
    phrases:['id="doctor-credentials-meaning"','박사과정 수료','/stories/2026-11-01-original-20240604-credentials-degree-completion/']},
   {name:'원장 약력 환자 교육 상세 본문',url:'/stories/2026-11-01-original-20240604-credentials-degree-completion/',file:'stories/2026-11-01-original-20240604-credentials-degree-completion/index.html',
    phrases:['박사과정 수료','전문의 자격은 학위나 연수와 어떻게 다른가요?']}
+  ,{name:'치과의사 교육 경로·학위·전문의 상세 안내',
+    url:'/stories/2026-11-01-original-20240604-credentials-dental-school/',
+    file:'stories/2026-11-01-original-20240604-credentials-dental-school/index.html',
+    phrases:['치과대학 졸업’과 ‘치의학전문대학원 졸업','환자 입장에서 약력을 확인하는 다섯 가지 질문']
+  },
+  {name:'대학 부설 연수과정과 학위의 구분',
+    url:'/stories/2026-11-01-original-20240604-credentials-training-course/',
+    file:'stories/2026-11-01-original-20240604-credentials-training-course/index.html',
+    phrases:['연수를 받은 사실 자체는 의미가 없나요?','치과 소개의 교육 이력을 볼 때 확인할 네 가지']
+  }
 ];
 async function fetchLive(url){
   const r=await fetch(root+url,{redirect:'follow',signal:AbortSignal.timeout(13000),
