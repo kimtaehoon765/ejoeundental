@@ -31,6 +31,30 @@ const targets=[
     path:'/implant.html',
     file:'implant.html',
     phrases:['광고의 수술 방식과 실제 진료 계획은 구분해서 살펴보세요.','/stories/2026-11-01-original-20240606-implant-advertising/']
+  },
+  {
+    label:'발치 권유 전 두 번째 의견·검사 안내',
+    path:'/stories/2026-11-01-original-20240605-low-price-dental-tv-part2/',
+    file:'stories/2026-11-01-original-20240605-low-price-dental-tv-part2/index.html',
+    phrases:['다른 치과의 의견도 듣고 싶다면?','어떤 경우에는 진료를 미루면 안 되나요?']
+  },
+  {
+    label:'임플란트 가격 구성·추가 비용 확인 안내',
+    path:'/stories/2026-11-01-original-20240607-low-cost-implant-video/',
+    file:'stories/2026-11-01-original-20240607-low-cost-implant-video/index.html',
+    phrases:['처음 상담에서 확인할 비용 항목','치료 도중 비용이 달라질 수 있나요?']
+  },
+  {
+    label:'자연치아 보존 본문에서 발치 판단 글 연결',
+    path:'/tooth-preservation.html',
+    file:'tooth-preservation.html',
+    phrases:['발치 여부를 결정하기 전에 검사 근거를 확인하세요.','/stories/2026-11-01-original-20240605-low-price-dental-tv-part2/']
+  },
+  {
+    label:'임플란트 진료 가격 카드에서 세부 견적 연결',
+    path:'/implant.html',
+    file:'implant.html',
+    phrases:['광고에 나온 금액과 검사 후 견적을 비교할 때는','/stories/2026-11-01-original-20240607-low-cost-implant-video/']
   }
 ];
 async function publicPage(path){
