@@ -28,6 +28,16 @@ const targets=[
     path:'/stories/2026-11-01-sangok-insured-denture-eligibility-aftercare/',
     localPath:'stories/2026-11-01-sangok-insured-denture-eligibility-aftercare/index.html',
     markers:['헐거운 틀니를 계속 접착제로 버텨도 될까요?','보험 적용과 실제 치료 순서는 다릅니다']
+  },
+  {
+    label:'스케일링 할인행사 원장 글의 직접 진료 안내',
+    path:'/scaling.html',
+    markers:['id="scaling-event-checklist"','스케일링 할인 이벤트를 봤다면, 가격보다 먼저 확인할 점','/stories/2026-11-01-original-20240603-scaling-discount-event/','/stories/2026-11-01-original-20240603-periodontal-follow-up/']
+  },
+  {
+    label:'건강보험 진료에서 연 1회 치석제거와 치주치료 구분',
+    path:'/insured-care.html',
+    markers:['id="insured-scaling-event-guidance"','올해 스케일링을 한 번 받았다','/stories/2026-11-01-original-20240603-scaling-discount-event/','/stories/2026-11-01-original-20240603-periodontal-follow-up/']
   }
 ];
 const extraAsset={label:'건강정보 삽화 반응형 스타일 원본 일치',path:'/assets/health-hub-artwork-layout-20261106.css'};
