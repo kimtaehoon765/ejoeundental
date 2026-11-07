@@ -413,3 +413,12 @@
 - 확인한 참고자료: [NKF 치과 건강](https://www.kidney.org/kidney-topics/dental-health-and-kidney-disease-connection), [American Kidney Fund](https://www.kidneyfund.org/living-kidney-disease/oral-health-and-kidney-disease), [SDCEP 혈액투석 항응고제](https://companion.sdcep.org.uk/management-of-dental-patients-taking-anticoagulants-or-antiplatelet-drugs/treatment-recommendations/injectable-anticoagulants/).
 - 구조 점검: 앵커 중복 없음, 환자 안내 메타 설명·관련 링크 업데이트, 기존 예약 URL·창작 삽화 경로 및 대표주소 유지.
 - **저장 상태:** `content/nov10-osteoporosis-guide-20261107` 브랜치에 39~42차 묶음 보관. `main` 미반영, 프로덕션 배포·자동 빌드·시각적 검증·실사이트 확인 전. 해당 내용은 정기 배포 시 최신 `main`과 충돌 대조 후 일괄 병합해야 함.
+
+
+## 2026-11-07 43차 — 간염·간경변 환자의 치과진료 안내 보강 (배포 전 대기)
+
+- 기존 홈페이지 파일 `liver-disease-dental-care.html` 실제 HTML 내용 보강. `#liver-personalized-dental-care-20261107`에 만성 간염과 심한 간기능 저하의 차이, 간경변에서 INR 단독 평가의 한계, 발치·잇몸치료 후 국소 지혈, 진통제·항생제 주의 및 진료 준비사항 추가.
+- 검색 메타 설명 변경, 본문 바로가기와 기관 근거 링크 추가. 기존 창작 삽화·예약·전화·canonical·이전 콘텐츠 유지, 새 게시글·이미지 생성 없음.
+- 의료 참고: [AASLD 출혈 위험 평가](https://www.aasld.org/liver-fellow-network/core-series/clinical-pearls/peri-procedural-management-bleeding-risk-cirrhosis), [SDCEP 간질환과 진통제](https://sdcepdentalprescribing.nhs.scot/guidance/supporting-tools/contraindications-cautions/contraindications-cautions-analgesics/hepatic-conditions/), [치과수술 체계적 문헌고찰](https://pubmed.ncbi.nlm.nih.gov/33250169/). 개인별 출혈·약물 위험과 시술 범위는 실제 진료에서 판단하며 일률적인 약 중단·용량 지시 없음.
+- 코드 점검: 새 섹션·바로가기 ID 중복 없음, 메타 설명 4곳 일치, 원래 예약 URL·이미지·대표주소 보존.
+- **현재 상태:** `content/nov10-osteoporosis-guide-20261107` 작업 브랜치에 39~43차 수정본을 묶어 보관. `main` 병합·정식 도메인 배포·자동 빌드 확인 전이며, 별도 브랜치 미리보기 빌드 여부도 확인 필요. 정기 묶음 배포 때 최신 main과 변경 내역을 대조하여 반영.
