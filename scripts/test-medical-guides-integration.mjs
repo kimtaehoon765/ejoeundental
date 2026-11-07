@@ -53,6 +53,13 @@ test('all twelve updated patient safety guides survive the static build with nav
     const canonical = markup.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
     assert.ok(canonical, page + ': canonical missing');
     assert.equal(new URL(canonical).pathname, '/' + page, page + ': wrong canonical path');
+    const visibleMain = markup.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1] || '';
+    const introduction = visibleMain.slice(0, 850);
+    for (const detail of ['김태훈 원장', '고려대학교 의학박사(치과학 전공)',
+      '통합치의학과 전문의', 'href="/doctor.html"']) {
+      assert.ok(introduction.includes(detail),
+        page + ': clinic clinician information/link absent near the heading: ' + detail);
+    }
     assertIDsUnique(page, markup);
   }
 });

@@ -1,0 +1,6 @@
+/* Visible clinician identity alongside original patient education. */
+.guide-clinician-credit{margin:10px 0 18px;padding:12px 16px;border-left:3px solid #7c9a84;border-radius:0 10px 10px 0;background:#f4f8f5;color:#38544b;font-size:14px;line-height:1.75;word-break:keep-all}
+.guide-clinician-credit a{color:#17614d;font-weight:750;text-underline-offset:3px}
+.guide-clinician-credit a:focus-visible{outline:3px solid #c8a86c;outline-offset:3px}
+@media(max-width:600px){.guide-clinician-credit{padding:10px 13px;font-size:13px}}
+@media print{.guide-clinician-credit{background:#fff;border-left:2px solid #555;color:#222}}
