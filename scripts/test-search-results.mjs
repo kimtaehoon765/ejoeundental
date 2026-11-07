@@ -244,6 +244,9 @@ test('patient medical phrases with or without spaces find the correct existing d
   const {results,status}=await search(query,pages);
   const top=walk(results,x=>x.className==='result').slice(0,3).map(x=>x.href);
   assert.ok(top.includes(wanted),query+' must show its original patient guide within the top 3: '+top);
+  if(['류마티스 약 먹고 발치','스테로이드 먹고 발치','투석 받고 발치'].includes(query)){
+   assert.equal(top[0],wanted,query+' should show its specific clinical guide first');
+  }
   const target=walk(results,x=>x.className==='result').find(x=>x.href===wanted);
   const kind=walk(target,x=>x.className==='result-kind')[0];
   assert.equal(kind?.dataset?.category,'medical',query+' must keep the medical classification');
