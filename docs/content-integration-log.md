@@ -394,3 +394,13 @@
 - 기존 네이버 예약·전화·창작 삽화·canonical·상단 구조 유지. 바로가기와 2022 SDCEP 전문 가이드 링크 추가. 메타 설명은 새 환자 안내에 맞춰 갱신.
 - 의학 근거: [ADA](https://www.ada.org/resources/ada-library/oral-health-topics/oral-anticoagulant-and-antiplatelet-medications-and-dental-procedures), [SDCEP 2022](https://sdcep.org.uk/published-guidance/anticoagulants-and-antiplatelets/). 개인별 복용 중단·INR 수치 지시는 하지 않음.
 - **현재 상태:** 작업 브랜치 코드 저장 대상이며 `main`/정식 도메인에는 미배포. 실제 커밋/검사 상태는 별도 확인 필요. 39차 골다공증 수정과 함께 정기 묶음으로 병합 예정.
+
+
+## 2026-11-07 41차 — 심장질환·고혈압 환자 치과진료 안내 보강 (묶음 배포 대기)
+
+- 기존 두 페이지 `heart-disease-dental-care.html`, `hypertension-dental-care.html`의 실제 HTML을 `content/nov10-osteoporosis-guide-20261107` 배포 대기 브랜치에서 수정. 새 게시글·새 삽화는 만들지 않음.
+- 심장질환: `#heart-ie-risk-explanation-20261107`에 감염성 심내막염 예방 항생제를 검토하는 고위험 심장상태, 스텐트·심박동기만으로 일률 처방하지 않는 이유, 대상 치과시술 구분, 구강위생과 부작용, 진료 준비자료 추가.
+- 고혈압: `#bp-patient-questions-20261107`에 반복 혈압 측정·증상 확인, 에피네프린 포함 마취제의 개별 판단, 일부 혈압약의 잇몸 비대·입마름 및 치주질환 감별 추가.
+- 기존 검색 canonical·예약 링크·전화·그림 보존. 심장질환 가이드 내 안내 링크, 관련 페이지 및 원문 기관 참고를 연결하고 메타 설명을 실제 본문에 맞춰 보완.
+- 근거: [ADA 항생제 예방](https://www.ada.org/resources/ada-library/oral-health-topics/antibiotic-prophylaxis), [AHA 심내막염](https://www.heart.org/en/health-topics/infective-endocarditis), [ADA 고혈압](https://www.ada.org/resources/ada-library/oral-health-topics/hypertension). 국내 개별 진료 기준 및 담당 의사의 치료 결정을 대체하지 않음.
+- **정식 사이트 미반영:** 배포 대기 브랜치에서만 변경, `main` 병합·Cloudflare Pages 프로덕션 배포·실사이트 확인은 아직 수행하지 않음. 빌드·미리보기 여부도 별도 확인 필요. 기존 39·40차와 함께 묶음 배포하며 최신 `main`과 충돌 여부 재검증.
