@@ -448,3 +448,13 @@
 - 기존 SEO canonical·제목·연락처·네이버 예약·본문은 유지하고 메타 설명 3곳을 새 내용과 맞춤. 새 문단 ID 중복 없음을 확인.
 - 근거: [NHS SPS NSAIDs/asthma](https://sps.nhs.uk/articles/using-nsaids-in-asthma/), [CDC Penicillin Allergy](https://www.cdc.gov/antibiotic-use/hcp/clinical-signs/), [NHS SPS Dental LA reactions](https://sps.nhs.uk/articles/managing-reactions-to-dental-local-anaesthetic-injections/), [SDCEP candidosis care](https://sdcepdentalprescribing.nhs.scot/guidance/fungal-infections/candidosis/local-measures/).
 - **상태:** `content/nov10-osteoporosis-guide-20261107` 브랜치에 39~46차 수정 저장; `main`·정식 사이트에는 미배포. 실제 자동 빌드·Cloudflare Pages 미리보기 및 실사이트 확인은 별도 필요. 정기 묶음 배포 때 최신 main과 변경 내용을 통합해 검증해야 함.
+
+
+## 2026-11-07 47차 — 류마티스질환·스테로이드 복용 환자의 치과진료 안내 보강 (배포 전 대기)
+
+- 기존 `steroid-rheumatic-dental-care.html` HTML에 `#steroid-rheumatic-practical-guide-20261107` 환자 설명 직접 추가. 새 중복 게시글·그림 없음.
+- 추가 내용: 장기 스테로이드 복용에 따른 부신기능저하 가능성과 원발성 부신기능저하의 구별, 메토트렉세이트·생물학적 제제·JAK 억제제의 복용·투여 이력 확인, 발치 후 감염·상처 관리, 관절 통증으로 양치가 어려운 환자 도구 선택, 응급 증상 및 준비물.
+- 모든 환자에게 동일한 스테로이드 추가 용량·약 중단·항생제를 권하지 않으며, 개인별 처치 범위와 주치의 협의가 중요함을 설명.
+- 기존 메타 설명 3곳 갱신, 예약·전화·canonical 및 본문 유지. 새 섹션 ID 유일 확인.
+- 참고: [Endocrine Society 2024 지침](https://www.endocrine.org/clinical-practice-guidelines/glucocorticoid-induced-adrenal-insufficiency), [NHS SPS 치과 처치와 원발성 부신기능저하](https://www.sps.nhs.uk/articles/what-steroid-supplementation-is-required-for-a-patient-with-primary-adrenal-insufficiency-undergoing-a-dental-procedure/), [2025 면역질환 환자의 침습적 구강 시술 문헌고찰](https://pubmed.ncbi.nlm.nih.gov/40148875/).
+- **현재 상태:** `content/nov10-osteoporosis-guide-20261107`에 39~47차 수정본을 보관. `main` 병합, Cloudflare 정식 배포 및 실사이트·자동 빌드 검증은 수행하지 않음. 정기 묶음 배포 전에 최신 main과의 충돌 여부를 점검해야 함.
