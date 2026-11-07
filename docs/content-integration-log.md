@@ -573,3 +573,12 @@
 - 정확히 일치하는 세 환자 표현에 한정하여 각각 기존 `/steroid-rheumatic-dental-care.html`, `/kidney-disease-dental-care.html`을 1순위에 배치하도록 검색 정렬 보정. 인용 문구나 진료 내용/약물 판단은 변경하지 않고, 그 외 검색어의 순위에는 영향을 주지 않도록 정확한 질문 표현으로 범위를 제한함.
 - `scripts/test-search-results.mjs`의 실제 12개 안내문 검색 회귀 테스트에 세 표현의 첫 번째 결과 확인을 추가. JavaScript 구문 점검 완료. 전체 npm 빌드·모든 Node 테스트 실행과 실사이트 화면 검증은 별도로 확인 필요.
 - `main` 병합 및 Cloudflare Pages 배포는 수행하지 않음. 작업 브랜치 `content/nov10-osteoporosis-guide-20261107`에만 저장하고 정기 묶음 배포까지 보류.
+
+
+## 2026-11-08 60차 — 의료정보 통합 검사의 오탐 위험 감소 (묶음 배포 대기)
+
+- 12개 상세 환자안내 본문 제목이 소스 HTML의 실제 `<main>`에 모두 존재하며, `extractSearchText` 추출 규칙으로도 12개 모두 확인됨. 신규 의료정보 글은 추가하지 않음.
+- `scripts/test-medical-guides-integration.mjs`의 전신질환 카드 16개, 문진 안내 12개, 검색 페이지 원문 링크 6개, 메인 첫 화면 의료정보 링크 2개 검사를 변경. HTML `class`/기타 속성 추가·속성 순서 또는 따옴표 변경으로 오탐이 나지 않도록 실제 HTML 속성값과 **안정적인 섹션 ID**로 탐색.
+- 검색 화면 원문 링크는 표시 순서가 달라져도 기존 6개 실제 목적지가 중복 없이 보존되는지 집합 비교로 확인. 의료진·상담·예약 링크, 검색 본문과 목차, 메인과 각 진료 페이지의 HTML ID 중복 검사 등 핵심 회귀 검사는 보존.
+- 정적 JavaScript 구문 검사, 속성의 앞뒤 순서·홑따옴표/쌍따옴표와 클래스 토큰을 포함한 샘플 검증 실시. **전체 `npm run build:check` 실실행 및 CI 통과 여부는 아직 미확인**, 묶음 배포 전 확인 필요.
+- 정식 홈페이지는 그대로 유지하며 `content/nov10-osteoporosis-guide-20261107` 작업 브랜치에만 커밋. `main` 병합·Cloudflare Pages 배포·DNS 변경 없음.

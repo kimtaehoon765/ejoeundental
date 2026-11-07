@@ -45,6 +45,27 @@ function internalFragmentTargets(markup) {
     .map(m => m[1]);
 }
 
+// Read static HTML attributes without depending on class order, quote style or
+// harmless additional aria/data attributes.
+function getTagAttribute(tag, name) {
+  const pattern = new RegExp('(?:^|\\s)' + name + '\\s*=\\s*(?:"([^"]*)"|\\x27([^\\x27]*)\\x27)', 'i');
+  const matched = String(tag).match(pattern);
+  return matched ? (matched[1] ?? matched[2]) : null;
+}
+function anchorTags(markup) {
+  return [...String(markup).matchAll(/<a\b[^>]*>/gi)].map(m => m[0]);
+}
+function elementById(markup, tagName, id) {
+  const tag = tagName.replace(/[^a-z]/gi, '');
+  const open = new RegExp('<' + tag + '\\b[^>]*>', 'gi');
+  for (const match of markup.matchAll(open)) {
+    if (getTagAttribute(match[0], 'id') !== id) continue;
+    const end = markup.indexOf('</' + tag + '>', match.index + match[0].length);
+    return end < 0 ? '' : markup.slice(match.index, end + tag.length + 3);
+  }
+  return '';
+}
+
 test('all twelve updated patient safety guides survive the static build with navigation and a booking route', () => {
   const clinicianCssFile = join(root, 'assets/medical-guide-clinician.css');
   assert.ok(existsSync(clinicianCssFile), 'Shared clinician-credit CSS missing from built assets');
@@ -124,8 +145,10 @@ test('onsiteSearchIndexMirrorsBody20261107: all revised medical answers are disc
 
 test('safety hub keeps sixteen unique topic cards and four destination groups', () => {
   const page = load('medical-safety-guide.html');
-  const links = [...page.matchAll(/<a\b[^>]*class="card"[^>]*href="(\/[^"]+)"/g)]
-    .map(m => m[1]);
+  const links = anchorTags(page)
+    .filter(tag => (getTagAttribute(tag, 'class') || '').split(/\s+/).includes('card'))
+    .map(tag => getTagAttribute(tag, 'href'))
+    .filter(Boolean);
   assert.equal(links.length, 16, 'medical hub card count changed');
   assert.equal(new Set(links).size, 16, 'medical hub has duplicate cards');
   for (const item of [
@@ -141,9 +164,11 @@ test('safety hub keeps sixteen unique topic cards and four destination groups', 
 
 test('medical history keeps twelve distinct topic links in three accessible groups', () => {
   const page = load('medical-history.html');
-  const nav = page.match(/<nav class="card history-guide-navigation"[\s\S]*?<\/nav>/)?.[0] || '';
+  const nav = elementById(page, 'nav', 'history-guide-groups-20261107');
   assert.ok(nav, 'medical history grouped navigation is missing');
-  const routes = [...nav.matchAll(/<li><a href="(\/[^"]+)"/g)].map(m => m[1]);
+  const routes = anchorTags(nav)
+    .map(tag => getTagAttribute(tag, 'href'))
+    .filter(href => href && guides.has(href.replace(/^\//, '')));
   assert.equal(routes.length, 12);
   assert.equal(new Set(routes).size, 12);
   for (const item of guides.keys()) {
@@ -190,20 +215,23 @@ test('cross-page deep links on all updated medical pages resolve to a real built
 
 test('search page keeps six direct medical guide answers near the search field', () => {
   const markup = load('search.html');
-  const block = markup.match(/<section class="search-medical-shortcuts"[\s\S]*?<\/section>/)?.[0] || '';
+  const block = elementById(markup, 'section', 'search-medical-shortcuts-20261107');
   assert.ok(block, 'Missing visible medical patient questions on search page');
   const searchResults = markup.indexOf('<section id="results"');
   const panel = markup.indexOf('<section class="search-medical-shortcuts"');
   const topicNavigation = markup.indexOf('<nav class="search-reading-routes"');
   assert.ok(searchResults >= 0 && searchResults < panel && panel < topicNavigation,
     'Patient medical links should appear immediately after primary search');
-  const links = [...block.matchAll(/<a href="(\/[^"#?]+\.html)">/g)].map(m => m[1]);
+  const links = anchorTags(block).map(tag => getTagAttribute(tag, 'href'))
+    .filter(href => /^\/[^#?]+\.html$/.test(href || ''));
   const expected = [
     '/blood-thinners-dental.html', '/osteoporosis-medication-dental.html',
     '/diabetes-dental-care.html', '/asthma-allergy-dental-care.html',
     '/pregnancy-dental-care.html', '/kidney-disease-dental-care.html'
   ];
-  assert.deepEqual(links, expected, 'Keep six distinct direct links to approved guide pages');
+  assert.equal(links.length, expected.length, 'Keep six distinct direct links to approved guide pages');
+  assert.deepEqual(new Set(links), new Set(expected),
+    'Search page must retain the six real guide destinations regardless of display order');
   for (const route of links) {
     assert.ok(existsSync(join(root, route.slice(1))), 'Medical guide target absent: ' + route);
   }
@@ -223,7 +251,7 @@ test('search page keeps six direct medical guide answers near the search field',
 
 test('homepage hero provides a visible two-link route to condition safety and previsit planning', () => {
   const markup = load('index.html');
-  const entry = markup.match(/<aside class="hero-medical-entry"[\s\S]*?<\/aside>/)?.[0] || '';
+  const entry = elementById(markup, 'aside', 'hero-medical-entry-20261107');
   assert.ok(entry, 'Clinic homepage needs a medical history route visible without expanding other care');
   const medical = '/medical-safety-guide.html#safety-group-links-20261107';
   const checklist = '/previsit-checklist.html#previsit-special-conditions-20261107';
@@ -231,7 +259,7 @@ test('homepage hero provides a visible two-link route to condition safety and pr
   assert.ok(entry.includes('href="' + checklist + '"'));
   assert.ok(entry.includes('치료 전 약을 복용 중이거나 전신질환이 있나요?'));
   assert.equal((entry.match(/<a\b/g) || []).length, 2, 'Keep the prominent hero action compact');
-  const start = markup.indexOf('id="hero-medical-entry-20261107"');
+  const start = markup.indexOf(entry);
   const gallery = markup.indexOf('class="hero-editorial-story"');
   assert.ok(start > 0 && start < gallery, 'Medical visit links belong beside first-screen care choices');
   assert.ok(!entry.includes('<details'), 'Important medical links must not be hidden in disclosure');
