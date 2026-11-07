@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "node build.mjs",
-    "audit": "node scripts/site-audit.mjs",
+    "audit": "node scripts/site-audit.mjs && node --test scripts/test-medical-guides-integration.mjs",
+    "test:medical-guides": "node --test scripts/test-medical-guides-integration.mjs",
     "build:check": "npm run build && npm run audit",
     "build:owner": "node scripts/build-owner-library.mjs",
     "test:owner": "node scripts/test-owner-library.mjs",
