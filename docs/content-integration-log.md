@@ -376,3 +376,12 @@
 - 실제 새 원고와 삽입 코드: [`docs/pending/2026-11-07-osteoporosis-medication-guide.md`](pending/2026-11-07-osteoporosis-medication-guide.md).
 - 이번 처리: 기존 설명과 중복 여부 대조, 비스포스포네이트·데노수맙·고용량 암 치료 위험 차이, 자연치아 보존, CTX 검사의 한계, 발치 후 재평가 징후를 환자용 본문으로 준비.
 - **상태: 문서에 준비 완료 / 홈페이지 HTML 수정·빌드·실사이트 배포는 아직 하지 않음.** 다음 묶음 배포 시 본문 반영 및 검증 필요. 의료 근거는 별도 준비 문서에 연결.
+
+
+### 39차 보강 원고 — 실제 HTML 별도 브랜치 저장 (2026-11-07)
+
+- 반영 예약 브랜치: `content/nov10-osteoporosis-guide-20261107`.
+- 준비 커밋: [`46408838a8`](https://github.com/kimtaehoon765/ejoeundental/commit/46408838a84f784438080e1e0923a3735aa82cee).
+- 브랜치에 실제 변경된 파일: `osteoporosis-medication-dental.html` 및 `docs/content-integration-log.md`.
+- 새 본문 ID: `osteoporosis-treatment-decision-20261107`. 약 종류, 암 치료용 고용량 주의, 자연치아 보존, CTX 검사 한계, 발치 후 증상, 2025 한국 지침 링크 추가.
+- **현재 main HTML에는 미반영.** 본 기록은 배포 또는 빌드 성공이 아님. 11월 10일 묶음 배포 시 이 브랜치 내용을 최신 main과 충돌 대조하여 포함하고, 한 번에 빌드·공식 사이트에서 확인. Preview 빌드 여부는 확인되지 않음.
