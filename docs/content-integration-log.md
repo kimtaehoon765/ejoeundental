@@ -404,3 +404,12 @@
 - 기존 검색 canonical·예약 링크·전화·그림 보존. 심장질환 가이드 내 안내 링크, 관련 페이지 및 원문 기관 참고를 연결하고 메타 설명을 실제 본문에 맞춰 보완.
 - 근거: [ADA 항생제 예방](https://www.ada.org/resources/ada-library/oral-health-topics/antibiotic-prophylaxis), [AHA 심내막염](https://www.heart.org/en/health-topics/infective-endocarditis), [ADA 고혈압](https://www.ada.org/resources/ada-library/oral-health-topics/hypertension). 국내 개별 진료 기준 및 담당 의사의 치료 결정을 대체하지 않음.
 - **정식 사이트 미반영:** 배포 대기 브랜치에서만 변경, `main` 병합·Cloudflare Pages 프로덕션 배포·실사이트 확인은 아직 수행하지 않음. 빌드·미리보기 여부도 별도 확인 필요. 기존 39·40차와 함께 묶음 배포하며 최신 `main`과 충돌 여부 재검증.
+
+
+## 2026-11-07 42차 — 신장질환·투석 환자 치과진료 보강 (묶음 배포 대기)
+
+- 기존 `kidney-disease-dental-care.html`에 `#kidney-dialysis-treatment-guide-20261107` 환자용 설명 추가. HTML 본문 직접 수정, 원본 그림·예약·전화·canonical 유지. 신규 중복 글과 이미지 0건.
+- 보강 범위: 혈액투석의 헤파린 사용과 비투석일·투석 다음 날의 출혈성 처치 검토, 복막투석과 비투석 CKD의 구분, 혈관 접근로가 있는 팔 보호, NSAIDs·항생제 용량 주의, 신장이식·면역억제제, 발치 후 출혈·감염 위험, 수분 제한 주의, 환자 준비 항목.
+- 확인한 참고자료: [NKF 치과 건강](https://www.kidney.org/kidney-topics/dental-health-and-kidney-disease-connection), [American Kidney Fund](https://www.kidneyfund.org/living-kidney-disease/oral-health-and-kidney-disease), [SDCEP 혈액투석 항응고제](https://companion.sdcep.org.uk/management-of-dental-patients-taking-anticoagulants-or-antiplatelet-drugs/treatment-recommendations/injectable-anticoagulants/).
+- 구조 점검: 앵커 중복 없음, 환자 안내 메타 설명·관련 링크 업데이트, 기존 예약 URL·창작 삽화 경로 및 대표주소 유지.
+- **저장 상태:** `content/nov10-osteoporosis-guide-20261107` 브랜치에 39~42차 묶음 보관. `main` 미반영, 프로덕션 배포·자동 빌드·시각적 검증·실사이트 확인 전. 해당 내용은 정기 배포 시 최신 `main`과 충돌 대조 후 일괄 병합해야 함.
