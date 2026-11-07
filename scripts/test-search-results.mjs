@@ -212,6 +212,41 @@ test('real clinic safety and appointment searches retrieve standalone pages',asy
 });
 
 
+test('all twelve clinical guides retain the medical search label and category filter',async()=>{
+ const urls=[
+  '/osteoporosis-medication-dental.html','/blood-thinners-dental.html',
+  '/heart-disease-dental-care.html','/hypertension-dental-care.html',
+  '/kidney-disease-dental-care.html','/liver-disease-dental-care.html',
+  '/cancer-immunosuppression-dental-care.html','/pregnancy-dental-care.html',
+  '/asthma-allergy-dental-care.html','/steroid-rheumatic-dental-care.html',
+  '/epilepsy-syncope-dental-care.html','/diabetes-dental-care.html'
+ ];
+ const pages=[
+  ...urls.map((url,i)=>({url,title:'치과 복용약과 전신질환 안내 '+i,
+    description:'복용약 확인과 치과 방문',body:'진료 전 복용약 확인'})),
+  {url:'/health/gum-bleeding.html',title:'잇몸 출혈과 복용약',description:'잇몸 관리',body:'복용약 확인'},
+  {url:'/gum-treatment.html',title:'잇몸치료와 복용약',description:'잇몸 치료',body:'복용약 확인'}
+ ];
+ const {results,status}=await search('복용약',pages);
+ const all=walk(results,x=>x.className==='result');
+ assert.equal(all.length,14);
+ for(const url of urls){
+  const item=all.find(x=>x.href===url);
+  assert.ok(item,'medical guide missing: '+url);
+  const kind=walk(item,x=>x.className==='result-kind')[0];
+  assert.equal(kind?.dataset?.category,'medical','wrong category: '+url);
+ }
+ const button=walk(results,x=>x.className==='search-category-filter')
+  .find(x=>x.textContent.includes('복용약·전신질환'));
+ assert.ok(button,'missing medication and condition filter');
+ assert.match(button.textContent,/12/);
+ button.handlers.click();
+ const filtered=walk(results,x=>x.className==='result').map(x=>x.href);
+ assert.equal(filtered.length,12);
+ assert.deepEqual(new Set(filtered),new Set(urls));
+ assert.match(status.textContent,/복용약·전신질환 12개/);
+});
+
 test('rendered result paths match public canonical URLs, while previews retain HTML',async()=>{
  const page={url:'/health/gum-bleeding.html',title:'잇몸 출혈',description:'잇몸 출혈 환자 안내',body:'잇몸 출혈 검진 안내'};
  for(const [hostname,expected] of [
