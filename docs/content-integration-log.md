@@ -458,3 +458,12 @@
 - 기존 메타 설명 3곳 갱신, 예약·전화·canonical 및 본문 유지. 새 섹션 ID 유일 확인.
 - 참고: [Endocrine Society 2024 지침](https://www.endocrine.org/clinical-practice-guidelines/glucocorticoid-induced-adrenal-insufficiency), [NHS SPS 치과 처치와 원발성 부신기능저하](https://www.sps.nhs.uk/articles/what-steroid-supplementation-is-required-for-a-patient-with-primary-adrenal-insufficiency-undergoing-a-dental-procedure/), [2025 면역질환 환자의 침습적 구강 시술 문헌고찰](https://pubmed.ncbi.nlm.nih.gov/40148875/).
 - **현재 상태:** `content/nov10-osteoporosis-guide-20261107`에 39~47차 수정본을 보관. `main` 병합, Cloudflare 정식 배포 및 실사이트·자동 빌드 검증은 수행하지 않음. 정기 묶음 배포 전에 최신 main과의 충돌 여부를 점검해야 함.
+
+
+## 2026-11-07 48차 — 뇌전증·경련·실신 경험 환자의 치과진료 안전 안내 보강 (배포 전 대기)
+
+- 실제 코드 변경: 기존 `epilepsy-syncope-dental-care.html`에 `#epilepsy-syncope-safety-guide-20261107` 환자 안내 본문 추가. 신규 중복 게시글·신규 이미지 0건.
+- 핵심: 뇌전증 병력·응급 계획을 치과에 알리는 방법, 경련 시 시술 중단·주변 위험요인 제거·측위 확보와 억제·입안 물건 삽입 금지, 5분 이상 지속·반복·호흡 곤란 등 119 신고 기준, 미주신경성 실신 전조 증상 및 심장성 응급 증상 감별, 페니토인 연관 잇몸 증식·약물 상호작용 주의.
+- 의학 참고: [CDC 경련 응급처치](https://www.cdc.gov/epilepsy/first-aid-for-seizures/), [NHS 실신](https://www.nhs.uk/symptoms/fainting/), [Epilepsy Foundation 페니토인](https://www.epilepsy.com/tools-resources/seizure-medication-list/phenytoin).
+- SEO 메타 설명 3개를 실제 내용에 맞춰 갱신하고 ID 중복을 검사. 기존 예약·전화·canonical·문진·디자인 유지. 치료 전 항경련제 임의 중단을 권하지 않음.
+- **상태:** `content/nov10-osteoporosis-guide-20261107`에서 39~48차 수정 준비. `main` 병합, Cloudflare 프로덕션 배포 및 자동 빌드·화면 검증은 아직 수행하지 않음. 정기 묶음 배포 때 최신 main과 변경 내용을 대조·통합해야 함.
