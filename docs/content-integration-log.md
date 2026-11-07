@@ -514,3 +514,12 @@
 - 기존 `scripts/test-medical-guides-integration.mjs` 의료 페이지 통합 검사를 강화하여 12개 각 페이지의 `<main>` 제목 근처에 의료진 이름·학위·전문의 자격·소개 링크가 실제로 출력되는지 확인하도록 함.
 - **검증 한계:** 12개 HTML 파일에서 기존 ID와 예약·canonical 등이 보존되는 구조 점검을 했으나, 실제 `npm run build` 및 자동 테스트 통과 여부는 아직 검증하지 않음. 검색 순위 상승·의학적 검토 완료·원장 개인 작성 등 확인되지 않은 주장은 하지 않음.
 - **배포 상태:** 작업 브랜치 `content/nov10-osteoporosis-guide-20261107`에서 39~53차 준비. `main` 병합 및 공식 도메인 배포 미진행. 정기 묶음 배포 시 최신 main과 병합 검토·통합 빌드 및 실서비스 검증 필요.
+
+
+## 2026-11-07 54차 — 배포 전 의료 페이지 감사 범위 강화 (작업 브랜치만 저장)
+
+- `package.json`의 기존 `npm run audit`에 이미 저장소에 존재하던 `scripts/check-internal-links.mjs`를 추가: 기존 SEO·환자교육 구조 감사 → **전체 내부 HTML 링크/앵커·로컬 CSS 이미지·폰트 경로 검사** → 신규 진료 안내 통합 검사 순서로 오프라인 실행. GitHub 품질 워크플로 일부에서만 돌던 내부 링크 검사를 모든 npm audit 빌드 경로에서 실행하도록 강화.
+- `scripts/test-medical-guides-integration.mjs`: 53차에 추가한 의료진 정보 표시 검증과 더불어 **8개 안내 페이지의 공통 의료진 CSS가 정적 배포 결과에 복사되고 실제 콘텐츠 해시를 사용하는지** 검사. 기존 12개 의료 안내 새 ID, 네이버 예약, 16개 카드, 12개 문진 링크, 14개 체크 항목 검사는 유지. 중복된 canonical 표시 검사는 정리하고 noindex 실수를 차단.
+- GitHub 작업 브랜치 소스와 `build.mjs` 확인: `build.mjs`가 `assets/` 전체를 `dist/assets`로 복사하고 게시 HTML의 CSS URL을 해시 값으로 교체함. `quality-check.yml`은 이미 `check-internal-links.mjs` 실행을 포함하지만 일부 `npm run audit` 경로에서는 제외되었던 상태를 해소.
+- **검증 한계:** 연결된 GitHub 소스 구조와 JavaScript 코드 정적 구문을 확인했으나, 작업 환경에서 `github.com` DNS가 연결되지 않아 전체 저장소 복제 및 **실제 `npm run build:check`/GitHub Actions 결과는 확인하지 못함.** 검사 명령의 통과로 보고하지 말고 배포 전 빌드와 검사 로그를 반드시 확인할 것.
+- **배포 상태:** `content/nov10-osteoporosis-guide-20261107` 작업 브랜치에만 저장. `main` 병합, Cloudflare Pages 배포, DNS 변경, 정식 홈페이지 변경 없음.

@@ -4,6 +4,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync, existsSync} from 'node:fs';
 import {join, resolve} from 'node:path';
+import {createHash} from 'node:crypto';
 
 const root = resolve('dist');
 const booking = 'https://booking.naver.com/booking/13/bizes/1162931';
@@ -44,12 +45,17 @@ function internalFragmentTargets(markup) {
 }
 
 test('all twelve updated patient safety guides survive the static build with navigation and a booking route', () => {
+  const clinicianCssFile = join(root, 'assets/medical-guide-clinician.css');
+  assert.ok(existsSync(clinicianCssFile), 'Shared clinician-credit CSS missing from built assets');
+  const clinicianCssVersion = createHash('sha256')
+    .update(readFileSync(clinicianCssFile)).digest('hex').slice(0, 12);
+  let newlyStyledClinicianCredits = 0;
   for (const [page, id] of guides) {
     const markup = load(page);
     assert.ok(markup.includes('id="' + id + '"'), page + ': missing revised education section');
     assert.ok(markup.includes(booking), page + ': clinic booking link missing');
-    assert.ok(markup.includes('rel="canonical"') || markup.includes('rel="canonical"'),
-      page + ': search canonical missing');
+    assert.ok(!/<meta\s+name=["']robots["'][^>]*\bnoindex\b/i.test(markup),
+      page + ': patient guide unexpectedly noindexed');
     const canonical = markup.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1];
     assert.ok(canonical, page + ': canonical missing');
     assert.equal(new URL(canonical).pathname, '/' + page, page + ': wrong canonical path');
@@ -60,8 +66,17 @@ test('all twelve updated patient safety guides survive the static build with nav
       assert.ok(introduction.includes(detail),
         page + ': clinic clinician information/link absent near the heading: ' + detail);
     }
+    if (markup.includes('class="guide-clinician-credit"')) {
+      newlyStyledClinicianCredits++;
+      assert.ok(
+        markup.includes('/assets/medical-guide-clinician.css?v=' + clinicianCssVersion),
+        page + ': clinician credentials visible but fingerprinted CSS missing'
+      );
+    }
     assertIDsUnique(page, markup);
   }
+  assert.equal(newlyStyledClinicianCredits, 8,
+    'Eight original-format patient guides should share the clinician identity styling');
 });
 
 test('safety hub keeps sixteen unique topic cards and four destination groups', () => {
