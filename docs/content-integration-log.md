@@ -523,3 +523,12 @@
 - GitHub 작업 브랜치 소스와 `build.mjs` 확인: `build.mjs`가 `assets/` 전체를 `dist/assets`로 복사하고 게시 HTML의 CSS URL을 해시 값으로 교체함. `quality-check.yml`은 이미 `check-internal-links.mjs` 실행을 포함하지만 일부 `npm run audit` 경로에서는 제외되었던 상태를 해소.
 - **검증 한계:** 연결된 GitHub 소스 구조와 JavaScript 코드 정적 구문을 확인했으나, 작업 환경에서 `github.com` DNS가 연결되지 않아 전체 저장소 복제 및 **실제 `npm run build:check`/GitHub Actions 결과는 확인하지 못함.** 검사 명령의 통과로 보고하지 말고 배포 전 빌드와 검사 로그를 반드시 확인할 것.
 - **배포 상태:** `content/nov10-osteoporosis-guide-20261107` 작업 브랜치에만 저장. `main` 병합, Cloudflare Pages 배포, DNS 변경, 정식 홈페이지 변경 없음.
+
+
+## 2026-11-07 55차 — 원본 진료 안내가 홈페이지 검색 목록에 실제 반영되는지 회귀 검사 추가 (배포 전 대기)
+
+- `scripts/test-medical-guides-integration.mjs`에 `onsiteSearchIndexMirrorsBody20261107` 검사 추가. 본문 보강된 12개 의료정보 페이지와 3개 안내 허브(전신질환 모음·문진·방문 체크리스트)가 `dist/content/search-index.json`에 **중복 없이 한 번씩 존재하는지** 확인.
+- 각 검색 항목의 제목·설명을 실제 배포 HTML의 title/meta description과 비교하고, `extractSearchText`의 **실제 main 본문 텍스트 전체**와 검색색인 body가 일치하는지 검사. 12개 새 임상 주제별 대표 제목이 검색 본문에도 존재하는지 확인해 메타데이터만 있는 빈 검색 결과를 방지.
+- 현재 `build.mjs`의 `publicStandaloneSearchSlugs`에 12개 진료 페이지 및 3개 허브가 이미 포함되어 있어 신규 페이지·불필요한 키워드 문서·인덱스 중복 생성 없이 검사만 보강. 네이버·구글의 검색 순위나 실제 색인 등록을 보장하는 검사는 아니며 홈페이지 **내부 검색 품질** 검사임.
+- `npm run audit` 경로에서 기존 환자 안전 안내 통합 검사에 포함됨. 코드 구문·GitHub 본문 내용은 확인하였으나, 로컬의 저장소 전체를 내려받을 네트워크가 없어 `npm run build:check` 전체 실행 및 통과 여부는 미검증.
+- **상태:** `content/nov10-osteoporosis-guide-20261107` 브랜치에만 저장하며 `main`, Cloudflare Pages, 실제 홈페이지 변경 없음. 정기 묶음 배포 시 최신 main과 충돌을 검토하고 전체 빌드 성공을 반드시 확인.

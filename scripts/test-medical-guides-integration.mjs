@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import {readFileSync, existsSync} from 'node:fs';
 import {join, resolve} from 'node:path';
 import {createHash} from 'node:crypto';
+import {extractSearchText} from './search-content-extractor.mjs';
 
 const root = resolve('dist');
 const booking = 'https://booking.naver.com/booking/13/bizes/1162931';
@@ -77,6 +78,48 @@ test('all twelve updated patient safety guides survive the static build with nav
   }
   assert.equal(newlyStyledClinicianCredits, 8,
     'Eight original-format patient guides should share the clinician identity styling');
+});
+
+// Protect the actual original clinical answers in the on-site search corpus.
+// The title and description alone are not enough: patients must find the body.
+test('onsiteSearchIndexMirrorsBody20261107: all revised medical answers are discoverable as actual article text', () => {
+  const index = JSON.parse(readFileSync(join(root, 'content/search-index.json'), 'utf8'));
+  assert.ok(Array.isArray(index), 'Public site search index must be a JSON list');
+  const sampleHeadings = new Map([
+    ['osteoporosis-medication-dental.html', '골다공증 약을 쓰는 환자의 발치·임플란트 상담'],
+    ['blood-thinners-dental.html', '복용 중인 약에 따라 발치 준비가 달라집니다'],
+    ['heart-disease-dental-care.html', '심내막염 예방 항생제는 누가 검토하나요?'],
+    ['hypertension-dental-care.html', '고혈압 환자가 자주 묻는 세 가지 질문'],
+    ['kidney-disease-dental-care.html', '신장질환·투석 환자의 발치와 잇몸치료는 어떻게 준비하나요?'],
+    ['liver-disease-dental-care.html', '간염·간경변 환자의 발치와 잇몸치료, 무엇이 달라질까요?'],
+    ['cancer-immunosuppression-dental-care.html', '항암치료 전·중·후, 치과 진료는 어떻게 달라질까요?'],
+    ['pregnancy-dental-care.html', '임신 중 치과치료, 시기와 주의사항을 자세히 알아보세요'],
+    ['asthma-allergy-dental-care.html', '천식·약물 알레르기 환자가 치과에서 궁금해하는 질문'],
+    ['steroid-rheumatic-dental-care.html', '류마티스질환·스테로이드 복용 중 치과진료, 무엇을 준비할까요?'],
+    ['epilepsy-syncope-dental-care.html', '뇌전증·실신 경험 환자의 치과진료, 안전하게 준비하는 방법'],
+    ['diabetes-dental-care.html', '당뇨병 환자의 잇몸치료·발치 전후, 무엇을 확인하나요?']
+  ]);
+  assert.equal(sampleHeadings.size, guides.size, 'Clinical search coverage has drifted');
+  for (const page of [...guides.keys(), ...supportingPages]) {
+    const markup = load(page);
+    const path = '/' + page;
+    const entries = index.filter(item => item.url === path);
+    assert.equal(entries.length, 1, page + ': missing or duplicated in public site search');
+    const item = entries[0];
+    const title = markup.match(/<title>([^<]+)<\/title>/i)?.[1]?.trim();
+    const description = markup.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1]?.trim();
+    assert.ok(title && description, page + ': source search metadata is missing');
+    assert.equal(item.title, title, page + ': indexed title is outdated');
+    assert.equal(item.description, description, page + ': indexed summary is outdated');
+    assert.equal(item.body, extractSearchText(markup),
+      page + ': indexed main text differs from published HTML');
+    assert.ok(item.body.length >= 100, page + ': indexed patient information too short');
+    if (sampleHeadings.has(page)) {
+      const phrase = sampleHeadings.get(page);
+      assert.ok(markup.includes(phrase), page + ': revised medical heading missing from page');
+      assert.ok(item.body.includes(phrase), page + ': revised clinical answer not indexed');
+    }
+  }
 });
 
 test('safety hub keeps sixteen unique topic cards and four destination groups', () => {
