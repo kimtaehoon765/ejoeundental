@@ -439,3 +439,12 @@
 - `main`에 동일 주제 중복 게시물 생성하지 않음. SEO 설명 4곳·기존 그림/전화/네이버 예약/canonical 유지, 기존 관련 진료 정보에 연결하고 ADA·ACOG·FDA 공식 참고 출처 추가.
 - 의학 참고: [ADA Pregnancy](https://www.ada.org/resources/ada-library/oral-health-topics/pregnancy), [ACOG Oral Health](https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2013/08/oral-health-care-during-pregnancy-and-through-the-lifespan), [FDA NSAIDs 20주 이후](https://www.fda.gov/drugs/drug-safety-and-availability/fda-recommends-avoiding-use-nsaids-pregnancy-20-weeks-or-later-because-they-can-result-low-amniotic).
 - **상태:** `content/nov10-osteoporosis-guide-20261107`에서 39~45차 변경 준비. `main` 배포·실사이트 확인 전이며, 자동 빌드 및 Cloudflare 미리보기 여부는 별도 검증 필요. 다음 정기 묶음 배포 시 최신 main과 통합 검사 후 반영.
+
+
+## 2026-11-07 46차 — 천식·약물 알레르기 환자의 치과진료 안내 보강 (묶음 배포 대기)
+
+- 기존 `asthma-allergy-dental-care.html` HTML에 `#asthma-allergy-dental-questions-20261107` 환자 FAQ 직접 보강. 별도 중복 글·신규 이미지 없음.
+- 내용: 조절되지 않는 천식과 진료 시기, NSAIDs 복용 뒤 천식 악화 경험, 페니실린 알레르기와 비알레르기성 부작용 구분, 국소마취 후 두근거림·실신 등 비알레르기 증상과 과민반응 감별, 아황산염 첨가물 가능성, 스테로이드 흡입제 사용 후 입헹굼과 구강 칸디다증 예방, 응급 증상·준비물.
+- 기존 SEO canonical·제목·연락처·네이버 예약·본문은 유지하고 메타 설명 3곳을 새 내용과 맞춤. 새 문단 ID 중복 없음을 확인.
+- 근거: [NHS SPS NSAIDs/asthma](https://sps.nhs.uk/articles/using-nsaids-in-asthma/), [CDC Penicillin Allergy](https://www.cdc.gov/antibiotic-use/hcp/clinical-signs/), [NHS SPS Dental LA reactions](https://sps.nhs.uk/articles/managing-reactions-to-dental-local-anaesthetic-injections/), [SDCEP candidosis care](https://sdcepdentalprescribing.nhs.scot/guidance/fungal-infections/candidosis/local-measures/).
+- **상태:** `content/nov10-osteoporosis-guide-20261107` 브랜치에 39~46차 수정 저장; `main`·정식 사이트에는 미배포. 실제 자동 빌드·Cloudflare Pages 미리보기 및 실사이트 확인은 별도 필요. 정기 묶음 배포 때 최신 main과 변경 내용을 통합해 검증해야 함.
