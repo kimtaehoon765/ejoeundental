@@ -212,6 +212,45 @@ test('real clinic safety and appointment searches retrieve standalone pages',asy
 });
 
 
+test('patient medical phrases with or without spaces find the correct existing dental guide',async()=>{
+ const {extractSearchText}=await import('./search-content-extractor.mjs');
+ const slugs=[
+  'osteoporosis-medication-dental','blood-thinners-dental','heart-disease-dental-care',
+  'hypertension-dental-care','kidney-disease-dental-care','liver-disease-dental-care',
+  'cancer-immunosuppression-dental-care','pregnancy-dental-care',
+  'asthma-allergy-dental-care','steroid-rheumatic-dental-care',
+  'epilepsy-syncope-dental-care','diabetes-dental-care'
+ ];
+ const pages=slugs.map(slug=>{
+  const html=readFileSync(new URL('../'+slug+'.html',import.meta.url),'utf8');
+  return {url:'/'+slug+'.html',
+   title:html.match(/<title>([^<]+)<\/title>/i)?.[1]||'',
+   description:html.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1]||'',
+   body:extractSearchText(html)};
+ });
+ for(const [query,wanted] of [
+  ['천식 흡입제','/asthma-allergy-dental-care.html'],
+  ['청천동 천식흡입제','/asthma-allergy-dental-care.html'],
+  ['페니실린 알레르기','/asthma-allergy-dental-care.html'],
+  ['항경련제 치과','/epilepsy-syncope-dental-care.html'],
+  ['실신 후 치과','/epilepsy-syncope-dental-care.html'],
+  ['류마티스 약 먹고 발치','/steroid-rheumatic-dental-care.html'],
+  ['스테로이드 먹고 발치','/steroid-rheumatic-dental-care.html'],
+  ['당뇨 저혈당','/diabetes-dental-care.html'],
+  ['임신 중 마취','/pregnancy-dental-care.html'],
+  ['투석 받고 발치','/kidney-disease-dental-care.html'],
+  ['피 묽게 하는 약','/blood-thinners-dental.html']
+ ]){
+  const {results,status}=await search(query,pages);
+  const top=walk(results,x=>x.className==='result').slice(0,3).map(x=>x.href);
+  assert.ok(top.includes(wanted),query+' must show its original patient guide within the top 3: '+top);
+  const target=walk(results,x=>x.className==='result').find(x=>x.href===wanted);
+  const kind=walk(target,x=>x.className==='result-kind')[0];
+  assert.equal(kind?.dataset?.category,'medical',query+' must keep the medical classification');
+  assert.ok(!/불러오지 못했습니다/.test(status.textContent));
+ }
+});
+
 test('all twelve clinical guides retain the medical search label and category filter',async()=>{
  const urls=[
   '/osteoporosis-medication-dental.html','/blood-thinners-dental.html',
