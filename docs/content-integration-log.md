@@ -557,3 +557,11 @@
 - `assets/search-page.css`: 모바일 1열·데스크톱 2열, 최소 67px 터치 면적, 명확한 키보드 포커스 및 차분한 미술관식 카드 레이아웃 추가. 신규 이미지나 중복 게시글 없음. 기존 검색 입력·결과·예약 구성과 SEO `noindex,follow` 보존.
 - `scripts/test-medical-guides-integration.mjs`: 검색 페이지에 6개 원문 안내 링크가 정확히 존재하고 검색 결과 바로 다음에 표시되는지, 대상 빌드 HTML과 전체 안내·방문 체크리스트 앵커, CSS/모바일 구성이 존재하는지 확인하도록 회귀 검사 1개 추가.
 - HTML ID 중복/문법 정적 확인을 수행. **실제 npm 빌드 및 브라우저 실기기 화면 검사는 아직 미실행**, `main`·Cloudflare Pages 프로덕션 미배포. 정기 묶음 배포 전에 전체 검사 통과 확인 필수.
+
+
+## 2026-11-07 59차 — 홈페이지 첫 화면에서 복용약·전신질환과 방문 전 체크리스트 쉽게 찾기 (배포 전 대기)
+
+- `index.html` 첫 화면 대표 진료 요약 카드 바로 아래 `#hero-medical-entry-20261107` **작은 의료정보 바로가기** 추가: “치료 전 약을 복용 중이거나 전신질환이 있나요?” 질문 및 전신질환 16개 안내(`/medical-safety-guide.html#safety-group-links-20261107`), 방문 전 체크리스트(`/previsit-checklist.html#previsit-special-conditions-20261107`) 링크 2개.
+- 기존 상단 메뉴·숨겨진 상세 진료·긴 본문을 복제하지 않고, 핵심 안내 2개만 펼침 없이 보이도록 함. 모바일에서는 두 칸(매우 좁은 화면 한 칸), 키보드 포커스와 최소 44~48px 터치 영역, 미술관식 밝은 색상. 임의 약물 중단·과잉 홍보 표현 없음.
+- `scripts/test-medical-guides-integration.mjs`에 새로운 첫 화면 바로가기 존재, 위치, 링크 2개, 실제 도착 앵커와 접힘 없이 표시하는지 검사 추가. 기존 그림·예약 빌드 마커·SEO 본문·의료진 정보 보존, HTML ID 중복과 head 크기 정적 확인.
+- **상태:** `content/nov10-osteoporosis-guide-20261107` 작업 브랜치 저장. `main` 미병합·Cloudflare Pages 배포 미진행. 실제 npm 전체 빌드·모바일 렌더링은 정기 묶음 배포 전에 확인해야 함.

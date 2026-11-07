@@ -220,3 +220,28 @@ test('search page keeps six direct medical guide answers near the search field',
   assert.ok(styles.includes('grid-template-columns:minmax(0,1fr)'), 'Mobile single-column layout missing');
   assertIDsUnique('search.html', markup);
 });
+
+test('homepage hero provides a visible two-link route to condition safety and previsit planning', () => {
+  const markup = load('index.html');
+  const entry = markup.match(/<aside class="hero-medical-entry"[\s\S]*?<\/aside>/)?.[0] || '';
+  assert.ok(entry, 'Clinic homepage needs a medical history route visible without expanding other care');
+  const medical = '/medical-safety-guide.html#safety-group-links-20261107';
+  const checklist = '/previsit-checklist.html#previsit-special-conditions-20261107';
+  assert.ok(entry.includes('href="' + medical + '"'));
+  assert.ok(entry.includes('href="' + checklist + '"'));
+  assert.ok(entry.includes('치료 전 약을 복용 중이거나 전신질환이 있나요?'));
+  assert.equal((entry.match(/<a\b/g) || []).length, 2, 'Keep the prominent hero action compact');
+  const start = markup.indexOf('id="hero-medical-entry-20261107"');
+  const gallery = markup.indexOf('class="hero-editorial-story"');
+  assert.ok(start > 0 && start < gallery, 'Medical visit links belong beside first-screen care choices');
+  assert.ok(!entry.includes('<details'), 'Important medical links must not be hidden in disclosure');
+  assert.ok(markup.includes('<style id="home-medical-entry-style-20261107">'));
+  for(const target of [
+    ['medical-safety-guide.html','safety-group-links-20261107'],
+    ['previsit-checklist.html','previsit-special-conditions-20261107']
+  ]) {
+    assert.ok(load(target[0]).includes('id="' + target[1] + '"'),
+      'Homepage shortcut has broken destination anchor: ' + target.join('#'));
+  }
+  assertIDsUnique('index.html', markup);
+});
