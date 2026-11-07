@@ -431,3 +431,11 @@
 - 검색 메타 설명 4개 일치 및 새 본문 ID 중복 없음 확인, 기존 예약 URL·전화·창작 이미지·canonical 유지. 본문 내 골흡수억제제 안내 연결.
 - 참고: [NCI 환자용 구강 합병증 안내](https://www.cancer.gov/about-cancer/treatment/side-effects/mouth-throat/oral-complications-pdq), [NCI 전문가용 안내](https://www.cancer.gov/about-cancer/treatment/side-effects/mouth-throat/oral-complications-hp-pdq), [MASCC/ISOO 구강 합병증 관리](https://mascc.org/new-mascc-isoo-clinical-practice-statements-management-of-oral-complications/). 임의의 혈구 수치만으로 치료 금지·허용을 단정하지 않음.
 - **상태:** 39~44차 변경을 동일 배포 준비 브랜치에 저장. 최신 `main`과의 코드 통합·자동 빌드·Cloudflare Pages 실배포·정식 도메인 일치 검사는 추후 묶음 배포 시 확인 필요. 이번 차수 `main` 변경 및 프로덕션 배포 없음.
+
+
+## 2026-11-07 45차 — 임신 중 치과치료 환자 안내 보강 (배포 전 대기)
+
+- `pregnancy-dental-care.html` 기존 HTML에 `#pregnancy-dental-treatment-questions-20261107` 본문 추가. 임신 시기와 치료 필요성, 치과 엑스레이·국소마취, 임신 20주 이후 NSAIDs 복용 주의, 산부인과 처방 저용량 아스피린 임의 중단 금지, 입덧 후 구강관리, 임신 후기 눕는 자세, 임신성 치은염과 치주염 감별 설명.
+- `main`에 동일 주제 중복 게시물 생성하지 않음. SEO 설명 4곳·기존 그림/전화/네이버 예약/canonical 유지, 기존 관련 진료 정보에 연결하고 ADA·ACOG·FDA 공식 참고 출처 추가.
+- 의학 참고: [ADA Pregnancy](https://www.ada.org/resources/ada-library/oral-health-topics/pregnancy), [ACOG Oral Health](https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2013/08/oral-health-care-during-pregnancy-and-through-the-lifespan), [FDA NSAIDs 20주 이후](https://www.fda.gov/drugs/drug-safety-and-availability/fda-recommends-avoiding-use-nsaids-pregnancy-20-weeks-or-later-because-they-can-result-low-amniotic).
+- **상태:** `content/nov10-osteoporosis-guide-20261107`에서 39~45차 변경 준비. `main` 배포·실사이트 확인 전이며, 자동 빌드 및 Cloudflare 미리보기 여부는 별도 검증 필요. 다음 정기 묶음 배포 시 최신 main과 통합 검사 후 반영.
