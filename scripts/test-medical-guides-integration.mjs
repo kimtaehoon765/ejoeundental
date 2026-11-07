@@ -187,3 +187,36 @@ test('cross-page deep links on all updated medical pages resolve to a real built
   }
   assert.ok(count >= 20, 'too few cross-page deep links were checked: ' + count);
 });
+
+test('search page keeps six direct medical guide answers near the search field', () => {
+  const markup = load('search.html');
+  const block = markup.match(/<section class="search-medical-shortcuts"[\s\S]*?<\/section>/)?.[0] || '';
+  assert.ok(block, 'Missing visible medical patient questions on search page');
+  const searchResults = markup.indexOf('<section id="results"');
+  const panel = markup.indexOf('<section class="search-medical-shortcuts"');
+  const topicNavigation = markup.indexOf('<nav class="search-reading-routes"');
+  assert.ok(searchResults >= 0 && searchResults < panel && panel < topicNavigation,
+    'Patient medical links should appear immediately after primary search');
+  const links = [...block.matchAll(/<a href="(\/[^"#?]+\.html)">/g)].map(m => m[1]);
+  const expected = [
+    '/blood-thinners-dental.html', '/osteoporosis-medication-dental.html',
+    '/diabetes-dental-care.html', '/asthma-allergy-dental-care.html',
+    '/pregnancy-dental-care.html', '/kidney-disease-dental-care.html'
+  ];
+  assert.deepEqual(links, expected, 'Keep six distinct direct links to approved guide pages');
+  for (const route of links) {
+    assert.ok(existsSync(join(root, route.slice(1))), 'Medical guide target absent: ' + route);
+  }
+  for (const text of ['약을 임의로 중단하지 말고', '복용약·전신질환 안내 16개 주제 더 보기',
+    '방문 전 준비사항 확인']) {
+    assert.ok(block.includes(text), 'Required patient safety context missing: ' + text);
+  }
+  assert.ok(markup.includes('href="/medical-safety-guide.html#safety-group-links-20261107"'));
+  assert.ok(markup.includes('href="/previsit-checklist.html#previsit-special-conditions-20261107"'));
+  assert.ok(markup.includes('name="robots" content="noindex,follow"'),
+    'Search results page should not become an indexable search URL');
+  const styles = readFileSync(join(root,'assets/search-page.css'),'utf8');
+  assert.ok(styles.includes('.search-medical-shortcuts__grid'), 'New reading grid CSS not shipped');
+  assert.ok(styles.includes('grid-template-columns:minmax(0,1fr)'), 'Mobile single-column layout missing');
+  assertIDsUnique('search.html', markup);
+});

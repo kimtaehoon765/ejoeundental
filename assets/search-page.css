@@ -810,3 +810,17 @@ body.search-gallery .search-topic-library__links>a:focus-visible {
     color:CanvasText;
   }
 }
+
+/* Six practical medical questions link to real clinical answers, not search-result pages. */
+.search-medical-shortcuts{margin:22px 0 28px;padding:22px 24px;border:1px solid #bed3c6;border-radius:15px;background:linear-gradient(135deg,#f2f8f3,#fcfdfb);color:#173e35}
+.search-medical-shortcuts__intro{max-width:730px}.search-medical-shortcuts__eyebrow{display:block;margin-bottom:6px;font-size:12px;font-weight:800;letter-spacing:.04em;color:#366e51}
+.search-medical-shortcuts h2{margin:0 0 7px;font:700 clamp(19px,2.2vw,24px)/1.45 'Noto Serif KR',serif;color:#173e35;word-break:keep-all}
+.search-medical-shortcuts__intro p{margin:0 0 17px;font-size:14px;line-height:1.75;word-break:keep-all}
+.search-medical-shortcuts__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.search-medical-shortcuts__grid>a{box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;min-width:0;min-height:78px;gap:5px;padding:13px 15px;border:1px solid #c4d7cb;border-radius:10px;background:#fff;color:#174533;text-decoration:none;word-break:keep-all}
+.search-medical-shortcuts__grid>a strong{font-size:15px;line-height:1.5;font-weight:760}.search-medical-shortcuts__grid>a span{color:#506f5c;font-size:13px;line-height:1.5}
+.search-medical-shortcuts__grid>a:hover{background:#ecf5ee;border-color:#6e9e80}
+.search-medical-shortcuts__grid>a:focus-visible,.search-medical-shortcuts__more a:focus-visible{outline:3px solid #a47837;outline-offset:3px}
+.search-medical-shortcuts__more{display:flex;flex-wrap:wrap;gap:8px 18px;margin:17px 0 0;line-height:1.75}
+.search-medical-shortcuts__more a{color:#225942;font-size:14px;font-weight:750;text-underline-offset:3px}
+@media(max-width:600px){.search-medical-shortcuts{margin:16px 0 22px;padding:17px 14px;border-radius:12px}.search-medical-shortcuts h2{font-size:20px}.search-medical-shortcuts__grid{grid-template-columns:minmax(0,1fr);gap:8px}.search-medical-shortcuts__grid>a{min-height:67px;padding:12px 13px}.search-medical-shortcuts__more{flex-direction:column;gap:7px}}
