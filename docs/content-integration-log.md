@@ -378,9 +378,19 @@
 - **상태: 문서에 준비 완료 / 홈페이지 HTML 수정·빌드·실사이트 배포는 아직 하지 않음.** 다음 묶음 배포 시 본문 반영 및 검증 필요. 의료 근거는 별도 준비 문서에 연결.
 
 
-### 39차 실제 본문 코드 준비 — 2026-11-07
+### 39차 보강 원고 — 실제 HTML 별도 브랜치 저장 (2026-11-07)
 
-- 배포 예정 브랜치: `content/nov10-osteoporosis-guide-20261107` (기준 `main` 커밋 `7529df16fc06`).
-- 변경 파일: `osteoporosis-medication-dental.html`. 기존 39차 원고를 실제 HTML에 삽입하고 바로가기와 2025 한국 다학제 가이드 링크를 연결. 암 치료용 고용량 골흡수억제제 사용 환자의 임플란트 금기·처방의와 협의를 명시.
-- 코드 검사: 기존 기준 섹션 앵커 1회, 새 설명 섹션 ID 중복 없음, 링크·진료예약 원본 유지, 핵심 키워드 포함 확인.
-- **미완료:** 이 커밋은 `main`에 병합되지 않았으므로 공식 홈페이지에 배포되지 않음. GitHub Actions 빌드·Cloudflare Preview 빌드·실사이트의 본문 공개 여부 확인 필요. Preview 배포 발생 여부는 Cloudflare 설정에 따라 달라짐.
+- 반영 예약 브랜치: `content/nov10-osteoporosis-guide-20261107`.
+- 준비 커밋: [`46408838a8`](https://github.com/kimtaehoon765/ejoeundental/commit/46408838a84f784438080e1e0923a3735aa82cee).
+- 브랜치에 실제 변경된 파일: `osteoporosis-medication-dental.html` 및 `docs/content-integration-log.md`.
+- 새 본문 ID: `osteoporosis-treatment-decision-20261107`. 약 종류, 암 치료용 고용량 주의, 자연치아 보존, CTX 검사 한계, 발치 후 증상, 2025 한국 지침 링크 추가.
+- **현재 main HTML에는 미반영.** 본 기록은 배포 또는 빌드 성공이 아님. 11월 10일 묶음 배포 시 이 브랜치 내용을 최신 main과 충돌 대조하여 포함하고, 한 번에 빌드·공식 사이트에서 확인. Preview 빌드 여부는 확인되지 않음.
+
+
+## 2026-11-07 40차 — 혈액희석제 복용 환자 발치·잇몸치료 안내 보강 (배포 전 대기)
+
+- 기존 파일 `blood-thinners-dental.html`을 새 글 중복 발행 없이 보강한 작업을 `content/nov10-osteoporosis-guide-20261107` 브랜치에 묶음 준비.
+- `#antithrombotic-decision-guide-20261107`: 와파린 INR 확인과 DOAC에서 INR의 한계, 항혈소판제·스텐트 병력 및 병용약, 개별 지혈 계획, 발치 후 압박·응급 대처, 진통제 상호작용 등 환자용 설명 추가.
+- 기존 네이버 예약·전화·창작 삽화·canonical·상단 구조 유지. 바로가기와 2022 SDCEP 전문 가이드 링크 추가. 메타 설명은 새 환자 안내에 맞춰 갱신.
+- 의학 근거: [ADA](https://www.ada.org/resources/ada-library/oral-health-topics/oral-anticoagulant-and-antiplatelet-medications-and-dental-procedures), [SDCEP 2022](https://sdcep.org.uk/published-guidance/anticoagulants-and-antiplatelets/). 개인별 복용 중단·INR 수치 지시는 하지 않음.
+- **현재 상태:** 작업 브랜치 코드 저장 대상이며 `main`/정식 도메인에는 미배포. 실제 커밋/검사 상태는 별도 확인 필요. 39차 골다공증 수정과 함께 정기 묶음으로 병합 예정.
