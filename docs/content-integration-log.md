@@ -467,3 +467,12 @@
 - 의학 참고: [CDC 경련 응급처치](https://www.cdc.gov/epilepsy/first-aid-for-seizures/), [NHS 실신](https://www.nhs.uk/symptoms/fainting/), [Epilepsy Foundation 페니토인](https://www.epilepsy.com/tools-resources/seizure-medication-list/phenytoin).
 - SEO 메타 설명 3개를 실제 내용에 맞춰 갱신하고 ID 중복을 검사. 기존 예약·전화·canonical·문진·디자인 유지. 치료 전 항경련제 임의 중단을 권하지 않음.
 - **상태:** `content/nov10-osteoporosis-guide-20261107`에서 39~48차 수정 준비. `main` 병합, Cloudflare 프로덕션 배포 및 자동 빌드·화면 검증은 아직 수행하지 않음. 정기 묶음 배포 때 최신 main과 변경 내용을 대조·통합해야 함.
+
+
+## 2026-11-07 49차 — 당뇨 환자 잇몸치료·저혈당·발치 후 관리 안내 보강 (배포 전 대기)
+
+- 기존 `diabetes-dental-care.html`의 실제 HTML을 수정해 `#diabetes-gum-lowglucose-guide-20261107` 환자용 교육 본문 추가, 기존 2026-11-06 당뇨·임플란트 내용은 중복하지 않고 유지.
+- 주요 내용: 당뇨-치주질환 상호 영향, 치과의사 직접 잇몸검사·치주치료, 인슐린·설폰요소제와 식사 거름에 따른 저혈당 위험, 의식이 있는 성인의 저혈당과 의식 소실 시 대응 차이(경구 당질 금지), 발치 후 식사량 감소에 따른 혈당·처방약 협의, 입마름·구강감염·자연치아 보존.
+- 검색 메타 설명 4곳 갱신, 새 목차 앵커·전문 기관 자료 링크(2026 ADA, ADA 치과, 2025 한국 지침, CDC) 추가. 원래 예약 URL·전화·그림·canonical·기존 임플란트 링크 유지. 중복 새 글/그림 없음.
+- 주의: 임의 금식·약물 감량을 지시하지 않고, HbA1c 한 값으로 수술 여부 단정 금지. 신체 상태·치료 범위와 당뇨병 담당 의료진 협의 필요.
+- **상태:** `content/nov10-osteoporosis-guide-20261107` 작업 브랜치에서 39~49차를 묶음 준비. `main` 미병합, 정식 도메인 미배포, 빌드·미리보기·화면 확인 필요. 정기 묶음 배포 시 최신 main과 변경 내용 검증 후 반영.
