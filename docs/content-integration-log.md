@@ -422,3 +422,12 @@
 - 의료 참고: [AASLD 출혈 위험 평가](https://www.aasld.org/liver-fellow-network/core-series/clinical-pearls/peri-procedural-management-bleeding-risk-cirrhosis), [SDCEP 간질환과 진통제](https://sdcepdentalprescribing.nhs.scot/guidance/supporting-tools/contraindications-cautions/contraindications-cautions-analgesics/hepatic-conditions/), [치과수술 체계적 문헌고찰](https://pubmed.ncbi.nlm.nih.gov/33250169/). 개인별 출혈·약물 위험과 시술 범위는 실제 진료에서 판단하며 일률적인 약 중단·용량 지시 없음.
 - 코드 점검: 새 섹션·바로가기 ID 중복 없음, 메타 설명 4곳 일치, 원래 예약 URL·이미지·대표주소 보존.
 - **현재 상태:** `content/nov10-osteoporosis-guide-20261107` 작업 브랜치에 39~43차 수정본을 묶어 보관. `main` 병합·정식 도메인 배포·자동 빌드 확인 전이며, 별도 브랜치 미리보기 빌드 여부도 확인 필요. 정기 묶음 배포 때 최신 main과 변경 내역을 대조하여 반영.
+
+
+## 2026-11-07 44차 — 항암·면역억제 치료 중 치과진료 안내 보강 (배포 전 대기)
+
+- 수정 파일: `cancer-immunosuppression-dental-care.html` (작업 브랜치 `content/nov10-osteoporosis-guide-20261107`). 기존 페이지 본문에 `#oncology-treatment-timing-guide-20261107` 환자교육 구역 직접 추가, 신규 중복 게시글·이미지 없음.
+- 보강 내용: 항암치료 전 구강 감염원 평가, 항암치료 중 호중구·혈소판·최근 혈액검사에 따른 개별 진료 계획, 응급 감염 대응, 구강점막염·입마름 관리, 머리·목 방사선치료와 골흡수억제제 관련 턱뼈 위험 구분, 복용약 임의 중단 금지.
+- 검색 메타 설명 4개 일치 및 새 본문 ID 중복 없음 확인, 기존 예약 URL·전화·창작 이미지·canonical 유지. 본문 내 골흡수억제제 안내 연결.
+- 참고: [NCI 환자용 구강 합병증 안내](https://www.cancer.gov/about-cancer/treatment/side-effects/mouth-throat/oral-complications-pdq), [NCI 전문가용 안내](https://www.cancer.gov/about-cancer/treatment/side-effects/mouth-throat/oral-complications-hp-pdq), [MASCC/ISOO 구강 합병증 관리](https://mascc.org/new-mascc-isoo-clinical-practice-statements-management-of-oral-complications/). 임의의 혈구 수치만으로 치료 금지·허용을 단정하지 않음.
+- **상태:** 39~44차 변경을 동일 배포 준비 브랜치에 저장. 최신 `main`과의 코드 통합·자동 빌드·Cloudflare Pages 실배포·정식 도메인 일치 검사는 추후 묶음 배포 시 확인 필요. 이번 차수 `main` 변경 및 프로덕션 배포 없음.
